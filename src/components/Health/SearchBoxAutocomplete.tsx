@@ -50,7 +50,6 @@ export function SearchBoxAutocomplete() {
     <>
       <StyledLabel htmlFor="city" $fontBold="bold">
         {<T _str={`Where?`} />}
-        <StyledSubLabel>{<T _str={`Enter a location or district`} />}</StyledSubLabel>
       </StyledLabel>
       <StyledTextInput type="text" value={query} name="city" id="city" onChange={handleInputChange} onKeyDown={handleKeyDown} aria-autocomplete="list" aria-controls="autocomplete-options" aria-expanded={isDropdownVisible} ref={dropdownRef} />
       {isDropdownVisible && suggestions.length > 0 && (
@@ -72,6 +71,7 @@ export function SearchBoxAutocomplete() {
           ))}
         </StyledDropDownListItem>
       )}
+      <StyledSubLabel><T _str="Enter a location or district." /></StyledSubLabel>
     </>
   );
 }

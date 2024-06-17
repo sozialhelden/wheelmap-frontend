@@ -20,7 +20,7 @@ function FilterInputs() {
   const route = useRouter();
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const options = useMemo(
+  const healthcareStatsAPIParams = useMemo(
     () =>
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
@@ -31,7 +31,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
-  const optionsSpeciality = useMemo(
+  const healthcareSpecialityStatsAPIParams = useMemo(
     () =>
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
@@ -43,7 +43,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
-  const optionsWheelchair = useMemo(
+  const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
@@ -55,10 +55,10 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
   );
 
-  const [isNameFilter, setIsNameFilter] = useState(true);
-  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(options, baseurl) : null, fetchJSON);
-  const { data: dataSpecialityOptions, error: errorSpecialityOptions, isValidating: isLoadingSpecialityOptions } = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(optionsSpeciality, baseurl) : null, fetchJSON);
-  const { data: dataWheelchairOptions, error: errorWheelchairOptions, isValidating: isLoadingWheelchairOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(optionsWheelchair, baseurl) : null, fetchJSON);
+  const [isNameFilter, setIsNameFilter] = useState(false);
+  const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
+  const healthcareSpecialityTagStats = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(healthcareSpecialityStatsAPIParams, baseurl) : null, fetchJSON);
+  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
 
   // Wheelchair filter
   const synonymCache = useCategorySynonymCache();
@@ -66,9 +66,9 @@ function FilterInputs() {
 
   const translatedHealthcareOptions: any = useMemo(() => {
     if (!synonymCache.data) {
-      return dataHealthcareOptions;
+      return healthcareTagStats.data;
     }
-    return dataHealthcareOptions
+    return healthcareTagStats.data
       ?.map((item) => {
         const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
         return {
@@ -82,13 +82,13 @@ function FilterInputs() {
         const b = i2.healthcareTranslatedLowercase;
         return a.localeCompare(b);
       });
-  }, [dataHealthcareOptions, synonymCache, languageTags]);
+  }, [healthcareTagStats, synonymCache, languageTags]);
 
   const translatedSpecialityOptions: any = useMemo(() => {
     if (!synonymCache.data) {
-      return dataSpecialityOptions;
+      return healthcareSpecialityTagStats.data;
     }
-    return dataSpecialityOptions
+    return healthcareSpecialityTagStats.data
       ?.map((item) => {
         const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${item["healthcare:speciality"]}`)?.translations?._id, languageTags) || getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item["healthcare:speciality"]}`)?.translations?._id, languageTags);
         return {
@@ -102,7 +102,7 @@ function FilterInputs() {
         const b = i2.healthcareTranslatedLowercase;
         return a.localeCompare(b);
       });
-  }, [dataSpecialityOptions, synonymCache, languageTags]);
+  }, [healthcareSpecialityTagStats, synonymCache, languageTags]);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -147,26 +147,26 @@ function FilterInputs() {
 
   const getWheelchairCount = useCallback(
     (wheelchair) => {
-      if (!dataWheelchairOptions) {
-        return 0;
+      const stats = wheelchairTagStats.data;
+      if (!stats) {
+        return undefined;
       }
-      let count = 0;
       switch (wheelchair) {
         case "yes":
         case "limited":
         case "no":
-          return `(${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
+          return stats.find((item) => item.wheelchair === wheelchair)?.count || 0;
         case "limitedyes":
-          const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
-          const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
-          return `(${countYes + countLimited})`;
+          const countYes = stats.find((item) => item.wheelchair === "yes")?.count || 0;
+          const countLimited = stats.find((item) => item.wheelchair === "limited")?.count || 0;
+          return countYes + countLimited;
         case "unknown":
-          return `(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
+          return stats.find((item) => item.wheelchair === "")?.count || 0;
         default:
-          return `(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
+          return stats.reduce((acc, item) => acc + item.count, 0);
       }
     },
-    [route, dataWheelchairOptions]
+    [route, wheelchairTagStats]
   );
 
   return (
@@ -175,73 +175,66 @@ function FilterInputs() {
       {route.query.bbox && (
         <>
           <StyledRadioBox>
-            <div>
+            <StyledLabel>
+              Search by
+            </StyledLabel>
+            <label htmlFor="search-name">
               <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
-              <label htmlFor="search-name">
-                <T _str="Search by Name?" />
-              </label>
-            </div>
-            <div>
+              <T _str="Name" />
+            </label>
+            <label htmlFor="search-healthcare">
               <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!isNameFilter} onChange={handleFilterType} />
-              <label htmlFor="search-healthcare">
-                <T _str={`Search by Healthcare?`} />
-              </label>
-            </div>
+              <T _str="Speciality" />
+            </label>
           </StyledRadioBox>
           {isNameFilter && (
             <>
               <StyledLabel htmlFor="name-search" $fontBold="bold">
-                <T _str="Name?" />
-                <StyledSubLabel>
-                  <T _str="Search for a specific name" />
-                </StyledSubLabel>
+                <T _str="Name" />
               </StyledLabel>
               <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
+              <StyledSubLabel>
+                <T _str="Search for a specific name." />
+              </StyledSubLabel>
             </>
           )}
           {!isNameFilter && (
             <>
-              {isLoadingHealthcareOptions || isLoadingSpecialityOptions ? (
+              {healthcareTagStats.isValidating || healthcareSpecialityTagStats.isValidating ? (
                 <StyledLoadingLabel>
                   <T _str="Loading" />
                 </StyledLoadingLabel>
               ) : (
                 <>
                   <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
-                    <T _str="Healthcare?" />
-                    <StyledSubLabel>{<T _str={`Select one of the items in the list`} />}</StyledSubLabel>
+                    <T _str="Speciality" />
                   </StyledLabel>
-                  {errorHealthcareOptions && (
-                    <Callout intent="danger" icon="error">
-                      <T _str={`Could not healthcare categories.`} />
-                    </Callout>
-                  )}
-                  {!errorHealthcareOptions && (
-                    <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                      <option value="">
-                        <T _str="Alle" />
+                  {healthcareTagStats.error && <Callout intent="danger" icon="error">
+                    <T _str="Could not load healthcare categories." />
+                  </Callout>}
+                  {!healthcareTagStats.error && <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+                    <option value="">
+                      <T _str="All" />
+                    </option>
+                    {translatedHealthcareOptions?.map((item, index) => (
+                      <option key={item.healthcare + index} value={item.healthcare}>
+                        {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
                       </option>
-                      {translatedHealthcareOptions?.map((item, index) => (
-                        <option key={item.healthcare + index} value={item.healthcare}>
-                          {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
-                        </option>
-                      ))}
-                    </StyledSelect>
-                  )}
+                    ))}
+                  </StyledSelect>}
+                  <StyledSubLabel><T _str="Select one of the items in the list." /></StyledSubLabel>
+
                   {route.query.healthcare && (
                     <>
                       <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
                         <T _str="Healthcare Speciality?" />
-                        <StyledSubLabel>
-                          <T _str="Select one of the items in the list" />
-                        </StyledSubLabel>
                       </StyledLabel>
-                      {errorSpecialityOptions && (
+                      {healthcareSpecialityTagStats.error && (
                         <Callout intent="danger" icon="error">
                           <T _str={`Could not load healthcare specialities.`} />
                         </Callout>
                       )}
-                      {!errorSpecialityOptions && (
+                      {!healthcareSpecialityTagStats.error && (
                         <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
                           <option value="">
                             <T _str="Alle" />
@@ -262,6 +255,25 @@ function FilterInputs() {
               )}
             </>
           )}
+
+          <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
+            <T _str="Wheelchair accessible?" />
+          </StyledLabel>
+          <StyledWheelchairFilter>
+            {wheelchairTagStats.error && (
+              <Callout intent="warning" icon="warning-sign">
+                <T _str={`Could not load statistics by accessibility.`} />
+              </Callout>
+            )}
+            <StyledHDivider $space={5} />
+            <AccessibilityFilterButton accessibilityFilter={[]} count={getWheelchairCount("")} caption={<T _str="All places" />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes"]} count={getWheelchairCount("yes")} caption={<T _str={'Yes'} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} count={getWheelchairCount("limitedyes")} caption={<T _str={`Yes & Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />
+            <AccessibilityFilterButton accessibilityFilter={["limited"]} count={getWheelchairCount("limited")} caption={<T _str={`Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`No`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Unknown`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
+          </StyledWheelchairFilter>
+
           <StyledLabel htmlFor="sort-select" $fontBold="bold">
             <T _str="Sort results" />
           </StyledLabel>
@@ -277,23 +289,6 @@ function FilterInputs() {
               {` ${route.query.city}`}
             </option>
           </StyledSelect>
-          <StyledWheelchairFilter>
-            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
-              <T _str="Wheelchair accessible?" />
-            </StyledLabel>
-            {errorWheelchairOptions && (
-              <Callout intent="warning" icon="warning-sign">
-                <T _str={`Could not load statistics by accessibility.`} />
-              </Callout>
-            )}
-            <StyledHDivider $space={5} />
-            <AccessibilityFilterButton accessibilityFilter={[]} caption={<T _str={`${getWheelchairCount("")} All places`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={<T _str={`${getWheelchairCount("yes")} Yes`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} caption={<T _str={`${getWheelchairCount("limitedyes")} Yes & Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />
-            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={<T _str={`${getWheelchairCount("limited")} Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={<T _str={`${getWheelchairCount("no")} No`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={<T _str={`${getWheelchairCount("unknown")} Unknown`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
-          </StyledWheelchairFilter>
         </>
       )}
     </StyledSectionsContainer>

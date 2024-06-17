@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import colors from "../../lib/colors";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
+import { StyledChip } from "../Health/styles";
 import CloseIcon from "../icons/actions/Close";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import Button from "../shared/Button";
@@ -28,6 +29,7 @@ type Props = {
   isDisabled?: boolean;
   isExternalLink?: boolean;
   isHealthcare?: boolean;
+  count?: number;
 };
 
 export const Caption = styled.span`
@@ -36,7 +38,7 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  let { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink, isHealthcare } = props;
+  let { count, toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink, isHealthcare } = props;
   const router = useRouter();
 
   const query = {
@@ -66,6 +68,9 @@ function AccessibilityFilterButton(props: Props) {
           {isExternalLink && <ExternalLinkIcon />}
           {caption}
         </Caption>
+        {count && count > 0 && <StyledChip>
+          {count}
+        </StyledChip>}
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </Link>

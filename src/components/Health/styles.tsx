@@ -98,8 +98,8 @@ export const StyledMainContainerColumn = styled.div`
 export const StyledH1 = styled.h1<{ $fontBold?: boolean; $textAlign?: string }>`
   text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
-  font-size: 1.6rem;
-  margin-block: 0rem;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
 `;
 
 export const StyledH2 = styled.h2<{ $fontBold?: boolean; $textAlign?: string }>`
@@ -152,9 +152,12 @@ export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 
-export const StyledRadioBox = styled.div`
+export const StyledRadioBox = styled.fieldset`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
   margin-bottom: ${containerSpacing};
 `;
 
@@ -271,10 +274,8 @@ export const StyledChip = styled.span`
 `;
 
 export const StyledWheelchairFilter = styled.div`
-  margin-block: 1rem;
-  padding: 1rem;
+  padding: .5rem;
   border: ${StyledColors.silver} 1px solid;
-  border-radius: 5px;
 `;
 
 export const StyledIncluscienceLogo = styled(IncluscienceLogo)`

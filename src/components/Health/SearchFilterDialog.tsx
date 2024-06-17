@@ -1,9 +1,14 @@
 import { T } from "@transifex/react";
+import styled from "styled-components";
 import FilterInputs from "./FilterInputs";
 import { getTheRightLangauge } from "./helpers";
-import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
+import { StyledColors, StyledFooter, StyledH1, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
-function SearchFilters(props: any) {
+const Claim = styled.span`
+  font-size: 0.8em;
+  opacity: 0.8;
+`;
+function SearchFilterDialog(props: any) {
   const footerListColumn = [
     {
       href: "https://incluscience.org",
@@ -37,11 +42,9 @@ function SearchFilters(props: any) {
     <StyledMainContainerColumn>
       <StyledHDivider $space={0.1} />
       <StyledH1 $fontBold>
-        <T _str="Find health sites" />
+        <T _str="Find accessible health sites - easily and everywhere." /><br />
+        <Claim><T _str="- easily and everywhere." /></Claim>
       </StyledH1>
-      <StyledH2>
-        <T _str="Find accessible health sites - easily and everywhere." />
-      </StyledH2>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledSectionsContainer>
         <FilterInputs />
@@ -75,4 +78,4 @@ function SearchFilters(props: any) {
   );
 }
 
-export default SearchFilters;
+export default SearchFilterDialog;

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { ReactElement, useRef } from "react";
 import LayoutHealthPage from "../components/App/LayoutHealthPage";
 import { FilterContext } from "../components/Health/FilterContext";
-import SearchFilters from "../components/Health/SearchFilters";
+import SearchFilterDialog from "../components/Health/SearchFilterDialog";
 import SearchResults from "../components/Health/SearchResults";
 import { defaultFilterOptions } from "../components/Health/helpers";
 import { StyledMainContainer } from "../components/Health/styles";
@@ -36,7 +36,7 @@ export default function Page() {
     <FilterContext.Provider value={memoizedFilterContext}>
       <StyledMainContainer>
         <div>
-          <SearchFilters />
+          <SearchFilterDialog />
           <div ref={searchFiltersRef}>
             <SearchResults />
           </div>
