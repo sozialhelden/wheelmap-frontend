@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import colors from "../../lib/colors";
 import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
 import SozialheldenInnenLogo from "../MapLegacy/SozialheldInnenLogo";
@@ -10,7 +10,8 @@ export const maxContentWidth = 1280;
 
 export const StyledColors = {
   green: "#77AD2B",
-  grey: "grey",
+  grey: "#7b99a0",
+  darkgrey: "#394e51",
   silver: "#575757",
   red: "#d51030",
   orange: "#f39e3b",
@@ -30,7 +31,7 @@ export const inputStyles = `
 `;
 
 export const linkStyles = `
-color: ${StyledColors.grey};
+color: inherit;
 text-decoration: none !important;
 :hover {
   color: unset;
@@ -41,11 +42,12 @@ svg {
 }
 `;
 
+export const shadowCSS = css`
+  box-shadow: rgba(60,64,67,0.1) 0px 1px 20px, rgba(60,64,67,0.2) 0px 1px 3px;
+`;
+
 export const StyledMainContainer = styled.div`
-  background-color: rgb(255, 255, 255, 0.95);
-  * {
-    transition: all 0.2s ease-in-out;
-  }
+  background-color: #d8e5e8;
   > div {
     overflow-y: auto;
     margin-inline: auto;
@@ -62,14 +64,11 @@ export const StyledMainContainer = styled.div`
 `;
 
 export const StyledMainContainerColumn = styled.div<{ $whiteBackground?: boolean }>`
-  background-color: ${({ $whiteBackground }) => ($whiteBackground ? "white" : "transparent")};
   display: flex;
   flex-direction: column;
+  height: calc(100vh);
   max-width: 100%;
-  padding: ${({ $whiteBackground }) => ($whiteBackground ? containerSpacing : "0")};
-  box-shadow: ${({ $whiteBackground }) => ($whiteBackground ? "0 0 10px rgba(0, 0, 0, 0.1)" : "none")};
-
-  height: calc(100vh - 3rem);
+  padding: 1rem;
   overflow-y: auto;
 
   @media screen and (max-width: ${responsiveValue}px) {
@@ -79,9 +78,9 @@ export const StyledMainContainerColumn = styled.div<{ $whiteBackground?: boolean
 
 export const StyledH1 = styled.h1<{ $fontBold?: boolean; $textAlign?: string }>`
   text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
-  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
+  font-weight: normal;
 `;
 
 export const StyledH2 = styled.h2<{ $fontBold?: boolean; $textAlign?: string }>`
@@ -93,13 +92,13 @@ export const StyledH2 = styled.h2<{ $fontBold?: boolean; $textAlign?: string }>`
 
 export const StyledH3 = styled.h3<{ $fontBold?: boolean; $textAlign?: string }>`
   text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
-  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  font-weight: ${({ $fontBold }) => ($fontBold ? "500" : "300")};
   ${HStyles}
 `;
 
 export const StyledH4 = styled.h4<{ $fontBold?: boolean; $textAlign?: string }>`
   text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
-  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "500")};
   ${HStyles}
 `;
 
@@ -130,11 +129,17 @@ export const StyledSectionsContainer = styled.div`
 export const StyledTextInput = styled.input`
   ${inputStyles}
 `;
+
+export const StyledBigTextInput = styled.input`
+  ${inputStyles}
+  font-size: 1.2rem;
+`;
+
 export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 
-export const StyledRadioBox = styled.div`
+export const StyledRadioBox = styled.fieldset`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -183,7 +188,6 @@ export const StyledDropDownListItem = styled.ul`
   li {
     padding: 8px 12px;
     cursor: pointer;
-    transition: background-color 0.3s;
 
     &:hover,
     &:focus {
@@ -203,10 +207,11 @@ export const StyledLabel = styled.label<{ $fontBold?: string }>`
 `;
 
 export const StyledSubLabel = styled.span`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: block;
   margin-top: 0.5rem;
-  color: ${StyledColors.grey};
+  color: ${StyledColors.darkgrey};
+  line-height: 1;
 `;
 
 export const StyledLoadingLabel = styled.label`
@@ -223,12 +228,6 @@ export const StyledLoadingLabel = styled.label`
 export const StyledUL = styled.ul`
   padding-inline-start: 0;
   list-style-type: none;
-  li {
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-    background-color: white;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
-  }
 `;
 export const StyledLoadingSpinner = styled.div`
   border: 0.5rem solid #f3f3f3;
@@ -254,9 +253,10 @@ export const StyledBadge = styled.span`
   background-color: ${StyledColors.grey};
   color: white;
   text-align: center;
-  padding: 0.2rem;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.25rem;
 `;
 
 export const StyledClaim = styled.div`
@@ -265,15 +265,17 @@ export const StyledClaim = styled.div`
 `;
 
 export const StyledWheelchairFilter = styled.div`
-  padding: 0.5rem;
-  border: ${StyledColors.silver} 1px solid;
+  padding: 0rem;
+  background: ${colors.neutralBackgroundColor};
+  border-radius: 0.5rem;
+  overflow: hidden;
 `;
 
 export const StyledIncluscienceLogo = styled(IncluscienceLogo)`
   height: 1.1em;
 `;
 export const StyledSozialheldInnenLogo = styled(SozialheldenInnenLogo)`
-  height: 1.95em;
+  height: 2.1em;
 `;
 
 export const StyledFooter = styled.footer<{ $flexDirection?: string }>`

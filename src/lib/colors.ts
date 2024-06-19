@@ -22,9 +22,9 @@ const colors = {
   linkBackgroundColorTransparent: "rgba(0, 161, 255, 0.1)",
   highlightColor: "#435D75",
   colorizedBackgroundColor: "#fbfaf9",
-  neutralBackgroundColor: "#eaeaea",
+  neutralBackgroundColor: "#f0f7f9",
   selectedColor: "#51a6ff",
-  selectedColorLight: "#80bdff",
+  selectedColorLight: "#b7e6f1",
   tonedDownSelectedColor: "#89939e",
   darkSelectedColor: "#04536d",
   coldBackgroundColor: null, // calculated below

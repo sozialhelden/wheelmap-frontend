@@ -1,7 +1,7 @@
-import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import styled from "styled-components";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
 import useCategory from "../../lib/fetchers/useCategory";
@@ -9,10 +9,30 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n
 import { getLocalizableCategoryName } from "../../lib/model/ac/categories/Categories";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
-import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import { ExternalLinkIcon, MapPinIcon } from "../icons/ui-elements";
+import CombinedIcon from "../SearchPanel/CombinedIcon";
+import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
+import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink, containerSpacing } from "./styles";
+import { StyledButtonAsLink, StyledH3, shadowCSS } from "./styles";
+
+const StyledListItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  background-color: white;
+  ${shadowCSS}
+`;
+
+const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
+  margin-left: 0.25rem;
+  margin-top: 0rem;
+  width: 2rem;
+`;
 
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
@@ -69,48 +89,49 @@ function SearchResult({ data }: any) {
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name ? name : healthcare), [userAgent, dataAsOSMFeature, name]);
 
   return (
-    <>
-      <StyledH4>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <AccessibilityFilterButton count="" isDisabled accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption="" category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} />
-          </div>
-          <div style={{ paddingInline: containerSpacing }}>
-            {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.srot === "distance" ? <T _str="from your location" /> : <T _str={`from the center of ${route.query.city}`} />}
-          </div>
-        </div>
-      </StyledH4>
-      <StyledLink>
-        <>
-          <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-            <Link href={`https://wheelmap.org/${_id}`} target="_blank">
-              <ExternalLinkIcon />
-              &nbsp;
-              {name ? name : healthcare}
-            </Link>
-          </StyledH3>
-        </>
+    <StyledListItem>
+      <div>
+        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={healthcare} style={{ marginTop: '.35rem' }} />
+        {toiletsWheelchair === 'yes' ? <StyledAccessibleToiletIcon /> : null}
+      </div>
 
-        {customAddress.street && (
-          <>
+      <div style={{ flex: 1 }}>
+        <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
+          <Link href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+            {name ? name : healthcare}
+            &nbsp;
+            <ExternalLinkIcon />
+          </Link>
+        </StyledH3>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
+          {optionalCategoryName}
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {customAddress.street && (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
-              {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
+              {[
+                [
+                  customAddress.street, customAddress.housenumber].filter(Boolean).join(" "),
+                  customAddress.postcode, customAddress.city,
+                ].filter(Boolean).join(", ")}
             </StyledButtonAsLink>
-          </>
-        )}
-        <StyledHDivider $space={0} />
-        {customContact.phone && (
-          <>
+          )}
+
+          {customContact.phone && (
             <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>
-          </>
-        )}
-        {customContact.website && (
-          <StyledButtonAsLink href={`${customContact.website}`} target="_blank">
-            {customContact.website.split("/")[2]}
-          </StyledButtonAsLink>
-        )}
-      </StyledLink>
-    </>
+          )}
+
+          {customContact.website && (
+            <StyledButtonAsLink href={`${customContact.website}`} target="_blank" rel="noreferrer noopener">
+              {customContact.website.split("/")?.[2]?.replace("www.", "")}
+            </StyledButtonAsLink>
+          )}
+        </div>
+      </div>
+      {["distance", "distanceFromCity"].includes(String(route.query.sort)) ? <div>&nbsp;{distanceValue} {distanceUnit}</div> : null}
+    </StyledListItem>
   );
 }
 

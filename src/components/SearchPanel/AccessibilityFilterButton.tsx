@@ -30,15 +30,17 @@ type Props = {
   isExternalLink?: boolean;
   isHealthcare?: boolean;
   count?: string | number;
+  showUnfilteredAccessibilityAsAllIcons?: boolean;
 };
 
 export const Caption = styled.span`
   flex: 1;
   color: ${colors.darkSelectedColor};
+  padding: 0 0.5rem;
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  let { count, toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink, isHealthcare } = props;
+  let { count, toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink, showUnfilteredAccessibilityAsAllIcons } = props;
   const router = useRouter();
 
   const query = {
@@ -63,7 +65,7 @@ function AccessibilityFilterButton(props: Props) {
       legacyBehavior
     >
       <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? <T _str={`Remove ${caption} Filter`} /> : caption}>
-        <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
+        <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory, showUnfilteredAccessibilityAsAllIcons }} />
         <Caption>
           {isExternalLink && <ExternalLinkIcon />}
           {caption}
@@ -83,6 +85,7 @@ export default styled(AccessibilityFilterButton)`
     justify-content: space-between;
     padding: 10px 1em 10px 1.3em;
     min-height: 3rem;
+    line-height: 1.5rem;
     cursor: pointer;
 
     svg.icon {
@@ -97,7 +100,7 @@ export default styled(AccessibilityFilterButton)`
     ${(props) =>
       props.isActive &&
       css`
-        background-color: ${colors.coldBackgroundColor};
+        background-color: ${colors.selectedColorLight};
       `};
 
     ${(props) =>

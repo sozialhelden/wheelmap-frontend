@@ -1,11 +1,10 @@
-import { t } from "ttag";
-import * as React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 
 import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
-import SearchResult from "./SearchResult";
 import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 import { AnyFeatureCollection } from "../../lib/model/shared/AnyFeature";
+import SearchResult from "./SearchResult";
 
 type Props = {
   searchResults?: SearchResultCollection | AnyFeatureCollection;
@@ -18,6 +17,10 @@ type Props = {
 const StyledSearchResultList = styled.ul`
   list-style-type: none;
   margin: 0;
+
+  li {
+    margin-bottom: 1rem;
+  }
 `;
 
 export default function SearchResults(props: Props) {

@@ -4,63 +4,62 @@ import BMBFLogo from "./BMBFLogo";
 import { StyledIncluscienceLogo, StyledSozialheldInnenLogo, responsiveValue } from "./styles";
 
 const FooterLink = styled.a.attrs({ target: "_blank", rel: "noreferrer noopener" })`
-  display: flex;
   text-decoration: none;
-  color: #555;
   min-height: 2rem;
-`;
-
-const FooterLinkHorizontal = styled(FooterLink)`
+  display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const FooterLinkVertical = styled(FooterLink)`
-  flex-direction: column;
-`;
-
-const StyledBMBFLogo = styled(BMBFLogo)`
-  margin-top: .8rem;
-  margin-bottom: 2rem;
-  height: 3.5rem;
-`;
-
 const StyledFooter = styled.footer`
+  line-height: 2rem;
+  color: rgba(0, 0, 0, 0.7);
+  a {
+    color: rgba(0, 0, 0, 0.7);
+  }
   display: flex;
   flex-direction: row;
-  gap: 3rem;
-  font-size: 0.9rem;
+  justify-content: space-between;
   margin-top: 3rem;
+  margin-right: 2rem;
   @media screen and (max-width: ${responsiveValue}px) {
     margin-bottom: 3rem;
   }
+  font-size: 0.9rem;
+`;
+
+const StyledBMBFLogo = styled(BMBFLogo)`
+  margin-top: .2rem;
+  margin-bottom: 2rem;
+  height: 3rem;
 `;
 
 export default function AppFooter() {
   const t = useT();
   return <StyledFooter>
-    <div style={{ paddingTop: '0.4rem' }}>
-      <FooterLinkVertical href="https://www.bmbf.de/">
-        <T _str={"Funded by the"} /><br />
-        <StyledBMBFLogo alt={t("German Federal Ministry of Education and Research.")} />
-      </FooterLinkVertical>
-    </div>
-    <div>
-      <FooterLinkHorizontal href="https://openstreetmap.org" style={{ marginLeft: '0.125rem' }}>
-        <T _str={"© OpenStreetMap contributors"} />
-      </FooterLinkHorizontal>
-      <FooterLinkHorizontal href="https://sozialhelden.de">
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start' }}>
+      <FooterLink href="https://incluscience.org">
+        <StyledIncluscienceLogo key="StyledIncluscienceLogo" />
+      </FooterLink>
+      <FooterLink href="https://sozialhelden.de">
         <StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />
-      </FooterLinkHorizontal>
-      <FooterLinkHorizontal href="https://incluscience.org">
-        <StyledIncluscienceLogo key="StyledIncluscienceLogo" style={{ marginLeft: '0.1rem' }} />
-      </FooterLinkHorizontal>
-      <FooterLinkHorizontal href={t("https://news.wheelmap.org/en/contact")}>
-        <T _str={"Contact"} />
-      </FooterLinkHorizontal>
-      <FooterLinkHorizontal href={t("https://news.wheelmap.org/en/imprint")}>
-        <T _str={"Legal"} />
-      </FooterLinkHorizontal>
+      </FooterLink>
+      <FooterLink href="https://openstreetmap.org" style={{ marginLeft: '0.125rem' }}>
+        <T _str={"© OpenStreetMap contributors"} />
+      </FooterLink>
+
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'start' }}>
+        <FooterLink href={t("https://news.wheelmap.org/en/contact")}>
+          <T _str={"Contact"} />
+        </FooterLink>&nbsp;/&nbsp;
+        <FooterLink href={t("https://news.wheelmap.org/en/imprint")}>
+          <T _str={"Legal"} />
+        </FooterLink>
+      </div>
     </div>
+    <a href="https://www.bmbf.de/">
+      <T _str={"Funded by the"} /><br />
+      <StyledBMBFLogo alt={t("German Federal Ministry of Education and Research.")} />
+    </a>
   </StyledFooter>;
 }

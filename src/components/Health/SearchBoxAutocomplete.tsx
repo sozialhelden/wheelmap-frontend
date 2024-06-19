@@ -47,7 +47,7 @@ export function SearchBoxAutocomplete() {
   }, []);
 
   return (
-    <>
+    <fieldset>
       <StyledLabel htmlFor="city" $fontBold="bold">
         {<T _str={`Where?`} />}
       </StyledLabel>
@@ -72,8 +72,8 @@ export function SearchBoxAutocomplete() {
         </StyledDropDownListItem>
       )}
       <StyledSubLabel>
-        <T _str="Enter a location or district." />
+        <T _str="Enter a location or region name." />
       </StyledSubLabel>
-    </>
+    </fieldset>
   );
 }

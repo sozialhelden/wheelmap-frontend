@@ -1,11 +1,10 @@
-import * as React from "react";
 import isEqual from "lodash/isEqual";
-import styled from "styled-components";
+import styled, { CSSProperties } from "styled-components";
 
-import Icon from "../shared/Icon";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
+import Icon from "../shared/Icon";
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
@@ -13,17 +12,26 @@ type Props = {
   category?: string | null;
   isMainCategory?: boolean;
   className?: string;
+  style?: CSSProperties;
+  showUnfilteredAccessibilityAsAllIcons?: boolean;
 };
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null;
 
-  const accessibilities = isAccessibilityFiltered(props.accessibilityFilter)
-    ? props.accessibilityFilter
-    : [null];
+  const showUnfilteredAccessibilityAsAllIcons = props.showUnfilteredAccessibilityAsAllIcons ?? false;
+
+  let accessibilities: YesNoLimitedUnknown[];
+  if (isAccessibilityFiltered(props.accessibilityFilter)) {
+    accessibilities = props.accessibilityFilter;
+  } else {
+    accessibilities = showUnfilteredAccessibilityAsAllIcons
+      ? ["yes", "limited", "no", "unknown"]
+      : [null];
+  }
 
   return (
-    <div aria-hidden className={props.className}>
+    <div aria-hidden className={props.className} style={props.style}>
       {accessibilities.map((accessibility) => (
         <Icon
           key={accessibility}
@@ -60,15 +68,15 @@ export default styled(CombinedIcon)`
   }
 
   figure + figure {
-    margin-left: -32px;
+    margin-left: -30px;
   }
 
   figure:nth-child(1) {
-    z-index: 2;
+    z-index: 3;
   }
 
   figure:nth-child(2) {
-    z-index: 1;
+    z-index: 2;
     transform: scale(0.95, 0.95);
 
     .icon {
@@ -77,7 +85,21 @@ export default styled(CombinedIcon)`
   }
 
   figure:nth-child(3) {
+    z-index: 1;
     transform: scale(0.9, 0.9);
+
+    .icon {
+      display: none;
+    }
+  }
+
+  figure:nth-child(4) {
+    z-index: 0;
+    transform: scale(0.85, 0.85);
+
+    .icon {
+      display: none;
+    }
   }
 
   figure${ToiletIcon} {

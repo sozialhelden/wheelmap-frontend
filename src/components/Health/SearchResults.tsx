@@ -1,14 +1,35 @@
 import Head from "next/head";
 // @ts-ignore
-import { T } from "@transifex/react";
+import { T, useT } from "@transifex/react";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
+import styled from "styled-components";
 import useSWR from "swr";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityListResponse, calculateDistance, generateAmenityListURL, getWheelchairSettings } from "./helpers";
 import { FullSizeFlexContainer, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
+
+const HugeText = styled.p`
+  font-size: 1.25rem;
+  opacity: 0.92;
+`;
+
+function NonIdealContent() {
+  const t = useT();
+
+  return (
+    <div style={{ marginTop: '10rem', textAlign: 'center' }}>
+      <HugeText>
+        <T _str={`Find doctors, therapists, and health facilities near you.`} />
+      </HugeText>
+      <HugeText>
+        <T _str={`You can choose further search criteria in the next step.`} />
+      </HugeText>
+    </div>
+  );
+}
 
 function SearchResults() {
   const route = useRouter();
@@ -54,9 +75,7 @@ function SearchResults() {
         })
         .map((item: any, index: number, data: any) => {
           return (
-            <li key={index.toString()}>
-              <SearchResult data={item} />
-            </li>
+            <SearchResult key={index.toString()} data={item} />
           );
         })
         .slice(0, 100),
@@ -65,7 +84,7 @@ function SearchResults() {
 
   const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? `${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
   const text = React.useMemo(() => {
-    if (data?.features?.length === 0) return <T _str={`No Results Found! Please try again with different City/Filters`} />;
+    if (data?.features?.length === 0) return <T _str={`No results found – please try again with a different location or different settings.`} />;
   }, [data]);
 
   return (
@@ -85,19 +104,11 @@ function SearchResults() {
       )}
       <StyledSectionsContainer>
         {sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}
-        {!sortedFeatures && !isLoading && (
-          <>
-            <StyledH2 $fontBold $textAlign="center">
-              <T _str={`Here you will find health centers, as well as psychotherapists, physiotherapists, and more medical facilities near you`} />
-            </StyledH2>
-            <StyledH2 $textAlign="center">
-              <T _str={`You can choose further search criteria in the next step.`} />
-            </StyledH2>
-          </>
-        )}
+        {!sortedFeatures && !isLoading && <NonIdealContent />}
       </StyledSectionsContainer>
     </StyledMainContainerColumn>
   );
 }
 
 export default SearchResults;
+

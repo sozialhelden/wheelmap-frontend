@@ -15,20 +15,38 @@ import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledBigTextInput, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter, shadowCSS } from "./styles";
 
-const DialogContainer = styled.section`
+const DialogContainer = styled.nav`
   display: flex;
   flex-direction: column;
   padding: 1rem;
   line-height: 2rem;
   background-color: rgb(255, 255, 255, 1);
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+  border-radius: 0.25rem;
+  ${shadowCSS}
+  gap: .5rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+    max-width: 100%;
+  }
+
+  fieldset + fieldset {
+    margin-top: 1rem;
+  }
 `;
 
 function FilterInputs() {
   const t = useT();
   const route = useRouter();
+  const cityName = route.query.city;
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const healthcareStatsAPIParams = useMemo(
@@ -66,7 +84,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
   );
 
-  const [isNameFilter, setIsNameFilter] = useState(false);
+  const [hasNameFilter, setIsNameFilter] = useState(false);
   const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
   const healthcareSpecialityTagStats = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(healthcareSpecialityStatsAPIParams, baseurl) : null, fetchJSON);
   const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
@@ -118,10 +136,14 @@ function FilterInputs() {
   const handleInputChange = useCallback(
     (event) => {
       const { name, value } = event.target;
+      const newQuery = { ...route.query, [name]: value };
+      if (name === "healthcare") {
+        delete newQuery["healthcare:speciality"];
+      }
       route.replace(
         {
           pathname: route.pathname,
-          query: { ...route.query, [name]: value },
+          query: newQuery,
         },
         undefined,
         { shallow: true }
@@ -181,144 +203,134 @@ function FilterInputs() {
   );
 
   return (
-    <DialogContainer role="group" aria-labelledby="survey-form-title">
+    (<DialogContainer role="group" aria-labelledby="survey-form-title">
       <SearchBoxAutocomplete />
-      <StyledHDivider $space={10} />
       {route.query.bbox && (
         <>
-          <StyledRadioBox>
+          <StyledRadioBox style={{ flexDirection: 'row', alignItems: 'center' }}>
             <StyledLabel $fontBold="bold" htmlFor="search-name">
-              Search by
+              <T _str="Search by" />
             </StyledLabel>
             <label htmlFor="search-name">
-              <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
+              <StyledRadio type="radio" name="search" id="search-name" value="name" checked={hasNameFilter} onChange={handleFilterType} />
               <T _str="Name" />
             </label>
             <label htmlFor="search-healthcare">
-              <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!isNameFilter} onChange={handleFilterType} />
-              <T _str="Speciality" />
+              <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!hasNameFilter} onChange={handleFilterType} />
+              <T _str="Type" />
             </label>
           </StyledRadioBox>
-          <StyledHDivider $space={10} />
-          {isNameFilter && (
-            <>
+
+          {hasNameFilter && (
+            <fieldset>
               <StyledLabel htmlFor="name-search" $fontBold="bold">
                 <T _str="Name" />
               </StyledLabel>
-              <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
+              <StyledBigTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
               <StyledSubLabel>
                 <T _str="Search for a specific name." />
               </StyledSubLabel>
-              <StyledHDivider $space={10} />
-            </>
+            </fieldset>
           )}
-          {!isNameFilter && (
-            <>
-              {healthcareTagStats.isValidating || healthcareSpecialityTagStats.isValidating ? (
-                <StyledLoadingLabel>
-                  <T _str="Loading" />
-                </StyledLoadingLabel>
-              ) : (
-                <>
-                  <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
-                    <T _str="Speciality" />
-                  </StyledLabel>
-                  {healthcareTagStats.error && (
-                    <Callout intent="danger" icon="error">
-                      <T _str="Could not load healthcare categories." />
-                    </Callout>
-                  )}
-                  {!healthcareTagStats.error && (
-                    <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                      <option value="">
-                        <T _str="All" />
+
+          {!hasNameFilter && (
+              <fieldset>
+                <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
+                  <T _str="Type" />
+                </StyledLabel>
+                {healthcareTagStats.error && (
+                  <Callout intent="danger" icon="error">
+                    <T _str="Could not load place categories." />
+                  </Callout>
+                )}
+                {!healthcareTagStats.error && (
+                  <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+                    <option value="">
+                      <T _str="All" />
+                    </option>
+                    {translatedHealthcareOptions?.map((item, index) => (
+                      <option key={item.healthcare + index} value={item.healthcare}>
+                        {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
                       </option>
-                      {translatedHealthcareOptions?.map((item, index) => (
-                        <option key={item.healthcare + index} value={item.healthcare}>
-                          {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
-                        </option>
-                      ))}
-                    </StyledSelect>
-                  )}
-                  <StyledSubLabel>
-                    <T _str="Select one of the items in the list." />
-                  </StyledSubLabel>
-                  <StyledHDivider $space={10} />
+                    ))}
+                  </StyledSelect>
+                )}
 
-                  {route.query.healthcare && (
-                    <>
-                      <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
-                        <T _str="Healthcare Speciality?" />
-                      </StyledLabel>
-                      {healthcareSpecialityTagStats.error && (
-                        <Callout intent="danger" icon="error">
-                          <T _str={`Could not load healthcare specialities.`} />
-                        </Callout>
-                      )}
-                      {!healthcareSpecialityTagStats.error && (
-                        <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
-                          <option value="">
-                            <T _str="Alle" />
-                          </option>
-                          {translatedSpecialityOptions?.map(
-                            (item, index) =>
-                              item["healthcare:speciality"] !== "" && (
-                                <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
-                                  {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item["healthcare:speciality"]}`}
-                                </option>
-                              )
-                          )}
-                        </StyledSelect>
-                      )}
-                      <StyledSubLabel>
-                        <T _str="Select one of the items in the list." />
-                      </StyledSubLabel>
-                      <StyledHDivider $space={10} />
-                    </>
-                  )}
-                </>
-              )}
-            </>
+                <StyledSubLabel>
+                  <T _str="Select one of the items in the list." />
+                </StyledSubLabel>
+              </fieldset>
           )}
 
-          <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
-            <T _str="Wheelchair accessible?" />
-          </StyledLabel>
-          <StyledWheelchairFilter>
-            {wheelchairTagStats.error && (
-              <Callout intent="warning" icon="warning-sign">
-                <T _str={`Could not load statistics by accessibility.`} />
-              </Callout>
-            )}
-            <StyledHDivider $space={5} />
-            <AccessibilityFilterButton accessibilityFilter={[]} count={getWheelchairCount("")} caption={<T _str="All places" />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes"]} count={getWheelchairCount("yes")} caption={<T _str={"Yes"} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} count={getWheelchairCount("limitedyes")} caption={<T _str={`Yes & Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />
-            <AccessibilityFilterButton accessibilityFilter={["limited"]} count={getWheelchairCount("limited")} caption={<T _str={`Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`No`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Unknown`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
-          </StyledWheelchairFilter>
-          <StyledHDivider $space={10} />
+          {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 && (
+            <fieldset>
+              <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
+                <T _str="Speciality" />
+              </StyledLabel>
+              {healthcareSpecialityTagStats.error && (
+                <Callout intent="danger" icon="error">
+                  <T _str={`Could not load healthcare specialities.`} />
+                </Callout>
+              )}
+              {!healthcareSpecialityTagStats.error && (
+                <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
+                  <option value="">
+                    <T _str="All categories" />
+                  </option>
+                  {translatedSpecialityOptions?.map(
+                    (item, index) =>
+                      item["healthcare:speciality"] !== "" && (
+                        <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
+                          {`${item.healthcareTranslated || item["healthcare:speciality"]}`} {item.count ? `(${item.count})` : ""}
+                        </option>
+                      )
+                  )}
+                </StyledSelect>
+              )}
+              <StyledSubLabel>
+                <T _str="Select one of the items in the list." />
+              </StyledSubLabel>
+            </fieldset>
+          )}
 
-          <StyledLabel htmlFor="sort-select" $fontBold="bold">
-            <T _str="Sort results" />
-          </StyledLabel>
-          <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
-            <option value="alphabetically">
-              <T _str="Alphabetically" />
-            </option>
-            <option value="distance">
-              <T _str="By distance from me" />
-            </option>
-            <option value="distanceFromCity">
-              <T _str="By distance from the center of" />
-              {` ${route.query.city}`}
-            </option>
-          </StyledSelect>
-          <StyledHDivider $space={10} />
+          <fieldset>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
+              <T _str="Wheelchair accessibility" />
+            </StyledLabel>
+            <StyledWheelchairFilter>
+              {wheelchairTagStats.error && (
+                <Callout intent="warning" icon="warning-sign">
+                  <T _str={`Could not load statistics by accessibility.`} />
+                </Callout>
+              )}
+              <AccessibilityFilterButton accessibilityFilter={[]} showUnfilteredAccessibilityAsAllIcons={true} count={getWheelchairCount("")} caption={<T _str="Show all places" />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["yes"]} count={getWheelchairCount("yes")} caption={<T _str={"Only fully wheelchair-accessible"} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} count={getWheelchairCount("limitedyes")} caption={<T _str={`Partially wheelchair-accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes,limited"} showCloseButton={false} isHealthcare />
+              {/* <AccessibilityFilterButton accessibilityFilter={["limited"]} count={getWheelchairCount("limited")} caption={<T _str={`Partially`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} /> */}
+              <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`Not wheelchair-accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Places that I can contribute information to`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
+            </StyledWheelchairFilter>
+          </fieldset>
+
+          <fieldset>
+            <StyledLabel htmlFor="sort-select" $fontBold="bold">
+              <T _str="Sort results" />
+            </StyledLabel>
+            <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
+              <option value="alphabetically">
+                <T _str="Alphabetically" />
+              </option>
+              <option value="distance">
+                <T _str="By distance from me" />
+              </option>
+              <option value="distanceFromCity">
+                <T _str="By distance from {cityName} center" cityName={cityName} />
+              </option>
+            </StyledSelect>
+          </fieldset>
         </>
       )}
-    </DialogContainer>
+    </DialogContainer>)
   );
 }
 
