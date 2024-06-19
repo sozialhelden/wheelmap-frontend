@@ -137,6 +137,7 @@ export const StyledBigTextInput = styled.input`
 
 export const StyledSelect = styled.select`
   ${inputStyles}
+  width: 100%;
 `;
 
 export const StyledRadioBox = styled.fieldset`
