@@ -304,6 +304,7 @@ function FilterInputs() {
               {` ${route.query.city}`}
             </option>
           </StyledSelect>
+          <StyledHDivider $space={10} />
         </>
       )}
     </StyledSectionsContainer>
