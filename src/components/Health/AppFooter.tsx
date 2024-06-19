@@ -1,6 +1,7 @@
 import { T, useT } from "@transifex/react";
 import styled from "styled-components";
 import BMBFLogo from "./BMBFLogo";
+import WheelmapLogo from "./WheelmapLogo";
 import { StyledIncluscienceLogo, StyledSozialheldInnenLogo, responsiveValue } from "./styles";
 
 const FooterLink = styled.a.attrs({ target: "_blank", rel: "noreferrer noopener" })`
@@ -34,12 +35,20 @@ const StyledBMBFLogo = styled(BMBFLogo)`
   height: 3rem;
 `;
 
+
+const StyledWheelmapLogo = styled(WheelmapLogo)`
+  height: 1.5rem;
+`;
+
 export default function AppFooter() {
   const t = useT();
   return <StyledFooter>
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start' }}>
+      <FooterLink href="https://wheelmap.org">
+        <StyledWheelmapLogo />
+      </FooterLink>
       <FooterLink href="https://incluscience.org">
-        <StyledIncluscienceLogo key="StyledIncluscienceLogo" />
+        <StyledIncluscienceLogo />
       </FooterLink>
       <FooterLink href="https://sozialhelden.de">
         <StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />
