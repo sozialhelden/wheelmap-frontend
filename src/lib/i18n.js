@@ -15,9 +15,14 @@ export async function getServerSideTranslations({ locale, locales }) {
   });
   // ensure that nextjs locale is in the Transifex format,
   // for example, de-de -> de_DE
-  const txLocale = normalizeLocale(locale || "en");
+  let txLocale = normalizeLocale(locale || "en");
   console.log("locale", locale, "txLocale", txLocale);
-  await tx.fetchTranslations(txLocale);
+  try {
+    await tx.fetchTranslations(txLocale);
+  } catch (error) {
+    txLocale = "en";
+    await tx.fetchTranslations(txLocale);
+  }
 
   // bind a helper object in the Native instance for auto-refresh
   tx._autorefresh = tx._autorefresh || {};
