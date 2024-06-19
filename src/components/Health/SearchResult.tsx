@@ -9,9 +9,9 @@ import { getLocalizableCategoryName } from "../../lib/model/ac/categories/Catego
 import { formatDistance } from "../../lib/model/formatDistance";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import { Phone, Place, World } from "../icons/actions";
-import { MapPinIcon } from "../icons/ui-elements";
+import { ExternalLinkIcon, MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink, containerSpacing } from "./styles";
 
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
@@ -64,47 +64,60 @@ function SearchResult({ data }: any) {
     return categoryName;
   }, [category, categoryName]);
 
-  return (
-    <StyledLink>
-      <>
-        <StyledH4 $textAlign="right">
-          {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.srot === "distance" ? <T _str="from your location" /> : <T _str={`from the center of ${route.query.city}`} />}
-        </StyledH4>
-        <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <Link href={`https://wheelmap.org/${_id}`} target="_blank">
-            <AccessibilityFilterButton isDisabled accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} isExternalLink={true} />
-          </Link>
-        </StyledH3>
-      </>
+  const isMainCategory = true;
+  const toiletFilter = toiletsWheelchair ? [toiletsWheelchair] : [];
+  const accessibilityFilter = wheelchair ? [wheelchair] : [];
 
-      {customAddress.street && (
+  return (
+    <>
+      <StyledH4>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <AccessibilityFilterButton isDisabled accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption="" category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} />
+          </div>
+          <div style={{ paddingInline: containerSpacing }}>
+            {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.srot === "distance" ? <T _str="from your location" /> : <T _str={`from the center of ${route.query.city}`} />}
+          </div>
+        </div>
+      </StyledH4>
+      <StyledLink>
         <>
-          <StyledButtonAsLink href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`} target="_blank">
-            <Place />
+          <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
+            <Link href={`https://wheelmap.org/${_id}`} target="_blank">
+              {name ? name : healthcare} <ExternalLinkIcon />
+            </Link>
+          </StyledH3>
+        </>
+
+        {customAddress.street && (
+          <>
+            <StyledButtonAsLink href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`} target="_blank">
+              <Place />
+              &nbsp;
+              {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
+            </StyledButtonAsLink>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </>
+        )}
+        <StyledHDivider $space={0} />
+        {customContact.phone && (
+          <>
+            <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank">
+              <Phone />
+              &nbsp;{customContact.phone}
+            </StyledButtonAsLink>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </>
+        )}
+        {customContact.website && (
+          <StyledButtonAsLink href={`${customContact.website}`} target="_blank">
+            <World />
             &nbsp;
-            {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
+            {customContact.website.split("/")[2]}
           </StyledButtonAsLink>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        </>
-      )}
-      <StyledHDivider $space={0} />
-      {customContact.phone && (
-        <>
-          <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank">
-            <Phone />
-            &nbsp;{customContact.phone}
-          </StyledButtonAsLink>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        </>
-      )}
-      {customContact.website && (
-        <StyledButtonAsLink href={`${customContact.website}`} target="_blank">
-          <World />
-          &nbsp;
-          {customContact.website.split("/")[2]}
-        </StyledButtonAsLink>
-      )}
-    </StyledLink>
+        )}
+      </StyledLink>
+    </>
   );
 }
 
