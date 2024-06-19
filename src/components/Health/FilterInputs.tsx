@@ -1,6 +1,6 @@
 // @ts-ignore
 import { Callout } from "@blueprintjs/core";
-import { T } from "@transifex/react";
+import { T, useT } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -15,8 +15,8 @@ import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
-
 function FilterInputs() {
+  const t = useT();
   const route = useRouter();
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
@@ -172,10 +172,13 @@ function FilterInputs() {
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
       <SearchBoxAutocomplete />
+      <StyledHDivider $space={10} />
       {route.query.bbox && (
         <>
           <StyledRadioBox>
-            <StyledLabel $fontBold="bold">Search by</StyledLabel>
+            <StyledLabel $fontBold="bold" htmlFor="search-name">
+              Search by
+            </StyledLabel>
             <label htmlFor="search-name">
               <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
               <T _str="Name" />
@@ -185,6 +188,7 @@ function FilterInputs() {
               <T _str="Speciality" />
             </label>
           </StyledRadioBox>
+          <StyledHDivider $space={10} />
           {isNameFilter && (
             <>
               <StyledLabel htmlFor="name-search" $fontBold="bold">
@@ -194,6 +198,7 @@ function FilterInputs() {
               <StyledSubLabel>
                 <T _str="Search for a specific name." />
               </StyledSubLabel>
+              <StyledHDivider $space={10} />
             </>
           )}
           {!isNameFilter && (
@@ -227,6 +232,7 @@ function FilterInputs() {
                   <StyledSubLabel>
                     <T _str="Select one of the items in the list." />
                   </StyledSubLabel>
+                  <StyledHDivider $space={10} />
 
                   {route.query.healthcare && (
                     <>
@@ -256,6 +262,7 @@ function FilterInputs() {
                       <StyledSubLabel>
                         <T _str="Select one of the items in the list." />
                       </StyledSubLabel>
+                      <StyledHDivider $space={10} />
                     </>
                   )}
                 </>
@@ -280,6 +287,7 @@ function FilterInputs() {
             <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`No`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
             <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Unknown`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
           </StyledWheelchairFilter>
+          <StyledHDivider $space={10} />
 
           <StyledLabel htmlFor="sort-select" $fontBold="bold">
             <T _str="Sort results" />

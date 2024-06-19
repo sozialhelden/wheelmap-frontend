@@ -29,7 +29,7 @@ type Props = {
   isDisabled?: boolean;
   isExternalLink?: boolean;
   isHealthcare?: boolean;
-  count?: number;
+  count?: string | number;
 };
 
 export const Caption = styled.span`
@@ -68,7 +68,7 @@ function AccessibilityFilterButton(props: Props) {
           {isExternalLink && <ExternalLinkIcon />}
           {caption}
         </Caption>
-        {count && count > 0 && <StyledBadge>{count}</StyledBadge>}
+        {count !== "" && <StyledBadge>{count}</StyledBadge>}
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </Link>

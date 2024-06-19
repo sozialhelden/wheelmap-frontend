@@ -22,12 +22,10 @@ export const HStyles = `
 `;
 
 export const inputStyles = `
-  height: 2.5rem;
-  background-color: transparent;
+  background-color: ${colors.neutralBackgroundColor};
   border:unset;
   border-bottom: 2px solid ${colors.darkLinkColor};
   color: ${colors.darkLinkColor};
-  padding-inline: 0.3rem;
   padding-block: 0.5rem;
 `;
 
@@ -135,14 +133,14 @@ export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 
-export const StyledRadioBox = styled.fieldset`
+export const StyledRadioBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  border: none;
 `;
 
 export const StyledRadio = styled.input`
+  margin-top: 0.5rem;
   margin-inline: 0.5rem;
 `;
 
@@ -200,13 +198,13 @@ export const StyledDropDownListItem = styled.ul`
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
   font-size: 1rem;
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  margin-bottom: 0.25rem;
 `;
 
 export const StyledSubLabel = styled.span`
   font-size: 0.8rem;
   display: block;
   margin-top: 0.5rem;
-  padding-inline: 0.3rem;
   color: ${StyledColors.grey};
 `;
 
