@@ -34,7 +34,7 @@ function SearchFilterDialog(props: any) {
   ];
 
   return (
-    <StyledMainContainerColumn>
+    <StyledMainContainerColumn $whiteBackground>
       <StyledHDivider $space={0.1} />
       <StyledH1 $fontBold>
         <T _str="Find accessible health sites - easily and everywhere." />

@@ -71,7 +71,9 @@ export function SearchBoxAutocomplete() {
           ))}
         </StyledDropDownListItem>
       )}
-      <StyledSubLabel><T _str="Enter a location or district." /></StyledSubLabel>
+      <StyledSubLabel>
+        <T _str="Enter a location or district." />
+      </StyledSubLabel>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import colors from "../../lib/colors";
 import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
 import SozialheldenInnenLogo from "../MapLegacy/SozialheldInnenLogo";
 
@@ -23,14 +24,15 @@ export const HStyles = `
 export const inputStyles = `
   height: 2.5rem;
   background-color: transparent;
-  border: 1px solid ${StyledColors.silver};
+  border:unset;
+  border-bottom: 2px solid ${colors.darkLinkColor};
+  color: ${colors.darkLinkColor};
   padding-inline: 0.3rem;
   padding-block: 0.5rem;
-  margin-bottom: 0.5rem;
 `;
+
 export const linkStyles = `
 color: ${StyledColors.grey};
-cursor: pointer;
 text-decoration: none !important;
 :hover {
   color: unset;
@@ -39,24 +41,6 @@ svg {
   vertical-align: middle;
   margin-bottom: 0.2rem;
 }
-`;
-
-export const chips = `
-  background-color: white;
-  border: 1px solid ${StyledColors.green};
-  color: ${StyledColors.green};
-  font-size: 0.7rem;
-  border-radius:${borderRadius};
-  margin-inline: 0.1rem;
-  font-weight: 500;
-  padding-inline: 0.5rem;
-  padding-block: 0.3rem;
-  text-transform: uppercase;
-  transition: all 0.2s ease-in-out;
-  @media screen and (max-width: ${responsiveValue}px) {
-    display:block;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 export const StyledMainContainer = styled.div`
@@ -68,7 +52,7 @@ export const StyledMainContainer = styled.div`
     overflow-y: auto;
     margin-inline: auto;
     display: grid;
-    grid-gap: ${containerSpacing};
+    grid-gap: 0.5rem;
     grid-template-columns: 1fr 2fr;
     max-width: ${maxContentWidth}px;
     width: 100%;
@@ -79,13 +63,13 @@ export const StyledMainContainer = styled.div`
   }
 `;
 
-export const StyledMainContainerColumn = styled.div`
-  background-color: rgb(255, 255, 255, 1);
+export const StyledMainContainerColumn = styled.div<{ $whiteBackground?: boolean }>`
+  background-color: ${({ $whiteBackground }) => ($whiteBackground ? "white" : "transparent")};
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  padding: ${containerSpacing};
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+  padding: ${({ $whiteBackground }) => ($whiteBackground ? containerSpacing : "0")};
+  box-shadow: ${({ $whiteBackground }) => ($whiteBackground ? "0 0 10px rgba(0, 0, 0, 0.1)" : "none")};
 
   height: calc(100vh - 3rem);
   overflow-y: auto;
@@ -143,7 +127,6 @@ export const FullSizeFlexContainer = styled.div`
 export const StyledSectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 2rem;
 `;
 export const StyledTextInput = styled.input`
   ${inputStyles}
@@ -155,10 +138,8 @@ export const StyledSelect = styled.select`
 export const StyledRadioBox = styled.fieldset`
   display: flex;
   flex-direction: row;
+  align-items: center;
   border: none;
-  padding: 0;
-  gap: 0.5rem;
-  margin-bottom: ${containerSpacing};
 `;
 
 export const StyledRadio = styled.input`
@@ -180,7 +161,7 @@ export const StyledButtonAsLink = styled.a`
   border: none;
   ${linkStyles}
   :hover {
-    color: ${StyledColors.green};
+    color: ${colors.linkColor};
   }
   @media screen and (max-width: ${responsiveValue}px) {
     text-align: left;
@@ -224,7 +205,8 @@ export const StyledLabel = styled.label<{ $fontBold?: string }>`
 export const StyledSubLabel = styled.span`
   font-size: 0.8rem;
   display: block;
-  margin-top: -0.5rem;
+  margin-top: 0.5rem;
+  padding-inline: 0.3rem;
   color: ${StyledColors.grey};
 `;
 
@@ -243,10 +225,9 @@ export const StyledUL = styled.ul`
   padding-inline-start: 0;
   list-style-type: none;
   li {
-    &:hover {
-      opacity: 0.7;
-    }
-    margin-bottom: ${containerSpacing};
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    background-color: white;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }
 `;
@@ -269,20 +250,14 @@ export const StyledLoadingSpinner = styled.div`
     }
   }
 `;
-export const StyledChip = styled.span`
-  ${chips}
-`;
 
 export const StyledBadge = styled.span`
-  background-color: ${StyledColors.green};
+  background-color: ${StyledColors.grey};
   color: white;
-  width: 50px;
   text-align: center;
-  padding-block: 0.5rem !important;
-  border-radius: 2rem;
-  padding-inline: 0.5rem;
-  font-size: 0.6rem;
-  line-height: 0;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
 `;
 
 export const StyledClaim = styled.div`

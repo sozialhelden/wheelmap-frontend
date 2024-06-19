@@ -1,10 +1,10 @@
-import reduce from "lodash/reduce";
+import { EquipmentProperties, PlaceProperties } from "@sozialhelden/a11yjson";
+import { hsl, rgb } from "d3-color";
+import { interpolateHsl, interpolateLab } from "d3-interpolate";
 import { scaleLinear } from "d3-scale";
-import { interpolateLab, interpolateHsl } from "d3-interpolate";
+import reduce from "lodash/reduce";
 import { YesNoLimitedUnknown } from "./model/ac/Feature";
 import { isWheelchairAccessible } from "./model/shared/isWheelchairAccessible";
-import { hsl, rgb } from "d3-color";
-import { EquipmentProperties, PlaceProperties } from "@sozialhelden/a11yjson";
 
 const colors = {
   primaryColor: "#79B63E",

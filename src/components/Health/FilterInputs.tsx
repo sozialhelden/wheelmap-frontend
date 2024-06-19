@@ -175,7 +175,7 @@ function FilterInputs() {
       {route.query.bbox && (
         <>
           <StyledRadioBox>
-            <StyledLabel>Search by</StyledLabel>
+            <StyledLabel $fontBold="bold">Search by</StyledLabel>
             <label htmlFor="search-name">
               <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
               <T _str="Name" />

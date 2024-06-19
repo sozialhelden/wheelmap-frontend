@@ -3,12 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
+import useUserAgent from "../../lib/context/UserAgentContext";
 import useCategory from "../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getLocalizableCategoryName } from "../../lib/model/ac/categories/Categories";
 import { formatDistance } from "../../lib/model/formatDistance";
+import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import { Phone, Place, World } from "../icons/actions";
 import { ExternalLinkIcon, MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink, containerSpacing } from "./styles";
@@ -64,9 +65,8 @@ function SearchResult({ data }: any) {
     return categoryName;
   }, [category, categoryName]);
 
-  const isMainCategory = true;
-  const toiletFilter = toiletsWheelchair ? [toiletsWheelchair] : [];
-  const accessibilityFilter = wheelchair ? [wheelchair] : [];
+  const userAgent = useUserAgent();
+  const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name ? name : healthcare), [userAgent, dataAsOSMFeature, name]);
 
   return (
     <>
@@ -84,35 +84,28 @@ function SearchResult({ data }: any) {
         <>
           <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
             <Link href={`https://wheelmap.org/${_id}`} target="_blank">
-              {name ? name : healthcare} <ExternalLinkIcon />
+              <ExternalLinkIcon />
+              &nbsp;
+              {name ? name : healthcare}
             </Link>
           </StyledH3>
         </>
 
         {customAddress.street && (
           <>
-            <StyledButtonAsLink href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`} target="_blank">
-              <Place />
-              &nbsp;
+            <StyledButtonAsLink href={openInMaps.url} target="_blank">
               {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
             </StyledButtonAsLink>
-            &nbsp;&nbsp;&nbsp;&nbsp;
           </>
         )}
         <StyledHDivider $space={0} />
         {customContact.phone && (
           <>
-            <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank">
-              <Phone />
-              &nbsp;{customContact.phone}
-            </StyledButtonAsLink>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>
           </>
         )}
         {customContact.website && (
           <StyledButtonAsLink href={`${customContact.website}`} target="_blank">
-            <World />
-            &nbsp;
             {customContact.website.split("/")[2]}
           </StyledButtonAsLink>
         )}

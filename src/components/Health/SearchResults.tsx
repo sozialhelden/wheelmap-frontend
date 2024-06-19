@@ -8,7 +8,7 @@ import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityListResponse, calculateDistance, generateAmenityListURL, getWheelchairSettings } from "./helpers";
-import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
+import { FullSizeFlexContainer, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
   const route = useRouter();
@@ -65,12 +65,7 @@ function SearchResults() {
 
   const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? `${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
   const text = React.useMemo(() => {
-    if (data?.features?.length === 0) {
-      return <T _str={`No Results Found! Please try again with different City/Filters`} />;
-    }
-    if (data?.features) {
-      return <StyledChip>{headText}</StyledChip>;
-    }
+    if (data?.features?.length === 0) return <T _str={`No Results Found! Please try again with different City/Filters`} />;
   }, [data]);
 
   return (
@@ -78,13 +73,11 @@ function SearchResults() {
       <Head>
         <title key="title">{sortedFeatures ? <T _str={`${headText} | Find health sites`} /> : <T _str={`Find health sites`} />}</title>
       </Head>
-      <StyledHDivider $space={0.5} />
       {!isLoading && text && (
         <StyledH2 style={{ textAlign: "center" }} $fontBold>
           {text}
         </StyledH2>
       )}
-      <StyledHDivider $space={0.5} />
       {isLoading && (
         <FullSizeFlexContainer>
           <StyledLoadingSpinner />
