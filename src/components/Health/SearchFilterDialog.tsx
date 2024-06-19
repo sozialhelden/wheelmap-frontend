@@ -1,13 +1,8 @@
 import { T } from "@transifex/react";
-import styled from "styled-components";
 import FilterInputs from "./FilterInputs";
 import { getTheRightLangauge } from "./helpers";
-import { StyledColors, StyledFooter, StyledH1, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
+import { StyledClaim, StyledColors, StyledFooter, StyledH1, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
-const Claim = styled.span`
-  font-size: 0.8em;
-  opacity: 0.8;
-`;
 function SearchFilterDialog(props: any) {
   const footerListColumn = [
     {
@@ -42,8 +37,10 @@ function SearchFilterDialog(props: any) {
     <StyledMainContainerColumn>
       <StyledHDivider $space={0.1} />
       <StyledH1 $fontBold>
-        <T _str="Find accessible health sites - easily and everywhere." /><br />
-        <Claim><T _str="- easily and everywhere." /></Claim>
+        <T _str="Find accessible health sites - easily and everywhere." />
+        <StyledClaim>
+          <T _str="- easily and everywhere." />
+        </StyledClaim>
       </StyledH1>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledSectionsContainer>

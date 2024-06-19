@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import colors from "../../lib/colors";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import { StyledChip } from "../Health/styles";
+import { StyledBadge } from "../Health/styles";
 import CloseIcon from "../icons/actions/Close";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import Button from "../shared/Button";
@@ -68,9 +68,7 @@ function AccessibilityFilterButton(props: Props) {
           {isExternalLink && <ExternalLinkIcon />}
           {caption}
         </Caption>
-        {count && count > 0 && <StyledChip>
-          {count}
-        </StyledChip>}
+        {count && count > 0 && <StyledBadge>{count}</StyledBadge>}
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </Link>

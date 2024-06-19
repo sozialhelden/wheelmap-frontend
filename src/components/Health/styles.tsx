@@ -273,8 +273,25 @@ export const StyledChip = styled.span`
   ${chips}
 `;
 
+export const StyledBadge = styled.span`
+  background-color: ${StyledColors.green};
+  color: white;
+  width: 50px;
+  text-align: center;
+  padding-block: 0.5rem !important;
+  border-radius: 2rem;
+  padding-inline: 0.5rem;
+  font-size: 0.6rem;
+  line-height: 0;
+`;
+
+export const StyledClaim = styled.div`
+  font-size: 0.8em;
+  opacity: 0.6;
+`;
+
 export const StyledWheelchairFilter = styled.div`
-  padding: .5rem;
+  padding: 0.5rem;
   border: ${StyledColors.silver} 1px solid;
 `;
 
