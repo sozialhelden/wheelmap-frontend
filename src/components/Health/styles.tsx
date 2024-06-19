@@ -126,6 +126,7 @@ export const StyledSectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 export const StyledTextInput = styled.input`
   ${inputStyles}
 `;
@@ -269,10 +270,10 @@ export const StyledWheelchairFilter = styled.div`
 `;
 
 export const StyledIncluscienceLogo = styled(IncluscienceLogo)`
-  height: 1.2em;
+  height: 1.1em;
 `;
 export const StyledSozialheldInnenLogo = styled(SozialheldenInnenLogo)`
-  height: 2em;
+  height: 1.95em;
 `;
 
 export const StyledFooter = styled.footer<{ $flexDirection?: string }>`

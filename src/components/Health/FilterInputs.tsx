@@ -3,6 +3,7 @@ import { Callout } from "@blueprintjs/core";
 import { T, useT } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
+import styled from "styled-components";
 import useSWR from "swr";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
@@ -14,7 +15,17 @@ import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
+
+const DialogContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  line-height: 2rem;
+  background-color: rgb(255, 255, 255, 1);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+`;
+
 function FilterInputs() {
   const t = useT();
   const route = useRouter();
@@ -170,7 +181,7 @@ function FilterInputs() {
   );
 
   return (
-    <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
+    <DialogContainer role="group" aria-labelledby="survey-form-title">
       <SearchBoxAutocomplete />
       <StyledHDivider $space={10} />
       {route.query.bbox && (
@@ -307,7 +318,7 @@ function FilterInputs() {
           <StyledHDivider $space={10} />
         </>
       )}
-    </StyledSectionsContainer>
+    </DialogContainer>
   );
 }
 

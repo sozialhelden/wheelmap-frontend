@@ -141,8 +141,3 @@ export function getWheelchairSettings(wheelchair: string): any {
       };
   }
 }
-
-export const getTheRightLangauge = (object: any) => {
-  const lang = navigator.language;
-  return object[lang] || object.en;
-};
