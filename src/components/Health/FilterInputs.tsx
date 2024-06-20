@@ -203,11 +203,11 @@ function FilterInputs() {
   );
 
   return (
-    (<DialogContainer role="group" aria-labelledby="survey-form-title">
+    <DialogContainer role="group" aria-labelledby="survey-form-title">
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
-          <StyledRadioBox style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <StyledRadioBox style={{ flexDirection: "row", alignItems: "center" }}>
             <StyledLabel $fontBold="bold" htmlFor="search-name">
               <T _str="Search by" />
             </StyledLabel>
@@ -234,32 +234,34 @@ function FilterInputs() {
           )}
 
           {!hasNameFilter && (
-              <fieldset>
-                <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
-                  <T _str="Type" />
-                </StyledLabel>
-                {healthcareTagStats.error && (
-                  <Callout intent="danger" icon="error">
-                    <T _str="Could not load place categories." />
-                  </Callout>
-                )}
-                {!healthcareTagStats.error && (
-                  <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                    <option value="">
-                      <T _str="All" />
-                    </option>
-                    {translatedHealthcareOptions?.map((item, index) => (
-                      <option key={item.healthcare + index} value={item.healthcare}>
-                        {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
-                      </option>
-                    ))}
-                  </StyledSelect>
-                )}
-
-                <StyledSubLabel>
-                  <T _str="Select one of the items in the list." />
-                </StyledSubLabel>
-              </fieldset>
+            <fieldset>
+              <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
+                <T _str="Type" />
+              </StyledLabel>
+              {healthcareTagStats.error && (
+                <Callout intent="danger" icon="error">
+                  <T _str="Could not load place categories." />
+                </Callout>
+              )}
+              {!healthcareTagStats.error && (
+                <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+                  <option value="">
+                    <T _str="All" />
+                  </option>
+                  {translatedHealthcareOptions?.map(
+                    (item, index) =>
+                      item.healthcareTranslated !== undefined && (
+                        <option key={item.healthcare + index} value={item.healthcare}>
+                          {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
+                        </option>
+                      )
+                  )}
+                </StyledSelect>
+              )}
+              <StyledSubLabel>
+                <T _str="Select one of the items in the list." />
+              </StyledSubLabel>
+            </fieldset>
           )}
 
           {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 && (
@@ -279,7 +281,7 @@ function FilterInputs() {
                   </option>
                   {translatedSpecialityOptions?.map(
                     (item, index) =>
-                      item["healthcare:speciality"] !== "" && (
+                      item.healthcareTranslated !== undefined && (
                         <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
                           {`${item.healthcareTranslated || item["healthcare:speciality"]}`} {item.count ? `(${item.count})` : ""}
                         </option>
@@ -330,7 +332,7 @@ function FilterInputs() {
           </fieldset>
         </>
       )}
-    </DialogContainer>)
+    </DialogContainer>
   );
 }
 

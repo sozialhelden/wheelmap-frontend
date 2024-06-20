@@ -1,3 +1,4 @@
+import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -13,7 +14,7 @@ import CombinedIcon from "../SearchPanel/CombinedIcon";
 import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, shadowCSS } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledHDivider, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
   display: flex;
@@ -37,7 +38,7 @@ const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
   const route = useRouter();
-  const { name, healthcare, amenity, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair } = properties;
+  const { name, healthcare, amenity, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription } = properties;
   const lat = centroid.coordinates[1];
   const lon = centroid.coordinates[0];
 
@@ -91,46 +92,48 @@ function SearchResult({ data }: any) {
   return (
     <StyledListItem>
       <div>
-        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={healthcare} style={{ marginTop: '.35rem' }} />
-        {toiletsWheelchair === 'yes' ? <StyledAccessibleToiletIcon /> : null}
+        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={healthcare} style={{ marginTop: ".35rem" }} />
+        {toiletsWheelchair === "yes" ? <StyledAccessibleToiletIcon /> : null}
       </div>
 
       <div style={{ flex: 1 }}>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <Link href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+          <Link href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
             {name ? name : healthcare}
             &nbsp;
             <ExternalLinkIcon />
           </Link>
         </StyledH3>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
-          {optionalCategoryName}
-        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>{optionalCategoryName}</div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street && (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
-              {[
-                [
-                  customAddress.street, customAddress.housenumber].filter(Boolean).join(" "),
-                  customAddress.postcode, customAddress.city,
-                ].filter(Boolean).join(", ")}
+              {[[customAddress.street, customAddress.housenumber].filter(Boolean).join(" "), customAddress.postcode, customAddress.city].filter(Boolean).join(", ")}
             </StyledButtonAsLink>
           )}
 
-          {customContact.phone && (
-            <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>
-          )}
+          {customContact.phone && <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>}
 
           {customContact.website && (
             <StyledButtonAsLink href={`${customContact.website}`} target="_blank" rel="noreferrer noopener">
               {customContact.website.split("/")?.[2]?.replace("www.", "")}
             </StyledButtonAsLink>
           )}
+
+          <StyledHDivider $space={5} />
+          <div style={{ color: getWheelchairSettings(wheelchair).color, display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
+            <T _str={getWheelchairSettings(wheelchair).label} />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `${wheelchairDescription}`}</div>
         </div>
       </div>
-      {["distance", "distanceFromCity"].includes(String(route.query.sort)) ? <div>&nbsp;{distanceValue} {distanceUnit}</div> : null}
+      {["distance", "distanceFromCity"].includes(String(route.query.sort)) ? (
+        <div>
+          &nbsp;{distanceValue} {distanceUnit}
+        </div>
+      ) : null}
     </StyledListItem>
   );
 }

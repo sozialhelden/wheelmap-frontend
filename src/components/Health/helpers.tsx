@@ -1,5 +1,4 @@
 import { uniq } from "lodash";
-import { t } from "ttag";
 import { StyledColors } from "./styles";
 
 export const defaultLimit = 10000;
@@ -115,28 +114,28 @@ export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
     case "all":
       return {
-        label: t`All Wheelchair Settings`,
+        label: "All Wheelchair Settings",
         color: StyledColors.grey,
       };
     case "yes":
       return {
-        label: t`Wheelchair Accessible`,
+        label: "Wheelchair Accessible",
         color: StyledColors.green,
       };
     case "limited":
       return {
-        label: t`Limited Wheelchair Accessibility`,
+        label: "Limited Wheelchair Accessibility",
         color: StyledColors.orange,
       };
 
     case "no":
       return {
-        label: t`Not Wheelchair Accessible`,
+        label: "Not Wheelchair Accessible",
         color: StyledColors.red,
       };
     default:
       return {
-        label: t`Wheelchair Accessibility Unknown`,
+        label: "Wheelchair Accessibility Unknown",
         color: StyledColors.grey,
       };
   }

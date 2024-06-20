@@ -22,7 +22,7 @@ let transifex = {
   i18n: {
     locales: ["en", "fr", "de", "el"],
     defaultLocale: "de",
-    localeDetection: true,
+    localeDetection: false,
   },
   publicRuntimeConfig: {
     TxNativePublicToken: transifexToken,
