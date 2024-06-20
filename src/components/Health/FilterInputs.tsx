@@ -1,6 +1,6 @@
 // @ts-ignore
 import { Callout } from "@blueprintjs/core";
-import { T, useT } from "@transifex/react";
+import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -44,7 +44,6 @@ const DialogContainer = styled.nav`
 `;
 
 function FilterInputs() {
-  const t = useT();
   const route = useRouter();
   const cityName = route.query.city;
   const env = useContext(EnvContext);
@@ -248,14 +247,13 @@ function FilterInputs() {
                   <option value="">
                     <T _str="All" />
                   </option>
-                  {translatedHealthcareOptions?.map(
-                    (item, index) =>
-                      item.healthcareTranslated !== undefined && (
-                        <option key={item.healthcare + index} value={item.healthcare}>
-                          {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
-                        </option>
-                      )
-                  )}
+                  {translatedHealthcareOptions?.map((item, index) => {
+                    return (
+                      <option key={item.healthcare + index} value={item.healthcare}>
+                        {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
+                      </option>
+                    );
+                  })}
                 </StyledSelect>
               )}
               <StyledSubLabel>
@@ -281,7 +279,7 @@ function FilterInputs() {
                   </option>
                   {translatedSpecialityOptions?.map(
                     (item, index) =>
-                      item.healthcareTranslated !== undefined && (
+                      (route.query.show_untranslated_tags === "1" || item.healthcareTranslated !== undefined) && (
                         <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
                           {`${item.healthcareTranslated || item["healthcare:speciality"]}`} {item.count ? `(${item.count})` : ""}
                         </option>

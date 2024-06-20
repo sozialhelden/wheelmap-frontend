@@ -123,9 +123,11 @@ function SearchResult({ data }: any) {
           )}
 
           <StyledHDivider $space={5} />
-          <div style={{ color: getWheelchairSettings(wheelchair).color, display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
-            <T _str={getWheelchairSettings(wheelchair).label} />
-          </div>
+          {(route.query.wheelchair === "yes;limited" || route.query.wheelchair === undefined) && (
+            <div style={{ color: getWheelchairSettings(wheelchair).color, display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
+              <T _str={getWheelchairSettings(wheelchair).label} />
+            </div>
+          )}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `${wheelchairDescription}`}</div>
         </div>
       </div>
