@@ -5,9 +5,10 @@ import React from "react";
 import styled from "styled-components";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
+import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import useCategory from "../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { getLocalizableCategoryName } from "../../lib/model/ac/categories/Categories";
+import { getCategory } from "../../lib/model/ac/categories/Categories";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
@@ -36,12 +37,9 @@ const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
 `;
 
 function SearchResult({ data }: any) {
-  const { centroid, properties, _id, distance } = data;
+  const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, healthcare, amenity, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription } = properties;
-  const lat = centroid.coordinates[1];
-  const lon = centroid.coordinates[0];
-
+  const { name, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -59,17 +57,22 @@ function SearchResult({ data }: any) {
   const dataAsOSMFeature = React.useMemo(() => ({ ...data, "@type": "osm:Feature" }), [data]);
   const { category } = useCategory(dataAsOSMFeature);
   const languageTags = useCurrentLanguageTagStrings();
-  const categoryName = React.useMemo(() => {
-    const localizableCategoryName = category && getLocalizableCategoryName(category);
-    return localizableCategoryName && getLocalizedStringTranslationWithMultipleLocales(localizableCategoryName, languageTags);
-  }, [category, languageTags]);
+  const synonymCache = useCategorySynonymCache();
 
-  const optionalCategoryName = React.useMemo(() => {
+  const healthcareName = React.useMemo(() => {
+    return getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${healthcare}`)?.translations?._id, languageTags);
+  }, [synonymCache.data, healthcare, languageTags]);
+
+  const healthcareSpecialityName = React.useMemo(() => {
+    return getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${healthcareSpeciality}`)?.translations?._id, languageTags) || getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${healthcareSpeciality}`)?.translations?._id, languageTags);
+  }, [synonymCache.data, healthcareSpeciality, languageTags]);
+
+  const optionalHealthcare = React.useMemo(() => {
     if (category?._id === "unknown") {
       return healthcare;
     }
     if (name) {
-      if (name.match(categoryName, "i")) {
+      if (name.match(healthcareName, "i")) {
         return undefined;
       }
       const isDoctor = category?._id === "doctor" || category?._id === "doctors";
@@ -83,8 +86,15 @@ function SearchResult({ data }: any) {
         return undefined;
       }
     }
-    return categoryName;
-  }, [category, categoryName]);
+    return healthcareName;
+  }, [category, healthcareName]);
+
+  const optionalHealthcareSpeciality = React.useMemo(() => {
+    if (category?._id === "unknown") {
+      return healthcareSpeciality;
+    }
+    return healthcareSpecialityName;
+  }, [category, healthcareSpecialityName]);
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name ? name : healthcare), [userAgent, dataAsOSMFeature, name]);
@@ -105,7 +115,10 @@ function SearchResult({ data }: any) {
           </Link>
         </StyledH3>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>{optionalCategoryName}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>
+          {optionalHealthcare}
+          {optionalHealthcareSpeciality && `, ${optionalHealthcareSpeciality}`}
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street && (
@@ -128,7 +141,9 @@ function SearchResult({ data }: any) {
               <T _str={getWheelchairSettings(wheelchair).label} />
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `${wheelchairDescription}`}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `* ${wheelchairDescription}`}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{blindDescription && `* ${blindDescription}`}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{deafDescription && `* ${deafDescription}`}</div>
         </div>
       </div>
       {["distance", "distanceFromCity"].includes(String(route.query.sort)) ? (

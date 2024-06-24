@@ -15,7 +15,7 @@ import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { StyledBigTextInput, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter, shadowCSS } from "./styles";
+import { StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter, shadowCSS } from "./styles";
 
 const DialogContainer = styled.nav`
   display: flex;
@@ -54,6 +54,8 @@ function FilterInputs() {
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+        ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
+        ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "healthcare",
       } as QueryParameters),
     [route.query.bbox, route.query.name, route.query.wheelchair]
@@ -66,6 +68,8 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
         ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+        ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
+        ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "healthcare:speciality",
       } as QueryParameters),
     [route.query.bbox, route.query.name, route.query.wheelchair]
@@ -78,12 +82,16 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.healthcare && { healthcare: route.query.healthcare }),
         ...(route.query["healthcare:speciality"] && { "healthcare:speciality": route.query["healthcare:speciality"] }),
+        ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
+        ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
       } as QueryParameters),
     [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
   );
 
   const [hasNameFilter, setIsNameFilter] = useState(false);
+  const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "1" ? true : false);
+  const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "1" ? true : false);
   const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
   const healthcareSpecialityTagStats = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(healthcareSpecialityStatsAPIParams, baseurl) : null, fetchJSON);
   const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
@@ -163,6 +171,20 @@ function FilterInputs() {
         delete updatedQuery.healthcare;
         delete updatedQuery["healthcare:speciality"];
         setIsNameFilter(true);
+      }
+      if (value === "blind") {
+        setHasBlindFilter(!hasBlindFilter);
+        if (hasBlindFilter) delete updatedQuery["blind:description"];
+        else {
+          updatedQuery["blind:description"] = "1";
+        }
+      }
+      if (value === "deaf") {
+        setHasDeafFilter(!hasDeafFilter);
+        if (hasDeafFilter) delete updatedQuery["deaf:description"];
+        else {
+          updatedQuery["deaf:description"] = "1";
+        }
       }
 
       route.replace(
@@ -294,6 +316,20 @@ function FilterInputs() {
           )}
 
           <fieldset>
+            <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
+              <StyledLabel $fontBold="bold" htmlFor="filter-blind">
+                <T _str="Filter by" />
+              </StyledLabel>
+              <label htmlFor="filter-blind">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
+                <T _str="Infos for blind people" />
+              </label>
+              <label htmlFor="filter-deaf">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
+                <T _str="Infos for hearing impaired people" />
+              </label>
+            </StyledRadioBox>
+            <StyledHDivider $space={10} />
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
               <T _str="Wheelchair accessibility" />
             </StyledLabel>

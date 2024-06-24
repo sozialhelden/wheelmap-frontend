@@ -43,7 +43,7 @@ svg {
 `;
 
 export const shadowCSS = css`
-  box-shadow: rgba(60,64,67,0.1) 0px 1px 20px, rgba(60,64,67,0.2) 0px 1px 3px;
+  box-shadow: rgba(60, 64, 67, 0.1) 0px 1px 20px, rgba(60, 64, 67, 0.2) 0px 1px 3px;
 `;
 
 export const StyledMainContainer = styled.div`
@@ -147,6 +147,11 @@ export const StyledRadioBox = styled.fieldset`
 `;
 
 export const StyledRadio = styled.input`
+  margin-top: 0.5rem;
+  margin-inline: 0.5rem;
+`;
+
+export const StyledCheckbox = styled.input`
   margin-top: 0.5rem;
   margin-inline: 0.5rem;
 `;
