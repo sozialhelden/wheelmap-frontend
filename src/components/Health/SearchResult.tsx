@@ -96,6 +96,24 @@ function SearchResult({ data }: any) {
     return healthcareSpecialityName;
   }, [category, healthcareSpecialityName]);
 
+  const showBlindDescriptionByLanguage = React.useMemo(() => {
+    if (languageTags.includes("de")) {
+      return blindDescriptionDE;
+    } else if (languageTags.includes("en")) {
+      return blindDescriptionEN;
+    }
+    return blindDescriptionEN;
+  }, [blindDescriptionDE, blindDescriptionEN, languageTags]);
+
+  const showDeafDescriptionByLanguage = React.useMemo(() => {
+    if (languageTags.includes("de")) {
+      return deafDescriptionDE;
+    } else if (languageTags.includes("en")) {
+      return deafDescriptionEN;
+    }
+    return deafDescriptionEN;
+  }, [deafDescriptionDE, deafDescriptionEN, languageTags]);
+
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name ? name : healthcare), [userAgent, dataAsOSMFeature, name]);
 
@@ -144,13 +162,11 @@ function SearchResult({ data }: any) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `* ${wheelchairDescription}`}</div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
             {blindDescription && `* ${blindDescription}`}
-            {blindDescriptionDE && `* ${blindDescriptionDE}`}
-            {blindDescriptionEN && `* ${blindDescriptionEN}`}
+            {showBlindDescriptionByLanguage && `* ${showBlindDescriptionByLanguage}`}
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
             {deafDescription && `* ${deafDescription}`}
-            {deafDescriptionDE && `* ${deafDescriptionDE}`}
-            {deafDescriptionEN && `* ${deafDescriptionEN}`}
+            {showDeafDescriptionByLanguage && `* ${showDeafDescriptionByLanguage}`}
           </div>
         </div>
       </div>
