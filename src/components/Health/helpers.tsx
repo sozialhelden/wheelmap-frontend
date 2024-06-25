@@ -74,8 +74,8 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
-    const editedBlindDescription = blindDescription ? `&blind:description=1` : "";
-    const editedDeafDescription = deafDescription ? `&deaf:description=1` : "";
+    const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
+    const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
     return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
   }

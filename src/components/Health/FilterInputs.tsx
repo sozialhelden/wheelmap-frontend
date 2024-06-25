@@ -90,8 +90,8 @@ function FilterInputs() {
   );
 
   const [hasNameFilter, setIsNameFilter] = useState(false);
-  const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "1" ? true : false);
-  const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "1" ? true : false);
+  const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
+  const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
   const healthcareSpecialityTagStats = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(healthcareSpecialityStatsAPIParams, baseurl) : null, fetchJSON);
   const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
@@ -176,14 +176,14 @@ function FilterInputs() {
         setHasBlindFilter(!hasBlindFilter);
         if (hasBlindFilter) delete updatedQuery["blind:description"];
         else {
-          updatedQuery["blind:description"] = "1";
+          updatedQuery["blind:description"] = "*";
         }
       }
       if (value === "deaf") {
         setHasDeafFilter(!hasDeafFilter);
         if (hasDeafFilter) delete updatedQuery["deaf:description"];
         else {
-          updatedQuery["deaf:description"] = "1";
+          updatedQuery["deaf:description"] = "*";
         }
       }
 
@@ -318,15 +318,15 @@ function FilterInputs() {
           <fieldset>
             <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
               <StyledLabel $fontBold="bold" htmlFor="filter-blind">
-                <T _str="Filter by" />
+                <T _str="Show only places with…" />
               </StyledLabel>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
-                <T _str="Infos for blind people" />
+                <T _str="infos for blind people" />
               </label>
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
-                <T _str="Infos for hearing impaired people" />
+                <T _str="infos for hearing impaired people" />
               </label>
             </StyledRadioBox>
             <StyledHDivider $space={10} />

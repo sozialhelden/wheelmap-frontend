@@ -39,7 +39,7 @@ const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription } = properties;
+  const { name, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -142,8 +142,16 @@ function SearchResult({ data }: any) {
             </div>
           )}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `* ${wheelchairDescription}`}</div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{blindDescription && `* ${blindDescription}`}</div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{deafDescription && `* ${deafDescription}`}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
+            {blindDescription && `* ${blindDescription}`}
+            {blindDescriptionDE && `* ${blindDescriptionDE}`}
+            {blindDescriptionEN && `* ${blindDescriptionEN}`}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
+            {deafDescription && `* ${deafDescription}`}
+            {deafDescriptionDE && `* ${deafDescriptionDE}`}
+            {deafDescriptionEN && `* ${deafDescriptionEN}`}
+          </div>
         </div>
       </div>
       {["distance", "distanceFromCity"].includes(String(route.query.sort))
