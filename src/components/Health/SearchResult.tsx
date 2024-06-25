@@ -146,11 +146,13 @@ function SearchResult({ data }: any) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{deafDescription && `* ${deafDescription}`}</div>
         </div>
       </div>
-      {["distance", "distanceFromCity"].includes(String(route.query.sort)) ? (
-        <div>
-          &nbsp;{distanceValue} {distanceUnit}
-        </div>
-      ) : null}
+      {["distance", "distanceFromCity"].includes(String(route.query.sort))
+        ? distanceValue !== "3700" && (
+            <div>
+              &nbsp;{distanceValue} {distanceUnit}
+            </div>
+          )
+        : null}
     </StyledListItem>
   );
 }
