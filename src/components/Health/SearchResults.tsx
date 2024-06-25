@@ -20,7 +20,7 @@ function NonIdealContent() {
   const t = useT();
 
   return (
-    <div style={{ marginTop: '10rem', textAlign: 'center' }}>
+    <div style={{ marginTop: "10rem", textAlign: "center" }}>
       <HugeText>
         <T _str={`Find doctors, therapists, and health facilities near you.`} />
       </HugeText>
@@ -42,10 +42,17 @@ function SearchResults() {
 
   React.useEffect(() => {
     if (route.query.sort === "distance") {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setMyCoordinates([position.coords.latitude, position.coords.longitude]);
-        route.push({ query: { ...route.query, sort: "distance" } });
-      });
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setMyCoordinates([position.coords.latitude, position.coords.longitude]);
+          route.push({ query: { ...route.query, sort: "distance" } });
+        }),
+          (error: any) => {
+            console.log(error);
+          };
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
     }
   }, [route.query.sort]);
 
@@ -74,9 +81,7 @@ function SearchResults() {
           if (route.query.sort === "distanceFromCity") return a.distance - b.distance;
         })
         .map((item: any, index: number, data: any) => {
-          return (
-            <SearchResult key={index.toString()} data={item} />
-          );
+          return <SearchResult key={index.toString()} data={item} />;
         })
         .slice(0, 100),
     [data, route.query]
@@ -111,4 +116,3 @@ function SearchResults() {
 }
 
 export default SearchResults;
-
