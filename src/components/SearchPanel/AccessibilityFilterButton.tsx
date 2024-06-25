@@ -28,7 +28,6 @@ type Props = {
   isNotHoverAble?: boolean;
   isDisabled?: boolean;
   isExternalLink?: boolean;
-  isHealthcare?: boolean;
   count?: string | number;
   showUnfilteredAccessibilityAsAllIcons?: boolean;
 };

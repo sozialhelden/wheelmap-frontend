@@ -263,6 +263,7 @@ export const StyledBadge = styled.span`
   border-radius: 1rem;
   font-size: 0.85rem;
   line-height: 1.25rem;
+  margin-inline-end: 0.5rem;
 `;
 
 export const StyledClaim = styled.div`

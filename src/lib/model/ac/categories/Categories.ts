@@ -1,8 +1,8 @@
+import { accessibilityCloudCachedBaseUrl } from "../../../fetchers/config";
 import { LocalizedString } from "../../../i18n/LocalizedString";
 import { AnyFeature } from "../../shared/AnyFeature";
-import { getRootCategoryTable } from "./getRootCategoryTable";
 import { ACCategory } from "./ACCategory";
-import { accessibilityCloudCachedBaseUrl } from "../../../fetchers/config";
+import { getRootCategoryTable } from "./getRootCategoryTable";
 
 type SynonymCache = Map<string, ACCategory>;
 
@@ -33,7 +33,14 @@ export function getCategory(
   synonymCache: SynonymCache,
   idOrSynonym: string | number
 ): ACCategory {
-  return synonymCache.get(String(idOrSynonym));
+  try
+  {
+  return synonymCache.get(String(idOrSynonym))
+  }
+  catch (e)
+  {
+    return unknownCategory;
+  }
 }
 
 export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
