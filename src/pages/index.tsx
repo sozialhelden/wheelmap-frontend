@@ -37,8 +37,9 @@ export default function Page() {
       <StyledMainContainer>
         <div>
           <SearchFilterDialog />
-          <div ref={searchFiltersRef}></div>
-          <SearchResults />
+          <div ref={searchFiltersRef}>
+            <SearchResults />
+          </div>
         </div>
       </StyledMainContainer>
     </FilterContext.Provider>
