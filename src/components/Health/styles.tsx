@@ -231,9 +231,9 @@ export const StyledLoadingLabel = styled.label`
   margin-bottom: 0.5rem;
 `;
 
-export const StyledUL = styled.ul`
+export const StyledUL = styled.ul<{ $showBullets?: boolean }>`
   padding-inline-start: 0;
-  list-style-type: none;
+  list-style-type: ${({ $showBullets }) => ($showBullets ? "circle" : "none")};
 `;
 export const StyledLoadingSpinner = styled.div`
   border: 0.5rem solid #f3f3f3;

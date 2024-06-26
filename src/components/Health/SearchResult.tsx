@@ -15,7 +15,7 @@ import CombinedIcon from "../SearchPanel/CombinedIcon";
 import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledHDivider, shadowCSS } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
   display: flex;
@@ -160,14 +160,14 @@ function SearchResult({ data }: any) {
               <T _str={getWheelchairSettings(wheelchair).label} />
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>{wheelchairDescription && `* ${wheelchairDescription}`}</div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
-            {blindDescription && `* ${blindDescription}`}
-            {showBlindDescriptionByLanguage && `* ${showBlindDescriptionByLanguage}`}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
-            {deafDescription && `* ${deafDescription}`}
-            {showDeafDescriptionByLanguage && `* ${showDeafDescriptionByLanguage}`}
+            <StyledUL $showBullets>
+              {wheelchairDescription && <li>{wheelchairDescription}</li>}
+              {blindDescription && <li>{blindDescription}</li>}
+              {showBlindDescriptionByLanguage && <li>{showBlindDescriptionByLanguage}</li>}
+              {deafDescription && <li>{deafDescription}</li>}
+              {showDeafDescriptionByLanguage && <li>{showDeafDescriptionByLanguage}</li>}
+            </StyledUL>
           </div>
         </div>
       </div>
