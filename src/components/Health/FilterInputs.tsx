@@ -288,7 +288,7 @@ function FilterInputs() {
             </fieldset>
           )}
 
-          {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 && (
+          {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 ? (
             <fieldset>
               <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
                 <T _str="Speciality" />
@@ -317,7 +317,7 @@ function FilterInputs() {
                 <T _str="Select one of the items in the list." />
               </StyledSubLabel>
             </fieldset>
-          )}
+          ) : null}
 
           <fieldset>
             <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
