@@ -116,30 +116,25 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
 
 export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
-    case "all":
-      return {
-        label: "All Wheelchair Settings",
-        color: StyledColors.grey,
-      };
     case "yes":
       return {
-        label: "Wheelchair Accessible",
+        label: "Fully wheelchair accessible",
         color: StyledColors.green,
       };
     case "limited":
       return {
-        label: "Limited Wheelchair Accessibility",
+        label: "Partially wheelchair accessible",
         color: StyledColors.orange,
       };
 
     case "no":
       return {
-        label: "Not Wheelchair Accessible",
+        label: "Not wheelchair accessible",
         color: StyledColors.red,
       };
     default:
       return {
-        label: "Wheelchair Accessibility Unknown",
+        label: "Wheelchair accessibility Unknown",
         color: StyledColors.grey,
       };
   }
