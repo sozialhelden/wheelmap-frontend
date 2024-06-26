@@ -135,7 +135,8 @@ function SearchResult({ data }: any) {
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>
           {optionalHealthcare}
-          {optionalHealthcareSpeciality && `, ${optionalHealthcareSpeciality}`}
+          {optionalHealthcare && optionalHealthcareSpeciality && `, `}
+          {optionalHealthcareSpeciality && `${optionalHealthcareSpeciality}`}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>

@@ -199,6 +199,10 @@ function FilterInputs() {
     [route, setIsNameFilter]
   );
 
+  const getWheelchairCountByStats = useCallback((wheelchair, stats) => {
+    return stats.find((item) => item.wheelchair === wheelchair)?.count || 0;
+  }, []);
+
   const getWheelchairCount = useCallback(
     (wheelchair) => {
       const stats = wheelchairTagStats.data;
@@ -209,13 +213,13 @@ function FilterInputs() {
         case "yes":
         case "limited":
         case "no":
-          return stats.find((item) => item.wheelchair === wheelchair)?.count || 0;
+          return getWheelchairCountByStats(wheelchair, stats);
         case "limitedyes":
-          const countYes = stats.find((item) => item.wheelchair === "yes")?.count || 0;
-          const countLimited = stats.find((item) => item.wheelchair === "limited")?.count || 0;
+          const countYes = getWheelchairCountByStats("yes", stats);
+          const countLimited = getWheelchairCountByStats("limited", stats);
           return countYes + countLimited;
         case "unknown":
-          return stats.find((item) => item.wheelchair === "")?.count || 0;
+          return getWheelchairCountByStats("", stats);
         default:
           return stats.reduce((acc, item) => acc + item.count, 0);
       }
@@ -339,10 +343,10 @@ function FilterInputs() {
                   <T _str={`Could not load statistics by accessibility.`} />
                 </Callout>
               )}
-              {route.query.wheelchair === undefined && <AccessibilityFilterButton accessibilityFilter={[]} showUnfilteredAccessibilityAsAllIcons={true} count={getWheelchairCount("")} caption={<T _str="Show all places" />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />}
+              {route.query.wheelchair === undefined ? <AccessibilityFilterButton accessibilityFilter={[]} showUnfilteredAccessibilityAsAllIcons={true} count={getWheelchairCount("")} caption={<T _str="Show all places" />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} /> : null}
               {route.query.wheelchair === undefined || route.query.wheelchair === "yes" ? <AccessibilityFilterButton accessibilityFilter={["yes"]} count={getWheelchairCount("yes")} caption={<T _str={"Only fully wheelchair-accessible"} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={route.query.wheelchair === "yes"} /> : null}
-              {route.query.wheelchair === undefined || (route.query.wheelchair && route.query.wheelchair.includes("limited")) ? <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} count={getWheelchairCount("limitedyes")} caption={<T _str={`Partially wheelchair-accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair && route.query.wheelchair.includes("limited")} showCloseButton={route.query.wheelchair && route.query.wheelchair.includes("limited")} /> : null}{" "}
-              {route.query.wheelchair === undefined || route.query.wheelchair === "no" ? <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`Not wheelchair-accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={route.query.wheelchair === "no"} /> : null}
+              {route.query.wheelchair === undefined || (route.query.wheelchair && route.query.wheelchair.includes("limited")) ? <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} count={getWheelchairCount("limitedyes")} caption={<T _str={`Partially wheelchair-accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair && route.query.wheelchair.includes("limited")} showCloseButton={route.query.wheelchair && route.query.wheelchair.includes("limited")} /> : null}
+              {route.query.wheelchair === undefined || route.query.wheelchair === "no" ? <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`Only places that are not accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={route.query.wheelchair === "no"} /> : null}
               {route.query.wheelchair === undefined || route.query.wheelchair === "unknown" ? <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Places that I can contribute information to`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={route.query.wheelchair === "unknown"} /> : null}
             </StyledWheelchairFilter>
           </fieldset>
