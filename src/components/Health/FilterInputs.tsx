@@ -320,20 +320,6 @@ function FilterInputs() {
           ) : null}
 
           <fieldset>
-            <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
-              <StyledLabel $fontBold="bold" htmlFor="filter-blind">
-                <T _str="Show only places with…" />
-              </StyledLabel>
-              <label htmlFor="filter-blind">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
-                <T _str="infos for blind people" />
-              </label>
-              <label htmlFor="filter-deaf">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
-                <T _str="infos for hearing impaired people" />
-              </label>
-            </StyledRadioBox>
-            <StyledHDivider $space={10} />
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
               <T _str="Wheelchair accessibility" />
             </StyledLabel>
@@ -349,6 +335,20 @@ function FilterInputs() {
               {route.query.wheelchair === undefined || route.query.wheelchair === "no" ? <AccessibilityFilterButton accessibilityFilter={["no"]} count={getWheelchairCount("no")} caption={<T _str={`Only places that are not accessible`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={route.query.wheelchair === "no"} /> : null}
               {route.query.wheelchair === undefined || route.query.wheelchair === "unknown" ? <AccessibilityFilterButton accessibilityFilter={["unknown"]} count={getWheelchairCount("unknown")} caption={<T _str={`Places that I can contribute information to`} />} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={route.query.wheelchair === "unknown"} /> : null}
             </StyledWheelchairFilter>
+            <StyledHDivider $space={10} />
+            <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
+              <StyledLabel $fontBold="bold" htmlFor="filter-blind">
+                <T _str="Show only places with…" />
+              </StyledLabel>
+              <label htmlFor="filter-blind">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
+                <T _str="infos for blind people" />
+              </label>
+              <label htmlFor="filter-deaf">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
+                <T _str="infos for hearing impaired people" />
+              </label>
+            </StyledRadioBox>
           </fieldset>
 
           <fieldset>
