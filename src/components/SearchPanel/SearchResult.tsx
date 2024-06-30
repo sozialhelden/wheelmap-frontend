@@ -3,16 +3,16 @@ import { t } from "ttag";
 
 import { SearchResultFeature } from "../../lib/fetchers/fetchPlaceSearchResults";
 import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
-import getAddressString from "../../lib/model/shared/getAddressString";
 
 import Link from "next/link";
 import styled from "styled-components";
 import useCategory from "../../lib/fetchers/useCategory";
 import { TypeTaggedSearchResultFeature } from "../../lib/model/geo/AnyFeature";
+import getAddressString from "../../lib/model/geo/getAddressString";
 import colors from "../../lib/util/colors";
 import Address from "../NodeToolbar/Address";
-import { PlaceNameHeader } from "../geo/placeName";
 import Icon from "../shared/Icon";
+import { PlaceNameHeader } from "../shared/PlaceName";
 
 type Props = {
   className?: string;

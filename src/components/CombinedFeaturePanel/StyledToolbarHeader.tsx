@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import colors from "../../lib/util/colors";
-import { PlaceNameH1 } from "../geo/placeName";
+import { PlaceNameH1 } from "../shared/PlaceName";
 
 export const StyledToolbarHeader = styled.header`
   /**
