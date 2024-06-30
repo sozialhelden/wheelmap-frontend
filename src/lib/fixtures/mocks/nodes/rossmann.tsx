@@ -1,4 +1,4 @@
-import { TypeTaggedOSMFeature } from "../../../model/shared/AnyFeature";
+import { TypeTaggedOSMFeature } from "../../../model/geo/AnyFeature";
 
 export const RossmannNode: TypeTaggedOSMFeature = {
   _id: "1308877470",

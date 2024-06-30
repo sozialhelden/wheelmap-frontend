@@ -1,30 +1,29 @@
-import { t } from "ttag";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { t } from "ttag";
 
-import SearchIcon from "./SearchIcon";
-import CategoryMenu from "./CategoryMenu";
-import SearchResults from "./SearchResults";
-import SearchInputField from "./SearchInputField";
 import AccessibilityFilterMenu from "./AccessibilityFilterMenu";
+import CategoryMenu from "./CategoryMenu";
+import SearchIcon from "./SearchIcon";
+import SearchInputField from "./SearchInputField";
+import SearchResults from "./SearchResults";
 
+import { useRouter } from "next/router";
 import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
-import { PlaceFilter } from "./AccessibilityFilterModel";
-import { isOnSmallViewport } from "../../lib/ViewportSize";
 import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
-import Spinner from "../ActivityIndicator/Spinner";
-import CloseLink from "../shared/CloseLink";
-import ErrorBoundary from "../shared/ErrorBoundary";
 import {
   getAccessibilityFilterFrom,
   isAccessibilityFiltered,
 } from "../../lib/model/ac/filterAccessibility";
-import { StyledChevronRight } from "./StyledChevronRight";
+import { AnyFeatureCollection } from "../../lib/model/geo/AnyFeature";
+import { isOnSmallViewport } from "../../lib/util/ViewportSize";
+import Spinner from "../ActivityIndicator/Spinner";
+import CloseLink from "../shared/CloseLink";
+import ErrorBoundary from "../shared/ErrorBoundary";
+import { PlaceFilter } from "./AccessibilityFilterModel";
 import { GoButton } from "./GoButton";
+import { StyledChevronRight } from "./StyledChevronRight";
 import { StyledToolbar } from "./StyledToolbar";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import { AnyFeatureCollection } from "../../lib/model/shared/AnyFeature";
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import * as React from 'react';
-import colors from '../../../lib/colors';
+import styled from 'styled-components';
 import { t } from 'ttag';
+import colors from '../../../lib/util/colors';
 import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 

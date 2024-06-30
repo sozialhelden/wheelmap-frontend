@@ -1,5 +1,5 @@
 import * as React from 'react';
-import colors from '../../../lib/colors';
+import colors from '../../../lib/util/colors';
 
 export default function ToiletStatusNotAccessibleIcon(props: React.SVGAttributes<{}>) {
   return (

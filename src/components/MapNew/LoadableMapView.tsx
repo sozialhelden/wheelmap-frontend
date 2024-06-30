@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import MapLoadingIndicator from "../MapLegacy/MapLoadingIndicator";
+import MapLoadingIndicator from "./MapLoadingIndicator";
 
 const LoadableMapView = dynamic(import("./MapView"), {
   ssr: false,

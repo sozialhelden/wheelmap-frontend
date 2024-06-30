@@ -1,8 +1,8 @@
 import { createServer } from "http";
 import next from "next";
 import { parse } from "url";
-import addEmbedModeResponseHeaders from "../lib/addEmbedModeResponseHeaders";
 import fetchApp from "../lib/fetchers/fetchApp";
+import addEmbedModeResponseHeaders from "../lib/util/addEmbedModeResponseHeaders";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";

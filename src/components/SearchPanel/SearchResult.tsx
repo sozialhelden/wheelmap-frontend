@@ -1,19 +1,18 @@
-import { t } from "ttag";
-import * as React from "react";
 import classNames from "classnames";
+import { t } from "ttag";
 
-import getAddressString from "../../lib/model/getAddressString";
-import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 import { SearchResultFeature } from "../../lib/fetchers/fetchPlaceSearchResults";
+import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
+import getAddressString from "../../lib/model/shared/getAddressString";
 
-import Address from "../NodeToolbar/Address";
-import styled from "styled-components";
-import colors from "../../lib/colors";
 import Link from "next/link";
-import Icon from "../shared/Icon";
-import { PlaceNameHeader } from "../shared/PlaceName";
-import { TypeTaggedSearchResultFeature } from "../../lib/model/shared/AnyFeature";
+import styled from "styled-components";
 import useCategory from "../../lib/fetchers/useCategory";
+import { TypeTaggedSearchResultFeature } from "../../lib/model/geo/AnyFeature";
+import colors from "../../lib/util/colors";
+import Address from "../NodeToolbar/Address";
+import { PlaceNameHeader } from "../geo/placeName";
+import Icon from "../shared/Icon";
 
 type Props = {
   className?: string;

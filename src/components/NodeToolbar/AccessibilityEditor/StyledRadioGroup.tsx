@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { RadioGroup } from 'react-radio-group';
 import { hsl } from 'd3-color';
+import { RadioGroup } from 'react-radio-group';
+import styled from 'styled-components';
 
-import colors from '../../../lib/colors';
+import colors from '../../../lib/util/colors';
 import { Caption } from '../../IconButton';
 
 const StyledRadioGroup = styled(RadioGroup)`

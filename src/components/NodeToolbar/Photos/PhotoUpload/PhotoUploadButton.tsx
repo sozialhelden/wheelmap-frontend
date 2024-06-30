@@ -1,10 +1,10 @@
-import styled from "styled-components";
 import * as React from "react";
+import styled from "styled-components";
 import { t } from "ttag";
 
-import CameraIcon from "./CameraIcon";
+import colors from "../../../../lib/util/colors";
 import { IncentiveHint } from "../../IncentiveHint";
-import colors from "../../../../lib/colors";
+import CameraIcon from "./CameraIcon";
 
 type Props = {
   className?: string;

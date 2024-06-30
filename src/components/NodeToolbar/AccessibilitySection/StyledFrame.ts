@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../../lib/colors';
+import colors from '../../../lib/util/colors';
 
 const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame' })`
   position: relative;

@@ -23,7 +23,7 @@ import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import { t } from "ttag";
-import getFeatureIdsFromLocation from "../../lib/model/shared/getFeatureIdsFromLocation";
+import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLocation";
 import HelpButton from "../CombinedFeaturePanel/components/HelpButton";
 import * as categoryIcons from "../icons/categories";
 import { databaseTableNames, filterLayers } from "./filterLayers";
@@ -41,7 +41,6 @@ interface IProps {
   visible?: boolean;
   width: number;
   height: number;
-  containerRef: (element: HTMLOrSVGElement | null) => void;
 }
 
 const MapboxExtraStyles = createGlobalStyle`

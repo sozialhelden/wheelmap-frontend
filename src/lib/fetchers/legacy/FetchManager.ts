@@ -1,4 +1,4 @@
-import EventTarget, { CustomEvent } from "../../EventTarget";
+import EventTarget, { CustomEvent } from "../../util/EventTarget";
 import customFetch from "./fetch";
 
 export class FetchManager extends EventTarget<CustomEvent> {

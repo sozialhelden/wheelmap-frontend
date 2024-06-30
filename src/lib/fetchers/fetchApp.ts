@@ -1,7 +1,7 @@
-import { App } from "../model/ac/App";
+import { IApp } from "../model/ac/App";
 
-export function interpretJSONResponseAsApp(json: unknown): App {
-  return json as App;
+export function interpretJSONResponseAsApp(json: unknown): IApp {
+  return json as IApp;
 }
 
 export default function fetchApp([hostname, appToken]: [string, string]) {

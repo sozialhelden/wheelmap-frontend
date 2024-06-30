@@ -1,13 +1,13 @@
-import { t } from "ttag";
 import * as React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 
-import colors from "../../lib/colors";
-import Toolbar from "../shared/Toolbar";
-import CloseLink from "../shared/CloseButton";
 import * as queryString from "query-string";
+import { trackEvent } from "../../lib/apm/Analytics";
+import colors from "../../lib/util/colors";
 import { ChromelessButton, PrimaryButton } from "../shared/Button";
-import { trackEvent } from "../../lib/Analytics";
+import CloseLink from "../shared/CloseButton";
+import Toolbar from "../shared/Toolbar";
 
 export type Props = {
   className?: string;

@@ -1,11 +1,11 @@
 import * as React from "react";
-import { t } from "ttag";
 import styled from "styled-components";
+import { t } from "ttag";
 
-import strings from "./strings";
-import colors from "../../../lib/colors";
 import { accessibilityCloudFeatureCache } from "../../../lib/cache/AccessibilityCloudFeatureCache";
+import colors from "../../../lib/util/colors";
 import Spinner from "../../ActivityIndicator/Spinner";
+import strings from "./strings";
 
 export type ReportReasons =
   | "invalid-place"

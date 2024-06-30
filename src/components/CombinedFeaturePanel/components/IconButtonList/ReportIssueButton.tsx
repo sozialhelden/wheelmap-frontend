@@ -1,9 +1,8 @@
 import { t } from "ttag";
-import * as React from "react";
 
 import { PlaceInfo } from "@sozialhelden/a11yjson";
+import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import Flag from "../../../icons/actions/Flag";
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
 
 type Props = {
   equipmentInfoId: string | null;

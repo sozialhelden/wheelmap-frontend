@@ -32,7 +32,7 @@
 import { omit } from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { ReactElement, useCallback, useContext } from "react";
+import { ReactElement, useCallback, useContext } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import Layout from "../../components/App/Layout";
@@ -45,10 +45,10 @@ import fetchPlaceSearchResults, {
 import { getProductTitle } from "../../lib/model/ac/ClientSideConfiguration";
 import { getAccessibilityFilterFrom } from "../../lib/model/ac/filterAccessibility";
 import {
-  AnyFeatureCollection,
   AnyFeature,
+  AnyFeatureCollection,
   TypeTaggedSearchResultFeature,
-} from "../../lib/model/shared/AnyFeature";
+} from "../../lib/model/geo/AnyFeature";
 
 export default function Page() {
   const router = useRouter();

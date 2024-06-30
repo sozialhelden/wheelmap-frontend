@@ -1,9 +1,9 @@
-import React, { Component, ReactNode } from "react";
-import { t } from "ttag";
+import { Component, ReactNode } from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 
-import colors from "../../lib/colors";
 import Link from "next/link";
+import colors from "../../lib/util/colors";
 
 type Props = {
   className?: string;

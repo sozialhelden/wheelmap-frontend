@@ -1,13 +1,13 @@
 import { ControlGroup } from "@blueprintjs/core";
-import {
-  accessibilityDescription
-} from "../../../../../lib/model/accessibilityStrings";
+import { isWheelchairAccessible } from "../../../../../lib/model/accessibility/isWheelchairAccessible";
 import {
   AnyFeature,
   isOSMFeature,
   isPlaceInfo
-} from "../../../../../lib/model/shared/AnyFeature";
-import { isWheelchairAccessible } from "../../../../../lib/model/shared/isWheelchairAccessible";
+} from "../../../../../lib/model/geo/AnyFeature";
+import {
+  accessibilityDescription
+} from "../../../../../lib/model/shared/accessibilityStrings";
 
 export default function PlaceWheelchairAccessibility({ feature }: { feature?: AnyFeature }) {
   if (!feature || (!isOSMFeature(feature) && !isPlaceInfo(feature))) {

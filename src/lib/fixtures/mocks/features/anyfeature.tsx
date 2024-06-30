@@ -1,4 +1,4 @@
-import { AnyFeature } from "../../../model/shared/AnyFeature";
+import { AnyFeature } from "../../../model/geo/AnyFeature";
 
 export const anyFeature: AnyFeature = {
   ["@type"]: "a11yjson:PlaceInfo",

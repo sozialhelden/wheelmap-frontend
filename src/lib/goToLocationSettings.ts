@@ -3,7 +3,7 @@ import {
   getUserAgentString,
   parseUserAgentString,
 } from "./context/UserAgentContext";
-import { saveState } from "./savedState";
+import { saveState } from "./util/savedState";
 
 // Open location settings or show the user how to open them
 

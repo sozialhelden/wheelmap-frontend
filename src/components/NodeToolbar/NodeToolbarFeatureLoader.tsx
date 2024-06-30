@@ -2,21 +2,17 @@ import * as React from "react";
 
 import NodeToolbar from "./NodeToolbar";
 
-import { Cluster } from "../Map/Cluster";
-import Categories, {
-  CategoryLookupTables,
-} from "../../lib/model/ac/categories/Categories";
-import { Category } from "../../lib/model/ac/categories/Categories";
+import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import { PlaceDetailsProps, SourceWithLicense, getPlaceDetailsIfAlreadyResolved } from "../../../app/PlaceDetailsProps";
 import { YesNoLimitedUnknown } from "../../lib/Feature";
 import { ModalNodeState } from "../../lib/ModalNodeState";
-import { PhotoModel } from "../../lib/PhotoModel";
-import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
-import {
-  PlaceDetailsProps,
-  getPlaceDetailsIfAlreadyResolved,
-} from "../../../app/PlaceDetailsProps";
+import { PhotoModel } from "../../lib/model/ac/PhotoModel";
+import Categories, {
+  Category,
+  CategoryLookupTables,
+} from "../../lib/model/ac/categories/Categories";
 import { UAResult } from "../../lib/userAgent";
-import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import { Cluster } from "../Map/Cluster";
 
 type Props = {
   categories: CategoryLookupTables;

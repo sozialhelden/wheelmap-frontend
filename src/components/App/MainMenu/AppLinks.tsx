@@ -2,12 +2,12 @@ import { useHotkeys } from "@blueprintjs/core";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import styled from "styled-components";
-import colors from "../../../lib/colors";
 import { useCurrentApp } from "../../../lib/context/AppContext";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
 import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/insertPlaceholdersToAddPlaceUrl";
+import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl";
+import colors from "../../../lib/util/colors";
 import Spinner from "../../ActivityIndicator/Spinner";
 import SessionLink from "../../Session/SessionLink";
 

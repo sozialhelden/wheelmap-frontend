@@ -1,5 +1,5 @@
 import * as React from 'react';
-import colors from '../../../lib/colors';
+import colors from '../../../lib/util/colors';
 
 const color = colors.markers.background.yes;
 

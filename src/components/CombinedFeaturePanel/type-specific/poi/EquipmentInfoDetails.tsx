@@ -1,10 +1,9 @@
-import React from "react";
 
+import MockedPOIDetails from "../../../../lib/fixtures/mocks/features/MockedPOIDetails";
 import {
   AnyFeature,
   TypeTaggedEquipmentInfo,
-} from "../../../../lib/model/shared/AnyFeature";
-import MockedPOIDetails from "../../../../lib/fixtures/mocks/features/MockedPOIDetails";
+} from "../../../../lib/model/geo/AnyFeature";
 type Props = {
   equipmentInfo: TypeTaggedEquipmentInfo | AnyFeature;
 };

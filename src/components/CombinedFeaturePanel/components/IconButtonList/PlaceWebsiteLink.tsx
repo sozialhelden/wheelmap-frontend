@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
+import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import WorldIcon from "../../../icons/actions/World";
 
 const NonBreakingSpan = styled.span`

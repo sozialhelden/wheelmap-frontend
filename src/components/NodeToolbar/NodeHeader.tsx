@@ -1,28 +1,23 @@
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import intersperse from 'intersperse';
+import { compact, uniq } from 'lodash';
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { placeNameFor } from "../../lib/model/shared/placeNameFor";
-import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
-import intersperse from 'intersperse';
+import { t } from 'ttag';
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo';
 import {
-  getTranslatedCategoryNameFor,
-  getCategoryId,
   CategoryLookupTables,
-  Category,
 } from '../../lib/model/ac/categories/Categories';
+import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
+import { placeNameFor } from "../../lib/model/geo/placeNameFor";
+import colors from '../../lib/util/colors';
+import { Cluster } from '../MapLegacy/Cluster';
+import ChevronRight from '../shared/ChevronRight';
 import Icon from '../shared/Icon';
 import { PlaceNameH1 } from '../shared/PlaceName';
-import BreadCrumbs from './BreadCrumbs';
-import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo';
-import colors, { alpha } from '../../lib/colors';
-import { Cluster } from '../Map/Cluster';
-import ChevronRight from '../shared/ChevronRight';
-import { StyledClusterIcon } from './FeatureClusterPanel';
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
-import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
-import { t } from 'ttag';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;

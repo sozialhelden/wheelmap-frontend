@@ -9,9 +9,9 @@ import { ReactElement } from "react";
 import useSWR from "swr";
 import Layout from "../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { useEnvContext } from "../../components/shared/EnvContext";
 import Toolbar from "../../components/shared/Toolbar";
 import { useCurrentApp } from "../../lib/context/AppContext";
+import { useEnvContext } from "../../lib/context/EnvContext";
 import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
 
 const PositionedCloseLink = styled(CloseLink)`

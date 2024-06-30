@@ -2,13 +2,8 @@ import { useHotkeys } from "@blueprintjs/core";
 import { uniqBy } from "lodash";
 import { useMemo, useState } from "react";
 import styled from "styled-components";
-import colors from "../../lib/colors";
-import {
-  AnyFeature,
-  getKey,
-  isOSMFeature,
-  isSearchResultFeature
-} from "../../lib/model/shared/AnyFeature";
+import { AnyFeature, getKey, isOSMFeature, isSearchResultFeature } from "../../lib/model/geo/AnyFeature";
+import colors from "../../lib/util/colors";
 import OSMBuildingDetails from "./OSMBuildingDetails";
 import OSMSidewalkDetails from "./OSMSidewalkDetails";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";

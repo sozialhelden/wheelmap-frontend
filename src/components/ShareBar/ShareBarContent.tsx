@@ -1,22 +1,22 @@
-import styled from "styled-components";
+import { interpolateLab } from "d3-interpolate";
 import React from "react";
 import {
   FacebookShareButton,
-  TwitterShareButton,
   TelegramShareButton,
+  TwitterShareButton,
   WhatsappShareButton,
 } from "react-share";
+import styled from "styled-components";
 import { t } from "ttag";
-import colors from "../../lib/colors";
-import { interpolateLab } from "d3-interpolate";
-import ChevronLeft from "./icons/ChevronLeft";
-import FacebookIcon from "./icons/Facebook";
-import TwitterIcon from "./icons/Twitter";
-import TelegramIcon from "./icons/Telegram";
-import EmailIcon from "./icons/Email";
-import WhatsAppIcon from "./icons/WhatsApp";
+import colors from "../../lib/util/colors";
 import { ChromelessButton } from "../shared/Button";
 import IconButton, { Caption, Circle } from "../shared/IconButton";
+import ChevronLeft from "./icons/ChevronLeft";
+import EmailIcon from "./icons/Email";
+import FacebookIcon from "./icons/Facebook";
+import TelegramIcon from "./icons/Telegram";
+import TwitterIcon from "./icons/Twitter";
+import WhatsAppIcon from "./icons/WhatsApp";
 
 type ShareBarContentProps = {
   url: string;

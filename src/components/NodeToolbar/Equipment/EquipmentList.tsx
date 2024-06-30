@@ -1,11 +1,11 @@
+import classNames from 'classnames';
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import * as React from 'react';
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
-import EquipmentItem from './EquipmentItem';
 import styled from 'styled-components';
-import colors from '../../../lib/colors';
-import classNames from 'classnames';
+import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import colors from '../../../lib/util/colors';
+import EquipmentItem from './EquipmentItem';
 
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],

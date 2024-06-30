@@ -1,48 +1,48 @@
-import * as React from "react";
-import { t } from "ttag";
 import FocusTrap from "focus-trap-react";
+import fromPairs from "lodash/fromPairs";
 import get from "lodash/get";
 import includes from "lodash/includes";
-import fromPairs from "lodash/fromPairs";
+import * as React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 
+import Button from "../shared/Button";
 import CloseLink from "../shared/CloseLink";
 import ErrorBoundary from "../shared/ErrorBoundary";
-import NodeHeader from "./NodeHeader";
-import SourceList from "./SourceList";
-import StyledToolbar from "./StyledToolbar";
-import ReportDialog from "./Report/ReportDialog";
-import PhotoSection from "./Photos/PhotoSection";
-import EquipmentOverview from "./Equipment/EquipmentOverview";
 import EquipmentAccessibility from "./AccessibilitySection/EquipmentAccessibility";
 import PlaceAccessibilitySection from "./AccessibilitySection/PlaceAccessibilitySectionLegacy";
-import Button from "../shared/Button";
+import EquipmentOverview from "./Equipment/EquipmentOverview";
+import NodeHeader from "./NodeHeader";
+import PhotoSection from "./Photos/PhotoSection";
+import ReportDialog from "./Report/ReportDialog";
+import SourceList from "./SourceList";
+import StyledToolbar from "./StyledToolbar";
 
-import { PhotoModel } from "../../lib/PhotoModel";
 import {
   YesNoLimitedUnknown,
   isWheelmapFeatureId,
 } from "../../lib/model/ac/Feature";
-import { placeNameFor } from "../../lib/model/shared/placeNameFor";
-import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
+import { PhotoModel } from "../../lib/model/ac/PhotoModel";
+import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
+import { placeNameFor } from "../../lib/model/geo/placeNameFor";
 
+import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
+import { AppContextConsumer } from "../../AppContext";
+import { ModalNodeState } from "../../lib/ModalNodeState";
+import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
 import {
   Category,
   CategoryLookupTables,
   getTranslatedCategoryNameFor,
 } from "../../lib/model/ac/categories/Categories";
-import { ModalNodeState } from "../../lib/ModalNodeState";
+import { UAResult } from "../../lib/userAgent";
+import { Cluster } from "../Map/Cluster";
+import InlineWheelchairAccessibilityEditor from "./AccessibilityEditor/InlineWheelchairAccessibilityEditor";
 import ToiletStatusEditor from "./AccessibilityEditor/ToiletStatusEditor";
 import WheelchairStatusEditor from "./AccessibilityEditor/WheelchairStatusEditor";
-import InlineWheelchairAccessibilityEditor from "./AccessibilityEditor/InlineWheelchairAccessibilityEditor";
-import IconButtonList from "./IconButtonList/IconButtonList";
-import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
-import { Cluster } from "../Map/Cluster";
-import { AppContextConsumer } from "../../AppContext";
-import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
-import { UAResult } from "../../lib/userAgent";
 import isA11yEditable from "./AccessibilityEditor/isA11yEditable";
-import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import IconButtonList from "./IconButtonList/IconButtonList";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;

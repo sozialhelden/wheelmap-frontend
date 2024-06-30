@@ -1,5 +1,4 @@
-import * as React from 'react';
-import colors from '../../../lib/colors';
+import colors from '../../../lib/util/colors';
 
 export default function ChevronLeft(props: any) {
   return (

@@ -1,13 +1,13 @@
+import { Accessibility } from "@sozialhelden/a11yjson";
+import { cloneDeep, isEqual } from "lodash";
 import omit from "lodash/omit";
+import { removeNullAndUndefinedFields } from "../../util/removeNullAndUndefinedFields";
 import {
   YesNoLimitedUnknown,
-  yesNoLimitedUnknownArray,
   YesNoUnknown,
+  yesNoLimitedUnknownArray,
   yesNoUnknownArray,
 } from "./Feature";
-import { removeNullAndUndefinedFields } from "./removeNullAndUndefinedFields";
-import { cloneDeep, isEqual } from "lodash";
-import { Accessibility } from "@sozialhelden/a11yjson";
 
 /** @returns a better structure to represent in the UI than the basic tree structure would provide. */
 

@@ -3,13 +3,13 @@ import * as React from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import colors from "../../lib/colors";
 import { AppContext } from "../../lib/context/AppContext";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import {
   accessibilityDescription,
   accessibilityName,
-} from "../../lib/model/accessibilityStrings";
+} from "../../lib/model/shared/accessibilityStrings";
+import colors from "../../lib/util/colors";
 import ChevronRight from "../icons/actions/ChevronRight";
 import { CallToActionButton } from "../shared/Button";
 import Icon from "../shared/Icon";

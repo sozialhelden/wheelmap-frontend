@@ -1,9 +1,9 @@
 import * as React from "react";
-import { SyntheticEvent, MouseEvent, KeyboardEvent } from "react";
+import { KeyboardEvent, MouseEvent, SyntheticEvent } from "react";
 import styled from "styled-components";
-import CloseIcon from "../icons/actions/Close";
 import { t } from "ttag";
-import colors from "../../lib/colors";
+import colors from "../../lib/util/colors";
+import CloseIcon from "../icons/actions/Close";
 
 type Props = {
   className?: string;

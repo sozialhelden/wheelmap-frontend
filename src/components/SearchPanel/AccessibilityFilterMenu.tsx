@@ -1,15 +1,14 @@
-import { t } from "ttag";
-import * as React from "react";
 import isEqual from "lodash/isEqual";
 import styled from "styled-components";
+import { t } from "ttag";
 
-import colors from "../../lib/colors";
+import {
+  YesNoLimitedUnknown,
+  yesNoUnknownArray,
+} from "../../lib/model/ac/Feature";
+import colors from "../../lib/util/colors";
 import AccessibilityFilterButton from "./AccessibilityFilterButton";
 import { PlaceFilter } from "./AccessibilityFilterModel";
-import {
-  yesNoUnknownArray,
-  YesNoLimitedUnknown,
-} from "../../lib/model/ac/Feature";
 
 type Props = PlaceFilter & {
   className?: string;

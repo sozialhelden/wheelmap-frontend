@@ -1,4 +1,4 @@
-import { AnyFeature, isOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import FeatureAccessibility from "../../components/FeatureAccessibility";
 import FeatureContext from "../../components/FeatureContext";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
@@ -8,7 +8,6 @@ import PhoneNumberLinks from "../../components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "../../components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "../../components/IconButtonList/StyledIconButtonList";
 import FeatureImage from "../../components/image/FeatureImage";
-import WikimediaCommonsImage from "../../components/image/WikimediaCommonsImage";
 
 type Props = {
   feature: AnyFeature;

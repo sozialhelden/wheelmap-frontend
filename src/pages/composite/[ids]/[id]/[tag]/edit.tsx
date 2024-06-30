@@ -9,11 +9,11 @@ import Layout from "../../../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { OSMTagEditor } from "../../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor";
 import CloseLink from "../../../../../components/shared/CloseLink";
-import { useEnvContext } from "../../../../../components/shared/EnvContext";
 import Toolbar from "../../../../../components/shared/Toolbar";
+import { useEnvContext } from "../../../../../lib/context/EnvContext";
 import { useMultipleFeatures } from "../../../../../lib/fetchers/fetchMultipleFeatures";
-import { isOSMFeature } from "../../../../../lib/model/shared/AnyFeature";
-import { getOSMType } from "../../../../../lib/model/shared/generateOsmUrls";
+import { isOSMFeature } from "../../../../../lib/model/geo/AnyFeature";
+import { getOSMType } from "../../../../../lib/model/osm/generateOsmUrls";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;

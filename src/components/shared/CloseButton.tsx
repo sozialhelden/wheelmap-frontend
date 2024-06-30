@@ -1,8 +1,8 @@
-import { t } from "ttag";
 import * as React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
+import colors from "../../lib/util/colors";
 import CloseIcon from "../icons/actions/Close";
-import colors from "../../lib/colors";
 
 const StyledButton = styled.button`
   display: inline-block;

@@ -1,23 +1,23 @@
-import * as React from 'react';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 import includes from 'lodash/includes';
+import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 import {
-  isWheelchairAccessible,
-  hasAccessibleToilet,
-  accessibilityName,
+  YesNoLimitedUnknown, YesNoUnknown,
   accessibilityDescription,
-  toiletDescription,
+  accessibilityName,
+  hasAccessibleToilet,
+  isWheelchairAccessible,
   normalizedCoordinatesForFeature,
+  toiletDescription,
 } from '../../../lib/Feature';
-import colors from '../../../lib/colors';
-import PenIcon from '../../icons/actions/PenIcon';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
+import colors from '../../../lib/util/colors';
+import { geoDistance } from '../../../lib/util/geoDistance';
+import { formatDistance } from '../../../lib/util/strings/formatDistance';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import { geoDistance } from '../../../lib/model/geoDistance';
-import { formatDistance } from '../../../lib/model/formatDistance';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import PenIcon from '../../icons/actions/PenIcon';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [

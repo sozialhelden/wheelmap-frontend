@@ -6,9 +6,10 @@ import "normalize.css";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
-import MapView from "../MapNew/MapView";
+import LoadableMapView from "../MapNew/LoadableMapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
@@ -42,7 +43,7 @@ export default function Layout({
     setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen);
   }, [isMenuOpen]);
 
-  const containerRef = React.useRef<HTMLElement>(null);
+  const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
 
   const router = useRouter();
   const { pathname } = router;
@@ -64,9 +65,9 @@ export default function Layout({
 
       <main 
         style={{ height: "100%" }} 
-        ref={containerRef} 
+        ref={containerRef}
       >
-        <MapView {...{ containerRef }} />
+        <LoadableMapView {...{ width, height }} />
         <BlurLayer active={blur} style={{ zIndex: 1000 }} />
         <div style={{ zIndex: 2000 }}>{children}</div>
         <ToastContainer position="bottom-center" />

@@ -1,12 +1,10 @@
-import { t } from 'ttag';
-import * as React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
 
+import { YesNoLimitedUnknown, shortAccessibilityName } from '../../../lib/Feature';
+import colors from '../../../lib/util/colors';
 import Icon from '../../Icon';
-import { shortAccessibilityName } from '../../../lib/Feature';
-import { YesNoLimitedUnknown } from '../../../lib/Feature';
 import IconButton, { Caption } from '../../IconButton';
-import colors from '../../../lib/colors';
 
 type Props = {
   onChange: (newValue: YesNoLimitedUnknown) => void,

@@ -1,12 +1,12 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import colors from "../../../lib/colors";
 import { EquipmentInfo } from "../../../lib/EquipmentInfo";
 import {
   equipmentStatusTitle,
   isEquipmentAccessible, isExistingInformationOutdated, lastUpdateString
 } from "../../../lib/model/ac/EquipmentInfo";
+import colors from "../../../lib/util/colors";
 
 import AppContext from "../../../AppContext";
 import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";

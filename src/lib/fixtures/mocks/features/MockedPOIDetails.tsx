@@ -1,6 +1,5 @@
-import React from "react";
+import { AnyFeature } from "../../../model/geo/AnyFeature";
 import { fixtureDivStyle } from "../styles";
-import { AnyFeature } from "../../../model/shared/AnyFeature";
 
 type Props = {
   feature?: AnyFeature | any;

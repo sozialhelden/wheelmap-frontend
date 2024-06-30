@@ -1,10 +1,7 @@
 import { t } from "ttag";
-import { TypeTaggedOSMFeature } from "../../lib/model/shared/AnyFeature";
-import FeatureNameHeader from "./components/FeatureNameHeader";
-import OSMTagTable from "./components/AccessibilitySection/OSMTagTable";
-import { OSMTagPanel } from "./components/AccessibilitySection/OSMTagPanel";
+import { TypeTaggedOSMFeature } from "../../lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRelevantOSMKey";
-import { isEqual } from "lodash";
+import { OSMTagPanel } from "./components/AccessibilitySection/OSMTagPanel";
 
 export default function OSMSidewalkDetails({ feature }: { feature: TypeTaggedOSMFeature }) {
   const keys = Object.keys(feature.properties).filter(isAccessibilityRelevantOSMKey);

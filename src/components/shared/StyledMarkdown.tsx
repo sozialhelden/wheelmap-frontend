@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+import colors from '../../lib/util/colors';
 import Markdown from './Markdown';
-import colors from '../../lib/colors';
 
 const StyledMarkdown = styled(Markdown)`
   max-width: 100%;

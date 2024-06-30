@@ -1,7 +1,7 @@
 import { compact, uniq } from "lodash";
 import styled from "styled-components";
 import { t } from "ttag";
-import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
+import { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 
 export const addressKeys = {
   level: 1,

@@ -1,7 +1,7 @@
 import React from "react";
-import { App } from "../model/ac/App";
+import { IApp } from "../model/ac/App";
 
-export const AppContext = React.createContext<App | undefined>(null);
+export const AppContext = React.createContext<IApp | undefined>(null);
 AppContext.displayName = "AppContext";
 
 export function useCurrentApp() {

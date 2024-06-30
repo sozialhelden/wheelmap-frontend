@@ -1,8 +1,8 @@
 import { omit } from 'lodash';
-import * as React from 'react';
-import unindent from './unindent';
-import NotificationText from './NotificationText';
 import { MarkedOptions, parse, parseInline } from 'marked';
+import * as React from 'react';
+import unindent from '../../lib/util/strings/unindent';
+import NotificationText from './NotificationText';
 
 interface IProps extends React.HTMLProps<HTMLDivElement> {
   children?: string | null | false;

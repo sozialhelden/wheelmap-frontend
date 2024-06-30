@@ -3,13 +3,13 @@ import "focus-visible";
 import findIndex from "lodash/findIndex";
 import includes from "lodash/includes";
 import * as React from "react";
-import "../../lib/NativeAppStrings";
-import { hasBigViewport } from "../../lib/ViewportSize";
-import config from "../../lib/config";
-import savedState, { saveState } from "../../lib/savedState";
-import { isTouchDevice } from "../../lib/userAgent";
-import { PlaceDetailsProps } from "../app/PlaceDetailsProps";
-import MainView, { UnstyledMainView } from "./MainView";
+import { isTouchDevice } from "../../lib/context/UserAgentContext";
+import { PlaceDetailsProps } from "../../lib/fetchers/legacy/PlaceDetailsProps";
+import { hasBigViewport } from "../../lib/util/ViewportSize";
+import config from "../../lib/util/config";
+import savedState, { saveState } from "../../lib/util/savedState";
+import "../../lib/util/strings/NativeAppStrings";
+import GlobalStyle from "./GlobalAppStyle";
 
 interface Props extends PlaceDetailsProps {
   className?: string;

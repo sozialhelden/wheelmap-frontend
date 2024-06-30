@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AnyFeature, isOSMFeature } from "../../../lib/model/shared/AnyFeature";
+import { AnyFeature, isOSMFeature } from "../../../lib/model/geo/AnyFeature";
 import { OSMTagPanel } from "./AccessibilitySection/OSMTagPanel";
 
 type Props = {

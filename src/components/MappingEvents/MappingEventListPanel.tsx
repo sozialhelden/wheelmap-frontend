@@ -1,17 +1,15 @@
-import React from "react";
-import { t } from "ttag";
+import Link from "next/link";
 import styled from "styled-components";
-import FocusTrap from "focus-trap-react";
+import useSWR from "swr";
+import { t } from "ttag";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import fetchMappingEvents from "../../lib/fetchers/fetchMappingEvents";
+import { MappingEvent } from "../../lib/model/ac/MappingEvent";
+import colors from "../../lib/util/colors";
 import StyledToolbar from "../NodeToolbar/StyledToolbar";
 import { mappingEvent as MappingEventMarkerIcon } from "../icons/markers";
-import colors from "../../lib/colors";
 import CloseButton from "../shared/CloseButton";
-import Link from "next/link";
-import fetchMappingEvents from "../../lib/fetchers/fetchMappingEvents";
-import useSWR from "swr";
-import { useCurrentApp } from "../../lib/context/AppContext";
 import StyledMarkdown from "../shared/StyledMarkdown";
-import { MappingEvent } from "../../lib/model/ac/MappingEvent";
 
 export const StyledCloseButton = styled(CloseButton)``;
 

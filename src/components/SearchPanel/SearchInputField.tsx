@@ -1,10 +1,10 @@
-import * as React from "react";
-import { useCallback, useState, KeyboardEvent, forwardRef } from "react";
-import styled from "styled-components";
 import { interpolateLab } from "d3-interpolate";
-import colors from "../../lib/colors";
-import { t } from "ttag";
 import _ from "lodash";
+import * as React from "react";
+import { KeyboardEvent, forwardRef, useCallback, useState } from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import colors from "../../lib/util/colors";
 
 // (ms)
 const DEBOUNCE_THRESHOLD = 500;

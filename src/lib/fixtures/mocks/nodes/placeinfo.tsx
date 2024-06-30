@@ -1,4 +1,4 @@
-import { TypeTaggedPlaceInfo } from "../../../model/shared/AnyFeature";
+import { TypeTaggedPlaceInfo } from "../../../model/geo/AnyFeature";
 
 export const PlaceInfoNode: TypeTaggedPlaceInfo | any = {
   "@type": "a11yjson:PlaceInfo",

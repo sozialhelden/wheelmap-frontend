@@ -10,16 +10,16 @@ import { default as NextApp } from 'next/app';
 import Head from 'next/head';
 import * as queryString from 'query-string';
 import * as React from 'react';
-import EnvContext from '../components/shared/EnvContext';
-import composeContexts, { ContextAndValue } from '../lib/composeContexts';
 import { AppContext } from '../lib/context/AppContext';
 import CountryContext from '../lib/context/CountryContext';
+import EnvContext from '../lib/context/EnvContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
 import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
+import composeContexts, { ContextAndValue } from '../lib/context/composeContexts';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
-import { App } from '../lib/model/ac/App';
+import { IApp } from '../lib/model/ac/App';
 
 
 export type NextPageWithLayout = NextPage & {
@@ -32,7 +32,7 @@ type AppPropsWithLayout = AppProps & {
 
 interface ExtraProps {
   userAgentString?: string;
-  app: App;
+  app: IApp;
   languageTags: ILanguageSubtag[];
   ipCountryCode?: string;
   environmentVariables: Record<string, string>;
@@ -73,6 +73,13 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   );
 }
 
+const environmentVariables = pick(
+  process.env,
+  Object
+    .keys(process.env)
+    .filter((key) => key.startsWith("NEXT_PUBLIC_")),
+);
+
 const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const appProps = await NextApp.getInitialProps(appContext);
   const { ctx } = appContext;
@@ -106,12 +113,6 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`);
   }
-  const environmentVariables = pick(
-    process.env,
-    Object
-      .keys(process.env)
-      .filter((key) => key.startsWith("NEXT_PUBLIC_")),
-  );
 
   const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode, environmentVariables };
   return { ...appProps, pageProps }

@@ -4,15 +4,15 @@ import { t } from "ttag";
 import {
   hasAccessibleToilet, YesNoUnknown
 } from "../../../../../lib/model/ac/Feature";
-import {
-  accessibilityDescription, toiletDescription
-} from "../../../../../lib/model/accessibilityStrings";
+import { isWheelchairAccessible } from "../../../../../lib/model/accessibility/isWheelchairAccessible";
 import {
   AnyFeature,
   isOSMFeature,
   isPlaceInfo
-} from "../../../../../lib/model/shared/AnyFeature";
-import { isWheelchairAccessible } from "../../../../../lib/model/shared/isWheelchairAccessible";
+} from "../../../../../lib/model/geo/AnyFeature";
+import {
+  accessibilityDescription, toiletDescription
+} from "../../../../../lib/model/shared/accessibilityStrings";
 import ToiletStatuAccessibleIcon from "../../../../icons/accessibility/ToiletStatusAccessible";
 import ToiletStatusNotAccessibleIcon from "../../../../icons/accessibility/ToiletStatusNotAccessible";
 

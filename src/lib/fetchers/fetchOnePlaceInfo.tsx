@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { useEnvContext } from "../../components/shared/EnvContext";
 import { useCurrentApp } from "../context/AppContext";
-import { TypeTaggedPlaceInfo } from "../model/shared/AnyFeature";
+import { useEnvContext } from "../context/EnvContext";
+import { TypeTaggedPlaceInfo } from "../model/geo/AnyFeature";
 
 export async function fetchOnePlaceInfo(
   appToken: string,

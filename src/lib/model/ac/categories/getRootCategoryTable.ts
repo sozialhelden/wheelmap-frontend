@@ -1,6 +1,6 @@
-import { t } from "ttag";
-import { isOrHasAccessibleToilet } from "../../shared/isOrHasAccessibleToilet";
 import { PlaceProperties } from "@sozialhelden/a11yjson";
+import { t } from "ttag";
+import { isOrHasAccessibleToilet } from "../../accessibility/isOrHasAccessibleToilet";
 import { RootCategoryEntry } from "./RootCategoryEntry";
 
 // This must be a function - Results from t`` are dependent on the current context.

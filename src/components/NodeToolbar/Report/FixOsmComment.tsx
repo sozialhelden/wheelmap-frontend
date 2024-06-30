@@ -1,10 +1,10 @@
+import { PlaceInfo } from "@sozialhelden/a11yjson";
 import * as React from "react";
-import strings from "./strings";
 import {
   generateOsmEditUrl,
   generateOsmNoteUrl,
-} from "../../../lib/model/shared/generateOsmUrls";
-import { PlaceInfo } from "@sozialhelden/a11yjson";
+} from "../../../lib/model/osm/generateOsmUrls";
+import strings from "./strings";
 
 type Props = {
   feature: PlaceInfo;

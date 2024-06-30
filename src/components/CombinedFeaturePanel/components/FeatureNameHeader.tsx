@@ -3,7 +3,6 @@ import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import colors from "../../../lib/colors";
 import { useCurrentAppToken } from "../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
 import { useAccessibilityAttributesIdMap } from "../../../lib/fetchers/fetchAccessibilityAttributes";
@@ -15,10 +14,11 @@ import {
   getLocalizableCategoryName,
   unknownCategory,
 } from "../../../lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
+import { AnyFeature } from "../../../lib/model/geo/AnyFeature";
+import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
 import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
-import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
-import { isWheelchairAccessible } from "../../../lib/model/shared/isWheelchairAccessible";
-import { placeNameFor } from "../../../lib/model/shared/placeNameFor";
+import colors from "../../../lib/util/colors";
 import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 import ChevronRight from "../../shared/ChevronRight";
 import Icon from "../../shared/Icon";

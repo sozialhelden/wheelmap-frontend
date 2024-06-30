@@ -1,8 +1,8 @@
 import { Button } from "@blueprintjs/core";
-import { omit } from "lodash";
-import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
 import { Popover2 } from "@blueprintjs/popover2";
+import { omit } from "lodash";
 import styled from "styled-components";
+import { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 
 const Pre = styled.pre`
   margin: 0;

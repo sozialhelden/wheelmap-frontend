@@ -1,15 +1,15 @@
-import { t } from "ttag";
 import * as React from "react";
 import styled, { css } from "styled-components";
+import { t } from "ttag";
 
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import Button from "../shared/Button";
-import colors from "../../lib/colors";
-import CombinedIcon from "./CombinedIcon";
-import CloseIcon from "../icons/actions/Close";
+import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { omit } from "lodash";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
+import colors from "../../lib/util/colors";
+import CloseIcon from "../icons/actions/Close";
+import Button from "../shared/Button";
+import CombinedIcon from "./CombinedIcon";
 
 type Props = {
   className?: string;

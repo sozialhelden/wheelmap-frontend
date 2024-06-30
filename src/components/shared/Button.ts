@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import colors from '../../lib/colors';
+import colors from '../../lib/util/colors';
 
 export const UnstyledButton = styled.button`
   appearance: none;

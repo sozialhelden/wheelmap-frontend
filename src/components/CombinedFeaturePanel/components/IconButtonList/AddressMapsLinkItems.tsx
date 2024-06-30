@@ -1,12 +1,12 @@
 import Link from "next/link";
-import React, { useDebugValue } from "react";
+import React from "react";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import useCategory from "../../../../lib/fetchers/useCategory";
-import { generateMapsUrl } from "../../../../lib/model/generateMapsUrls";
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
-import { generateShowOnOsmUrl } from "../../../../lib/model/shared/generateOsmUrls";
-import { placeNameFor } from "../../../../lib/model/shared/placeNameFor";
+import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
+import { generateMapsUrl } from "../../../../lib/model/geo/generateMapsUrls";
+import { placeNameFor } from "../../../../lib/model/geo/placeNameFor";
+import { generateShowOnOsmUrl } from "../../../../lib/model/osm/generateOsmUrls";
 import openButtonCaption from "../../../../lib/openButtonCaption";
 import PlaceIcon from "../../../icons/actions/Place";
 import RouteIcon from "../../../icons/actions/Route";

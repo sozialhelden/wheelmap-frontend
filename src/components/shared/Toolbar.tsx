@@ -1,13 +1,14 @@
-import { t } from "ttag";
 import { hsl } from "d3-color";
-import uniq from "lodash/uniq";
-import minBy from "lodash/minBy";
 import includes from "lodash/includes";
-import styled from "styled-components";
+import minBy from "lodash/minBy";
+import uniq from "lodash/uniq";
 import * as React from "react";
-import colors, { alpha } from "../../lib/colors";
-import { isOnSmallViewport } from "../../lib/ViewportSize";
 import ResizeObserverPolyfill from "resize-observer-polyfill";
+import styled from "styled-components";
+import { t } from "ttag";
+import { isOnSmallViewport } from "../../lib/util/ViewportSize";
+import colors, { alpha } from "../../lib/util/colors";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 type Props = {
   className?: string;
@@ -22,6 +23,7 @@ type Props = {
   isSwipeable?: boolean;
   isModal?: boolean;
   enableTransitions?: boolean;
+  innerRef: React.Ref<HTMLElement>;
 };
 
 function mergeRefs(refs) {
@@ -55,14 +57,6 @@ function getMaxHeight(
     return `calc(100% - ${minimalTopPosition}px - env(safe-area-inset-top))`;
   }
 }
-
-// React currently throws a warning when using useLayoutEffect on the server.
-// To get around it, we can conditionally useEffect on the server (no-op) and
-// useLayoutEffect in the browser. We need useLayoutEffect because we want
-// `connect` to perform sync updates to a ref to save the latest props after
-// a render is actually committed to the DOM.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
 // Use this to debug state value changes in the console - very handy for complex state handling with
 // React Hooks.
@@ -311,7 +305,21 @@ const StyledSection = styled.section`
  */
 
 const BaseToolbar = (
-  props: Props & {
+  {
+    hidden = false,
+    minimalHeight = 90,
+    isSwipeable = true,
+    isModal = false,
+    role = "",
+    minimalTopPosition = 60,
+    enableTransitions = true,
+    children,
+    inert,
+    className,
+    ariaLabel,
+    ariaDescribedBy,
+    innerRef,
+  }: Props & {
     innerRef:
       | { current: null | HTMLElement }
       | ((elem: null | HTMLElement) => any);
@@ -341,15 +349,15 @@ const BaseToolbar = (
       return [0];
     }
     // The toolbar needs a minimal height be draggable from the bottom when minimized
-    const minimalHeight = Math.max(props.minimalHeight || 0, 90);
-    const bottomPosition = Math.max(0, toolbarHeight - minimalHeight);
+    const absoluteMinimalHeight = Math.max(minimalHeight, 90);
+    const bottomPosition = Math.max(0, toolbarHeight - absoluteMinimalHeight);
     let middleStop = toolbarHeight - 0.5 * viewportHeight;
     if (middleStop < 80) {
       middleStop = 0;
     }
     const defaultStops = uniq([0, middleStop, bottomPosition]);
     return defaultStops;
-  }, [isLandscapePhone, props.minimalHeight, toolbarHeight, viewportHeight]);
+  }, [isLandscapePhone, minimalHeight, toolbarHeight, viewportHeight]);
 
   const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset]);
 
@@ -367,7 +375,7 @@ const BaseToolbar = (
   );
 
   const transition = React.useMemo(() => {
-    if (!props.enableTransitions) {
+    if (!enableTransitions) {
       return "";
     }
     const defaultTransitions = "opacity 0.3s ease-out";
@@ -375,7 +383,7 @@ const BaseToolbar = (
       return `${defaultTransitions}, transform 0.3s ease-out`;
     }
     return defaultTransitions;
-  }, [props.enableTransitions, isSwiping]);
+  }, [enableTransitions, isSwiping]);
 
   const transformY = React.useMemo(() => {
     const isToolbarFittingOnScreenCompletely =
@@ -467,10 +475,10 @@ const BaseToolbar = (
   }, [isSwiping]);
 
   useIsomorphicLayoutEffect(() => {
-    if (props.isModal) {
+    if (isModal) {
       ensureFullVisibility();
     }
-  }, [props.isModal, ensureFullVisibility]);
+  }, [isModal, ensureFullVisibility]);
 
   const onScroll = React.useCallback(() => {
     if (scrollElementRef.current) {
@@ -480,7 +488,7 @@ const BaseToolbar = (
 
   const handleTouchStart = React.useCallback(
     (event: React.TouchEvent<HTMLElement>) => {
-      if (props.isModal) {
+      if (isModal) {
         return;
       }
       if (topOffset > 0) {
@@ -492,12 +500,12 @@ const BaseToolbar = (
       }
       setYSamples([]);
     },
-    [props.isModal, topOffset]
+    [isModal, topOffset]
   );
 
   const handleTouchEnd = React.useCallback(
     (e: React.TouchEvent<HTMLElement>) => {
-      if (!props.isSwipeable || props.isModal) {
+      if (!isSwipeable || isModal) {
         return;
       }
       setDeltaY(0);
@@ -513,12 +521,12 @@ const BaseToolbar = (
         setTopOffset(newStop);
       }
     },
-    [props.isModal, props.isSwipeable, scrollTop, stops, transformY, ySamples]
+    [isModal, isSwipeable, scrollTop, stops, transformY, ySamples]
   );
 
   const handleTouchMove = React.useCallback(
     (event: React.TouchEvent<HTMLElement>) => {
-      if (props.isModal) {
+      if (isModal) {
         return;
       }
       event.stopPropagation();
@@ -530,7 +538,7 @@ const BaseToolbar = (
         event.preventDefault();
       }
     },
-    [props.isModal, touchStartY, ySamples, topOffset]
+    [isModal, touchStartY, ySamples, topOffset]
   );
 
   const toolbarIsScrollable = React.useMemo(() => {
@@ -557,38 +565,37 @@ const BaseToolbar = (
   const classNames = [
     "toolbar",
     isIphoneX && "toolbar-iphone-x",
-    props.hidden && "toolbar-hidden",
-    props.isModal && "toolbar-is-modal",
+    hidden && "toolbar-hidden",
+    isModal && "toolbar-is-modal",
     toolbarIsScrollable && "toolbar-is-scrollable",
-    props.className,
+    className,
   ];
-  const className = classNames.filter(Boolean).join(" ");
+  const filteredClassNames = classNames.filter(Boolean).join(" ");
 
-  const { minimalTopPosition = 60 } = props;
   return (
     <StyledSection
-      className={className}
+      className={filteredClassNames}
       style={{
         touchAction,
         transition,
         overflowY: topOffset > 0 ? "hidden" : "auto",
         transform: `translate3d(0, ${transformY}px, 0)`,
         top:
-          props.isModal || viewportHeight <= 512 || viewportWidth <= 512
+          isModal || viewportHeight <= 512 || viewportWidth <= 512
             ? undefined
             : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
         maxHeight: getMaxHeight(
           minimalTopPosition,
           viewportWidth,
           viewportHeight,
-          props.isModal || false
+          isModal || false
         ),
       }}
-      ref={mergeRefs([scrollElementRef, props.innerRef])}
-      aria-hidden={props.inert || props.hidden}
-      role={props.role}
-      aria-label={props.ariaLabel}
-      aria-describedby={props.ariaDescribedBy}
+      ref={mergeRefs([scrollElementRef, innerRef])}
+      aria-hidden={inert || hidden}
+      role={role}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
       data-minimal-top-position={minimalTopPosition}
       data-top-offset={topOffset}
       data-dimensions-viewport-height={viewportHeight}
@@ -602,7 +609,7 @@ const BaseToolbar = (
       <div
         style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}
       >
-        {props.isSwipeable && !props.isModal ? (
+        {isSwipeable && !isModal ? (
           <button
             style={{ transform: `translate3d(-50%, 0px, 0)` }}
             className="grab-handle"
@@ -623,19 +630,10 @@ const BaseToolbar = (
             }}
           />
         ) : null}
-        {props.children}
+        {children}
       </div>
     </StyledSection>
   );
-};
-
-BaseToolbar.defaultProps = {
-  hidden: false,
-  minimalHeight: 90,
-  isSwipeable: true,
-  isModal: false,
-  role: "",
-  enableTransitions: true,
 };
 
 /**

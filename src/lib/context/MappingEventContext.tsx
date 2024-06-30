@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { trackAccessibilityCloudEvent } from "../trackAccessibilityCloudEvent";
 import * as queryString from "query-string";
-import { trackEvent } from "../Analytics";
-import { MappingEvent } from "../model/ac/MappingEvent";
-import { App } from "../model/ac/App";
-import { storage } from '../savedState';
 import useSWR from 'swr';
+import { trackEvent } from '../analytics/Analytics';
+import { trackAccessibilityCloudEvent } from "../analytics/trackAccessibilityCloudEvent";
+import { IApp } from "../model/ac/App";
+import { MappingEvent } from "../model/ac/MappingEvent";
+import { storage } from '../util/savedState';
 
 export function trackMappingEventMembershipChanged(
 {
@@ -17,7 +17,7 @@ export function trackMappingEventMembershipChanged(
   invitationToken,
   userUUID,
 }: {
-  app: App;
+  app: IApp;
   reason: "url" | "button";
   joinedMappingEvent?: MappingEvent;
   emailAddress?: string;

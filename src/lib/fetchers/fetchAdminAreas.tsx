@@ -1,8 +1,8 @@
 import React from "react";
 import useSWR from "swr";
-import { useEnvContext } from "../../components/shared/EnvContext";
+import { useEnvContext } from "../context/EnvContext";
+import { OSMFeatureCollection } from "../model/geo/AnyFeature";
 import OSMFeature from "../model/osm/OSMFeature";
-import { OSMFeatureCollection } from "../model/shared/AnyFeature";
 
 export async function fetchOSMFeatures(
   table: string,

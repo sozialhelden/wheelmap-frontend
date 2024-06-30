@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { useEnvContext } from "../../components/shared/EnvContext";
 import { useCurrentAppToken } from "../context/AppContext";
+import { useEnvContext } from "../context/EnvContext";
 import { ACCategory } from "../model/ac/categories/ACCategory";
 import { generateSynonymCache } from "../model/ac/categories/Categories";
 

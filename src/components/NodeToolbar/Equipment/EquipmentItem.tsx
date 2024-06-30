@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import * as React from 'react';
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
-import * as equipmentIcons from '../../icons/equipment';
-import colors from '../../../lib/colors';
+import { EquipmentInfo } from '@sozialhelden/a11yjson';
 import get from 'lodash/get';
-import { ngettext, msgid } from 'ttag';
-import getHumanEnumeration from '../../../lib/getHumanEnumeration';
+import * as React from 'react';
+import styled from 'styled-components';
+import { msgid, ngettext } from 'ttag';
+import colors from '../../../lib/util/colors';
+import * as equipmentIcons from '../../icons/equipment';
+import getHumanEnumeration from '../../shared/getHumanEnumeration';
 import getEquipmentInfoDescription from './getEquipmentInfoDescription';
 
 type Props = {

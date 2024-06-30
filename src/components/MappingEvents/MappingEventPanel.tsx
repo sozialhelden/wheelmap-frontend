@@ -1,23 +1,21 @@
 import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import styled from "styled-components";
-import useSWR from "swr";
 import { t } from "ttag";
-import colors from "../../lib/colors";
-import { useCurrentApp, useCurrentAppToken } from "../../lib/context/AppContext";
+import { useCurrentApp } from "../../lib/context/AppContext";
 import {
   getUUID,
   setJoinedMappingEventId,
   trackMappingEventMembershipChanged, useCurrentMappingEventId,
 } from "../../lib/context/MappingEventContext";
-import fetchMappingEvent from "../../lib/fetchers/fetchMappingEvent";
 import { buildFullImageUrl } from "../../lib/model/ac/Image";
 import { canMappingEventBeJoined } from "../../lib/model/ac/MappingEvent";
+import colors from "../../lib/util/colors";
+import StyledToolbar from "../NodeToolbar/StyledToolbar";
 import GlobeIcon from "../icons/ui-elements/GlobeIcon";
 import MapPinIcon from "../icons/ui-elements/MapPinIcon";
-import StyledToolbar from "../NodeToolbar/StyledToolbar";
 import Button, {
   ChromelessButton,
   DangerButton,

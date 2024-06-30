@@ -1,10 +1,9 @@
+import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import { translatedStringFromObject } from "../../i18n/translatedStringFromObject";
 import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults';
-import { EquipmentInfo, PlaceInfo, PlaceProperties, Restroom } from '@sozialhelden/a11yjson';
-import { isOSMFeature } from '../shared/AnyFeature';
+import { isOSMFeature } from '../geo/AnyFeature';
 import OSMFeature from '../osm/OSMFeature';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';

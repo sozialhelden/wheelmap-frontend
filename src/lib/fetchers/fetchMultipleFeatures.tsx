@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { useEnvContext } from "../../components/shared/EnvContext";
 import { useCurrentApp } from "../context/AppContext";
-import { AnyFeature } from "../model/shared/AnyFeature";
+import { useEnvContext } from "../context/EnvContext";
+import { AnyFeature } from "../model/geo/AnyFeature";
 import { fetchOneOSMFeature } from "./fetchOneOSMFeature";
 import { fetchOnePlaceInfo } from "./fetchOnePlaceInfo";
 

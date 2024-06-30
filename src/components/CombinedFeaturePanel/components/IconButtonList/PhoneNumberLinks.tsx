@@ -1,9 +1,8 @@
-import { t } from "ttag";
-import * as React from "react";
-import PhoneIcon from "../../../icons/actions/Phone";
-import Link from "next/link";
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
 import { uniq } from "lodash";
+import Link from "next/link";
+import { t } from "ttag";
+import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
+import PhoneIcon from "../../../icons/actions/Phone";
 
 type Props = {
   feature: AnyFeature | null;

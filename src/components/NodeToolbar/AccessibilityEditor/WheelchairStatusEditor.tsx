@@ -1,22 +1,19 @@
 import { t } from "ttag";
-import * as React from "react";
 
+import { AppContextConsumer } from "../../../AppContext";
 import {
   AccessibilityCloudFeature,
   WheelmapFeature,
   YesNoLimitedUnknown,
-} from "../../../lib/Feature";
-import {
   accessibilityDescription,
-  shortAccessibilityName,
   isWheelchairAccessible,
+  shortAccessibilityName,
 } from "../../../lib/Feature";
-import { saveWheelchairStatus } from "./saveStatus";
-import RadioStatusEditor from "./RadioStatusEditor";
-import Icon from "../../Icon";
 import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
-import { isOnSmallViewport } from "../../../lib/ViewportSize";
-import { AppContextConsumer } from "../../../AppContext";
+import { isOnSmallViewport } from "../../../lib/util/ViewportSize";
+import Icon from "../../Icon";
+import RadioStatusEditor from "./RadioStatusEditor";
+import { saveWheelchairStatus } from "./saveStatus";
 
 type SaveOptions = {
   featureId: string;

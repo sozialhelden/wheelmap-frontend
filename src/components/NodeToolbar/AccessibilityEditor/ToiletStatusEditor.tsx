@@ -5,7 +5,7 @@ import {
   hasAccessibleToilet, WheelmapFeature,
   YesNoUnknown
 } from "../../../lib/Feature";
-import shouldPreferImperialUnits from "../../../lib/shouldPreferImperialUnits";
+import shouldPreferImperialUnits from "../../../lib/model/geo/shouldPreferImperialUnits";
 
 import { AppContextConsumer } from "../../../AppContext";
 import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";

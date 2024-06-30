@@ -1,16 +1,15 @@
-import { t } from "ttag";
 import get from "lodash/get";
 import * as React from "react";
 import { useEffect } from "react";
-import { findDOMNode } from "react-dom";
 import styled from "styled-components";
+import { t } from "ttag";
 
+import colors from "../../lib/util/colors";
 import ChevronRight from "../icons/actions/ChevronRight";
-import colors from "../../lib/colors";
 
-import ModalDialog from "../shared/ModalDialog";
 import Logo from "../App/Logo";
 import { PrimaryButton } from "../shared/Button";
+import ModalDialog from "../shared/ModalDialog";
 
 type Props = {
   className?: string;

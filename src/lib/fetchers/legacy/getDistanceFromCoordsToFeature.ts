@@ -1,6 +1,6 @@
 import { Feature } from "geojson";
-import { normalizedCoordinatesForFeature } from "../../model/ac/normalizedCoordinatesForFeature";
-import { geoDistance } from "../../model/geoDistance";
+import { normalizedCoordinatesForFeature } from "../../model/shared/normalizedCoordinatesForFeature";
+import { geoDistance } from "../../util/geoDistance";
 
 export function getDistanceFromCoordsToFeature(
   coords: [number, number],

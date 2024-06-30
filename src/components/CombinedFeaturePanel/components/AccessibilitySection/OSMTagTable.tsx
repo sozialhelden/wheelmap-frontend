@@ -5,7 +5,7 @@ import { t } from "ttag";
 import { useCurrentAppToken } from "../../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
-import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 import { OSMTagTableRow } from "./OSMTagTableRow";
 import { tagsWithSemicolonSupport } from "./config";
 import { getOSMTagProps } from "./getOSMTagProps";

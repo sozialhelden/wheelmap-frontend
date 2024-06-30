@@ -1,10 +1,8 @@
-import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { dataSourceCache } from "../../../../lib/cache/DataSourceCache";
-import { TypeTaggedPlaceInfo } from "../../../../lib/model/shared/AnyFeature";
-import WorldIcon from "../../../icons/actions/World";
+import { TypeTaggedPlaceInfo } from "../../../../lib/model/geo/AnyFeature";
 
 export type PropertyName = "infoPageUrl" | "editPageUrl";
 

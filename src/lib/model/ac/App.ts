@@ -1,7 +1,7 @@
 import { LocalizedString } from "@sozialhelden/a11yjson";
 import { ClientSideConfiguration } from "./ClientSideConfiguration";
 
-export type AppLink = {
+export interface IAppLink {
   _id: string;
   appId: string;
   label: LocalizedString;
@@ -11,7 +11,7 @@ export type AppLink = {
   tags?: string[];
 };
 
-export type App = {
+export interface IApp {
   _id: string;
   organizationId: string;
   name: string;
@@ -21,7 +21,7 @@ export type App = {
   description?: string;
   related?: {
     appLinks?: {
-      [key: string]: AppLink;
+      [key: string]: IAppLink;
     };
   };
 };

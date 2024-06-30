@@ -1,5 +1,5 @@
 import { LocalizedString } from "../../../i18n/LocalizedString";
-import { AnyFeature } from "../../shared/AnyFeature";
+import { AnyFeature } from "../../geo/AnyFeature";
 import { ACCategory } from "./ACCategory";
 import { getRootCategoryTable } from "./getRootCategoryTable";
 

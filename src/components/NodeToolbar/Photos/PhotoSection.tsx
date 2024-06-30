@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { t } from 'ttag';
-import styled, { createGlobalStyle } from 'styled-components';
 import Lightbox, { Modal, ModalGateway } from 'react-images';
 import PhotoAlbum from 'react-photo-album';
+import styled, { createGlobalStyle } from 'styled-components';
+import { t } from 'ttag';
 
-import { PhotoModel } from '../../../lib/PhotoModel';
+import { PhotoModel } from '../../../lib/model/ac/PhotoModel';
 
-import PhotoUploadButton from './PhotoUpload/PhotoUploadButton';
 import { maxBy } from 'lodash';
-import useSWR from 'swr';
-import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages';
-import { useCurrentAppToken } from '../../../lib/context/AppContext';
 import Link from 'next/link';
-import convertAcPhotosToLightboxPhotos from '../../../lib/cache/convertAcPhotosToLightboxPhotos';
+import useSWR from 'swr';
+import { useCurrentAppToken } from '../../../lib/context/AppContext';
+import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages';
+import convertAcPhotosToLightboxPhotos from '../../../lib/model/ac/convertAcPhotosToLightboxPhotos';
+import PhotoUploadButton from './PhotoUpload/PhotoUploadButton';
 
 type Props = {
   entityType: string,

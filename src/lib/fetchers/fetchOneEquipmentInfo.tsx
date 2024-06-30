@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { useEnvContext } from "../../components/shared/EnvContext";
 import { useCurrentApp } from "../context/AppContext";
-import { TypeTaggedEquipmentInfo } from "../model/shared/AnyFeature";
+import { useEnvContext } from "../context/EnvContext";
+import { TypeTaggedEquipmentInfo } from "../model/geo/AnyFeature";
 
 export async function fetchOneEquipmentInfo(
   appToken: string,

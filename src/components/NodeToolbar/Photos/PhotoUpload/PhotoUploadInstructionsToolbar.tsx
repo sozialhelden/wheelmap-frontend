@@ -1,8 +1,8 @@
-import { t } from "ttag";
+import FocusTrap from "focus-trap-react";
 import * as React from "react";
 import styled from "styled-components";
-import FocusTrap from "focus-trap-react";
-import colors from "../../../../lib/colors";
+import { t } from "ttag";
+import colors from "../../../../lib/util/colors";
 import Spinner from "../../../ActivityIndicator/Spinner";
 import { CheckmarkIcon } from "../../../icons/actions";
 import StyledCloseLink from "../../../shared/CloseLink";

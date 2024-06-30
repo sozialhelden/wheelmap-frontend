@@ -1,7 +1,7 @@
 import { isEqual } from "lodash";
 import { t } from "ttag";
+import { TypeTaggedOSMFeature } from "../../lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRelevantOSMKey";
-import { TypeTaggedOSMFeature } from "../../lib/model/shared/AnyFeature";
 import FeatureAccessibility from "./components/FeatureAccessibility";
 import FeatureNameHeader from "./components/FeatureNameHeader";
 

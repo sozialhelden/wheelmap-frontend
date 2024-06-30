@@ -5,7 +5,7 @@ import opening_hours from 'opening_hours';
 import * as React from 'react';
 import { t } from 'ttag';
 import { useAdminAreas } from "../../../../../../lib/fetchers/fetchAdminAreas";
-import { isOSMFeature } from '../../../../../../lib/model/shared/AnyFeature';
+import { isOSMFeature } from "../../../../../../lib/model/geo/AnyFeature";
 import StyledMarkdown from '../../../../../shared/StyledMarkdown';
 import FeatureContext from '../../../FeatureContext';
 
@@ -66,9 +66,9 @@ export default function OpeningHoursValue(props: { value: string, feature: Featu
         } else if (!isUnknown && isOpen) {
           outputs.push(t`Will close ${nextChangeDateFormatted}.`);
         } else if (isUnknown && !isOpen) {
-          outputs.push(t`Might open on ${nextChangeDateFormatted}.`);
+          outputs.push(t`Might open ${nextChangeDateFormatted}.`);
         } else if (isUnknown && isOpen) {
-          outputs.push(t`Might close on ${nextChangeDateFormatted}.`);
+          outputs.push(t`Might close ${nextChangeDateFormatted}.`);
         }
       }
       return { outputs, oh, niceString };

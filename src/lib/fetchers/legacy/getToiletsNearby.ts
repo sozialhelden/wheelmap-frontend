@@ -1,8 +1,8 @@
 import { Feature } from "geojson";
 import flatten from "lodash/flatten";
 import sortBy from "lodash/sortBy";
-import { normalizedCoordinatesForFeature } from "../../model/ac/normalizedCoordinatesForFeature";
-import { isOrHasAccessibleToilet } from "../../model/shared/isOrHasAccessibleToilet";
+import { isOrHasAccessibleToilet } from "../../model/accessibility/isOrHasAccessibleToilet";
+import { normalizedCoordinatesForFeature } from "../../model/geo/normalizedCoordinatesForFeature";
 import { calculateBoundingBox } from "./calculateBoundingBox";
 import { getDistanceFromCoordsToFeature } from "./getDistanceFromCoordsToFeature";
 

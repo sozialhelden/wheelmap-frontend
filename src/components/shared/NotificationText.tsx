@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import colors, { alpha, coloredWhite, darker } from '../../lib/colors';
+import colors, { alpha, coloredWhite, darker } from '../../lib/util/colors';
 
 interface IProps {
   className?: string;

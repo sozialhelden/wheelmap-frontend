@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-import colors from "../../lib/colors";
 import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import colors from "../../lib/util/colors";
 import * as categoryIcons from "../icons/categories";
 import * as mainCategoryIcons from "../icons/mainCategories";
 import * as markers from "../icons/markers";

@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from "react";
 import ShareBarToggle from "./ShareBarToggle";
 // import ShareBarContent from "./ShareBarContent";
 import styled from "styled-components";
-import colors from "../../lib/colors";
+import colors from "../../lib/util/colors";
 import { Caption } from "../shared/IconButton";
 
 type ShareBarProps = {
