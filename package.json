@@ -60,6 +60,7 @@
     "opening_hours": "^3.8.0",
     "path-to-regexp": "^2.4.0",
     "postcss": "^8.4.13",
+    "puppeteer": "^22.12.1",
     "query-string": "^6.13.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -70,7 +71,7 @@
     "react-toastify": "^9.1.1",
     "react-use-measure": "^2.1.1",
     "resize-observer-polyfill": "^1.5.1",
-    "styled-components": "^6.1.11",
+    "styled-components": "^5.3.11",
     "svgo": "^3.3.2",
     "swr": "^1.3.0",
     "ttag": "^1.7.22",
@@ -175,7 +176,8 @@
     "compile-svgs": "npm run compile-main-categories && npm run compile-action-icons && npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "eslint \"src/**/*.js\" --write",
-    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
+    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
+    "preinstall": "npx npm-force-resolutions"
   },
   "browserslist": [
     "Android > 4.4",
@@ -198,6 +200,7 @@
     "node": "22"
   },
   "resolutions": {
-    "https-proxy-agent": "^3.0.0"
+    "https-proxy-agent": "^3.0.0",
+    "styled-components": "^6.1.11"
   }
 }
