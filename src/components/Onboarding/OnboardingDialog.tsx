@@ -8,7 +8,7 @@ import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromO
 import {
   accessibilityDescription,
   accessibilityName,
-} from "../../lib/model/shared/accessibilityStrings";
+} from "../../lib/model/accessibility/accessibilityStrings";
 import colors from "../../lib/util/colors";
 import ChevronRight from "../icons/actions/ChevronRight";
 import { CallToActionButton } from "../shared/Button";
