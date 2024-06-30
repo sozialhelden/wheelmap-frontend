@@ -1,4 +1,4 @@
-import { readAndCompressImage } from "../ImageResizer";
+import { AnyFeature, isOSMFeature, isPlaceInfo } from "../model/geo/AnyFeature";
 
 const imageResizeConfig = {
   quality: 0.7,
@@ -8,30 +8,30 @@ const imageResizeConfig = {
   debug: true,
 };
 
-export default async function postImageUpload(
-  featureId: string,
-  baseUrl: string,
-  context: "place" | "equipment",
-  images: FileList,
-  appToken: string
-): Promise<any> {
+export default async function uploadPhotoForFeature(feature: AnyFeature, images: FileList, appToken: string, baseUrl: string): Promise<void> {
   const image = images[0];
-  const url = `${baseUrl}/image-upload?${context}Id=${featureId}&appToken=${appToken}`;
-  const resizedImage = await readAndCompressImage(image, imageResizeConfig);
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "image/jpeg",
-    },
-    body: resizedImage,
-  });
 
-  const json = await response.json();
-
-  if (!response.ok) {
-    throw new Error(json.error.reason);
+  let url;
+  if (isPlaceInfo(feature)) {
+    const id = feature._id;
+    url = `${baseUrl}/image-upload?placeId=${id}&appToken=${appToken}`;
+  } else if (isOSMFeature(feature)) {
+    const uri = `osm:${feature._id}`;
+    url = `${baseUrl}/image-upload/osm-geometry/photo?uri=${uri}&appToken=${appToken}`;
   }
 
-  return json;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'image/jpeg',
+    },
+    body: image,
+  });
+
+  if (!response.ok) {
+    const json = await response.json();
+    throw new Error(json?.error?.reason);
+  }
 }
+
