@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 
-import styled from "styled-components";
-import { useFocusTrap } from "@primer/react/lib-esm/hooks/useFocusTrap";
 import * as React from "react";
+import styled from "styled-components";
 
 import { PrimaryButton } from "./Button";
 
