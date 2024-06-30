@@ -31,7 +31,11 @@ const StyledMarkdown = styled(Markdown)`
   }
 
   p {
-    margin-bottom: 16px;
+    margin-bottom: 0;
+  }
+
+  p:not(:last-child) {
+    margin-bottom: 1em;
   }
 
   ul,

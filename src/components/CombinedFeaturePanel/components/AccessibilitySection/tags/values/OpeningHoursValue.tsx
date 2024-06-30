@@ -1,4 +1,3 @@
-import { Feature } from "geojson";
 import intersperse from "intersperse";
 import { DateTime } from "luxon";
 import opening_hours from 'opening_hours';
@@ -29,7 +28,7 @@ function getReadableState(oh: opening_hours) {
 }
 
 
-export default function OpeningHoursValue(props: { value: string, feature: Feature }) {
+export default function OpeningHoursValue(props: { value: string }) {
   // https://openingh.ypid.de/evaluation_tool/?lng=en
   // https://github.com/opening-hours/opening_hours.js
   const { value } = props;

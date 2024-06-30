@@ -1,19 +1,19 @@
 import { uniqBy } from "lodash";
+import React from "react";
 import OSMFeature from "../../../../lib/model/osm/OSMFeature";
-import { getWikipediaLemma } from "../getWikipediaLemma";
 import WikipediaLink from "../WikipediaLink";
+import { getWikipediaLemma } from "../getWikipediaLemma";
 import WikidataEntityImage from "./WikidataEntityImage";
 import WikimediaCommonsImage from "./WikimediaCommonsImage";
 
-export default function FeatureImage({ feature }: { feature: OSMFeature }) {
-  const imageStyle = {
-    margin: "0 0 0 1rem",
-    maxHeight: "3rem",
-    maxWidth: "3rem",
-    borderRadius: '0.125rem',
-  };
+const imageStyle = (link) => ({
+  maxHeight: link.prefix === 'subject' ? "6rem" : '3rem',
+  maxWidth: link.prefix === 'subject' ? "6rem" : '3rem',
+  borderRadius: '0.125rem',
+});
 
-  const links = uniqBy(
+export default function FeatureImage({ feature }: { feature: OSMFeature }) {
+  const links = React.useMemo(() => uniqBy(
     [
       {
         prefix: "subject",
@@ -29,17 +29,17 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
       },
     ],
     (link) => getWikipediaLemma(feature, link.prefix)
-  );
+  ), [feature]);
 
   return (
     <>
       <WikipediaLink feature={feature}>
-        <WikidataEntityImage feature={feature} style={imageStyle} verb="P18" />
+        <WikidataEntityImage feature={feature} style={imageStyle({ prefix: 'subject' })} verb="P18" />
       </WikipediaLink>
 
       {links.map((link) => (
         <WikipediaLink feature={feature} prefix={link.prefix} key={link.prefix}>
-          <WikidataEntityImage feature={feature} style={imageStyle} {...link} />
+          <WikidataEntityImage feature={feature} style={imageStyle(link)} {...link} />
         </WikipediaLink>
       ))}
 

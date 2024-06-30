@@ -52,9 +52,11 @@ const StyledHeader = styled.header`
     This is necessary to make the sticky header get a shadow that extends from the whole panel's
     margin.
   */
-  margin: -.5rem -1rem .5rem -1rem;
+  margin: -.5rem -1rem 1rem -1rem;
   padding: .5rem 1rem;
+  line-height: 1;
   display: flex;
+  gap: 1rem;
   align-items: center;
   position: sticky;
   top: 0;

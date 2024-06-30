@@ -1,100 +1,14 @@
 import { useRouter } from "next/router";
-import React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
 import { useCurrentAppToken } from "../../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 import { OSMTagTableRow } from "./OSMTagTableRow";
+import { StyledList } from "./StyledList";
+import { StyledTable } from "./StyledTable";
 import { tagsWithSemicolonSupport } from "./config";
 import { getOSMTagProps } from "./getOSMTagProps";
-import DisplayedQuantity from "./tags/values/DisplayedQuantity";
-import OpeningHoursValue from "./tags/values/OpeningHoursValue";
-
-const StyledList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
-`;
-
-const StyledTable = styled.table`
-  th {
-    text-align: left;
-    vertical-align: top;
-    padding-right: 1rem !important;
-  }
-
-  th {
-    font-weight: 500;
-    min-width: 6rem;
-  }
-
-  th,
-  td,
-  tbody {
-    p:first-child {
-      margin-top: 0;
-    }
-    margin: 0;
-    padding: 0.25rem 0;
-  }
-
-  table {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-spacing: 0px;
-    border-collapse: separate;
-
-    th,
-    td {
-      padding: 0;
-      margin: 0;
-      border: none;
-    }
-  }
-`;
-
-type ValueRenderProps = {
-  value: string;
-  matches: RegExpMatchArray;
-};
-
-export const valueRenderFunctions: Record<
-  string,
-  (props: ValueRenderProps) => React.ReactNode
-> = {
-  opening_hours: (props) => <OpeningHoursValue value={props.value} />,
-  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)":
-    (props) => <OpeningHoursValue value={props.value} />,
-  "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "colour": (props) => <span lang="en" aria-label={props.value} style={{ backgroundColor: props.value, borderRadius: '0.5rem', boxShadow: 'inset 0 0 1px rgba(0,0,0,255)', width: "1rem", height: "1rem", display: "inline-block" }} />,
-  "power_supply:voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
-  "power_supply:current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "power_supply:maxcurrent": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "power_supply:frequency": (props) => <DisplayedQuantity value={props.value} defaultUnit="Hz" />,
-  "socket:([\w_]+)": (props) => <DisplayedQuantity value={props.value} defaultUnit="×" />,
-  "(?:socket:([\w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "(?:socket:([\w_]+):)?current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
-  "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
-  "kerb:height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "(?:([\w_]+):)?description(?:(\w\w))?": (props) => {
-    const text = props.value;
-    const targetGroup = props.matches[1];
-    const lang = props.matches[2];
-    return <p lang={lang}>{t`“${text}”`}</p>;
-  },
-};
+import { valueRenderFunctions } from "./tagging-schema/valueRenderFunctions";
 
 export type TagOrTagGroup = {
   key: string;
@@ -107,7 +21,7 @@ export default function OSMTagTable(props: {
   isHorizontal?: boolean;
 }) {
   const router = useRouter();
-  const { ids, id } = router.query;
+  const { ids } = router.query;
   const { feature } = props;
 
   const appToken = useCurrentAppToken();

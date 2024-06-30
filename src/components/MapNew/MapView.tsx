@@ -24,7 +24,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import { t } from "ttag";
 import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLocation";
-import HelpButton from "../CombinedFeaturePanel/components/HelpButton";
+import { FixedHelpButton } from "../CombinedFeaturePanel/components/HelpButton";
 import * as categoryIcons from "../icons/categories";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
@@ -303,7 +303,7 @@ export default function MapView(props: IProps) {
           <NavigationControl style={{ right: "1rem", top: "1rem" }} />
         </Map>
       </MapProvider>
-      <HelpButton />
+      <FixedHelpButton />
     </>
   );
 }

@@ -3,8 +3,9 @@ import {
   HotkeysContext
 } from '@blueprintjs/core';
 import React from "react";
+import styled from 'styled-components';
 
-export default function HelpButton() {
+export default function HelpButton({ className }: { className?: string }) {
   const [, dispatch] = React.useContext(HotkeysContext);
   const openHelp = React.useCallback(() => {
     dispatch({ type: 'OPEN_DIALOG' });
@@ -14,10 +15,16 @@ export default function HelpButton() {
       text="?"
       large
       onClick={openHelp}
-      style={{
-        position: 'fixed', left: '1rem', bottom: '1rem', borderRadius: '50%', fontSize: '1rem', zIndex: 10,
-      }}
+      className={className}
     />
   );
 }
 
+export const FixedHelpButton = styled(HelpButton)`
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  borderRadius: 50%;
+  fontSize: 1rem;
+  zIndex: 10;
+`;

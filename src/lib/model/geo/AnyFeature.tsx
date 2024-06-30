@@ -15,13 +15,13 @@ export type TypeTaggedOSMFeature = TypeTaggedWithId<"osm:Feature">;
 
 const isTypeTagged =
   <S extends keyof TypeMapping>(type: S) =>
-    (obj: any): obj is TypeTagged<S> =>
-      obj["@type"] === type;
+    (obj: unknown): obj is TypeTagged<S> =>
+      obj?.["@type"] === type;
 
 const isTypeTaggedWithId =
   <S extends keyof TypeMapping>(type: S) =>
-    (obj: any): obj is TypeTaggedWithId<S> =>
-      obj["@type"] === type;
+    (obj: unknown): obj is TypeTaggedWithId<S> =>
+      obj?.["@type"] === type;
 
 export const isPlaceInfo = isTypeTaggedWithId("a11yjson:PlaceInfo");
 export const isEquipmentInfo = isTypeTaggedWithId("a11yjson:EquipmentInfo");

@@ -2,8 +2,8 @@ import React from "react";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
 import { OSMTagProps } from "./OSMTagProps";
-import { valueRenderFunctions } from "./OSMTagTable";
 import { additionalPrefixesForKeys, editableKeys, horizontalKeys, languageTaggedKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet } from "./config";
+import { valueRenderFunctions } from "./tagging-schema/valueRenderFunctions";
 
 function findAttribute(attributesById: Map<string, IAccessibilityAttribute>, key: string, value?: string): IAccessibilityAttribute | undefined {
   const suffix = key.match('[^:]+$')?.[0];
