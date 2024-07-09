@@ -2,6 +2,7 @@ import * as React from "react";
 import useSWR from "swr";
 import AppContext from "../../../AppContext";
 import { Category } from "../../../lib/Categories";
+import env from "../../../lib/env";
 import { AccessibilityCloudProperties, Feature, NodeProperties, isWheelmapProperties, placeNameFor } from "../../../lib/Feature";
 import { generateMapsUrl } from "../../../lib/generateMapsUrls";
 import { generateShowOnOsmUrl } from "../../../lib/generateOsmUrls";
@@ -49,12 +50,13 @@ function PlaceAddress({ feature, category, userAgent }: Props) {
   const showOnOsmUrl = generateShowOnOsmUrl(feature);
 
   const appContext = React.useContext(AppContext);
-  const baseUrl = appContext?.baseUrl;
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
   const appToken = appContext.app.tokenString;
 
   const { properties } = feature;
   const parentPlaceInfoId = isWheelmapProperties(properties) ? undefined : properties.parentPlaceInfoId;
-  const url = parentPlaceInfoId && `${baseUrl}/place-infos/${parentPlaceInfoId}.json?appToken=${appToken}`;
+  const url = parentPlaceInfoId !== undefined && `${baseUrl}/place-infos/${parentPlaceInfoId}.json?appToken=${appToken}`;
+
   const { data: parentPlaceInfo } = useSWR<any>(url, fetchJSON);
   const propertiesToUseForAddress = parentPlaceInfo?.properties ?? feature.properties;
   const address = getAddressForProperties(propertiesToUseForAddress);

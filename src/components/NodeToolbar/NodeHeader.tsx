@@ -1,33 +1,28 @@
-import intersperse from 'intersperse';
-import get from 'lodash/get';
-import * as React from 'react';
-import styled from 'styled-components';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import { Feature, accessibilityCloudFeatureFrom, isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
+import intersperse from "intersperse";
+import get from "lodash/get";
+import * as React from "react";
+import styled from "styled-components";
+import { EquipmentInfo } from "../../lib/EquipmentInfo";
+import { Feature, accessibilityCloudFeatureFrom, isWheelchairAccessible, placeNameFor } from "../../lib/Feature";
 
-import { compact, uniq } from 'lodash';
-import { t } from 'ttag';
-import {
-  Category,
-  CategoryLookupTables,
-  categoryNameFor,
-  getCategoryId,
-} from '../../lib/Categories';
-import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
-import colors from '../../lib/colors';
-import { translatedStringFromObject } from '../../lib/i18n';
-import ChevronRight from '../ChevronRight';
-import Icon from '../Icon';
-import { Cluster } from '../Map/Cluster';
-import { PlaceNameDiv, PlaceNameH1 } from '../PlaceName';
-import BreadCrumbs from './BreadCrumbs';
-import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
-import { StyledClusterIcon } from './FeatureClusterPanel';
-import PlaceInfoLink from './PlaceInfoLink';
+import { compact, uniq } from "lodash";
+import { t } from "ttag";
+import { Category, CategoryLookupTables, categoryNameFor, getCategoryId } from "../../lib/Categories";
+import { isEquipmentAccessible } from "../../lib/EquipmentInfo";
+import colors from "../../lib/colors";
+import { translatedStringFromObject } from "../../lib/i18n";
+import ChevronRight from "../ChevronRight";
+import Icon from "../Icon";
+import { Cluster } from "../Map/Cluster";
+import { PlaceNameDiv, PlaceNameH1 } from "../PlaceName";
+import BreadCrumbs from "./BreadCrumbs";
+import getEquipmentInfoDescription from "./Equipment/getEquipmentInfoDescription";
+import { StyledClusterIcon } from "./FeatureClusterPanel";
+import PlaceInfoLink from "./PlaceInfoLink";
 
 const StyledChevronRight = styled(ChevronRight)`
-  vertical-align: -.1rem;
-  height: .9rem;
+  vertical-align: -0.1rem;
+  height: 0.9rem;
 `;
 
 export const StyledNodeHeader = styled.header`
@@ -50,9 +45,8 @@ export const StyledNodeHeader = styled.header`
   }
 `;
 
-
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
-  margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
+  margin-left: ${(props) => (props.hasPadding ? "42" : "0")}px;
   font-size: 16px;
   margin-top: 8px;
 `;
@@ -74,20 +68,20 @@ function getRoomNumberString(roomNumber: string) {
 }
 
 type Props = {
-  children?: React.ReactNode,
-  feature: Feature | null,
-  equipmentInfoId?: string | null,
-  equipmentInfo?: EquipmentInfo | null,
-  cluster?: Cluster | null,
-  category: Category | null,
-  categories: CategoryLookupTables,
-  parentCategory: Category | null,
-  hasIcon: boolean,
-  onClickCurrentCluster?: (cluster: Cluster) => void,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
-  showParentLink?: boolean,
-  small?: boolean,
-  showCategoryName?: boolean,
+  children?: React.ReactNode;
+  feature: Feature | null;
+  equipmentInfoId?: string | null;
+  equipmentInfo?: EquipmentInfo | null;
+  cluster?: Cluster | null;
+  category: Category | null;
+  categories: CategoryLookupTables;
+  parentCategory: Category | null;
+  hasIcon: boolean;
+  onClickCurrentCluster?: (cluster: Cluster) => void;
+  onClickCurrentMarkerIcon?: (feature: Feature) => void;
+  showParentLink?: boolean;
+  small?: boolean;
+  showCategoryName?: boolean;
 };
 
 export default class NodeHeader extends React.Component<Props> {
@@ -111,62 +105,33 @@ export default class NodeHeader extends React.Component<Props> {
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
     const acFeature = accessibilityCloudFeatureFrom(feature);
-    const parentPlaceName =
-      acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
+    const parentPlaceName = acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
     const parentPlaceInfoId = acFeature && acFeature.properties.parentPlaceInfoId;
     const address = acFeature?.properties.address;
-    const addressObject = typeof address === 'object' ? address : undefined;
+    const addressObject = typeof address === "object" ? address : undefined;
     const levelName = addressObject && translatedStringFromObject(addressObject?.level);
     const roomNumber = addressObject && translatedStringFromObject(addressObject?.roomNumber);
     const roomName = addressObject && translatedStringFromObject(addressObject?.room);
     let placeName = placeNameFor(properties, shownCategory) || roomName;
-    let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
+    let ariaLabel = [placeName, categoryName].filter(Boolean).join(", ");
     if (isEquipment) {
-      placeName =
-      getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription') ||
-      t`Unnamed facility`;
-      ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
+      placeName = getEquipmentInfoDescription(this.props.equipmentInfo, "shortDescription") || t`Unnamed facility`;
+      ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, "longDescription");
     }
     const roomNumberString = (roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber)) || undefined;
-    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].filter(Boolean).join(' ').trim();
+    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].filter(Boolean).join(" ").trim();
 
-    const accessibility = isEquipment
-      ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties']))
-      : isWheelchairAccessible(properties);
+    const accessibility = isEquipment ? isEquipmentAccessible(get(this.props, ["equipmentInfo", "properties"])) : isWheelchairAccessible(properties);
     const hasLongName = placeName && placeName.length > 50;
-    const icon = (
-      <Icon
-        accessibility={accessibility}
-        category={shownCategoryId ? shownCategoryId : 'undefined'}
-        size={this.props.small ? "small" : "medium"}
-        ariaHidden={true}
-        centered
-        onClick={this.onClickCurrentMarkerIcon}
-      />
-    );
+    const icon = <Icon accessibility={accessibility} category={shownCategoryId ? shownCategoryId : "undefined"} size={this.props.small ? "small" : "medium"} ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />;
 
-    const categoryElement = properties.name ? (
-      <StyledBreadCrumbs
-        properties={properties}
-        category={this.props.category}
-        categories={this.props.categories}
-        parentCategory={this.props.parentCategory}
-      />
-    ) : null;
+    const categoryElement = properties.name ? <StyledBreadCrumbs properties={properties} category={this.props.category} categories={this.props.categories} parentCategory={this.props.parentCategory} /> : null;
 
-    const nameElements = uniq(compact([
-      (this.props.showParentLink !== false && parentPlaceInfoId) ? <PlaceInfoLink _id={parentPlaceInfoId} /> : parentPlaceName,
-      levelName,
-      roomNameAndNumber,
-      placeName
-    ]));
+    const nameElements = uniq(compact([this.props.showParentLink !== false && parentPlaceInfoId ? <PlaceInfoLink _id={parentPlaceInfoId} /> : parentPlaceName, levelName, roomNameAndNumber, placeName]));
     const lastNameElement = nameElements[nameElements.length - 1];
 
     const parentElements = nameElements.slice(0, nameElements.length - 1);
-    const parentElementsWithChevrons = parentElements.length >= 1 ? intersperse(
-      parentElements,
-      <StyledChevronRight />
-    ) : parentElements;
+    const parentElementsWithChevrons = parentElements.length >= 1 ? intersperse(parentElements, <StyledChevronRight />) : parentElements;
 
     const NameComponent = this.props.small ? PlaceNameDiv : PlaceNameH1;
     const placeNameElement = (
@@ -175,7 +140,10 @@ export default class NodeHeader extends React.Component<Props> {
         <div>
           <div>{lastNameElement}</div>
           {this.props.showCategoryName !== false && <div>{categoryElement}</div>}
-          <PlaceNameDetail>{parentElementsWithChevrons}</PlaceNameDetail>
+          <PlaceNameDetail>
+            {parentElements.length >= 1 && <>{t`Part of`}&nbsp;</>}
+            {parentElementsWithChevrons}
+          </PlaceNameDetail>
         </div>
       </NameComponent>
     );
@@ -184,11 +152,8 @@ export default class NodeHeader extends React.Component<Props> {
 
     const clusterElement = cluster && (
       <React.Fragment>
-        <StyledClusterIcon
-          cluster={cluster}
-          onSelectClusterIcon={() => onClickCurrentCluster(cluster)}
-        />
-        <ChevronRight style={{ marginRight: '4px' }} />
+        <StyledClusterIcon cluster={cluster} onSelectClusterIcon={() => onClickCurrentCluster(cluster)} />
+        <ChevronRight style={{ marginRight: "4px" }} />
       </React.Fragment>
     );
 
