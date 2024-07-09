@@ -47,6 +47,7 @@ import NotificationButton from './NotificationButton';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import { tileLoadingStatus } from './trackTileLoadingState';
 
+import config from '../../lib/config';
 import env from '../../lib/env';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
@@ -724,7 +725,6 @@ export default class Map extends React.Component<Props, State> {
           // console.log('Show feature layer...');
           map.addLayer(featureLayer);
           map.addLayer(this.accessibilityCloudTileLayer);
-          map.addLayer(this.equipmentTileLayer);
           if (this.wheelmapTileLayer) {
             map.addLayer(this.wheelmapTileLayer);
           }
@@ -733,10 +733,17 @@ export default class Map extends React.Component<Props, State> {
         // console.log('Hide feature layer...');
         map.removeLayer(featureLayer);
         map.removeLayer(this.accessibilityCloudTileLayer);
-        map.removeLayer(this.equipmentTileLayer);
         if (this.wheelmapTileLayer) {
           map.removeLayer(this.wheelmapTileLayer);
         }
+      }
+
+      if (map.getZoom() >= config.minZoomForEquipmentInfos) {
+        if (!map.hasLayer(this.equipmentTileLayer)) {
+          map.addLayer(this.equipmentTileLayer);
+        }
+      } else if (map.hasLayer(this.equipmentTileLayer)) {
+        map.removeLayer(this.equipmentTileLayer);
       }
 
       // debugger
