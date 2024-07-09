@@ -152,7 +152,7 @@
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "ttag-cli": "^1.10.11",
-    "typescript": "^5.3.3"
+    "typescript": "^5.5.3"
   },
   "scripts": {
     "dev": "npx ts-node-dev --watch 'src/server/*.ts,src/lib/env.ts,src/app/router.ts' --ignore-watch 'src/.next/*' -P src/server/tsconfig.json --respawn --icu-data-dir=node_modules/full-icu src/server/server.ts",

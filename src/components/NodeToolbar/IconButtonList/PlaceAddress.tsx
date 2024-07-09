@@ -9,20 +9,9 @@ import getAddressString from "../../../lib/getAddressString";
 import getAddressStringFromA11yJSONFeature from "../../../lib/getAddressStringFromA11yJSONFeature";
 import openButtonCaption from "../../../lib/openButtonCaption";
 import { UAResult } from "../../../lib/userAgent";
-import { fetchJSON, generateGetPlaceInfoURL } from "../../helper";
+import fetchJSON from "../../fetchJSON";
 import PlaceIcon from "../../icons/actions/Place";
 import RouteIcon from "../../icons/actions/Route";
-
-function useParentPlaceInfo(parentPlaceInfoId: string) {
-  const appContext = React.useContext(AppContext);
-  const baseUrl = generateGetPlaceInfoURL({
-    baseUrl: appContext.baseUrl,
-    placeInfoId: parentPlaceInfoId,
-    appToken: appContext.app.tokenString,
-  });
-  const { data, error } = useSWR<any>(baseUrl, fetchJSON);
-  return { data, error };
-}
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): string | null {
   if (typeof properties.address === "string") return properties.address;
@@ -41,14 +30,7 @@ function getAddressForACProperties(properties: AccessibilityCloudProperties): st
   return null;
 }
 
-function useAddressForProperties(properties: NodeProperties): string | null {
-  if ((properties as any)?.parentPlaceInfo) {
-    const parentPlaceInfo = useParentPlaceInfo((properties as any)?.parentPlaceInfo);
-    // Use parentPlaceInfo to get the address, if necessary
-    console.log("data: " + parentPlaceInfo.data);
-    console.log("error: " + parentPlaceInfo.error);
-    // return getAddressForACProperties(properties);
-  }
+function getAddressForProperties(properties: NodeProperties): string | null {
   if (!isWheelmapProperties(properties)) {
     return getAddressForACProperties(properties);
   }
@@ -61,11 +43,21 @@ type Props = {
   userAgent: UAResult;
 };
 
-const PlaceAddress: React.FC<Props> = ({ feature, category, userAgent }) => {
+function PlaceAddress({ feature, category, userAgent }: Props) {
   const placeName = placeNameFor(feature.properties, category);
   const openInMaps = generateMapsUrl(userAgent, feature, placeName);
   const showOnOsmUrl = generateShowOnOsmUrl(feature);
-  const address = useAddressForProperties(feature.properties);
+
+  const appContext = React.useContext(AppContext);
+  const baseUrl = appContext?.baseUrl;
+  const appToken = appContext.app.tokenString;
+
+  const { properties } = feature;
+  const parentPlaceInfoId = isWheelmapProperties(properties) ? undefined : properties.parentPlaceInfoId;
+  const url = parentPlaceInfoId && `${baseUrl}/place-infos/${parentPlaceInfoId}.json?appToken=${appToken}`;
+  const { data: parentPlaceInfo } = useSWR<any>(url, fetchJSON);
+  const propertiesToUseForAddress = parentPlaceInfo?.properties ?? feature.properties;
+  const address = getAddressForProperties(propertiesToUseForAddress);
 
   if (!feature || !feature.properties) return null;
   const addressString = address && address.replace(/,$/, "").replace(/^,/, "");
@@ -86,6 +78,6 @@ const PlaceAddress: React.FC<Props> = ({ feature, category, userAgent }) => {
       )}
     </React.Fragment>
   );
-};
+}
 
 export default PlaceAddress;
