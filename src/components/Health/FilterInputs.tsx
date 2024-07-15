@@ -89,7 +89,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
   );
 
-  const [hasNameFilter, setIsNameFilter] = useState(false);
+  const [hasNameFilter, setIsNameFilter] = useState(true);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
@@ -258,7 +258,7 @@ function FilterInputs() {
             </fieldset>
           )}
 
-          {!hasNameFilter && (
+          {/* {!hasNameFilter && (
             <fieldset>
               <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
                 <T _str="Type" />
@@ -286,7 +286,7 @@ function FilterInputs() {
                 <T _str="Select one of the items in the list." />
               </StyledSubLabel>
             </fieldset>
-          )}
+          )} */}
 
           {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 ? (
             <fieldset>

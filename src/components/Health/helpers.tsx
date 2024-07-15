@@ -77,7 +77,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
+    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }
