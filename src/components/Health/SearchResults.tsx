@@ -22,7 +22,7 @@ function NonIdealContent() {
   return (
     <div style={{ marginTop: "10rem", textAlign: "center" }}>
       <HugeText>
-        <T _str={`Find doctors, therapists, and health facilities near you.`} />
+        <T _str={`Find accessible toilets in your area`} />
       </HugeText>
       <HugeText>
         <T _str={`You can choose further search criteria in the next step.`} />
@@ -87,7 +87,7 @@ function SearchResults() {
     [data, route.query]
   );
 
-  const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? `${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
+  const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.city ? `in ${route.query.city}` : ""}`;
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) return <T _str={`No results found – please try again with a different location or different settings.`} />;
   }, [data]);
@@ -95,7 +95,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <Head>
-        <title key="title">{sortedFeatures ? <T _str={`${headText} | Find health sites`} /> : <T _str={`Find health sites`} />}</title>
+        <title key="title">{sortedFeatures ? <T _str={`${headText} | Find toilets`} /> : <T _str={`Find toilets`} />}</title>
       </Head>
       {!isLoading && text && (
         <StyledH2 style={{ textAlign: "center" }} $fontBold>

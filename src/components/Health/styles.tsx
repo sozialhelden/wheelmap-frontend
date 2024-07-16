@@ -46,6 +46,32 @@ export const shadowCSS = css`
   box-shadow: rgba(60, 64, 67, 0.1) 0px 1px 20px, rgba(60, 64, 67, 0.2) 0px 1px 3px;
 `;
 
+export const DialogContainer = styled.nav`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  line-height: 2rem;
+  background-color: rgb(255, 255, 255, 1);
+  border-radius: 0.25rem;
+  ${shadowCSS}
+  gap: .5rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+    max-width: 100%;
+  }
+
+  fieldset + fieldset {
+    margin-top: 1rem;
+  }
+`;
+
 export const StyledMainContainer = styled.div`
   background-color: #d8e5e8;
   > div {

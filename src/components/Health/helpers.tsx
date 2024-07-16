@@ -16,16 +16,12 @@ export type QueryParameters = {
   bbox?: string[];
   name?: string;
   wheelchair?: string;
-  healthcare?: string;
-  ["healthcare:speciality"]?: string;
   ["blind:description"]?: string;
   ["deaf:description"]?: string;
   tags?: string;
 };
 
 export type AmenityStatsResponse = {
-  healthcare?: string;
-  "healthcare:speciality"?: string;
   wheelchair?: string;
   count: number;
 }[];
@@ -42,7 +38,6 @@ export type AmenityListFeaturesPropertiesResponse = {
   amenity: string;
   "addr:city": string;
   dispensing: string;
-  healthcare: string;
   wheelchair: string;
   "addr:street": string;
   "addr:suburb": string;
@@ -66,18 +61,16 @@ export type AmenityListResponse = {
 };
 
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
+  const { bbox, name, wheelchair, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
-  if (bbox || wheelchair || healthcare || healthcareSpeciality || tags) {
+  if (bbox || wheelchair || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
-    const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
-    const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
+    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }

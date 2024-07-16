@@ -3,158 +3,57 @@ import { Callout } from "@blueprintjs/core";
 import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
-import styled from "styled-components";
 import useSWR from "swr";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getServerSideTranslations } from "../../lib/i18n";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter, shadowCSS } from "./styles";
-
-const DialogContainer = styled.nav`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  line-height: 2rem;
-  background-color: rgb(255, 255, 255, 1);
-  border-radius: 0.25rem;
-  ${shadowCSS}
-  gap: .5rem;
-
-  fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: start;
-    max-width: 100%;
-  }
-
-  fieldset + fieldset {
-    margin-top: 1rem;
-  }
-`;
+import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
   const cityName = route.query.city;
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const healthcareStatsAPIParams = useMemo(
-    () =>
-      ({
-        ...(route.query.bbox && { bbox: route.query.bbox }),
-        ...(route.query.name && { name: route.query.name }),
-        ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
-        ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
-        ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
-        tags: "healthcare",
-      } as QueryParameters),
-    [route.query.bbox, route.query.name, route.query.wheelchair]
-  );
-
-  const healthcareSpecialityStatsAPIParams = useMemo(
-    () =>
-      ({
-        ...(route.query.bbox && { bbox: route.query.bbox }),
-        ...(route.query.name && { name: route.query.name }),
-        ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
-        ...(route.query.healthcare && { healthcare: route.query.healthcare }),
-        ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
-        ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
-        tags: "healthcare:speciality",
-      } as QueryParameters),
-    [route.query.bbox, route.query.name, route.query.wheelchair]
-  );
-
   const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
-        ...(route.query.healthcare && { healthcare: route.query.healthcare }),
-        ...(route.query["healthcare:speciality"] && { "healthcare:speciality": route.query["healthcare:speciality"] }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
       } as QueryParameters),
-    [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
+    [route.query.bbox, route.query.name]
   );
 
-  const [hasNameFilter, setIsNameFilter] = useState(true);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
-  const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
-  const healthcareSpecialityTagStats = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(healthcareSpecialityStatsAPIParams, baseurl) : null, fetchJSON);
+
   const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
 
   // Wheelchair filter
-  const synonymCache = useCategorySynonymCache();
-  const languageTags = useCurrentLanguageTagStrings();
-
-  const translatedHealthcareOptions: any = useMemo(() => {
-    if (!synonymCache.data) {
-      return healthcareTagStats.data;
-    }
-    return healthcareTagStats.data
-      ?.map((item) => {
-        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
-        return {
-          ...item,
-          healthcareTranslated: translatedCategoryName,
-          healthcareTranslatedLowercase: (translatedCategoryName || item.healthcare)?.toLocaleLowerCase(),
-        };
-      })
-      .sort((i1, i2) => {
-        const a = i1.healthcareTranslatedLowercase;
-        const b = i2.healthcareTranslatedLowercase;
-        return a.localeCompare(b);
-      });
-  }, [healthcareTagStats, synonymCache, languageTags]);
-
-  const translatedSpecialityOptions: any = useMemo(() => {
-    if (!synonymCache.data) {
-      return healthcareSpecialityTagStats.data;
-    }
-    return healthcareSpecialityTagStats.data
-      ?.map((item) => {
-        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${item["healthcare:speciality"]}`)?.translations?._id, languageTags) || getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item["healthcare:speciality"]}`)?.translations?._id, languageTags);
-        return {
-          ...item,
-          healthcareTranslated: translatedCategoryName,
-          healthcareTranslatedLowercase: (translatedCategoryName || item["healthcare:speciality"])?.toLocaleLowerCase(),
-        };
-      })
-      .sort((i1, i2) => {
-        const a = i1.healthcareTranslatedLowercase;
-        const b = i2.healthcareTranslatedLowercase;
-        return a.localeCompare(b);
-      });
-  }, [healthcareSpecialityTagStats, synonymCache, languageTags]);
-
-  const handleInputChange = useCallback(
-    (event) => {
-      const { name, value } = event.target;
-      const newQuery = { ...route.query, [name]: value };
-      if (name === "healthcare") {
-        delete newQuery["healthcare:speciality"];
-      }
+  const useRouteReplace = useCallback(
+    (query: any) => {
       route.replace(
         {
           pathname: route.pathname,
-          query: newQuery,
+          query: query,
         },
         undefined,
         { shallow: true }
       );
+    },
+    [route]
+  );
+
+  const handleInputChange = useCallback(
+    (event) => {
+      const { name, value } = event.target;
+      const updatedQuery = { ...route.query, [name]: value };
+      useRouteReplace(updatedQuery);
     },
     [route]
   );
@@ -164,14 +63,6 @@ function FilterInputs() {
       const { value } = event.target;
       const updatedQuery = { ...route.query };
 
-      if (value === "healthcare") {
-        delete updatedQuery.name;
-        setIsNameFilter(false);
-      } else if (value === "name") {
-        delete updatedQuery.healthcare;
-        delete updatedQuery["healthcare:speciality"];
-        setIsNameFilter(true);
-      }
       if (value === "blind") {
         setHasBlindFilter(!hasBlindFilter);
         if (hasBlindFilter) delete updatedQuery["blind:description"];
@@ -187,16 +78,9 @@ function FilterInputs() {
         }
       }
 
-      route.replace(
-        {
-          pathname: route.pathname,
-          query: updatedQuery,
-        },
-        undefined,
-        { shallow: true }
-      );
+      useRouteReplace(updatedQuery);
     },
-    [route, setIsNameFilter]
+    [route]
   );
 
   const getWheelchairCountByStats = useCallback((wheelchair, stats) => {
@@ -232,92 +116,15 @@ function FilterInputs() {
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
-          <StyledRadioBox style={{ flexDirection: "row", alignItems: "center" }}>
-            <StyledLabel $fontBold="bold" htmlFor="search-name">
-              <T _str="Search by" />
-            </StyledLabel>
-            <label htmlFor="search-name">
-              <StyledRadio type="radio" name="search" id="search-name" value="name" checked={hasNameFilter} onChange={handleFilterType} />
+          <fieldset>
+            <StyledLabel htmlFor="name-search" $fontBold="bold">
               <T _str="Name" />
-            </label>
-            <label htmlFor="search-healthcare">
-              <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!hasNameFilter} onChange={handleFilterType} />
-              <T _str="Type" />
-            </label>
-          </StyledRadioBox>
-
-          {hasNameFilter && (
-            <fieldset>
-              <StyledLabel htmlFor="name-search" $fontBold="bold">
-                <T _str="Name" />
-              </StyledLabel>
-              <StyledBigTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
-              <StyledSubLabel>
-                <T _str="Search for a specific name." />
-              </StyledSubLabel>
-            </fieldset>
-          )}
-
-          {/* {!hasNameFilter && (
-            <fieldset>
-              <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
-                <T _str="Type" />
-              </StyledLabel>
-              {healthcareTagStats.error && (
-                <Callout intent="danger" icon="error">
-                  <T _str="Could not load place categories." />
-                </Callout>
-              )}
-              {!healthcareTagStats.error && (
-                <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                  <option value="">
-                    <T _str="All" />
-                  </option>
-                  {translatedHealthcareOptions?.map((item, index) => {
-                    return (
-                      <option key={item.healthcare + index} value={item.healthcare}>
-                        {`${item.healthcareTranslated || item.healthcare}`} {item.count ? ` (${item.count})` : ""}
-                      </option>
-                    );
-                  })}
-                </StyledSelect>
-              )}
-              <StyledSubLabel>
-                <T _str="Select one of the items in the list." />
-              </StyledSubLabel>
-            </fieldset>
-          )} */}
-
-          {route.query.healthcare && translatedSpecialityOptions?.length && translatedSpecialityOptions.length > 1 ? (
-            <fieldset>
-              <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
-                <T _str="Speciality" />
-              </StyledLabel>
-              {healthcareSpecialityTagStats.error && (
-                <Callout intent="danger" icon="error">
-                  <T _str={`Could not load healthcare specialities.`} />
-                </Callout>
-              )}
-              {!healthcareSpecialityTagStats.error && (
-                <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
-                  <option value="">
-                    <T _str="All categories" />
-                  </option>
-                  {translatedSpecialityOptions?.map(
-                    (item, index) =>
-                      (route.query.show_untranslated_tags === "1" || item.healthcareTranslated !== undefined) && (
-                        <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
-                          {`${item.healthcareTranslated || item["healthcare:speciality"]}`} {item.count ? `(${item.count})` : ""}
-                        </option>
-                      )
-                  )}
-                </StyledSelect>
-              )}
-              <StyledSubLabel>
-                <T _str="Select one of the items in the list." />
-              </StyledSubLabel>
-            </fieldset>
-          ) : null}
+            </StyledLabel>
+            <StyledBigTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
+            <StyledSubLabel>
+              <T _str="Search for a specific name." />
+            </StyledSubLabel>
+          </fieldset>
 
           <fieldset>
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
@@ -375,7 +182,6 @@ function FilterInputs() {
 
 export async function getServerSideProps(context) {
   const data = await getServerSideTranslations(context);
-  console.log("data", data);
   return {
     props: {
       ...data,
