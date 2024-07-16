@@ -29,6 +29,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name]
   );
 
+  const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "*" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
 
@@ -63,6 +64,13 @@ function FilterInputs() {
       const { value } = event.target;
       const updatedQuery = { ...route.query };
 
+      if (value === "unisex") {
+        setHasUnisexFilter(!hasUnisexFilter);
+        if (hasUnisexFilter) delete updatedQuery["unisex"];
+        else {
+          updatedQuery["unisex"] = "*";
+        }
+      }
       if (value === "blind") {
         setHasBlindFilter(!hasBlindFilter);
         if (hasBlindFilter) delete updatedQuery["blind:description"];
@@ -144,9 +152,13 @@ function FilterInputs() {
             </StyledWheelchairFilter>
             <StyledHDivider $space={10} />
             <StyledRadioBox style={{ flexDirection: "column", alignItems: "start" }}>
-              <StyledLabel $fontBold="bold" htmlFor="filter-blind">
+              <StyledLabel $fontBold="bold" htmlFor="filter-unisex">
                 <T _str="Show only places with…" />
               </StyledLabel>
+              <label htmlFor="filter-blind">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
+                <T _str="Unisex toilets " />
+              </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
                 <T _str="infos for blind people" />

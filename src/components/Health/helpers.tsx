@@ -16,6 +16,7 @@ export type QueryParameters = {
   bbox?: string[];
   name?: string;
   wheelchair?: string;
+  unisex?: string;
   ["blind:description"]?: string;
   ["deaf:description"]?: string;
   tags?: string;
@@ -61,16 +62,17 @@ export type AmenityListResponse = {
 };
 
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
+  const { bbox, name, wheelchair, unisex, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
-  if (bbox || wheelchair || tags) {
+  if (bbox || wheelchair || unisex || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
+    const editedUnisex = unisex ? `&unisex=*` : "";
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
+    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }

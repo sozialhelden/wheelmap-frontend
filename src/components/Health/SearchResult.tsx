@@ -8,7 +8,6 @@ import useUserAgent from "../../lib/context/UserAgentContext";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
-import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
@@ -26,16 +25,10 @@ const StyledListItem = styled.li`
   ${shadowCSS}
 `;
 
-const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
-  margin-left: 0.25rem;
-  margin-top: 0rem;
-  width: 2rem;
-`;
-
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, ["toilets:wheelchair"]: toiletsWheelchair, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN } = properties;
+  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -114,6 +107,11 @@ function SearchResult({ data }: any) {
             <StyledUL $showBullets>
               {wheelchairDescription && <li>{wheelchairDescription}</li>}
               {blindDescription && <li>{blindDescription}</li>}
+              {unisex === "yes" && (
+                <li>
+                  <T _str="Unisex toilet" />
+                </li>
+              )}
               {showBlindDescriptionByLanguage && <li>{showBlindDescriptionByLanguage}</li>}
               {deafDescription && <li>{deafDescription}</li>}
               {showDeafDescriptionByLanguage && <li>{showDeafDescriptionByLanguage}</li>}
