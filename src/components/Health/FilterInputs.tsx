@@ -155,7 +155,7 @@ function FilterInputs() {
               <StyledLabel $fontBold="bold" htmlFor="filter-unisex">
                 <T _str="Show only places with…" />
               </StyledLabel>
-              <label htmlFor="filter-blind">
+              <label htmlFor="filter-unisex">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
                 <T _str="Unisex toilets " />
               </label>
