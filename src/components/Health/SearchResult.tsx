@@ -77,8 +77,7 @@ function SearchResult({ data }: any) {
   return (
     <StyledListItem>
       <div>
-        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={"toilet"} style={{ marginTop: ".35rem" }} />
-        {toiletsWheelchair === "yes" ? <StyledAccessibleToiletIcon /> : null}
+        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={"toilets"} style={{ marginTop: ".35rem" }} />
       </div>
 
       <div style={{ flex: 1 }}>
