@@ -72,7 +72,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
-    const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
+    const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "&healthcare=*";
     const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
