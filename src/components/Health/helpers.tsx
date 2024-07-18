@@ -64,6 +64,7 @@ export type AmenityListResponse = {
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
   const { bbox, name, wheelchair, unisex, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
+  const editedToilets = `&toilets=*`;
   if (bbox || wheelchair || unisex || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
@@ -72,7 +73,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
+    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }
