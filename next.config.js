@@ -30,7 +30,7 @@ let configuration = withTranspileModules({
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
   ...configuration,
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
