@@ -29,16 +29,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import L, { TileLayerOptions } from 'leaflet';
-import includes from 'lodash/includes';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
+import includes from 'lodash/includes';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import geoTileToBbox from './geoTileToBbox';
-import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
 import { Feature, getFeatureId } from '../../lib/Feature';
-import HighlightableMarker from './HighlightableMarker';
 import { getLastTimestamp, hasEditsInBBox } from '../NodeToolbar/AccessibilityEditor/LastEditsStorage';
+import geoTileToBbox from './geoTileToBbox';
+import HighlightableMarker from './HighlightableMarker';
+import highlightMarkers from './highlightMarkers';
 
 const TileLayer = L.TileLayer;
 
@@ -162,8 +162,8 @@ class GeoJSONTileLayer extends TileLayer {
       y: coords.y,
       z: this._getZoomForUrl(),
       timestamp: 0,
-      // Generate a random number between 0 and 3
-      n: Math.random() * 4 | 0,
+      // Generate a hashed number between 0 and 3
+      n: coords.x % 4,
     };
     const bbox = geoTileToBbox(data);
     if (hasEditsInBBox(bbox)) {

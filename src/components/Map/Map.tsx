@@ -16,42 +16,39 @@ import LeafletLocateControl from './L.Control.Locate';
 import SozialheldenLogo from './SozialheldenLogo';
 
 import { PotentialPromise } from '../../app/PlaceDetailsProps';
-import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import {
-  Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown,
-  accessibilityCloudFeatureCollectionFromResponse,
-  getFeatureId,
-  hasAccessibleToilet,
-  isWheelchairAccessible,
-  wheelmapFeatureCollectionFromResponse,
-} from '../../lib/Feature';
-import { globalFetchManager } from '../../lib/FetchManager';
-import { MappingEvents } from '../../lib/MappingEvent';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
+import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
 import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
+import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import {
+  accessibilityCloudFeatureCollectionFromResponse, Feature, getFeatureId,
+  hasAccessibleToilet,
+  isWheelchairAccessible, NodeProperties, wheelmapFeatureCollectionFromResponse, YesNoLimitedUnknown, YesNoUnknown
+} from '../../lib/Feature';
+import { globalFetchManager } from '../../lib/FetchManager';
 import goToLocationSettings from '../../lib/goToLocationSettings';
+import { MappingEvents } from '../../lib/MappingEvent';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
 import { getUserAgent } from '../../lib/userAgent';
 import A11yMarkerIcon from './A11yMarkerIcon';
+import addLocateControlToMap from './addLocateControlToMap';
 import { Cluster } from './Cluster';
 import ClusterIcon from './ClusterIcon';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
-import MappingEventMarkerIcon from './MappingEventMarkerIcon';
-import NotificationButton from './NotificationButton';
-import addLocateControlToMap from './addLocateControlToMap';
 import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
 import highlightMarkers from './highlightMarkers';
 import isSamePosition from './isSamePosition';
+import MappingEventMarkerIcon from './MappingEventMarkerIcon';
+import NotificationButton from './NotificationButton';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import { tileLoadingStatus } from './trackTileLoadingState';
 
-import { hrefForMappingEvent } from '../../lib/MappingEvent';
 import env from '../../lib/env';
+import { hrefForMappingEvent } from '../../lib/MappingEvent';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 import { LeafletStyle } from './LeafletStyle';
 import { MapStyle } from './MapStyle';
@@ -1110,10 +1107,10 @@ export default class Map extends React.Component<Props, State> {
         if (!subCategory) {
           return null;
         }
-        return `${baseUrl}/api/node_types/${subCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=1000&bbox={bbox}&limit=1000&t={timestamp}`;
+        return `${baseUrl}/api/node_types/${subCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=10000&bbox={bbox}&limit=10000&t={timestamp}`;
       }
-      return `${baseUrl}/api/categories/${rootCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=1000&bbox={bbox}&limit=1000&t={timestamp}`;
+      return `${baseUrl}/api/categories/${rootCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=10000&bbox={bbox}&limit=10000&t={timestamp}`;
     }
-    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=1000&limit=1000&t={timestamp}`;
+    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=10000&limit=10000&t={timestamp}`;
   }
 }
