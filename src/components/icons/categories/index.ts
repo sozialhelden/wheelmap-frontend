@@ -76,6 +76,7 @@ export { default as electronics } from './electronics';
 export { default as elevator } from './elevator';
 export { default as embassy } from './embassy';
 export { default as employment_agency } from './employment_agency';
+export { default as entrance } from './entrance';
 export { default as erotic } from './erotic';
 export { default as escalator } from './escalator';
 export { default as fastfood } from './fastfood';
