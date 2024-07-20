@@ -1,11 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import ChevronRight from '../ChevronRight';
-import { Category } from '../../lib/Categories';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import { translatedStringFromObject } from '../../lib/i18n';
+import Categories, { Category, CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
-import { getCategoryId } from '../../lib/Categories';
+import { translatedStringFromObject } from '../../lib/i18n';
+import ChevronRight from '../ChevronRight';
 
 type Props = {
   className?: string,
@@ -59,7 +57,7 @@ class BreadCrumbs extends React.Component<Props, State> {
       </span>
     ));
 
-    return <section className={this.props.className}>{breadCrumbs}</section>;
+    return <div className={this.props.className}>{breadCrumbs}</div>;
   }
 }
 
