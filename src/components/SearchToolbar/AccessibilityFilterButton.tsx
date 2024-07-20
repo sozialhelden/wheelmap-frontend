@@ -1,13 +1,13 @@
-import { t } from 'ttag';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
+import { t } from 'ttag';
 
+import colors from '../../lib/colors';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import Button from '../Button';
-import colors from '../../lib/colors';
-import CombinedIcon from './CombinedIcon';
 import CloseIcon from '../icons/actions/Close';
 import { PlaceFilter } from './AccessibilityFilterModel';
+import CombinedIcon from './CombinedIcon';
 
 type Props = {
   className?: string;
@@ -79,6 +79,17 @@ export default styled(AccessibilityFilterButton)`
 
   ${CombinedIcon} {
     width: 70px;
+  }
+
+  @media (max-width: 375px) {
+    svg.icon {
+      width: 14px;
+      height: 14px;
+    }
+    figure.wc-icon {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   ${props =>

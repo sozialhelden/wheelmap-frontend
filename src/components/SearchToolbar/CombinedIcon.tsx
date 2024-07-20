@@ -1,11 +1,10 @@
-import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
 
+import { isAccessibilityFiltered, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { isOnSmallViewport } from '../../lib/ViewportSize';
 import CategoryIcon from '../Icon';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
-import { isAccessibilityFiltered } from '../../lib/Feature';
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[],
@@ -30,7 +29,7 @@ function CombinedIcon(props: Props) {
           accessibility={accessibility}
           category={props.category}
           isMainCategory={props.isMainCategory}
-          size="medium"
+          size={isOnSmallViewport() ? "small" : "medium"}
         />
       ))}
       {isEqual(props.toiletFilter, ['yes']) ? (
@@ -42,7 +41,7 @@ function CombinedIcon(props: Props) {
   );
 }
 
-const ToiletIcon = styled.figure``;
+const ToiletIcon = styled.figure.attrs({ className: 'wc-icon' })``;
 
 export default styled(CombinedIcon)`
   display: flex;
@@ -60,7 +59,7 @@ export default styled(CombinedIcon)`
   }
 
   figure + figure {
-    margin-left: -32px;
+    margin-left: -${isOnSmallViewport() ? "20" : "32"}px;
   }
 
   figure:nth-child(1) {
@@ -82,10 +81,10 @@ export default styled(CombinedIcon)`
 
   figure${ToiletIcon} {
     z-index: 3;
-    margin: 0 0 0 -13px;
+    margin: 0 0 0 -${isOnSmallViewport() ? "13" : "14"}px;
 
     &:nth-child(3) {
-      margin-left: -18px;
+      margin-left: -${isOnSmallViewport() ? "5" : "18"}px;
     }
   }
 

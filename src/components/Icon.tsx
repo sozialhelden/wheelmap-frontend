@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import * as React from 'react';
+import styled from 'styled-components';
 import { YesNoLimitedUnknown } from '../lib/Feature';
 import colors from '../lib/colors';
 import * as categoryIcons from './icons/categories';
@@ -171,7 +171,7 @@ export default function CategoryIcon({
       onClick={onClick}
     >
       {accessibility && MarkerComponent ? (
-        <MarkerComponent className="background" fill={backgroundColor} />
+        <MarkerComponent className="background marker" fill={backgroundColor} />
       ) : null}
       {children}
       {CategoryIconComponent ? <CategoryIconComponent className="icon category-icon" /> : null}

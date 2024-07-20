@@ -1,12 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
 import map from 'lodash/map';
+import styled from 'styled-components';
 
+import Categories from '../../lib/Categories';
+import { isAccessibilityFiltered, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { Circle } from '../IconButton';
 import CategoryButton from './CategoryButton';
-import { isAccessibilityFiltered } from '../../lib/Feature';
-import Categories from '../../lib/Categories';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 type Props = {
   onFocus: () => void,
@@ -63,21 +61,21 @@ export default styled(CategoryMenu)`
       flex: 60px;
     }
 
-    @media (max-width: 320px) {
+    @media (max-width: 375px) {
       flex: 50px;
 
       ${Circle} {
-        height: 30px;
-        width: 30px;
+        height: 26px;
+        width: 26px;
       }
 
       figure {
-        width: 30px;
-        height: 30px;
+        width: 26px;
+        height: 26px;
 
         svg.icon {
-          width: 18px;
-          height: 18px;
+          width: 16px;
+          height: 16px;
         }
       }
     }
