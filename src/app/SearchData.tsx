@@ -90,12 +90,12 @@ const SearchData: DataTableEntry<SearchProps> = {
       return props;
     }
 
-    let { searchResults, disableWheelmapSource, app: { tokenString } } = props;
+    let { searchResults, app: { tokenString } } = props;
 
     searchResults = Promise.resolve(searchResults).then(async results => {
       const useCache = !isServer;
 
-      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = disableWheelmapSource ? [] :
+      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] =
         results.features.map(feature => {
           const { type, osm_key } = feature.properties;
           if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
