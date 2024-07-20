@@ -48,3 +48,5 @@ env/*
 *secret.yml
 /screenshots
 /local.log
+/browserstack.err
+/logs
