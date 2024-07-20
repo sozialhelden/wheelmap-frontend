@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-describe('Different place-of-interedt types:', () => {
+describe('Different place-of-interest types:', () => {
   describe('an OpenStreetMap place', () => {
     it('has a title');
     it('has an icon');

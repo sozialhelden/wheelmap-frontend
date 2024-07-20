@@ -4,6 +4,36 @@ const { setCurrentTest } = require('../lib/currentTest');
 
 const isLocalBuild = process.env.BROWSERSTACK_LOCAL === '1';
 
+function checkEnvironmentVariables() {
+  const errorMessages = [];
+  if (!process.env.BROWSERSTACK_USERNAME) {
+    errorMessages.push('- Please set BROWSERSTACK_USERNAME to your BrowserStack username.');
+  }
+  if (!process.env.BROWSERSTACK_ACCESS_KEY) {
+    errorMessages.push('- Please set BROWSERSTACK_ACCESS_KEY to your BrowserStack access key.');
+  }
+  if (!process.env.CI_TEST_DEPLOYMENT_BASE_URL) {
+    errorMessages.push('- Please set CI_TEST_DEPLOYMENT_BASE_URL to the URL of the app to test.');
+  }
+  
+  if (!isLocalBuild) {
+    if (!process.env.CI_TEST_GIT_REF) {
+      errorMessages.push('- Please set CI_TEST_GIT_REF to the git ref of the current build.');
+    }
+    if (!process.env.CI_TEST_GIT_SHA1) {
+      errorMessages.push('- Please set CI_TEST_GIT_SHA1 to the git sha1 of the current build.');
+    }
+  }
+  
+  if (errorMessages.length > 0) {
+    console.error('Error: Missing environment variables:');
+    errorMessages.forEach((message) => console.error(message));
+    process.exit(1);
+  }
+}
+
+checkEnvironmentVariables();
+
 // https://github.com/browserstack/webdriverio-browserstack
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
@@ -19,18 +49,19 @@ exports.config = {
   ],
 
   updateJob: false,
-  specs: ['./tests/specs/**/*.js'],
+  specs: ['../specs/**/*.js'],
   exclude: [],
-  maxInstances: 2,
+  maxInstances: 1,
 
   commonCapabilities: {
-    project: 'Wheelmap Frontend',
-    build: isLocalBuild
-      ? 'Local build'
-      : [process.env.CI_TEST_GIT_REF, process.env.CI_TEST_GIT_SHA1].join(' - '),
-    // name: 'parallel_test',
-    'browserstack.debug': true,
-    'browserstack.local': 'false',
+    'bstack:options': {
+      project: 'Wheelmap Frontend',
+      buildName: isLocalBuild
+        ? 'Local build'
+        : [process.env.CI_TEST_GIT_REF, process.env.CI_TEST_GIT_SHA1].join(' - '),
+      'debug': true,
+      // 'browserstack.local': `${isLocalBuild}`,
+    }
   },
 
   // Use https://www.browserstack.com/automate/capabilities to create capability sets.
@@ -41,12 +72,15 @@ exports.config = {
 
   capabilities: [
     {
-      os: 'OS X',
-      os_version: 'Catalina',
       browserName: 'Chrome',
-      browser_version: '87',
-      'browserstack.selenium_version': '4.0.0-alpha-6',
-      autoAcceptAlerts: 'true',
+      'bstack:options': {
+        browserVersion: 'latest',
+        os: 'OS X',
+        osVersion: 'Sonoma',
+        userName: 'holgerdieterich1',
+        accessKey: 'S2Lp7oshaL7SB38mn2TC',
+        selfHeal: true,
+      },
       'goog:chromeOptions': {
         prefs: {
           // 0 - Default, 1 - Allow, 2 - Block
@@ -54,57 +88,60 @@ exports.config = {
         },
       },
     },
-    {
-      os: 'Windows',
-      os_version: '7',
-      browserName: 'Firefox',
-      browser_version: 'latest',
-      autoAcceptAlerts: 'true',
-      'browserstack.selenium_version': '3.10.0',
-    },
-    {
-      'bstack:options': {
-        os: 'OS X',
-        osVersion: 'Big Sur',
-        local: 'false',
-        seleniumVersion: '4.0.0-alpha-6',
-        userName: 'holgerdieterich1',
-        accessKey: 'S2Lp7oshaL7SB38mn2TC',
-        seleniumLogs: true,
-      },
-      browserName: 'Safari',
-      browserVersion: '14.0',
-    },
-    {
-      'bstack:options': {
-        os: 'Windows',
-        osVersion: '10',
-        local: 'false',
-        seleniumVersion: '4.0.0-alpha-6',
-        userName: 'holgerdieterich1',
-        accessKey: 'S2Lp7oshaL7SB38mn2TC',
-      },
-      browserName: 'Edge',
-      browserVersion: 'latest',
-      autoAcceptAlerts: 'true',
-    },
-    {
-      os_version: '14',
-      device: 'iPhone 12',
-      real_mobile: 'true',
-      browserName: 'iPhone',
-      autoAcceptAlerts: 'true',
-      'browserstack.appium_version': '1.19.1',
-    },
-    {
-      os_version: '10.0',
-      device: 'Samsung Galaxy S20',
-      real_mobile: 'true',
-      'browserstack.appium_version': '1.19.1',
-      browserName: 'Android',
-      // This doesn't work - we have to manually accept the alert dialog
-      autoAcceptAlerts: 'true',
-    },
+    // {
+    //   browserName: 'Firefox',
+    //   'bstack:options': {
+    //     browserVersion: '127.0',
+    //     os: 'Windows',
+    //     osVersion: '11',
+    //     selfHeal: true,
+    //     userName: 'holgerdieterich1',
+    //     accessKey: 'S2Lp7oshaL7SB38mn2TC',
+    //   }
+    // },
+    // {
+    //   'bstack:options': {
+    //     os: 'OS X',
+    //     osVersion: 'Big Sur',
+    //     local: 'false',
+    //     seleniumVersion: '4.0.0-alpha-6',
+    //     userName: 'holgerdieterich1',
+    //     accessKey: 'S2Lp7oshaL7SB38mn2TC',
+    //     seleniumLogs: true,
+    //   },
+    //   browserName: 'Safari',
+    //   browserVersion: '14.0',
+    // },
+    // {
+    //   browserName: 'Edge',
+    //   'bstack:options': {
+    //     browserVersion: '125.0',
+    //     os: 'Windows',
+    //     osVersion: '11',
+    //     userName: 'holgerdieterich1',
+    //     accessKey: 'S2Lp7oshaL7SB38mn2TC',
+    //     selfHeal: true,
+    //   }
+    // },
+    // {
+    //   browserName: 'safari',
+    //   'bstack:options': {
+    //     deviceOrientation: 'portrait',
+    //     deviceName: 'iPhone 12 Mini',
+    //     osVersion: '16',
+    //     // autoAcceptAlerts: 'true',
+    //   }
+    // },
+    // {
+    //   browserName: 'samsung',
+    //   // This doesn't work - we have to manually accept the alert dialog
+    //   'bstack:options': {
+    //     // autoGrantPermissions: 'true',
+    //     deviceOrientation: 'portrait',
+    //     deviceName: 'Samsung Galaxy S22',
+    //     osVersion: '12.0'
+    //   }
+    // }
   ],
 
   logLevel: 'warn',

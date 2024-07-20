@@ -3,7 +3,7 @@
   "search.exclude": {
     "build/**/*": true,
     "lib/**/*": true,
-    "src/.next/**/*": true,
+    "src/.next/**/*": true
   },
   // Custom formatting rules
   "editor.wordWrapColumn": 100,
@@ -11,7 +11,7 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
-    "source.fixAll": "always",
+    "source.fixAll": "always"
   },
   "eslint.enable": true,
   "javascript.format.enable": false,

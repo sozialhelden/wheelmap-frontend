@@ -38,21 +38,21 @@ describe('Searching a place by name', function() {
     await expect($results).toBeDisplayedInViewport();
     await saveScreenshot('Search results are loading');
 
-    const $result = await $results.$('header=Alexanderplatz');
+    const $result = await $results.$('header=Berlin Alexanderplatz');
     await saveScreenshot('Search results are displayed');
 
     // Wait for wheelchair accessibility to be loaded
     await browser.waitUntil(
-      async () => await (await $results.$('header.is-on-wheelmap=Alexanderplatz')).isDisplayed()
+      async () => await (await $results.$('header.is-on-wheelmap=Berlin Alexanderplatz')).isDisplayed()
     );
 
     await saveScreenshot('Search results show their accessibility');
 
-    const $resultAfterSearch = await $results.$('header=Alexanderplatz');
+    const $resultAfterSearch = await $results.$('header=Berlin Alexanderplatz');
     await $resultAfterSearch.waitForClickable();
     await $resultAfterSearch.click();
 
-    await browser.waitUntil(async () => (await getCurrentUrl()).match(/\/nodes\//));
+    await browser.waitUntil(async () => (await getCurrentUrl()).match(/\/node\//));
     const results = await browser.findElement('css selector', '.search-results');
     await expect(results[IdPropertyName]).toBeUndefined();
     const $placeInfoPanel = await $('.toolbar[aria-label~="Alexanderplatz"');
