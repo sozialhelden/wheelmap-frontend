@@ -546,14 +546,8 @@ class App extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { routeName, inEmbedMode } = this.props;
-
-    const shouldStartInSearch = routeName === 'map' && !inEmbedMode;
-
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
-    } else if (shouldStartInSearch) {
-      this.openSearch(true);
     }
 
     this.setupMappingEvents();
