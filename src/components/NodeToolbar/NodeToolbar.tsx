@@ -30,6 +30,7 @@ import { MappingEvent } from "../../lib/MappingEvent";
 import { ModalNodeState } from "../../lib/ModalNodeState";
 import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
 import { translatedStringFromObject } from "../../lib/i18n";
+import isA11yEditable from "../../lib/model/isA11yEditable";
 import { UAResult } from "../../lib/userAgent";
 import CategoryIcon from "../Icon";
 import Link, { RouteConsumer } from "../Link/Link";
@@ -37,7 +38,6 @@ import { Cluster } from "../Map/Cluster";
 import InlineWheelchairAccessibilityEditor from "./AccessibilityEditor/InlineWheelchairAccessibilityEditor";
 import ToiletStatusEditor from "./AccessibilityEditor/ToiletStatusEditor";
 import WheelchairStatusEditor from "./AccessibilityEditor/WheelchairStatusEditor";
-import isA11yEditable from "./AccessibilityEditor/isA11yEditable";
 import ConfigurableExternalLinks from "./IconButtonList/ConfigurableExternalLinks";
 import IconButtonList, { StyledIconButtonList } from "./IconButtonList/IconButtonList";
 
