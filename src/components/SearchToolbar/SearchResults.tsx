@@ -1,12 +1,10 @@
-import { t } from 'ttag';
-import * as React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
 
-import { SearchResultCollection } from '../../lib/searchPlaces';
-import { SearchResultFeature } from '../../lib/searchPlaces';
-import { AccessibilityCloudFeature, WheelmapFeature } from '../../lib/Feature';
-import SearchResult, { UnstyledSearchResult } from './SearchResult';
 import { CategoryLookupTables } from '../../lib/Categories';
+import { AccessibilityCloudFeature, WheelmapFeature } from '../../lib/Feature';
+import { SearchResultCollection, SearchResultFeature } from '../../lib/searchPlaces';
+import SearchResult, { UnstyledSearchResult } from './SearchResult';
 
 type Props = {
   searchResults: SearchResultCollection,
@@ -67,7 +65,7 @@ export default function SearchResults(props: Props) {
           <SearchResult
             feature={feature}
             wheelmapFeature={wheelmapFeatures && wheelmapFeatures[index]}
-            accessibilityCloudFeature={accessibilityCloudFeaturesByURI?.[osmURL]}
+            accessibilityCloudFeatures={accessibilityCloudFeaturesByURI?.[osmURL]}
             key={featureId}
             onClick={props.onSearchResultClick}
             hidden={!!props.hidden}

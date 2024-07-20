@@ -18,7 +18,7 @@ type Props = {
   className?: string,
   feature: SearchResultFeature,
   categories: CategoryLookupTables,
-  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null, accessibilityCloudFeatures: AccessibilityCloudFeature | null) => void,
+  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null, accessibilityCloudFeature: AccessibilityCloudFeature | null) => void,
   hidden: boolean,
   wheelmapFeature: PotentialPromise<WheelmapFeature | null>,
   accessibilityCloudFeatures?: PotentialPromise<AccessibilityCloudFeature[]>,
@@ -148,8 +148,9 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
     return (
       <li ref={this.root} className={className}>
         <button
-          onClick={() => {
-            this.props.onClick(feature, wheelmapFeature, accessibilityCloudFeatures);
+          onClick={async () => {
+            const resolvedAccessibilityCloudFeatures = accessibilityCloudFeatures instanceof Promise ? await accessibilityCloudFeatures : accessibilityCloudFeatures;
+            this.props.onClick(feature, wheelmapFeature, resolvedAccessibilityCloudFeatures?.[0]);
           }}
           tabIndex={this.props.hidden ? -1 : 0}
         >
