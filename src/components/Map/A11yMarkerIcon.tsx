@@ -1,19 +1,19 @@
 import L, { IconOptions } from 'leaflet';
-import * as React from 'react';
-import * as categoryIcons from '../icons/categories';
-import getIconNameForProperties from './getIconNameForProperties';
-import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
-import MarkerIcon from './MarkerIcon';
-import CategoryIcon from '../Icon';
 import { CategoryLookupTables } from '../../lib/Categories';
+import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { accessibilityName, Feature, isWheelchairAccessible } from '../../lib/Feature';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { Feature } from '../../lib/Feature';
+import CategoryIcon from '../Icon';
+import * as categoryIcons from '../icons/categories';
+import getEquipmentInfoDescription from '../NodeToolbar/Equipment/getEquipmentInfoDescription';
+import getIconNameForProperties from './getIconNameForProperties';
+import MarkerIcon from './MarkerIcon';
 
 type Options = IconOptions & {
   href: string;
   onClick: () => void;
   highlighted?: boolean;
-  feature: Feature;
+  feature: Feature | EquipmentInfo;
   categories: CategoryLookupTables;
 };
 
@@ -25,10 +25,12 @@ export default class A11yMarkerIcon extends MarkerIcon {
 
     const accessibility = isWheelchairAccessible(feature.properties);
     const iconName = getIconNameForProperties(categories, feature.properties);
+    const placeName = translatedStringFromObject(feature.properties?.name);
+    const equipmentDescription = feature && getEquipmentInfoDescription(feature, "longDescription");
     const wheelchairAccessibilityText = accessibilityName(
       isWheelchairAccessible(feature.properties)
     );
-    const accessibleName = `${String(translatedStringFromObject(feature.properties.name))} ${String(
+    const accessibleName = equipmentDescription || `${placeName}, ${String(
       wheelchairAccessibilityText
     )}`;
 
