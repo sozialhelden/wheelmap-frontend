@@ -1,7 +1,8 @@
+import { isEqual } from 'lodash';
 import get from 'lodash/get';
-import FeatureCache from './FeatureCache';
 import { EquipmentInfo, EquipmentInfoFeatureCollection } from '../EquipmentInfo';
 import env from '../env';
+import FeatureCache from './FeatureCache';
 
 export default class EquipmentInfoCache extends FeatureCache<
   EquipmentInfo,
@@ -35,9 +36,11 @@ export default class EquipmentInfoCache extends FeatureCache<
     // @ts-ignore
     const equipmentInfos = [...this.findAllNeighborEquipmentInfos(equipmentInfo)];
     const equipmentInfosWithSameDescription = equipmentInfos.filter(e => {
-      return get(e, ['properties', 'description']) === description;
+      return isEqual(get(e, ['properties', 'description']), description);
     });
-    return equipmentInfosWithSameDescription.map(e => get(e, 'properties._id'));
+    const result = equipmentInfosWithSameDescription.map(e => get(e, 'properties._id'));
+    console.log(equipmentInfos.map(e => get(e, 'properties.description')));
+    return result;
   }
 }
 

@@ -1,7 +1,7 @@
 import L from 'leaflet';
-import HighlightableMarker from './HighlightableMarker';
 import difference from 'lodash/difference';
 import union from 'lodash/union';
+import HighlightableMarker from './HighlightableMarker';
 
 export default function highlightMarkers(
   highlightLayer: L.Layer,
@@ -12,7 +12,6 @@ export default function highlightMarkers(
 ) {
   const highlightableMarkers = markers;
   const removedMarkers = difference(currentHighlightedMarkers, highlightableMarkers);
-
   // always re-highlight, markers tend to lose additional classes when getting temp removed by leaflet
   markers.forEach(marker => marker.highlight(highlightLayer, isAnimated));
   if (removeOldMarkers) {
