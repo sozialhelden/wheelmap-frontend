@@ -36,8 +36,7 @@ configuration = {
     // Dangerously allow production builds to successfully complete even if
     // your project has type errors.
     // !! WARN !!
-    ignoreBuildErrors: true,
-    ignoreDevErrors: true,
+    ignoreBuildErrors: false,
   },
   // Disabling file-system routing to always use custom server.
   // useFileSystemPublicRoutes: false,
