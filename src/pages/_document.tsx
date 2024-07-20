@@ -6,7 +6,6 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
-import * as React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
 
@@ -35,7 +34,7 @@ export default class MyDocument extends Document<any> {
     const { locale } = this.props;
 
     return (
-      <Html lang={locale}>
+      <Html lang={locale.replace(/_/, '-')}>
         <Head>
           <meta charSet="utf-8" key="charSet" />
           <meta
