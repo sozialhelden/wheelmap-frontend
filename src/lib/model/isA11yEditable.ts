@@ -1,20 +1,11 @@
+import { App } from "../App";
 import {
   Feature,
   isWheelmapFeature,
   WheelmapFeature,
-} from "../../../lib/Feature";
-import { DataSource } from "../../../lib/cache/DataSourceCache";
-import { App } from "../../../lib/App";
-
-export function isParkingFacility(feature: WheelmapFeature) {
-  return feature.properties.node_type?.identifier === "parking" ||
-    feature.properties.tags?.parking;
-}
-
-export function hasDefaultOSMDescription(feature: WheelmapFeature) {
-  return !isParkingFacility(feature) &&
-    feature.properties.wheelchair_description === null;
-}
+} from "../Feature";
+import { DataSource } from "../cache/DataSourceCache";
+import { isParkingFacility } from "./isParkingFacility";
 
 export function hasEditablePlaceCategory(feature: WheelmapFeature) {
   // Parking lots have no editable accessibility, as the usual traffic light scheme can't be

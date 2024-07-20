@@ -1,27 +1,28 @@
-import * as React from 'react';
 import includes from 'lodash/includes';
+import * as React from 'react';
 import styled from 'styled-components';
 import { msgid, ngettext, t } from 'ttag';
+import AppContext from '../../../AppContext';
+import { getCategoryIdFromProperties } from '../../../lib/Categories';
 import {
-  isWheelchairAccessible,
-  hasAccessibleToilet,
-  accessibilityName,
   accessibilityDescription,
-  toiletDescription,
+  accessibilityName,
+  Feature,
+  hasAccessibleToilet,
+  isWheelchairAccessible,
   isWheelmapFeature,
   normalizedCoordinatesForFeature,
+  toiletDescription,
+  YesNoLimitedUnknown, YesNoUnknown,
 } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
-import PenIcon from '../../icons/actions/PenIcon';
-import { Feature } from '../../../lib/Feature';
-import { getCategoryIdFromProperties } from '../../../lib/Categories';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
+import { formatDistance } from '../../../lib/formatDistance';
+import { geoDistance } from '../../../lib/geoDistance';
+import { isParkingFacility } from "../../../lib/model/isParkingFacility";
+import { placeCategoriesWithoutExtraToiletEntry } from '../../../lib/model/placeCategoriesWithoutExtraToiletEntry';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import { geoDistance } from '../../../lib/geoDistance';
-import { formatDistance } from '../../../lib/formatDistance';
-import AppContext from '../../../AppContext';
-import { isParkingFacility } from '../AccessibilityEditor/isA11yEditable';
+import PenIcon from '../../icons/actions/PenIcon';
 
 
 const isNumericString = (s: string | undefined) => s?.match(/^\d+$/)
@@ -40,43 +41,6 @@ export function getAccessDescription(accessTagValue: string) {
     default: return null;
   }
 }
-
-
-// Don't incentivize people to add toilet status to places of these categories
-const placeCategoriesWithoutExtraToiletEntry = [
-  'parking_carports',
-  'parking_half_on_kerb',
-  'parking_on_kerb',
-  'parking_layby',
-  'parking_street_side',
-  'parking_surface',
-  'bus_stop',
-  'tram_stop',
-  'atm',
-  'toilets',
-  'elevator',
-  'escalator',
-  'entrance',
-  'subway_entrance',
-  'platform',
-  'railway_platform',
-  'animal',
-  'kiosk',
-  'other',
-  'parcel_locker',
-  'pier',
-  'recycling',
-  'shelter',
-  'station_entrance',
-  'stop_area',
-  'taxi',
-  'stop_position',
-  'telephone',
-  'traffic_signals',
-  'tram_crossing',
-  'undefined',
-  'vending_machine',
-];
 
 export function AccessibilityName({ accessibility }: { accessibility: YesNoLimitedUnknown }) {
   const appContext = React.useContext(AppContext);

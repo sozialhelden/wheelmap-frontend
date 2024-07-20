@@ -14,7 +14,8 @@ import filterAccessibility from "../../../lib/filterAccessibility";
 
 import AppContext from "../../../AppContext";
 import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";
-import isA11yEditable, { hasDefaultOSMDescription } from "../AccessibilityEditor/isA11yEditable";
+import { hasDefaultOSMDescription } from "../../../lib/model/hasDefaultOSMDescription";
+import isA11yEditable from "../../../lib/model/isA11yEditable";
 import Description from "./Description";
 
 type Props = {

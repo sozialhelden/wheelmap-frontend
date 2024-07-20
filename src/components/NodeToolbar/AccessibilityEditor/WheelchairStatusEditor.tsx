@@ -1,22 +1,21 @@
 import { t } from 'ttag';
-import * as React from 'react';
 
+import { AppContextConsumer } from '../../../AppContext';
+import { CategoryLookupTables } from '../../../lib/Categories';
 import {
   AccessibilityCloudFeature,
+  accessibilityDescription,
+  isWheelchairAccessible,
+  shortAccessibilityName,
   WheelmapFeature,
+  wheelmapFeatureFrom,
   YesNoLimitedUnknown,
 } from '../../../lib/Feature';
-import {
-  accessibilityDescription,
-  shortAccessibilityName,
-  isWheelchairAccessible,
-} from '../../../lib/Feature';
-import { saveWheelchairStatus } from './saveStatus';
-import RadioStatusEditor from './RadioStatusEditor';
-import CategoryIcon from '../../Icon';
-import { CategoryLookupTables } from '../../../lib/Categories';
+import { isBuildingLike } from '../../../lib/model/isBuildingLike';
 import { isOnSmallViewport } from '../../../lib/ViewportSize';
-import { AppContextConsumer } from '../../../AppContext';
+import CategoryIcon from '../../Icon';
+import RadioStatusEditor from './RadioStatusEditor';
+import { saveWheelchairStatus } from './saveStatus';
 
 type SaveOptions = {
   featureId: string;
@@ -32,6 +31,8 @@ type Props = SaveOptions & {
 };
 
 export default function WheelchairStatusEditor(props: Props) {
+  const wheelmapFeature = wheelmapFeatureFrom(props.feature);
+  const showDescription = !wheelmapFeature || isBuildingLike(wheelmapFeature);
   return (
     <AppContextConsumer>
       {appContext => (
@@ -57,7 +58,7 @@ export default function WheelchairStatusEditor(props: Props) {
           captionForValue={(value: YesNoLimitedUnknown) =>
             shortAccessibilityName(value, appContext.app.clientSideConfiguration)
           }
-          descriptionForValue={(value: YesNoLimitedUnknown) => accessibilityDescription(value)}
+          descriptionForValue={(value: YesNoLimitedUnknown) => showDescription ? accessibilityDescription(value) : null}
         >
           <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
         </RadioStatusEditor>
