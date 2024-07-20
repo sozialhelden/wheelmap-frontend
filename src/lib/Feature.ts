@@ -300,7 +300,7 @@ export function accessibilityCloudFeatureFrom(feature: Feature | null): Accessib
   return null;
 }
 
-export function isWheelmapProperties(properties: WheelmapProperties | AccessibilityCloudProperties): properties is WheelmapProperties {
+export function isWheelmapProperties(properties: WheelmapProperties | AccessibilityCloudProperties | EquipmentInfoProperties): properties is WheelmapProperties {
   return properties && isWheelmapFeatureId(properties['id'])
 }
 

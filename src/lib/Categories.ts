@@ -1,23 +1,23 @@
 import { t } from 'ttag';
 
+import config from './config';
+import env from './env';
 import { globalFetchManager } from './FetchManager';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
-import config from './config';
-import env from './env';
 
+import { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
 import {
+  AccessibilityCloudProperties,
   Feature,
+  NodeProperties,
   WheelmapCategoryOrNodeType,
   WheelmapProperties,
-  AccessibilityCloudProperties,
-  NodeProperties,
+  hasAccessibleToilet,
   isWheelmapProperties,
 } from './Feature';
-import { SearchResultFeature } from './searchPlaces';
-import { hasAccessibleToilet } from './Feature';
-import { EquipmentInfo } from './EquipmentInfo';
 import { LocalizedString } from './i18n';
+import { SearchResultFeature } from './searchPlaces';
 
 /*
   Using the | characters around the type definitions of `ACCategory` and
@@ -360,7 +360,7 @@ export function getCategoryId(category?: Category | string | WheelmapCategoryOrN
 }
 
 export function getCategoryIdFromProperties(
-  props: AccessibilityCloudProperties | WheelmapProperties
+  props: AccessibilityCloudProperties | WheelmapProperties | EquipmentInfoProperties
 ): string | undefined {
   if (!props) {
     return;
