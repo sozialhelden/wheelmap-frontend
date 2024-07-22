@@ -22,6 +22,7 @@ function FilterInputs() {
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
+        ...(route.query.unisex && { unisex: route.query.unisex }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -29,7 +30,7 @@ function FilterInputs() {
     [route.query.bbox, route.query.name]
   );
 
-  const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "*" ? true : false);
+  const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "true" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
 
@@ -68,7 +69,7 @@ function FilterInputs() {
         setHasUnisexFilter(!hasUnisexFilter);
         if (hasUnisexFilter) delete updatedQuery["unisex"];
         else {
-          updatedQuery["unisex"] = "*";
+          updatedQuery["unisex"] = "true";
         }
       }
       if (value === "blind") {
