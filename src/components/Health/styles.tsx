@@ -257,6 +257,16 @@ export const StyledLoadingLabel = styled.label`
   margin-bottom: 0.5rem;
 `;
 
+export const StyledChip = styled.label`
+  background-color: ${StyledColors.grey};
+  color: white;
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-inline-end: 0.15rem;
+  margin-block: 0.15rem;
+  padding: 0.2rem 0.5rem;
+`;
+
 export const StyledUL = styled.ul<{ $showBullets?: boolean }>`
   padding-inline-start: 0;
   list-style-type: ${({ $showBullets }) => ($showBullets ? "circle" : "none")};

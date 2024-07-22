@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
 import { formatDistance } from "../../lib/model/formatDistance";
@@ -10,7 +11,7 @@ import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
+import { StyledButtonAsLink, StyledChip, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
   display: flex;
@@ -28,7 +29,7 @@ const StyledListItem = styled.li`
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN } = properties;
+  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, access } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -66,6 +67,42 @@ function SearchResult({ data }: any) {
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
+  const chippedAttributes = ["access", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
+  const filterAttributesAsObject = {
+    fee: {
+      yes: t`Fee required` + (properties?.charge ? ` (${properties?.charge})` : ""),
+      no: t`No fee required`,
+    },
+    access: {
+      yes: t`Accessible to all`,
+      customers: t`Customers only`,
+      public: t`Public`,
+    },
+    ["toilets:disposal"]: {
+      flush: t`Flush toilets`,
+      pitlatrine: t`Pit latrine`,
+      bucket: t`Bucket toilet`,
+      composting: t`Composting toilet`,
+    },
+    ["toilets:position"]: {
+      seated: t`Seated toilet`,
+      ["seated;urinal"]: t`Seated & Urinal toilet`,
+      ["urinal;seated"]: t`Urinal & Seated toilet`,
+      standing: t`Standing toilet`,
+    },
+    changing_table: {
+      yes: t`Changing table available`,
+      no: t`No changing table available`,
+    },
+    centralkey: {
+      eurokey: t`Euro-Schlüssel`,
+    },
+  };
+  const filterAttributes = (attr: string) => {
+    const value = filterAttributesAsObject[attr]?.[properties[attr]];
+    const valueIfNull = properties[attr] ? `${attr} : ${properties[attr]}` : null;
+    return value || valueIfNull;
+  };
 
   return (
     <StyledListItem>
@@ -82,6 +119,13 @@ function SearchResult({ data }: any) {
           </Link>
         </StyledH3>
 
+        {chippedAttributes
+          .sort((a, b) => (properties[a] === undefined ? 1 : -1) - (properties[b] === undefined ? 1 : -1))
+          .map((attr) => {
+            if (filterAttributes(attr)) {
+              return <StyledChip style={{}}>{filterAttributes(attr)}</StyledChip>;
+            }
+          })}
         <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street && (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
