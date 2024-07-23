@@ -76,13 +76,18 @@ function SearchResult({ data }: any) {
     access: {
       yes: t`Accessible to all`,
       customers: t`Customers only`,
-      public: t`Public`,
+      public: t`Public entrance`,
+      private: t`Private entrance`,
+      permissive: t`Permissive entrance`,
+      permit: t`Permit required`,
+      conditional: t`Conditional entrance`,
     },
     ["toilets:disposal"]: {
       flush: t`Flush toilets`,
       pitlatrine: t`Pit latrine`,
       bucket: t`Bucket toilet`,
       composting: t`Composting toilet`,
+      chemical: t`Chemical toilet`,
     },
     ["toilets:position"]: {
       seated: t`Seated toilet`,
