@@ -196,7 +196,7 @@ function FilterInputs() {
         { shallow: true }
       );
     },
-    [route]
+    [route, setIsNameFilter]
   );
 
   const getWheelchairCountByStats = useCallback((wheelchair, stats) => {
