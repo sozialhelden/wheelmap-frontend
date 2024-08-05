@@ -23,6 +23,7 @@ function FilterInputs() {
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.unisex && { unisex: route.query.unisex }),
+        ...(route.query.centralkey && { centralkey: route.query.centralkey }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -31,6 +32,7 @@ function FilterInputs() {
   );
 
   const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "true" ? true : false);
+  const [hasCentralKeyFilter, setHasCentralKeyFilter] = useState(route.query["centralkey"] === "true" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
 
@@ -70,6 +72,13 @@ function FilterInputs() {
         if (hasUnisexFilter) delete updatedQuery["unisex"];
         else {
           updatedQuery["unisex"] = "true";
+        }
+      }
+      if (value === "centralkey") {
+        setHasCentralKeyFilter(!hasCentralKeyFilter);
+        if (hasCentralKeyFilter) delete updatedQuery["centralkey"];
+        else {
+          updatedQuery["centralkey"] = "true";
         }
       }
       if (value === "blind") {
@@ -158,7 +167,11 @@ function FilterInputs() {
               </StyledLabel>
               <label htmlFor="filter-unisex">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
-                <T _str="Unisex toilets " />
+                <T _str="Unisex toilets" />
+              </label>
+              <label htmlFor="filter-centralkey">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-centralkey" checked={hasCentralKeyFilter} value="centralkey" onChange={handleFilterType} />
+                <T _str="Toilets with Central-Key" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
