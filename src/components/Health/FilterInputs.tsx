@@ -24,6 +24,7 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.unisex && { unisex: route.query.unisex }),
         ...(route.query.centralkey && { centralkey: route.query.centralkey }),
+        ...(route.query.fee && { fee: route.query.fee }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
