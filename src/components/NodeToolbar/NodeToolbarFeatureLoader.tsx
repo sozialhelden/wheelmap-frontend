@@ -2,16 +2,15 @@ import * as React from 'react';
 
 import NodeToolbar from './NodeToolbar';
 
-import { Cluster } from '../Map/Cluster';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import { Category } from '../../lib/Categories';
-import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import { getPlaceDetailsIfAlreadyResolved, PlaceDetailsProps, SourceWithLicense } from '../../app/PlaceDetailsProps';
+import Categories, { Category, CategoryLookupTables } from '../../lib/Categories';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import { MappingEvent } from '../../lib/MappingEvent';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import { PhotoModel } from '../../lib/PhotoModel';
-import { SourceWithLicense } from '../../app/PlaceDetailsProps';
-import { PlaceDetailsProps, getPlaceDetailsIfAlreadyResolved } from '../../app/PlaceDetailsProps';
 import { UAResult } from '../../lib/userAgent';
+import { Cluster } from '../Map/Cluster';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -42,6 +41,7 @@ type Props = {
   minimalTopPosition: number,
   userAgent: UAResult,
   joinedMappingEventId?: string,
+  joinedMappingEvent?: MappingEvent,
 } & PlaceDetailsProps;
 
 type RequiredData = {
@@ -196,7 +196,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     if (childPlaceInfos instanceof Promise) {
-      childPlaceInfos.then(resolved => this.handleToiletsNearbyFetched(childPlaceInfos, resolved));
+      childPlaceInfos.then(resolved => this.handleChildPlaceInfosFetched(childPlaceInfos, resolved));
     }
 
     if (sources instanceof Promise) {
@@ -274,6 +274,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       resolvedPhotos,
       resolvedSources,
       resolvedToiletsNearby,
+      resolvedChildPlaceInfos,
     } = this.state;
     // strip promises from props
     const {
@@ -298,6 +299,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         sources={resolvedSources || []}
         photos={resolvedPhotos || []}
         toiletsNearby={resolvedToiletsNearby || []}
+        childPlaceInfos={resolvedChildPlaceInfos || []}
         ref={this.nodeToolbar}
       />
     );

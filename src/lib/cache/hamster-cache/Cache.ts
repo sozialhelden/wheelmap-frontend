@@ -183,11 +183,15 @@ export default class Cache<K, V> {
 
   public evictExpiredItems(ifOlderThanTimestamp: number = Date.now()) {
     // eslint-disable-next-line no-restricted-syntax
-    for (const [key, item] of this.options.cache) {
+    const keysToEvict: K[] = [];
+    this.options.cache.forEach((item, key) => {
       if (item.expireAfterTimestamp <= ifOlderThanTimestamp) {
-        this.delete(key);
+        keysToEvict.push(key);
       }
-    }
+    });
+    keysToEvict.forEach(key => {
+      this.delete(key);
+    });
   }
 
   /**

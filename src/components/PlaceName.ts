@@ -9,7 +9,6 @@ const placeNameCSS = css`
   flex-direction: row;
   align-items: center;
   word-break: break-word;
-  font-weight: ${props => (props.isSmall ? '500' : '400')};
 
   figure {
     margin-right: 5px;
@@ -21,15 +20,18 @@ const placeNameCSS = css`
 
 export const PlaceNameH1 = styled.h1.attrs({ isSmall: false })`
   ${placeNameCSS}
+  font-weight: ${props => (props.isSmall ? '500' : '400')};
   font-size: ${props => (props.isSmall ? 'inherit' : '20px')};
 `;
 
 export const PlaceNameHeader = styled.header.attrs({ isSmall: false })`
   ${placeNameCSS}
+  font-weight: ${props => (props.isSmall ? '500' : '400')};
   font-size: ${props => (props.isSmall ? 'inherit' : '20px')};
 `;
 
 export const PlaceNameDiv = styled.div.attrs({ isSmall: false })`
   ${placeNameCSS}
+  font-weight: ${props => (props.isSmall ? '500' : '400')};
   font-size: ${props => (props.isSmall ? 'inherit' : '1rem')};
 `;

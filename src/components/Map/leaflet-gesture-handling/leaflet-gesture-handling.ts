@@ -177,7 +177,7 @@ export var GestureHandling = L.Handler.extend({
     _getUserLanguage: function() {
         var lang = navigator.languages
             ? navigator.languages[0]
-            : navigator.language || navigator.userLanguage;
+            : navigator.language || navigator['userLanguage'];
         return lang;
     },
 

@@ -1,25 +1,24 @@
-import React, { Fragment } from 'react';
-import { t } from 'ttag';
-import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import MappingEventShareBar from './MappingEventShareBar';
-import Statistics from './Statistics';
+import { omit } from 'lodash';
+import { AppContextConsumer } from '../../AppContext';
+import colors from '../../lib/colors';
+import { buildFullImageUrl } from '../../lib/Image';
+import { canMappingEventBeJoined, MappingEvent } from '../../lib/MappingEvent';
+import { RouteParams } from '../../lib/RouterHistory';
+import Button, { ChromelessButton, DangerButton, PrimaryButton } from '../Button';
+import CloseButton from '../CloseButton';
+import GlobeIcon from '../icons/ui-elements/GlobeIcon';
+import MapPinIcon from '../icons/ui-elements/MapPinIcon';
 import Link from '../Link/Link';
 import { RouteConsumer, RouteContext } from '../Link/RouteContext';
-import { AppContextConsumer } from '../../AppContext';
-import ChevronLeft from './ChevronLeft';
-import { buildFullImageUrl } from '../../lib/Image';
-import { MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
-import { RouteParams } from '../../lib/RouterHistory';
-import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
-import MapPinIcon from '../icons/ui-elements/MapPinIcon';
-import GlobeIcon from '../icons/ui-elements/GlobeIcon';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import StyledMarkdown from '../StyledMarkdown';
-import colors from '../../lib/colors';
-import { omit } from 'lodash';
-import CloseButton from '../CloseButton';
+import ChevronLeft from './ChevronLeft';
+import MappingEventShareBar from './MappingEventShareBar';
+import Statistics from './Statistics';
 
 export const StyledCloseButton = styled(CloseButton)`
   float: right;
@@ -61,7 +60,7 @@ const MappingEventToolbar = ({
       ? buildFullImageUrl(mappingEvent.images[0])
       : '/images/eventPlaceholder.png';
 
-  const dateFormatOptions = {
+  const dateFormatOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',

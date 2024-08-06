@@ -1,17 +1,15 @@
-import * as React from 'react';
 import styled from 'styled-components';
 
-import { Feature } from '../../../lib/Feature';
 import { Category } from '../../../lib/Categories';
+import { Feature } from '../../../lib/Feature';
 
-import PhoneNumberLink from './PhoneNumberLink';
-import ExternalLinks from './ExternalLinks';
-import PlaceAddress from './PlaceAddress';
 import colors from '../../../lib/colors';
+import { UAResult } from '../../../lib/userAgent';
+import ExternalLinks from './ExternalLinks';
+import PhoneNumberLink from './PhoneNumberLink';
+import PlaceAddress from './PlaceAddress';
 import PlaceWebsiteLink from './PlaceWebsiteLink';
 import ReportIssueButton from './ReportIssueButton';
-import { UAResult } from '../../../lib/userAgent';
-import ConfigurableExternalLinks from './ConfigurableExternalLinks';
 
 type Props = {
   feature: Feature | null,

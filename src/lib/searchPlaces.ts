@@ -33,7 +33,7 @@ export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
   wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[],
-  accessibilityCloudFeaturesByURI?: Promise<Dictionary<AccessibilityCloudFeature[]>>,
+  accessibilityCloudFeaturesByURI?: Dictionary<AccessibilityCloudFeature[]>,
 };
 
 export function getOsmIdFromSearchResultProperties(

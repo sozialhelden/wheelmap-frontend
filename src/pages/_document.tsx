@@ -4,7 +4,7 @@ import Document, {
   Head,
   Html,
   Main,
-  NextScript,
+  NextScript
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
@@ -62,7 +62,6 @@ export default class MyDocument extends Document<any> {
                 ${env.REACT_APP_OSM_API_TILE_BACKEND_URL_LEGACY.replace(/(https?:\/\/.*?)\/.*$/, '$1') || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
               style-src
                 'self'
