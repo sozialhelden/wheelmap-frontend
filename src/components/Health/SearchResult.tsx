@@ -70,7 +70,7 @@ function SearchResult({ data }: any) {
   const chippedAttributes = ["access", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
   const filterAttributesAsObject = {
     fee: {
-      yes: t`Fee required` + (properties?.charge ? ` (${properties?.charge})` : ""),
+      yes: `${t`Fee required`}${properties?.charge ? ` (${properties?.charge})` : ""}`,
       no: t`No fee required`,
     },
     access: {
@@ -82,17 +82,18 @@ function SearchResult({ data }: any) {
       permit: t`Permit required`,
       conditional: t`Conditional entrance`,
     },
-    ["toilets:disposal"]: {
+    "toilets:disposal": {
       flush: t`Flush toilets`,
       pitlatrine: t`Pit latrine`,
       bucket: t`Bucket toilet`,
       composting: t`Composting toilet`,
       chemical: t`Chemical toilet`,
+      dry_toilet: t`Dry toilet`,
     },
-    ["toilets:position"]: {
+    "toilets:position": {
       seated: t`Seated toilet`,
-      ["seated;urinal"]: t`Seated & Urinal toilet`,
-      ["urinal;seated"]: t`Urinal & Seated toilet`,
+      urinal: t`Urinal toilet`,
+      squat: t`Squat toilet`,
       standing: t`Standing toilet`,
     },
     changing_table: {
@@ -100,13 +101,25 @@ function SearchResult({ data }: any) {
       no: t`No changing table available`,
     },
     centralkey: {
-      eurokey: t`Euro-Schlüssel`,
+      eurokey: t`Euro-Key required`,
+      yes: t`Central key required`,
     },
   };
-  const filterAttributes = (attr: string) => {
-    const value = filterAttributesAsObject[attr]?.[properties[attr]];
-    const valueIfNull = properties[attr] ? `${attr} : ${properties[attr]}` : null;
-    return value || valueIfNull;
+  const filterAttributes = (attr) => {
+    const propertyValue = properties[attr];
+    if (!propertyValue) {
+      return null;
+    }
+
+    const attributeMapping = filterAttributesAsObject[attr];
+
+    if (attributeMapping) {
+      const splitValues = propertyValue.split(";");
+      const mappedValues = splitValues.map((value) => attributeMapping[value] || value).sort((a, b) => a.localeCompare(b));
+      return mappedValues.join(", ");
+    }
+
+    return `${attr} : ${propertyValue}`;
   };
 
   return (

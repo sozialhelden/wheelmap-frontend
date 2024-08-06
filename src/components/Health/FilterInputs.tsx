@@ -33,6 +33,7 @@ function FilterInputs() {
 
   const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "true" ? true : false);
   const [hasCentralKeyFilter, setHasCentralKeyFilter] = useState(route.query["centralkey"] === "true" ? true : false);
+  const [hasFeeFilter, setHasFeeFilter] = useState(route.query["fee"] === "no" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
 
@@ -79,6 +80,13 @@ function FilterInputs() {
         if (hasCentralKeyFilter) delete updatedQuery["centralkey"];
         else {
           updatedQuery["centralkey"] = "true";
+        }
+      }
+      if (value === "fee") {
+        setHasFeeFilter(!hasFeeFilter);
+        if (hasFeeFilter) delete updatedQuery["fee"];
+        else {
+          updatedQuery["fee"] = "no";
         }
       }
       if (value === "blind") {
@@ -172,6 +180,10 @@ function FilterInputs() {
               <label htmlFor="filter-centralkey">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-centralkey" checked={hasCentralKeyFilter} value="centralkey" onChange={handleFilterType} />
                 <T _str="Toilets with Central-Key" />
+              </label>
+              <label htmlFor="filter-fee">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-fee" checked={hasFeeFilter} value="fee" onChange={handleFilterType} />
+                <T _str="No fee required" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
