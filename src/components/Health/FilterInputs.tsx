@@ -203,7 +203,7 @@ function FilterInputs() {
               </label>
               <label htmlFor="filter-toiletinplace">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
-                <T _str="Toilet in place" />
+                <T _str="Toilet is a part of a place" />
               </label>
             </StyledRadioBox>
           </fieldset>
