@@ -22,6 +22,7 @@ export type QueryParameters = {
   ["blind:description"]?: string;
   ["deaf:description"]?: string;
   tags?: string;
+  toiletinplace?: string;
 };
 
 export type AmenityStatsResponse = {
@@ -63,11 +64,11 @@ export type AmenityListResponse = {
   features: AmenityListFeaturesResponse[];
 };
 
-export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, unisex, centralkey, fee, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
+export function generateAmenityListURL(options: QueryParameters, baseurl: string, collection: string = "toilets.json"): string {
+  const { bbox, name, wheelchair, unisex, centralkey, fee, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags, toiletinplace } = options;
   const editedLimit = `&limit=${defaultLimit}`;
-  const editedToilets = `&toilets=*`;
   if (bbox || wheelchair || unisex || centralkey || fee || tags) {
+    const editedToilets = `&toilets=*`;
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
@@ -77,13 +78,14 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/toilets.json?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedLimit}&geometry=centroid`;
+    const editedToiletinplace = collection === "amenities.json" ? `&toiletinplace=*` : "";
+    return `${baseurl}/${collection}?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }
 
-export function generateAmenityStatsURL(options: QueryParameters, baseurl: string): string {
-  const url = generateAmenityListURL(options, baseurl);
+export function generateAmenityStatsURL(options: QueryParameters, baseurl: string, collection: string = "toilets.json"): string {
+  const url = generateAmenityListURL(options, baseurl, collection);
   if (!url) {
     return undefined;
   }

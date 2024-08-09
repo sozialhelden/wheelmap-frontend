@@ -37,7 +37,7 @@ function SearchResults() {
   const env = useContext(EnvContext);
 
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = generateAmenityListURL(route.query, baseurl);
+  const finalURL = generateAmenityListURL(route.query, baseurl, route.query.toiletinplace === "*" ? "amenities.json" : "toilets.json");
   const { data, error, isLoading } = useSWR<AmenityListResponse>(finalURL, fetchJSON);
 
   React.useEffect(() => {

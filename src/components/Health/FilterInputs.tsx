@@ -37,8 +37,8 @@ function FilterInputs() {
   const [hasFeeFilter, setHasFeeFilter] = useState(route.query["fee"] === "no" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
-
-  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
+  const [hasToiletInPlace, setHasToiletInPlace] = useState(route.query.toiletinplace === "*" ? true : false);
+  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl, route.query.toiletinplace === "*" ? "amenities.json" : "toilets.json") : null, fetchJSON);
 
   // Wheelchair filter
   const useRouteReplace = useCallback(
@@ -102,6 +102,13 @@ function FilterInputs() {
         if (hasDeafFilter) delete updatedQuery["deaf:description"];
         else {
           updatedQuery["deaf:description"] = "*";
+        }
+      }
+      if (value === "toiletinplace") {
+        setHasToiletInPlace(!hasToiletInPlace);
+        if (hasToiletInPlace) delete updatedQuery["toiletinplace"];
+        else {
+          updatedQuery["toiletinplace"] = "*";
         }
       }
 
@@ -193,6 +200,10 @@ function FilterInputs() {
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
                 <T _str="infos for hearing impaired people" />
+              </label>
+              <label htmlFor="filter-toiletinplace">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
+                <T _str="Toilet in place" />
               </label>
             </StyledRadioBox>
           </fieldset>
