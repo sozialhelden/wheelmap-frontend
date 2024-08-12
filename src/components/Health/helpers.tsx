@@ -79,7 +79,8 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
     const editedToiletinplace = collection === "amenities.json" ? `&toiletinplace=*` : "";
-    return `${baseurl}/${collection}?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}&geometry=centroid`;
+    const editedIncludeAdmin = "&intersecting=buildings&includeAdmin=true";
+    return `${baseurl}/${collection}?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}${editedIncludeAdmin}&geometry=centroid`;
   }
   return undefined;
 }
@@ -114,6 +115,42 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return R * c;
+}
+
+export function getGoodKeys(properties: any, firstKey: string, secondKey: string): string[] {
+  const stringsKeys: string[] = [];
+  for (const key in properties) {
+    if (key.startsWith(firstKey) && key.endsWith(secondKey)) {
+      const name = properties[key];
+      if (name) {
+        stringsKeys.push(name);
+      }
+    }
+  }
+  return stringsKeys;
+}
+
+export function getGoodAddress(properties: any): string | null {
+  // Check if properties.name exists and is not null
+  if (properties?.hasOwnProperty("name") && properties?.name) {
+    return properties?.name;
+  }
+
+  // Return all the building names and join them with a comma but avoid duplicated strings
+  const uniqueBuildingNames = uniq(getGoodKeys(properties, "admin_level:", "name")).join(", ");
+  return uniqueBuildingNames.length > 0 ? uniqueBuildingNames : null;
+}
+
+export function getGoodName(properties: any): string | null {
+  // Check if properties.name exists and is not null
+  if (properties?.hasOwnProperty("name") && properties?.name) {
+    return properties?.name;
+  }
+
+  // Extract names from intersecting buildings
+  const buildingNames: string[] = getGoodKeys(properties, "intersecting:buildings:", "name");
+  // Return the first valid building name, or null if none found
+  return buildingNames.length > 0 ? buildingNames[buildingNames.length - 1] : null;
 }
 
 export function getWheelchairSettings(wheelchair: string): any {

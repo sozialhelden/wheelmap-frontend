@@ -10,7 +10,7 @@ import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
-import { getWheelchairSettings } from "./helpers";
+import { getGoodAddress, getGoodName, getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledChip, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
@@ -131,7 +131,7 @@ function SearchResult({ data }: any) {
       <div style={{ flex: 1 }}>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
           <Link href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
-            {name}
+            {getGoodName(properties)}
             &nbsp;
             <ExternalLinkIcon />
           </Link>
@@ -145,9 +145,13 @@ function SearchResult({ data }: any) {
             }
           })}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {customAddress.street && (
+          {customAddress.street ? (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
               {[[customAddress.street, customAddress.housenumber].filter(Boolean).join(" "), customAddress.postcode, customAddress.city].filter(Boolean).join(", ")}
+            </StyledButtonAsLink>
+          ) : (
+            <StyledButtonAsLink href={openInMaps.url} target="_blank">
+              {getGoodAddress(properties)}
             </StyledButtonAsLink>
           )}
 

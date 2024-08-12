@@ -38,7 +38,7 @@ function FilterInputs() {
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const [hasToiletInPlace, setHasToiletInPlace] = useState(route.query.toiletinplace === "*" ? true : false);
-  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl, route.query.toiletinplace === "*" ? "amenities.json" : "toilets.json") : null, fetchJSON);
+  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl, route.query.toiletinplace === "*" ? "toilets.json" : "amenities.json") : null, fetchJSON);
 
   // Wheelchair filter
   const useRouteReplace = useCallback(
@@ -203,7 +203,7 @@ function FilterInputs() {
               </label>
               <label htmlFor="filter-toiletinplace">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
-                <T _str="Toilet is a part of a place" />
+                <T _str="Toilet is not inside of another place" />
               </label>
             </StyledRadioBox>
           </fieldset>
