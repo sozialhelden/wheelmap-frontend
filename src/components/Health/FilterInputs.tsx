@@ -106,8 +106,13 @@ function FilterInputs() {
       }
       if (value === "toiletinplace") {
         setHasToiletInPlace(!hasToiletInPlace);
-        if (hasToiletInPlace) delete updatedQuery["toiletinplace"];
-        else {
+        if (hasToiletInPlace) {
+          delete updatedQuery["toiletinplace"];
+          delete updatedQuery["unisex"];
+          setHasUnisexFilter(false);
+          delete updatedQuery["fee"];
+          setHasFeeFilter(false);
+        } else {
           updatedQuery["toiletinplace"] = "*";
         }
       }
@@ -181,17 +186,21 @@ function FilterInputs() {
               <StyledLabel $fontBold="bold" htmlFor="filter-unisex">
                 <T _str="Show only places with…" />
               </StyledLabel>
+              <label htmlFor="filter-toiletinplace">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
+                <T _str="Toilet is not inside of another place" />
+              </label>
               <label htmlFor="filter-unisex">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
+                <StyledCheckbox disabled={!hasToiletInPlace} type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
                 <T _str="Unisex toilets" />
+              </label>
+              <label htmlFor="filter-fee">
+                <StyledCheckbox disabled={!hasToiletInPlace} type="checkbox" name="filter" id="filter-fee" checked={hasFeeFilter} value="fee" onChange={handleFilterType} />
+                <T _str="No fee required" />
               </label>
               <label htmlFor="filter-centralkey">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-centralkey" checked={hasCentralKeyFilter} value="centralkey" onChange={handleFilterType} />
                 <T _str="Toilets with Central-Key" />
-              </label>
-              <label htmlFor="filter-fee">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-fee" checked={hasFeeFilter} value="fee" onChange={handleFilterType} />
-                <T _str="No fee required" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
@@ -200,10 +209,6 @@ function FilterInputs() {
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
                 <T _str="infos for hearing impaired people" />
-              </label>
-              <label htmlFor="filter-toiletinplace">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
-                <T _str="Toilet is not inside of another place" />
               </label>
             </StyledRadioBox>
           </fieldset>
