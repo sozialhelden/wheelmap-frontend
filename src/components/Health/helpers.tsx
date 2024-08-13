@@ -79,7 +79,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
     const editedToiletinplace = collection === "amenities.json" ? `&toiletinplace=*` : "";
-    const editedIncludeAdmin = "&intersecting=buildings&includeAdmin=true";
+    const editedIncludeAdmin = "";
     return `${baseurl}/${collection}?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}${editedIncludeAdmin}&geometry=centroid`;
   }
   return undefined;
