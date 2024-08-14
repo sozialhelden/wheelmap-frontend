@@ -16,7 +16,7 @@ function SearchFilterDialog(props: any) {
       </Link>
       <StyledH1>
         <a href="/" style={{ color: "inherit" }}>
-          <T _str="Find accessible toilets" />
+          <T _str="Find accessible restaurants" />
         </a>
         <StyledClaim>
           <T _str="- easily and everywhere." />

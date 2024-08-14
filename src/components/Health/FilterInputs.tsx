@@ -186,22 +186,6 @@ function FilterInputs() {
               <StyledLabel $fontBold="bold" htmlFor="filter-unisex">
                 <T _str="Show only places with…" />
               </StyledLabel>
-              <label htmlFor="filter-toiletinplace">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-toiletinplace" checked={hasToiletInPlace} value="toiletinplace" onChange={handleFilterType} />
-                <T _str="Toilet is not inside of another place" />
-              </label>
-              <label htmlFor="filter-unisex">
-                <StyledCheckbox disabled={!hasToiletInPlace} type="checkbox" name="filter" id="filter-unisex" checked={hasUnisexFilter} value="unisex" onChange={handleFilterType} />
-                <T _str="Unisex toilets" />
-              </label>
-              <label htmlFor="filter-fee">
-                <StyledCheckbox disabled={!hasToiletInPlace} type="checkbox" name="filter" id="filter-fee" checked={hasFeeFilter} value="fee" onChange={handleFilterType} />
-                <T _str="No fee required" />
-              </label>
-              <label htmlFor="filter-centralkey">
-                <StyledCheckbox type="checkbox" name="filter" id="filter-centralkey" checked={hasCentralKeyFilter} value="centralkey" onChange={handleFilterType} />
-                <T _str="Toilets with Central-Key" />
-              </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
                 <T _str="infos for blind people" />

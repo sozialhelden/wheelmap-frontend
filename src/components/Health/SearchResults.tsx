@@ -22,7 +22,7 @@ function NonIdealContent() {
   return (
     <div style={{ marginTop: "10rem", textAlign: "center" }}>
       <HugeText>
-        <T _str={`Find accessible toilets in your area`} />
+        <T _str={`Find accessible restaurants in your area`} />
       </HugeText>
       <HugeText>
         <T _str={`You can choose further search criteria in the next step.`} />
