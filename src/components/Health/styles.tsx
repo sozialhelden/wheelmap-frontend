@@ -260,7 +260,7 @@ export const StyledLoadingLabel = styled.label`
 export const StyledChip = styled.label`
   background-color: ${StyledColors.grey};
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   display: inline-block;
   margin-inline-end: 0.15rem;
   margin-block: 0.15rem;
