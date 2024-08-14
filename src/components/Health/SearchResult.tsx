@@ -10,7 +10,7 @@ import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
-import { getGoodAddress, getGoodName, getWheelchairSettings } from "./helpers";
+import { getGoodName, getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledChip, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
@@ -147,11 +147,14 @@ function SearchResult({ data }: any) {
         <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street ? (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
+              <T _str="Navigate to" />
+              &nbsp;
               {[[customAddress.street, customAddress.housenumber].filter(Boolean).join(" "), customAddress.postcode, customAddress.city].filter(Boolean).join(", ")}
             </StyledButtonAsLink>
           ) : (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
-              {getGoodAddress(properties)}
+              <T _str="Navigate Here" />
+              {/* {getGoodAddress(properties)} */}
             </StyledButtonAsLink>
           )}
 
