@@ -10,7 +10,7 @@ import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
-import { getGoodName, getWheelchairSettings } from "./helpers";
+import { getGoodAddress, getGoodName, getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledChip, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
 
 const StyledListItem = styled.li`
@@ -153,8 +153,9 @@ function SearchResult({ data }: any) {
             </StyledButtonAsLink>
           ) : (
             <StyledButtonAsLink href={openInMaps.url} target="_blank">
-              <T _str="Navigate Here" />
-              {/* {getGoodAddress(properties)} */}
+              <T _str=" [ Navigate Here ]" />
+              &nbsp;
+              {getGoodAddress(properties)}
             </StyledButtonAsLink>
           )}
 
