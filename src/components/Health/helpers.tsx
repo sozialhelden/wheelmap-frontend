@@ -68,10 +68,10 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   const { bbox, name, wheelchair, unisex, centralkey, fee, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags, toiletinplace } = options;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || unisex || centralkey || fee || tags) {
+    const editedWheelchair = wheelchair ? `&t[wheelchair]&wheelchair=${wheelchair}` : "";
     const editedToilets = `&t[toilets]=*`;
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&t[name]=${name}` : "") : "";
-    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
     const editedUnisex = unisex ? `&t[unisex]=true` : "";
     const editedCentralKey = centralkey ? `&t[centralkey]=true` : "";
     const editedFee = fee ? `&t[fee=no]` : "";
@@ -80,7 +80,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const editedTags = tags ? `&tags=${tags}` : "";
     const editedToiletinplace = collection === "amenities.json" ? `&toiletinplace=*` : "";
     const editedIncludeAdmin = "&intersecting=buildings&includeAdmin=true";
-    return `${baseurl}/${collection}?${editedBbox}${editedName}${editedWheelchair}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}${editedIncludeAdmin}&geometry=centroid`;
+    return `${baseurl}/${collection}?${editedBbox}${editedWheelchair}${editedName}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedToilets}${editedToiletinplace}${editedLimit}${editedIncludeAdmin}&geometry=centroid`;
   }
   return undefined;
 }
