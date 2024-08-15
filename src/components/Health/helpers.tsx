@@ -68,15 +68,15 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   const { bbox, name, wheelchair, unisex, centralkey, fee, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags, toiletinplace } = options;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || unisex || centralkey || fee || tags) {
-    const editedToilets = `&toilets=*`;
+    const editedToilets = `&t[toilets]=*`;
     const editedBbox = bbox ? `bbox=${bbox}` : "";
-    const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
+    const editedName = name ? (name.length > 1 ? `&t[name]=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
-    const editedUnisex = unisex ? `&unisex=true` : "";
-    const editedCentralKey = centralkey ? `&centralkey=true` : "";
-    const editedFee = fee ? `&fee=no` : "";
-    const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
-    const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
+    const editedUnisex = unisex ? `&t[unisex]=true` : "";
+    const editedCentralKey = centralkey ? `&t[centralkey]=true` : "";
+    const editedFee = fee ? `&t[fee=no]` : "";
+    const editedBlindDescription = blindDescription ? `&t[blind:description]=*` : "";
+    const editedDeafDescription = deafDescription ? `&t[deaf:description]=*` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
     const editedToiletinplace = collection === "amenities.json" ? `&toiletinplace=*` : "";
     const editedIncludeAdmin = "&intersecting=buildings&includeAdmin=true";
