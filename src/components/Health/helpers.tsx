@@ -68,7 +68,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   const { bbox, name, wheelchair, unisex, centralkey, fee, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags, toiletinplace } = options;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || unisex || centralkey || fee || tags) {
-    const editedWheelchair = wheelchair ? `&t[wheelchair]&wheelchair=${wheelchair}` : "";
+    const editedWheelchair = wheelchair ? `&t[wheelchair]=*&wheelchair=${wheelchair}` : "";
     const editedToilets = `&t[toilets]=*`;
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&t[name]=${name}` : "") : "";
