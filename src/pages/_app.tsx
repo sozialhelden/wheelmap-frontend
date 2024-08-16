@@ -18,7 +18,7 @@ import { HostnameContext } from "../lib/context/HostnameContext";
 import { LanguageTagContext } from "../lib/context/LanguageTagContext";
 import { UserAgentContext, parseUserAgentString } from "../lib/context/UserAgentContext";
 import fetchApp from "../lib/fetchers/fetchApp";
-import { getServerSideTranslations, setClientSideTranslations } from "../lib/i18n";
+import { setClientSideTranslations } from "../lib/i18n";
 import { parseAcceptLanguageString } from "../lib/i18n/parseAcceptLanguageString";
 
 export type NextPageWithLayout = NextPage & {
@@ -119,7 +119,8 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   }
   // On the client, isometricEnvironmentVariables is set on the first page rendering.
   const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
-  const translationProps = await getServerSideTranslations({ locale: query.locale || languageTagStrings[0], locales: languageTagStrings });
+  // const translationProps = await getServerSideTranslations({ locale: query.locale || languageTagStrings[0], locales: languageTagStrings });
+  const translationProps = {};
   const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname, ...translationProps };
   return { ...appProps, pageProps };
 };

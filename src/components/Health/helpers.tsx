@@ -86,7 +86,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     //   foo: "bar",
     // })
 
-    const extraFixedParams = "&intersecting=buildings&includeAdmin=true&hasToiletInfo=true&geometry=centroid";
+    const extraFixedParams = "&hasToiletInfo=true&geometry=centroid";
     return `${baseurl}/${editedCollection}?${editedBbox}${editedWheelchair}${editedName}${editedTags}${editedUnisex}${editedCentralKey}${editedFee}${editedBlindDescription}${editedDeafDescription}${editedLimit}${extraFixedParams}`;
   }
   return undefined;
