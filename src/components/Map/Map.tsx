@@ -179,17 +179,7 @@ export default class Map extends React.Component<Props, State> {
       fallbackZoom = map.getZoom();
     }
 
-    let overrideZoom = props.zoom;
-
-    // Prevent the map from being empty when navigating to a new category
-    if (props.categoryId && (!lastProps || lastProps.categoryId !== props.categoryId)) {
-      overrideZoom = Math.min(
-        props.minZoomWithSetCategory || 20,
-        props.zoom || props.minZoomWithSetCategory
-      );
-    }
-
-    let zoom = overrideZoom || fallbackZoom;
+    let zoom = props.zoom || fallbackZoom;
     let center: number[] = [0, 0];
     let bounds = null;
     let zoomedToFeatureId = state.zoomedToFeatureId;
