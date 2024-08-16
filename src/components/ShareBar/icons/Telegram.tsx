@@ -1,8 +1,7 @@
-import * as React from 'react';
 
 export default function TelegramIcon(props: any) {
   return (
-    <svg width={46} height={40} viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg width={20} height={20} viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g transform="translate(-17 -20.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx={40} cy={40} r={40} />
         <path

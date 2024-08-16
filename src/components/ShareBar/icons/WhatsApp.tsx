@@ -1,8 +1,7 @@
-import * as React from 'react';
 
 export default function WhatsApp(props: any) {
   return (
-    <svg width={49} height={49} viewBox="0 0 49 49" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg width={20} height={20} viewBox="0 0 49 49" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g transform="translate(-16.82 -15.247)" fill="none" fillRule="evenodd">
         <circle fill="none" cx="40.263" cy="40.512" r={40} />
         <g fillRule="nonzero" fill="#FFF">

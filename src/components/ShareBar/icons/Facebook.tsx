@@ -1,8 +1,7 @@
-import * as React from 'react';
 
 export default function Facebook(props: any) {
   return (
-    <svg width={22} height={42} viewBox="0 0 22 42" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg width={20} height={20} viewBox="0 0 22 42" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g transform="translate(-28.786 -19.865)" fill="none" fillRule="evenodd">
         <circle fill="none" cx="40.058" cy="40.718" r={40} />
         <path

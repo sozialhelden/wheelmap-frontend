@@ -272,6 +272,10 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     font-weight: 400;
   }
 
+  .actions {
+    margin: 1rem 0;
+  }
+
   .event-date,
   .meeting-point,
   .area-name {

@@ -1,10 +1,9 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import ShareBarToggle from './ShareBarToggle';
-import ShareBarContent from './ShareBarContent';
-import { Caption } from '../IconButton';
-import colors from '../../lib/colors';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import React from 'react';
+import colors from '../../lib/colors';
+import { Caption } from '../IconButton';
+import ShareBarContent from './ShareBarContent';
+import ShareBarToggle from './ShareBarToggle';
 
 type ShareBarProps = {
   shareButtonCaption: string;
@@ -40,7 +39,7 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
 
   useEffect(() => {
     toggleShareBar(false);
-  }, [featureId, toggleShareBar]);
+  }, [featureId]);
 
   useEffect(() => {
     if (isExpanded && collapseButtonRef) {
@@ -77,6 +76,7 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
 
 const StyledShareBar = styled(ShareBar)`
   padding: 0 5px 0 0;
+  margin: 1rem 0;
   display: flex;
   flex-direction: row !important;
 

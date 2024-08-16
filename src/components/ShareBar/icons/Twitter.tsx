@@ -1,8 +1,7 @@
-import * as React from 'react';
 
 export default function Twitter(props: any) {
   return (
-    <svg width={48} height={40} viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg width={20} height={20} viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g transform="translate(-19 -21.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx="40.5" cy={40} r={40} />
         <path
