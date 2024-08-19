@@ -67,13 +67,13 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   const { bbox, name, wheelchair, unisex, fee, centralkey, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
   if (bbox) {
     const tString = {
+      ...(name && { "t[name]": name }),
       // Using Toilets.json
       ...(unisex && { "t[unisex]": "yes" }),
       ...(fee && { "t[fee]": "no" }),
 
       // Using Amenities.json
       ...(centralkey && { "t[centralkey]": "*" }),
-      ...(name && { "t[name]": name }),
       ...(blindDescription && { "t[blind:description]": "*" }),
       ...(deafDescription && { "t[deaf:description]": "*" }),
     };
