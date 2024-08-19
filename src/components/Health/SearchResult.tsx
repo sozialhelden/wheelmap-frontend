@@ -29,7 +29,7 @@ const StyledListItem = styled.li`
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, access } = properties;
+  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, amenity } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -67,7 +67,7 @@ function SearchResult({ data }: any) {
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
-  const chippedAttributes = ["access", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
+  const chippedAttributes = ["access", "level", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
   const filterAttributesAsObject = {
     fee: {
       yes: `${t`Fee required`}${properties?.charge ? ` (${properties?.charge})` : ""}`,
@@ -125,7 +125,7 @@ function SearchResult({ data }: any) {
   return (
     <StyledListItem>
       <div>
-        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={"toilets"} style={{ marginTop: ".35rem" }} />
+        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={amenity} style={{ marginTop: ".35rem" }} />
       </div>
 
       <div style={{ flex: 1 }}>

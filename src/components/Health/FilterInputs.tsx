@@ -34,11 +34,10 @@ function FilterInputs() {
 
   const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "true" ? true : false);
   const [hasCentralKeyFilter, setHasCentralKeyFilter] = useState(route.query["centralkey"] === "true" ? true : false);
-  const [hasFeeFilter, setHasFeeFilter] = useState(route.query["fee"] === "no" ? true : false);
+  const [hasFeeFilter, setHasFeeFilter] = useState(route.query["fee"] === "true" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
-  const [hasToiletInPlace, setHasToiletInPlace] = useState(route.query.toiletinplace === "*" ? true : false);
-  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl, route.query.toiletinplace === "*" ? "toilets.json" : "amenities.json") : null, fetchJSON);
+  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
 
   // Wheelchair filter
   const useRouteReplace = useCallback(
@@ -69,51 +68,21 @@ function FilterInputs() {
       const { value } = event.target;
       const updatedQuery = { ...route.query };
 
-      if (value === "unisex") {
-        setHasUnisexFilter(!hasUnisexFilter);
-        if (hasUnisexFilter) delete updatedQuery["unisex"];
-        else {
-          updatedQuery["unisex"] = "true";
-        }
-      }
-      if (value === "centralkey") {
-        setHasCentralKeyFilter(!hasCentralKeyFilter);
-        if (hasCentralKeyFilter) delete updatedQuery["centralkey"];
-        else {
-          updatedQuery["centralkey"] = "true";
-        }
-      }
-      if (value === "fee") {
-        setHasFeeFilter(!hasFeeFilter);
-        if (hasFeeFilter) delete updatedQuery["fee"];
-        else {
-          updatedQuery["fee"] = "no";
-        }
-      }
-      if (value === "blind") {
-        setHasBlindFilter(!hasBlindFilter);
-        if (hasBlindFilter) delete updatedQuery["blind:description"];
-        else {
-          updatedQuery["blind:description"] = "*";
-        }
-      }
-      if (value === "deaf") {
-        setHasDeafFilter(!hasDeafFilter);
-        if (hasDeafFilter) delete updatedQuery["deaf:description"];
-        else {
-          updatedQuery["deaf:description"] = "*";
-        }
-      }
-      if (value === "toiletinplace") {
-        setHasToiletInPlace(!hasToiletInPlace);
-        if (hasToiletInPlace) {
-          delete updatedQuery["toiletinplace"];
-          delete updatedQuery["unisex"];
-          setHasUnisexFilter(false);
-          delete updatedQuery["fee"];
-          setHasFeeFilter(false);
+      const filters = {
+        unisex: [hasUnisexFilter, setHasUnisexFilter, "unisex", "true"],
+        centralkey: [hasCentralKeyFilter, setHasCentralKeyFilter, "centralkey", "true"],
+        fee: [hasFeeFilter, setHasFeeFilter, "fee", "true"],
+        blind: [hasBlindFilter, setHasBlindFilter, "blind:description", "*"],
+        deaf: [hasDeafFilter, setHasDeafFilter, "deaf:description", "*"],
+      };
+
+      if (filters[value]) {
+        const [hasFilter, setHasFilter, queryKey, queryValue] = filters[value];
+        setHasFilter(!hasFilter);
+        if (hasFilter) {
+          delete updatedQuery[queryKey];
         } else {
-          updatedQuery["toiletinplace"] = "*";
+          updatedQuery[queryKey] = queryValue;
         }
       }
 
