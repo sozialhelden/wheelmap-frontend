@@ -20,6 +20,7 @@ export type QueryParameters = {
   ["healthcare:speciality"]?: string;
   ["blind:description"]?: string;
   ["deaf:description"]?: string;
+  hasToiletInfo?: string;
   tags?: string;
 };
 
@@ -66,18 +67,31 @@ export type AmenityListResponse = {
 };
 
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, tags } = options;
-  const editedLimit = `&limit=${defaultLimit}`;
-  if (bbox || wheelchair || healthcare || healthcareSpeciality || tags) {
-    const editedBbox = bbox ? `bbox=${bbox}` : "";
-    const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
-    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
-    const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "&healthcare=*";
-    const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
-    const editedBlindDescription = blindDescription ? `&blind:description=*` : "";
-    const editedDeafDescription = deafDescription ? `&deaf:description=*` : "";
-    const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedBlindDescription}${editedDeafDescription}${editedLimit}&geometry=centroid`;
+  const { bbox, name, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, hasToiletInfo, tags } = options;
+  if (bbox) {
+    const tString = {
+      ...(name && { "t[name]": name }),
+      "t[healthcare]": healthcare || "*",
+      ...(healthcareSpeciality && { "t[healthcare:speciality]": healthcareSpeciality }),
+      ...(blindDescription && { "t[blind:description]": "*" }),
+      ...(deafDescription && { "t[deaf:description]": "*" }),
+      ...(hasToiletInfo && { "t[toilets:wheelchair]": "yes" }),
+    };
+
+    const apiQueryParams = new URLSearchParams({
+      // ...(hasToiletInfo && { hasToiletInfo: "true" }),
+      ...(wheelchair && { wheelchair }),
+      ...(tString && tString),
+      ...(tags && { tags }),
+    });
+
+    const apiBbox = bbox ? `bbox=${bbox}` : "";
+    const apiCollection = "amenities.json";
+    const apiLimit = `&limit=${defaultLimit}`;
+    const apiGeometry = "&geometry=centroid";
+    const apiBuildingsAndIncludeAdmin = "&intersecting=buildings&includeAdmin=true";
+
+    return `${baseurl}/${apiCollection}?${apiBbox}&${apiQueryParams.toString()}${apiGeometry}${apiLimit}`;
   }
   return undefined;
 }
@@ -112,6 +126,42 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return R * c;
+}
+
+export function getGoodKeys(properties: any, firstKey: string, secondKey: string): string[] {
+  const stringsKeys: string[] = [];
+  for (const key in properties) {
+    if (key.startsWith(firstKey) && key.endsWith(secondKey)) {
+      const name = properties[key];
+      if (name) {
+        stringsKeys.push(name);
+      }
+    }
+  }
+  return stringsKeys;
+}
+
+export function getGoodAddress(properties: any): string | null {
+  // Check if properties.name exists and is not null
+  if (properties?.hasOwnProperty("name") && properties?.name) {
+    return properties?.name;
+  }
+
+  // Return all the building names and join them with a comma but avoid duplicated strings
+  const uniqueBuildingNames = uniq(getGoodKeys(properties, "admin_level:", "name")).join(", ");
+  return uniqueBuildingNames.length > 0 ? uniqueBuildingNames : null;
+}
+
+export function getGoodName(properties: any): string | null {
+  // Check if properties.name exists and is not null
+  if (properties?.hasOwnProperty("name") && properties?.name) {
+    return properties?.name;
+  }
+
+  // Extract names from intersecting buildings
+  const buildingNames: string[] = getGoodKeys(properties, "intersecting:buildings:", "name");
+  // Return the first valid building name, or null if none found
+  return buildingNames.length > 0 ? buildingNames[buildingNames.length - 1] : null;
 }
 
 export function getWheelchairSettings(wheelchair: string): any {

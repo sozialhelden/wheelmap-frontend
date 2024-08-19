@@ -8,7 +8,7 @@ import useSWR from "swr";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
-import { AmenityListResponse, calculateDistance, generateAmenityListURL, getWheelchairSettings } from "./helpers";
+import { AmenityListResponse, calculateDistance, generateAmenityListURL, getGoodName, getWheelchairSettings } from "./helpers";
 import { FullSizeFlexContainer, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 const HugeText = styled.p`
@@ -74,9 +74,12 @@ function SearchResults() {
           }
           return item;
         })
-        .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (!route.query.sort) return a?.properties?.name?.localeCompare(b?.properties?.name);
-          if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
+        .sort((a: { distance: number; properties: { name: any } }, b: { distance: number; properties: { name: any } }) => {
+          const nameA = getGoodName(a.properties) ? String(getGoodName(a.properties)) : ""; // Use getGoodName to get the name
+          const nameB = getGoodName(b.properties) ? String(getGoodName(b.properties)) : ""; // Use getGoodName to get the name
+
+          if (!route.query.sort) return nameA.localeCompare(nameB);
+          if (route.query.sort === "alphabetically") return nameA.localeCompare(nameB);
           if (route.query.sort === "distance") return a.distance - b.distance;
           if (route.query.sort === "distanceFromCity") return a.distance - b.distance;
         })

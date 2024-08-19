@@ -54,6 +54,7 @@ function FilterInputs() {
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+        ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "healthcare",
@@ -68,6 +69,7 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
         ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+        ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "healthcare:speciality",
@@ -82,6 +84,7 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.healthcare && { healthcare: route.query.healthcare }),
         ...(route.query["healthcare:speciality"] && { "healthcare:speciality": route.query["healthcare:speciality"] }),
+        ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -90,6 +93,7 @@ function FilterInputs() {
   );
 
   const [hasNameFilter, setIsNameFilter] = useState(false);
+  const [hasToiletInfoFilter, setHasToiletInfoFilter] = useState(route.query.hasToiletInfo === "true" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const healthcareTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(healthcareStatsAPIParams, baseurl) : null, fetchJSON);
@@ -171,6 +175,13 @@ function FilterInputs() {
         delete updatedQuery.healthcare;
         delete updatedQuery["healthcare:speciality"];
         setIsNameFilter(true);
+      }
+      if (value === "toilets") {
+        setHasToiletInfoFilter(!hasToiletInfoFilter);
+        if (hasToiletInfoFilter) delete updatedQuery.hasToiletInfo;
+        else {
+          updatedQuery.hasToiletInfo = "true";
+        }
       }
       if (value === "blind") {
         setHasBlindFilter(!hasBlindFilter);
@@ -340,13 +351,17 @@ function FilterInputs() {
               <StyledLabel $fontBold="bold" htmlFor="filter-blind">
                 <T _str="Show only places with…" />
               </StyledLabel>
+              <label htmlFor="filter-toilets">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-toilets" checked={hasToiletInfoFilter} value="toilets" onChange={handleFilterType} />
+                <T _str="Show only with toilets" />
+              </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
-                <T _str="infos for blind people" />
+                <T _str="Infos for blind people" />
               </label>
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
-                <T _str="infos for hearing impaired people" />
+                <T _str="Infos for hearing impaired people" />
               </label>
             </StyledRadioBox>
           </fieldset>
