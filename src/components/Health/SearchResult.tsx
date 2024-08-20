@@ -73,11 +73,19 @@ function SearchResult({ data }: any) {
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
-  const chippedAttributes = ["drive_through", "indoor_seating", "internet_access", "outdoor_seating", "payment:girocard", "payment:mastercard", "diet:vegan", "diet:vegetarian"];
+  const chippedAttributes = ["air_conditioning", "drive_through", "takeaway", "indoor_seating", "internet_access", "outdoor_seating", "payment:visa", "payment:girocard", "payment:mastercard", "diet:vegan", "diet:vegetarian"];
   const filterAttributesAsObject = {
+    air_conditioning: {
+      yes: "Air conditioning",
+      no: "No air conditioning",
+    },
     drive_through: {
       yes: "Drive-through",
       no: "No drive-through",
+    },
+    takeaway: {
+      yes: "Takeaway",
+      no: "No takeaway",
     },
     indoor_seating: {
       yes: "Indoor seating",
@@ -91,6 +99,10 @@ function SearchResult({ data }: any) {
     outdoor_seating: {
       yes: "Outdoor seating",
       no: "No outdoor seating",
+    },
+    "payment:visa": {
+      yes: "Visa",
+      no: "No Visa",
     },
     "payment:girocard": {
       yes: "Girocard",
