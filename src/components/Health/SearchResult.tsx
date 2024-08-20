@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
+import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getGoodName, getWheelchairSettings } from "./helpers";
 import { StyledButtonAsLink, StyledChip, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
@@ -26,10 +26,16 @@ const StyledListItem = styled.li`
   ${shadowCSS}
 `;
 
+const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
+  margin-left: 0.25rem;
+  margin-top: 0rem;
+  width: 2rem;
+`;
+
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
   const route = useRouter();
-  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, access } = properties;
+  const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, amenity, ["toilets:wheelchair"]: toiletsWheelchair } = properties;
   const customAddress = {
     street: street ? street : "",
     housenumber: housenumber ? housenumber : "",
@@ -67,42 +73,40 @@ function SearchResult({ data }: any) {
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
-  const chippedAttributes = ["access", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
+  const chippedAttributes = ["drive_through", "indoor_seating", "internet_access", "outdoor_seating", "payment:girocard", "payment:mastercard", "diet:vegan", "diet:vegetarian"];
   const filterAttributesAsObject = {
-    fee: {
-      yes: `${t`Fee required`}${properties?.charge ? ` (${properties?.charge})` : ""}`,
-      no: t`No fee required`,
+    drive_through: {
+      yes: "Drive-through",
+      no: "No drive-through",
     },
-    access: {
-      yes: t`Accessible to all`,
-      customers: t`Customers only`,
-      public: t`Public entrance`,
-      private: t`Private entrance`,
-      permissive: t`Permissive entrance`,
-      permit: t`Permit required`,
-      conditional: t`Conditional entrance`,
+    indoor_seating: {
+      yes: "Indoor seating",
+      no: "No indoor seating",
     },
-    "toilets:disposal": {
-      flush: t`Flush toilets`,
-      pitlatrine: t`Pit latrine`,
-      bucket: t`Bucket toilet`,
-      composting: t`Composting toilet`,
-      chemical: t`Chemical toilet`,
-      dry_toilet: t`Dry toilet`,
+    internet_access: {
+      yes: "Internet access",
+      wlan: "WLAN",
+      no: "No internet access",
     },
-    "toilets:position": {
-      seated: t`Seated toilet`,
-      urinal: t`Urinal toilet`,
-      squat: t`Squat toilet`,
-      standing: t`Standing toilet`,
+    outdoor_seating: {
+      yes: "Outdoor seating",
+      no: "No outdoor seating",
     },
-    changing_table: {
-      yes: t`Changing table available`,
-      no: t`No changing table available`,
+    "payment:girocard": {
+      yes: "Girocard",
+      no: "No Girocard",
     },
-    centralkey: {
-      eurokey: t`Euro-Key required`,
-      yes: t`Central key required`,
+    "payment:mastercard": {
+      yes: "Mastercard",
+      no: "No Mastercard",
+    },
+    "diet:vegetarian": {
+      yes: "Vegetarian",
+      no: "No vegetarian",
+    },
+    "diet:vegan": {
+      yes: "Vegan",
+      no: "No vegan",
     },
   };
   const filterAttributes = (attr) => {
@@ -125,7 +129,8 @@ function SearchResult({ data }: any) {
   return (
     <StyledListItem>
       <div>
-        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={"toilets"} style={{ marginTop: ".35rem" }} />
+        <CombinedIcon accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} category={amenity} style={{ marginTop: ".35rem" }} />
+        {toiletsWheelchair === "yes" ? <StyledAccessibleToiletIcon /> : null}
       </div>
 
       <div style={{ flex: 1 }}>

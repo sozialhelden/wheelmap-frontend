@@ -17,14 +17,15 @@ function FilterInputs() {
   const cityName = route.query.city;
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const accessibilityAttributesURL = env.NEXT_PUBLIC_ACCESSIBILITY_ATTRIBUTES_URL;
+
   const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
         ...(route.query.bbox && { bbox: route.query.bbox }),
         ...(route.query.name && { name: route.query.name }),
-        ...(route.query.unisex && { unisex: route.query.unisex }),
-        ...(route.query.centralkey && { centralkey: route.query.centralkey }),
-        ...(route.query.fee && { fee: route.query.fee }),
+        ...(route.query.cuisine && { cuisine: route.query.cuisine }),
+        ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -32,13 +33,11 @@ function FilterInputs() {
     [route.query.bbox, route.query.name]
   );
 
-  const [hasUnisexFilter, setHasUnisexFilter] = useState(route.query["unisex"] === "true" ? true : false);
-  const [hasCentralKeyFilter, setHasCentralKeyFilter] = useState(route.query["centralkey"] === "true" ? true : false);
-  const [hasFeeFilter, setHasFeeFilter] = useState(route.query["fee"] === "no" ? true : false);
+  const [hasToiletInfoFilter, setHasToiletInfoFilter] = useState(route.query.hasToiletInfo === "true" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
-  const [hasToiletInPlace, setHasToiletInPlace] = useState(route.query.toiletinplace === "*" ? true : false);
-  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl, route.query.toiletinplace === "*" ? "toilets.json" : "amenities.json") : null, fetchJSON);
+  const cuisineTagStats = useSWR<any>(route.query.bbox ? () => accessibilityAttributesURL : null, fetchJSON);
+  const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
 
   // Wheelchair filter
   const useRouteReplace = useCallback(
@@ -55,9 +54,22 @@ function FilterInputs() {
     [route]
   );
 
+  const cuisineOptions = useMemo(() => {
+    const results = cuisineTagStats.data?.results
+      ?.filter((item: any) => {
+        return item?._id?.toString().substring(0, 11) == "osm:cuisine";
+      })
+      .map((item: any) => {
+        item.newName = item.shortLabel.de.split("[")[1]?.split("]")[0];
+        return item;
+      });
+    return results;
+  }, [cuisineTagStats]);
+
   const handleInputChange = useCallback(
     (event) => {
       const { name, value } = event.target;
+      console.log(name, value);
       const updatedQuery = { ...route.query, [name]: value };
       useRouteReplace(updatedQuery);
     },
@@ -69,51 +81,19 @@ function FilterInputs() {
       const { value } = event.target;
       const updatedQuery = { ...route.query };
 
-      if (value === "unisex") {
-        setHasUnisexFilter(!hasUnisexFilter);
-        if (hasUnisexFilter) delete updatedQuery["unisex"];
-        else {
-          updatedQuery["unisex"] = "true";
-        }
-      }
-      if (value === "centralkey") {
-        setHasCentralKeyFilter(!hasCentralKeyFilter);
-        if (hasCentralKeyFilter) delete updatedQuery["centralkey"];
-        else {
-          updatedQuery["centralkey"] = "true";
-        }
-      }
-      if (value === "fee") {
-        setHasFeeFilter(!hasFeeFilter);
-        if (hasFeeFilter) delete updatedQuery["fee"];
-        else {
-          updatedQuery["fee"] = "no";
-        }
-      }
-      if (value === "blind") {
-        setHasBlindFilter(!hasBlindFilter);
-        if (hasBlindFilter) delete updatedQuery["blind:description"];
-        else {
-          updatedQuery["blind:description"] = "*";
-        }
-      }
-      if (value === "deaf") {
-        setHasDeafFilter(!hasDeafFilter);
-        if (hasDeafFilter) delete updatedQuery["deaf:description"];
-        else {
-          updatedQuery["deaf:description"] = "*";
-        }
-      }
-      if (value === "toiletinplace") {
-        setHasToiletInPlace(!hasToiletInPlace);
-        if (hasToiletInPlace) {
-          delete updatedQuery["toiletinplace"];
-          delete updatedQuery["unisex"];
-          setHasUnisexFilter(false);
-          delete updatedQuery["fee"];
-          setHasFeeFilter(false);
+      const filters = {
+        toilets: [hasToiletInfoFilter, setHasToiletInfoFilter, "hasToiletInfo", true],
+        blind: [hasBlindFilter, setHasBlindFilter, "blind:description", "*"],
+        deaf: [hasDeafFilter, setHasDeafFilter, "deaf:description", "*"],
+      };
+
+      if (filters[value]) {
+        const [hasFilter, setHasFilter, queryKey, queryValue] = filters[value];
+        setHasFilter(!hasFilter);
+        if (hasFilter) {
+          delete updatedQuery[queryKey];
         } else {
-          updatedQuery["toiletinplace"] = "*";
+          updatedQuery[queryKey] = queryValue;
         }
       }
 
@@ -166,6 +146,32 @@ function FilterInputs() {
           </fieldset>
 
           <fieldset>
+            <StyledLabel htmlFor="cuisine-select" $fontBold="bold">
+              <T _str="Type" />
+            </StyledLabel>
+            {cuisineTagStats.error && (
+              <Callout intent="danger" icon="error">
+                <T _str="Could not load place cuisine types." />
+              </Callout>
+            )}
+            {!cuisineTagStats.error && (
+              <StyledSelect value={route.query.cuisine} name="cuisine" id="cuisine-select" onChange={handleInputChange}>
+                <option value="">
+                  <T _str="All" />
+                </option>
+                {cuisineOptions?.map((item, index) => (
+                  <option key={index} value={item._id.substring(11)}>
+                    {item.newName || item.shortLabel.de}
+                  </option>
+                ))}
+              </StyledSelect>
+            )}
+            <StyledSubLabel>
+              <T _str="Select one of the items in the list." />
+            </StyledSubLabel>
+          </fieldset>
+
+          <fieldset>
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
               <T _str="Wheelchair accessibility" />
             </StyledLabel>
@@ -186,6 +192,10 @@ function FilterInputs() {
               <StyledLabel $fontBold="bold" htmlFor="filter-unisex">
                 <T _str="Show only places with…" />
               </StyledLabel>
+              <label htmlFor="filter-toilets">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-toilets" checked={hasToiletInfoFilter} value="toilets" onChange={handleFilterType} />
+                <T _str="Show only with toilets" />
+              </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
                 <T _str="infos for blind people" />
