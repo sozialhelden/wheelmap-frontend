@@ -70,7 +70,6 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const tString = {
       "t[cuisine]": cuisine || "*",
       ...(name && { "t[name]": name }),
-      // Using Amenities.json
       ...(blindDescription && { "t[blind:description]": "*" }),
       ...(deafDescription && { "t[deaf:description]": "*" }),
       ...(hasToiletInfo && { "t[toilets:wheelchair]": "yes" }),

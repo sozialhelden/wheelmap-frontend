@@ -4,6 +4,7 @@ import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
+import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { getServerSideTranslations } from "../../lib/i18n";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
@@ -19,6 +20,7 @@ function FilterInputs() {
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const accessibilityAttributesURL = env.NEXT_PUBLIC_ACCESSIBILITY_ATTRIBUTES_URL;
 
+  const languageTags = useCurrentLanguageTagStrings();
   const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
@@ -60,7 +62,11 @@ function FilterInputs() {
         return item?._id?.toString().substring(0, 11) == "osm:cuisine";
       })
       .map((item: any) => {
-        item.newName = item.shortLabel.de.split("[")[1]?.split("]")[0];
+        const currentLanguage = languageTags[0];
+        item.newName = item.shortLabel[currentLanguage].split("[")[1]?.split("]")[0];
+        if (!item.newName) {
+          item.newName = item.shortLabel["en"];
+        }
         return item;
       });
     return results;
@@ -155,16 +161,18 @@ function FilterInputs() {
               </Callout>
             )}
             {!cuisineTagStats.error && (
-              <StyledSelect value={route.query.cuisine} name="cuisine" id="cuisine-select" onChange={handleInputChange}>
-                <option value="">
-                  <T _str="All" />
-                </option>
-                {cuisineOptions?.map((item, index) => (
-                  <option key={index} value={item._id.substring(11)}>
-                    {item.newName || item.shortLabel.de}
+              <>
+                <StyledSelect value={route.query.cuisine} name="cuisine" id="cuisine-select" onChange={handleInputChange}>
+                  <option value="">
+                    <T _str="All" />
                   </option>
-                ))}
-              </StyledSelect>
+                  {cuisineOptions?.map((item, index) => (
+                    <option key={index} value={item._id.substring(11)}>
+                      {item.newName}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </>
             )}
             <StyledSubLabel>
               <T _str="Select one of the items in the list." />
