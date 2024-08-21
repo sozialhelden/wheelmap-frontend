@@ -72,8 +72,8 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const tString = {
       "t[cuisine]": cuisine || "*",
       ...(name && { "t[name]": name }),
-      ...(vegan && { "t[diet:vegan]": "yes" }),
-      ...(outdoor_seating && { "t[outdoor_seating]": "yes" }),
+      ...(vegan && { "t[diet:vegan]": "yes;only" }),
+      ...(outdoor_seating && { "t[outdoor_seating]": "yes;sidewalk" }),
       ...(blindDescription && { "t[blind:description]": "*" }),
       ...(deafDescription && { "t[deaf:description]": "*" }),
       ...(hasToiletInfo && { "t[toilets:wheelchair]": "yes" }),
