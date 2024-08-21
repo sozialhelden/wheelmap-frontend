@@ -67,8 +67,8 @@ function FilterInputs() {
         return item?._id?.toString().substring(0, 11) == "osm:cuisine";
       })
       .map((item: any) => {
-        const currentLanguage = languageTags[0];
-        item.newName = item.shortLabel[currentLanguage].split("[")[1]?.split("]")[0];
+        const currentLanguage = languageTags[0] || "en";
+        item.newName = item.shortLabel[currentLanguage]?.split("[")[1]?.split("]")[0];
         if (!item.newName) {
           item.newName = item.shortLabel["en"];
         }
