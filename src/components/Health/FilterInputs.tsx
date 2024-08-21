@@ -221,11 +221,11 @@ function FilterInputs() {
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
-                <T _str="infos for blind people" />
+                <T _str="Infos for blind people" />
               </label>
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
-                <T _str="infos for hearing impaired people" />
+                <T _str="Infos for hearing impaired people" />
               </label>
             </StyledRadioBox>
           </fieldset>
