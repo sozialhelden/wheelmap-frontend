@@ -29,6 +29,8 @@ function FilterInputs() {
         ...(route.query.name && { name: route.query.name }),
         ...(route.query.cuisine && { cuisine: route.query.cuisine }),
         ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
+        ...(route.query.outdoor_seating && { outdoor_seating: route.query.outdoor_seating }),
+        ...(route.query.vegan && { vegan: route.query.vegan }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -37,6 +39,8 @@ function FilterInputs() {
   );
 
   const [hasToiletInfoFilter, setHasToiletInfoFilter] = useState(route.query.hasToiletInfo === "true" ? true : false);
+  const [hasOutdoorSeatingFilter, setHasOutdoorSeatingFilter] = useState(route.query.outdoor_seating === "*" ? true : false);
+  const [hasVeganFilter, setHasVeganFilter] = useState(route.query.vegan === "*" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const cuisineTagStats = useSWR<any>(route.query.bbox ? () => accessibilityAttributesURL : null, fetchJSON);
@@ -90,6 +94,8 @@ function FilterInputs() {
 
       const filters = {
         toilets: [hasToiletInfoFilter, setHasToiletInfoFilter, "hasToiletInfo", true],
+        outdoorSeating: [hasOutdoorSeatingFilter, setHasOutdoorSeatingFilter, "outdoor_seating", "*"],
+        vegan: [hasVeganFilter, setHasVeganFilter, "vegan", "*"],
         blind: [hasBlindFilter, setHasBlindFilter, "blind:description", "*"],
         deaf: [hasDeafFilter, setHasDeafFilter, "deaf:description", "*"],
       };
@@ -204,6 +210,14 @@ function FilterInputs() {
               <label htmlFor="filter-toilets">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-toilets" checked={hasToiletInfoFilter} value="toilets" onChange={handleFilterType} />
                 <T _str="Show only with toilets" />
+              </label>
+              <label htmlFor="filter-outdoor-seating">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-outdoor-seating" checked={hasOutdoorSeatingFilter} value="outdoorSeating" onChange={handleFilterType} />
+                <T _str="Show only places with outdoor seating" />
+              </label>
+              <label htmlFor="filter-vegan">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-vegan" checked={hasVeganFilter} value="vegan" onChange={handleFilterType} />
+                <T _str="Show only vegan places" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />

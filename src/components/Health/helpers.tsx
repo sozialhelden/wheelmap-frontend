@@ -17,6 +17,8 @@ export type QueryParameters = {
   name?: string;
   wheelchair?: string;
   cuisine?: string;
+  vegan?: string;
+  outdoor_seating?: string;
   ["blind:description"]?: string;
   ["deaf:description"]?: string;
   hasToiletInfo?: string;
@@ -65,11 +67,13 @@ export type AmenityListResponse = {
 };
 
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, cuisine, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, hasToiletInfo, tags } = options;
+  const { bbox, name, wheelchair, cuisine, vegan, outdoor_seating, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, hasToiletInfo, tags } = options;
   if (bbox) {
     const tString = {
       "t[cuisine]": cuisine || "*",
       ...(name && { "t[name]": name }),
+      ...(vegan && { "t[diet:vegan]": "yes" }),
+      ...(outdoor_seating && { "t[outdoor_seating]": "yes" }),
       ...(blindDescription && { "t[blind:description]": "*" }),
       ...(deafDescription && { "t[deaf:description]": "*" }),
       ...(hasToiletInfo && { "t[toilets:wheelchair]": "yes" }),
