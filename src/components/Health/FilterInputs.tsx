@@ -6,6 +6,7 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { getServerSideTranslations } from "../../lib/i18n";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
@@ -67,8 +68,8 @@ function FilterInputs() {
         return item?._id?.toString().substring(0, 11) == "osm:cuisine";
       })
       .map((item: any) => {
-        const currentLanguage = languageTags[0] || "en";
-        item.newName = item.shortLabel[currentLanguage]?.split("[")[1]?.split("]")[0];
+        const currentLanguage = translatedStringFromObject(item.shortLabel);
+        item.newName = currentLanguage?.split("[")[1]?.split("]")[0];
         if (!item.newName) {
           item.newName = item.shortLabel["en"];
         }
