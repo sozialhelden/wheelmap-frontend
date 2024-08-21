@@ -119,6 +119,7 @@ function SearchResult({ data }: any) {
     "diet:vegan": {
       yes: "Vegan",
       no: "No vegan",
+      only: "Only vegan",
     },
   };
   const filterAttributes = (attr) => {

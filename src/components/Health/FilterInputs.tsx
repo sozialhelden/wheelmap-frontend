@@ -10,7 +10,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
-import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
+import { AmenityStatsResponse, QueryParameters, generateAccessibilityAttributesURL, generateAmenityStatsURL } from "./helpers";
 import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
@@ -18,8 +18,9 @@ function FilterInputs() {
   const cityName = route.query.city;
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const accessibilityAttributesURL = env.NEXT_PUBLIC_ACCESSIBILITY_ATTRIBUTES_URL;
-
+  const accessibilityAttributesBaseURL = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
+  const accessibilityAttributesappToken = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const accessibilityAttributesURL = generateAccessibilityAttributesURL(accessibilityAttributesBaseURL, accessibilityAttributesappToken);
   const languageTags = useCurrentLanguageTagStrings();
   const wheelchairStatsAPIParams = useMemo(
     () =>
