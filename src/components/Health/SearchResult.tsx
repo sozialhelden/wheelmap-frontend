@@ -73,7 +73,7 @@ function SearchResult({ data }: any) {
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
-  const chippedAttributes = ["air_conditioning", "drive_through", "takeaway", "indoor_seating", "internet_access", "outdoor_seating", "payment:visa", "payment:girocard", "payment:mastercard", "diet:vegan", "diet:vegetarian"];
+  const chippedAttributes = ["air_conditioning", "drive_through", "takeaway", "indoor_seating", "internet_access", "outdoor_seating", "payment:cards", "payment:credit_cards", "payment:visa", "payment:girocard", "payment:mastercard", "diet:vegan", "diet:vegetarian"];
   const filterAttributesAsObject = {
     air_conditioning: {
       yes: "Air conditioning",
@@ -86,6 +86,7 @@ function SearchResult({ data }: any) {
     takeaway: {
       yes: "Takeaway",
       no: "No takeaway",
+      only: "Only takeaway",
     },
     indoor_seating: {
       yes: "Indoor seating",
@@ -99,6 +100,19 @@ function SearchResult({ data }: any) {
     outdoor_seating: {
       yes: "Outdoor seating",
       no: "No outdoor seating",
+      sidewalk: "Sidewalk seating",
+    },
+    "payment:credit_cards": {
+      yes: "Credit Cards",
+      no: "No Credit Cards",
+    },
+    "payment:debit_cards": {
+      yes: "Debit Cards",
+      no: "No Debit Cards",
+    },
+    "payment:cards": {
+      yes: "Cards",
+      no: "No Cards",
     },
     "payment:visa": {
       yes: "Visa",
@@ -115,6 +129,7 @@ function SearchResult({ data }: any) {
     "diet:vegetarian": {
       yes: "Vegetarian",
       no: "No vegetarian",
+      only: "Only vegetarian",
     },
     "diet:vegan": {
       yes: "Vegan",
