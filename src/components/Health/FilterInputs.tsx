@@ -4,7 +4,6 @@ import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { getServerSideTranslations } from "../../lib/i18n";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
@@ -22,7 +21,6 @@ function FilterInputs() {
   const accessibilityAttributesBaseURL = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
   const accessibilityAttributesappToken = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
   const accessibilityAttributesURL = generateAccessibilityAttributesURL(accessibilityAttributesBaseURL, accessibilityAttributesappToken);
-  const languageTags = useCurrentLanguageTagStrings();
   const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
@@ -32,6 +30,7 @@ function FilterInputs() {
         ...(route.query.hasToiletInfo && { hasToiletInfo: route.query.hasToiletInfo }),
         ...(route.query.outdoor_seating && { outdoor_seating: route.query.outdoor_seating }),
         ...(route.query.vegan && { vegan: route.query.vegan }),
+        ...(route.query.vegetarian && { vegetarian: route.query.vegetarian }),
         ...(route.query["blind:description"] && { "blind:description": route.query["blind:description"] }),
         ...(route.query["deaf:description"] && { "deaf:description": route.query["deaf:description"] }),
         tags: "wheelchair",
@@ -42,6 +41,7 @@ function FilterInputs() {
   const [hasToiletInfoFilter, setHasToiletInfoFilter] = useState(route.query.hasToiletInfo === "true" ? true : false);
   const [hasOutdoorSeatingFilter, setHasOutdoorSeatingFilter] = useState(route.query.outdoor_seating === "*" ? true : false);
   const [hasVeganFilter, setHasVeganFilter] = useState(route.query.vegan === "*" ? true : false);
+  const [hasVegetarianFilter, setHasVegetarianFilter] = useState(route.query.vegetarian === "*" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
   const cuisineTagStats = useSWR<any>(route.query.bbox ? () => accessibilityAttributesURL : null, fetchJSON);
@@ -97,6 +97,7 @@ function FilterInputs() {
         toilets: [hasToiletInfoFilter, setHasToiletInfoFilter, "hasToiletInfo", true],
         outdoorSeating: [hasOutdoorSeatingFilter, setHasOutdoorSeatingFilter, "outdoor_seating", "*"],
         vegan: [hasVeganFilter, setHasVeganFilter, "vegan", "*"],
+        vegetarian: [hasVegetarianFilter, setHasVegetarianFilter, "vegetarian", "*"],
         blind: [hasBlindFilter, setHasBlindFilter, "blind:description", "*"],
         deaf: [hasDeafFilter, setHasDeafFilter, "deaf:description", "*"],
       };
@@ -219,6 +220,10 @@ function FilterInputs() {
               <label htmlFor="filter-vegan">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-vegan" checked={hasVeganFilter} value="vegan" onChange={handleFilterType} />
                 <T _str="Show only vegan places" />
+              </label>
+              <label htmlFor="filter-vegetarian">
+                <StyledCheckbox type="checkbox" name="filter" id="filter-vegetarian" checked={hasVegetarianFilter} value="vegetarian" onChange={handleFilterType} />
+                <T _str="Show only vegetarian places" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
