@@ -10,17 +10,13 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
-import { AmenityStatsResponse, QueryParameters, generateAccessibilityAttributesURL, generateAmenityStatsURL } from "./helpers";
+import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
 import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "./styles";
 
-function FilterInputs() {
+function FilterInputs(props: any) {
+  const { accessibilityAttributes } = props;
   const route = useRouter();
   const cityName = route.query.city;
-  const env = useContext(EnvContext);
-  const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const accessibilityAttributesBaseURL = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
-  const accessibilityAttributesappToken = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
-  const accessibilityAttributesURL = generateAccessibilityAttributesURL(accessibilityAttributesBaseURL, accessibilityAttributesappToken);
   const wheelchairStatsAPIParams = useMemo(
     () =>
       ({
@@ -38,13 +34,14 @@ function FilterInputs() {
     [route.query.bbox, route.query.name]
   );
 
+  const env = useContext(EnvContext);
+  const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const [hasToiletInfoFilter, setHasToiletInfoFilter] = useState(route.query.hasToiletInfo === "true" ? true : false);
   const [hasOutdoorSeatingFilter, setHasOutdoorSeatingFilter] = useState(route.query.outdoor_seating === "*" ? true : false);
   const [hasVeganFilter, setHasVeganFilter] = useState(route.query.vegan === "*" ? true : false);
   const [hasVegetarianFilter, setHasVegetarianFilter] = useState(route.query.vegetarian === "*" ? true : false);
   const [hasBlindFilter, setHasBlindFilter] = useState(route.query["blind:description"] === "*" ? true : false);
   const [hasDeafFilter, setHasDeafFilter] = useState(route.query["deaf:description"] === "*" ? true : false);
-  const cuisineTagStats = useSWR<any>(route.query.bbox ? () => accessibilityAttributesURL : null, fetchJSON);
   const wheelchairTagStats = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(wheelchairStatsAPIParams, baseurl) : null, fetchJSON);
 
   // Wheelchair filter
@@ -63,7 +60,7 @@ function FilterInputs() {
   );
 
   const cuisineOptions = useMemo(() => {
-    const results = cuisineTagStats.data?.results
+    const results = accessibilityAttributes.data?.results
       ?.filter((item: any) => {
         return item?._id?.toString().substring(0, 11) == "osm:cuisine";
       })
@@ -76,7 +73,7 @@ function FilterInputs() {
         return item;
       });
     return results;
-  }, [cuisineTagStats]);
+  }, [accessibilityAttributes]);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -164,12 +161,12 @@ function FilterInputs() {
             <StyledLabel htmlFor="cuisine-select" $fontBold="bold">
               <T _str="Type" />
             </StyledLabel>
-            {cuisineTagStats.error && (
+            {accessibilityAttributes.error && (
               <Callout intent="danger" icon="error">
                 <T _str="Could not load place cuisine types." />
               </Callout>
             )}
-            {!cuisineTagStats.error && (
+            {!accessibilityAttributes.error && (
               <>
                 <StyledSelect value={route.query.cuisine} name="cuisine" id="cuisine-select" onChange={handleInputChange}>
                   <option value="">
@@ -211,19 +208,19 @@ function FilterInputs() {
               </StyledLabel>
               <label htmlFor="filter-toilets">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-toilets" checked={hasToiletInfoFilter} value="toilets" onChange={handleFilterType} />
-                <T _str="Show only with toilets" />
+                <T _str="Toilets" />
               </label>
               <label htmlFor="filter-outdoor-seating">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-outdoor-seating" checked={hasOutdoorSeatingFilter} value="outdoorSeating" onChange={handleFilterType} />
-                <T _str="Show only places with outdoor seating" />
+                <T _str="Outdoor seating" />
               </label>
               <label htmlFor="filter-vegan">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-vegan" checked={hasVeganFilter} value="vegan" onChange={handleFilterType} />
-                <T _str="Show only vegan places" />
+                <T _str="Vegan option" />
               </label>
               <label htmlFor="filter-vegetarian">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-vegetarian" checked={hasVegetarianFilter} value="vegetarian" onChange={handleFilterType} />
-                <T _str="Show only vegetarian places" />
+                <T _str="Vegetarian option" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />

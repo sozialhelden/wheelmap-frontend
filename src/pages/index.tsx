@@ -1,27 +1,17 @@
 import { useRouter } from "next/router";
-import React, { ReactElement, useRef } from "react";
+import React, { ReactElement, useContext, useRef } from "react";
+import useSWR from "swr";
 import LayoutHealthPage from "../components/App/LayoutHealthPage";
+import { fetchJSON } from "../components/Health/fetchJSON";
 import { FilterContext } from "../components/Health/FilterContext";
+import { generateAccessibilityAttributesURL } from "../components/Health/helpers";
 import SearchFilterDialog from "../components/Health/SearchFilterDialog";
 import SearchResults from "../components/Health/SearchResults";
-import { defaultFilterOptions } from "../components/Health/helpers";
 import { StyledMainContainer } from "../components/Health/styles";
+import EnvContext from "../components/shared/EnvContext";
 
 export default function Page() {
-  const [filterOptions, setFilterOptions] = React.useState(defaultFilterOptions);
-  const [healthcareOptions, setHealthcareOptions] = React.useState([{ healthcare: "", count: 0 }]);
-  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState([{ healthcare: "", count: 0 }]);
-  const memoizedFilterContext = React.useMemo(
-    () => ({
-      filterOptions,
-      setFilterOptions,
-      healthcareOptions,
-      setHealthcareOptions,
-      healthcareSpecialityOptions,
-      setHealthcareSpecialityOptions,
-    }),
-    [filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions]
-  );
+  const memoizedFilterContext = React.useMemo(() => ({}), []);
 
   const route = useRouter();
   const searchFiltersRef = useRef(null);
@@ -32,13 +22,19 @@ export default function Page() {
     }
   }, [route.query]);
 
+  const env = useContext(EnvContext);
+  const accessibilityAttributesBaseURL = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
+  const accessibilityAttributesappToken = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const accessibilityAttributesURL = generateAccessibilityAttributesURL(accessibilityAttributesBaseURL, accessibilityAttributesappToken);
+  const accessibilityAttributes = useSWR<any>(route.query.bbox ? () => accessibilityAttributesURL : null, fetchJSON);
+
   return (
     <FilterContext.Provider value={memoizedFilterContext}>
       <StyledMainContainer>
         <div>
-          <SearchFilterDialog />
+          <SearchFilterDialog accessibilityAttributes={accessibilityAttributes} />
           <div ref={searchFiltersRef}>
-            <SearchResults />
+            <SearchResults accessibilityAttributes={accessibilityAttributes} />
           </div>
         </div>
       </StyledMainContainer>

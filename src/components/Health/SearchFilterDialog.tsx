@@ -1,4 +1,4 @@
-import { T, useT } from "@transifex/react";
+import { T } from "@transifex/react";
 import Link from "next/link";
 import ChevronLeft from "../ShareBar/icons/ChevronLeft";
 import AppFooter from "./AppFooter";
@@ -6,8 +6,7 @@ import FilterInputs from "./FilterInputs";
 import { StyledClaim, StyledH1, StyledMainContainerColumn } from "./styles";
 
 function SearchFilterDialog(props: any) {
-  const t = useT();
-
+  const { accessibilityAttributes } = props;
   return (
     <StyledMainContainerColumn>
       <Link href="https://wheelmap.org/" rel="noopener noreferrer">
@@ -22,7 +21,7 @@ function SearchFilterDialog(props: any) {
           <T _str="- easily and everywhere." />
         </StyledClaim>
       </StyledH1>
-      <FilterInputs />
+      <FilterInputs accessibilityAttributes={accessibilityAttributes} />
       <div style={{ flex: 1 }} />
       <AppFooter />
     </StyledMainContainerColumn>

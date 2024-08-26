@@ -31,7 +31,8 @@ function NonIdealContent() {
   );
 }
 
-function SearchResults() {
+function SearchResults(props: any) {
+  const { accessibilityAttributes } = props;
   const route = useRouter();
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
   const env = useContext(EnvContext);
@@ -84,7 +85,7 @@ function SearchResults() {
           if (route.query.sort === "distanceFromCity") return a.distance - b.distance;
         })
         .map((item: any, index: number, data: any) => {
-          return <SearchResult key={index.toString()} data={item} />;
+          return <SearchResult key={index.toString()} data={item} accessibilityAttributes={accessibilityAttributes} />;
         })
         .slice(0, 100),
     [data, route.query]
