@@ -1,8 +1,8 @@
-const withTranspileModules = require("next-transpile-modules");
+const withTranspileModules = require('next-transpile-modules')
 
 /**
  * @type {import('next').NextConfig}
- **/
+ * */
 const configuration = {
   webpack: (config) => {
     config.resolve = {
@@ -31,15 +31,15 @@ const configuration = {
         // util: require.resolve('util'),
         // vm: require.resolve('vm-browserify'),
         // zlib: require.resolve('browserify-zlib'),
-        fs: "empty",
-        dgram: "empty",
-        net: "empty",
-        tls: "empty",
-        child_process: "empty",
-        async_hooks: "mock",
+        fs: 'empty',
+        dgram: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty',
+        async_hooks: 'mock',
       },
-    };
-    return config;
+    }
+    return config
   },
   productionBrowserSourceMaps: false,
   typescript: {
@@ -55,7 +55,10 @@ const configuration = {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
-  }
-};
+  },
+  compiler: {
+    styledComponents: true,
+  },
+}
 
-module.exports = configuration;
+module.exports = configuration
