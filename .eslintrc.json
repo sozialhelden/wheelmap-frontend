@@ -9,6 +9,7 @@
     "jsx-a11y"
   ],
   "rules": {
+    "import/extensions": "off",
     "semi": ["error", "never"],
     "max-len": ["error", {
       "code": 140,
