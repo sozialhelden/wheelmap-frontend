@@ -1,7 +1,7 @@
 import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
@@ -35,7 +35,7 @@ const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
 
 function SearchResult({ data, accessibilityAttributes }: any) {
   const { properties, _id, distance } = data;
-  const { results } = accessibilityAttributes?.data;
+  const [results, setResults] = useState([]);
   const route = useRouter();
   const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, amenity, ["toilets:wheelchair"]: toiletsWheelchair } = properties;
   const customAddress = {
@@ -85,6 +85,12 @@ function SearchResult({ data, accessibilityAttributes }: any) {
 
     return translatedString;
   };
+
+  React.useEffect(() => {
+    if (accessibilityAttributes.data) {
+      setResults(accessibilityAttributes.data.results);
+    }
+  }, [accessibilityAttributes.data]);
 
   return (
     <StyledListItem>
