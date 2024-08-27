@@ -149,20 +149,26 @@ export default function MapView(props: IProps) {
       const selectedFeatureCount = event?.features?.length
       if (!selectedFeatureCount) {
         // Clicked outside of a clickable map feature
-        router.push('/')
+        router.push('/', { query })
+        return
       }
 
       if (selectedFeatureCount === 1) {
         const feature = event.features?.[0]
         // Show source overview again if user just clicks/taps on the map
-        feature
-          && router.push(
+        if (feature) {
+          // TODO keep filter state
+          // TODO use query param instead of template strings
+          router.push(
             `/${feature.source}/${feature.properties.id?.replace('/', ':')}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`,
           )
-        return
+          return
+        }
       }
 
       if (event.features?.length) {
+        // TODO keep filter state
+        // TODO use query param instead of template strings
         router.push(
           `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id?.replace('/', ':')].join(':')))
             .join(',')}?lon=${event.lngLat.lng}&lat=${
