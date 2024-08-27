@@ -24,7 +24,7 @@ type Props = {
   isSwipeable?: boolean;
   isModal?: boolean;
   enableTransitions?: boolean;
-  innerRef: React.Ref<HTMLElement>;
+  innerRef?: React.Ref<HTMLElement>;
 };
 
 function mergeRefs(refs) {
@@ -92,204 +92,208 @@ function calculateFlickState(ySamples: PositionSample[]): FlickState {
 }
 
 const StyledSection = styled.section`
-  position: fixed;
-  overscroll-behavior-y: contain;
-  touch-action: pan-y;
+    position: fixed;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
 
-  /* user-select: none; */
-  -webkit-user-drag: none;
+    /* user-select: none; */
+    -webkit-user-drag: none;
 
-  /* Positioning */
-  left: 0;
-  left: constant(safe-area-inset-left);
-  left: env(safe-area-inset-left);
-  @media (max-height: 512px), (max-width: 512px) {
-    bottom: 0;
-  }
-  /* Sizing (more sizing for different viewports below) */
-  box-sizing: border-box;
-  width: 600px;
-  max-width: 100%;
-  min-width: 320px;
-
-  &.toolbar-is-modal {
-    z-index: 1000;
-    padding-bottom: calc(constant(safe-area-inset-bottom) + 8px);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
-
+    /* Positioning */
+    left: 0;
+    left: constant(safe-area-inset-left);
+    left: env(safe-area-inset-left);
     @media (max-height: 512px), (max-width: 512px) {
-      margin-bottom: 0px;
+        bottom: 0;
     }
+    /* Sizing (more sizing for different viewports below) */
+    box-sizing: border-box;
+    width: 600px;
+    max-width: 100%;
+    min-width: 320px;
 
-    @media (min-width: 513px) and (min-height: 513px) {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) !important;
-    }
-  }
+    &.toolbar-is-modal {
+        z-index: 1000;
+        padding-bottom: calc(constant(safe-area-inset-bottom) + 8px);
+        padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
 
-  margin: 0 10px 10px 10px;
-  padding: 0px 15px 5px 15px;
-  outline: none;
-  border-top: ${colors.colorizedBackgroundColor} 8px solid;
-  padding-bottom: 8px;
-
-  font-size: 16px;
-  box-shadow: 0 5px 30px ${alpha(colors.darkLinkColor, 0.2)},
-    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
-  background-color: ${colors.colorizedBackgroundColor};
-
-  overflow: auto;
-  overflow-x: hidden;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  /* -webkit-overflow-scrolling: touch; */
-
-  transform: scale3d(1, 1, 1); /* switch on 3D acceleration for the panel */
-
-  .grab-handle {
-    display: none;
-    border: none;
-    outline: none;
-  }
-
-  border-radius: 8px;
-
-  @media (max-width: 512px) {
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-
-    width: 100%;
-    min-width: 250px;
-    margin: 0;
-    .grab-handle {
-      display: block;
-      position: sticky;
-      top: 0;
-      left: 50%;
-      z-index: 3;
-      width: 50%;
-      height: 10px;
-      margin: -10px 0 -20px 0;
-      padding: 15px;
-      touch-action: none;
-      background-color: transparent;
-      &:before {
-        display: block;
-        position: absolute;
-        margin: 0 auto;
-        top: 0px;
-        left: calc(50% - 20px);
-        content: "";
-        width: 44px;
-        height: 5px;
-        border-radius: 2.5px;
-        background-color: rgba(0, 0, 0, 0.2);
-        &.focus-visible {
-          box-shadow: 0px 0px 0px 2px #4469e1;
+        @media (max-height: 512px), (max-width: 512px) {
+            margin-bottom: 0px;
         }
-      }
-      &.focus-visible {
-        box-shadow: none !important;
-      }
+
+        @media (min-width: 513px) and (min-height: 513px) {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+        }
     }
-  }
 
-  p {
-    line-height: 1.5;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .link-button {
-    display: block;
-    font-size: 16px;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
+    margin: 0 10px 10px 10px;
+    padding: 0px 15px 5px 15px;
     outline: none;
-    color: ${colors.linkColor};
+    border-top: ${colors.colorizedBackgroundColor} 8px solid;
+    padding-bottom: 8px;
 
-    @media (hover), (-moz-touch-enabled: 0) {
-      &:hover {
-        background-color: ${colors.linkBackgroundColorTransparent};
-      }
+    font-size: 16px;
+    box-shadow: 0 5px 30px ${alpha(colors.darkLinkColor, 0.2)},
+    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
+    background-color: ${colors.colorizedBackgroundColor};
+
+    overflow: auto;
+    overflow-x: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    /* -webkit-overflow-scrolling: touch; */
+
+    transform: scale3d(1, 1, 1); /* switch on 3D acceleration for the panel */
+
+    .grab-handle {
+        display: none;
+        border: none;
+        outline: none;
     }
 
-    &:focus&:not(.primary-button) {
-      background-color: ${colors.linkBackgroundColorTransparent};
+    border-radius: 8px;
+
+    @media (max-width: 512px) {
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        width: 100%;
+        min-width: 250px;
+        margin: 0;
+        .grab-handle {
+            display: block;
+            position: sticky;
+            top: 0;
+            left: 50%;
+            z-index: 3;
+            width: 50%;
+            height: 10px;
+            margin: -10px 0 -20px 0;
+            padding: 15px;
+            touch-action: none;
+            background-color: transparent;
+
+            &:before {
+                display: block;
+                position: absolute;
+                margin: 0 auto;
+                top: 0px;
+                left: calc(50% - 20px);
+                content: "";
+                width: 44px;
+                height: 5px;
+                border-radius: 2.5px;
+                background-color: rgba(0, 0, 0, 0.2);
+
+                &.focus-visible {
+                    box-shadow: 0px 0px 0px 2px #4469e1;
+                }
+            }
+
+            &.focus-visible {
+                box-shadow: none !important;
+            }
+        }
     }
 
-    &:disabled {
-      opacity: 0.15;
+    p {
+        line-height: 1.5;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
-  }
 
-  button.link-button.full-width-button {
-    text-align: left;
-  }
+    .link-button {
+        display: block;
+        font-size: 16px;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: ${colors.linkColor};
 
-  .primary-button {
-    color: white;
-    background-color: ${colors.linkColor};
-    min-width: 8em;
+        @media (hover), (-moz-touch-enabled: 0) {
+            &:hover {
+                background-color: ${colors.linkBackgroundColorTransparent};
+            }
+        }
 
-    @media (hover), (-moz-touch-enabled: 0) {
-      &:hover {
-        background-color: ${hsl(colors.linkColor)
+        &:focus&:not(.primary-button) {
+            background-color: ${colors.linkBackgroundColorTransparent};
+        }
+
+        &:disabled {
+            opacity: 0.15;
+        }
+    }
+
+    button.link-button.full-width-button {
+        text-align: left;
+    }
+
+    .primary-button {
+        color: white;
+        background-color: ${colors.linkColor};
+        min-width: 8em;
+
+        @media (hover), (-moz-touch-enabled: 0) {
+            &:hover {
+                background-color: ${hsl(colors.linkColor)
     .brighter(0.2)
     .formatRgb()};
-      }
-    }
-    &:active {
-      background-color: ${hsl(colors.linkColor)
+            }
+        }
+
+        &:active {
+            background-color: ${hsl(colors.linkColor)
     .darker(0.2)
     .formatRgb()};
+        }
+
+        &.focus-visible {
+            box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+            transition: box-shadow 0.2s;
+        }
+
+        &[disabled] {
+            opacity: 0.8;
+            pointer-events: none;
+        }
     }
 
-    &.focus-visible {
-      box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-      transition: box-shadow 0.2s;
-    }
-
-    &[disabled] {
-      opacity: 0.8;
-      pointer-events: none;
-    }
-  }
-
-  .negative-button {
-    color: ${hsl(colors.negativeColor)
+    .negative-button {
+        color: ${hsl(colors.negativeColor)
     .darker(1)
     .formatRgb()};
-    @media (hover), (-moz-touch-enabled: 0) {
-      &:hover,
-      &:focus {
-        background-color: ${colors.negativeBackgroundColorTransparent};
-      }
-    }
+        @media (hover), (-moz-touch-enabled: 0) {
+            &:hover,
+            &:focus {
+                background-color: ${colors.negativeBackgroundColorTransparent};
+            }
+        }
 
-    &:active {
-      background-color: ${hsl(colors.negativeBackgroundColorTransparent)
+        &:active {
+            background-color: ${hsl(colors.negativeBackgroundColorTransparent)
     .darker(1)
     .formatRgb()};
+        }
+
+        &[disabled] {
+            opacity: 0.8;
+            color: ${colors.neutralColor};
+            pointer-events: none;
+        }
     }
 
-    &[disabled] {
-      opacity: 0.8;
-      color: ${colors.neutralColor};
-      pointer-events: none;
+    &.toolbar-hidden {
+        opacity: 0;
+        pointer-events: none;
     }
-  }
-
-  &.toolbar-hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
 `
 
 /**
@@ -304,25 +308,27 @@ const StyledSection = styled.section`
  * Can be modal and is not swipeable then.
  */
 
-function BaseToolbar({
-  hidden = false,
-  minimalHeight = 90,
-  isSwipeable = true,
-  isModal = false,
-  role = '',
-  minimalTopPosition = 60,
-  enableTransitions = true,
-  children,
-  inert,
-  className,
-  ariaLabel,
-  ariaDescribedBy,
-  innerRef,
-}: Props & {
+const BaseToolbar = (
+  {
+    hidden = false,
+    minimalHeight = 90,
+    isSwipeable = true,
+    isModal = false,
+    role = '',
+    minimalTopPosition = 60,
+    enableTransitions = true,
+    children,
+    inert,
+    className,
+    ariaLabel,
+    ariaDescribedBy,
+    innerRef,
+  }: Props & {
     innerRef:
       | { current: null | HTMLElement }
       | ((elem: null | HTMLElement) => any);
-  }) {
+  },
+) => {
   const scrollElementRef = React.useRef<HTMLElement | null>(null)
   const [topOffset, setTopOffset] = React.useState(0)
   const [scrollTop, setScrollTop] = React.useState(0)
@@ -638,7 +644,7 @@ const Toolbar = React.forwardRef<HTMLElement, Props>(
     props: Props,
     ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any),
   ) =>
-  // https://reactjs.org/docs/forwarding-refs.html
+    // https://reactjs.org/docs/forwarding-refs.html
     <BaseToolbar {...props} innerRef={ref} />,
 
 )

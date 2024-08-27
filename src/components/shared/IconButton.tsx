@@ -1,6 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+type IconButtonProps = {
+  caption: string | null;
+  hasCircle?: boolean;
+  isHorizontal?: boolean;
+} & React.HTMLAttributes<HTMLDivElement>
+
 export const Circle = styled.div`
   width: 35px;
   height: 35px;
@@ -11,7 +17,7 @@ export const Circle = styled.div`
   box-sizing: border-box;
 `
 
-function UnstyledCaption(props: Partial<Props>) {
+function UnstyledCaption(props: Partial<IconButtonProps>) {
   return <div className={props.className}>{props.children}</div>
 }
 
@@ -20,18 +26,9 @@ export const Caption = styled(UnstyledCaption)`
   line-height: 1.2;
 `
 
-type Props = {
-  caption: string | null;
-  ariaLabel?: string | null;
-  hasCircle?: boolean;
-  isHorizontal?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-};
-
-const StyledIconButtonContainer = styled.div<{ isHorizontal: boolean }>`
+const StyledIconButtonContainer = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.isHorizontal ? 'row' : 'column')};
+  flex-direction: column;
   flex-basis: 25%;
   align-items: center;
   box-sizing: border-box;
@@ -39,23 +36,28 @@ const StyledIconButtonContainer = styled.div<{ isHorizontal: boolean }>`
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+    
+  &[data-is-horizontal='true'] {
+    flex-direction: row;
+  }
 `
 
-export default function IconButton(props: Props) {
-  const icon = props.hasCircle ? (
-    <Circle>{props.children}</Circle>
+export default function IconButton({
+  hasCircle, isHorizontal, caption, children, ...props
+} : IconButtonProps) {
+  const icon = hasCircle ? (
+    <Circle>{children}</Circle>
   ) : (
-    props.children
+    children
   )
 
   return (
     <StyledIconButtonContainer
-      className={props.className}
-      aria-label={props.ariaLabel}
-      isHorizontal={props.isHorizontal}
+      data-is-horizontal={isHorizontal}
+      {...props}
     >
       {icon}
-      <Caption isHorizontal={props.isHorizontal}>{props.caption}</Caption>
+      <Caption isHorizontal={isHorizontal}>{caption}</Caption>
     </StyledIconButtonContainer>
   )
 }
