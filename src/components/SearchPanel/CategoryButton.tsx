@@ -1,15 +1,15 @@
-import styled, { css } from "styled-components";
-import { t } from "ttag";
+import styled, { css } from 'styled-components';
+import { t } from 'ttag';
 
-import { omit } from "lodash";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
-import colors from "../../lib/util/colors";
-import CloseIcon from "../icons/actions/Close";
-import IconButton, { Caption, Circle } from "../shared/IconButton";
-import CombinedIcon from "./CombinedIcon";
+import { omit } from 'lodash';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
+import colors from '../../lib/util/colors';
+import CloseIcon from '../icons/actions/Close';
+import IconButton, { Caption, Circle } from '../shared/IconButton';
+import CombinedIcon from './CombinedIcon';
 
 type Props = {
   name: string;
@@ -74,9 +74,8 @@ export const StyledCategoryIconButton = styled(IconButton)`
     }
   }
 
-  ${(props) =>
-    props.showCloseButton
-      ? css`
+  ${(props) => (props.showCloseButton
+    ? css`
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -98,7 +97,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
             color: ${colors.darkSelectedColor};
           }
         `
-      : css`
+    : css`
           flex-direction: column;
 
           ${CombinedIcon} {
@@ -110,7 +109,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
             margin-top: 0.5em;
             color: ${colors.darkSelectedColor};
           }
-        `};
+        `)};
 `;
 
 export default function CategoryButton(props: Props) {
@@ -132,14 +131,14 @@ export default function CategoryButton(props: Props) {
     <CombinedIcon
       accessibilityFilter={shownAccessibilities}
       toiletFilter={toiletFilter}
-      category={category || "undefined"}
+      category={category || 'undefined'}
       isMainCategory={isMainCategory}
-      aria-hidden={true}
+      aria-hidden
     />
   );
 
   const router = useRouter();
-  const query = omit(router.query, "q", "category");
+  const query = omit(router.query, 'q', 'category');
   if (!showCloseButton) {
     query.category = category;
   }

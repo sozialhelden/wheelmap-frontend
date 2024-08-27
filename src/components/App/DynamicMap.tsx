@@ -1,7 +1,7 @@
-import dynamic from "next/dynamic";
-import MapLoadingIndicator from "../Map/MapLoadingIndicator";
+import dynamic from 'next/dynamic';
+import MapLoadingIndicator from '../Map/MapLoadingIndicator';
 
-const DynamicMap = dynamic(import("../Map/Map"), {
+const DynamicMap = dynamic(import('../Map/Map'), {
   ssr: false,
   loading: () => <MapLoadingIndicator />,
 });

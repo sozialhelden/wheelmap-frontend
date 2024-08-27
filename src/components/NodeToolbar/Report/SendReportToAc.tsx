@@ -1,18 +1,18 @@
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import { accessibilityCloudFeatureCache } from "../../../lib/cache/AccessibilityCloudFeatureCache";
-import colors from "../../../lib/util/colors";
-import Spinner from "../../ActivityIndicator/Spinner";
-import strings from "./strings";
+import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
+import colors from '../../../lib/util/colors';
+import Spinner from '../../ActivityIndicator/Spinner';
+import strings from './strings';
 
 export type ReportReasons =
-  | "invalid-place"
-  | "wrong-location"
-  | "wrong-accessibility-data"
-  | "information-missing"
-  | "permanently-closed";
+  | 'invalid-place'
+  | 'wrong-location'
+  | 'wrong-accessibility-data'
+  | 'information-missing'
+  | 'permanently-closed';
 
 type Props = {
   reportReason: ReportReasons;
@@ -30,20 +30,18 @@ type State = {
   lastFeatureId: string | null;
 };
 
-export const reportStrings = () => {
-  return {
-    // translator: Shown as issue description in the report dialog for wrong/missing information
-    "information-missing": t`I have more information about this place.`,
-    // translator: Shown as issue description in the report dialog for wrong location
-    "wrong-accessibility-data": t`The accessibility of the place is marked incorrectly.`,
-    // translator: Shown as issue description in the report dialog for wrong location
-    "wrong-location": t`The place is at the wrong location.`,
-    // translator: Shown as issue description in the report dialog for permanently closed
-    "permanently-closed": t`The place is permanently closed.`,
-    // translator: Shown as issue description in the report dialog for invalid place
-    "invalid-place": t`The place does not exist.`,
-  };
-};
+export const reportStrings = () => ({
+  // translator: Shown as issue description in the report dialog for wrong/missing information
+  'information-missing': t`I have more information about this place.`,
+  // translator: Shown as issue description in the report dialog for wrong location
+  'wrong-accessibility-data': t`The accessibility of the place is marked incorrectly.`,
+  // translator: Shown as issue description in the report dialog for wrong location
+  'wrong-location': t`The place is at the wrong location.`,
+  // translator: Shown as issue description in the report dialog for permanently closed
+  'permanently-closed': t`The place is permanently closed.`,
+  // translator: Shown as issue description in the report dialog for invalid place
+  'invalid-place': t`The place does not exist.`,
+});
 
 class SendReportToAc extends React.Component<Props, State> {
   textarea = React.createRef<HTMLTextAreaElement>();
@@ -92,7 +90,7 @@ class SendReportToAc extends React.Component<Props, State> {
 
   startRequest() {
     const { featureId, reportReason, appToken } = this.props;
-    const reportMessage = this.textarea.current?.value || "";
+    const reportMessage = this.textarea.current?.value || '';
 
     this.setState(
       {
@@ -101,10 +99,10 @@ class SendReportToAc extends React.Component<Props, State> {
           featureId,
           reportReason,
           reportMessage,
-          appToken
+          appToken,
         ),
       },
-      () => this.awaitResponse()
+      () => this.awaitResponse(),
     );
   }
 
@@ -113,13 +111,11 @@ class SendReportToAc extends React.Component<Props, State> {
     if (request) {
       request
         .then(() => {
-          if (this.state.request === request)
-            this.setState({ isLoading: false, isSuccess: true });
+          if (this.state.request === request) this.setState({ isLoading: false, isSuccess: true });
         })
         .catch((error) => {
           console.error(error);
-          if (this.state.request === request)
-            this.setState({ isLoading: false, error });
+          if (this.state.request === request) this.setState({ isLoading: false, error });
         });
     }
   }

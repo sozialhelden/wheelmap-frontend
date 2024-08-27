@@ -1,32 +1,33 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import * as queryString from "query-string";
+import * as queryString from 'query-string';
 import useSWR from 'swr';
 import { trackEvent } from '../analytics/Analytics';
-import { trackAccessibilityCloudEvent } from "../analytics/trackAccessibilityCloudEvent";
-import { IApp } from "../model/ac/App";
-import { MappingEvent } from "../model/ac/MappingEvent";
+import { trackAccessibilityCloudEvent } from '../analytics/trackAccessibilityCloudEvent';
+import { IApp } from '../model/ac/App';
+import { MappingEvent } from '../model/ac/MappingEvent';
 import { storage } from '../util/savedState';
 
 export function trackMappingEventMembershipChanged(
-{
-  app,
-  reason,
-  joinedMappingEvent,
-  emailAddress,
-  invitationToken,
-  userUUID,
-}: {
+  {
+    app,
+    reason,
+    joinedMappingEvent,
+    emailAddress,
+    invitationToken,
+    userUUID,
+  }: {
   app: IApp;
-  reason: "url" | "button";
+  reason: 'url' | 'button';
   joinedMappingEvent?: MappingEvent;
   emailAddress?: string;
   invitationToken?: string;
   userUUID: string;
-}) {
+},
+) {
   const joinedMappingEventId = joinedMappingEvent?._id;
   setJoinedMappingEventId(joinedMappingEventId);
-  const search: string = window.location.search;
+  const { search } = window.location;
 
   if (joinedMappingEventId) {
     setJoinedMappingEventData(emailAddress, invitationToken);
@@ -37,8 +38,8 @@ export function trackMappingEventMembershipChanged(
       event: {
         invitationToken,
         emailAddress,
-        type: "MappingEventJoined",
-        joinedMappingEventId: joinedMappingEventId,
+        type: 'MappingEventJoined',
+        joinedMappingEventId,
         joinedVia: reason,
         query: queryString.parse(search),
       },
@@ -46,8 +47,8 @@ export function trackMappingEventMembershipChanged(
     });
 
     trackEvent({
-      category: "MappingEvent",
-      action: "Joined",
+      category: 'MappingEvent',
+      action: 'Joined',
       label: joinedMappingEventId,
     });
   }
@@ -98,7 +99,7 @@ export function getJoinedMappingEventData(): EventJoinData {
 
 export function setJoinedMappingEventData(
   emailAddress: string = null,
-  invitationToken: string = null
+  invitationToken: string = null,
 ) {
   const current = getJoinedMappingEventData();
   current.invitationToken = invitationToken;

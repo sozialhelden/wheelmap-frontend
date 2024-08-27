@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import Layout from "../../../components/App/Layout";
-import MappingEventPanel from "../../../components/MappingEvents/MappingEventPanel";
-import { useCurrentAppToken } from "../../../lib/context/AppContext";
-import fetchMappingEvent from "../../../lib/fetchers/fetchMappingEvent";
-import { MappingEventMetadata } from "../../../components/MappingEvents/MappingEventMetadata";
-import { ReactElement } from "react";
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { ReactElement } from 'react';
+import Layout from '../../../components/App/Layout';
+import MappingEventPanel from '../../../components/MappingEvents/MappingEventPanel';
+import { useCurrentAppToken } from '../../../lib/context/AppContext';
+import fetchMappingEvent from '../../../lib/fetchers/fetchMappingEvent';
+import { MappingEventMetadata } from '../../../components/MappingEvents/MappingEventMetadata';
 
 export default function Page() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function Page() {
 
   const { data: mappingEvent, isValidating, error } = useSWR(
     [appToken, id],
-    fetchMappingEvent
+    fetchMappingEvent,
   );
 
   if (!mappingEvent) {

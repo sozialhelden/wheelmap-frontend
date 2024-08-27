@@ -1,16 +1,16 @@
-import { t } from "ttag";
-import * as React from "react";
-import styled from "styled-components";
+import { t } from 'ttag';
+import * as React from 'react';
+import styled from 'styled-components';
 
-import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
-import getIconNameForProperties from "../../Map/getIconNameForProperties";
+import FocusTrap from 'focus-trap-react';
+import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories';
+import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import {
   AccessibilityCloudFeature,
   WheelmapFeature,
-} from "../../../lib/Feature";
-import FocusTrap from "focus-trap-react";
-import CustomRadio from "./CustomRadio";
-import StyledRadioGroup from "./StyledRadioGroup";
+} from '../../../lib/Feature';
+import CustomRadio from './CustomRadio';
+import StyledRadioGroup from './StyledRadioGroup';
 
 type Props = {
   featureId: string | number;
@@ -51,8 +51,7 @@ function getSelectedValueFromProps(props: Props): string | null {
     return props.presetStatus;
   }
 
-  const featureValue =
-    props.getValueFromFeature(props.feature) || props.presetStatus;
+  const featureValue = props.getValueFromFeature(props.feature) || props.presetStatus;
 
   if (featureValue === props.undefinedStringValue) {
     return props.presetStatus || featureValue;
@@ -63,7 +62,7 @@ function getSelectedValueFromProps(props: Props): string | null {
 
 class RadioStatusEditor extends React.Component<Props, State> {
   state: State = {
-    categoryId: "other",
+    categoryId: 'other',
     selectedValue: null,
     busy: false,
   };
@@ -78,7 +77,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
         ...this.state,
         selectedValue,
         categoryId:
-          this.fetchCategory(props.categories, props.feature) || "other",
+          this.fetchCategory(props.categories, props.feature) || 'other',
       };
     }
   }
@@ -88,14 +87,13 @@ class RadioStatusEditor extends React.Component<Props, State> {
     if (!feature) {
       return;
     }
-    const properties = feature.properties;
+    const { properties } = feature;
     if (!properties) {
       return;
     }
 
-    const categoryId =
-      (properties.node_type && properties.node_type.identifier) ||
-      properties.category;
+    const categoryId = (properties.node_type && properties.node_type.identifier)
+      || properties.category;
 
     if (!categoryId) {
       return;
@@ -105,7 +103,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
   }
 
   onRadioGroupKeyDown = ({ nativeEvent }) => {
-    if (nativeEvent.key === "Enter") {
+    if (nativeEvent.key === 'Enter') {
       this.onSaveButtonClick(nativeEvent);
     }
   };
@@ -114,7 +112,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
     event.preventDefault();
     event.stopPropagation();
 
-    const selectedValue = this.state.selectedValue;
+    const { selectedValue } = this.state;
 
     if (selectedValue && selectedValue !== this.props.undefinedStringValue) {
       this.props.saveValue(selectedValue);
@@ -123,7 +121,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
   };
 
   closeButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (typeof this.props.onClose === "function") {
+    if (typeof this.props.onClose === 'function') {
       this.props.onClose();
       // prevent clicking the next close button as well
       event.preventDefault();
@@ -133,7 +131,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
   renderRadioGroup() {
     const { selectedValue, busy } = this.state;
-    const valueIsDefined = selectedValue !== "unknown";
+    const valueIsDefined = selectedValue !== 'unknown';
 
     // translator: Screen reader description for the accessibility choice buttons in the wheelchair accessibility editor dialog
     const ariaLabel = t`Wheelchair accessibility`;
@@ -145,8 +143,8 @@ class RadioStatusEditor extends React.Component<Props, State> {
         onChange={(newValue) => {
           this.setState({ selectedValue: newValue });
         }}
-        className={`${selectedValue || ""} ${
-          valueIsDefined ? "has-selection" : ""
+        className={`${selectedValue || ''} ${
+          valueIsDefined ? 'has-selection' : ''
         } radio-group`}
         onKeyDown={this.onRadioGroupKeyDown}
         role="radiogroup"
@@ -158,7 +156,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
             disabled={busy}
             children={this.props.renderChildrenForValue({
               value,
-              categoryId: this.state.categoryId || "other",
+              categoryId: this.state.categoryId || 'other',
             })}
             shownValue={value ? String(value) : null}
             currentValue={selectedValue ? String(selectedValue) : null}
@@ -191,8 +189,8 @@ class RadioStatusEditor extends React.Component<Props, State> {
     const backOrCancelButtonCaption = valueHasChanged
       ? cancelButtonCaption
       : backButtonCaption;
-    const hasBeenUnknownBefore = selectedValue === "unknown";
-    const isUnknown = this.state.selectedValue === "unknown";
+    const hasBeenUnknownBefore = selectedValue === 'unknown';
+    const isUnknown = this.state.selectedValue === 'unknown';
 
     let saveButtonCaption = confirmButtonCaption;
     if (valueHasChanged) saveButtonCaption = changeButtonCaption;
@@ -201,7 +199,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
     return (
       <footer>
         <button
-          className={`link-button ${valueHasChanged ? "negative-button" : ""}`}
+          className={`link-button ${valueHasChanged ? 'negative-button' : ''}`}
           onClick={this.closeButtonClick}
         >
           {backOrCancelButtonCaption}
@@ -223,10 +221,10 @@ class RadioStatusEditor extends React.Component<Props, State> {
         <section
           className={[
             this.props.className,
-            this.props.hideUnselectedCaptions && "hide-unselected-captions",
+            this.props.hideUnselectedCaptions && 'hide-unselected-captions',
           ]
             .filter(Boolean)
-            .join(" ")}
+            .join(' ')}
           role="dialog"
           aria-labelledby="wheelchair-accessibility-header"
         >

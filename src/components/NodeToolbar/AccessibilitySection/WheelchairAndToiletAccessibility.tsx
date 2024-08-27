@@ -58,11 +58,11 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
   return (
-    <React.Fragment>
+    <>
       {icon}
       {icon && <>&nbsp;</>}
       <span>{description}</span>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -129,8 +129,11 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
           {caption}
           <span className="subtle distance">
-            &nbsp;{distance}&nbsp;
-            {unit}&nbsp;→
+            &nbsp;
+            {distance}
+&nbsp;
+            {unit}
+&nbsp;→
           </span>
         </button>
       );
@@ -150,16 +153,12 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
     const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
     const categoryId = properties.category;
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
-    const canAddToiletStatus =
-      isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);
-    const isToiletButtonShown =
-      (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
-      (toiletAccessibility === 'yes' && categoryId !== 'toilets');
+    const canAddToiletStatus = isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);
+    const isToiletButtonShown = (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus)
+      || (toiletAccessibility === 'yes' && categoryId !== 'toilets');
 
-    const findToiletsNearby =
-      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
-    const hasContent =
-      isKnownWheelchairAccessibility || isToiletButtonShown; /*|| findToiletsNearby*/
+    const findToiletsNearby = toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown; /* || findToiletsNearby */
     if (!hasContent) {
       return null;
     }

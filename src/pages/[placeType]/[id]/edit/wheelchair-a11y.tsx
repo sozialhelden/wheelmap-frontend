@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-const WheelchairA11y = () => {
+function WheelchairA11y() {
   const router = useRouter();
   const { placeType, id } = router.query;
 
@@ -12,6 +12,6 @@ const WheelchairA11y = () => {
       <h2>{`PlaceId: ${id}, placeType: ${placeType}`}</h2>
     </>
   );
-};
+}
 
 export default WheelchairA11y;

@@ -16,6 +16,7 @@ export type URLDataCacheOptions = {
 
 export default class URLDataCache<T> {
   cache: TTLCache<string, Promise<T>>;
+
   options: URLDataCacheOptions;
 
   constructor(options?: Partial<TTLCacheOptions & URLDataCacheOptions>) {
@@ -105,7 +106,7 @@ export default class URLDataCache<T> {
           cacheEntry.isReloading = false;
           this.cache.set(url, promise);
         })
-        .catch(e => {
+        .catch((e) => {
           cacheEntry.isReloading = false;
         });
     }

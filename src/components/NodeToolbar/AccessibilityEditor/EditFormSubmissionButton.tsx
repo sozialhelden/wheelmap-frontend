@@ -42,16 +42,15 @@ function openSurveyLink(url: string) {
   window.open(url, '_blank');
 }
 
-const EditFormSubmissionButton = (props: Props) => {
-  const primarySource =
-    props.sources && props.sources.length > 0 ? props.sources[0].source : undefined;
+function EditFormSubmissionButton(props: Props) {
+  const primarySource = props.sources && props.sources.length > 0 ? props.sources[0].source : undefined;
   const [state, setState] = React.useState<State>('Idle');
   const [error, setError] = React.useState<string | null>(null);
   const resolvedEditUrl = React.useRef<string | null>(null);
 
   const appContext = React.useContext(AppContext);
-  const tokenString = appContext.app.tokenString;
-  const baseUrl = appContext.baseUrl;
+  const { tokenString } = appContext.app;
+  const { baseUrl } = appContext;
   const placeId = props.featureId;
 
   const createOrOpenEditLink = React.useCallback(() => {
@@ -70,16 +69,16 @@ const EditFormSubmissionButton = (props: Props) => {
       .getEditPlaceSubmissionUrl(
         placeId,
         `${baseUrl}/contribution-thanks/${placeId}?uniqueSurveyId=${uniqueSurveyId}`,
-        tokenString
+        tokenString,
       )
-      .then(uri => {
+      .then((uri) => {
         console.log(uri);
         resolvedEditUrl.current = uri;
         setState('Idle');
         setTimeout(() => (resolvedEditUrl.current = null), validLinkDuration);
         openSurveyLink(uri);
       })
-      .catch(error => {
+      .catch((error) => {
         setState('Error');
         resolvedEditUrl.current = null;
         setError(typeof error === 'object' ? error.reason : String(error));
@@ -97,7 +96,7 @@ const EditFormSubmissionButton = (props: Props) => {
     <section className={props.className}>
       <PrimaryButton disabled={state !== 'Idle'} onClick={createOrOpenEditLink}>
         {t`Add more details`}
-        {state === 'CreatingLink' && <Spinner className="loadingIndicator" color={'white'} />}
+        {state === 'CreatingLink' && <Spinner className="loadingIndicator" color="white" />}
       </PrimaryButton>
       {state === 'Error' && (
         <div className="errorBlock">
@@ -107,7 +106,7 @@ const EditFormSubmissionButton = (props: Props) => {
       )}
     </section>
   );
-};
+}
 
 export default styled(EditFormSubmissionButton)`
   margin-top: 12px;

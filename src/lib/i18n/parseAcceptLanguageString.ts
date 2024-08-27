@@ -1,8 +1,8 @@
 export function parseAcceptLanguageString(acceptLanguage: string): string[] {
   return acceptLanguage
-    .split(",")
+    .split(',')
     .map((item) => {
-      const [locale, q] = item.split(";");
+      const [locale, q] = item.split(';');
 
       return {
         locale: locale.trim(),

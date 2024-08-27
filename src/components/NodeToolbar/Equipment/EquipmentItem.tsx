@@ -25,9 +25,9 @@ function EquipmentIconWrapper({
   count: number,
   isCountHidden: boolean,
 }) {
-  const properties = equipmentInfo.properties;
+  const { properties } = equipmentInfo;
   if (!properties) return null;
-  const _id = properties._id;
+  const { _id } = properties;
   const { isWorking, category } = properties;
 
   const ariaLabels: { [key: string]: { [key: string]: string } } = {
@@ -35,36 +35,36 @@ function EquipmentIconWrapper({
       elevator: ngettext(
         msgid`${count} elevator in service`,
         `${count} elevators in service`,
-        count
+        count,
       ),
       escalator: ngettext(
         msgid`${count} escalator in service`,
         `${count} escalators in service`,
-        count
+        count,
       ),
     },
     false: {
       elevator: ngettext(
         msgid`${count} elevator out of service`,
         `${count} elevators out of service`,
-        count
+        count,
       ),
       escalator: ngettext(
         msgid`${count} escalator out of service`,
         `${count} escalators out of service`,
-        count
+        count,
       ),
     },
     undefined: {
       elevator: ngettext(
         msgid`${count} elevator with unknown operational status`,
         `${count} elevators with unknown operational status`,
-        count
+        count,
       ),
       escalator: ngettext(
         msgid`${count} escalator with unknown operational status`,
         `${count} escalators with unknown operational status`,
-        count
+        count,
       ),
     },
   };
@@ -92,7 +92,7 @@ function EquipmentIconWrapper({
 }
 
 function EquipmentItem(props: Props) {
-  const equipmentInfos = props.equipmentInfos;
+  const { equipmentInfos } = props;
   const firstEquipmentInfo = equipmentInfos[0];
 
   const longDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'longDescription');
@@ -100,15 +100,15 @@ function EquipmentItem(props: Props) {
   const shortDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'shortDescription');
 
   const { isExpanded } = props;
-  const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
-  const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
+  const working = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === true);
+  const broken = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === false);
   const unknown = equipmentInfos.filter(
-    e => typeof get(e, ['properties', 'isWorking']) === 'undefined'
+    (e) => typeof get(e, ['properties', 'isWorking']) === 'undefined',
   );
   const hasBrokenEquipment = broken.length > 0;
 
   const itemSelectedHandler = (
-    event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>
+    event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.stopPropagation();
     event.preventDefault();
@@ -122,7 +122,7 @@ function EquipmentItem(props: Props) {
         isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''
       }`}
       key={description}
-      onKeyPress={event => {
+      onKeyPress={(event) => {
         if (event.keyCode === 13) {
           itemSelectedHandler(event);
         }
@@ -145,7 +145,7 @@ function EquipmentItem(props: Props) {
             return null;
           })
           .filter(Boolean),
-        'and'
+        'and',
       )}
       <span className="name" aria-label={longDescription || description}>
         {shortDescription || description}
@@ -154,7 +154,7 @@ function EquipmentItem(props: Props) {
   );
 }
 
-const linkColorFunction = props => {
+const linkColorFunction = (props) => {
   if (get(props, 'equipmentInfo.properties.isWorking')) return colors.linkColor;
   return colors.negativeColorDarker;
 };

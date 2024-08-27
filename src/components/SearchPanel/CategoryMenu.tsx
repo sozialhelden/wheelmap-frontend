@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import map from "lodash/map";
+import React from 'react';
+import styled from 'styled-components';
+import map from 'lodash/map';
 
-import { Circle } from "../shared/IconButton";
-import CategoryButton, { StyledCategoryIconButton } from "./CategoryButton";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
-import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";
+import { Circle } from '../shared/IconButton';
+import CategoryButton, { StyledCategoryIconButton } from './CategoryButton';
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
+import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable';
 
 type Props = {
   onFocus?: () => void;
@@ -36,8 +36,8 @@ function CategoryMenu(props: Props) {
           onBlur={props.onBlur}
           showCloseButton={showCloseButton}
           hasCircle={
-            !showCloseButton &&
-            !isAccessibilityFiltered(props.accessibilityFilter)
+            !showCloseButton
+            && !isAccessibilityFiltered(props.accessibilityFilter)
           }
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}

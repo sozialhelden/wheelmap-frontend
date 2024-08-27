@@ -1,8 +1,8 @@
-import { t } from "ttag";
+import { t } from 'ttag';
 
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
-import Flag from "../../../icons/actions/Flag";
+import { PlaceInfo } from '@sozialhelden/a11yjson';
+import { AnyFeature } from '../../../../lib/model/geo/AnyFeature';
+import Flag from '../../../icons/actions/Flag';
 
 type Props = {
   equipmentInfoId: string | null;
@@ -17,7 +17,7 @@ export default function ReportIssueButton(props: Props) {
     <button
       className="link-button full-width-button"
       onClick={() => {
-        if (typeof props.onOpenReportMode === "function") {
+        if (typeof props.onOpenReportMode === 'function') {
           props.onOpenReportMode();
         }
       }}

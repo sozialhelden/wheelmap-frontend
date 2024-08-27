@@ -1,8 +1,8 @@
-import { t } from "ttag";
-import { YesNoLimitedUnknown, YesNoUnknown } from "./Feature";
-import { EquipmentInfo, EquipmentProperties } from "@sozialhelden/a11yjson";
-import { FeatureCollection, Point } from "geojson";
-import { currentLocales } from "../../i18n/i18n";
+import { t } from 'ttag';
+import { EquipmentInfo, EquipmentProperties } from '@sozialhelden/a11yjson';
+import { FeatureCollection, Point } from 'geojson';
+import { YesNoLimitedUnknown, YesNoUnknown } from './Feature';
+import { currentLocales } from '../../i18n/i18n';
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<
   Point,
@@ -21,7 +21,7 @@ export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
 }
 
 export function isExistingInformationOutdated(
-  lastUpdate: Date | undefined
+  lastUpdate: Date | undefined,
 ): boolean {
   if (!lastUpdate) return false;
   const twoHoursInMilliseconds = 1000 * 60 * 60 * 2;
@@ -29,7 +29,7 @@ export function isExistingInformationOutdated(
 }
 
 export function isEquipmentAccessible(
-  properties: { stateLastUpdate?: Date; isWorking?: boolean } | undefined
+  properties: { stateLastUpdate?: Date; isWorking?: boolean } | undefined,
 ): YesNoLimitedUnknown | null {
   if (!properties) {
     return null;
@@ -40,9 +40,9 @@ export function isEquipmentAccessible(
     : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const resultMap: Record<string, YesNoUnknown> = {
-    true: "yes",
-    false: "no",
-    undefined: "unknown",
+    true: 'yes',
+    false: 'no',
+    undefined: 'unknown',
   };
   return resultMap[String(isOutdated ? undefined : properties.isWorking)];
 }
@@ -60,7 +60,7 @@ export function lastUpdateString({
 }) {
   if (!lastUpdate) {
     // translator: Shown next to equipment status when the system does not know a last update.
-    return `Unfortunately there is no information when this status was last updated.`;
+    return 'Unfortunately there is no information when this status was last updated.';
   }
 
   const translatedEquipmentCategory = {
@@ -74,36 +74,34 @@ export function lastUpdateString({
   const today = t`today`;
   const yesterday = t`yesterday`;
   const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
-  const isShortAgo =
-    now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
+  const isShortAgo = now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
   let dateString = lastUpdate.toLocaleDateString(
     currentLocales.map((l) => l.string),
     {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    },
   );
   if (
-    isExistingInformationOutdated(lastUpdate) &&
-    typeof isWorking !== "undefined"
+    isExistingInformationOutdated(lastUpdate)
+    && typeof isWorking !== 'undefined'
   ) {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
     return t`Last known operational status: ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;
-  } else {
-    if (isShortAgo) {
-      dateString = `${
-        isToday ? today : yesterday
-      }, ${lastUpdate.toLocaleTimeString(currentLocales.map((l) => l.string), {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}`;
-    }
-    // translator: Shown next to equipment status.
-    return t`Last update: ${dateString}`;
   }
+  if (isShortAgo) {
+    dateString = `${
+      isToday ? today : yesterday
+    }, ${lastUpdate.toLocaleTimeString(currentLocales.map((l) => l.string), {
+      hour: '2-digit',
+      minute: '2-digit',
+    })}`;
+  }
+  // translator: Shown next to equipment status.
+  return t`Last update: ${dateString}`;
 }

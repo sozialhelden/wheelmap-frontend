@@ -17,4 +17,4 @@
   },
   "exclude": ["node_modules", "src/lib/apm", "src/server"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/node/id.test.js"]
-}
+} 

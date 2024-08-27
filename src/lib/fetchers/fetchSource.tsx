@@ -1,4 +1,4 @@
-import ISource from "../model/ac/ISource";
+import ISource from '../model/ac/ISource';
 
 export function interpretJSONResponseAsSource(json: unknown): ISource {
   return json as ISource;

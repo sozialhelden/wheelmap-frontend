@@ -1,9 +1,9 @@
 import {
-    AccessibilityCloudFeature,
-    AccessibilityCloudFeatureCollection
-} from "../Feature";
-import { equipmentInfoCache } from "./EquipmentInfoCache";
-import FeatureCache from "./FeatureCache";
+  AccessibilityCloudFeature,
+  AccessibilityCloudFeatureCollection,
+} from '../Feature';
+import { equipmentInfoCache } from './EquipmentInfoCache';
+import FeatureCache from './FeatureCache';
 
 type CacheMap = {
   [key: string]: FeatureCache<any, any>;
@@ -16,7 +16,7 @@ export type CreatePlaceData = {
     address?: any;
   };
   geometry: {
-    type: "Point";
+    type: 'Point';
     coordinates: [number, number];
   };
 };
@@ -32,19 +32,19 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   static fetchFeature(
     id: number | string,
     appToken: string,
-    useCache: boolean = true
+    useCache: boolean = true,
   ): Promise<Response> {
     // const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
-    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
+    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || '';
     return AccessibilityCloudFeatureCache.fetch(
-      `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&includePlacesWithoutAccessibility=1`
+      `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&includePlacesWithoutAccessibility=1`,
     );
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {
     // @ts-ignore
     return String(
-      feature._id || (feature.properties && feature.properties._id)
+      feature._id || (feature.properties && feature.properties._id),
     );
   }
 
@@ -52,8 +52,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     // Cache and index related objects in their respective caches
     Object.keys(caches).forEach((collectionName) => {
       const cache = caches[collectionName];
-      const idsToDocuments =
-        feature.properties && feature.properties[collectionName];
+      const idsToDocuments = feature.properties && feature.properties[collectionName];
       if (idsToDocuments) {
         const ids = Object.keys(idsToDocuments || {});
         // @ts-ignore
@@ -67,17 +66,17 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
     const uploadPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ""}/place-infos/?appToken=${appToken}`,
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
+          || ''}/place-infos/?appToken=${appToken}`,
         {
-          method: "POST",
-          cache: "no-cache",
+          method: 'POST',
+          cache: 'no-cache',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(place),
-        }
+        },
       )
         .then((response: Response) => {
           if (response.ok) {
@@ -91,7 +90,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
             response
               .json()
               .then((json) => {
-                reject(json.error || "unknown");
+                reject(json.error || 'unknown');
               })
               .catch(reject);
           } else {
@@ -107,22 +106,22 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
 
   ratePlace(
     placeId: string,
-    mode: "toilet" | "wheelchair",
-    rating: "yes" | "no" | "unknown" | "partial",
-    appToken: string
+    mode: 'toilet' | 'wheelchair',
+    rating: 'yes' | 'no' | 'unknown' | 'partial',
+    appToken: string,
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ""}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
+          || ''}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
         {
-          method: "POST",
-          cache: "no-cache",
+          method: 'POST',
+          cache: 'no-cache',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-        }
+        },
       )
         .then((response: Response) => {
           if (response.ok) {
@@ -136,7 +135,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
             response
               .json()
               .then((json) => {
-                reject(json.error || "unknown");
+                reject(json.error || 'unknown');
               })
               .catch(reject);
           } else {
@@ -153,21 +152,21 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   getEditPlaceSubmissionUrl(
     placeId: string,
     returnUrl: string,
-    appToken: string
+    appToken: string,
   ): Promise<string> {
     const editUrlPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ""}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
-          returnUrl
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
+          || ''}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
+          returnUrl,
         )}&appToken=${appToken}`,
         {
-          method: "GET",
-          cache: "no-cache",
+          method: 'GET',
+          cache: 'no-cache',
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
           },
-        }
+        },
       )
         .then((response: Response) => {
           if (response.ok) {
@@ -177,7 +176,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
                 if (json.success) {
                   resolve(json.url);
                 } else {
-                  reject(json.message || "unknown");
+                  reject(json.message || 'unknown');
                 }
               })
               .catch(reject);
@@ -185,7 +184,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
             response
               .json()
               .then((json) => {
-                reject(json.error || "unknown");
+                reject(json.error || 'unknown');
               })
               .catch(reject);
           } else {
@@ -203,19 +202,19 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     placeId: string,
     reason: string,
     message: string,
-    appToken: string
+    appToken: string,
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ""}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
+          || ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
         {
-          method: "POST",
-          cache: "no-cache",
+          method: 'POST',
+          cache: 'no-cache',
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
           },
-        }
+        },
       )
         .then((response: Response) => {
           if (response.ok) {
@@ -224,7 +223,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
             response
               .json()
               .then((json) => {
-                reject("unknown");
+                reject('unknown');
               })
               .catch(reject);
           }

@@ -1,29 +1,29 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { t } from "ttag";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { t } from 'ttag';
 
-import AccessibilityFilterMenu from "./AccessibilityFilterMenu";
-import CategoryMenu from "./CategoryMenu";
-import SearchIcon from "./SearchIcon";
-import SearchInputField from "./SearchInputField";
-import SearchResults from "./SearchResults";
+import { useRouter } from 'next/router';
+import AccessibilityFilterMenu from './AccessibilityFilterMenu';
+import CategoryMenu from './CategoryMenu';
+import SearchIcon from './SearchIcon';
+import SearchInputField from './SearchInputField';
+import SearchResults from './SearchResults';
 
-import { useRouter } from "next/router";
-import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
-import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
+import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults';
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories';
 import {
   getAccessibilityFilterFrom,
   isAccessibilityFiltered,
-} from "../../lib/model/ac/filterAccessibility";
-import { AnyFeatureCollection } from "../../lib/model/geo/AnyFeature";
-import { isOnSmallViewport } from "../../lib/util/ViewportSize";
-import Spinner from "../ActivityIndicator/Spinner";
-import CloseLink from "../shared/CloseLink";
-import ErrorBoundary from "../shared/ErrorBoundary";
-import { PlaceFilter } from "./AccessibilityFilterModel";
-import { GoButton } from "./GoButton";
-import { StyledChevronRight } from "./StyledChevronRight";
-import { StyledToolbar } from "./StyledToolbar";
+} from '../../lib/model/ac/filterAccessibility';
+import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature';
+import { isOnSmallViewport } from '../../lib/util/ViewportSize';
+import Spinner from '../ActivityIndicator/Spinner';
+import CloseLink from '../shared/CloseLink';
+import ErrorBoundary from '../shared/ErrorBoundary';
+import { PlaceFilter } from './AccessibilityFilterModel';
+import { GoButton } from './GoButton';
+import { StyledChevronRight } from './StyledChevronRight';
+import { StyledToolbar } from './StyledToolbar';
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -67,7 +67,7 @@ export default function SearchPanel(props: Props) {
 
   const router = useRouter();
   const accessibilityFilter = getAccessibilityFilterFrom(
-    router.query.wheelchair
+    router.query.wheelchair,
   );
   const toiletFilter = getAccessibilityFilterFrom(router.query.toilet);
   const searchInputFieldRef = React.createRef<HTMLInputElement>();
@@ -81,10 +81,10 @@ export default function SearchPanel(props: Props) {
 
   const focus = React.useCallback(() => {
     if (
-      window.document.activeElement ===
-        ReactDOM.findDOMNode(goButtonRef.current) ||
-      window.document.activeElement ===
-        ReactDOM.findDOMNode(searchInputFieldRef.current)
+      window.document.activeElement
+        === ReactDOM.findDOMNode(goButtonRef.current)
+      || window.document.activeElement
+        === ReactDOM.findDOMNode(searchInputFieldRef.current)
     ) {
       return;
     }
@@ -103,7 +103,7 @@ export default function SearchPanel(props: Props) {
   }, []);
 
   const clearSearch = React.useCallback(() => {
-    onChangeSearchQuery("");
+    onChangeSearchQuery('');
   }, [onChangeSearchQuery]);
 
   const clearSearchAndFocusSearchField = React.useCallback(() => {
@@ -114,7 +114,7 @@ export default function SearchPanel(props: Props) {
   const searchInputField = (
     <SearchInputField
       ref={searchInputFieldRef}
-      searchQuery={searchQuery || ""}
+      searchQuery={searchQuery || ''}
       hidden={hidden}
       onClick={() => {
         if (category) {
@@ -139,13 +139,15 @@ export default function SearchPanel(props: Props) {
   const goButtonCaption = t`Go`;
   const goButton = (
     <GoButton ref={goButtonRef} onClick={onClose}>
-      {goButtonCaption} <StyledChevronRight />
+      {goButtonCaption}
+      {' '}
+      <StyledChevronRight />
     </GoButton>
   );
 
-  const categoryMenuOrNothing = (category ||
-    isExpanded ||
-    showCategoryMenu) && (
+  const categoryMenuOrNothing = (category
+    || isExpanded
+    || showCategoryMenu) && (
     <CategoryMenu
       category={category}
       accessibilityFilter={accessibilityFilter}
@@ -153,9 +155,9 @@ export default function SearchPanel(props: Props) {
   );
 
   const accessibilityFilterMenu = (isAccessibilityFiltered(
-    accessibilityFilter
-  ) ||
-    isExpanded) && (
+    accessibilityFilter,
+  )
+    || isExpanded) && (
     <AccessibilityFilterMenu
       accessibilityFilter={accessibilityFilter}
       toiletFilter={toiletFilter}
@@ -212,7 +214,7 @@ export default function SearchPanel(props: Props) {
       enableTransitions={false}
       minimalTopPosition={minimalTopPosition}
       role="search"
-      className={isExpanded ? "isExpanded" : null}
+      className={isExpanded ? 'isExpanded' : null}
     >
       <ErrorBoundary>
         <header>

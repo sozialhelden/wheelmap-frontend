@@ -1,7 +1,7 @@
-import { t } from "ttag";
-import { TypeTaggedOSMFeature } from "../../lib/model/geo/AnyFeature";
-import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRelevantOSMKey";
-import { OSMTagPanel } from "./components/AccessibilitySection/OSMTagPanel";
+import { t } from 'ttag';
+import { TypeTaggedOSMFeature } from '../../lib/model/geo/AnyFeature';
+import isAccessibilityRelevantOSMKey from '../../lib/model/osm/isAccessibilityRelevantOSMKey';
+import { OSMTagPanel } from './components/AccessibilitySection/OSMTagPanel';
 
 export default function OSMSidewalkDetails({ feature }: { feature: TypeTaggedOSMFeature }) {
   const keys = Object.keys(feature.properties).filter(isAccessibilityRelevantOSMKey);
@@ -9,8 +9,10 @@ export default function OSMSidewalkDetails({ feature }: { feature: TypeTaggedOSM
     return null;
   }
 
-  return <section>
-    <h4>{t`Sidewalks & Surroundings`}</h4>
-    <OSMTagPanel feature={feature} />
-  </section>
+  return (
+    <section>
+      <h4>{t`Sidewalks & Surroundings`}</h4>
+      <OSMTagPanel feature={feature} />
+    </section>
+  );
 }

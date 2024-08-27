@@ -1,10 +1,10 @@
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import * as React from "react";
+import { PlaceInfo } from '@sozialhelden/a11yjson';
+import * as React from 'react';
 import {
   generateOsmEditUrl,
   generateOsmNoteUrl,
-} from "../../../lib/model/osm/generateOsmUrls";
-import strings from "./strings";
+} from '../../../lib/model/osm/generateOsmUrls';
+import strings from './strings';
 
 type Props = {
   feature: PlaceInfo;
@@ -14,7 +14,9 @@ type Props = {
 
 export default class FixOsmPlacePosition extends React.Component<Props> {
   editLink: HTMLElement | null;
+
   noteLink: HTMLElement | null;
+
   backButton: HTMLElement | null;
 
   componentDidMount() {
@@ -23,25 +25,25 @@ export default class FixOsmPlacePosition extends React.Component<Props> {
 
   trapFocus = (event: React.KeyboardEvent<{}>) => {
     if (
-      event.target === this.editLink &&
-      event.key === "Tab" &&
-      event.shiftKey
+      event.target === this.editLink
+      && event.key === 'Tab'
+      && event.shiftKey
     ) {
       event.preventDefault();
       this.noteLink && this.noteLink.focus();
     }
     if (
-      event.target === this.noteLink &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.noteLink
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
       event.preventDefault();
       this.backButton && this.backButton.focus();
     }
     if (
-      event.target === this.backButton &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.backButton
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
       event.preventDefault();
       this.editLink && this.editLink.focus();

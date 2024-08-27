@@ -1,11 +1,11 @@
-import { createServer } from "http";
-import next from "next";
-import { parse } from "url";
-import fetchApp from "../lib/fetchers/fetchApp";
-import addEmbedModeResponseHeaders from "../lib/util/addEmbedModeResponseHeaders";
+import { createServer } from 'http';
+import next from 'next';
+import { parse } from 'url';
+import fetchApp from '../lib/fetchers/fetchApp';
+import addEmbedModeResponseHeaders from '../lib/util/addEmbedModeResponseHeaders';
 
-const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
+const dev = process.env.NODE_ENV !== 'production';
+const hostname = 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
@@ -17,7 +17,7 @@ app.prepare().then(() => {
       // This tells it to parse the query portion of the URL.
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
-      const hostname = req ? req.headers["host"] : location.hostname;
+      const hostname = req ? req.headers.host : location.hostname;
       const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
       const { embedToken } = query;
       const app = await fetchApp([hostname, appToken]);
@@ -25,7 +25,7 @@ app.prepare().then(() => {
       addEmbedModeResponseHeaders(
         app,
         res,
-        typeof embedToken === "string" ? embedToken : undefined
+        typeof embedToken === 'string' ? embedToken : undefined,
       );
 
       // if (pathname === "/a") {
@@ -37,9 +37,9 @@ app.prepare().then(() => {
 
       await handle(req, res, parsedUrl);
     } catch (err) {
-      console.error("Error occurred handling", req.url, err);
+      console.error('Error occurred handling', req.url, err);
       res.statusCode = 500;
-      res.end("internal server error");
+      res.end('internal server error');
     }
   }).listen(port, () => {
     console.log(`> Ready on http://${hostname}:${port}`);

@@ -1,4 +1,4 @@
-import { AnyFeature, isOSMFeature, isPlaceInfo } from "../model/geo/AnyFeature";
+import { AnyFeature, isOSMFeature, isPlaceInfo } from '../model/geo/AnyFeature';
 
 const imageResizeConfig = {
   quality: 0.7,
@@ -34,4 +34,3 @@ export default async function uploadPhotoForFeature(feature: AnyFeature, images:
     throw new Error(json?.error?.reason);
   }
 }
-

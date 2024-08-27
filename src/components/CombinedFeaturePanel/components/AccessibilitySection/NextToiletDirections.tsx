@@ -1,4 +1,3 @@
-
 function NearbyToiletButton() {
   // const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
   //   if (!toiletsNearby) {

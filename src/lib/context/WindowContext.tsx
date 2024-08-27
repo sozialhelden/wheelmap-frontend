@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 
 // Why  do we need this, if we always globally have window.innerWidth and window.innerHeight anyway?
 
@@ -9,7 +9,7 @@ export type WindowContextType = {
 };
 
 export const WindowContext = React.createContext<WindowContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function useWindowContext() {
@@ -31,9 +31,9 @@ export default function WindowContextProvider({
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
 
   return (

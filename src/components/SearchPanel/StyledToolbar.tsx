@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import colors from "../../lib/util/colors";
-import Toolbar from "../shared/Toolbar";
-import CategoryMenu from "./CategoryMenu";
+import styled from 'styled-components';
+import colors from '../../lib/util/colors';
+import Toolbar from '../shared/Toolbar';
+import CategoryMenu from './CategoryMenu';
 
 export const StyledToolbar = styled(Toolbar)`
   & {

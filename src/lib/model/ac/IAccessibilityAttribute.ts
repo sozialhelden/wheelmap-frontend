@@ -26,4 +26,4 @@ export default interface IAccessibilityAttribute {
   describesArchitecture: boolean,
   isMachineData: boolean,
   vectorIconSVG: ISVGOResult,
-}
+};

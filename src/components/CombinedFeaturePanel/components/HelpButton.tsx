@@ -1,8 +1,8 @@
 import {
   Button,
-  HotkeysContext
+  HotkeysContext,
 } from '@blueprintjs/core';
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
 
 export default function HelpButton({ className }: { className?: string }) {

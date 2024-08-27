@@ -1,15 +1,15 @@
-import Link from "next/link";
-import styled from "styled-components";
-import useSWR from "swr";
-import { t } from "ttag";
-import { useCurrentApp } from "../../lib/context/AppContext";
-import fetchMappingEvents from "../../lib/fetchers/fetchMappingEvents";
-import { MappingEvent } from "../../lib/model/ac/MappingEvent";
-import colors from "../../lib/util/colors";
-import StyledToolbar from "../NodeToolbar/StyledToolbar";
-import { mappingEvent as MappingEventMarkerIcon } from "../icons/markers";
-import CloseButton from "../shared/CloseButton";
-import StyledMarkdown from "../shared/StyledMarkdown";
+import Link from 'next/link';
+import styled from 'styled-components';
+import useSWR from 'swr';
+import { t } from 'ttag';
+import { useCurrentApp } from '../../lib/context/AppContext';
+import fetchMappingEvents from '../../lib/fetchers/fetchMappingEvents';
+import { MappingEvent } from '../../lib/model/ac/MappingEvent';
+import colors from '../../lib/util/colors';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
+import CloseButton from '../shared/CloseButton';
+import StyledMarkdown from '../shared/StyledMarkdown';
 
 export const StyledCloseButton = styled(CloseButton)``;
 
@@ -102,7 +102,7 @@ export default function MappingEventListPanel({}: Props) {
   const { tokenString: appToken } = app;
   const { data: mappingEvents, isValidating, error } = useSWR(
     [appToken],
-    fetchMappingEvents
+    fetchMappingEvents,
   );
 
   const eventCount = mappingEvents?.length || 0;
@@ -120,7 +120,6 @@ export default function MappingEventListPanel({}: Props) {
   // translator: Link for further infos about how to organize mapping events
   const mapathonExplanationLinkURL = t`https://news.wheelmap.org/en/organize-a-mapping-event/`;
 
-
   return (
     <StyledMappingEventsToolbar
       ariaLabel={mappingEventsListAriaLabel}
@@ -128,7 +127,7 @@ export default function MappingEventListPanel({}: Props) {
       minimalHeight={180}
     >
       <header>
-        <span className="number-badge" aria-hidden={true}>
+        <span className="number-badge" aria-hidden>
           {eventCount}
         </span>
         <div className="header-title">
@@ -145,7 +144,9 @@ export default function MappingEventListPanel({}: Props) {
         className="link-button explanation-link"
         href={mapathonExplanationLinkURL}
       >
-        👉 {mapathonExplanationLinkCaption}
+        👉
+        {' '}
+        {mapathonExplanationLinkCaption}
       </a>
       <ul>
         {mappingEvents && mappingEvents.map((event) => (
@@ -164,7 +165,7 @@ export default function MappingEventListPanel({}: Props) {
           </li>
         ))}
       </ul>
-      <footer></footer>
+      <footer />
     </StyledMappingEventsToolbar>
   );
-};
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DataTableEntry } from './getInitialProps';
 import { t } from 'ttag';
+import { DataTableEntry } from './getInitialProps';
 
 type ContributionThanksProps = {};
 

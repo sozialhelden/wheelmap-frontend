@@ -22,10 +22,8 @@ type State = {
 };
 
 function groupEquipmentByName(equipmentInfos: EquipmentInfo[]) {
-  const groupedEquipmentInfos = groupBy(equipmentInfos, e =>
-    getEquipmentInfoDescription(e, 'shortDescription')
-  );
-  return Object.keys(groupedEquipmentInfos).map(description => groupedEquipmentInfos[description]);
+  const groupedEquipmentInfos = groupBy(equipmentInfos, (e) => getEquipmentInfoDescription(e, 'shortDescription'));
+  return Object.keys(groupedEquipmentInfos).map((description) => groupedEquipmentInfos[description]);
 }
 
 class EquipmentOverview extends React.Component<Props, State> {
@@ -38,24 +36,20 @@ class EquipmentOverview extends React.Component<Props, State> {
 
     const sortedEquipmentInfos = sortBy(Object.values(equipmentInfos), [
       'properties.category',
-      e => getEquipmentInfoDescription(e, 'shortDescription'),
+      (e) => getEquipmentInfoDescription(e, 'shortDescription'),
     ]);
 
     const equipmentInfoArrays = groupEquipmentByName(sortedEquipmentInfos);
 
-    const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
-      equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
-    );
+    const brokenEquipmentInfoArrays = equipmentInfoArrays.filter((equipmentInfos) => equipmentInfos.find((equipmentInfo) => get(equipmentInfo, 'properties.isWorking') === false));
     const workingEquipmentInfoArrays = equipmentInfoArrays.filter(
-      equipmentInfos =>
-        !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
+      (equipmentInfos) => !equipmentInfos.find((equipmentInfo) => get(equipmentInfo, 'properties.isWorking') === false),
     );
 
     if (sortedEquipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
-    const hasWorkingEquipment =
-      workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
+    const hasWorkingEquipment = workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
     const shouldBeExpandable = sortedEquipmentInfos.length > 1 && !this.state.expanded;
     const isExpanded = this.state.expanded || sortedEquipmentInfos.length <= 2;
 

@@ -11,7 +11,7 @@ type MappingEventDetailDataProps = {
 const MappingEventDetailData: DataTableEntry<MappingEventDetailDataProps> = {
   getHead({ mappingEvent, app }) {
     const translatedProductName = translatedStringFromObject(
-      app.clientSideConfiguration.textContent.product.name
+      app.clientSideConfiguration.textContent.product.name,
     );
     const title = translatedProductName
       ? `${mappingEvent.name} - ${translatedProductName}`
@@ -20,8 +20,8 @@ const MappingEventDetailData: DataTableEntry<MappingEventDetailDataProps> = {
   },
 
   async getMappingEvent(eventId: string, renderContext: RenderContext) {
-    const app = renderContext.app;
-    const found = renderContext.mappingEvents.find(event => event._id === eventId);
+    const { app } = renderContext;
+    const found = renderContext.mappingEvents.find((event) => event._id === eventId);
     const result = found || (await mappingEventsCache.getMappingEvent(app, eventId, false));
     return result;
   },

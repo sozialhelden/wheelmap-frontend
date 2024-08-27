@@ -1,5 +1,5 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { OAuthConfig } from "next-auth/providers/oauth";
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { OAuthConfig } from 'next-auth/providers/oauth';
 
 interface IOSMProfile {
   version: '0.6',
@@ -22,21 +22,21 @@ interface IOSMProfile {
     languages: string[],
     messages: { received: { count: number, unread: number }, sent: { count: number } },
   },
-};
+}
 
-const baseUrl = process.env.NEXTAUTH_BASE_URL || "https://www.openstreetmap.org";
-const apiBaseUrl = process.env.NEXTAUTH_API_BASE_URL || "https://api.openstreetmap.org"
+const baseUrl = process.env.NEXTAUTH_BASE_URL || 'https://www.openstreetmap.org';
+const apiBaseUrl = process.env.NEXTAUTH_API_BASE_URL || 'https://api.openstreetmap.org';
 const OSMProvider: OAuthConfig<IOSMProfile> = {
-  id: "osm",
-  name: "OpenStreetMap",
-  type: "oauth",
+  id: 'osm',
+  name: 'OpenStreetMap',
+  type: 'oauth',
   token: `${baseUrl}/oauth2/token`,
   userinfo: `${apiBaseUrl}/api/0.6/user/details.json`,
   clientId: process.env.OSM_OAUTH2_CLIENT_ID,
   clientSecret: process.env.OSM_OAUTH2_CLIENT_SECRET,
   authorization: {
     url: `${baseUrl}/oauth2/authorize`,
-    params: { scope: "read_prefs write_api write_notes" }
+    params: { scope: 'read_prefs write_api write_notes' },
   },
   profile(profile) {
     return {
@@ -44,7 +44,7 @@ const OSMProvider: OAuthConfig<IOSMProfile> = {
       name: profile.user.display_name,
       email: profile.user.display_name,
       image: profile.user.img?.href,
-    }
+    };
   },
 };
 
@@ -58,14 +58,18 @@ export const authOptions: NextAuthOptions = {
         accessToken: token.accessToken,
       };
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      console.log('JWT callback', { token, user, account, profile, isNewUser });
+    async jwt({
+      token, user, account, profile, isNewUser,
+    }) {
+      console.log('JWT callback', {
+        token, user, account, profile, isNewUser,
+      });
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
         token.accessToken = account.access_token;
         token.tokenType = account.token_type;
       }
-      return token
+      return token;
     },
   },
 };

@@ -1,32 +1,32 @@
-import { omit } from "lodash";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useCallback } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { useCurrentApp } from "../../lib/context/AppContext";
+import { omit } from 'lodash';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
+import { useCurrentApp } from '../../lib/context/AppContext';
 import {
   getUUID,
   setJoinedMappingEventId,
   trackMappingEventMembershipChanged, useCurrentMappingEventId,
-} from "../../lib/context/MappingEventContext";
-import { buildFullImageUrl } from "../../lib/model/ac/Image";
-import { canMappingEventBeJoined } from "../../lib/model/ac/MappingEvent";
-import colors from "../../lib/util/colors";
-import StyledToolbar from "../NodeToolbar/StyledToolbar";
-import GlobeIcon from "../icons/ui-elements/GlobeIcon";
-import MapPinIcon from "../icons/ui-elements/MapPinIcon";
+} from '../../lib/context/MappingEventContext';
+import { buildFullImageUrl } from '../../lib/model/ac/Image';
+import { canMappingEventBeJoined } from '../../lib/model/ac/MappingEvent';
+import colors from '../../lib/util/colors';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import GlobeIcon from '../icons/ui-elements/GlobeIcon';
+import MapPinIcon from '../icons/ui-elements/MapPinIcon';
 import Button, {
   ChromelessButton,
   DangerButton,
   PrimaryButton,
-} from "../shared/Button";
-import CloseButton from "../shared/CloseButton";
-import StyledMarkdown from "../shared/StyledMarkdown";
-import ChevronLeft from "./ChevronLeft";
-import MappingEventShareBar from "./MappingEventShareBar";
-import Statistics from "./Statistics";
-import { useCurrentLanguage } from "./useCurrentLanguage";
+} from '../shared/Button';
+import CloseButton from '../shared/CloseButton';
+import StyledMarkdown from '../shared/StyledMarkdown';
+import ChevronLeft from './ChevronLeft';
+import MappingEventShareBar from './MappingEventShareBar';
+import Statistics from './Statistics';
+import { useCurrentLanguage } from './useCurrentLanguage';
 
 export const StyledCloseButton = styled(CloseButton)`
   float: right;
@@ -36,7 +36,6 @@ export const StyledCloseButton = styled(CloseButton)`
 type Props = {
   mappingEvent?: MappingEvent;
 };
-
 
 const StyledMappingEventToolbar = styled(StyledToolbar)`
   padding-top: 0;
@@ -109,14 +108,14 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
 
   const imageSource = mappingEvent?.images?.[0]
     ? buildFullImageUrl(mappingEvent.images[0])
-    : "/images/eventPlaceholder.png";
+    : '/images/eventPlaceholder.png';
 
   const dateFormatOptions: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
   };
 
   const startDate = mappingEvent?.startTime
@@ -131,19 +130,19 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
   if (startDate) {
     startDateString = Intl.DateTimeFormat(
       preferredLanguage,
-      dateFormatOptions
+      dateFormatOptions,
     ).format(startDate);
 
     if (endDate) {
-      const isSameDay = startDate.getFullYear() === endDate.getFullYear() &&
-        startDate.getMonth() === endDate.getMonth() &&
-        startDate.getDate() === endDate.getDate();
+      const isSameDay = startDate.getFullYear() === endDate.getFullYear()
+        && startDate.getMonth() === endDate.getMonth()
+        && startDate.getDate() === endDate.getDate();
 
       endDateString = Intl.DateTimeFormat(
         preferredLanguage,
         isSameDay
-          ? omit(dateFormatOptions, "year", "month", "day")
-          : dateFormatOptions
+          ? omit(dateFormatOptions, 'year', 'month', 'day')
+          : dateFormatOptions,
       ).format(endDate);
     } else {
       // translator: Prefix for the mapping event start date ("starting 01.12.2019")
@@ -156,7 +155,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     if (endDate) {
       endDateString = `${untilDatePrefix} ${Intl.DateTimeFormat(
         preferredLanguage,
-        dateFormatOptions
+        dateFormatOptions,
       ).format(endDate)}`;
     }
   }
@@ -196,14 +195,16 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
   const app = useCurrentApp();
   const leaveMappingEvent = useCallback(() => {
     setJoinedMappingEventId(null);
-    trackMappingEventMembershipChanged({ userUUID, app, reason: "button" });
+    trackMappingEventMembershipChanged({ userUUID, app, reason: 'button' });
     mutateMappingEventId();
   }, []);
 
   const router = useRouter();
   const joinMappingEventAndShowWelcomeDialog = useCallback(() => {
     setJoinedMappingEventId(mappingEventId);
-    trackMappingEventMembershipChanged({ userUUID, app, reason: "button", joinedMappingEvent: mappingEvent });
+    trackMappingEventMembershipChanged({
+      userUUID, app, reason: 'button', joinedMappingEvent: mappingEvent,
+    });
     router.push(`/events/${mappingEventId}/welcome`);
     mutateMappingEventId();
   }, [mappingEvent, mappingEventId]);
@@ -216,25 +217,27 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
       role="dialog"
       minimalHeight={205}
     >
-      <header style={{marginTop: '24px'}}>
+      <header style={{ marginTop: '24px' }}>
         {!joinedMappingEventId && (
-          (<Link href="/events" aria-label={backLinkAriaLabel}>
+          (
+          <Link href="/events" aria-label={backLinkAriaLabel}>
 
             <ChevronLeft />
 
-          </Link>)
+          </Link>
+          )
         )}
 
         <div style={{ flex: 1 }}>
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: "-16px",
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: '-16px',
             }}
           >
-            <h2 style={{ flex: "1" }}>
+            <h2 style={{ flex: '1' }}>
               {hasMeetingPoint ? (
                 <Link href={mappingEventCenterUrl} legacyBehavior>
                   <Button title={centerMapOnMappingEvent}>
@@ -290,27 +293,35 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
       </div>
 
       <Statistics
-        mappedPlacesCount={(mappingEvent?.statistics?.attributeChangedCount || 0) +
-          (mappingEvent?.statistics?.surveyCompletedCount || 0)}
+        mappedPlacesCount={(mappingEvent?.statistics?.attributeChangedCount || 0)
+          + (mappingEvent?.statistics?.surveyCompletedCount || 0)}
         participantCount={mappingEvent?.statistics?.joinedParticipantCount || 0}
         startDate={startDate}
-        endDate={endDate} />
+        endDate={endDate}
+      />
 
-      <div className="actions" style={{ marginBottom: '1rem'}}>
-        {!joinedMappingEventId &&
-          canMappingEventBeJoined(mappingEvent) &&
+      <div className="actions" style={{ marginBottom: '1rem' }}>
+        {!joinedMappingEventId
+          && canMappingEventBeJoined(mappingEvent)
+          && (
           <PrimaryButton onClick={joinMappingEventAndShowWelcomeDialog}>
             {joinButtonCaption}
-          </PrimaryButton>}
+          </PrimaryButton>
+          )}
 
-        {userJoinedMappingEvent &&
+        {userJoinedMappingEvent
+          && (
           <DangerButton onClick={leaveMappingEvent}>
             {leaveButtonCaption}
-          </DangerButton>}
+          </DangerButton>
+          )}
 
-        {mappingEvent && <MappingEventShareBar
+        {mappingEvent && (
+        <MappingEventShareBar
           mappingEvent={mappingEvent}
-          buttonCaption={shareButtonCaption} />}
+          buttonCaption={shareButtonCaption}
+        />
+        )}
       </div>
     </StyledMappingEventToolbar>
   );

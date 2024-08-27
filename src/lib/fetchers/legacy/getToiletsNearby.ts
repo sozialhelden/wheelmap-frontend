@@ -1,15 +1,15 @@
-import { Feature } from "geojson";
-import flatten from "lodash/flatten";
-import sortBy from "lodash/sortBy";
-import { isOrHasAccessibleToilet } from "../../model/accessibility/isOrHasAccessibleToilet";
-import { normalizedCoordinatesForFeature } from "../../model/geo/normalizedCoordinatesForFeature";
-import { calculateBoundingBox } from "./calculateBoundingBox";
-import { getDistanceFromCoordsToFeature } from "./getDistanceFromCoordsToFeature";
+import { Feature } from 'geojson';
+import flatten from 'lodash/flatten';
+import sortBy from 'lodash/sortBy';
+import { isOrHasAccessibleToilet } from '../../model/accessibility/isOrHasAccessibleToilet';
+import { normalizedCoordinatesForFeature } from '../../model/geo/normalizedCoordinatesForFeature';
+import { calculateBoundingBox } from './calculateBoundingBox';
+import { getDistanceFromCoordsToFeature } from './getDistanceFromCoordsToFeature';
 
 function fetchWheelmapToiletPlaces(
   lat: number,
   lon: number,
-  radius: number
+  radius: number,
 ): Promise<Feature[]> {
   const bbox = calculateBoundingBox(lat, lon, radius);
   const url = `${config.wheelmapApiBaseUrl}/api/v1/amenities.geojson?geometryTypes=centroid&bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&tag['wheelchair:toilet']=yes&limit=50`;
@@ -23,13 +23,13 @@ function fetchAcToiletPlaces(
   radius: number,
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
-  appToken?: string
+  appToken?: string,
 ): Promise<Feature[]> {
   const sourceIdParams = buildSourceIdParams(
     includeSourceIds,
-    excludeSourceIds
+    excludeSourceIds,
   );
-  const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
+  const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || '';
   const url = `${baseUrl}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${appToken}`;
   return globalFetchManager
     .fetch(url)
@@ -40,9 +40,8 @@ function fetchAcToiletPlaces(
       return null;
     })
     .then((responseJson) => {
-      const parsed =
-        responseJson &&
-        accessibilityCloudFeatureCollectionFromResponse(responseJson);
+      const parsed = responseJson
+        && accessibilityCloudFeatureCollectionFromResponse(responseJson);
       return parsed ? parsed.features : [];
     });
 }
@@ -55,7 +54,7 @@ export function fetchToiletsNearby(
   disableWheelmapSource: boolean,
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
-  appToken: string
+  appToken: string,
 ) {
   const wm = disableWheelmapSource
     ? Promise.resolve([])
@@ -66,7 +65,7 @@ export function fetchToiletsNearby(
     nearbyRadiusMeters,
     includeSourceIds,
     excludeSourceIds,
-    appToken
+    appToken,
   );
 
   return Promise.all([wm, ac]).then((results) => {
@@ -76,7 +75,7 @@ export function fetchToiletsNearby(
     ]);
     return sortBy(
       flatten(results).filter(isOrHasAccessibleToilet),
-      distanceMapping
+      distanceMapping,
     );
   });
 }
@@ -86,13 +85,13 @@ export function fetchToiletsNearFeature(
   disableWheelmapSource: boolean,
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
-  appToken: string
+  appToken: string,
 ) {
   if (!feature) {
     return [];
   }
 
-  if (feature.properties && hasAccessibleToilet(feature.properties) === "yes") {
+  if (feature.properties && hasAccessibleToilet(feature.properties) === 'yes') {
     return [];
   }
 
@@ -109,11 +108,11 @@ export function fetchToiletsNearFeature(
     disableWheelmapSource,
     includeSourceIds,
     excludeSourceIds,
-    appToken
+    appToken,
   );
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   // @ts-ignore
   window.fetchToiletsNearby = fetchToiletsNearby;
 }

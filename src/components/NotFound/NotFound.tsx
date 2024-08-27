@@ -1,15 +1,15 @@
-import get from "lodash/get";
-import * as React from "react";
-import { useEffect } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import get from 'lodash/get';
+import * as React from 'react';
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import colors from "../../lib/util/colors";
-import ChevronRight from "../icons/actions/ChevronRight";
+import colors from '../../lib/util/colors';
+import ChevronRight from '../icons/actions/ChevronRight';
 
-import Logo from "../App/Logo";
-import { PrimaryButton } from "../shared/Button";
-import ModalDialog from "../shared/ModalDialog";
+import Logo from '../App/Logo';
+import { PrimaryButton } from '../shared/Button';
+import ModalDialog from '../shared/ModalDialog';
 
 type Props = {
   className?: string;
@@ -23,7 +23,7 @@ const NotFound: React.FC<Props> = ({
   statusCode,
 }) => {
   const manageFocus = React.useCallback(({ nativeEvent }) => {
-    if (nativeEvent.key === "Tab") {
+    if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
     }
   }, []);
@@ -40,7 +40,7 @@ const NotFound: React.FC<Props> = ({
 
   useEffect(() => focus(), []);
 
-  const classList = [className, "not-found-page"].filter(Boolean);
+  const classList = [className, 'not-found-page'].filter(Boolean);
 
   // translator: Shown as header text on the error page.
   const errorText = t`Error`;
@@ -53,11 +53,10 @@ const NotFound: React.FC<Props> = ({
 
   const isNotFound = statusCode === 404;
 
-  const isOffline =
-    get(
-      { className, onReturnHomeClick, statusCode },
-      "error.response.status"
-    ) === 3;
+  const isOffline = get(
+    { className, onReturnHomeClick, statusCode },
+    'error.response.status',
+  ) === 3;
 
   const shouldShowApology = !isNotFound && !isOffline;
 
@@ -79,7 +78,9 @@ const NotFound: React.FC<Props> = ({
       onKeyDown={manageFocus}
       ref={closeButton}
     >
-      {returnHomeButtonCaption} <ChevronRight />
+      {returnHomeButtonCaption}
+      {' '}
+      <ChevronRight />
     </PrimaryButton>
   );
 
@@ -94,13 +95,13 @@ const NotFound: React.FC<Props> = ({
 
   return (
     <ModalDialog
-      className={classList.join(" ")}
-      isVisible={true}
+      className={classList.join(' ')}
+      isVisible
       ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
       ariaLabel={t`Error`}
     >
       <header>
-        <Logo className="logo" aria-hidden={true} />
+        <Logo className="logo" aria-hidden />
         <h1 id="wheelmap-error-text">{headerText}</h1>
       </header>
 

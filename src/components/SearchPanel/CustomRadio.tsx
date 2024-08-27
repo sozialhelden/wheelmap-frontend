@@ -17,7 +17,7 @@ type CustomRadioState = {
 
 interface Focusable {
   focus(): void;
-};
+}
 
 export default class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
   state = {
@@ -61,7 +61,7 @@ export default class CustomRadio extends React.Component<CustomRadioProps, Custo
         />
         <RadioButton
           className={`radio-button${this.state.isFocused ? ' focus-visible' : ''}`}
-          aria-hidden={true}
+          aria-hidden
         />
       </div>
     );

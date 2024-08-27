@@ -56,7 +56,7 @@ const conjunctionMap: ConjunctionMap = {
 };
 export default function getHumanEnumeration(
   elements: React.ReactNode[],
-  conjunctionType: ConjunctionType = 'and'
+  conjunctionType: ConjunctionType = 'and',
 ): React.ReactNode[] {
   if (!elements) return [];
 

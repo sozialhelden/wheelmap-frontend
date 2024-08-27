@@ -1,5 +1,5 @@
-import * as React from "react";
-import { MutableRefObject } from "react";
+import * as React from 'react';
+import { MutableRefObject } from 'react';
 
 type Props = {
   onClose?: (event) => void;
@@ -48,7 +48,7 @@ const ModalReportDialog = React.forwardRef<HTMLDialogElement, Props>(
         {children}
       </dialog>
     );
-  }
+  },
 );
 
 export default ModalReportDialog;

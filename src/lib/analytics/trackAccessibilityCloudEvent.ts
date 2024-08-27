@@ -1,7 +1,7 @@
-import pick from "lodash/pick";
-import { IApp } from "../model/ac/App";
-import { MappingEvent } from "../model/ac/MappingEvent";
-import { TrackingEvent } from "../model/ac/TrackingModel";
+import pick from 'lodash/pick';
+import { IApp } from '../model/ac/App';
+import { MappingEvent } from '../model/ac/MappingEvent';
+import { TrackingEvent } from '../model/ac/TrackingModel';
 
 export type Query = {
   [k: string]: string | Array<string> | null;
@@ -24,15 +24,15 @@ export async function trackAccessibilityCloudEvent({
     ...event,
     appId: app._id,
     mappingEvent:
-      mappingEvent &&
-      pick(
+      mappingEvent
+      && pick(
         mappingEvent,
-        "_id",
-        "name",
-        "organizationId",
-        "appId",
-        "startTime",
-        "endTime"
+        '_id',
+        'name',
+        'organizationId',
+        'appId',
+        'startTime',
+        'endTime',
       ),
     userUUID,
     timestamp: Math.round(Date.now() / 1000),
@@ -41,10 +41,10 @@ export async function trackAccessibilityCloudEvent({
 
   const fetchRequest = {
     body,
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   };
 

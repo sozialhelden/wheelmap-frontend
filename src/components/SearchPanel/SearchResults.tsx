@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { t } from "ttag";
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
-import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
-import { AnyFeatureCollection } from "../../lib/model/geo/AnyFeature";
-import SearchResult from "./SearchResult";
+import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults';
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories';
+import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature';
+import SearchResult from './SearchResult';
 
 type Props = {
   searchResults?: SearchResultCollection | AnyFeatureCollection;
@@ -20,8 +20,7 @@ const StyledSearchResultList = styled.ul`
 `;
 
 export default function SearchResults(props: Props) {
-  const id = (result) =>
-    result && result.properties && result.properties.osm_id;
+  const id = (result) => result && result.properties && result.properties.osm_id;
   const { features } = props.searchResults;
 
   const failedLoading = !!props.error;
@@ -37,7 +36,7 @@ export default function SearchResults(props: Props) {
 
   return (
     <StyledSearchResultList
-      className={`search-results ${props.className || ""}`}
+      className={`search-results ${props.className || ''}`}
       aria-label={t`Search results`}
     >
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}

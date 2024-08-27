@@ -1,5 +1,5 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from 'react';
+import styled from 'styled-components';
 
 export const Circle = styled.div`
   width: 35px;
@@ -31,7 +31,7 @@ type Props = {
 
 const StyledIconButtonContainer = styled.div<{ isHorizontal: boolean }>`
   display: flex;
-  flex-direction: ${(props) => (props.isHorizontal ? "row" : "column")};
+  flex-direction: ${(props) => (props.isHorizontal ? 'row' : 'column')};
   flex-basis: 25%;
   align-items: center;
   box-sizing: border-box;

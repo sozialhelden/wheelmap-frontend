@@ -1,8 +1,8 @@
-import { App } from "../App";
-import { MappingEvent, MappingEvents } from "../model/ac/MappingEvent";
-import URLDataCache from "./URLDataCache";
+import { App } from '../App';
+import { MappingEvent, MappingEvents } from '../model/ac/MappingEvent';
+import URLDataCache from './URLDataCache';
 
-import { IImage } from "../model/ac/Image";
+import { IImage } from '../model/ac/Image';
 
 type MappingEventsListResult = {
   results: MappingEvents;
@@ -20,7 +20,7 @@ export type MappingEventByIdResult = MappingEvent & {
 export default class MappingEventsCache extends URLDataCache<
   MappingEventsListResult | MappingEventByIdResult
 > {
-  baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
+  baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
@@ -39,7 +39,7 @@ export default class MappingEventsCache extends URLDataCache<
   async getMappingEvent(
     app: App,
     _id: string,
-    useCache = true
+    useCache = true,
   ): Promise<MappingEvent> {
     const url = `${this.baseUrl}/mapping-events/${_id}.json?appToken=${app.tokenString}&includeRelated=images`;
     const mappingEvent = (await this.getData(url, {

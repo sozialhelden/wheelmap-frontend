@@ -12,8 +12,8 @@ function earthRadiusForLatitude(latitudeInDegrees: number, heightAboveSeaLevel: 
   const r1 = 6378137; // radius at the equator
   const r2 = 6356752; // radius at the poles
   const z = Math.sqrt(
-    (Math.pow(r1 * r1 * Math.cos(x), 2) + Math.pow(r2 * r2 * Math.sin(x), 2)) /
-      (Math.pow(r1 * Math.cos(x), 2) + Math.pow(r2 * Math.sin(x), 2))
+    ((r1 * r1 * Math.cos(x)) ** 2 + (r2 * r2 * Math.sin(x)) ** 2)
+      / ((r1 * Math.cos(x)) ** 2 + (r2 * Math.sin(x)) ** 2),
   );
   return z + heightAboveSeaLevel;
 }
@@ -27,9 +27,8 @@ export function geoDistance([lon1, lat1]: LonLatPair, [lon2, lat2]: LonLatPair) 
   const phi2 = toRadians(lat2);
   const deltaPhi = toRadians(lat2 - lat1);
   const deltaLambda = toRadians(lon2 - lon1);
-  const a =
-    Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-    Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+  const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2)
+    + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return radius * c;
 }

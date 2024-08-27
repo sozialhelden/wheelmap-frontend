@@ -1,11 +1,12 @@
-import { get, set, sortBy } from "lodash";
-import * as React from "react";
-import { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
-import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
-import isAddressRelevantOSMKey from "../../../../lib/model/osm/isAddressRelevantOSMKey";
-import OSMTagTable from "./OSMTagTable";
-import { omittedKeyPrefixes, omittedKeySuffixes, omittedKeys, pathsToConsumedTagKeys, sortOrderMap } from "./config";
-
+import { get, set, sortBy } from 'lodash';
+import * as React from 'react';
+import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature';
+import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/isAccessibilityRelevantOSMKey';
+import isAddressRelevantOSMKey from '../../../../lib/model/osm/isAddressRelevantOSMKey';
+import OSMTagTable from './OSMTagTable';
+import {
+  omittedKeyPrefixes, omittedKeySuffixes, omittedKeys, pathsToConsumedTagKeys, sortOrderMap,
+} from './config';
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode // type for unknown keys.
@@ -46,7 +47,6 @@ function generateTree(keys: string[]): ITreeNode {
   return result;
 }
 
-
 function nest(tree: ITreeNode) {
   const entries = Object.entries(tree);
   const sortedEntries = sortBy(entries, ([key]) => {
@@ -58,7 +58,7 @@ function nest(tree: ITreeNode) {
     if (typeof v === 'string') {
       return { key: v };
     }
-    return { key: k, children: nest(v) }
+    return { key: k, children: nest(v) };
   });
 }
 
@@ -70,7 +70,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
         .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
         .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)));
       const accessibilityRelevantKeys = filteredKeys.filter(
-        isAccessibilityRelevantOSMKey
+        isAccessibilityRelevantOSMKey,
       );
       const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey);
 
@@ -87,7 +87,10 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
     [feature],
   );
 
-  return <OSMTagTable
-    nestedTags={nestedTags} feature={feature}
-  />;
+  return (
+    <OSMTagTable
+      nestedTags={nestedTags}
+      feature={feature}
+    />
+  );
 }

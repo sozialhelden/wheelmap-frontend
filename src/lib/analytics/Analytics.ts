@@ -1,4 +1,4 @@
-let lastPath: string = '/';
+const lastPath: string = '/';
 let lastModalName: string = '';
 
 export function trackPageView(path: string) {
@@ -8,9 +8,9 @@ export function trackPageView(path: string) {
   }
 
   // Matomo
-  if (typeof window['_paq'] !== 'undefined') {
-    window['_paq'].push(['setDocumentTitle', window.document.title]);
-    window['_paq'].push(['trackPageView']);
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push(['setDocumentTitle', window.document.title]);
+    window._paq.push(['trackPageView']);
   }
 }
 
@@ -20,8 +20,8 @@ export function trackModalView(name: string | null) {
     return;
   }
   // Matomo
-  if (typeof window['_paq'] !== 'undefined') {
-    window['_paq'].push([
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push([
       'trackEvent',
       name ? 'ModalOpen' : 'ModalClose',
       name ? String(name) : String(lastModalName),
@@ -43,8 +43,8 @@ export function trackEvent(options: {
   }
 
   // Matomo
-  if (typeof window['_paq'] !== 'undefined') {
-    window['_paq'].push([
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push([
       'trackEvent',
       options.category,
       options.action,

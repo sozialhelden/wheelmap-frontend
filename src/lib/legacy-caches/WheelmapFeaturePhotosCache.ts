@@ -8,11 +8,11 @@ export default class WheelmapFeaturePhotosCache extends URLDataCache<
   getPhotosForFeature(
     featureId: string | number,
     appToken: string,
-    useCache: boolean = true
+    useCache: boolean = true,
   ): Promise<WheelmapFeaturePhotos | undefined> {
     return this.getData(
       `${config.wheelmapApiBaseUrl}/api/nodes/${featureId}/photos?api_key=${config.wheelmapApiKey}`,
-      { useCache }
+      { useCache },
     );
   }
 }

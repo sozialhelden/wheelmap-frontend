@@ -1,13 +1,13 @@
-import * as React from "react";
-import { t } from "ttag";
+import * as React from 'react';
+import { t } from 'ttag';
 
+import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 import SourceLink, {
   PropertyName,
-} from "../../CombinedFeaturePanel/components/IconButtonList/SourceLink";
-import { DataSource } from "../../../lib/cache/DataSourceCache";
-import strings from "./strings";
-import { AppContextConsumer } from "../../../AppContext";
-import { PlaceInfo, PlaceProperties } from "@sozialhelden/a11yjson";
+} from '../../CombinedFeaturePanel/components/IconButtonList/SourceLink';
+import { DataSource } from '../../../lib/cache/DataSourceCache';
+import strings from './strings';
+import { AppContextConsumer } from '../../../AppContext';
 
 type Props = {
   feature: PlaceInfo;
@@ -23,8 +23,10 @@ const callToActions: { [key in PropertyName]: (v: string) => string } = {
   editPageUrl: (name: string) => t`Edit this place on ${name}`,
 };
 
-const FixOnExternalPage = (props: Props) => {
-  const { feature, source, properties, onClose } = props;
+function FixOnExternalPage(props: Props) {
+  const {
+    feature, source, properties, onClose,
+  } = props;
   if (!feature || !properties || !source) return null;
   const {
     useLinkExplanation,
@@ -39,20 +41,18 @@ const FixOnExternalPage = (props: Props) => {
           <p>{useLinkExplanation}</p>
           <p className="subtle">{editingDelayExplanation}</p>
           <AppContextConsumer>
-            {(appContext) =>
-              [
-                "infoPageUrl",
-                "editPageUrl",
-              ].map((propertyName: PropertyName) => (
-                <SourceLink
-                  key={propertyName}
-                  properties={properties}
-                  knownSourceNameCaption={callToActions[propertyName]}
-                  propertyName={propertyName}
-                  appToken={appContext.app.tokenString}
-                />
-              ))
-            }
+            {(appContext) => [
+              'infoPageUrl',
+              'editPageUrl',
+            ].map((propertyName: PropertyName) => (
+              <SourceLink
+                key={propertyName}
+                properties={properties}
+                knownSourceNameCaption={callToActions[propertyName]}
+                propertyName={propertyName}
+                appToken={appContext.app.tokenString}
+              />
+            ))}
           </AppContextConsumer>
         </div>
       ) : null}
@@ -61,6 +61,6 @@ const FixOnExternalPage = (props: Props) => {
       </button>
     </section>
   );
-};
+}
 
 export default FixOnExternalPage;

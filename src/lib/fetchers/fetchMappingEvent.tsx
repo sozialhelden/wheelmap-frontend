@@ -1,10 +1,10 @@
-import useSWR from "swr";
-import { MappingEvent } from "../model/ac/MappingEvent";
+import useSWR from 'swr';
+import { MappingEvent } from '../model/ac/MappingEvent';
 
 export default function fetchMappingEvent(
   appToken: string,
   baseUrl: string,
-  _id?: string
+  _id?: string,
 ): Promise<MappingEvent | null> {
   if (!_id) {
     return Promise.resolve(null);

@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 
 function debouncePromise<T>(
   fn: (...args: any[]) => Promise<T>,
-  delay: number
+  delay: number,
 ): (...args: any[]) => Promise<T> {
   let promiseCache;
 

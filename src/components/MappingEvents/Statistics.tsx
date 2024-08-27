@@ -14,13 +14,13 @@ type Props = {
   className?: string,
 };
 
-const Statistics = ({
+function Statistics({
   mappedPlacesCount,
   participantCount,
   startDate,
   endDate,
   className,
-}: Props) => {
+}: Props) {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event
@@ -46,7 +46,7 @@ const Statistics = ({
       </div>
     </section>
   );
-};
+}
 
 const StyledStatistics = styled(Statistics)`
   display: flex;

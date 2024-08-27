@@ -63,7 +63,7 @@ export type ResolvedPlaceDetailsProps = {
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
-  props: PlaceDetailsProps
+  props: PlaceDetailsProps,
 ): ResolvedPlaceDetailsProps | null {
   const resolvedFeature = getDataIfAlreadyResolved(props.feature);
   const resolvedSources = getDataIfAlreadyResolved(props.sources);
@@ -91,7 +91,7 @@ export function getPlaceDetailsIfAlreadyResolved(
 }
 
 export async function awaitPlaceDetails(
-  props: PlaceDetailsProps
+  props: PlaceDetailsProps,
 ): Promise<ResolvedPlaceDetailsProps> {
   const resolvedFeature = await getDataPromise(props.feature);
   const resolvedSources = await getDataPromise(props.sources);

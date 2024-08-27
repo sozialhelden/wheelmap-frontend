@@ -22,8 +22,8 @@ function UnstyledNotificationText(props: IProps) {
 }
 
 const NotificationText = styled(UnstyledNotificationText)`
-  background-color: ${props => alpha(coloredWhite(colors[props.type], 0.8), 0.5)};
-  color: ${props => darker(colors[props.type], 0.5)};
+  background-color: ${(props) => alpha(coloredWhite(colors[props.type], 0.8), 0.5)};
+  color: ${(props) => darker(colors[props.type], 0.5)};
   padding: 1rem;
   max-width: 30rem;
   border-radius: 4px;

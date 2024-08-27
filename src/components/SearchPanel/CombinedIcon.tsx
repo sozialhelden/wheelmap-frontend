@@ -1,11 +1,11 @@
-import * as React from "react";
-import isEqual from "lodash/isEqual";
-import styled from "styled-components";
+import * as React from 'react';
+import isEqual from 'lodash/isEqual';
+import styled from 'styled-components';
 
-import Icon from "../shared/Icon";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
-import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import Icon from '../shared/Icon';
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
+import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
@@ -33,7 +33,7 @@ function CombinedIcon(props: Props) {
           size="medium"
         />
       ))}
-      {isEqual(props.toiletFilter, ["yes"]) ? (
+      {isEqual(props.toiletFilter, ['yes']) ? (
         <ToiletIcon>
           <ToiletStatusAccessible />
         </ToiletIcon>

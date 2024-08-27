@@ -1,15 +1,15 @@
-import * as React from "react";
-import styled, { css } from "styled-components";
-import { t } from "ttag";
+import * as React from 'react';
+import styled, { css } from 'styled-components';
+import { t } from 'ttag';
 
-import { omit } from "lodash";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import colors from "../../lib/util/colors";
-import CloseIcon from "../icons/actions/Close";
-import Button from "../shared/Button";
-import CombinedIcon from "./CombinedIcon";
+import { omit } from 'lodash';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
+import colors from '../../lib/util/colors';
+import CloseIcon from '../icons/actions/Close';
+import Button from '../shared/Button';
+import CombinedIcon from './CombinedIcon';
 
 type Props = {
   className?: string;
@@ -45,14 +45,14 @@ function AccessibilityFilterButton(props: Props) {
   const router = useRouter();
 
   const query = {
-    ...omit(router.query, "q", "wheelchair", "toilet"),
+    ...omit(router.query, 'q', 'wheelchair', 'toilet'),
   };
   if (!isActive) {
     if (accessibilityFilter.length > 0) {
-      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(",");
+      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(',');
     }
     if (toiletFilter.length > 0) {
-      query.toilet = toiletFilter.map((t) => t.toString()).join(",");
+      query.toilet = toiletFilter.map((t) => t.toString()).join(',');
     }
   }
 
@@ -62,7 +62,8 @@ function AccessibilityFilterButton(props: Props) {
         pathname: router.pathname,
         query,
       }}
-      legacyBehavior>
+      legacyBehavior
+    >
       <Button
         className={className}
         onFocus={props.onFocus}
@@ -72,7 +73,9 @@ function AccessibilityFilterButton(props: Props) {
         aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
       >
         <CombinedIcon
-          {...{ toiletFilter, accessibilityFilter, category, isMainCategory }}
+          {...{
+            toiletFilter, accessibilityFilter, category, isMainCategory,
+          }}
         />
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
@@ -100,9 +103,8 @@ export default styled(AccessibilityFilterButton)`
       width: 70px;
     }
 
-    ${(props) =>
-      props.isActive &&
-      css`
+    ${(props) => props.isActive
+      && css`
         background-color: ${colors.coldBackgroundColor};
       `};
 

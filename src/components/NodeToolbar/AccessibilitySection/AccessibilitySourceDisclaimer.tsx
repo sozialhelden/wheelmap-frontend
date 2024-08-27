@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
-import { LocalizedString } from "../../../lib/i18n/LocalizedString";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import { PlaceProperties } from '@sozialhelden/a11yjson';
+import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
+import { LocalizedString } from '../../../lib/i18n/LocalizedString';
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
 
 type Props = {
   properties: PlaceProperties,
@@ -19,6 +19,7 @@ const defaultState = { extraInfo: null };
 
 class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
   props: Props;
+
   state = defaultState;
 
   UNSAFE_componentWillReceiveProps(newProps: Props) {
@@ -28,22 +29,21 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
     }
 
     dataSourceCache.getDataSourceWithId(newProps.properties.sourceId, newProps.appToken).then(
-      source => {
-        const string =
-          source.additionalAccessibilityInformation ||
-          source.translations?.additionalAccessibilityInformation;
+      (source) => {
+        const string = source.additionalAccessibilityInformation
+          || source.translations?.additionalAccessibilityInformation;
         this.setState({
           extraInfo: string ? translatedStringFromObject(string) : null,
         });
       },
       () => {
         this.setState(defaultState);
-      }
+      },
     );
   }
 
   render() {
-    const extraInfo = this.state.extraInfo;
+    const { extraInfo } = this.state;
     if (!extraInfo) return null;
     return <p className={`${this.props.className || ''} extra-info`}>{extraInfo}</p>;
   }

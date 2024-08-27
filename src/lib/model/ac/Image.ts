@@ -1,4 +1,4 @@
-export type ImageContext = "place" | "event" | "app" | "organization";
+export type ImageContext = 'place' | 'event' | 'app' | 'organization';
 
 export interface IImage {
   _id?: string;
@@ -20,7 +20,7 @@ export interface IImage {
 }
 
 export function buildFullImageUrl(image: IImage) {
-  const bucketName = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME || "";
+  const bucketName = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME || '';
 
   return `https://${bucketName}.s3.amazonaws.com/${image.remotePath}`;
 }

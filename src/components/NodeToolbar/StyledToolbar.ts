@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import colors from "../../lib/util/colors";
-import { ChromelessButton } from "../shared/Button";
-import Toolbar from "../shared/Toolbar";
+import styled from 'styled-components';
+import colors from '../../lib/util/colors';
+import { ChromelessButton } from '../shared/Button';
+import Toolbar from '../shared/Toolbar';
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;

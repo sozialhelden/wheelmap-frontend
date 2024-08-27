@@ -1,13 +1,12 @@
 function SearchButtonOrToolbar() {
-  newState.isSearchBarVisible =
-    isStickySearchBarSupported() &&
-    !isAccessibilityFiltered(accessibilityFilter) &&
-    !isToiletFiltered(toiletFilter) &&
-    !category;
+  newState.isSearchBarVisible = isStickySearchBarSupported()
+    && !isAccessibilityFiltered(accessibilityFilter)
+    && !isToiletFiltered(toiletFilter)
+    && !category;
 }
 
 onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
-  let { routeName } = this.props;
+  const { routeName } = this.props;
   const params = this.getCurrentParams() as any;
 
   delete params.accessibility;

@@ -1,6 +1,6 @@
-import Link from "next/link";
-import styled from "styled-components";
-import colors from "../../lib/util/colors";
+import Link from 'next/link';
+import styled from 'styled-components';
+import colors from '../../lib/util/colors';
 
 const Button = styled.button`
   display: flex;
@@ -41,7 +41,9 @@ export default function PanelButton(props: {
   onClick?: () => void;
   href?: string;
 }) {
-  const { icon, children, onClick, href } = props;
+  const {
+    icon, children, onClick, href,
+  } = props;
   const button = (
     <Button onClick={onClick} className="panel-button">
       {icon}

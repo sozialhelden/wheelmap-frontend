@@ -1,12 +1,12 @@
-import useSWR from "swr";
-import { useCurrentApp } from "../context/AppContext";
-import { useEnvContext } from "../context/EnvContext";
-import { TypeTaggedEquipmentInfo } from "../model/geo/AnyFeature";
+import useSWR from 'swr';
+import { useCurrentApp } from '../context/AppContext';
+import { useEnvContext } from '../context/EnvContext';
+import { TypeTaggedEquipmentInfo } from '../model/geo/AnyFeature';
 
 export async function fetchOneEquipmentInfo(
   appToken: string,
   baseUrl: string,
-  _id?: string
+  _id?: string,
 ): Promise<TypeTaggedEquipmentInfo> {
   if (!_id || !appToken || !baseUrl) {
     return Promise.resolve(undefined);
@@ -14,7 +14,7 @@ export async function fetchOneEquipmentInfo(
   const url = `${baseUrl}/equipment-infos/${_id}.json?appToken=${appToken}`;
   const r = await fetch(url);
   const json = await r.json();
-  return { "@type": "a11yjson:EquipmentInfo", ...json };
+  return { '@type': 'a11yjson:EquipmentInfo', ...json };
 }
 
 export const useEquipmentInfo = (_id?: string) => {
@@ -23,4 +23,4 @@ export const useEquipmentInfo = (_id?: string) => {
   const env = useEnvContext();
   const baseUrl = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_API_URL;
   return useSWR(appToken && baseUrl && _id && [appToken, baseUrl, _id], fetchOneEquipmentInfo);
-}
+};

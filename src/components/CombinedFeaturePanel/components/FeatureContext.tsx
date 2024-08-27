@@ -1,5 +1,5 @@
-import React from "react";
-import { AnyFeature } from "../../../lib/model/geo/AnyFeature";
+import React from 'react';
+import { AnyFeature } from '../../../lib/model/geo/AnyFeature';
 
 type MaybeFeature = AnyFeature | null;
 

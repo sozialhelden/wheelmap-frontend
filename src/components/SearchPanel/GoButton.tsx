@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import colors from "../../lib/util/colors";
-import Button from "../shared/Button";
+import styled from 'styled-components';
+import colors from '../../lib/util/colors';
+import Button from '../shared/Button';
 
 export const GoButton = styled(Button)`
   min-width: 4rem;

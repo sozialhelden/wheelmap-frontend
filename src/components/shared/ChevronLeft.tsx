@@ -21,7 +21,7 @@ const ChevronLeft = styled((props: Props) => (
   height: 18px;
 
   polygon {
-    fill: ${props => props.color || 'black'};
+    fill: ${(props) => props.color || 'black'};
   }
 `;
 

@@ -12,6 +12,7 @@ export type TTLCacheOptions = {
 
 class TTLCache<K, V> {
   cache: Map<K, TTLCacheItem<V>> = new Map<K, TTLCacheItem<V>>();
+
   options: TTLCacheOptions;
 
   constructor(options?: Partial<TTLCacheOptions>) {

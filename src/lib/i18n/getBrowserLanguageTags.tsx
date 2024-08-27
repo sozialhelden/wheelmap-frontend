@@ -1,4 +1,4 @@
-import { compact } from "lodash";
+import { compact } from 'lodash';
 
 export function getBrowserLanguageTags(): string[] {
   // Filter empty or undefined locales. Android 4.4 seems to have an undefined

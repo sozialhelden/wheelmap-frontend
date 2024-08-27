@@ -1,8 +1,10 @@
-import React from "react";
-import OSMFeature from "../../../../lib/model/osm/OSMFeature";
+import React from 'react';
+import OSMFeature from '../../../../lib/model/osm/OSMFeature';
 
 export function OSMTagEditor(
-  { feature, tag, onChange, onSubmit }: {
+  {
+    feature, tag, onChange, onSubmit,
+  }: {
     feature: OSMFeature;
     tag: string;
     onChange: (value: string) => void;

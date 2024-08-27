@@ -1,14 +1,14 @@
-import isEqual from "lodash/isEqual";
-import styled from "styled-components";
-import { t } from "ttag";
+import isEqual from 'lodash/isEqual';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
 import {
   YesNoLimitedUnknown,
   yesNoUnknownArray,
-} from "../../lib/model/ac/Feature";
-import colors from "../../lib/util/colors";
-import AccessibilityFilterButton from "./AccessibilityFilterButton";
-import { PlaceFilter } from "./AccessibilityFilterModel";
+} from '../../lib/model/ac/Feature';
+import colors from '../../lib/util/colors';
+import AccessibilityFilterButton from './AccessibilityFilterButton';
+import { PlaceFilter } from './AccessibilityFilterModel';
 
 type Props = PlaceFilter & {
   className?: string;
@@ -30,39 +30,39 @@ function getAvailableFilters() {
     atLeastPartial: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially wheelchair accessible`,
-      accessibilityFilter: ["yes", "limited"],
+      accessibilityFilter: ['yes', 'limited'],
       toiletFilter: [],
     },
     atLeastPartialWithWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially accessible with accessible WC`,
-      accessibilityFilter: ["yes", "limited"],
-      isVisible: (category: string) => category !== "toilets",
-      toiletFilter: ["yes"],
+      accessibilityFilter: ['yes', 'limited'],
+      isVisible: (category: string) => category !== 'toilets',
+      toiletFilter: ['yes'],
     },
     fully: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Only fully wheelchair accessible`,
-      accessibilityFilter: ["yes"],
+      accessibilityFilter: ['yes'],
       toiletFilter: [],
     },
     fullyWithWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Only fully accessible with accessible WC`,
-      accessibilityFilter: ["yes"],
-      isVisible: (category: string) => category !== "toilets",
-      toiletFilter: ["yes"],
+      accessibilityFilter: ['yes'],
+      isVisible: (category: string) => category !== 'toilets',
+      toiletFilter: ['yes'],
     },
     unknown: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Places that I can contribute information to`,
-      accessibilityFilter: ["unknown"],
+      accessibilityFilter: ['unknown'],
       toiletFilter: [],
     },
     notAccessible: {
       // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
       caption: t`Only places that are not accessible`,
-      accessibilityFilter: ["no"],
+      accessibilityFilter: ['no'],
       toiletFilter: [],
     },
   };
@@ -76,8 +76,8 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
       ? []
       : toiletFilter;
     return (
-      isEqual(requestedToiletFilter, filter.toiletFilter) &&
-      isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
+      isEqual(requestedToiletFilter, filter.toiletFilter)
+      && isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
     );
   });
 }
@@ -85,7 +85,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 function AccessibilityFilterMenu(props: Props) {
   const availableFilters = getAvailableFilters();
   const { accessibilityFilter, toiletFilter } = props;
-  const category = props.category || "undefined";
+  const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey
     ? [currentFilterKey]
@@ -99,7 +99,7 @@ function AccessibilityFilterMenu(props: Props) {
       {shownFilterKeys.map((key) => {
         const item = availableFilters[key];
 
-        if (typeof item.isVisible === "function" && !item.isVisible(category)) {
+        if (typeof item.isVisible === 'function' && !item.isVisible(category)) {
           return null;
         }
 

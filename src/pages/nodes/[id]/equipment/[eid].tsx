@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
-import React, { ReactElement, useState } from "react";
-import Layout from "../../../../components/App/Layout";
-import { CombinedFeaturePanel } from "../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
-import Toolbar from "../../../../components/shared/Toolbar";
+import { useRouter } from 'next/router';
+import React, { ReactElement, useState } from 'react';
+import Layout from '../../../../components/App/Layout';
+import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel';
+import Toolbar from '../../../../components/shared/Toolbar';
 import {
-  useEquipmentInfo
-} from "../../../../lib/fetchers/fetchOneEquipmentInfo";
-import { usePlaceInfo } from "../../../../lib/fetchers/fetchOnePlaceInfo";
-import MockedPOIDetails from "../../../../lib/fixtures/mocks/features/MockedPOIDetails";
+  useEquipmentInfo,
+} from '../../../../lib/fetchers/fetchOneEquipmentInfo';
+import { usePlaceInfo } from '../../../../lib/fetchers/fetchOnePlaceInfo';
+import MockedPOIDetails from '../../../../lib/fixtures/mocks/features/MockedPOIDetails';
 // TODO clean up this page
 function EquipmentInfoPage() {
   const router = useRouter();
@@ -19,24 +19,24 @@ function EquipmentInfoPage() {
 
   // mocked data
   // TODO remove
-  const fallbackId = "YdhxzsBRACZGcenCF";
-  const equipmentInfoId = typeof eid === "string" ? eid : eid.shift();
-  const placeInfoId = typeof id === "string" ? id : id.shift();
+  const fallbackId = 'YdhxzsBRACZGcenCF';
+  const equipmentInfoId = typeof eid === 'string' ? eid : eid.shift();
+  const placeInfoId = typeof id === 'string' ? id : id.shift();
 
   // TODO
   // move fetching closer to render of fetched data? avoid re-rendering?
   // Implies changing CombinedFeaturePanel to fetch the data, not the page
   const fallbackEquipmentResponse = useEquipmentInfo(
-    fallbackId
+    fallbackId,
   );
 
   const equipmentResponse = useEquipmentInfo(equipmentInfoId);
   const placeResponse = usePlaceInfo(placeInfoId);
   const fallbackplaceResponse = usePlaceInfo(
-    "222RZF9r2AAzqBQXh"
+    '222RZF9r2AAzqBQXh',
   );
   React.useEffect(() => {
-    console.log("rendered");
+    console.log('rendered');
     const equipment = equipmentResponse.data;
     const fallbackEquipment = fallbackEquipmentResponse.data;
     const place = placeResponse.data;
@@ -56,7 +56,7 @@ function EquipmentInfoPage() {
         <Toolbar>
           <CombinedFeaturePanel
             features={[place, equipment]}
-          ></CombinedFeaturePanel>
+          />
         </Toolbar>
       )}
       <MockedPOIDetails feature={equipment} description={`${asPath}`} />

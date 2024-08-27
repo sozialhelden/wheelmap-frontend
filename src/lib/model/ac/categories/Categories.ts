@@ -1,16 +1,16 @@
-import { LocalizedString } from "../../../i18n/LocalizedString";
-import { AnyFeature } from "../../geo/AnyFeature";
-import { ACCategory } from "./ACCategory";
-import { getRootCategoryTable } from "./getRootCategoryTable";
+import { LocalizedString } from '../../../i18n/LocalizedString';
+import { AnyFeature } from '../../geo/AnyFeature';
+import { ACCategory } from './ACCategory';
+import { getRootCategoryTable } from './getRootCategoryTable';
 
 type SynonymCache = Map<string, ACCategory>;
 
 export const unknownCategory: Readonly<ACCategory> = {
-  _id: "unknown",
+  _id: 'unknown',
   translations: {
-    _id: "Unknown",
+    _id: 'Unknown',
   },
-  icon: "unknown",
+  icon: 'unknown',
   synonyms: [],
   parentIds: [],
 };
@@ -30,7 +30,7 @@ export function translatedRootCategoryName(key: string) {
 
 export function getCategory(
   synonymCache: SynonymCache,
-  idOrSynonym: string | number
+  idOrSynonym: string | number,
 ): ACCategory {
   return synonymCache.get(String(idOrSynonym));
 }
@@ -39,7 +39,7 @@ export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
   const result: SynonymCache = new Map();
   categories.forEach((category) => {
     result.set(category._id, category);
-    const synonyms = category.synonyms;
+    const { synonyms } = category;
     if (!(synonyms instanceof Array)) return;
     synonyms.forEach((synonym) => {
       result.set(synonym, category);
@@ -50,22 +50,22 @@ export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
 
 export function getCategoryForFeature(
   synonymCache: SynonymCache,
-  feature: AnyFeature
+  feature: AnyFeature,
 ): ACCategory | undefined {
-  const properties = feature.properties;
+  const { properties } = feature;
   if (!properties) {
     return unknownCategory;
   }
 
   let categoryId = null;
   if (
-    feature["@type"] === "a11yjson:PlaceInfo" ||
-    feature["@type"] === "a11yjson:EquipmentInfo"
+    feature['@type'] === 'a11yjson:PlaceInfo'
+    || feature['@type'] === 'a11yjson:EquipmentInfo'
   ) {
     categoryId = feature.properties.category;
-  } else if (feature["@type"] === "komoot:SearchResult") {
+  } else if (feature['@type'] === 'komoot:SearchResult') {
     categoryId = feature.properties.osm_value || feature.properties.osm_key;
-  } else if (feature["@type"] === "osm:Feature") {
+  } else if (feature['@type'] === 'osm:Feature') {
     for (const [key, value] of Object.entries(feature.properties)) {
       const foundCategory = getCategory(synonymCache, `${key}=${value}`);
       if (foundCategory) {
@@ -96,7 +96,7 @@ export async function fetchCategoryData(
 }
 
 export function getLocalizableCategoryName(
-  category: ACCategory
+  category: ACCategory,
 ): LocalizedString | undefined {
   return category.translations?._id;
 }

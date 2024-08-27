@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
-import Layout from "../../components/App/Layout";
-import MappingEventListPanel from "../../components/MappingEvents/MappingEventListPanel";
+import React, { ReactElement } from 'react';
+import Layout from '../../components/App/Layout';
+import MappingEventListPanel from '../../components/MappingEvents/MappingEventListPanel';
 
 export default function Page() {
   return <MappingEventListPanel />;

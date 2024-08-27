@@ -69,10 +69,10 @@ export default class CustomRadio extends React.Component<Props, State> {
           <RadioButton
             className={`radio-button${this.state.isFocused ? ' focus-visible' : ''}`}
             disabled={isDisabled}
-            aria-hidden={true}
+            aria-hidden
           />
           {this.props.children}
-          <span className="caption" aria-hidden={true}>
+          <span className="caption" aria-hidden>
             {this.props.caption}
           </span>
         </header>

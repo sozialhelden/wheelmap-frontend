@@ -1,9 +1,9 @@
-import get from "lodash/get";
-import set from "lodash/set";
-import { t } from "ttag";
-import { globalFetchManager } from "../fetchers/legacy/FetchManager";
-import EventTarget, { CustomEvent } from "../util/EventTarget";
-import ResponseError from "../util/ResponseError";
+import get from 'lodash/get';
+import set from 'lodash/set';
+import { t } from 'ttag';
+import { globalFetchManager } from '../fetchers/legacy/FetchManager';
+import EventTarget, { CustomEvent } from '../util/EventTarget';
+import ResponseError from '../util/ResponseError';
 
 type FeatureCacheEvent<T> = CustomEvent & {
   target: FeatureCache<any, any>; // eslint-disable-line no-use-before-define
@@ -53,7 +53,7 @@ export default class FeatureCache<
     if (!featureId) return;
     let event: CustomEvent;
     const oldFeature = this.cache[featureId];
-    const eventName = oldFeature ? "change" : "add";
+    const eventName = oldFeature ? 'change' : 'add';
     event = new CustomEvent(eventName, {
       target: this,
       feature,
@@ -103,7 +103,7 @@ export default class FeatureCache<
   // todo: why is this static?
   static getIdForFeature(feature: any): string {
     // eslint-disable-line no-unused-vars
-    throw new Error("Please implement this in your subclass.");
+    throw new Error('Please implement this in your subclass.');
   }
 
   /**
@@ -122,7 +122,7 @@ export default class FeatureCache<
   async fetchFeature(
     id: string,
     appToken: string,
-    useCache: boolean = true
+    useCache: boolean = true,
   ): Promise<FeatureType> {
     // check if have already downloaded a feature with this id
     if (useCache && this.cache[id]) {
@@ -133,7 +133,7 @@ export default class FeatureCache<
     const response = await this.constructor.fetchFeature(
       id,
       appToken,
-      useCache
+      useCache,
     );
 
     if (response.status === 200) {
@@ -144,7 +144,7 @@ export default class FeatureCache<
         this.cacheFeature(feature, response);
       }
 
-      const changeEvent = new CustomEvent("change", {
+      const changeEvent = new CustomEvent('change', {
         target: this,
         feature,
       });
@@ -164,7 +164,7 @@ export default class FeatureCache<
 
   getIndexedFeatures(
     propertyPath: PropertyPath,
-    value: PropertyValue
+    value: PropertyValue,
   ): Set<FeatureType> {
     const indexMap = this.indexMaps[propertyPath];
     if (!indexMap) return new Set();
@@ -178,7 +178,7 @@ export default class FeatureCache<
   async getFeature(
     id: string,
     appToken: string,
-    useCache: boolean = true
+    useCache: boolean = true,
   ): Promise<FeatureType | null> {
     const feature = this.getCachedFeature(id);
 
@@ -204,8 +204,7 @@ export default class FeatureCache<
 
   updateFeatureAttribute(id: string, newProperties: any) {
     const feature = this.cache[id] as any;
-    if (!feature)
-      throw new Error("Cannot update a feature that is not in cache.");
+    if (!feature) throw new Error('Cannot update a feature that is not in cache.');
 
     const existingProperties = feature.properties || {};
     Object.keys(newProperties).forEach((key) => {
@@ -213,9 +212,9 @@ export default class FeatureCache<
     });
 
     // clone object
-    this.cache[id] = Object.assign({}, feature);
+    this.cache[id] = { ...feature };
 
-    const changeEvent = new CustomEvent("change", {
+    const changeEvent = new CustomEvent('change', {
       target: this,
       feature: this.cache[id],
     });
@@ -231,10 +230,10 @@ export default class FeatureCache<
   /** @protected @abstract */ static fetchFeature(
     id: string,
     appToken: string,
-    useCache: boolean = true
+    useCache: boolean = true,
   ): Promise<Response> {
     throw new Error(
-      "Not implemented. Please override this method in your subclass."
+      'Not implemented. Please override this method in your subclass.',
     );
   }
 
@@ -244,7 +243,7 @@ export default class FeatureCache<
    */
   /** @protected @abstract */ static fetch(
     url: string,
-    options?: {}
+    options?: {},
   ): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }

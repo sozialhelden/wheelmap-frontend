@@ -1,31 +1,29 @@
-import useSWR from "swr";
-import { useCurrentApp } from "../context/AppContext";
-import { useEnvContext } from "../context/EnvContext";
-import { AnyFeature } from "../model/geo/AnyFeature";
-import { fetchOneOSMFeature } from "./fetchOneOSMFeature";
-import { fetchOnePlaceInfo } from "./fetchOnePlaceInfo";
+import useSWR from 'swr';
+import { useCurrentApp } from '../context/AppContext';
+import { useEnvContext } from '../context/EnvContext';
+import { AnyFeature } from '../model/geo/AnyFeature';
+import { fetchOneOSMFeature } from './fetchOneOSMFeature';
+import { fetchOnePlaceInfo } from './fetchOnePlaceInfo';
 
 export async function fetchMultipleFeatures(
   appToken: string,
   baseUrl: string,
-  idsAsString?: string
+  idsAsString?: string,
 ): Promise<AnyFeature[] | undefined> {
-  const ids = idsAsString.split(",");
+  const ids = idsAsString.split(',');
 
   const promises = ids.map((id) => {
-    if (id.startsWith("ac:")) {
+    if (id.startsWith('ac:')) {
       return fetchOnePlaceInfo(appToken, id.slice(3)).then(
-        (feature) =>
-          ({ ["@type"]: "a11yjson:PlaceInfo", ...feature } as AnyFeature)
+        (feature) => ({ '@type': 'a11yjson:PlaceInfo', ...feature } as AnyFeature),
       );
     }
 
     return fetchOneOSMFeature(baseUrl, id).then(
-      (feature) =>
-        ({
-          ["@type"]: "osm:Feature",
-          ...feature,
-        } as AnyFeature)
+      (feature) => ({
+        '@type': 'osm:Feature',
+        ...feature,
+      } as AnyFeature),
     );
   });
 
@@ -41,7 +39,7 @@ export function useMultipleFeatures(ids: string | string[]) {
 
   const features = useSWR(
     appToken && baseUrl && idsAsString && [appToken, baseUrl, idsAsString],
-    fetchMultipleFeatures
+    fetchMultipleFeatures,
   );
   return features;
 }

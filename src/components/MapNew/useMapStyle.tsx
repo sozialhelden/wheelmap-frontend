@@ -1,8 +1,7 @@
-import useSWR from "swr";
-import { useEnvContext } from "../../lib/context/EnvContext";
+import useSWR from 'swr';
+import { useEnvContext } from '../../lib/context/EnvContext';
 
-const fetcher = (input: RequestInfo, init?: RequestInit | undefined) =>
-  fetch(input, init).then((res) => res.json());
+const fetcher = (input: RequestInfo, init?: RequestInit | undefined) => fetch(input, init).then((res) => res.json());
 
 function useMapStyle() {
   const env = useEnvContext();

@@ -1,26 +1,26 @@
-import { UAParser } from "ua-parser-js";
+import { UAParser } from 'ua-parser-js';
 
-import SearchData from "./SearchData";
-import PlaceDetailsData from "./PlaceDetailsData";
-import MapData from "./MapData";
-import ContributionThanksData from "./ContributionThanksData";
-import MappingEventDetailData from "./MappingEventDetailData";
-import { ReactElement } from "react";
-import { PotentialPromise } from "./PlaceDetailsProps";
-import App from "next/app";
-import { Translations } from "ttag/types";
-import CategoryLookupTablesCache from "../cache/CategoryLookupTablesCache";
-import { mappingEventsCache } from "../cache/MappingEventsCache";
-import { getAvailableTranslationsByPreference } from "../i18n";
-import { RawCategoryLists } from "../model/Categories";
+import { ReactElement } from 'react';
+import App from 'next/app';
+import { Translations } from 'ttag/types';
+import SearchData from './SearchData';
+import PlaceDetailsData from './PlaceDetailsData';
+import MapData from './MapData';
+import ContributionThanksData from './ContributionThanksData';
+import MappingEventDetailData from './MappingEventDetailData';
+import { PotentialPromise } from './PlaceDetailsProps';
+import CategoryLookupTablesCache from '../cache/CategoryLookupTablesCache';
+import { mappingEventsCache } from '../cache/MappingEventsCache';
+import { getAvailableTranslationsByPreference } from '../i18n';
+import { RawCategoryLists } from '../model/Categories';
 import {
   YesNoLimitedUnknown,
   YesNoUnknown,
   getAccessibilityFilterFrom,
   getToiletFilterFrom,
-} from "../model/Feature";
-import { MappingEvents, MappingEvent } from "../model/MappingEvent";
-import { UAResult, configureUserAgent } from "../userAgent";
+} from '../model/Feature';
+import { MappingEvents, MappingEvent } from '../model/MappingEvent';
+import { UAResult, configureUserAgent } from '../userAgent';
 
 export type RenderContext = {
   app: App;
@@ -102,7 +102,7 @@ export async function getInitialRouteProps(
     [key: string]: string;
   },
   renderContextPromise: Promise<RenderContext>,
-  isServer: boolean
+  isServer: boolean,
 ) {
   const dataItem = dataTable[routeName];
 
@@ -116,7 +116,7 @@ export async function getInitialRouteProps(
 export function getAdditionalPageComponentProps<Props>(
   routeName: string,
   props: Props,
-  isServer: boolean
+  isServer: boolean,
 ): Props {
   const dataItem = dataTable[routeName];
 
@@ -178,7 +178,7 @@ export async function getInitialRenderContext({
   const translations = getAvailableTranslationsByPreference(
     allTranslations,
     localeStrings,
-    overriddenLocaleString
+    overriddenLocaleString,
   );
 
   const preferredLocaleString = translations[0].headers.language;
@@ -189,7 +189,7 @@ export async function getInitialRenderContext({
   const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
     appToken: app.tokenString,
     locale: preferredLocaleString,
-    disableWheelmapSource: overriddenWheelmapSource === "true",
+    disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
   const clientSideConfiguration = app.clientSideConfiguration as any;
@@ -199,26 +199,23 @@ export async function getInitialRenderContext({
   ]);
 
   if (!clientSideConfiguration) {
-    throw new Error("missing clientSideConfiguration");
+    throw new Error('missing clientSideConfiguration');
   }
 
   if (!rawCategoryLists) {
-    throw new Error("missing raw category data");
+    throw new Error('missing raw category data');
   }
 
-  const usedDisableWheelmapSource =
-    typeof overriddenWheelmapSource === "undefined"
-      ? clientSideConfiguration.disableWheelmapSource
-      : overriddenWheelmapSource === "true";
+  const usedDisableWheelmapSource = typeof overriddenWheelmapSource === 'undefined'
+    ? clientSideConfiguration.disableWheelmapSource
+    : overriddenWheelmapSource === 'true';
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
 
-  const includeSourceIdsArray =
-    (includeSourceIds ? includeSourceIds.split(/,/) : null) ||
-    (clientSideConfiguration ? clientSideConfiguration.includeSourceIds : []);
-  const excludeSourceIdsArray =
-    (excludeSourceIds ? excludeSourceIds.split(/,/) : null) ||
-    (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : []);
+  const includeSourceIdsArray = (includeSourceIds ? includeSourceIds.split(/,/) : null)
+    || (clientSideConfiguration ? clientSideConfiguration.includeSourceIds : []);
+  const excludeSourceIdsArray = (excludeSourceIds ? excludeSourceIds.split(/,/) : null)
+    || (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : []);
 
   // assign to local variable for better flow errors
   const renderContext = {
@@ -233,7 +230,7 @@ export async function getInitialRenderContext({
     lat,
     lon,
     hostName: usedHostName,
-    preferredLocaleString: preferredLocaleString,
+    preferredLocaleString,
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
@@ -242,10 +239,10 @@ export async function getInitialRenderContext({
     includeSourceIds: includeSourceIdsArray,
     excludeSourceIds: excludeSourceIdsArray,
     disableWheelmapSource: usedDisableWheelmapSource,
-    inEmbedMode: embedded === "true",
+    inEmbedMode: embedded === 'true',
     embedToken,
   };
   return renderContext;
 }
 
-let cachedTranslations: Translations[] = [];
+const cachedTranslations: Translations[] = [];

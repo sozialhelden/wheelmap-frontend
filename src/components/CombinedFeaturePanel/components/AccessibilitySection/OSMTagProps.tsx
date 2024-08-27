@@ -1,6 +1,5 @@
-import React from "react";
-import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
-
+import React from 'react';
+import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttribute';
 
 export type OSMTagProps = {
   key: string;

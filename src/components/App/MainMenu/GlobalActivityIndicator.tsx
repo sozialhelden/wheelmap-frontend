@@ -18,11 +18,11 @@ export default class GlobalActivityIndicator extends React.Component<Props, Stat
   updateState = debounce(
     () => {
       const isShown = globalFetchManager.isLoading();
-      const lastError = globalFetchManager.lastError;
+      const { lastError } = globalFetchManager;
       this.setState({ isShown, lastError });
     },
     50,
-    { maxWait: 50, leading: true }
+    { maxWait: 50, leading: true },
   );
 
   componentDidMount() {

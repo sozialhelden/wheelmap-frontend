@@ -1,13 +1,12 @@
-import * as React from "react";
-import SearchIcon from "./SearchIcon";
-import MapButton from "../Map/MapButton";
-import { t } from "ttag";
-import styled from "styled-components";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/Feature";
-import { isAccessibilityFiltered } from "../../lib/Feature";
-import Categories from "../../lib/model/ac/categories/Categories";
-import CombinedIcon from "./CombinedIcon";
-import BreadcrumbChevron from "../icons/ui-elements/BreadcrumbChevron";
+import * as React from 'react';
+import { t } from 'ttag';
+import styled from 'styled-components';
+import SearchIcon from './SearchIcon';
+import MapButton from '../Map/MapButton';
+import { YesNoLimitedUnknown, YesNoUnknown, isAccessibilityFiltered } from '../../lib/Feature';
+import Categories from '../../lib/model/ac/categories/Categories';
+import CombinedIcon from './CombinedIcon';
+import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
 type Props = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -16,7 +15,7 @@ type Props = {
   toiletFilter: YesNoUnknown[];
 };
 
-const Caption = styled.div.attrs({ className: "caption" })`
+const Caption = styled.div.attrs({ className: 'caption' })`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -58,8 +57,7 @@ const StyledMapButton = styled(MapButton)`
 
 export default function SearchButton(props: Props) {
   const { toiletFilter, accessibilityFilter, category } = props;
-  const isAnyFilterSet =
-    isAccessibilityFiltered(accessibilityFilter) || category;
+  const isAnyFilterSet = isAccessibilityFiltered(accessibilityFilter) || category;
   // translator: Shown in collapsed search/filter combi button when there is no category filter set
   const allPlacesCaption = t`All places`;
 

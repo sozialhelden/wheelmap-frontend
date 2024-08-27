@@ -10,7 +10,9 @@ type Props = {
 
 class OpenGraph extends PureComponent<Props> {
   render() {
-    const { productName, title, description, url } = this.props;
+    const {
+      productName, title, description, url,
+    } = this.props;
 
     return (
       <Head>

@@ -1,18 +1,18 @@
-import { t } from "ttag";
+import { t } from 'ttag';
 
 import {
   AccessibilityCloudFeature, accessibleToiletDescription,
   hasAccessibleToilet, WheelmapFeature,
-  YesNoUnknown
-} from "../../../lib/Feature";
-import shouldPreferImperialUnits from "../../../lib/model/geo/shouldPreferImperialUnits";
+  YesNoUnknown,
+} from '../../../lib/Feature';
+import shouldPreferImperialUnits from '../../../lib/model/geo/shouldPreferImperialUnits';
 
-import { AppContextConsumer } from "../../../AppContext";
-import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
-import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
-import ToiletStatusNotAccessibleIcon from "../../icons/accessibility/ToiletStatusNotAccessible";
-import RadioStatusEditor from "./RadioStatusEditor";
-import { saveToiletStatus } from "./saveStatus";
+import { AppContextConsumer } from '../../../AppContext';
+import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories';
+import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
+import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
+import RadioStatusEditor from './RadioStatusEditor';
+import { saveToiletStatus } from './saveStatus';
 
 type SaveOptions = {
   featureId: string;
@@ -64,20 +64,19 @@ export default function ToiletStatusEditor(props: Props) {
         <RadioStatusEditor
           {...props}
           undefinedStringValue="unknown"
-          getValueFromFeature={(feature) =>
-            hasAccessibleToilet(feature.properties)
-          }
-          saveValue={(value) =>
-            saveToiletStatus({
-              ...props,
-              appContext,
-              value: value as YesNoUnknown,
-            })
-          }
+          getValueFromFeature={(feature) => hasAccessibleToilet(feature.properties)}
+          saveValue={(value) => saveToiletStatus({
+            ...props,
+            appContext,
+            value: value as YesNoUnknown,
+          })}
           renderChildrenForValue={({ value, categoryId }) => (
-            <>{icons[value]}&nbsp;</>
+            <>
+              {icons[value]}
+&nbsp;
+            </>
           )}
-          shownStatusOptions={["yes", "no"]}
+          shownStatusOptions={['yes', 'no']}
           captionForValue={(value) => captions[value]}
           descriptionForValue={(value) => descriptions[value]}
         >

@@ -1,13 +1,13 @@
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import * as queryString from "query-string";
-import { trackEvent } from "../../lib/apm/Analytics";
-import colors from "../../lib/util/colors";
-import { ChromelessButton, PrimaryButton } from "../shared/Button";
-import CloseLink from "../shared/CloseButton";
-import Toolbar from "../shared/Toolbar";
+import * as queryString from 'query-string';
+import { trackEvent } from '../../lib/apm/Analytics';
+import colors from '../../lib/util/colors';
+import { ChromelessButton, PrimaryButton } from '../shared/Button';
+import CloseLink from '../shared/CloseButton';
+import Toolbar from '../shared/Toolbar';
 
 export type Props = {
   className?: string;
@@ -72,31 +72,31 @@ export default function ContributionThanksDialog(props: Props) {
 
   React.useEffect(() => {
     // log event on client
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search);
-      const uniqueSurveyId = queryParams.uniqueSurveyId;
-      if (uniqueSurveyId && typeof uniqueSurveyId === "string") {
+      const { uniqueSurveyId } = queryParams;
+      if (uniqueSurveyId && typeof uniqueSurveyId === 'string') {
         trackingEventBackend.track(app, {
-          type: "SurveyCompleted",
-          uniqueSurveyId: uniqueSurveyId,
+          type: 'SurveyCompleted',
+          uniqueSurveyId,
         });
         trackEvent({
-          category: "Survey",
-          action: "Completed",
+          category: 'Survey',
+          action: 'Completed',
           label: uniqueSurveyId,
         });
       }
     }
   }, [app]);
 
-  const featureId = props.featureId;
+  const { featureId } = props;
   const className = [
     props.className,
-    "contribution-thanks-dialog",
-    props.isExpanded && "is-expanded",
+    'contribution-thanks-dialog',
+    props.isExpanded && 'is-expanded',
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
   const header = t`Thank you!`;
   const text = t`Your change is saved. It can take a while until it appears on the map.`;
@@ -105,7 +105,7 @@ export default function ContributionThanksDialog(props: Props) {
   const backToMapButtonCaption = t`Back to map`;
 
   return (
-    <StyledToolbar className={className} hidden={props.hidden} isModal={true}>
+    <StyledToolbar className={className} hidden={props.hidden} isModal>
       <header>
         <h2>{header}</h2>
         <CloseLink onClick={props.onClose} />

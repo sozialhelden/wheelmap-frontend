@@ -1,63 +1,59 @@
-import humanizeString from "humanize-string";
-import isPlainObject from "lodash/isPlainObject";
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { AccessibilityAttributesMap } from "../../../lib/data-fetching/useAccessibilityAttributes";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
+import humanizeString from 'humanize-string';
+import isPlainObject from 'lodash/isPlainObject';
+import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
+import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
 
 function humanizeCamelCase(string: string) {
-  return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
-    return `${substring[0]} ${substring[1].toLowerCase()}`;
-  });
+  return string.replace(/([a-z])([A-Z])/g, (substring, array) => `${substring[0]} ${substring[1].toLowerCase()}`);
 }
 
 function formatName(
   name: string,
-  accessibilityAttributes: Map<string, Record<string, string>>
+  accessibilityAttributes: Map<string, Record<string, string>>,
 ): string {
-  const string =
-    (accessibilityAttributes &&
-      translatedStringFromObject(accessibilityAttributes.get(name))) ||
-    humanizeString(name);
-  return string.replace(/^Rating /, "");
+  const string = (accessibilityAttributes
+      && translatedStringFromObject(accessibilityAttributes.get(name)))
+    || humanizeString(name);
+  return string.replace(/^Rating /, '');
 }
 
 function formatValue(value: any): string {
   if (
-    value === true ||
-    (typeof value === "string" &&
-      (value.match(/^true$/i) || value.match(/^yes$/i)))
-  )
-    return t`Yes`;
+    value === true
+    || (typeof value === 'string'
+      && (value.match(/^true$/i) || value.match(/^yes$/i)))
+  ) return t`Yes`;
   if (
-    value === false ||
-    (typeof value === "string" &&
-      (value.match(/^false$/i) || value.match(/^no$/i)))
-  )
-    return t`No`;
+    value === false
+    || (typeof value === 'string'
+      && (value.match(/^false$/i) || value.match(/^no$/i)))
+  ) return t`No`;
   if (
-    isPlainObject(value) &&
-    value &&
-    typeof value === "object" &&
-    typeof value.unit === "string" &&
-    (typeof value.value === "number" || typeof value.value === "string")
+    isPlainObject(value)
+    && value
+    && typeof value === 'object'
+    && typeof value.unit === 'string'
+    && (typeof value.value === 'number' || typeof value.value === 'string')
   ) {
-    return `${value.value || "?"} ${value.unit}`;
+    return `${value.value || '?'} ${value.unit}`;
   }
   return humanizeCamelCase(String(value));
 }
 
 function FormatRating({ rating }: { rating: number }) {
   const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5);
-  const stars = "★★★★★".slice(5 - between1and5);
+  const stars = '★★★★★'.slice(5 - between1and5);
   return (
     <span aria-label={`${between1and5} stars`}>
       <span className="stars" aria-hidden="true">
         {stars}
       </span>
       <span className="numeric" aria-hidden="true">
-        {between1and5}/5
+        {between1and5}
+        /5
       </span>
     </span>
   );
@@ -76,13 +72,13 @@ function DetailsArray({
   const items = array.map((e, i) => (
     <li key={i}>
       <AccessibilityDetailsTree
-        isNested={true}
+        isNested
         details={e}
         accessibilityAttributes={accessibilityAttributes}
       />
     </li>
   ));
-  return <ul className={`ac-list ${className || ""}`}>{items}</ul>;
+  return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
 }
 
 function capitalizeFirstLetter(string): string {
@@ -111,8 +107,8 @@ function DetailsObject(props: {
       const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
 
       if (
-        value &&
-        (value instanceof Array || (isPlainObject(value) && !value.unit))
+        value
+        && (value instanceof Array || (isPlainObject(value) && !value.unit))
       ) {
         return [
           <dt key={`${key}-name`} data-key={key}>
@@ -120,17 +116,18 @@ function DetailsObject(props: {
           </dt>,
           <dd key={`${key}-tree`}>
             <AccessibilityDetailsTree
-              isNested={true}
+              isNested
               details={value}
               accessibilityAttributes={props.accessibilityAttributes}
             />
           </dd>,
         ];
       }
-      if (key.startsWith("rating")) {
+      if (key.startsWith('rating')) {
         return [
           <dt key={`${key}-name`} className="ac-rating">
-            {capitalizedName}:
+            {capitalizedName}
+            :
           </dt>,
           <dd key={`${key}-rating`}>
             <FormatRating rating={parseFloat(String(value))} />
@@ -141,7 +138,8 @@ function DetailsObject(props: {
       const formattedValue = formatValue(value);
       return [
         <dt key={`${key}-name`} className={generatedClassName}>
-          {capitalizedName}:
+          {capitalizedName}
+          :
         </dt>,
         <dd
           key={`${key}-value`}
@@ -160,8 +158,8 @@ function DetailsObject(props: {
 
   return (
     <dl
-      className={`ac-group ${className || ""}`}
-      role={isNested ? null : "text"}
+      className={`ac-group ${className || ''}`}
+      role={isNested ? null : 'text'}
     >
       {properties}
     </dl>
@@ -177,7 +175,7 @@ type Props = {
 };
 
 function AccessibilityDetailsTree(props: Props) {
-  const details = props.details;
+  const { details } = props;
   if (details instanceof Array) {
     return (
       <DetailsArray

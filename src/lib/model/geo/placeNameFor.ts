@@ -1,29 +1,29 @@
-import { t } from "ttag";
-import getEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription";
-import { LocalizedString } from "../../i18n/LocalizedString";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { ACCategory } from "../ac/categories/ACCategory";
-import { getLocalizableCategoryName } from "../ac/categories/Categories";
-import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
-import { AnyFeature } from "./AnyFeature";
+import { t } from 'ttag';
+import getEquipmentInfoDescription from '../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription';
+import { LocalizedString } from '../../i18n/LocalizedString';
+import { getLocalizedStringTranslationWithMultipleLocales } from '../../i18n/getLocalizedStringTranslationWithMultipleLocales';
+import { ACCategory } from '../ac/categories/ACCategory';
+import { getLocalizableCategoryName } from '../ac/categories/Categories';
+import { getLocalizableStringForOSMKey } from '../osm/getLocalizableStringForOSMKey';
+import { AnyFeature } from './AnyFeature';
 
 export function placeNameFor(
   feature: AnyFeature,
   category: ACCategory | null,
-  requestedLanguageTags: string[]
+  requestedLanguageTags: string[],
 ): string {
-  const properties = feature.properties;
-  if (!properties) return "";
+  const { properties } = feature;
+  if (!properties) return '';
   let localizedString: LocalizedString | undefined;
 
-  if (feature["@type"] === "a11yjson:EquipmentInfo") {
-    localizedString = getEquipmentInfoDescription(feature, "shortDescription");
-  } else if (feature["@type"] === "a11yjson:PlaceInfo") {
+  if (feature['@type'] === 'a11yjson:EquipmentInfo') {
+    localizedString = getEquipmentInfoDescription(feature, 'shortDescription');
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
     localizedString = feature.properties.name;
-  } else if (feature["@type"] === "a11yjson:Entrance") {
+  } else if (feature['@type'] === 'a11yjson:Entrance') {
     localizedString = feature.properties.name;
-  } else if (feature["@type"] === "osm:Feature") {
-    localizedString = getLocalizableStringForOSMKey(feature, "name");
+  } else if (feature['@type'] === 'osm:Feature') {
+    localizedString = getLocalizableStringForOSMKey(feature, 'name');
   }
 
   if (!localizedString && category) {
@@ -33,7 +33,7 @@ export function placeNameFor(
   if (localizedString) {
     return getLocalizedStringTranslationWithMultipleLocales(
       localizedString,
-      requestedLanguageTags
+      requestedLanguageTags,
     );
   }
 

@@ -1,14 +1,14 @@
-import { uniqBy } from "lodash";
-import React from "react";
-import OSMFeature from "../../../../lib/model/osm/OSMFeature";
-import WikipediaLink from "../WikipediaLink";
-import { getWikipediaLemma } from "../getWikipediaLemma";
-import WikidataEntityImage from "./WikidataEntityImage";
-import WikimediaCommonsImage from "./WikimediaCommonsImage";
+import { uniqBy } from 'lodash';
+import React from 'react';
+import OSMFeature from '../../../../lib/model/osm/OSMFeature';
+import WikipediaLink from '../WikipediaLink';
+import { getWikipediaLemma } from '../getWikipediaLemma';
+import WikidataEntityImage from './WikidataEntityImage';
+import WikimediaCommonsImage from './WikimediaCommonsImage';
 
 const imageStyle = (link) => ({
-  maxHeight: link.prefix === 'subject' ? "6rem" : '3rem',
-  maxWidth: link.prefix === 'subject' ? "6rem" : '3rem',
+  maxHeight: link.prefix === 'subject' ? '6rem' : '3rem',
+  maxWidth: link.prefix === 'subject' ? '6rem' : '3rem',
   borderRadius: '0.125rem',
 });
 
@@ -16,19 +16,19 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
   const links = React.useMemo(() => uniqBy(
     [
       {
-        prefix: "subject",
-        verb: "P18",
+        prefix: 'subject',
+        verb: 'P18',
       },
       {
-        prefix: "brand",
-        verb: "P154",
+        prefix: 'brand',
+        verb: 'P154',
       },
       {
-        prefix: "operator",
-        verb: "P154",
+        prefix: 'operator',
+        verb: 'P154',
       },
     ],
-    (link) => getWikipediaLemma(feature, link.prefix)
+    (link) => getWikipediaLemma(feature, link.prefix),
   ), [feature]);
 
   return (

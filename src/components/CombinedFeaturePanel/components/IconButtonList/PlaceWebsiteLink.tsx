@@ -1,7 +1,7 @@
-import Link from "next/link";
-import styled from "styled-components";
-import { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
-import WorldIcon from "../../../icons/actions/World";
+import Link from 'next/link';
+import styled from 'styled-components';
+import { AnyFeature } from '../../../../lib/model/geo/AnyFeature';
+import WorldIcon from '../../../icons/actions/World';
 
 const NonBreakingSpan = styled.span`
   white-space: nowrap;
@@ -17,9 +17,9 @@ export default function PlaceWebsiteLink(props: Props) {
   const { feature } = props;
 
   let placeWebsiteUrl = null;
-  if (feature["@type"] === "osm:Feature") {
-    placeWebsiteUrl = feature.properties["contact:website"] || feature.properties["website"];
-  } else if (feature["@type"] === "a11yjson:PlaceInfo") {
+  if (feature['@type'] === 'osm:Feature') {
+    placeWebsiteUrl = feature.properties['contact:website'] || feature.properties.website;
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
     placeWebsiteUrl = feature.properties.placeWebsiteUrl;
   }
 
@@ -29,7 +29,7 @@ export default function PlaceWebsiteLink(props: Props) {
   }
 
   return (
-    typeof placeWebsiteUrl === "string" && (
+    typeof placeWebsiteUrl === 'string' && (
       <li>
         <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
           <WorldIcon />

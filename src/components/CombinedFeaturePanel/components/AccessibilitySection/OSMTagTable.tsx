@@ -1,14 +1,14 @@
-import { useRouter } from "next/router";
-import { useCurrentAppToken } from "../../../../lib/context/AppContext";
-import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
-import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
-import { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
-import { OSMTagTableRow } from "./OSMTagTableRow";
-import { StyledList } from "./StyledList";
-import { StyledTable } from "./StyledTable";
-import { tagsWithSemicolonSupport } from "./config";
-import { getOSMTagProps } from "./getOSMTagProps";
-import { valueRenderFunctions } from "./tagging-schema/valueRenderFunctions";
+import { useRouter } from 'next/router';
+import { useCurrentAppToken } from '../../../../lib/context/AppContext';
+import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext';
+import { useAccessibilityAttributesIdMap } from '../../../../lib/fetchers/fetchAccessibilityAttributes';
+import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature';
+import { OSMTagTableRow } from './OSMTagTableRow';
+import { StyledList } from './StyledList';
+import { StyledTable } from './StyledTable';
+import { tagsWithSemicolonSupport } from './config';
+import { getOSMTagProps } from './getOSMTagProps';
+import { valueRenderFunctions } from './tagging-schema/valueRenderFunctions';
 
 export type TagOrTagGroup = {
   key: string;
@@ -35,13 +35,13 @@ export default function OSMTagTable(props: {
   return (
     <SurroundingListElement>
       {props.nestedTags.map(({ key, children }) => {
-        const originalOSMTagValue = feature.properties[key] || "";
+        const originalOSMTagValue = feature.properties[key] || '';
         const tagValues = tagsWithSemicolonSupport.includes(key)
-          ? originalOSMTagValue?.split(";") || []
+          ? originalOSMTagValue?.split(';') || []
           : [originalOSMTagValue];
         return tagValues.map((singleValue) => {
           const matchedKey = Object.keys(
-            valueRenderFunctions
+            valueRenderFunctions,
           ).find((renderFunctionKey) => key.match(renderFunctionKey));
           const tagProps = getOSMTagProps({
             key,
@@ -70,9 +70,8 @@ export default function OSMTagTable(props: {
                 isHorizontal={props.isHorizontal}
               />
             );
-          } else {
-            return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={props.isHorizontal} />;
           }
+          return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={props.isHorizontal} />;
         });
       })}
     </SurroundingListElement>

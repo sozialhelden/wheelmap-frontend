@@ -5,13 +5,13 @@ import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject';
 import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo';
 import {
   CategoryLookupTables,
 } from '../../lib/model/ac/categories/Categories';
-import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
-import { placeNameFor } from "../../lib/model/geo/placeNameFor";
+import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible';
+import { placeNameFor } from '../../lib/model/geo/placeNameFor';
 import colors from '../../lib/util/colors';
 import { Cluster } from '../MapLegacy/Cluster';
 import ChevronRight from '../shared/ChevronRight';
@@ -44,9 +44,8 @@ export const StyledNodeHeader = styled.header`
   }
 `;
 
-
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
-  margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
+  margin-left: ${(props) => (props.hasPadding ? '42' : '0')}px;
   font-size: 16px;
   margin-top: 8px;
 `;
@@ -77,7 +76,7 @@ type Props = {
 
 export default class NodeHeader extends React.Component<Props> {
   onClickCurrentMarkerIcon = () => {
-    const feature = this.props.feature;
+    const { feature } = this.props;
     if (feature && this.props.onClickCurrentMarkerIcon) {
       this.props.onClickCurrentMarkerIcon(feature);
     }
@@ -85,19 +84,18 @@ export default class NodeHeader extends React.Component<Props> {
 
   render() {
     const isEquipment = !!this.props.equipmentInfoId;
-    const feature = this.props.feature;
+    const { feature } = this.props;
     if (!feature) return null;
-    const properties = feature.properties;
+    const { properties } = feature;
     if (!properties) return null;
 
     const { category, parentCategory, children } = this.props;
     const shownCategory = category || parentCategory;
-    let categoryName = shownCategory && getTranslatedCategoryNameFor(shownCategory);
+    const categoryName = shownCategory && getTranslatedCategoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
     const acFeature = feature;
-    const parentPlaceName =
-      acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
+    const parentPlaceName = acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
     const address = acFeature?.properties.address;
     const addressObject = typeof address === 'object' ? address : undefined;
     const levelName = addressObject && translatedStringFromObject(addressObject?.level);
@@ -106,9 +104,8 @@ export default class NodeHeader extends React.Component<Props> {
     let placeName = placeNameFor(properties, shownCategory) || roomName;
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
     if (isEquipment) {
-      placeName =
-      getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription') ||
-      t`Unnamed facility`;
+      placeName = getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription')
+      || t`Unnamed facility`;
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
     const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined;
@@ -121,15 +118,15 @@ export default class NodeHeader extends React.Component<Props> {
     const icon = (
       <Icon
         accessibility={accessibility}
-        category={shownCategoryId ? shownCategoryId : 'undefined'}
+        category={shownCategoryId || 'undefined'}
         size="medium"
-        ariaHidden={true}
+        ariaHidden
         centered
         onClick={this.onClickCurrentMarkerIcon}
       />
     );
 
-    const categoryElement = properties['name'] ? (
+    const categoryElement = properties.name ? (
       <StyledBreadCrumbs
         properties={properties}
         category={this.props.category}
@@ -138,13 +135,12 @@ export default class NodeHeader extends React.Component<Props> {
       />
     ) : null;
 
-
     const nameElements = uniq(compact([parentPlaceName, levelName, roomNameAndNumber, placeName]));
     const lastNameElement = nameElements[nameElements.length - 1];
 
     const parentElements = intersperse(
       nameElements.slice(0, nameElements.length - 1),
-      <StyledChevronRight />
+      <StyledChevronRight />,
     );
 
     const placeNameElement = (

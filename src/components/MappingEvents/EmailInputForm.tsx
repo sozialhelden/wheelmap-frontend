@@ -10,14 +10,16 @@ export function EmailInputForm(props: {
   invitationToken: string | null;
   onSubmit: (emailAddress?: string) => void;
 }) {
-  const { onSubmit, collectionMode, initialEmailAddress, invitationToken } = props;
+  const {
+    onSubmit, collectionMode, initialEmailAddress, invitationToken,
+  } = props;
 
   const inputField = React.useRef(null);
   const [error, setError] = React.useState<string | null>(null);
   const [isBusy, setBusy] = React.useState<boolean>(false);
   const showInput = collectionMode !== 'disabled' && !invitationToken;
 
-  const submitHandler = e => {
+  const submitHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -28,17 +30,15 @@ export function EmailInputForm(props: {
     } else if (collectionMode === 'optional' && !inputValue) {
       setBusy(true);
       onSubmit();
+    } else if (!inputValue) {
+      setError(t`Your email address is required!`);
     } else {
-      if (!inputValue) {
-        setError(t`Your email address is required!`);
+      const isValid = EmailRegEx.test(inputValue);
+      if (isValid) {
+        setBusy(true);
+        onSubmit(inputValue);
       } else {
-        const isValid = EmailRegEx.test(inputValue);
-        if (isValid) {
-          setBusy(true);
-          onSubmit(inputValue);
-        } else {
-          setError(t`This email address is not valid.`);
-        }
+        setError(t`This email address is not valid.`);
       }
     }
   };
@@ -54,7 +54,15 @@ export function EmailInputForm(props: {
     <form className={error ? 'has-error' : ''} onSubmit={submitHandler}>
       {showInput && (
         <div className={error ? 'form-control is-invalid' : 'form-control'}>
-          <label><strong>{t`Email address`}</strong>{labelSuffix && <>&nbsp;{labelSuffix}</>}</label>
+          <label>
+            <strong>{t`Email address`}</strong>
+            {labelSuffix && (
+            <>
+&nbsp;
+              {labelSuffix}
+            </>
+            )}
+          </label>
           <input
             className={error ? 'is-invalid' : ''}
             required={collectionMode === 'required'}
@@ -62,11 +70,12 @@ export function EmailInputForm(props: {
             autoComplete="true"
             defaultValue={initialEmailAddress}
             ref={inputField}
-            onFocus={event => {
+            onFocus={(event) => {
               window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
             }}
             disabled={isBusy}
-            name="email" />
+            name="email"
+          />
           {error && <p className="form-text text-danger">{error}</p>}
         </div>
       )}

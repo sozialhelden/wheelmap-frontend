@@ -1,17 +1,17 @@
-import { ServerResponse } from "http";
-import { IApp } from "../model/ac/App";
-import { EmbedToken } from "../model/ac/ClientSideConfiguration";
+import { ServerResponse } from 'http';
+import { IApp } from '../model/ac/App';
+import { EmbedToken } from '../model/ac/ClientSideConfiguration';
 
 function isEmbedTokenValid(
   embedToken: string | undefined,
-  appEmbedTokens: EmbedToken[] | undefined
+  appEmbedTokens: EmbedToken[] | undefined,
 ) {
   if (!embedToken || !appEmbedTokens) {
     return false;
   }
 
   const matchingToken = appEmbedTokens.find(
-    (token) => token.token === embedToken
+    (token) => token.token === embedToken,
   );
 
   if (matchingToken) {
@@ -26,7 +26,7 @@ function isEmbedTokenValid(
 export default function addEmbedModeResponseHeaders(
   app: IApp,
   res: ServerResponse,
-  embedToken?: string
+  embedToken?: string,
 ) {
   let embedModeDenied = false;
 
@@ -36,11 +36,11 @@ export default function addEmbedModeResponseHeaders(
     embedModeDenied = !validEmbedTokenProvided;
 
     res.setHeader(
-      "Content-Security-Policy",
-      `frame-ancestors file://* ${allowedBaseUrls.join(" ")}`
+      'Content-Security-Policy',
+      `frame-ancestors file://* ${allowedBaseUrls.join(' ')}`,
     );
   } else {
-    res.setHeader("X-Frame-Options", "deny");
+    res.setHeader('X-Frame-Options', 'deny');
   }
 
   return embedModeDenied;

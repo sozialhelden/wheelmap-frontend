@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { AnyFeature, isOSMFeature } from "../../../lib/model/geo/AnyFeature";
-import { OSMTagPanel } from "./AccessibilitySection/OSMTagPanel";
+import styled from 'styled-components';
+import { AnyFeature, isOSMFeature } from '../../../lib/model/geo/AnyFeature';
+import { OSMTagPanel } from './AccessibilitySection/OSMTagPanel';
 
 type Props = {
   feature: AnyFeature;
@@ -14,13 +14,14 @@ const Card = styled.section`
   margin: 0 -0.25rem;
 `;
 
-
 export default function FeatureAccessibility({ feature }: Props) {
   return (
     <>
-      {isOSMFeature(feature) && <Card>
+      {isOSMFeature(feature) && (
+      <Card>
         <OSMTagPanel feature={feature} />
-      </Card>}
+      </Card>
+      )}
     </>
   );
 }

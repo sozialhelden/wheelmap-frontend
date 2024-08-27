@@ -1,14 +1,14 @@
-import { AnyFeature } from "../geo/AnyFeature";
-import OSMFeature from "./OSMFeature";
+import { AnyFeature } from '../geo/AnyFeature';
+import OSMFeature from './OSMFeature';
 
 function getLatLonFromFeature(
-  feature: AnyFeature
+  feature: AnyFeature,
 ): { lat: number; lon: number } {
   if (
-    feature &&
-    feature.geometry &&
-    feature.geometry.type === "Point" &&
-    feature.geometry.coordinates instanceof Array
+    feature
+    && feature.geometry
+    && feature.geometry.type === 'Point'
+    && feature.geometry.coordinates instanceof Array
   ) {
     return {
       lat: feature.geometry.coordinates[1],
@@ -16,7 +16,7 @@ function getLatLonFromFeature(
     };
   }
 
-  throw new Error("Could not extract LatLon from Feature");
+  throw new Error('Could not extract LatLon from Feature');
 }
 
 type MaybeLatLon = { lat: number | undefined; lon: number | undefined };
@@ -25,20 +25,20 @@ export function generateOsmNoteUrlForCoords(coords: MaybeLatLon) {
   if (coords && coords.lat && coords.lon) {
     return `https://www.openstreetmap.org/note/new#map=19/${coords.lat}/${coords.lon}&layers=N`;
   }
-  return `https://www.openstreetmap.org/note/new`;
+  return 'https://www.openstreetmap.org/note/new';
 }
 
 export function generateOsmEditorUrlForCoords(coords?: MaybeLatLon) {
   if (coords && coords.lat && coords.lon) {
     return `https://www.openstreetmap.org/edit#map=19/${coords.lat}/${coords.lon}`;
   }
-  return `https://www.openstreetmap.org/edit`;
+  return 'https://www.openstreetmap.org/edit';
 }
 
 // aligns note links for ways vs. nodes in osm
 export function generateOsmNoteUrl(feature: AnyFeature) {
   if (!feature || !feature.properties) {
-    return `https://www.openstreetmap.org/note/new`;
+    return 'https://www.openstreetmap.org/note/new';
   }
 
   const coords = getLatLonFromFeature(feature);
@@ -50,9 +50,9 @@ export function getOSMType(feature?: OSMFeature) {
     return undefined;
   }
   if (Number.parseInt(feature._id, 10) < 0) {
-    return "way";
+    return 'way';
   }
-  return "node";
+  return 'node';
 }
 
 export function generateShowOnOsmUrl(feature: AnyFeature) {
@@ -60,18 +60,15 @@ export function generateShowOnOsmUrl(feature: AnyFeature) {
     return null;
   }
 
-  if (feature["@type"] === "osm:Feature") {
+  if (feature['@type'] === 'osm:Feature') {
     const osmId = feature._id;
     return `https://www.openstreetmap.org/${osmId}`;
   }
 
-  if (feature["@type"] === "a11yjson:PlaceInfo") {
-    const sameAs = feature.properties.sameAs;
-    const osmUrl =
-      sameAs &&
-      sameAs.find((url: string) =>
-        url.startsWith("https://www.openstreetmap.org/")
-      );
+  if (feature['@type'] === 'a11yjson:PlaceInfo') {
+    const { sameAs } = feature.properties;
+    const osmUrl = sameAs
+      && sameAs.find((url: string) => url.startsWith('https://www.openstreetmap.org/'));
     if (osmUrl) {
       return osmUrl;
     }

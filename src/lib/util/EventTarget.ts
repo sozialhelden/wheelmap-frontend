@@ -3,6 +3,7 @@
 
 export class CustomEvent {
   public readonly type: string;
+
   public readonly defaultPrevented: boolean = false;
 
   constructor(type: string, init: any) {
@@ -48,8 +49,7 @@ export default class EventTarget<EventClass extends EventClassProps> {
       return true;
     }
     const stack = this.listeners[event.type];
-    stack.forEach(handler => handler.call(this, event));
+    stack.forEach((handler) => handler.call(this, event));
     return !event.defaultPrevented;
   }
-
 }

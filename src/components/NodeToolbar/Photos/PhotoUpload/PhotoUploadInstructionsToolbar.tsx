@@ -1,12 +1,12 @@
-import FocusTrap from "focus-trap-react";
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import colors from "../../../../lib/util/colors";
-import Spinner from "../../../ActivityIndicator/Spinner";
-import { CheckmarkIcon } from "../../../icons/actions";
-import StyledCloseLink from "../../../shared/CloseLink";
-import Toolbar from "../../../shared/Toolbar";
+import FocusTrap from 'focus-trap-react';
+import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
+import colors from '../../../../lib/util/colors';
+import Spinner from '../../../ActivityIndicator/Spinner';
+import { CheckmarkIcon } from '../../../icons/actions';
+import StyledCloseLink from '../../../shared/CloseLink';
+import Toolbar from '../../../shared/Toolbar';
 
 export type Props = {
   waitingForPhotoUpload: boolean;
@@ -183,22 +183,23 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<
   };
 
   fileInput: null | HTMLInputElement;
+
   checkBox: null | HTMLInputElement;
+
   backLink: null | HTMLButtonElement;
-  goButton: null | React.ElementRef<"button">;
+
+  goButton: null | React.ElementRef<'button'>;
 
   onFileInputChanged = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
-    var files = input.files;
+    const { files } = input;
 
     if (!files || files.length === 0) {
       if (this.props.onClose) {
         this.props.onClose();
       }
-    } else {
-      if (this.props.onCompleted) {
-        this.props.onCompleted(files);
-      }
+    } else if (this.props.onCompleted) {
+      this.props.onCompleted(files);
     }
   };
 

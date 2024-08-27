@@ -1,27 +1,26 @@
-import * as React from "react";
+import * as React from 'react';
 
-import StyledFrame from "./StyledFrame";
-import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
-import AccessibleDescription from "./AccessibleDescription";
-import AccessibilitySourceDisclaimer from "./AccessibilitySourceDisclaimer";
-import WheelchairAndToiletAccessibility from "./WheelchairAndToiletAccessibility";
-
-import { SourceWithLicense } from "../../../../app/PlaceDetailsProps";
-import { isWheelchairAccessible } from "../../../lib/Feature";
-import { YesNoLimitedUnknown } from "../../../lib/Feature";
-import { Category } from "../../../lib/model/ac/categories/Categories";
-import filterAccessibility from "../../../lib/model/ac/filterAccessibility";
-
-import Description from "./Description";
-import AppContext from "../../../AppContext";
-import isA11yEditable from "../AccessibilityEditor/isA11yEditable";
-import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import {
   EquipmentInfo,
   PlaceInfo,
   PlaceProperties,
-} from "@sozialhelden/a11yjson";
+} from '@sozialhelden/a11yjson';
+import StyledFrame from './StyledFrame';
+import AccessibilityDetailsTree from './AccessibilityDetailsTree';
+import AccessibleDescription from './AccessibleDescription';
+import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
+import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
+
+import { SourceWithLicense } from '../../../../app/PlaceDetailsProps';
+import { isWheelchairAccessible, YesNoLimitedUnknown } from '../../../lib/Feature';
+import { Category } from '../../../lib/model/ac/categories/Categories';
+import filterAccessibility from '../../../lib/model/ac/filterAccessibility';
+
+import Description from './Description';
+import AppContext from '../../../AppContext';
+import isA11yEditable from '../AccessibilityEditor/isA11yEditable';
+import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
 
 type Props = {
   featureId: string | string[] | number | null;
@@ -66,36 +65,35 @@ export default function PlaceAccessibilitySection(props: Props) {
   const isEditingEnabled = isA11yEditable(
     featureId,
     appContext.app,
-    primarySource
+    primarySource,
   );
 
-  const accessibilityTree =
-    accessibilityAttributes &&
-    properties &&
-    typeof properties["accessibility"] === "object"
-      ? properties["accessibility"]
-      : null;
+  const accessibilityTree = accessibilityAttributes
+    && properties
+    && typeof properties.accessibility === 'object'
+    ? properties.accessibility
+    : null;
   const filteredAccessibilityTree = accessibilityTree
     ? filterAccessibility(accessibilityTree)
     : null;
   const accessibilityDetailsTree = filteredAccessibilityTree && (
     <AccessibilityDetailsTree
       details={filteredAccessibilityTree}
-      isNested={true}
+      isNested
       accessibilityAttributes={accessibilityAttributes}
     />
   );
-  let description: string = translatedStringFromObject(
-    accessibilityTree?.description
+  const description: string = translatedStringFromObject(
+    accessibilityTree?.description,
   );
   const descriptionElement = description ? (
     <Description>{description}</Description>
   ) : null;
 
   if (
-    isWheelmapFeature &&
-    !description &&
-    isWheelchairAccessible(properties) === "unknown"
+    isWheelmapFeature
+    && !description
+    && isWheelchairAccessible(properties) === 'unknown'
   ) {
     return null;
   }

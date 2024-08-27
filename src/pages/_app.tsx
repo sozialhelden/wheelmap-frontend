@@ -21,7 +21,6 @@ import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
 import { IApp } from '../lib/model/ac/App';
 
-
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
 }
@@ -42,7 +41,9 @@ let globalEnvironmentVariables;
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const { userAgentString, app, session, languageTags, ipCountryCode, environmentVariables } = pageProps;
+  const {
+    userAgentString, app, session, languageTags, ipCountryCode, environmentVariables,
+  } = pageProps;
   if (!globalEnvironmentVariables && Object.keys(environmentVariables).length > 0) {
     globalEnvironmentVariables = environmentVariables;
   }
@@ -53,7 +54,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
     [HostnameContext, app.hostname],
     [LanguageTagContext, { languageTags }],
     [CountryContext, ipCountryCode],
-    [EnvContext, globalEnvironmentVariables]
+    [EnvContext, globalEnvironmentVariables],
   ];
 
   // Use the layout defined at the page level, if available
@@ -61,13 +62,11 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
   return (
     <>
-      <Head>
-
-      </Head>
+      <Head />
       <HotkeysProvider>
-          <SessionProvider session={session}>
-            {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
-          </SessionProvider>
+        <SessionProvider session={session}>
+          {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
+        </SessionProvider>
       </HotkeysProvider>
     </>
   );
@@ -77,7 +76,7 @@ const environmentVariables = pick(
   process.env,
   Object
     .keys(process.env)
-    .filter((key) => key.startsWith("NEXT_PUBLIC_")),
+    .filter((key) => key.startsWith('NEXT_PUBLIC_')),
 );
 
 const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
@@ -85,20 +84,20 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const { ctx } = appContext;
   const { req, res } = ctx;
   const url = req ? req.url : location.href;
-  const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
-  const acceptLanguageHeader = req?.headers?.["accept-language"];
+  const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent;
+  const acceptLanguageHeader = req?.headers?.['accept-language'];
   const languageTagStrings = req ? (acceptLanguageHeader && parseAcceptLanguageString(acceptLanguageHeader) || ['en']) : uniq([navigator.language, ...navigator.languages]);
   const languageTags = languageTagStrings.map(parseLanguageTag);
-  res?.setHeader("Vary", "X-Lang, Content-Language");
+  res?.setHeader('Vary', 'X-Lang, Content-Language');
   if (languageTagStrings[0]) {
-    res?.setHeader("X-Lang", languageTagStrings[0]);
-    res?.setHeader("Content-Language", languageTagStrings.join(", "));
+    res?.setHeader('X-Lang', languageTagStrings[0]);
+    res?.setHeader('Content-Language', languageTagStrings.join(', '));
   }
-  const query = queryString.parseUrl(url).query;
+  const { query } = queryString.parseUrl(url);
   const ipCountryCode = query.countryCode
-    || req?.headers?.["cf-ipcountry"]
-    || req?.headers?.["x-country-code"]
-    || languageTags.map(l => l.region).filter(Boolean)[0];
+    || req?.headers?.['cf-ipcountry']
+    || req?.headers?.['x-country-code']
+    || languageTags.map((l) => l.region).filter(Boolean)[0];
   const hostnameAndPort = query.appId || (req ? req.headers.host : location.hostname);
   if (typeof hostnameAndPort !== 'string') {
     throw new Error('Please supply only one appId query parameter.');
@@ -114,9 +113,10 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
     throw new Error(`No app found for hostname ${hostname}`);
   }
 
-  const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode, environmentVariables };
-  return { ...appProps, pageProps }
-}
-
+  const pageProps: ExtraProps = {
+    userAgentString, app, languageTags, ipCountryCode, environmentVariables,
+  };
+  return { ...appProps, pageProps };
+};
 
 MyApp.getInitialProps = getInitialProps;

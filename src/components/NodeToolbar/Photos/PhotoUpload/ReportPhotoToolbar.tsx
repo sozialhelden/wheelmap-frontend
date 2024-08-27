@@ -79,7 +79,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
   }
 
   onSubmit = (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
       this.props.onCompleted(this.props.photo, this.state.selectedValue);
@@ -119,7 +119,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
         hidden={this.props.hidden}
         isSwipeable={false}
         minimalHeight={180}
-        isModal={true}
+        isModal
       >
         <header>
           <CloseButton onClick={this.onClose} />
@@ -133,7 +133,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
         <StyledRadioGroup
           name="report-reason"
           selectedValue={selectedValue}
-          onChange={newValue => {
+          onChange={(newValue) => {
             this.setState({ selectedValue: newValue });
           }}
           className={`${selectedValue ? 'has-selection' : ''} radio-group`}

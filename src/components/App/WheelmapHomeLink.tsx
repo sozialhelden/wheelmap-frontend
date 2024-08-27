@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
-import VectorImage from '../shared/VectorImage';
 import { useRouter } from 'next/router';
 import * as queryString from 'query-string';
 import { omit } from 'lodash';
+import VectorImage from '../shared/VectorImage';
+import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject';
 import { AppContext } from '../../lib/context/AppContext';
 
 type Props = {
@@ -39,10 +39,10 @@ export default function WheelmapHomeLink(props: Props) {
         svg={clientSideConfiguration?.branding?.vectorLogoSVG}
         aria-label={t`App Logo`} /* translator: The alternative desription of the app logo for screenreaders */
         className="logo"
-        maxHeight={'30px'}
-        maxWidth={'150px'}
+        maxHeight="30px"
+        maxWidth="150px"
         hasShadow={false}
       />
     </StyledLink>
   );
-};
+}

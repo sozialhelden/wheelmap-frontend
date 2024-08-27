@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-const Equipment = () => {
+function Equipment() {
   const router = useRouter();
   const { placeType, id, equipmentId } = router.query;
 
@@ -13,6 +13,6 @@ const Equipment = () => {
       <h2>{`EquipmentId: ${equipmentId}`}</h2>
     </>
   );
-};
+}
 
 export default Equipment;

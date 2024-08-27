@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
 export default function MapLoadingIndicator({ className }: { className?: string }) {
   return (
     <StyledDiv className={className}>
-      <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
+      <Spinner size={30} color="rgba(0, 0, 0, 0.4)" />
     </StyledDiv>
   );
 }

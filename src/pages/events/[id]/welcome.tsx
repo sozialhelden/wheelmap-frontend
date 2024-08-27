@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
-import Layout from "../../../components/App/Layout";
-import MappingEventWelcomeDialog from "../../../components/MappingEvents/MappingEventWelcomeDialog";
+import { useRouter } from 'next/router';
+import React, { ReactElement } from 'react';
+import Layout from '../../../components/App/Layout';
+import MappingEventWelcomeDialog from '../../../components/MappingEvents/MappingEventWelcomeDialog';
 
 export default function Page() {
   const router = useRouter();

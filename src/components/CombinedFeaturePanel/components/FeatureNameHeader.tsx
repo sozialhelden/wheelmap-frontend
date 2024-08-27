@@ -1,28 +1,28 @@
-import intersperse from "intersperse";
-import { compact, uniq } from "lodash";
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { useCurrentAppToken } from "../../../lib/context/AppContext";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
-import { useAccessibilityAttributesIdMap } from "../../../lib/fetchers/fetchAccessibilityAttributes";
-import { usePlaceInfo } from "../../../lib/fetchers/fetchOnePlaceInfo";
-import useCategory from "../../../lib/fetchers/useCategory";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import intersperse from 'intersperse';
+import { compact, uniq } from 'lodash';
+import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
+import { useCurrentAppToken } from '../../../lib/context/AppContext';
+import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext';
+import { useAccessibilityAttributesIdMap } from '../../../lib/fetchers/fetchAccessibilityAttributes';
+import { usePlaceInfo } from '../../../lib/fetchers/fetchOnePlaceInfo';
+import useCategory from '../../../lib/fetchers/useCategory';
+import { getLocalizedStringTranslationWithMultipleLocales } from '../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales';
 import {
   getCategoryForFeature,
   getLocalizableCategoryName,
   unknownCategory,
-} from "../../../lib/model/ac/categories/Categories";
-import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
-import { AnyFeature } from "../../../lib/model/geo/AnyFeature";
-import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
-import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
-import colors from "../../../lib/util/colors";
-import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
-import ChevronRight from "../../shared/ChevronRight";
-import Icon from "../../shared/Icon";
-import { PlaceNameH1, PlaceNameH2 } from "../../shared/PlaceName";
+} from '../../../lib/model/ac/categories/Categories';
+import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible';
+import { AnyFeature } from '../../../lib/model/geo/AnyFeature';
+import { placeNameFor } from '../../../lib/model/geo/placeNameFor';
+import getGenericCategoryDisplayName from '../../../lib/model/osm/getFeatureCategoryDisplayName';
+import colors from '../../../lib/util/colors';
+import getEquipmentInfoDescription from '../../NodeToolbar/Equipment/getEquipmentInfoDescription';
+import ChevronRight from '../../shared/ChevronRight';
+import Icon from '../../shared/Icon';
+import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -44,7 +44,7 @@ type Props = {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
   children?: React.ReactNode;
-  size?: "small" | "medium" | "big";
+  size?: 'small' | 'medium' | 'big';
 };
 
 const StyledHeader = styled.header`
@@ -95,34 +95,33 @@ export default function FeatureNameHeader(props: Props) {
   });
 
   if (!feature) return null;
-  const properties = feature.properties;
+  const { properties } = feature;
   if (!properties) return null;
 
   const icon = (
     <Icon
       accessibility={isWheelchairAccessible(feature)}
-      category={(category !== unknownCategory) && category?._id || categoryTagKeys[0] || "undefined"}
-      size={props.size || "medium"}
-      ariaHidden={true}
+      category={(category !== unknownCategory) && category?._id || categoryTagKeys[0] || 'undefined'}
+      size={props.size || 'medium'}
+      ariaHidden
       centered
       onClick={handleMarkerClick}
     />
   );
 
   const nameElements = uniq(
-    compact([parentPlaceName?.trim(), levelName?.trim(), roomNameAndNumber?.trim(), placeName?.trim()])
+    compact([parentPlaceName?.trim(), levelName?.trim(), roomNameAndNumber?.trim(), placeName?.trim()]),
   );
 
   const lastNameElement = nameElements[nameElements.length - 1];
   const parentElements = intersperse(
     nameElements.slice(0, nameElements.length - 1),
-    <StyledChevronRight />
+    <StyledChevronRight />,
   );
 
   const HeaderElement = props.size === 'small' ? PlaceNameH2 : PlaceNameH1;
   const detailFontSize = (props.size === 'small' || lastNameElement) ? '0.9em' : '1em';
-  const categoryElement =
-    !lastNameElement?.toLocaleLowerCase().startsWith(categoryName?.toLocaleLowerCase())
+  const categoryElement = !lastNameElement?.toLocaleLowerCase().startsWith(categoryName?.toLocaleLowerCase())
     && !lastNameElement?.toLocaleLowerCase().endsWith(categoryName?.toLocaleLowerCase())
     && (<PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>);
   const placeNameElement = (
@@ -155,58 +154,50 @@ function useFeatureLabel({
   const appToken = useCurrentAppToken();
   const { categorySynonymCache, category } = useCategory(feature);
 
-  const acParentPlaceInfoId =
-    feature["@type"] === "a11yjson:PlaceInfo"
-      ? feature.properties.parentPlaceInfoId
-      : feature["@type"] === "a11yjson:EquipmentInfo"
+  const acParentPlaceInfoId = feature['@type'] === 'a11yjson:PlaceInfo'
+    ? feature.properties.parentPlaceInfoId
+    : feature['@type'] === 'a11yjson:EquipmentInfo'
       ? feature.properties.placeInfoId
       : undefined;
   const parentPlaceInfo = usePlaceInfo(acParentPlaceInfoId);
 
   const parentPlaceInfoCategory = React.useMemo(
-    () =>
-      categorySynonymCache.data &&
-      parentPlaceInfo.data &&
-      getCategoryForFeature(categorySynonymCache.data, parentPlaceInfo.data),
-    [categorySynonymCache.data, parentPlaceInfo]
+    () => categorySynonymCache.data
+      && parentPlaceInfo.data
+      && getCategoryForFeature(categorySynonymCache.data, parentPlaceInfo.data),
+    [categorySynonymCache.data, parentPlaceInfo],
   );
 
-  const acFeature = feature["@type"] === "a11yjson:PlaceInfo" ? feature : null;
-  const parentPlaceName =
-    parentPlaceInfo.data &&
-    placeNameFor(parentPlaceInfo.data, parentPlaceInfoCategory, languageTags);
-  acFeature &&
-    getLocalizedStringTranslationWithMultipleLocales(
+  const acFeature = feature['@type'] === 'a11yjson:PlaceInfo' ? feature : null;
+  const parentPlaceName = parentPlaceInfo.data
+    && placeNameFor(parentPlaceInfo.data, parentPlaceInfoCategory, languageTags);
+  acFeature
+    && getLocalizedStringTranslationWithMultipleLocales(
       acFeature.properties.parentPlaceInfoName,
-      languageTags
+      languageTags,
     );
   const address = acFeature?.properties.address;
-  const addressObject = typeof address === "object" ? address : undefined;
-  const levelName =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
+  const addressObject = typeof address === 'object' ? address : undefined;
+  const levelName = addressObject
+    && getLocalizedStringTranslationWithMultipleLocales(
       addressObject?.levelName,
-      languageTags
+      languageTags,
     );
-  const roomNumber =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
+  const roomNumber = addressObject
+    && getLocalizedStringTranslationWithMultipleLocales(
       addressObject?.roomNumber,
-      languageTags
+      languageTags,
     );
-  const roomName =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
+  const roomName = addressObject
+    && getLocalizedStringTranslationWithMultipleLocales(
       addressObject?.room,
-      languageTags
+      languageTags,
     );
-  const localizableCategoryName =
-    category && getLocalizableCategoryName(category);
-  let categoryName =
-    localizableCategoryName &&
-    getLocalizedStringTranslationWithMultipleLocales(
+  const localizableCategoryName = category && getLocalizableCategoryName(category);
+  let categoryName = localizableCategoryName
+    && getLocalizedStringTranslationWithMultipleLocales(
       localizableCategoryName,
-      languageTags
+      languageTags,
     );
 
   const {
@@ -214,38 +205,35 @@ function useFeatureLabel({
     isValidating,
   } = useAccessibilityAttributesIdMap(languageTags, appToken);
 
-  if ((!category || category?._id === 'unknown') && feature["@type"] === "osm:Feature") {
+  if ((!category || category?._id === 'unknown') && feature['@type'] === 'osm:Feature') {
     const { displayName, tagKeys } = getGenericCategoryDisplayName(feature, attributesById, languageTags);
     categoryName = displayName;
     categoryTagKeys = tagKeys;
   }
 
   let placeName: string | undefined;
-  let ariaLabel = compact([placeName, categoryName]).join(", ");
+  let ariaLabel = compact([placeName, categoryName]).join(', ');
 
-  if (feature["@type"] === "a11yjson:EquipmentInfo") {
-    placeName =
-      getEquipmentInfoDescription(feature, "shortDescription") ||
-      t`Unnamed facility`;
-    ariaLabel = getEquipmentInfoDescription(feature, "longDescription");
-  } else if (feature["@type"] === "a11yjson:PlaceInfo") {
+  if (feature['@type'] === 'a11yjson:EquipmentInfo') {
+    placeName = getEquipmentInfoDescription(feature, 'shortDescription')
+      || t`Unnamed facility`;
+    ariaLabel = getEquipmentInfoDescription(feature, 'longDescription');
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
     placeName = placeNameFor(feature, category, languageTags) || roomName;
-  } else if (feature["@type"] === "osm:Feature") {
+  } else if (feature['@type'] === 'osm:Feature') {
     placeName = placeNameFor(feature, category, languageTags);
   } else {
     placeName = t`Unknown feature`;
   }
 
-  const roomNumberString =
-    (roomNumber !== roomName &&
-      roomNumber !== placeName &&
-      roomNumber &&
-      getRoomNumberString(roomNumber)) ||
-    undefined;
-  const roomNameAndNumber =
-    placeName === roomName
-      ? roomNumberString
-      : [roomName, roomNumberString && `(${roomNumberString})`].join(" ");
+  const roomNumberString = (roomNumber !== roomName
+      && roomNumber !== placeName
+      && roomNumber
+      && getRoomNumberString(roomNumber))
+    || undefined;
+  const roomNameAndNumber = placeName === roomName
+    ? roomNumberString
+    : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
   const hasLongName = placeName && placeName.length > 50;
   return {
     parentPlaceName,

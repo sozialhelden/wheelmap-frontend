@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-const UploadPhotoThanks = () => {
+function UploadPhotoThanks() {
   const router = useRouter();
   const { placeType, id } = router.query;
 
@@ -12,6 +12,6 @@ const UploadPhotoThanks = () => {
       <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
     </>
   );
-};
+}
 
 export default UploadPhotoThanks;

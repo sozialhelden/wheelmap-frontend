@@ -29,7 +29,7 @@
 export default function unindent(input: string): string {
   const firstLineWithContent = input
     .split(/\n/)
-    .find(line => line.replace(/\s/, '').length > 0);
+    .find((line) => line.replace(/\s/, '').length > 0);
   if (!firstLineWithContent) {
     return input;
   }
@@ -47,6 +47,6 @@ export default function unindent(input: string): string {
   const indentationRegExp = new RegExp(`^${matchedIndentationString}`);
   return input
     .split(/\n/)
-    .map(line => line.replace(indentationRegExp, ''))
+    .map((line) => line.replace(indentationRegExp, ''))
     .join('\n');
 }

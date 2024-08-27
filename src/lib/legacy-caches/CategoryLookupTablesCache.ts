@@ -1,7 +1,7 @@
-import TTLCache, { TTLCacheOptions } from "./TTLCache";
+import TTLCache, { TTLCacheOptions } from './TTLCache';
 import Categories, {
   RawCategoryLists,
-} from "../model/ac/categories/Categories";
+} from '../model/ac/categories/Categories';
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean;
@@ -12,10 +12,11 @@ export type CategoryLookupTablesCacheOptions = {
 
 export default class CategoryLookupTablesCache {
   lookupTablesCache: TTLCache<string, Promise<RawCategoryLists>>;
+
   options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>;
 
   constructor(
-    options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>
+    options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>,
   ) {
     this.options = {
       maxAllowedCacheAgeBeforeReload: 15000,

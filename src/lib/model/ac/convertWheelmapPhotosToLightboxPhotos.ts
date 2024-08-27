@@ -2,16 +2,16 @@ import { WheelmapFeaturePhotos } from './Feature';
 import { PhotoModel } from './PhotoModel';
 
 export default function convertWheelmapPhotosToLightboxPhotos(
-  wheelmapPhotos: WheelmapFeaturePhotos
+  wheelmapPhotos: WheelmapFeaturePhotos,
 ): PhotoModel[] {
-  return wheelmapPhotos.photos.map(wheelmapPhoto => {
-    const retinaPhoto = wheelmapPhoto.images.find(i => i.type === 'gallery_ipad_retina');
-    const retinaThumb = wheelmapPhoto.images.find(i => i.type === 'thumb_iphone_retina');
+  return wheelmapPhotos.photos.map((wheelmapPhoto) => {
+    const retinaPhoto = wheelmapPhoto.images.find((i) => i.type === 'gallery_ipad_retina');
+    const retinaThumb = wheelmapPhoto.images.find((i) => i.type === 'thumb_iphone_retina');
     const images = wheelmapPhoto.images
       .filter(
-        i => !i.type.match(/thumb/) && !i.type.match(/gallery_preview/) && i.type !== 'original'
+        (i) => !i.type.match(/thumb/) && !i.type.match(/gallery_preview/) && i.type !== 'original',
       )
-      .map(image => ({
+      .map((image) => ({
         src: image.url,
         width: image.width,
         height: image.height,

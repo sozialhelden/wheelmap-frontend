@@ -1,9 +1,9 @@
-import { Component, ReactNode } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import { Component, ReactNode } from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import Link from "next/link";
-import colors from "../../lib/util/colors";
+import Link from 'next/link';
+import colors from '../../lib/util/colors';
 
 type Props = {
   className?: string;
@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: any) {
     this.setState({ catched: true, error, errorInfo });
 
-    console[console.error ? "error" : "log"](error, errorInfo);
+    console[console.error ? 'error' : 'log'](error, errorInfo);
   }
 
   render() {

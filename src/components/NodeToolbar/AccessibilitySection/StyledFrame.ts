@@ -19,7 +19,7 @@ const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame
     position: absolute;
     content: ' ';
     top: -8px;
-    left: ${props => props.noseOffsetX || 10}px;
+    left: ${(props) => props.noseOffsetX || 10}px;
     width: 12px;
     height: 8px;
     background: url('/images/triangle.svg') no-repeat;

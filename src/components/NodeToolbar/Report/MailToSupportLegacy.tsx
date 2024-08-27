@@ -1,10 +1,10 @@
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import * as React from "react";
+import { PlaceInfo } from '@sozialhelden/a11yjson';
+import * as React from 'react';
 import {
   getCategoryId,
   Category,
-} from "../../../lib/model/ac/categories/Categories";
-import strings from "./strings";
+} from '../../../lib/model/ac/categories/Categories';
+import strings from './strings';
 
 type Props = {
   feature: PlaceInfo;
@@ -16,6 +16,7 @@ type Props = {
 
 export default class MailToSupportLegacy extends React.Component<Props> {
   protected mailLink = React.createRef<HTMLAnchorElement>();
+
   protected backButton = React.createRef<HTMLButtonElement>();
 
   constructor(props: Props) {
@@ -30,18 +31,18 @@ export default class MailToSupportLegacy extends React.Component<Props> {
 
   trapFocus({ nativeEvent }) {
     if (
-      nativeEvent.target === this.mailLink &&
-      nativeEvent.key === "Tab" &&
-      nativeEvent.shiftKey
+      nativeEvent.target === this.mailLink
+      && nativeEvent.key === 'Tab'
+      && nativeEvent.shiftKey
     ) {
       nativeEvent.preventDefault();
 
       this.backButton.current?.focus();
     }
     if (
-      nativeEvent.target === this.backButton &&
-      nativeEvent.key === "Tab" &&
-      !nativeEvent.shiftKey
+      nativeEvent.target === this.backButton
+      && nativeEvent.key === 'Tab'
+      && !nativeEvent.shiftKey
     ) {
       nativeEvent.preventDefault();
 
@@ -55,9 +56,8 @@ export default class MailToSupportLegacy extends React.Component<Props> {
     if (!featureId || !feature || !feature.properties) return null;
 
     const url = `https://wheelmap.org/nodes/${featureId}`;
-    const properties = feature.properties;
-    const categoryOrParentCategory =
-      this.props.category || this.props.parentCategory;
+    const { properties } = feature;
+    const categoryOrParentCategory = this.props.category || this.props.parentCategory;
     const categoryName = categoryOrParentCategory
       ? getCategoryId(categoryOrParentCategory)
       : null;
@@ -73,7 +73,7 @@ export default class MailToSupportLegacy extends React.Component<Props> {
     const subject = reportSubject(properties.name, categoryName);
     const body = reportBody(url);
     const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(
-      subject
+      subject,
     )}&body=${encodeURIComponent(body)}`;
 
     return (

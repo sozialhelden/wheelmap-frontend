@@ -1,12 +1,11 @@
-
-import { compact } from "lodash";
-import { wheelmapFeatureCache } from "../lib/cache/WheelmapFeatureCache";
-import { WheelmapFeature } from "../lib/Feature";
+import { compact } from 'lodash';
+import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
+import { WheelmapFeature } from '../lib/Feature';
 import {
   getOsmIdFromSearchResultProperties, SearchResultCollection,
-  SearchResultProperties
-} from "../lib/searchPlaces";
-import { DataTableEntry } from "./getInitialProps";
+  SearchResultProperties,
+} from '../lib/searchPlaces';
+import { DataTableEntry } from './getInitialProps';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>;
@@ -17,9 +16,8 @@ type SearchProps = {
 async function fetchWheelmapNode(
   searchResultProperties: SearchResultProperties,
   appToken: string,
-  useCache: boolean
+  useCache: boolean,
 ): Promise<WheelmapFeature | undefined> {
-
   const osmId = getOsmIdFromSearchResultProperties(searchResultProperties);
   if (osmId === null) {
     return null;
@@ -29,7 +27,7 @@ async function fetchWheelmapNode(
     const feature = await wheelmapFeatureCache.getFeature(
       String(osmId),
       appToken,
-      useCache
+      useCache,
     );
 
     if (feature == null || feature.properties == null) {
@@ -68,17 +66,17 @@ const SearchData: DataTableEntry<SearchProps> = {
         results.features.map((feature) => {
           const { type, osm_key } = feature.properties;
           if (
-            type !== "street" &&
-            osm_key !== "landuse" &&
-            osm_key !== "place"
+            type !== 'street'
+            && osm_key !== 'landuse'
+            && osm_key !== 'place'
           ) {
             return fetchWheelmapNode(
               feature.properties,
               props.app.tokenString,
-              useCache
+              useCache,
             );
           }
-        })
+        }),
       );
 
       // Fetch all wheelmap features when on server.

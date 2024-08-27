@@ -62,6 +62,7 @@ export default class ActivityIndicator extends React.Component<IProps> {
     this.getFillStyle = this.getFillStyle.bind(this);
     this.getBorderStyle = this.getBorderStyle.bind(this);
   }
+
   getDelayStyle(delay) {
     const style: React.CSSProperties = {};
     if (delay) {
@@ -69,6 +70,7 @@ export default class ActivityIndicator extends React.Component<IProps> {
     }
     return style;
   }
+
   getFillStyle(delay) {
     const style = this.getDelayStyle(delay);
     if (this.props.color) {
@@ -76,6 +78,7 @@ export default class ActivityIndicator extends React.Component<IProps> {
     }
     return style;
   }
+
   getBorderStyle(delay) {
     const style = this.getDelayStyle(delay);
     if (this.props.color) {
@@ -83,6 +86,7 @@ export default class ActivityIndicator extends React.Component<IProps> {
     }
     return style;
   }
+
   render() {
     if (!this.props.animating) {
       return null;
@@ -93,7 +97,7 @@ export default class ActivityIndicator extends React.Component<IProps> {
       lineHeight: '0',
     };
     const indicatorStyle = {
-      animationDuration: this.props.animationDuration * (1 / this.props.speed) + 's',
+      animationDuration: `${this.props.animationDuration * (1 / this.props.speed)}s`,
       fontSize: this.props.size || undefined,
     };
     const { ComposedComponent } = this.props;

@@ -1,13 +1,12 @@
-import intersperse from "intersperse";
-import { DateTime } from "luxon";
+import intersperse from 'intersperse';
+import { DateTime } from 'luxon';
 import opening_hours from 'opening_hours';
 import * as React from 'react';
 import { t } from 'ttag';
-import { useAdminAreas } from "../../../../../../lib/fetchers/fetchAdminAreas";
-import { isOSMFeature } from "../../../../../../lib/model/geo/AnyFeature";
+import { useAdminAreas } from '../../../../../../lib/fetchers/fetchAdminAreas';
+import { isOSMFeature } from '../../../../../../lib/model/geo/AnyFeature';
 import StyledMarkdown from '../../../../../shared/StyledMarkdown';
 import FeatureContext from '../../../FeatureContext';
-
 
 // helper function
 function getReadableState(oh: opening_hours) {
@@ -27,14 +26,14 @@ function getReadableState(oh: opening_hours) {
   return outputs;
 }
 
-
 export default function OpeningHoursValue(props: { value: string }) {
   // https://openingh.ypid.de/evaluation_tool/?lng=en
   // https://github.com/opening-hours/opening_hours.js
   const { value } = props;
   const feature = React.useContext(FeatureContext);
 
-  let lat, lon, country, state;
+  let lat; let lon; let country; let
+    state;
   if (isOSMFeature(feature)) {
     lat = feature.geometry.coordinates[1];
     lon = feature.geometry.coordinates[0];
@@ -44,7 +43,7 @@ export default function OpeningHoursValue(props: { value: string }) {
   const adminAreas = useAdminAreas({ longitude: lon, latitude: lat });
   const { featuresByType } = adminAreas;
   country = country || featuresByType?.country?.properties?.['ISO3166-1:alpha2'];
-  state = state || (featuresByType?.state || featuresByType?.city)?.properties?.['state_code'];
+  state = state || (featuresByType?.state || featuresByType?.city)?.properties?.state_code;
 
   const { outputs, oh, niceString } = React.useMemo(() => {
     try {
@@ -53,8 +52,7 @@ export default function OpeningHoursValue(props: { value: string }) {
       const nextChangeDate = oh.getNextChange();
       const outputs = getReadableState(oh);
 
-      if (typeof nextChangeDate === "undefined")
-        outputs.push(t`(indefinitely)`);
+      if (typeof nextChangeDate === 'undefined') outputs.push(t`(indefinitely)`);
       else {
         const isUnknown = oh.getUnknown(nextChangeDate);
         const nextChangeDateTime = DateTime.fromJSDate(nextChangeDate);
@@ -96,23 +94,26 @@ export default function OpeningHoursValue(props: { value: string }) {
     return <>{shownElements}</>;
   }
 
+  return (
+    <>
+      <strong>
+        <StyledMarkdown inline element="span">
+          {outputs[0]}
+        </StyledMarkdown>
+      </strong>
 
-  return <>
-    <strong>
-      <StyledMarkdown inline={true} element='span'>
-        {outputs[0]}
-      </StyledMarkdown>
-    </strong>
-
-    {outputs.length > 1 && <>
+      {outputs.length > 1 && (
+      <>
       &nbsp;
-      <StyledMarkdown inline={true} element='span'>
-        {outputs.slice(1).join(' ')}
-      </StyledMarkdown>
-    </>}
+        <StyledMarkdown inline element="span">
+          {outputs.slice(1).join(' ')}
+        </StyledMarkdown>
+      </>
+      )}
 
-    <div style={{ marginTop: '0.5rem', opacity: 0.8 }}>
-      {shownElements}
-    </div>
-  </>;
+      <div style={{ marginTop: '0.5rem', opacity: 0.8 }}>
+        {shownElements}
+      </div>
+    </>
+  );
 }

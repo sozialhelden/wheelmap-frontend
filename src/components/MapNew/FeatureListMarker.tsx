@@ -1,6 +1,6 @@
-import React from "react";
-import { MapContext } from "react-map-gl";
-import { FeatureId } from "../../model/Feature";
+import React from 'react';
+import { MapContext } from 'react-map-gl';
+import { FeatureId } from '../../model/Feature';
 
 type Props = {
   featureIds: FeatureId[];
@@ -19,13 +19,18 @@ export default function FeatureListMarker(props: Props) {
   return (
     <div
       style={{
-        position: "absolute",
-        background: "#fff",
+        position: 'absolute',
+        background: '#fff',
         left: x,
         top: y,
       }}
     >
-      ({longitude}, {latitude})
+      (
+      {longitude}
+      ,
+      {' '}
+      {latitude}
+      )
     </div>
   );
 }

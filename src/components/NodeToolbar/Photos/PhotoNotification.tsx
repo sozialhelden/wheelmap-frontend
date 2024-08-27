@@ -18,21 +18,22 @@ const defaultState: State = {};
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   path {
-    fill: ${props => props.color};
+    fill: ${(props) => props.color};
   }
 `;
 
 const StyledProblemIcon = styled(ProblemIcon)`
   path {
-    stroke: ${props => props.color};
+    stroke: ${(props) => props.color};
   }
   circle {
-    fill: ${props => props.color};
+    fill: ${(props) => props.color};
   }
 `;
 
 class PhotoNotification extends React.Component<Props, State> {
   props: Props;
+
   state: State = defaultState;
 
   componentDidMount() {}

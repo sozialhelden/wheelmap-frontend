@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { t } from "ttag";
-import { useSourceSWR } from "../../../../lib/fetchers/useSourceSWR";
-import { TypeTaggedPlaceInfo } from "../../../../lib/model/geo/AnyFeature";
-import WorldIcon from "../../../icons/actions/World";
+import Link from 'next/link';
+import { t } from 'ttag';
+import { useSourceSWR } from '../../../../lib/fetchers/useSourceSWR';
+import { TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature';
+import WorldIcon from '../../../icons/actions/World';
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;

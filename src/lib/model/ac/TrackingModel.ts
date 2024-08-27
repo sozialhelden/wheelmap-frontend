@@ -1,6 +1,6 @@
 export type BaseTrackingEvent = {
   geometry?: {
-    type: "Point";
+    type: 'Point';
     coordinates: number[];
   };
   longitude?: number;
@@ -8,7 +8,7 @@ export type BaseTrackingEvent = {
 };
 
 export type AttributeChangedTrackingEvent = BaseTrackingEvent & {
-  type: "AttributeChanged";
+  type: 'AttributeChanged';
   attributePath: string;
   previousValue?: any;
   newValue: any;
@@ -20,26 +20,26 @@ export type AttributeChangedTrackingEvent = BaseTrackingEvent & {
 };
 
 export type SurveyCompletedTrackingEvent = BaseTrackingEvent & {
-  type: "SurveyCompleted";
+  type: 'SurveyCompleted';
   uniqueSurveyId: string;
 };
 
 export type AppOpenedTrackingEvent = BaseTrackingEvent & {
-  type: "AppOpened";
+  type: 'AppOpened';
   query: Query;
 };
 
 export type MappingEventJoinedTrackingEvent = BaseTrackingEvent & {
-  type: "MappingEventJoined";
+  type: 'MappingEventJoined';
   joinedMappingEventId: string;
-  joinedVia: "url" | "button";
+  joinedVia: 'url' | 'button';
   query: Query;
   emailAddress?: string | null;
   invitationToken?: string | null;
 };
 
 export type MappingEventLeftTrackingEvent = BaseTrackingEvent & {
-  type: "MappingEventLeft";
+  type: 'MappingEventLeft';
   leftMappingEventId: string;
   query: Query;
   emailAddress?: string | null;

@@ -11,7 +11,7 @@ export default class WheelmapFeatureCache extends FeatureCache<
 > {
   static fetchFeature(id: number | string): Promise<Response> {
     return this.fetch(
-      `${config.wheelmapApiBaseUrl}/api/v1/amenities/${id}.geojson?geometryTypes=centroid`
+      `${config.wheelmapApiBaseUrl}/api/v1/amenities/${id}.geojson?geometryTypes=centroid`,
     );
   }
 

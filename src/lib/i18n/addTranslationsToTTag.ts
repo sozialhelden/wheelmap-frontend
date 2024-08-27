@@ -1,8 +1,8 @@
-import { addLocale, useLocales } from "ttag";
-import { currentLocales } from "./i18n";
-import { Translations } from "./Translations";
-import { Locale } from "./Locale";
-import { localeFromString } from "./localeFromString";
+import { addLocale, useLocales } from 'ttag';
+import { currentLocales } from './i18n';
+import { Translations } from './Translations';
+import { Locale } from './Locale';
+import { localeFromString } from './localeFromString';
 
 export function addTranslationsToTTag(translations: Translations[]) {
   const localesToUse: Locale[] = [];

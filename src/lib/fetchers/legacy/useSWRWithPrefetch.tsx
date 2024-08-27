@@ -15,14 +15,13 @@ type FetchJob<Data = any, Error = any> = {
 
 const prefetchContext = createContext<FetchJob<any>[]>([]);
 
-
 export default function useSWRWithPrefetch<Data = any, Error = any>(
   key: keyInterface,
   fn?: fetcherFn<Data>,
-  config?: ConfigInterface<Data, Error>
+  config?: ConfigInterface<Data, Error>,
 ): responseInterface<Data, Error> {
   const ctx = useContext(prefetchContext);
-  ctx.push({ key, fn, config })
+  ctx.push({ key, fn, config });
   const result = useSWR(key, fn, config);
   return result;
 }

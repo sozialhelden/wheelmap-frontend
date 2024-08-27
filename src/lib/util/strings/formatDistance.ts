@@ -43,7 +43,7 @@ const unitSets = {
 //    12123.12 becomes  12km
 export function formatDistance(
   distanceInMeters: number,
-  precision: number = 2
+  precision: number = 2,
 ): { unit: string | number; distance: string | number } {
   const unitSet = shouldPreferImperialUnits() ? unitSets.imperialYard : unitSets.metric;
 
@@ -52,7 +52,7 @@ export function formatDistance(
   let unit: number | string = distanceInMeters;
   // find the best matching unit to display
   for (const step of unitSet) {
-    distance = distance * (step.mult || 1.0);
+    distance *= (step.mult || 1.0);
     unit = step.unit;
 
     if (!step.max || distance < step.max) {

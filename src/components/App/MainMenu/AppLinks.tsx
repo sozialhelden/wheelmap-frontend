@@ -1,15 +1,15 @@
-import { useHotkeys } from "@blueprintjs/core";
-import Link from "next/link";
-import { useMemo, useState } from "react";
-import styled from "styled-components";
-import { useCurrentApp } from "../../../lib/context/AppContext";
-import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
-import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl";
-import colors from "../../../lib/util/colors";
-import Spinner from "../../ActivityIndicator/Spinner";
-import SessionLink from "../../Session/SessionLink";
+import { useHotkeys } from '@blueprintjs/core';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import styled from 'styled-components';
+import { useCurrentApp } from '../../../lib/context/AppContext';
+import { useCurrentMappingEvent } from '../../../lib/context/useCurrentMappingEvent';
+import { useUniqueSurveyId } from '../../../lib/context/useUniqueSurveyId';
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
+import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl';
+import colors from '../../../lib/util/colors';
+import Spinner from '../../ActivityIndicator/Spinner';
+import SessionLink from '../../Session/SessionLink';
 
 const Badge = styled.span`
   background-color: ${colors.warningColor};
@@ -30,7 +30,7 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
 
   const href = joinedMappingEvent
     ? `/events/${joinedMappingEvent._id}`
-    : "/events";
+    : '/events';
 
   const label = joinedMappingEvent ? joinedMappingEvent.name : props.label;
 
@@ -51,39 +51,35 @@ export default function AppLinks(props: {}) {
     related: { appLinks },
   } = app;
 
-      
   const [toogle, setToogle] = useState(false);
   const hotkeys = useMemo(() => [
     {
-      combo: "l",
+      combo: 'l',
       global: true,
-      label: "Toogle OSM Power User Mode",
+      label: 'Toogle OSM Power User Mode',
       onKeyDown: () => setToogle(!toogle),
-      }, 
+    },
 
-  ], [toogle]);  
+  ], [toogle]);
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
 
   const links = Object.values(appLinks)
     .sort((a, b) => (a.order || 0) - (b.order || 0))
     .map((link) => {
-      const url =
-        link.url &&
-        insertPlaceholdersToAddPlaceUrl(
+      const url = link.url
+        && insertPlaceholdersToAddPlaceUrl(
           baseUrl,
           translatedStringFromObject(link.url),
           joinedMappingEvent,
-          uniqueSurveyId
+          uniqueSurveyId,
         );
       const label = translatedStringFromObject(link.label);
       const badgeLabel = translatedStringFromObject(link.badgeLabel);
-      const classNamesFromTags =
-        link.tags && link.tags.map((tag) => `${tag}-link`);
-      const className = ["nav-link"].concat(classNamesFromTags).join(" ");
+      const classNamesFromTags = link.tags && link.tags.map((tag) => `${tag}-link`);
+      const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const isAddPlaceLink = link.tags && link.tags.indexOf("add-place") !== -1;
-      const isAddPlaceLinkWithoutCustomUrl =
-        isAddPlaceLink && (!url || url == "/add-place");
+      const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
+      const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
 
       if (isAddPlaceLinkWithoutCustomUrl) {
         return (
@@ -99,19 +95,19 @@ export default function AppLinks(props: {}) {
         );
       }
 
-      const isEventsLink = link.tags && link.tags.indexOf("events") !== -1;
+      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
       if (isEventsLink) {
         return <JoinedEventLink {...{ label, url }} key="joined-event" />;
       }
-      
-      const isSessionLink = link.tags && link.tags.indexOf("session") !== -1;
+
+      const isSessionLink = link.tags && link.tags.indexOf('session') !== -1;
       if (isSessionLink) {
         return (
           toogle && <SessionLink {...{ label }} key="session" className={className} onKeyDown={handleKeyDown} />
         );
       }
 
-      if (typeof url === "string") {
+      if (typeof url === 'string') {
         return (
           <Link key={url} href={url} className={className} role="menuitem">
             {label}

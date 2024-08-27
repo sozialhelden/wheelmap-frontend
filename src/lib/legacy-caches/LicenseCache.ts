@@ -1,4 +1,4 @@
-import URLDataCache from "./URLDataCache";
+import URLDataCache from './URLDataCache';
 
 export type License = { _id: string };
 
@@ -10,7 +10,7 @@ export default class LicenseCache extends URLDataCache<License> {
   }
 
   urlFromId(id: string, appToken: string) {
-    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
+    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || '';
     return `${baseUrl}/licenses/${id}.json?appToken=${appToken}`;
   }
 

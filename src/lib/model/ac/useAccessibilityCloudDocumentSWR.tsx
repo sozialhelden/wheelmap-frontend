@@ -1,10 +1,10 @@
-import useSWR from "swr";
-import { useCurrentApp } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
-import { memoizedKebapCase } from "../../util/strings/kebapCase";
-import { AccessibilityCloudTypeMapping } from "../typing/AccessibilityCloudTypeMapping";
-import { HasTypeTag } from "../typing/TypeTaggedWithId";
-import { memoizedPluralize } from "./pluralize";
+import useSWR from 'swr';
+import { useCurrentApp } from '../../context/AppContext';
+import { useEnvContext } from '../../context/EnvContext';
+import { memoizedKebapCase } from '../../util/strings/kebapCase';
+import { AccessibilityCloudTypeMapping } from '../typing/AccessibilityCloudTypeMapping';
+import { HasTypeTag } from '../typing/TypeTaggedWithId';
+import { memoizedPluralize } from './pluralize';
 
 export async function fetchWithTypeTag<S extends keyof AccessibilityCloudTypeMapping>(
   typeName: S,
@@ -15,7 +15,7 @@ export async function fetchWithTypeTag<S extends keyof AccessibilityCloudTypeMap
     throw new Error(`Failed to fetch \`${typeName}\` (${r.status} ${r.statusText}) from ${url}`);
   }
   const json = await r.json();
-  return { "@type": typeName, ...json };
+  return { '@type': typeName, ...json };
 }
 
 export function useAccessibilityCloudDocumentSWR(typeName: keyof AccessibilityCloudTypeMapping, _id: string, cached: boolean = true) {
@@ -29,4 +29,3 @@ export function useAccessibilityCloudDocumentSWR(typeName: keyof AccessibilityCl
   const canFetch = appToken && baseUrl && _id;
   return useSWR(canFetch ? [typeName, url] : null, fetchWithTypeTag);
 }
-

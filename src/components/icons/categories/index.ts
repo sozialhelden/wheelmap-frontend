@@ -176,4 +176,3 @@ export { default as veterinary } from './veterinary';
 export { default as video_store } from './video_store';
 export { default as viewpoint } from './viewpoint';
 export { default as zoo } from './zoo';
-

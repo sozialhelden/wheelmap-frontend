@@ -1,5 +1,5 @@
-import { LocalizedString } from "../i18n/LocalizedString";
-import URLDataCache from "./URLDataCache";
+import { LocalizedString } from '../i18n/LocalizedString';
+import URLDataCache from './URLDataCache';
 
 export type DataSource = {
   _id: string;
@@ -24,8 +24,7 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string, appToken: string) {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
+    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
     return `${baseUrl}/sources/${id}.json?appToken=${appToken}`;
   }
 
