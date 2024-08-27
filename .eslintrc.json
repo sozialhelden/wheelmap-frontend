@@ -9,19 +9,24 @@
     "jsx-a11y"
   ],
   "rules": {
+    "import/prefer-default-export": "off",
     "import/extensions": "off",
+    "react/function-component-definition": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+    "react/require-default-props": "off",
     "semi": ["error", "never"],
     "max-len": ["error", {
       "code": 140,
-      "comments": 80,
+      "comments": 120,
       "ignoreUrls": true,
       "tabWidth": 2
-    }],
-    "indent": ["error", 2],
-    "quote-props": ["error", "as-needed"],
-    "@stylistic/js/max-len": ["error", {
-      "code": 140,
-      "comments": 80,
+      }],
+      "indent": ["error", 2],
+      "quote-props": ["error", "as-needed"],
+      "@stylistic/js/max-len": ["error", {
+        "code": 140,
+      "comments": 120,
       "ignoreUrls": true,
       "tabWidth": 2
     }],
@@ -30,4 +35,3 @@
     "@stylistic/js/quote-props": ["error", "as-needed"]
   }
 }
-
