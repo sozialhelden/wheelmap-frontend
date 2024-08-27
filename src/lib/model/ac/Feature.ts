@@ -110,7 +110,10 @@ export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): s
 }
 
 function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
-  const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair']
+  const wheelchairToiletTag = feature.properties['toilets:wheelchair']
+    || feature.properties['wheelchair:toilets']
+    || feature.properties['wheelchair:toilet']
+    || feature.properties['toilet:wheelchair']
   if (['yes', 'no'].includes(String(wheelchairToiletTag))) {
     return wheelchairToiletTag as 'yes' | 'no'
   }

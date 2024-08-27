@@ -1,12 +1,8 @@
 import { Accessibility } from '@sozialhelden/a11yjson'
-import { cloneDeep, isEqual } from 'lodash'
-import omit from 'lodash/omit'
+import { cloneDeep, isEqual, omit } from 'lodash'
 import { removeNullAndUndefinedFields } from '../../util/removeNullAndUndefinedFields'
 import {
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
+  YesNoLimitedUnknown, yesNoLimitedUnknownArray, YesNoUnknown, yesNoUnknownArray,
 } from './Feature'
 
 /** @returns a better structure to represent in the UI than the basic tree structure would provide. */
@@ -22,17 +18,9 @@ export default function filterAccessibility(
     'areas.0.entrances.0.isLevel',
     'entrances.0.isLevel',
   ]
-  const props = cloneDeep(properties)
-  // TODO: check why called twice
-  let result = removeNullAndUndefinedFields(
-    removeNullAndUndefinedFields(omit(props, paths)),
-  )
 
-  // if the PoI only has one marked area, move root one level down
-  if (result && result.areas && result.areas.length === 1) {
-    result = result.areas[0]
-  }
-  return result
+  const props = cloneDeep(properties)
+  return removeNullAndUndefinedFields(omit(props, paths))
 }
 
 function sortedIsEqual(array1: any[], array2: any[]): boolean {
@@ -50,8 +38,8 @@ function parseStatusString(
   // Safe mutable sort as filter always returns a new array.
   return statusStringArray
     ? statusStringArray.filter((s) => allowedStatuses.includes(s)).sort()
-    : // No explicitly set filter means all status values are allowed.
-    [...allowedStatuses]
+    // No explicitly set filter means all status values are allowed.
+    : [...allowedStatuses]
 }
 
 export function getAccessibilityFilterFrom(
