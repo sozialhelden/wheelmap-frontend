@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { t } from 'ttag'
 
 import {
-  YesNoLimitedUnknown,
   yesNoUnknownArray,
 } from '../../lib/model/ac/Feature'
 import colors from '../../lib/util/colors'
@@ -12,21 +11,11 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 
 type Props = PlaceFilter & {
   className?: string;
-  hidden?: boolean;
-  onCloseClicked?: () => void;
-  onBlur: () => void;
   category: string;
-  accessibilities?: YesNoLimitedUnknown[];
 };
 
 function getAvailableFilters() {
   return {
-    // all: {
-    //   // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see', plural
-    //   caption: t`All`,
-    //   accessibilityFilter: ['yes', 'limited', 'no', 'unknown'],
-    //   toiletFilter: [],
-    // },
     atLeastPartial: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially wheelchair accessible`,
@@ -60,7 +49,8 @@ function getAvailableFilters() {
       toiletFilter: [],
     },
     notAccessible: {
-      // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
+      // translator: Checkbox caption on the filter toolbar.
+      // translator: If the checkbox is clicked,only places that are not wheelchair accessible are shown.
       caption: t`Only places that are not accessible`,
       accessibilityFilter: ['no'],
       toiletFilter: [],
@@ -121,39 +111,39 @@ function AccessibilityFilterMenu(props: Props) {
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
-  border-top: 1px solid ${colors.borderColor};
+    border-top: 1px solid ${colors.borderColor};
 
-  header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 30px;
-    padding-right: 20px; /* For close icon */
-  }
-
-  section {
-    opacity: 1;
-    overflow: hidden;
-    transition: opacity 0.1s ease-out, max-height 0.1s ease-out;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    &.section-hidden {
-      max-height: 0;
-      opacity: 0;
+    header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 30px;
+        padding-right: 20px; /* For close icon */
     }
-  }
 
-  .radio-button.focus-visible {
-    border-radius: 100%;
-    box-shadow: 0px 0px 0px 2px #4469e1;
-  }
+    section {
+        opacity: 1;
+        overflow: hidden;
+        transition: opacity 0.1s ease-out, max-height 0.1s ease-out;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
-  .close-icon {
-    margin-left: 1em;
-  }
+        &.section-hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+    }
+
+    .radio-button.focus-visible {
+        border-radius: 100%;
+        box-shadow: 0px 0px 0px 2px #4469e1;
+    }
+
+    .close-icon {
+        margin-left: 1em;
+    }
 `
 
 export default StyledAccessibilityFilterMenu

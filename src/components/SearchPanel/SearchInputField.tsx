@@ -2,14 +2,48 @@ import { interpolateLab } from 'd3-interpolate'
 import _ from 'lodash'
 import * as React from 'react'
 import {
-  KeyboardEvent, forwardRef, useCallback, useState,
+  KeyboardEvent, forwardRef, useCallback, useState, useMemo,
 } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
 import colors from '../../lib/util/colors'
 
-// (ms)
-const DEBOUNCE_THRESHOLD = 500
+const DEBOUNCE_THRESHOLD_MS = 500
+
+const StyledSearchInputField = styled.input`
+    display: block;
+    flex: 1;
+    box-sizing: border-box;
+    font-size: 1em;
+    padding: 0px 0 0 2.5em;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    margin: 0;
+
+    ${(props) => (props.disabled ? 'cursor: pointer;' : '')}
+
+    transition: width 0.3s ease-out, height 0.3s ease-out;
+
+    &:focus, &.focus-visible {
+        outline: none;
+        box-shadow: none;
+            /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
+    }
+
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-moz-placeholder,
+    &::-ms-input-placeholder,
+    &:-ms-input-placeholder {
+        color: #333;
+        opacity: 1;
+    }
+
+    &:disabled {
+        opacity: 1;
+    }
+`
 
 type SearchInputFieldProps = {
   onChange: (value: string) => void;
@@ -39,7 +73,7 @@ const SearchInputField = forwardRef(
       onClick,
     }: SearchInputFieldProps,
     ref: { current: null | HTMLInputElement },
-  ): JSX.Element => {
+  ) => {
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`
     const [currentSearchQuery, setCurrentSearchQuery] = useState(
@@ -54,12 +88,7 @@ const SearchInputField = forwardRef(
       }
     }
 
-    const debouncedInternalOnChange = useCallback(
-      _.debounce((searchTerm) => {
-        onChange(searchTerm)
-      }, DEBOUNCE_THRESHOLD),
-      [],
-    )
+    const debouncedInternalOnChange = useMemo(() => _.debounce(onChange, DEBOUNCE_THRESHOLD_MS), [onChange])
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
       const searchTerm = event.target.value
@@ -84,44 +113,10 @@ const SearchInputField = forwardRef(
         aria-label={defaultPlaceholder}
         role={ariaRole}
         autoComplete="off"
+        autoFocus={false}
       />
     )
   },
 )
-
-const StyledSearchInputField = styled.input`
-  display: block;
-  flex: 1;
-  box-sizing: border-box;
-  font-size: 1em;
-  padding: 0px 0 0 2.5em;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  margin: 0;
-
-  ${(props) => (props.disabled ? 'cursor: pointer;' : '')}
-
-  transition: width 0.3s ease-out, height 0.3s ease-out;
-
-  &:focus, &.focus-visible {
-    outline: none;
-    box-shadow: none;
-    /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
-  }
-
-  &::-webkit-input-placeholder,
-  &::-moz-placeholder,
-  &:-moz-placeholder,
-  &::-ms-input-placeholder,
-  &:-ms-input-placeholder {
-    color: #333;
-    opacity: 1;
-  }
-
-  &:disabled {
-    opacity: 1;
-  }
-`
 
 export default SearchInputField

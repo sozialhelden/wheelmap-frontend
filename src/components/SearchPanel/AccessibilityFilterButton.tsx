@@ -49,10 +49,10 @@ function AccessibilityFilterButton(props: Props) {
   }
   if (!isActive) {
     if (accessibilityFilter.length > 0) {
-      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(',')
+      query.wheelchair = accessibilityFilter.map((a) => a.toString()).join(',')
     }
     if (toiletFilter.length > 0) {
-      query.toilet = toiletFilter.map((t) => t.toString()).join(',')
+      query.toilet = toiletFilter.map((a) => a.toString()).join(',')
     }
   }
 

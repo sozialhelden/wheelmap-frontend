@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { t } from 'ttag'
 
 import { omit } from 'lodash'
@@ -73,43 +73,42 @@ export const StyledCategoryIconButton = styled(IconButton)`
       }
     }
   }
+    
+  &[data-show-close-button='false'] {
+      flex-direction: column;
 
-  ${(props) => (props.showCloseButton
-    ? css`
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 1em 0 1.3em;
-          min-height: 3rem;
+      ${CombinedIcon} {
+          justify-content: center;
+      }
 
+      ${Caption} {
+          font-size: 0.8em;
+          margin-top: 0.5em;
+          color: ${colors.darkSelectedColor};
+      }
+  }
+
+  &[data-show-close-button='true'] {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1em 0 1.3em;
+      min-height: 3rem;
+
+      flex: 1;
+
+      ${CombinedIcon} {
+          width: 70px;
+      }
+
+      ${Caption} {
           flex: 1;
-          flex-direction: row;
-
-          ${CombinedIcon} {
-            width: 70px;
-          }
-
-          ${Caption} {
-            flex: 1;
-            justify-content: flex-start;
-            display: flex;
-            color: ${colors.darkSelectedColor};
-          }
-        `
-    : css`
-          flex-direction: column;
-
-          ${CombinedIcon} {
-            justify-content: center;
-          }
-
-          ${Caption} {
-            font-size: 0.8em;
-            margin-top: 0.5em;
-            color: ${colors.darkSelectedColor};
-          }
-        `)};
+          justify-content: flex-start;
+          display: flex;
+          color: ${colors.darkSelectedColor};
+      }
+  }
 `
 
 export default function CategoryButton(props: Props) {
@@ -149,6 +148,7 @@ export default function CategoryButton(props: Props) {
         pathname: router.pathname,
         query,
       }}
+      onClick={props.onClick ? (e) => { e.preventDefault(); props.onClick(category) } : undefined}
     >
       <StyledCategoryIconButton
         aria-label={
@@ -160,7 +160,7 @@ export default function CategoryButton(props: Props) {
         isHorizontal={showCloseButton}
         caption={props.name}
         hasCircle={props.hasCircle}
-        showCloseButton={showCloseButton}
+        data-show-close-button={showCloseButton}
       >
         {icon}
         {showCloseButton && <CloseIcon style={{ order: 1 }} />}

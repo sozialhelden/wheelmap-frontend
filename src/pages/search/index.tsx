@@ -1,34 +1,3 @@
-// if (this.mainView) this.mainView.focusSearchPanel();
-
-// onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: PlaceInfo | null) => {
-//   const params = this.getCurrentParams() as any;
-//   let routeName = 'map';
-
-//   if (wheelmapFeature) {
-//     let id = getFeatureId(wheelmapFeature);
-//     if (id) {
-//       params.id = id;
-//       delete params.eid;
-//       routeName = 'placeDetail';
-//     }
-//   }
-
-//   if (routeName === 'map') {
-//     delete params.id;
-//     delete params.eid;
-//   }
-
-//   if (feature.properties.extent) {
-//     const extent = feature.properties.extent;
-//     this.setState({ lat: null, lon: null, extent });
-//   } else {
-//     const [lon, lat] = feature.geometry.coordinates;
-//     this.setState({ lat, lon, extent: null });
-//   }
-
-//   this.props.routerHistory.push(routeName, params);
-// };
-
 import { omit } from 'lodash'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -46,23 +15,26 @@ import {
   AnyFeatureCollection,
   TypeTaggedSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
-import fetchPlaceSearchResults, { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
+import { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
 import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { YesNoUnknown } from '../../lib/model/ac/Feature'
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
 export default function Page() {
   const router = useRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(
     router.query.wheelchair,
   )
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet)
+  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet) as YesNoUnknown[]
   const category = router.query.category
     ? String(router.query.category)
     : undefined
   const searchQuery = router.query.q && String(router.query.q)
+
   // TODO: Load this correctly via SWR
-  const categories = {
-    synonymCache: {},
-    categoryTree: [],
+  const categories: CategoryLookupTables = {
+    synonymCache: undefined,
+    categories: [],
   }
 
   const handleSearchQueryChange = useCallback(

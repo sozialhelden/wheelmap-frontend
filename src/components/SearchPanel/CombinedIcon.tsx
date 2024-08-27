@@ -7,6 +7,8 @@ import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 
+const ToiletIcon = styled.figure``
+
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
@@ -41,8 +43,6 @@ function CombinedIcon(props: Props) {
     </div>
   )
 }
-
-const ToiletIcon = styled.figure``
 
 export default styled(CombinedIcon)`
   display: flex;

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import map from 'lodash/map'
 
 import { Circle } from '../shared/IconButton'
-import CategoryButton, { StyledCategoryIconButton } from './CategoryButton'
+import CategoryButton from './CategoryButton'
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable'
@@ -30,7 +30,7 @@ function CategoryMenu(props: Props) {
 
   return (
     <div className={props.className}>
-      {map(rootCategories, (category, categoryId) => (
+      {map(rootCategories, (rootCategory, categoryId) => (
         <CategoryButton
           onFocus={props.onFocus}
           onBlur={props.onBlur}
@@ -42,8 +42,8 @@ function CategoryMenu(props: Props) {
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}
           key={categoryId}
-          name={category.name}
-          isMainCategory={!category.isSubCategory}
+          name={rootCategory.name}
+          isMainCategory={!rootCategory.isSubCategory}
           category={categoryId}
         />
       ))}

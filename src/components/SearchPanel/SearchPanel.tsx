@@ -24,6 +24,7 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { GoButton } from './GoButton'
 import { StyledChevronRight } from './StyledChevronRight'
 import { StyledToolbar } from './StyledToolbar'
+import { YesNoUnknown } from '../../lib/model/ac/Feature'
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -45,46 +46,36 @@ export type Props = PlaceFilter & {
   minimalTopPosition: number;
 };
 
-export default function SearchPanel(props: Props) {
-  const {
-    categories,
-    hidden,
-    inert,
-    category,
-    showCategoryMenu,
-    searchQuery,
-    onChangeSearchQuery,
-    onSubmit,
-    onClose,
-    onClick,
-    isExpanded,
-    hasGoButton,
-    searchResults,
-    minimalTopPosition,
-    isSearching,
-    searchError,
-  } = props
-
+export default function SearchPanel({
+  categories,
+  hidden,
+  inert,
+  category,
+  showCategoryMenu,
+  searchQuery,
+  onChangeSearchQuery,
+  onSubmit,
+  onClose,
+  onClick,
+  isExpanded,
+  hasGoButton,
+  searchResults,
+  minimalTopPosition,
+  isSearching,
+  searchError,
+}: Props) {
   const router = useRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(
     router.query.wheelchair,
   )
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet)
+  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet) as YesNoUnknown[]
   const searchInputFieldRef = React.createRef<HTMLInputElement>()
   const goButtonRef = React.createRef<HTMLButtonElement>()
 
-  React.useEffect(() => {
-    if (!hidden) {
-      focus()
-    }
-  }, [hidden])
-
   const focus = React.useCallback(() => {
     if (
-      window.document.activeElement
-        === ReactDOM.findDOMNode(goButtonRef.current)
-      || window.document.activeElement
-        === ReactDOM.findDOMNode(searchInputFieldRef.current)
+      window.document.activeElement === ReactDOM.findDOMNode(goButtonRef.current)
+      || window.document.activeElement === ReactDOM.findDOMNode(searchInputFieldRef.current)
     ) {
       return
     }
@@ -100,7 +91,13 @@ export default function SearchPanel(props: Props) {
   const blur = React.useCallback(() => {
     if (!searchInputFieldRef.current) return
     searchInputFieldRef.current.blur()
-  }, [])
+  }, [searchInputFieldRef])
+
+  React.useEffect(() => {
+    if (!hidden) {
+      focus()
+    }
+  }, [hidden])
 
   const clearSearch = React.useCallback(() => {
     onChangeSearchQuery('')
@@ -140,7 +137,6 @@ export default function SearchPanel(props: Props) {
   const goButton = (
     <GoButton ref={goButtonRef} onClick={onClose}>
       {goButtonCaption}
-      {' '}
       <StyledChevronRight />
     </GoButton>
   )
