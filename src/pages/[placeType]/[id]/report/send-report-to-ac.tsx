@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
-const ReportSendToAC = () => {
-  const router = useRouter();
-  const { placeType, id } = router.query;
+function ReportSendToAC() {
+  const router = useRouter()
+  const { placeType, id } = router.query
 
-  console.log(router.query);
+  console.log(router.query)
   return (
     <>
       <header />
       <h1>Report Send TO AC Page</h1>
       <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
     </>
-  );
-};
+  )
+}
 
-export default ReportSendToAC;
+export default ReportSendToAC

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import colors from '../../lib/util/colors';
-import Spinner from '../ActivityIndicator/Spinner';
+import colors from '../../lib/util/colors'
+import Spinner from '../ActivityIndicator/Spinner'
 
 const StyledDiv = styled.div`
   position: absolute;
@@ -13,12 +13,12 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export default function MapLoadingIndicator({ className }: { className?: string }) {
   return (
     <StyledDiv className={className}>
-      <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
+      <Spinner size={30} color="rgba(0, 0, 0, 0.4)" />
     </StyledDiv>
-  );
+  )
 }

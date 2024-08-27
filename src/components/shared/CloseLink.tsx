@@ -1,9 +1,9 @@
-import * as React from "react";
-import { KeyboardEvent, MouseEvent, SyntheticEvent } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import colors from "../../lib/util/colors";
-import CloseIcon from "../icons/actions/Close";
+import * as React from 'react'
+import { KeyboardEvent, MouseEvent, SyntheticEvent } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../lib/util/colors'
+import CloseIcon from '../icons/actions/Close'
 
 type Props = {
   className?: string;
@@ -15,21 +15,21 @@ type Props = {
 };
 
 class CloseLink extends React.PureComponent<Props> {
-  button: HTMLButtonElement | null;
+  button: HTMLButtonElement | null
 
   focus() {
     if (!this.button) {
-      return;
+      return
     }
 
-    this.button.focus();
+    this.button.focus()
   }
 
   render() {
     return (
       <button
         ref={(button) => (this.button = button)}
-        className={`close-link ${this.props.className || ""}`}
+        className={`close-link ${this.props.className || ''}`}
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.props.onClick}
@@ -38,7 +38,7 @@ class CloseLink extends React.PureComponent<Props> {
       >
         <CloseIcon />
       </button>
-    );
+    )
   }
 }
 
@@ -66,6 +66,6 @@ const StyledCloseLink = styled(CloseLink)`
   > svg {
     display: block;
   }
-`;
+`
 
-export default StyledCloseLink;
+export default StyledCloseLink

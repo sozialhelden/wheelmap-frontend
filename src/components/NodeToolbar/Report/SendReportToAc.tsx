@@ -1,18 +1,18 @@
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import { accessibilityCloudFeatureCache } from "../../../lib/cache/AccessibilityCloudFeatureCache";
-import colors from "../../../lib/util/colors";
-import Spinner from "../../ActivityIndicator/Spinner";
-import strings from "./strings";
+import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache'
+import colors from '../../../lib/util/colors'
+import Spinner from '../../ActivityIndicator/Spinner'
+import strings from './strings'
 
 export type ReportReasons =
-  | "invalid-place"
-  | "wrong-location"
-  | "wrong-accessibility-data"
-  | "information-missing"
-  | "permanently-closed";
+  | 'invalid-place'
+  | 'wrong-location'
+  | 'wrong-accessibility-data'
+  | 'information-missing'
+  | 'permanently-closed';
 
 type Props = {
   reportReason: ReportReasons;
@@ -30,23 +30,21 @@ type State = {
   lastFeatureId: string | null;
 };
 
-export const reportStrings = () => {
-  return {
-    // translator: Shown as issue description in the report dialog for wrong/missing information
-    "information-missing": t`I have more information about this place.`,
-    // translator: Shown as issue description in the report dialog for wrong location
-    "wrong-accessibility-data": t`The accessibility of the place is marked incorrectly.`,
-    // translator: Shown as issue description in the report dialog for wrong location
-    "wrong-location": t`The place is at the wrong location.`,
-    // translator: Shown as issue description in the report dialog for permanently closed
-    "permanently-closed": t`The place is permanently closed.`,
-    // translator: Shown as issue description in the report dialog for invalid place
-    "invalid-place": t`The place does not exist.`,
-  };
-};
+export const reportStrings = () => ({
+  // translator: Shown as issue description in the report dialog for wrong/missing information
+  'information-missing': t`I have more information about this place.`,
+  // translator: Shown as issue description in the report dialog for wrong location
+  'wrong-accessibility-data': t`The accessibility of the place is marked incorrectly.`,
+  // translator: Shown as issue description in the report dialog for wrong location
+  'wrong-location': t`The place is at the wrong location.`,
+  // translator: Shown as issue description in the report dialog for permanently closed
+  'permanently-closed': t`The place is permanently closed.`,
+  // translator: Shown as issue description in the report dialog for invalid place
+  'invalid-place': t`The place does not exist.`,
+})
 
 class SendReportToAc extends React.Component<Props, State> {
-  textarea = React.createRef<HTMLTextAreaElement>();
+  textarea = React.createRef<HTMLTextAreaElement>()
 
   state = {
     isSuccess: false,
@@ -54,15 +52,15 @@ class SendReportToAc extends React.Component<Props, State> {
     isLoading: false,
     request: null,
     lastFeatureId: null,
-  };
+  }
 
   static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
-    const { featureId } = props;
-    const { lastFeatureId } = state;
+    const { featureId } = props
+    const { lastFeatureId } = state
 
     // Do not update anything when the same props
     if (featureId === lastFeatureId) {
-      return null;
+      return null
     }
 
     return {
@@ -71,28 +69,28 @@ class SendReportToAc extends React.Component<Props, State> {
       isLoading: false,
       error: null,
       request: null,
-    };
+    }
   }
 
   componentDidMount() {
-    this.awaitResponse();
+    this.awaitResponse()
   }
 
   componentWillUnmount() {
-    delete this.state.request;
+    delete this.state.request
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const prevFeatureId = prevProps.featureId;
+    const prevFeatureId = prevProps.featureId
 
     if (prevFeatureId !== this.props.featureId) {
-      this.awaitResponse();
+      this.awaitResponse()
     }
   }
 
   startRequest() {
-    const { featureId, reportReason, appToken } = this.props;
-    const reportMessage = this.textarea.current?.value || "";
+    const { featureId, reportReason, appToken } = this.props
+    const reportMessage = this.textarea.current?.value || ''
 
     this.setState(
       {
@@ -101,41 +99,39 @@ class SendReportToAc extends React.Component<Props, State> {
           featureId,
           reportReason,
           reportMessage,
-          appToken
+          appToken,
         ),
       },
-      () => this.awaitResponse()
-    );
+      () => this.awaitResponse(),
+    )
   }
 
   awaitResponse() {
-    const { request } = this.state;
+    const { request } = this.state
     if (request) {
       request
         .then(() => {
-          if (this.state.request === request)
-            this.setState({ isLoading: false, isSuccess: true });
+          if (this.state.request === request) this.setState({ isLoading: false, isSuccess: true })
         })
         .catch((error) => {
-          console.error(error);
-          if (this.state.request === request)
-            this.setState({ isLoading: false, error });
-        });
+          console.error(error)
+          if (this.state.request === request) this.setState({ isLoading: false, error })
+        })
     }
   }
 
   render() {
-    const { className, reportReason } = this.props;
-    const { isLoading, error, isSuccess } = this.state;
-    const { backButtonCaption } = strings();
+    const { className, reportReason } = this.props
+    const { isLoading, error, isSuccess } = this.state
+    const { backButtonCaption } = strings()
 
-    const sendCaption = t`Send`;
-    const thankYouCaption = t`Thank you! The place was reported successfully. We will take a look at your report as soon as possible.`;
-    const errorCaption = t`Something went wrong reporting the place. Please try again later.`;
+    const sendCaption = t`Send`
+    const thankYouCaption = t`Thank you! The place was reported successfully. We will take a look at your report as soon as possible.`
+    const errorCaption = t`Something went wrong reporting the place. Please try again later.`
 
-    const header = reportStrings()[reportReason];
+    const header = reportStrings()[reportReason]
 
-    const showForm = !(isLoading || error || isSuccess);
+    const showForm = !(isLoading || error || isSuccess)
 
     return (
       <section className={className}>
@@ -172,7 +168,7 @@ class SendReportToAc extends React.Component<Props, State> {
           {backButtonCaption}
         </button>
       </section>
-    );
+    )
   }
 }
 
@@ -230,6 +226,6 @@ const StyledSendReportToAc = styled(SendReportToAc)`
     margin: 0.5em;
     background-color: ${colors.negativeBackgroundColorTransparent};
   }
-`;
+`
 
-export default StyledSendReportToAc;
+export default StyledSendReportToAc

@@ -1,25 +1,24 @@
-
 export default async function postImageReport(
   appToken: string,
   baseUrl: string,
   imageId: string,
-  reason: string
+  reason: string,
 ) {
   const response = await fetch(
     `${baseUrl}/images/report?imageId=${imageId}&reason=${reason}&appToken=${appToken}`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
       },
-    }
-  );
+    },
+  )
 
-  const json = await response.json();
+  const json = await response.json()
 
   if (!response.ok) {
-    throw new Error(json.error.reason);
+    throw new Error(json.error.reason)
   }
 
-  return json;
+  return json
 }

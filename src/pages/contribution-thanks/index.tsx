@@ -3,7 +3,7 @@ function ContributionThanks() {
     <div>
       <h1>Contribution Thanks</h1>
     </div>
-  );
+  )
 }
 
-export default ContributionThanks;
+export default ContributionThanks

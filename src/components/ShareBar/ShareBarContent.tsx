@@ -1,22 +1,22 @@
-import { interpolateLab } from "d3-interpolate";
-import React from "react";
+import { interpolateLab } from 'd3-interpolate'
+import React from 'react'
 import {
   FacebookShareButton,
   TelegramShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-} from "react-share";
-import styled from "styled-components";
-import { t } from "ttag";
-import colors from "../../lib/util/colors";
-import { ChromelessButton } from "../shared/Button";
-import IconButton, { Caption, Circle } from "../shared/IconButton";
-import ChevronLeft from "./icons/ChevronLeft";
-import EmailIcon from "./icons/Email";
-import FacebookIcon from "./icons/Facebook";
-import TelegramIcon from "./icons/Telegram";
-import TwitterIcon from "./icons/Twitter";
-import WhatsAppIcon from "./icons/WhatsApp";
+} from 'react-share'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../lib/util/colors'
+import { ChromelessButton } from '../shared/Button'
+import IconButton, { Caption, Circle } from '../shared/IconButton'
+import ChevronLeft from './icons/ChevronLeft'
+import EmailIcon from './icons/Email'
+import FacebookIcon from './icons/Facebook'
+import TelegramIcon from './icons/Telegram'
+import TwitterIcon from './icons/Twitter'
+import WhatsAppIcon from './icons/WhatsApp'
 
 type ShareBarContentProps = {
   url: string;
@@ -39,12 +39,12 @@ const ShareBarContent = React.forwardRef(
       pageDescription,
       mailToLink,
     }: ShareBarContentProps,
-    ref: { current: null | HTMLButtonElement }
+    ref: { current: null | HTMLButtonElement },
   ) => {
     // translator: Screenreader description for the share menu collapse button
-    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;
+    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`
 
-    const linkOpeningViaLocationHrefProps = {};
+    const linkOpeningViaLocationHrefProps = {}
 
     return (
       <div className={className}>
@@ -58,7 +58,7 @@ const ShareBarContent = React.forwardRef(
           <ChevronLeft />
         </ChromelessButton>
 
-        <footer className={isExpanded ? "is-visible" : ""}>
+        <footer className={isExpanded ? 'is-visible' : ''}>
           <FacebookShareButton
             url={url}
             quote={pageDescription}
@@ -67,8 +67,8 @@ const ShareBarContent = React.forwardRef(
             <StyledIconButton
               isHorizontal={false}
               hasCircle
-              hoverColor={"#3C5A99"}
-              activeColor={"#3C5A99"}
+              hoverColor="#3C5A99"
+              activeColor="#3C5A99"
               caption="Facebook"
               ariaLabel="Facebook"
             >
@@ -79,14 +79,14 @@ const ShareBarContent = React.forwardRef(
           <TwitterShareButton
             url={url}
             title={sharedObjectTitle}
-            hashtags={["wheelmap", "accessibility", "a11y"]}
+            hashtags={['wheelmap', 'accessibility', 'a11y']}
             {...linkOpeningViaLocationHrefProps}
           >
             <StyledIconButton
               isHorizontal={false}
               hasCircle
-              hoverColor={"#1DA1F2"}
-              activeColor={"#1DA1F2"}
+              hoverColor="#1DA1F2"
+              activeColor="#1DA1F2"
               caption="Twitter"
               ariaLabel="Twitter"
             >
@@ -102,8 +102,8 @@ const ShareBarContent = React.forwardRef(
             <StyledIconButton
               isHorizontal={false}
               hasCircle
-              hoverColor={"#7AA5DA"}
-              activeColor={"#7AA5DA"}
+              hoverColor="#7AA5DA"
+              activeColor="#7AA5DA"
               caption="Telegram"
               ariaLabel="Telegram"
             >
@@ -111,12 +111,12 @@ const ShareBarContent = React.forwardRef(
             </StyledIconButton>
           </TelegramShareButton>
 
-          <a href={mailToLink} style={{ textDecoration: "none" }}>
+          <a href={mailToLink} style={{ textDecoration: 'none' }}>
             <StyledIconButton
               isHorizontal={false}
               hasCircle
-              hoverColor={"#57C4AA"}
-              activeColor={"#57C4AA"}
+              hoverColor="#57C4AA"
+              activeColor="#57C4AA"
               caption="Email"
               ariaLabel="Email"
             >
@@ -132,8 +132,8 @@ const ShareBarContent = React.forwardRef(
             <StyledIconButton
               isHorizontal={false}
               hasCircle
-              hoverColor={"#25D366"}
-              activeColor={"#25D366"}
+              hoverColor="#25D366"
+              activeColor="#25D366"
               caption="Whatsapp"
               ariaLabel="Whatsapp"
             >
@@ -142,9 +142,9 @@ const ShareBarContent = React.forwardRef(
           </WhatsappShareButton>
         </footer>
       </div>
-    );
-  }
-);
+    )
+  },
+)
 
 const StyledIconButton = styled(IconButton)<{
   hoverColor?: string;
@@ -164,18 +164,16 @@ const StyledIconButton = styled(IconButton)<{
       font-weight: bold;
 
       ${Circle} {
-        background-color: ${(props) =>
-          props.activeColor || colors.selectedColor};
+        background-color: ${(props) => props.activeColor || colors.selectedColor};
       }
     }
 
     @media (hover), (-moz-touch-enabled: 0) {
       &:not(.active):hover ${Circle} {
-        background-color: ${(props) =>
-          props.hoverColor ||
-          interpolateLab(
+        background-color: ${(props) => props.hoverColor
+          || interpolateLab(
             props.activeColor || colors.selectedColor,
-            colors.tonedDownSelectedColor
+            colors.tonedDownSelectedColor,
           )(0.5)};
       }
     }
@@ -186,6 +184,6 @@ const StyledIconButton = styled(IconButton)<{
       }
     }
   }
-`;
+`
 
-export default ShareBarContent;
+export default ShareBarContent

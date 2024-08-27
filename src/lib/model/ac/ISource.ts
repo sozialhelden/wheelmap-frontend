@@ -21,7 +21,7 @@ type ISource = {
   licenseId: string;
   description?: string;
   originWebsiteURL?: string;
-  "translations.additionalAccessibilityInformation.en_US"?: string;
+  'translations.additionalAccessibilityInformation.en_US'?: string;
   isDraft?: boolean;
   streamChain: StreamDefinition[];
   isFreelyAccessible: boolean;
@@ -31,11 +31,11 @@ type ISource = {
   isShownOnStartPage?: boolean;
   lastImportId?: string;
   lastSuccessfulImportId?: string;
-  lastImportType?: "placeInfos" | "equipmentInfos" | "disruptions" | "images";
+  lastImportType?: 'placeInfos' | 'equipmentInfos' | 'disruptions' | 'images';
   usesCustomAccessibilityTrafficLightSystem?: boolean;
   attributeDistribution?: string;
   canonicalOSMRefTag?: string;
   allowedImportStreamUnits?: string[];
 } & TrackingEventStatistics;
 
-export default ISource;
+export default ISource

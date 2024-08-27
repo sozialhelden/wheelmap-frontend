@@ -1,6 +1,6 @@
 // import { IOptions as ICacheOptions } from '@sozialhelden/hamster-cache';
 
-import { IOptions } from '../hamster-cache/types';
+import { IOptions } from '../hamster-cache/types'
 
 export type State = 'running' | 'resolved' | 'rejected';
 

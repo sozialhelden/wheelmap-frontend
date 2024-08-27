@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledList = styled.ul`
   list-style: none;
@@ -7,4 +7,4 @@ export const StyledList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 0.5rem;
-`;
+`

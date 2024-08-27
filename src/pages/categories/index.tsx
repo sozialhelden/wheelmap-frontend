@@ -1,25 +1,30 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
-const Category = () => {
-  const router = useRouter();
-  const { categories, category } = router.query;
+function Category() {
+  const router = useRouter()
+  const { categories, category } = router.query
 
-  return <>
-    <header />
-    <h1>Cats: Mainpage</h1>
-    <h2>Category: {category}</h2>
-    <ul>
-      <li>
-        <Link href="/categories/category" as={`/categories/${category}/`}>
-          The Cat
-        </Link>
-      </li>
-    </ul>
-  </>;
-};
+  return (
+    <>
+      <header />
+      <h1>Cats: Mainpage</h1>
+      <h2>
+        Category:
+        {category}
+      </h2>
+      <ul>
+        <li>
+          <Link href="/categories/category" as={`/categories/${category}/`}>
+            The Cat
+          </Link>
+        </li>
+      </ul>
+    </>
+  )
+}
 
-export default Category;
+export default Category
 
 // import Link from 'next/link';
 

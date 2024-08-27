@@ -1,24 +1,23 @@
-import "@blueprintjs/core/lib/css/blueprint.css";
-import { useRouter } from "next/router";
-import { useCurrentApp } from "../../../../lib/context/AppContext";
-import { PlaceInfoNode } from "../../../../lib/fixtures/mocks/nodes/placeinfo";
-
+import '@blueprintjs/core/lib/css/blueprint.css'
+import { useRouter } from 'next/router'
 import {
   Button,
   Dialog,
   DialogBody,
   DialogFooter,
-  DialogProps
-} from "@blueprintjs/core";
-import React from "react";
+  DialogProps,
+} from '@blueprintjs/core'
+import React from 'react'
+import { useCurrentApp } from '../../../../lib/context/AppContext'
+import { PlaceInfoNode } from '../../../../lib/fixtures/mocks/nodes/placeinfo'
 
-const ReportSupportMail = () => {
-  const router = useRouter();
-  const { placeType, id } = router.query;
+function ReportSupportMail() {
+  const router = useRouter()
+  const { placeType, id } = router.query
 
-  const app = useCurrentApp();
-  const { _id } = PlaceInfoNode;
-  const { category } = PlaceInfoNode.properties;
+  const app = useCurrentApp()
+  const { _id } = PlaceInfoNode
+  const { category } = PlaceInfoNode.properties
 
   return (
     <>
@@ -29,12 +28,12 @@ const ReportSupportMail = () => {
         className="buttonreportdialogemail"
         buttonText="Email me"
         footerStyle="minimal"
-        usePortal={true}
-        shouldReturnFocusOnClose={true}
-        enforceFocus={true}
-        canEscapeKeyClose={true}
-        canOutsideClickClose={true}
-      ></ButtonWithDialog>
+        usePortal
+        shouldReturnFocusOnClose
+        enforceFocus
+        canEscapeKeyClose
+        canOutsideClickClose
+      />
       {/* <Dialog isOpen={true} onClose={() => {}}>
         <DialogBody>TEst</DialogBody>
         <DialogFooter></DialogFooter>
@@ -49,27 +48,25 @@ const ReportSupportMail = () => {
         ) => {}}
       /> */}
     </>
-  );
-};
+  )
+}
 
-export default ReportSupportMail;
+export default ReportSupportMail
 
 function ButtonWithDialog({
   buttonText,
   footerStyle,
   ...props
-}: Omit<DialogProps, "isOpen"> & {
+}: Omit<DialogProps, 'isOpen'> & {
   buttonText: string;
-  footerStyle: "default" | "minimal" | "none";
+  footerStyle: 'default' | 'minimal' | 'none';
 }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
-  const handleClose = React.useCallback(() => setIsOpen(false), []);
+  const [isOpen, setIsOpen] = React.useState(false)
+  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen])
+  const handleClose = React.useCallback(() => setIsOpen(false), [])
   const footerActions = (
-    <>
-      <Button onClick={handleClose}>Close</Button>
-    </>
-  );
+    <Button onClick={handleClose}>Close</Button>
+  )
 
   return (
     <>
@@ -77,7 +74,7 @@ function ButtonWithDialog({
       <Dialog {...props} isOpen={isOpen} onClose={handleClose}>
         <DialogBody
           useOverflowScrollContainer={
-            footerStyle === "minimal" ? false : undefined
+            footerStyle === 'minimal' ? false : undefined
           }
         >
           <p>
@@ -85,16 +82,16 @@ function ButtonWithDialog({
           </p>
         </DialogBody>
 
-        {footerStyle === "default" && (
+        {footerStyle === 'default' && (
           <DialogFooter actions={footerActions}>
             Dialog-footerbereich
           </DialogFooter>
         )}
 
-        {footerStyle === "minimal" && (
-          <DialogFooter minimal={true} actions={footerActions} />
+        {footerStyle === 'minimal' && (
+          <DialogFooter minimal actions={footerActions} />
         )}
       </Dialog>
     </>
-  );
+  )
 }

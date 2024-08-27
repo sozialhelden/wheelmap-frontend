@@ -1,7 +1,7 @@
-import * as React from 'react';
-import colors from '../../../lib/util/colors';
+import * as React from 'react'
+import colors from '../../../lib/util/colors'
 
-const color = colors.markers.background.yes;
+const color = colors.markers.background.yes
 
 export default function ToiletStatuAccessibleIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -47,5 +47,5 @@ export default function ToiletStatuAccessibleIcon(props: React.SVGAttributes<{}>
         </g>
       </g>
     </svg>
-  );
+  )
 }

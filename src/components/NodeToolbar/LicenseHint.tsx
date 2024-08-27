@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import * as React from 'react';
+import styled from 'styled-components'
+import * as React from 'react'
 
 type Props = {
   className?: string,
@@ -8,39 +8,46 @@ type Props = {
 };
 
 class LicenseHint extends React.PureComponent<Props> {
-  props: Props;
+  props: Props
 
   render() {
-    const { source, license } = this.props;
+    const { source, license } = this.props
     if (!source || !license) {
-      return null;
+      return null
     }
 
-    let licenseLinkOrName = license.shortName;
+    let licenseLinkOrName = license.shortName
     if (typeof license.websiteURL === 'string') {
-      licenseLinkOrName =
-        license.shortName === '?' ? null : (
-          <a href={license.websiteURL} target="_blank" rel="noopener noreferrer">
-            {license.shortName}
-          </a>
-        );
+      licenseLinkOrName = license.shortName === '?' ? null : (
+        <a href={license.websiteURL} target="_blank" rel="noopener noreferrer">
+          {license.shortName}
+        </a>
+      )
     }
-    let sourceLinkOrName = source.name;
+    let sourceLinkOrName = source.name
     if (typeof source.originWebsiteURL === 'string') {
       sourceLinkOrName = (
         <a href={source.originWebsiteURL} target="_blank" rel="noopener noreferrer">
           {source.name}
         </a>
-      );
+      )
     }
     return (
       <li className={this.props.className}>
-        {sourceLinkOrName} {licenseLinkOrName ? <span>({licenseLinkOrName})</span> : null}
+        {sourceLinkOrName}
+        {' '}
+        {licenseLinkOrName ? (
+          <span>
+            (
+            {licenseLinkOrName}
+            )
+          </span>
+        ) : null}
       </li>
-    );
+    )
   }
 }
 
-const StyledLicenseHint = styled(LicenseHint)``;
+const StyledLicenseHint = styled(LicenseHint)``
 
-export default StyledLicenseHint;
+export default StyledLicenseHint

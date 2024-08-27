@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-const BellIcon = () => {
+function BellIcon() {
   return (
-    <svg width="24px" height="25px" viewBox="0 0 24 25" version="1.1" aria-hidden={true}>
+    <svg width="24px" height="25px" viewBox="0 0 24 25" version="1.1" aria-hidden>
       <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g
           id="ui-icon/notification"
@@ -17,7 +17,7 @@ const BellIcon = () => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default BellIcon;
+export default BellIcon

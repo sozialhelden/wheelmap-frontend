@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function WhatsApp(props: any) {
   return (
@@ -11,5 +11,5 @@ export default function WhatsApp(props: any) {
         </g>
       </g>
     </svg>
-  );
+  )
 }

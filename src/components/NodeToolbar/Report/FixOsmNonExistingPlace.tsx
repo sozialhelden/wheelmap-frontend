@@ -1,10 +1,10 @@
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import * as React from "react";
+import { PlaceInfo } from '@sozialhelden/a11yjson'
+import * as React from 'react'
 import {
   generateOsmEditUrl,
   generateOsmNoteUrl,
-} from "../../../lib/model/osm/generateOsmUrls";
-import strings from "./strings";
+} from '../../../lib/model/osm/generateOsmUrls'
+import strings from './strings'
 
 type Props = {
   feature: PlaceInfo;
@@ -13,55 +13,58 @@ type Props = {
 };
 
 export default class FixOsmNonExistingPlace extends React.Component<Props> {
-  howToLink: HTMLElement | null;
-  editLink: HTMLElement | null;
-  noteLink: HTMLElement | null;
-  backButton: HTMLElement | null;
+  howToLink: HTMLElement | null
+
+  editLink: HTMLElement | null
+
+  noteLink: HTMLElement | null
+
+  backButton: HTMLElement | null
 
   componentDidMount() {
-    this.editLink && this.editLink.focus();
+    this.editLink && this.editLink.focus()
   }
 
   trapFocus = (event: React.KeyboardEvent<{}>) => {
     if (
-      event.target === this.howToLink &&
-      event.key === "Tab" &&
-      event.shiftKey
+      event.target === this.howToLink
+      && event.key === 'Tab'
+      && event.shiftKey
     ) {
-      event.preventDefault();
-      this.editLink && this.editLink.focus();
+      event.preventDefault()
+      this.editLink && this.editLink.focus()
     }
     if (
-      event.target === this.editLink &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.editLink
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
-      event.preventDefault();
-      this.noteLink && this.noteLink.focus();
+      event.preventDefault()
+      this.noteLink && this.noteLink.focus()
     }
     if (
-      event.target === this.noteLink &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.noteLink
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
-      event.preventDefault();
-      this.backButton && this.backButton.focus();
+      event.preventDefault()
+      this.backButton && this.backButton.focus()
     }
     if (
-      event.target === this.backButton &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.backButton
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
-      event.preventDefault();
-      this.howToLink && this.howToLink.focus();
+      event.preventDefault()
+      this.howToLink && this.howToLink.focus()
     }
-  };
+  }
 
   render() {
-    if (!this.props.featureId) return null;
+    if (!this.props.featureId) return null
 
-    const editUrl = generateOsmEditUrl(this.props.featureId);
-    const noteUrl = generateOsmNoteUrl(this.props.feature);
+    const editUrl = generateOsmEditUrl(this.props.featureId)
+    const noteUrl = generateOsmNoteUrl(this.props.feature)
 
     const {
       osmRemoveHint,
@@ -71,7 +74,7 @@ export default class FixOsmNonExistingPlace extends React.Component<Props> {
       editButtonCaption,
       noteButtonCaption,
       backButtonCaption,
-    } = strings();
+    } = strings()
 
     return (
       <section
@@ -80,7 +83,9 @@ export default class FixOsmNonExistingPlace extends React.Component<Props> {
       >
         <p id="osm-remove-hint">{osmRemoveHint}</p>
         <p id="osm-permanently-closed-hint">
-          {osmPermanentlyClosedHint} (
+          {osmPermanentlyClosedHint}
+          {' '}
+          (
           <a
             href="https://wiki.openstreetmap.org/wiki/Key:disused:"
             ref={(howToLink) => (this.howToLink = howToLink)}
@@ -123,6 +128,6 @@ export default class FixOsmNonExistingPlace extends React.Component<Props> {
           {backButtonCaption}
         </button>
       </section>
-    );
+    )
   }
 }

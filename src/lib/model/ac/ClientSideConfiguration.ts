@@ -1,6 +1,6 @@
-import { LocalizedString } from "@sozialhelden/a11yjson";
-import { translatedStringFromObject } from "../../i18n/translatedStringFromObject";
-import { IBranding } from "./IBranding";
+import { LocalizedString } from '@sozialhelden/a11yjson'
+import { translatedStringFromObject } from '../../i18n/translatedStringFromObject'
+import { IBranding } from './IBranding'
 
 export interface TwitterConfiguration {
   siteHandle?: string;
@@ -53,21 +53,21 @@ export interface ClientSideConfiguration {
 
 export function getProductTitle(
   clientSideConfiguration: ClientSideConfiguration,
-  title?: string
+  title?: string,
 ): string {
   const { product } = clientSideConfiguration.textContent || {
     product: {
-      name: "Wheelmap",
-      claim: "Find wheelchair accessible places",
+      name: 'Wheelmap',
+      claim: 'Find wheelchair accessible places',
     },
-  };
-  const { name, claim } = product;
+  }
+  const { name, claim } = product
 
   if (!title) {
     return `${translatedStringFromObject(name)} – ${translatedStringFromObject(
-      claim
-    )}`;
+      claim,
+    )}`
   }
 
-  return `${title} – ${translatedStringFromObject(name)}`;
+  return `${title} – ${translatedStringFromObject(name)}`
 }

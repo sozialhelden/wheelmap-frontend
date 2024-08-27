@@ -1,3 +1,3 @@
 export function isScript(countryCodeOrScript: string): boolean {
-  return ["Hans", "Hant"].includes(countryCodeOrScript);
+  return ['Hans', 'Hant'].includes(countryCodeOrScript)
 }

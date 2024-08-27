@@ -1,13 +1,15 @@
-import { useHotkeys } from "@blueprintjs/core";
-import { uniqBy } from "lodash";
-import { useMemo, useState } from "react";
-import styled from "styled-components";
-import { AnyFeature, getKey, isOSMFeature, isSearchResultFeature } from "../../lib/model/geo/AnyFeature";
-import colors from "../../lib/util/colors";
-import OSMBuildingDetails from "./OSMBuildingDetails";
-import OSMSidewalkDetails from "./OSMSidewalkDetails";
-import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
-import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
+import { useHotkeys } from '@blueprintjs/core'
+import { uniqBy } from 'lodash'
+import { useMemo, useState } from 'react'
+import styled from 'styled-components'
+import {
+  AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
+} from '../../lib/model/geo/AnyFeature'
+import colors from '../../lib/util/colors'
+import OSMBuildingDetails from './OSMBuildingDetails'
+import OSMSidewalkDetails from './OSMSidewalkDetails'
+import FeaturesDebugJSON from './components/FeaturesDebugJSON'
+import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 
 type Props = {
   features: AnyFeature[];
@@ -16,18 +18,18 @@ type Props = {
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
   if (!isOSMFeature(feature)) {
-    return null;
+    return null
   }
 
   if (feature.properties.building) {
-    return <OSMBuildingDetails feature={feature} />;
+    return <OSMBuildingDetails feature={feature} />
   }
 
   if (
-    feature.properties.highway === "footway" ||
-    feature.properties.highway === "pedestrian"
+    feature.properties.highway === 'footway'
+    || feature.properties.highway === 'pedestrian'
   ) {
-    return <OSMSidewalkDetails feature={feature} />;
+    return <OSMSidewalkDetails feature={feature} />
   }
   // Place of Interest
   // Environment
@@ -35,29 +37,27 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
 
 const Panel = styled.section`
   color: ${colors.textColorTonedDownSlightly};
-`;
+`
 
 export function CombinedFeaturePanel(props: Props) {
-  const { handleOpenReportMode } = props.options || {};
-  const features = uniqBy(props.features, (feature) =>
-    isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id
-  );
+  const { handleOpenReportMode } = props.options || {}
+  const features = uniqBy(props.features, (feature) => (isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id))
 
   /* Hotkeys */
-  const [toogle, setToogle] = useState(false);
+  const [toogle, setToogle] = useState(false)
   const hotkeys = useMemo(() => [
     {
-      combo: "j",
+      combo: 'j',
       global: true,
-      label: "Show JSON Feature Debugger",
+      label: 'Show JSON Feature Debugger',
       onKeyDown: () => setToogle(!toogle),
-      }, 
+    },
 
-  ], [toogle]);  
-  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
-  
+  ], [toogle])
+  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
+
   return (
-    <Panel onKeyDown={handleKeyDown} >
+    <Panel onKeyDown={handleKeyDown}>
       {features && features[0] && (
         <>
           <PlaceOfInterestDetails feature={features[0]} />
@@ -69,16 +69,15 @@ export function CombinedFeaturePanel(props: Props) {
           /> */}
         </>
       )}
-      {features &&
-        features.length > 1 &&
-        features
+      {features
+        && features.length > 1
+        && features
           .slice(1)
           .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
-      
+
       <p>
         {toogle && <FeaturesDebugJSON features={features} /> }
       </p>
-    </Panel>    
-  );
+    </Panel>
+  )
 }
-

@@ -1,3 +1,5 @@
-const ShowImagePage = () => <div>TODO</div>;
+function ShowImagePage() {
+  return <div>TODO</div>
+}
 
-export default ShowImagePage;
+export default ShowImagePage

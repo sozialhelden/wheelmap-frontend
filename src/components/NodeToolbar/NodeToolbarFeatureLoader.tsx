@@ -1,18 +1,18 @@
-import * as React from "react";
+import * as React from 'react'
 
-import NodeToolbar from "./NodeToolbar";
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import NodeToolbar from './NodeToolbar'
 
-import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
-import { PlaceDetailsProps, SourceWithLicense, getPlaceDetailsIfAlreadyResolved } from "../../../app/PlaceDetailsProps";
-import { YesNoLimitedUnknown } from "../../lib/Feature";
-import { ModalNodeState } from "../../lib/ModalNodeState";
-import { PhotoModel } from "../../lib/model/ac/PhotoModel";
+import { PlaceDetailsProps, SourceWithLicense, getPlaceDetailsIfAlreadyResolved } from '../../../app/PlaceDetailsProps'
+import { YesNoLimitedUnknown } from '../../lib/Feature'
+import { ModalNodeState } from '../../lib/ModalNodeState'
+import { PhotoModel } from '../../lib/model/ac/PhotoModel'
 import Categories, {
   Category,
   CategoryLookupTables,
-} from "../../lib/model/ac/categories/Categories";
-import { UAResult } from "../../lib/userAgent";
-import { Cluster } from "../Map/Cluster";
+} from '../../lib/model/ac/categories/Categories'
+import { UAResult } from '../../lib/userAgent'
+import { Cluster } from '../Map/Cluster'
 
 type Props = {
   categories: CategoryLookupTables;
@@ -42,10 +42,10 @@ type Props = {
   onStartPhotoUploadFlow: () => void;
   onReportPhoto: (photo: PhotoModel) => void;
   photoFlowNotification?:
-    | "uploadProgress"
-    | "uploadFailed"
-    | "reported"
-    | "waitingForReview";
+    | 'uploadProgress'
+    | 'uploadFailed'
+    | 'reported'
+    | 'waitingForReview';
   photoFlowErrorMessage: null | string;
   minimalTopPosition: number;
   userAgent: UAResult;
@@ -69,7 +69,8 @@ type State = {
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
-  props: Props;
+  props: Props
+
   state = {
     category: null,
     parentCategory: null,
@@ -80,26 +81,27 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
-  };
-  nodeToolbar = React.createRef<NodeToolbar>();
+  }
+
+  nodeToolbar = React.createRef<NodeToolbar>()
 
   static getDerivedStateFromProps(props: Props, state: State) {
     // keep old data when unchanged
     if (
-      state.lastFeatureId === props.featureId &&
-      state.lastEquipmentInfoId === props.equipmentInfoId
+      state.lastFeatureId === props.featureId
+      && state.lastEquipmentInfoId === props.equipmentInfoId
     ) {
-      return state;
+      return state
     }
 
-    const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props);
+    const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props)
     // use resolved data if available (on server at least the required data is preloaded)
     if (resolvedPlaceDetails) {
       const resolvedCategories = Categories.getCategoriesForFeature(
         props.categories,
-        resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature
-      );
-      const { feature, equipmentInfo } = resolvedPlaceDetails;
+        resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature,
+      )
+      const { feature, equipmentInfo } = resolvedPlaceDetails
       return {
         ...state,
         ...resolvedCategories,
@@ -112,17 +114,17 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         },
         lastFeatureId: props.featureId,
         lastEquipmentInfoId: props.equipmentInfoId,
-      };
+      }
     }
 
     // resolve lightweight categories if it is set
-    let categories: {
+    const categories: {
       category: Category | null;
       parentCategory: Category | null;
     } = {
       category: null,
       parentCategory: null,
-    };
+    }
 
     // wait for new data
     return {
@@ -135,39 +137,39 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       resolvedPhotos: null,
       resolvedSources: null,
       resolvedToiletsNearby: null,
-    };
+    }
   }
 
   componentDidMount() {
-    this.awaitRequiredData();
+    this.awaitRequiredData()
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const prevFeatureId = prevProps.featureId;
-    const prevEquipmentInfoId = prevProps.equipmentInfoId;
+    const prevFeatureId = prevProps.featureId
+    const prevEquipmentInfoId = prevProps.equipmentInfoId
 
     if (
-      prevFeatureId !== this.props.featureId ||
-      prevEquipmentInfoId !== this.props.equipmentInfoId
+      prevFeatureId !== this.props.featureId
+      || prevEquipmentInfoId !== this.props.equipmentInfoId
     ) {
-      this.awaitRequiredData();
+      this.awaitRequiredData()
     }
   }
 
   focus() {
     if (this.nodeToolbar.current) {
-      this.nodeToolbar.current.focus();
+      this.nodeToolbar.current.focus()
     }
   }
 
   awaitRequiredData() {
-    const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(this.props);
+    const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(this.props)
     if (resolvedPlaceDetails) {
       const resolvedCategories = Categories.getCategoriesForFeature(
         this.props.categories,
-        resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature
-      );
-      const { feature, equipmentInfo } = resolvedPlaceDetails;
+        resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature,
+      )
+      const { feature, equipmentInfo } = resolvedPlaceDetails
       this.setState({
         resolvedRequiredData: {
           resolvedFeature: feature,
@@ -177,7 +179,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         resolvedPhotos: resolvedPlaceDetails.photos,
         resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
         ...resolvedCategories,
-      });
+      })
     }
 
     const {
@@ -186,99 +188,95 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       sources,
       photos,
       toiletsNearby,
-    } = this.props;
+    } = this.props
 
     // required data promise
     if (
-      feature instanceof Promise &&
-      (!equipmentInfo || equipmentInfo instanceof Promise)
+      feature instanceof Promise
+      && (!equipmentInfo || equipmentInfo instanceof Promise)
     ) {
       const requiredDataPromise: Promise<RequiredData> = feature.then(
         async (resolvedFeature) => {
-          let resolvedEquipmentInfo = null;
+          let resolvedEquipmentInfo = null
           if (equipmentInfo) {
-            resolvedEquipmentInfo = await equipmentInfo;
+            resolvedEquipmentInfo = await equipmentInfo
           }
-          return { resolvedFeature, resolvedEquipmentInfo };
-        }
-      );
+          return { resolvedFeature, resolvedEquipmentInfo }
+        },
+      )
 
       this.setState({ requiredDataPromise }, () => {
-        requiredDataPromise.then((resolved) =>
-          this.handleRequiredDataFetched(requiredDataPromise, resolved)
-        );
-      });
+        requiredDataPromise.then((resolved) => this.handleRequiredDataFetched(requiredDataPromise, resolved))
+      })
     }
 
     // toilets nearby promise
     if (toiletsNearby instanceof Promise) {
-      toiletsNearby.then((resolved) =>
-        this.handleToiletsNearbyFetched(toiletsNearby, resolved)
-      );
+      toiletsNearby.then((resolved) => this.handleToiletsNearbyFetched(toiletsNearby, resolved))
     }
 
     // sources promise
     if (sources instanceof Promise) {
-      sources.then((resolved) => this.handleSourcesFetched(sources, resolved));
+      sources.then((resolved) => this.handleSourcesFetched(sources, resolved))
     }
 
     // photos promise
     if (photos instanceof Promise) {
-      photos.then((resolved) => this.handlePhotosFetched(photos, resolved));
+      photos.then((resolved) => this.handlePhotosFetched(photos, resolved))
     }
   }
 
   handleRequiredDataFetched(
     requiredDataPromise: Promise<RequiredData>,
-    resolved: RequiredData
+    resolved: RequiredData,
   ) {
     // ignore unwanted promise results (e.g. after unmounting)
     if (requiredDataPromise !== this.state.requiredDataPromise) {
-      return;
+      return
     }
 
-    const { resolvedFeature, resolvedEquipmentInfo } = resolved;
+    const { resolvedFeature, resolvedEquipmentInfo } = resolved
     const resolvedCategories = Categories.getCategoriesForFeature(
       this.props.categories,
-      resolvedEquipmentInfo || resolvedFeature
-    );
+      resolvedEquipmentInfo || resolvedFeature,
+    )
     this.setState({
       resolvedRequiredData: { resolvedFeature, resolvedEquipmentInfo },
       ...resolvedCategories,
-    });
+    })
   }
 
   handlePhotosFetched(
     photosPromise: Promise<PhotoModel[]>,
-    resolvedPhotos: PhotoModel[]
+    resolvedPhotos: PhotoModel[],
   ) {
     // ignore unwanted promise results (e.g. after unmounting)
     if (photosPromise !== this.props.photos) {
-      return;
+      return
     }
-    this.setState({ resolvedPhotos });
+    this.setState({ resolvedPhotos })
   }
 
   handleToiletsNearbyFetched(
     toiletsNearbyPromise: Promise<Feature[]>,
-    resolvedToiletsNearby: Feature[]
+    resolvedToiletsNearby: Feature[],
   ) {
     // ignore unwanted promise results (e.g. after unmounting)
     if (toiletsNearbyPromise !== this.props.toiletsNearby) {
-      return;
+      return
     }
-    this.setState({ resolvedToiletsNearby });
+    this.setState({ resolvedToiletsNearby })
   }
 
   handleSourcesFetched(
     sourcesPromise: Promise<SourceWithLicense[]>,
-    resolvedSources: SourceWithLicense[]
+    resolvedSources: SourceWithLicense[],
   ) {
     // ignore unwanted promise results (e.g. after unmounting)
     if (sourcesPromise !== this.props.sources) {
-      return;
+      return
     }
-    this.setState({ resolvedSources });
+    this.setState({ resolvedSources })
   }
 
   render() {
@@ -289,7 +287,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       resolvedPhotos,
       resolvedSources,
       resolvedToiletsNearby,
-    } = this.state;
+    } = this.state
     // strip promises from props
     const {
       feature,
@@ -298,10 +296,9 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       photos,
       toiletsNearby,
       ...remainingProps
-    } = this.props;
+    } = this.props
 
-    const { resolvedFeature, resolvedEquipmentInfo } =
-      resolvedRequiredData || {};
+    const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData || {}
 
     return (
       <NodeToolbar
@@ -315,8 +312,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         toiletsNearby={resolvedToiletsNearby || []}
         ref={this.nodeToolbar}
       />
-    );
+    )
   }
 }
 
-export default NodeToolbarFeatureLoader;
+export default NodeToolbarFeatureLoader

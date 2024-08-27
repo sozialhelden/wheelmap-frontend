@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import Head from 'next/head';
+import React, { PureComponent } from 'react'
+import Head from 'next/head'
 
 type Props = {
   productName: string | null,
@@ -10,7 +10,9 @@ type Props = {
 
 class OpenGraph extends PureComponent<Props> {
   render() {
-    const { productName, title, description, url } = this.props;
+    const {
+      productName, title, description, url,
+    } = this.props
 
     return (
       <Head>
@@ -20,8 +22,8 @@ class OpenGraph extends PureComponent<Props> {
         <meta content={url} property="og:url" key="og:url" />
         <meta content="website" property="og:type" key="og:type" />
       </Head>
-    );
+    )
   }
 }
 
-export default OpenGraph;
+export default OpenGraph

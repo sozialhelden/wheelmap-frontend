@@ -1,12 +1,11 @@
-
-import { compact } from "lodash";
-import { wheelmapFeatureCache } from "../lib/cache/WheelmapFeatureCache";
-import { WheelmapFeature } from "../lib/Feature";
+import { compact } from 'lodash'
+import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache'
+import { WheelmapFeature } from '../lib/Feature'
 import {
   getOsmIdFromSearchResultProperties, SearchResultCollection,
-  SearchResultProperties
-} from "../lib/searchPlaces";
-import { DataTableEntry } from "./getInitialProps";
+  SearchResultProperties,
+} from '../lib/searchPlaces'
+import { DataTableEntry } from './getInitialProps'
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>;
@@ -17,84 +16,83 @@ type SearchProps = {
 async function fetchWheelmapNode(
   searchResultProperties: SearchResultProperties,
   appToken: string,
-  useCache: boolean
+  useCache: boolean,
 ): Promise<WheelmapFeature | undefined> {
-
-  const osmId = getOsmIdFromSearchResultProperties(searchResultProperties);
+  const osmId = getOsmIdFromSearchResultProperties(searchResultProperties)
   if (osmId === null) {
-    return null;
+    return null
   }
 
   try {
     const feature = await wheelmapFeatureCache.getFeature(
       String(osmId),
       appToken,
-      useCache
-    );
+      useCache,
+    )
 
     if (feature == null || feature.properties == null) {
-      return null;
+      return null
     }
 
-    return feature;
+    return feature
   } catch (error) {
     if (error.status !== 404) {
-      console.error(error);
+      console.error(error)
     }
 
-    return null;
+    return null
   }
 }
 
 const SearchData: DataTableEntry<SearchProps> = {
   getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
-      return props;
+      return props
     }
 
-    let { searchResults, disableWheelmapSource } = props;
+    let { searchResults, disableWheelmapSource } = props
 
     searchResults = Promise.resolve(searchResults).then(async (results) => {
-      const useCache = !isServer;
+      const useCache = !isServer
 
       if (disableWheelmapSource) {
         return {
           ...results,
           wheelmapFeatures: [],
-        };
+        }
       }
 
       let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = compact(
         results.features.map((feature) => {
-          const { type, osm_key } = feature.properties;
+          const { type, osm_key } = feature.properties
           if (
-            type !== "street" &&
-            osm_key !== "landuse" &&
-            osm_key !== "place"
+            type !== 'street'
+            && osm_key !== 'landuse'
+            && osm_key !== 'place'
           ) {
             return fetchWheelmapNode(
               feature.properties,
               props.app.tokenString,
-              useCache
-            );
+              useCache,
+            )
           }
-        })
-      );
+        }),
+      )
 
       // Fetch all wheelmap features when on server.
       if (isServer) {
         // @ts-ignore
-        wheelmapFeatures = await Promise.all(wheelmapFeatures);
+        wheelmapFeatures = await Promise.all(wheelmapFeatures)
       }
 
       return {
         ...results,
         wheelmapFeatures,
-      };
-    });
+      }
+    })
 
-    return { ...props, searchResults };
+    return { ...props, searchResults }
   },
-};
+}
 
-export default SearchData;
+export default SearchData

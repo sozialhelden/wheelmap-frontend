@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Radio } from 'react-radio-group';
+import * as React from 'react'
+import { Radio } from 'react-radio-group'
 
-import RadioButtonUnselected from '../icons/ui-elements/RadioButtonUnselected';
-import RadioButtonSelected from '../icons/ui-elements/RadioButtonSelected';
+import RadioButtonUnselected from '../icons/ui-elements/RadioButtonUnselected'
+import RadioButtonSelected from '../icons/ui-elements/RadioButtonSelected'
 
 type FilterName = any;
 
@@ -17,38 +17,38 @@ type CustomRadioState = {
 
 interface Focusable {
   focus(): void;
-};
+}
 
 export default class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
   state = {
     isFocused: false,
-  };
+  }
 
-  radioButton = React.createRef<React.Component<any> & Focusable>();
+  radioButton = React.createRef<React.Component<any> & Focusable>()
 
   componentDidMount() {
-    const { currentFilterName, value } = this.props;
+    const { currentFilterName, value } = this.props
     if (currentFilterName === value) {
-      this.radioButton.current?.focus();
+      this.radioButton.current?.focus()
     }
   }
 
   onFocus = () => {
-    this.setState({ isFocused: true });
-  };
+    this.setState({ isFocused: true })
+  }
 
   onBlur = () => {
-    this.setState({ isFocused: false });
-  };
+    this.setState({ isFocused: false })
+  }
 
   focus() {
-    this.radioButton.current?.focus();
+    this.radioButton.current?.focus()
   }
 
   render() {
-    const { currentFilterName, value } = this.props;
-    const isRadioButtonSelected = currentFilterName === value;
-    const RadioButton = isRadioButtonSelected ? RadioButtonSelected : RadioButtonUnselected;
+    const { currentFilterName, value } = this.props
+    const isRadioButtonSelected = currentFilterName === value
+    const RadioButton = isRadioButtonSelected ? RadioButtonSelected : RadioButtonUnselected
     return (
       <div>
         <Radio
@@ -61,9 +61,9 @@ export default class CustomRadio extends React.Component<CustomRadioProps, Custo
         />
         <RadioButton
           className={`radio-button${this.state.isFocused ? ' focus-visible' : ''}`}
-          aria-hidden={true}
+          aria-hidden
         />
       </div>
-    );
+    )
   }
 }

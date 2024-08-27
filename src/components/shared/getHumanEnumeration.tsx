@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { t } from 'ttag';
+import * as React from 'react'
+import { t } from 'ttag'
 
 type ConjunctionType = 'and' | 'or';
 
@@ -53,33 +53,33 @@ const conjunctionMap: ConjunctionMap = {
   //     </div>
   //
   //     => <div><strong>humans</strong> and <em>animals</em></div>
-};
+}
 export default function getHumanEnumeration(
   elements: React.ReactNode[],
-  conjunctionType: ConjunctionType = 'and'
+  conjunctionType: ConjunctionType = 'and',
 ): React.ReactNode[] {
-  if (!elements) return [];
+  if (!elements) return []
 
-  const count = elements.length;
+  const count = elements.length
 
   if (count === 0) {
-    return [];
+    return []
   }
 
   if (count === 1) {
-    return elements;
+    return elements
   }
 
   if (count === 2) {
-    const firstElement = elements[0];
-    const secondElement = elements[1];
-    const conjunction = conjunctionMap[conjunctionType].withoutSerialComma;
-    return [firstElement, conjunction, secondElement];
+    const firstElement = elements[0]
+    const secondElement = elements[1]
+    const conjunction = conjunctionMap[conjunctionType].withoutSerialComma
+    return [firstElement, conjunction, secondElement]
   }
 
-  const lastElement = elements[elements.length - 1];
-  const elementsBeforeLastElement = elements.slice(0, elements.length - 1);
-  const commaJoinedElements = elementsBeforeLastElement.reverse().join(', ');
-  const conjunction = conjunctionMap[conjunctionType].withSerialComma;
-  return [commaJoinedElements, conjunction, lastElement];
+  const lastElement = elements[elements.length - 1]
+  const elementsBeforeLastElement = elements.slice(0, elements.length - 1)
+  const commaJoinedElements = elementsBeforeLastElement.reverse().join(', ')
+  const conjunction = conjunctionMap[conjunctionType].withSerialComma
+  return [commaJoinedElements, conjunction, lastElement]
 }

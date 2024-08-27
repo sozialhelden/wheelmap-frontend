@@ -1,5 +1,5 @@
-import * as React from "react";
-import { MutableRefObject } from "react";
+import * as React from 'react'
+import { MutableRefObject } from 'react'
 
 type Props = {
   onClose?: (event) => void;
@@ -21,7 +21,7 @@ const ModalReportDialog = React.forwardRef<HTMLDialogElement, Props>(
       ariaLabel,
       ariaDescribedBy,
       children,
-    } = props;
+    } = props
 
     // havent found a better way yet to create showModal() functionality on server side
     // browser handles this natively
@@ -33,9 +33,9 @@ const ModalReportDialog = React.forwardRef<HTMLDialogElement, Props>(
 
     React.useEffect(() => {
       if (isVisible) {
-        ref.current.showModal();
+        ref.current.showModal()
       }
-    }, [isVisible]);
+    }, [isVisible])
 
     return (
       <dialog
@@ -47,8 +47,8 @@ const ModalReportDialog = React.forwardRef<HTMLDialogElement, Props>(
       >
         {children}
       </dialog>
-    );
-  }
-);
+    )
+  },
+)
 
-export default ModalReportDialog;
+export default ModalReportDialog

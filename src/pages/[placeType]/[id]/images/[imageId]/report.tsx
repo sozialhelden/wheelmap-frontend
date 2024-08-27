@@ -17,13 +17,13 @@
 //   });
 // };
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
-const PlaceImageReportPage = () => {
-  const router = useRouter();
-  const { placeType, imageId } = router.query;
+function PlaceImageReportPage() {
+  const router = useRouter()
+  const { placeType, imageId } = router.query
 
-  console.log(router.query);
+  console.log(router.query)
 
   // <ReportPhotoToolbar
   //   hidden={!this.props.photoMarkedForReport}
@@ -35,11 +35,12 @@ const PlaceImageReportPage = () => {
     <>
       <header />
       <h1>
-        Upload Photo Instructions:{" "}
+        Upload Photo Instructions:
+        {' '}
         {`imageId: ${imageId}, placeType: ${placeType}`}
       </h1>
     </>
-  );
-};
+  )
+}
 
-export default PlaceImageReportPage;
+export default PlaceImageReportPage

@@ -1,15 +1,15 @@
-import { useFocusTrap } from "@primer/react/lib-esm/hooks/useFocusTrap";
-import { hsl } from "d3-color";
-import Link from "next/link";
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
-import colors, { alpha } from "../../../lib/util/colors";
-import CloseIcon from "../../icons/actions/Close";
-import VectorImage from "../../shared/VectorImage";
-import AppLinks from "./AppLinks";
+import { useFocusTrap } from '@primer/react/lib-esm/hooks/useFocusTrap'
+import { hsl } from 'd3-color'
+import Link from 'next/link'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
+import { ClientSideConfiguration } from '../../../lib/model/ac/ClientSideConfiguration'
+import colors, { alpha } from '../../../lib/util/colors'
+import CloseIcon from '../../icons/actions/Close'
+import VectorImage from '../../shared/VectorImage'
+import AppLinks from './AppLinks'
 
 type Props = {
   onToggle: (isMainMenuOpen: boolean) => void;
@@ -35,13 +35,13 @@ function MenuIcon(props) {
         <rect x="0" y="14" width="25" height="3" />
       </g>
     </svg>
-  );
+  )
 }
 
-const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
+const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024
 
-const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4);
-openMenuHoverColor.opacity = 0.5;
+const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4)
+openMenuHoverColor.opacity = 0.5
 
 const StyledNav = styled.nav`
   box-sizing: border-box;
@@ -123,8 +123,8 @@ const StyledNav = styled.nav`
     &:active {
       color: ${colors.linkColor};
       background-color: ${hsl(colors.linkColor)
-        .brighter(1.7)
-        .toString()};
+    .brighter(1.7)
+    .toString()};
     }
   }
 
@@ -273,16 +273,16 @@ const StyledNav = styled.nav`
           background-color: ${openMenuHoverColor.toString()};
           svg g {
             fill: ${hsl(colors.primaryColor)
-              .darker(1)
-              .toString()};
+    .darker(1)
+    .toString()};
           }
         }
         &:active {
           background-color: ${openMenuHoverColor.toString()};
           svg g {
             color: ${hsl(openMenuHoverColor)
-              .darker(2)
-              .toString()};
+    .darker(2)
+    .toString()};
           }
         }
       }
@@ -303,40 +303,39 @@ const StyledNav = styled.nav`
       height: auto;
     }
   }
-`;
+`
 
 export default function MainMenu(props: Props) {
-  const [isMenuButtonVisible, setIsMenuButtonVisible] = React.useState(false);
+  const [isMenuButtonVisible, setIsMenuButtonVisible] = React.useState(false)
 
   const onResize = React.useCallback(() => {
     if (window.innerWidth > MENU_BUTTON_VISIBILITY_BREAKPOINT) {
-      setIsMenuButtonVisible(false);
+      setIsMenuButtonVisible(false)
     } else {
-      setIsMenuButtonVisible(true);
-      props.onToggle(false);
+      setIsMenuButtonVisible(true)
+      props.onToggle(false)
     }
-  }, [props.onToggle, setIsMenuButtonVisible]);
+  }, [props.onToggle, setIsMenuButtonVisible])
 
   React.useEffect(() => {
-    window.addEventListener("resize", onResize);
-    onResize();
+    window.addEventListener('resize', onResize)
+    onResize()
     return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
 
   const toggleMenu = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
-      props.onToggle(!props.isOpen);
-      event.preventDefault();
+      props.onToggle(!props.isOpen)
+      event.preventDefault()
     },
-    [props.onToggle, props.isOpen]
-  );
+    [props.onToggle, props.isOpen],
+  )
 
-  const productName =
-    translatedStringFromObject(
-      props.clientSideConfiguration.textContent?.product.name
-    ) || "Wheelmap";
+  const productName = translatedStringFromObject(
+    props.clientSideConfiguration.textContent?.product.name,
+  ) || 'Wheelmap'
 
   const homeLink = (
     <div className="home-link">
@@ -349,14 +348,14 @@ export default function MainMenu(props: Props) {
             className="logo"
             svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
             aria-label={productName}
-            maxHeight={"30px"}
-            maxWidth={"150px"}
+            maxHeight="30px"
+            maxWidth="150px"
             hasShadow={false}
           />
         </button>
       </Link>
     </div>
-  );
+  )
 
   const closeButton = (
     <button
@@ -371,26 +370,26 @@ export default function MainMenu(props: Props) {
     >
       {props.isOpen ? <CloseIcon /> : <MenuIcon />}
     </button>
-  );
+  )
 
-  const { isOpen, className, clientSideConfiguration } = props;
+  const { isOpen, className, clientSideConfiguration } = props
   const claim = translatedStringFromObject(
-    clientSideConfiguration?.textContent?.product?.claim
-  );
+    clientSideConfiguration?.textContent?.product?.claim,
+  )
 
   const classList = [
     className,
-    isOpen || !isMenuButtonVisible ? "is-open" : null,
-    "main-menu",
-  ].filter(Boolean);
+    isOpen || !isMenuButtonVisible ? 'is-open' : null,
+    'main-menu',
+  ].filter(Boolean)
 
   const { containerRef } = useFocusTrap({
     disabled: !isMenuButtonVisible || !isOpen,
-  });
+  })
 
   return (
     <StyledNav
-      className={classList.join(" ")}
+      className={classList.join(' ')}
       ref={containerRef as React.RefObject<HTMLElement>}
     >
       {homeLink}
@@ -403,5 +402,5 @@ export default function MainMenu(props: Props) {
 
       {closeButton}
     </StyledNav>
-  );
+  )
 }

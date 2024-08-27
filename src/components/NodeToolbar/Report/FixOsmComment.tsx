@@ -1,10 +1,10 @@
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import * as React from "react";
+import { PlaceInfo } from '@sozialhelden/a11yjson'
+import * as React from 'react'
 import {
   generateOsmEditUrl,
   generateOsmNoteUrl,
-} from "../../../lib/model/osm/generateOsmUrls";
-import strings from "./strings";
+} from '../../../lib/model/osm/generateOsmUrls'
+import strings from './strings'
 
 type Props = {
   feature: PlaceInfo;
@@ -13,47 +13,49 @@ type Props = {
 };
 
 export default class ReportProblemButton extends React.Component<Props> {
-  editLink: HTMLElement | null;
-  noteLink: HTMLElement | null;
-  backButton: HTMLElement | null;
+  editLink: HTMLElement | null
+
+  noteLink: HTMLElement | null
+
+  backButton: HTMLElement | null
 
   componentDidMount() {
-    this.editLink && this.editLink.focus();
+    this.editLink && this.editLink.focus()
   }
 
   trapFocus = (event: React.KeyboardEvent<{}>) => {
     if (
-      event.target === this.editLink &&
-      event.key === "Tab" &&
-      event.shiftKey &&
-      this.noteLink
+      event.target === this.editLink
+      && event.key === 'Tab'
+      && event.shiftKey
+      && this.noteLink
     ) {
-      event.preventDefault();
-      this.noteLink && this.noteLink.focus();
+      event.preventDefault()
+      this.noteLink && this.noteLink.focus()
     }
     if (
-      event.target === this.noteLink &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.noteLink
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
-      event.preventDefault();
-      this.backButton && this.backButton.focus();
+      event.preventDefault()
+      this.backButton && this.backButton.focus()
     }
     if (
-      event.target === this.backButton &&
-      event.key === "Tab" &&
-      !event.shiftKey
+      event.target === this.backButton
+      && event.key === 'Tab'
+      && !event.shiftKey
     ) {
-      event.preventDefault();
-      this.editLink && this.editLink.focus();
+      event.preventDefault()
+      this.editLink && this.editLink.focus()
     }
-  };
+  }
 
   render() {
-    if (!this.props.featureId) return null;
+    if (!this.props.featureId) return null
 
-    const editUrl = generateOsmEditUrl(this.props.featureId);
-    const noteUrl = generateOsmNoteUrl(this.props.feature);
+    const editUrl = generateOsmEditUrl(this.props.featureId)
+    const noteUrl = generateOsmNoteUrl(this.props.feature)
 
     const {
       osmHint,
@@ -62,7 +64,7 @@ export default class ReportProblemButton extends React.Component<Props> {
       editButtonCaption,
       noteButtonCaption,
       backButtonCaption,
-    } = strings();
+    } = strings()
 
     return (
       <section
@@ -103,6 +105,6 @@ export default class ReportProblemButton extends React.Component<Props> {
           {backButtonCaption}
         </button>
       </section>
-    );
+    )
   }
 }

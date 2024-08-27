@@ -1,20 +1,20 @@
-import { parse } from "marked";
-import * as React from "react";
-import { useEffect } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { AppContext } from "../../lib/context/AppContext";
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { parse } from 'marked'
+import * as React from 'react'
+import { useEffect } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { AppContext } from '../../lib/context/AppContext'
+import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject'
 import {
   accessibilityDescription,
   accessibilityName,
-} from "../../lib/model/accessibility/accessibilityStrings";
-import colors from "../../lib/util/colors";
-import ChevronRight from "../icons/actions/ChevronRight";
-import { CallToActionButton } from "../shared/Button";
-import Icon from "../shared/Icon";
-import ModalDialog from "../shared/ModalDialog";
-import VectorImage from "../shared/VectorImage";
+} from '../../lib/model/accessibility/accessibilityStrings'
+import colors from '../../lib/util/colors'
+import ChevronRight from '../icons/actions/ChevronRight'
+import { CallToActionButton } from '../shared/Button'
+import Icon from '../shared/Icon'
+import ModalDialog from '../shared/ModalDialog'
+import VectorImage from '../shared/VectorImage'
 
 type Props = {
   onClose: () => void;
@@ -266,51 +266,49 @@ const StyledModalDialog = styled(ModalDialog)`
   p {
     margin: 1em;
   }
-`;
+`
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
-  const app = React.useContext(AppContext);
-  const { clientSideConfiguration } = app;
+  const app = React.useContext(AppContext)
+  const { clientSideConfiguration } = app
 
-  const callToActionButton = React.createRef<HTMLButtonElement>();
+  const callToActionButton = React.createRef<HTMLButtonElement>()
 
   const { headerMarkdown } = clientSideConfiguration.textContent
     ?.onboarding || {
     headerMarkdown: undefined,
-  };
+  }
 
-  const productName =
-    translatedStringFromObject(
-      clientSideConfiguration.textContent?.product.name
-    ) || "Wheelmap";
+  const productName = translatedStringFromObject(
+    clientSideConfiguration.textContent?.product.name,
+  ) || 'Wheelmap'
 
   // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+  const unknownAccessibilityIncentiveText = t`Help out by marking places!`
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`;
+  const startButtonCaption = t`Okay, let’s go!`
 
   const handleClose = () => {
     // Prevent that touch up opens a link underneath the primary button after closing
     // the onboarding dialog
-    setTimeout(() => onClose(), 10);
-  };
+    setTimeout(() => onClose(), 10)
+  }
 
-  const headerMarkdownHTML =
-    headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
+  const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown))
 
   /* translator: The alternative desription of the app logo for screenreaders */
-  const appLogoAltText = t`App Logo`;
+  const appLogoAltText = t`App Logo`
 
   useEffect(() => {
     setTimeout(() => {
-      callToActionButton.current?.focus();
-    }, 100);
-  }, []);
+      callToActionButton.current?.focus()
+    }, 100)
+  }, [])
 
   return (
     <StyledModalDialog
-      isVisible={true}
+      isVisible
       onClose={handleClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
       ariaLabel={t`Start screen`}
@@ -320,8 +318,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
           className="logo"
           svg={clientSideConfiguration.branding?.vectorLogoSVG}
           aria-label={productName}
-          maxHeight={"50px"}
-          maxWidth={"200px"}
+          maxHeight="50px"
+          maxWidth="200px"
           hasShadow={false}
         />
 
@@ -346,8 +344,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
               shadowed
               centered
             />
-            <header>{accessibilityName("yes")}</header>
-            <footer>{accessibilityDescription("yes")}</footer>
+            <header>{accessibilityName('yes')}</header>
+            <footer>{accessibilityDescription('yes')}</footer>
           </li>
           <li className="ac-marker-limited">
             <Icon
@@ -359,8 +357,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
               shadowed
               centered
             />
-            <header>{accessibilityName("limited")}</header>
-            <footer>{accessibilityDescription("limited")}</footer>
+            <header>{accessibilityName('limited')}</header>
+            <footer>{accessibilityDescription('limited')}</footer>
           </li>
           <li className="ac-marker-no">
             <Icon
@@ -372,8 +370,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
               shadowed
               centered
             />
-            <header>{accessibilityName("no")}</header>
-            <footer>{accessibilityDescription("no")}</footer>
+            <header>{accessibilityName('no')}</header>
+            <footer>{accessibilityDescription('no')}</footer>
           </li>
           <li className="ac-marker-unknown">
             <Icon
@@ -385,7 +383,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
               shadowed
               centered
             />
-            <header>{accessibilityName("unknown")}</header>
+            <header>{accessibilityName('unknown')}</header>
             <footer>{unknownAccessibilityIncentiveText}</footer>
           </li>
         </ul>
@@ -396,7 +394,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
           className="button-continue"
           data-focus-visible-added
           onClick={() => {
-            handleClose();
+            handleClose()
           }}
           ref={callToActionButton}
         >
@@ -405,8 +403,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
         </CallToActionButton>
       </footer>
     </StyledModalDialog>
-  );
-};
+  )
+}
 
 const Version = styled.div`
   position: absolute;
@@ -419,6 +417,6 @@ const Version = styled.div`
   font-size: 12px;
   color: white;
   opacity: 0.5;
-`;
+`
 
-export default OnboardingDialog;
+export default OnboardingDialog

@@ -1,10 +1,10 @@
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import colors from "../../../../lib/util/colors";
-import { IncentiveHint } from "../../IncentiveHint";
-import CameraIcon from "./CameraIcon";
+import colors from '../../../../lib/util/colors'
+import { IncentiveHint } from '../../IncentiveHint'
+import CameraIcon from './CameraIcon'
 
 type Props = {
   className?: string;
@@ -13,15 +13,15 @@ type Props = {
 
 class PhotoUploadButton extends React.Component<Props> {
   render() {
-    const { className } = this.props;
+    const { className } = this.props
 
     // translator: Text that incentivizes the user to edit a place's accessibility.
-    const hintCaption = t`Your good deed of the day!`;
+    const hintCaption = t`Your good deed of the day!`
 
     return (
       <button
         onClick={this.onClick}
-        className={`link-button ${className || ""}`}
+        className={`link-button ${className || ''}`}
         aria-label={t`Add images`}
       >
         <div>
@@ -30,15 +30,15 @@ class PhotoUploadButton extends React.Component<Props> {
           <IncentiveHint>{hintCaption}</IncentiveHint>
         </div>
       </button>
-    );
+    )
   }
 
   onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (this.props.onClick) {
-      this.props.onClick(event);
-      event.preventDefault();
+      this.props.onClick(event)
+      event.preventDefault()
     }
-  };
+  }
 }
 
 const StyledPhotoUploadButton = styled(PhotoUploadButton)`
@@ -64,6 +64,6 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
     text-align: left;
     color: ${colors.linkColor};
   }
-`;
+`
 
-export default StyledPhotoUploadButton;
+export default StyledPhotoUploadButton

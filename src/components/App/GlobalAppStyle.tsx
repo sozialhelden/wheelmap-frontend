@@ -1,7 +1,7 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
 export function systemFontStack() {
-  return `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`;
+  return '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen, Ubuntu, Cantarell, \'Open Sans\', \'Helvetica Neue\', Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -296,6 +296,6 @@ const GlobalStyle = createGlobalStyle`
     margin-right: 3px;
     white-space: nowrap;
   }
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle

@@ -25,9 +25,9 @@
   SOFTWARE.
 */
 
-import * as React from 'react';
-import styled from 'styled-components';
-import ActivityIndicator, { IExternalProps } from './ActivityIndicator';
+import * as React from 'react'
+import styled from 'styled-components'
+import ActivityIndicator, { IExternalProps } from './ActivityIndicator'
 
 interface IProps {
   style: React.CSSProperties;
@@ -38,22 +38,24 @@ interface IProps {
   color?: string;
 }
 
-const UnstyledSpinner = (props: IProps) => <div style={props.style} className={props.className} />;
+function UnstyledSpinner(props: IProps) {
+  return <div style={props.style} className={props.className} />
+}
 
 const StyledSpinner = styled(UnstyledSpinner)`
   display: inline-block;
   &:after {
     content: ' ';
     line-height: 0;
-    margin: ${p => p.margin || 0};
+    margin: ${(p) => p.margin || 0};
     padding: 0;
     display: block;
-    width: ${p => p.size || '1em'};
-    height: ${p => p.size || '1em'};
+    width: ${(p) => p.size || '1em'};
+    height: ${(p) => p.size || '1em'};
     border-radius: 50%;
-    border: 6px solid ${p => p.color || 'rgba(0, 0, 0, 0.1)'};
-    border-color: ${p => p.color || 'rgba(0, 0, 0, 0.1)'} transparent
-      ${p => p.color || 'rgba(0, 0, 0, 0.1)'} transparent;
+    border: 6px solid ${(p) => p.color || 'rgba(0, 0, 0, 0.1)'};
+    border-color: ${(p) => p.color || 'rgba(0, 0, 0, 0.1)'} transparent
+      ${(p) => p.color || 'rgba(0, 0, 0, 0.1)'} transparent;
     animation: rotation 1.2s linear infinite;
   }
 
@@ -65,8 +67,8 @@ const StyledSpinner = styled(UnstyledSpinner)`
       transform: rotate(360deg);
     }
   }
-`;
+`
 
 export default function Spinner(props: Partial<IExternalProps>) {
-  return <ActivityIndicator ComposedComponent={StyledSpinner} animationDuration={0.6} {...props} />;
+  return <ActivityIndicator ComposedComponent={StyledSpinner} animationDuration={0.6} {...props} />
 }

@@ -3,7 +3,7 @@
   "search.exclude": {
     "build/**/*": true,
     "lib/**/*": true,
-    "src/.next/**/*": true,
+    "src/.next/**/*": true
   },
   // Custom formatting rules
   "editor.wordWrapColumn": 100,
@@ -12,8 +12,13 @@
   "javascript.format.enable": false,
   "typescript.format.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.organizeImports": "explicit"
+    "source.fixAll.eslint": "explicit"
   }
 }

@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { HTMLAttributes } from "react";
-import OSMFeature from "../../../lib/model/osm/OSMFeature";
-import { getWikipediaLemma } from "./getWikipediaLemma";
+import Link from 'next/link'
+import { HTMLAttributes } from 'react'
+import OSMFeature from '../../../lib/model/osm/OSMFeature'
+import { getWikipediaLemma } from './getWikipediaLemma'
 
 type Props = HTMLAttributes<HTMLAnchorElement> & {
   feature: OSMFeature;
@@ -12,12 +12,12 @@ type Props = HTMLAttributes<HTMLAnchorElement> & {
 /** Renders a link to Wikipedia, using the [prefix]:wikipedia property of the given feature. */
 
 export default function WikipediaLink({ feature, prefix, ...rest }: Props) {
-  const lemmaWithLanguagePrefix = getWikipediaLemma(feature, prefix);
+  const lemmaWithLanguagePrefix = getWikipediaLemma(feature, prefix)
   if (!lemmaWithLanguagePrefix) {
-    return null;
+    return null
   }
 
-  const [language, lemma] = lemmaWithLanguagePrefix.split(":");
+  const [language, lemma] = lemmaWithLanguagePrefix.split(':')
   if (language && lemma) {
     return (
       // eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -27,7 +27,7 @@ export default function WikipediaLink({ feature, prefix, ...rest }: Props) {
         rel="noopener noreferrer"
         {...rest}
       />
-    );
+    )
   }
-  return <>{rest.children}</>;
+  return <>{rest.children}</>
 }

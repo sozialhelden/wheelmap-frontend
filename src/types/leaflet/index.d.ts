@@ -1,12 +1,12 @@
 declare module 'leaflet' {
-  export const control: any;
-  export const Browser: any;
-  export const Util: any;
-  export const Control: any;
-  export const DomUtil: any;
-  export const DomEvent: any;
-  export const Map: any;
-  export const Handler: any;
+  export const control: any
+  export const Browser: any
+  export const Util: any
+  export const Control: any
+  export const DomUtil: any
+  export const DomEvent: any
+  export const Map: any
+  export const Handler: any
 
   export class CircleMarker {}
 
@@ -34,8 +34,11 @@ declare module 'leaflet' {
     public on(a: string, f: (a: any) => void): void;
 
     protected getIcon(): any;
+
     protected setIcon(icon: any): void;
+
     protected setOpacity(n: number): void;
+
     protected getLatLng(): LatLng;
   }
 
@@ -43,37 +46,50 @@ declare module 'leaflet' {
     constructor(options?: any);
 
     public addLayer(layerGroup: LayerGroup): void;
+
     public removeLayer(layerGroup: LayerGroup): void;
+
     public hasLayer(layerGroup: LayerGroup): boolean;
+
     public getLayers(): LayerGroup;
+
     public clearLayers(): void;
   }
 
   export type TileLayerOptions = any;
 
   export class TileLayer extends LayerGroup {
-    public readonly _url: string;
+    public readonly _url: string
 
-    protected options: TileLayerOptions;
-    protected _layerGroup: LayerGroup;
-    protected _tiles: any;
-    protected _tilesToLoad: any;
-    protected _map: any;
-    protected _globalTileRange: any;
+    protected options: TileLayerOptions
+
+    protected _layerGroup: LayerGroup
+
+    protected _tiles: any
+
+    protected _tilesToLoad: any
+
+    protected _map: any
+
+    protected _globalTileRange: any
 
     constructor(url: string, options: TileLayerOptions);
 
     public setUrl(url: string): void;
+
     public _update(a: any[]): any;
 
     protected fire(a: string, b: any): void;
+
     protected _getSubdomain(coords: any): string;
+
     protected _getZoomForUrl(): any;
   }
 
   export class Point {
-    public readonly x: number;
-    public readonly y: number;
+    public readonly x: number
+
+    public readonly y: number
 
     constructor(x: number, y: number);
   }
@@ -82,12 +98,18 @@ declare module 'leaflet' {
 
   export class Icon {
     protected options: IconOptions
-    protected iconSvgElement: React.ReactElement;
-    protected onClick: () => void;
-    protected href: string;
-    protected highlighted: boolean;
-    protected accessibleName: string;
-    protected size: any;
+
+    protected iconSvgElement: React.ReactElement
+
+    protected onClick: () => void
+
+    protected href: string
+
+    protected highlighted: boolean
+
+    protected accessibleName: string
+
+    protected size: any
 
     constructor(options: IconOptions);
 

@@ -1,17 +1,19 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import * as queryString from "query-string";
-import { useCallback } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { useCurrentApp } from "../../lib/context/AppContext";
-import { getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId } from "../../lib/context/MappingEventContext";
-import { useMappingEvent } from "../../lib/fetchers/fetchMappingEvent";
-import colors from "../../lib/util/colors";
-import { PrimaryButton } from "../shared/Button";
-import CloseButton from "../shared/CloseButton";
-import ModalDialog from "../shared/ModalDialog";
-import { EmailInputForm } from "./EmailInputForm";
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import * as queryString from 'query-string'
+import { useCallback } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { useCurrentApp } from '../../lib/context/AppContext'
+import {
+  getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId,
+} from '../../lib/context/MappingEventContext'
+import { useMappingEvent } from '../../lib/fetchers/fetchMappingEvent'
+import colors from '../../lib/util/colors'
+import { PrimaryButton } from '../shared/Button'
+import CloseButton from '../shared/CloseButton'
+import ModalDialog from '../shared/ModalDialog'
+import { EmailInputForm } from './EmailInputForm'
 
 type Props = {
   mappingEventId: string;
@@ -160,55 +162,55 @@ const StyledModalDialog = styled(ModalDialog)`
       animation: reveal 0.3s ease-out both, revealText 0.3s 0.15s ease-out both;
     }
   }
-`;
+`
 
 export default function MappingEventWelcomeDialog({
   invitationToken,
   mappingEventId,
 }: Props) {
   const EmailCollectionModeMessages = {
-    required: () =>
-      t`To stay in touch with you, you must provide us with your email address.`,
-    optional: () =>
-      t`To stay in touch with you, please share your email address with us.`,
+    required: () => t`To stay in touch with you, you must provide us with your email address.`,
+    optional: () => t`To stay in touch with you, please share your email address with us.`,
     disabled: () => null,
-  };
-
-  const dialogAriaLabel = t`Welcome`;
-  const app = useCurrentApp();
-  const { tokenString: appToken } = app;
-  const { data: mappingEvent, isValidating, error } = useMappingEvent(
-    { appToken, _id: mappingEventId }  );
-  const collectionMode = mappingEvent?.emailCollectionMode || "disabled";
-  const emailCollectionModeMessage = EmailCollectionModeMessages[
-    collectionMode
-  ]();
-
-  // translator: Shown on the join mapping event screen, when there is no message defined by the event organizer.
-  const defaultMappingEventWelcomeMessage = t`Great! Thanks for joining us.`;
-  const mappingEventWelcomeMessage =
-    mappingEvent?.welcomeMessage || defaultMappingEventWelcomeMessage;
-
-  const { emailAddress: lastUsedEmailAddress } = getJoinedMappingEventData();
-  let queryEmailAddress: string | null;
-  if (typeof window !== "undefined") {
-    const queryObject = queryString.parse(window.location.search);
-    queryEmailAddress = queryObject.emailAddress as string;
   }
 
-  const router = useRouter();
-  const { mutate: mutateMappingEventId } = useCurrentMappingEventId();
-  const userUUID = getUUID();
+  const dialogAriaLabel = t`Welcome`
+  const app = useCurrentApp()
+  const { tokenString: appToken } = app
+  const { data: mappingEvent, isValidating, error } = useMappingEvent(
+    { appToken, _id: mappingEventId },
+  )
+  const collectionMode = mappingEvent?.emailCollectionMode || 'disabled'
+  const emailCollectionModeMessage = EmailCollectionModeMessages[
+    collectionMode
+  ]()
+
+  // translator: Shown on the join mapping event screen, when there is no message defined by the event organizer.
+  const defaultMappingEventWelcomeMessage = t`Great! Thanks for joining us.`
+  const mappingEventWelcomeMessage = mappingEvent?.welcomeMessage || defaultMappingEventWelcomeMessage
+
+  const { emailAddress: lastUsedEmailAddress } = getJoinedMappingEventData()
+  let queryEmailAddress: string | null
+  if (typeof window !== 'undefined') {
+    const queryObject = queryString.parse(window.location.search)
+    queryEmailAddress = queryObject.emailAddress as string
+  }
+
+  const router = useRouter()
+  const { mutate: mutateMappingEventId } = useCurrentMappingEventId()
+  const userUUID = getUUID()
   const joinMappingEvent = useCallback((emailAddress?: string) => {
-    setJoinedMappingEventId(mappingEventId);
-    trackMappingEventMembershipChanged({ userUUID, app, reason: "button", joinedMappingEvent: mappingEvent, emailAddress });
-    mutateMappingEventId(null);
-    router.push('/');
-  }, [mappingEvent, userUUID, mutateMappingEventId, router, app, mappingEventId]);
+    setJoinedMappingEventId(mappingEventId)
+    trackMappingEventMembershipChanged({
+      userUUID, app, reason: 'button', joinedMappingEvent: mappingEvent, emailAddress,
+    })
+    mutateMappingEventId(null)
+    router.push('/')
+  }, [mappingEvent, userUUID, mutateMappingEventId, router, app, mappingEventId])
 
   return (
     <StyledModalDialog
-      isVisible={true}
+      isVisible
       showCloseButton={false}
       ariaLabel={dialogAriaLabel}
       ariaDescribedBy="mapping-event-welcome-message"
@@ -226,5 +228,5 @@ export default function MappingEventWelcomeDialog({
         onSubmit={joinMappingEvent}
       />
     </StyledModalDialog>
-  );
+  )
 }

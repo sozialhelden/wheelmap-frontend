@@ -1,5 +1,32 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:jsx-a11y/recommended"],
-  "plugins": ["jsx-a11y"]
+  "extends": [
+    "next/core-web-vitals",
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "plugins": [
+    "@stylistic/eslint-plugin-js",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "semi": ["error", "never"],
+    "max-len": ["error", {
+      "code": 140,
+      "comments": 80,
+      "ignoreUrls": true,
+      "tabWidth": 2
+    }],
+    "indent": ["error", 2],
+    "quote-props": ["error", "as-needed"],
+    "@stylistic/js/max-len": ["error", {
+      "code": 140,
+      "comments": 80,
+      "ignoreUrls": true,
+      "tabWidth": 2
+    }],
+    "@stylistic/js/indent": ["error", 2],
+    "@stylistic/js/semi": ["error", "never"],
+    "@stylistic/js/quote-props": ["error", "as-needed"]
+  }
 }
 

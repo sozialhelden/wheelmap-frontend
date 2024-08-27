@@ -1,5 +1,5 @@
-import { LocalizedString } from "@sozialhelden/a11yjson";
-import { ClientSideConfiguration } from "./ClientSideConfiguration";
+import { LocalizedString } from '@sozialhelden/a11yjson'
+import { ClientSideConfiguration } from './ClientSideConfiguration'
 
 export interface IAppLink {
   _id: string;
@@ -9,7 +9,7 @@ export interface IAppLink {
   url: LocalizedString;
   order?: number;
   tags?: string[];
-};
+}
 
 export interface IApp {
   _id: string;
@@ -24,4 +24,4 @@ export interface IApp {
       [key: string]: IAppLink;
     };
   };
-};
+}

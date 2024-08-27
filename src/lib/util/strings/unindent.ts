@@ -29,24 +29,24 @@
 export default function unindent(input: string): string {
   const firstLineWithContent = input
     .split(/\n/)
-    .find(line => line.replace(/\s/, '').length > 0);
+    .find((line) => line.replace(/\s/, '').length > 0)
   if (!firstLineWithContent) {
-    return input;
+    return input
   }
 
-  const matchedIndentation = firstLineWithContent.match(/^\s+/);
+  const matchedIndentation = firstLineWithContent.match(/^\s+/)
   if (!matchedIndentation) {
-    return input;
+    return input
   }
 
-  const matchedIndentationString = matchedIndentation[0];
+  const matchedIndentationString = matchedIndentation[0]
   if (!matchedIndentationString) {
-    return input;
+    return input
   }
 
-  const indentationRegExp = new RegExp(`^${matchedIndentationString}`);
+  const indentationRegExp = new RegExp(`^${matchedIndentationString}`)
   return input
     .split(/\n/)
-    .map(line => line.replace(indentationRegExp, ''))
-    .join('\n');
+    .map((line) => line.replace(indentationRegExp, ''))
+    .join('\n')
 }

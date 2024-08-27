@@ -1,24 +1,24 @@
-import { ControlGroup } from "@blueprintjs/core";
+import { ControlGroup } from '@blueprintjs/core'
 import {
-  accessibilityDescription
-} from "../../../../../lib/model/accessibility/accessibilityStrings";
-import { isWheelchairAccessible } from "../../../../../lib/model/accessibility/isWheelchairAccessible";
+  accessibilityDescription,
+} from '../../../../../lib/model/accessibility/accessibilityStrings'
+import { isWheelchairAccessible } from '../../../../../lib/model/accessibility/isWheelchairAccessible'
 import {
   AnyFeature,
   isOSMFeature,
-  isPlaceInfo
-} from "../../../../../lib/model/geo/AnyFeature";
+  isPlaceInfo,
+} from '../../../../../lib/model/geo/AnyFeature'
 
 export default function PlaceWheelchairAccessibility({ feature }: { feature?: AnyFeature }) {
   if (!feature || (!isOSMFeature(feature) && !isPlaceInfo(feature))) {
-    return null;
+    return null
   }
-  const { properties } = feature || {};
+  const { properties } = feature || {}
   if (!properties) {
-    return null;
+    return null
   }
 
-  const wheelchairAccessibility = isWheelchairAccessible(feature);
+  const wheelchairAccessibility = isWheelchairAccessible(feature)
   return (
     <ControlGroup vertical>
       <header>accessibilityName(wheelchairAccessibility)</header>
@@ -26,5 +26,5 @@ export default function PlaceWheelchairAccessibility({ feature }: { feature?: An
         {accessibilityDescription(wheelchairAccessibility)}
       </footer>
     </ControlGroup>
-  );
+  )
 }

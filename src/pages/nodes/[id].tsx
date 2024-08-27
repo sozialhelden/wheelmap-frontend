@@ -1,55 +1,53 @@
-import { useRouter } from "next/router";
-import styled from "styled-components";
-import CloseLink from "../../components/shared/CloseLink";
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import { ReactElement } from 'react'
+import useSWR from 'swr'
+import CloseLink from '../../components/shared/CloseLink'
 import {
-  fetchOnePlaceInfo
-} from "../../lib/fetchers/fetchOnePlaceInfo";
+  fetchOnePlaceInfo,
+} from '../../lib/fetchers/fetchOnePlaceInfo'
 
-import { ReactElement } from "react";
-import useSWR from "swr";
-import Layout from "../../components/App/Layout";
-import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
-import Toolbar from "../../components/shared/Toolbar";
-import { useCurrentApp } from "../../lib/context/AppContext";
-import { useEnvContext } from "../../lib/context/EnvContext";
-import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
+import Layout from '../../components/App/Layout'
+import { CombinedFeaturePanel } from '../../components/CombinedFeaturePanel/CombinedFeaturePanel'
+import Toolbar from '../../components/shared/Toolbar'
+import { useCurrentApp } from '../../lib/context/AppContext'
+import { useEnvContext } from '../../lib/context/EnvContext'
+import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
   margin-top: -8px;
   margin-right: 1px;
-`;
-PositionedCloseLink.displayName = "PositionedCloseLink";
+`
+PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 export default function Nodes() {
-  const router = useRouter();
-  const { id } = router.query;
-  const app = useCurrentApp();
-  const env = useEnvContext();
-  const baseUrl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const { data: feature, error } = useSWR([app.tokenString, baseUrl, id], fetchOnePlaceInfo);
+  const router = useRouter()
+  const { id } = router.query
+  const app = useCurrentApp()
+  const env = useEnvContext()
+  const baseUrl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL
+  const { data: feature, error } = useSWR([app.tokenString, baseUrl, id], fetchOnePlaceInfo)
 
   if (error) {
-    return <pre>{String(error)}</pre>;
+    return <pre>{String(error)}</pre>
   }
 
   return (
     <>
-      <>
-        {feature && (
-          <Toolbar>
-            <CombinedFeaturePanel features={[feature]}></CombinedFeaturePanel>
-          </Toolbar>
-        )}
-      </>
+      {feature && (
+        <Toolbar>
+          <CombinedFeaturePanel features={[feature]} />
+        </Toolbar>
+      )}
       <MockedPOIDetails
         feature={feature}
-        description={`PlaceOfInterestDetails page`}
+        description="PlaceOfInterestDetails page"
       />
     </>
-  );
+  )
 }
 
 Nodes.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
+  return <Layout>{page}</Layout>
+}

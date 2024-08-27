@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
-const Equipment = () => {
-  const router = useRouter();
-  const { placeType, id, equipmentId } = router.query;
+function Equipment() {
+  const router = useRouter()
+  const { placeType, id, equipmentId } = router.query
 
-  console.log(router.query);
+  console.log(router.query)
   return (
     <>
       <header />
@@ -12,7 +12,7 @@ const Equipment = () => {
       <h2>{`PlaceId: ${id}, placeType: ${placeType}`}</h2>
       <h2>{`EquipmentId: ${equipmentId}`}</h2>
     </>
-  );
-};
+  )
+}
 
-export default Equipment;
+export default Equipment

@@ -1,4 +1,4 @@
-import { t } from 'ttag';
+import { t } from 'ttag'
 
 /*
 These strings are not used in the React code, but in the native app wrapper.
@@ -8,5 +8,5 @@ the same process.
 As it's not many, it's okay to simply copy them over manually from the respective .txt files.
 */
 
-t`You are offline.`;
-t`To add photos to places, camera access is needed.`;
+t`You are offline.`
+t`To add photos to places, camera access is needed.`

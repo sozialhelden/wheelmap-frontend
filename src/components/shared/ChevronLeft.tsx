@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import * as React from 'react';
+import styled from 'styled-components'
+import * as React from 'react'
 
 type Props = {
   className?: string,
@@ -21,8 +21,8 @@ const ChevronLeft = styled((props: Props) => (
   height: 18px;
 
   polygon {
-    fill: ${props => props.color || 'black'};
+    fill: ${(props) => props.color || 'black'};
   }
-`;
+`
 
-export default ChevronLeft;
+export default ChevronLeft

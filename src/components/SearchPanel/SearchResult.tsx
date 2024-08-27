@@ -1,18 +1,18 @@
-import classNames from "classnames";
-import { t } from "ttag";
+import classNames from 'classnames'
+import { t } from 'ttag'
 
-import { SearchResultFeature } from "../../lib/fetchers/fetchPlaceSearchResults";
-import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
+import Link from 'next/link'
+import styled from 'styled-components'
+import { SearchResultFeature } from '../../lib/fetchers/fetchPlaceSearchResults'
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
-import Link from "next/link";
-import styled from "styled-components";
-import useCategory from "../../lib/fetchers/useCategory";
-import { TypeTaggedSearchResultFeature } from "../../lib/model/geo/AnyFeature";
-import getAddressString from "../../lib/model/geo/getAddressString";
-import colors from "../../lib/util/colors";
-import Address from "../NodeToolbar/Address";
-import Icon from "../shared/Icon";
-import { PlaceNameHeader } from "../shared/PlaceName";
+import useCategory from '../../lib/fetchers/useCategory'
+import { TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import getAddressString from '../../lib/model/geo/getAddressString'
+import colors from '../../lib/util/colors'
+import Address from '../NodeToolbar/Address'
+import Icon from '../shared/Icon'
+import { PlaceNameHeader } from '../shared/PlaceName'
 
 type Props = {
   className?: string;
@@ -95,23 +95,22 @@ const StyledListItem = styled.li`
       font-weight: 600;
     }
   }
-`;
+`
 
 export default function SearchResult(props: Props) {
-  const { feature } = props;
+  const { feature } = props
 
-  const properties = feature && feature.properties;
+  const properties = feature && feature.properties
   // translator: Place name shown in search results for places with unknown name / category.
-  const placeName = properties ? properties.name : t`Unnamed`;
-  const address =
-    properties &&
-    getAddressString({
+  const placeName = properties ? properties.name : t`Unnamed`
+  const address = properties
+    && getAddressString({
       countryCode: properties.country,
       street: properties.street,
       house: properties.housenumber,
       postalCode: properties.postcode,
       city: properties.city,
-    });
+    })
 
   // TODO: Show category again
   // const shownCategory = category || parentCategory;
@@ -121,36 +120,35 @@ export default function SearchResult(props: Props) {
   //   wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
 
   const { categorySynonymCache, category } = useCategory(
-    feature as TypeTaggedSearchResultFeature
-  );
+    feature as TypeTaggedSearchResultFeature,
+  )
 
-  let wheelmapFeatureProperties;
-  let shownCategoryId = category && category._id;
-  let accessibility;
+  let wheelmapFeatureProperties
+  const shownCategoryId = category && category._id
+  let accessibility
 
   const osmType = {
-    N: "node",
-    W: "way",
-    R: "relation",
-  }[feature.properties.osm_type];
+    N: 'node',
+    W: 'way',
+    R: 'relation',
+  }[feature.properties.osm_type]
 
-  const href =
-    feature.properties.osm_key === "place"
-      ? `/?extent=${feature.properties.extent}`
-      : `/${osmType}/${feature.properties.osm_id}`;
+  const href = feature.properties.osm_key === 'place'
+    ? `/?extent=${feature.properties.extent}`
+    : `/${osmType}/${feature.properties.osm_id}`
 
   const className = classNames(
     props.className,
-    "search-result",
+    'search-result',
     // wheelmapFeatureProperties && 'is-on-wheelmap',
-    `osm-category-${feature.properties.osm_key || "unknown"}-${feature
-      .properties.osm_value || "unknown"}`
-  );
+    `osm-category-${feature.properties.osm_key || 'unknown'}-${feature
+      .properties.osm_value || 'unknown'}`,
+  )
   return (
     <StyledListItem className={className}>
       <Link href={href} tabIndex={props.hidden ? -1 : 0}>
         <PlaceNameHeader
-          className={wheelmapFeatureProperties ? "is-on-wheelmap" : undefined}
+          className={wheelmapFeatureProperties ? 'is-on-wheelmap' : undefined}
         >
           {shownCategoryId ? (
             <Icon
@@ -158,7 +156,7 @@ export default function SearchResult(props: Props) {
               category={shownCategoryId}
               size="medium"
               centered
-              ariaHidden={true}
+              ariaHidden
             />
           ) : null}
           {placeName}
@@ -166,5 +164,5 @@ export default function SearchResult(props: Props) {
         {address ? <Address role="none">{address}</Address> : null}
       </Link>
     </StyledListItem>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-import { LocalizedString } from "../../../lib/i18n/LocalizedString";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { EquipmentInfo } from "../../../lib/EquipmentInfo";
+import { LocalizedString } from '../../../lib/i18n/LocalizedString'
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
+import { EquipmentInfo } from '../../../lib/EquipmentInfo'
 
 export default function getEquipmentInfoDescription(
   equipmentInfo: EquipmentInfo | null | undefined,
-  variant: "shortDescription" | "longDescription" | "description"
+  variant: 'shortDescription' | 'longDescription' | 'description',
 ) {
   if (!equipmentInfo) {
-    return;
+    return
   }
 
   const variantsToTry = [
     variant,
-    "shortDescription",
-    "description",
-    "longDescription",
-  ];
-  let description: LocalizedString | undefined = undefined;
+    'shortDescription',
+    'description',
+    'longDescription',
+  ]
+  let description: LocalizedString | undefined
   for (const variant of variantsToTry) {
-    const d = equipmentInfo.properties[variant];
+    const d = equipmentInfo.properties[variant]
     if (d) {
-      description = d;
-      break;
+      description = d
+      break
     }
   }
-  return description && translatedStringFromObject(description);
+  return description && translatedStringFromObject(description)
 }

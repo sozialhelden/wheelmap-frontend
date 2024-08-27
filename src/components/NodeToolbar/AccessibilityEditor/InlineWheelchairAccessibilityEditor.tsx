@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { t } from 'ttag';
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import { YesNoLimitedUnknown, shortAccessibilityName } from '../../../lib/Feature';
-import colors from '../../../lib/util/colors';
-import Icon from '../../Icon';
-import IconButton, { Caption } from '../../IconButton';
+import { YesNoLimitedUnknown, shortAccessibilityName } from '../../../lib/Feature'
+import colors from '../../../lib/util/colors'
+import Icon from '../../Icon'
+import IconButton, { Caption } from '../../IconButton'
 
 type Props = {
   onChange: (newValue: YesNoLimitedUnknown) => void,
@@ -114,7 +114,7 @@ const Row = styled.section`
       background-color: ${colors.negativeColor};
     }
   }
-`;
+`
 
 export default function InlineWheelchairAccessibilityEditor(props: Props) {
   // translator: Screen reader description for the accessibility choice buttons for gray places
@@ -139,5 +139,5 @@ export default function InlineWheelchairAccessibilityEditor(props: Props) {
         </button>
       ))}
     </Row>
-  );
+  )
 }

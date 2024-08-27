@@ -1,51 +1,50 @@
-import compact from "lodash/compact";
-import uniq from "lodash/uniq";
-import { normalizeLanguageCode } from "./normalizeLanguageCode";
-import { currentLocales } from "./i18n";
-import { LocalizedString } from "./LocalizedString";
+import compact from 'lodash/compact'
+import uniq from 'lodash/uniq'
+import { normalizeLanguageCode } from './normalizeLanguageCode'
+import { currentLocales } from './i18n'
+import { LocalizedString } from './LocalizedString'
 
 export function translatedStringFromObject(
-  string: LocalizedString
+  string: LocalizedString,
 ): string | null {
-  if (typeof string === "undefined" || string === null) {
-    return null;
+  if (typeof string === 'undefined' || string === null) {
+    return null
   }
 
-  if (typeof string === "string") return string;
-  if (typeof string === "object") {
-    const firstAvailableLocale = Object.keys(string)[0];
+  if (typeof string === 'string') return string
+  if (typeof string === 'object') {
+    const firstAvailableLocale = Object.keys(string)[0]
 
     const normalizedRequestedLanguageTags = currentLocales.map(
-      (locale) => locale.transifexLanguageIdentifier
-    );
+      (locale) => locale.transifexLanguageIdentifier,
+    )
 
     const normalizedLanguageTags = normalizedRequestedLanguageTags.map(
-      normalizeLanguageCode
-    );
+      normalizeLanguageCode,
+    )
     const languageTagsWithoutCountryCodes = normalizedRequestedLanguageTags.map(
-      (l) => l.slice(0, 2)
-    );
+      (l) => l.slice(0, 2),
+    )
 
     const localesToTry = compact(
       uniq([
         ...normalizedRequestedLanguageTags,
         ...normalizedLanguageTags,
         ...languageTagsWithoutCountryCodes,
-        "en_US",
-        "en",
+        'en_US',
+        'en',
         firstAvailableLocale,
-      ])
-    );
+      ]),
+    )
 
     const foundLocale = localesToTry.find(
-      (languageTag) =>
-        typeof string === "object" &&
-        string !== null &&
-        typeof string[languageTag] === "string"
-    );
+      (languageTag) => typeof string === 'object'
+        && string !== null
+        && typeof string[languageTag] === 'string',
+    )
 
-    if (foundLocale) return string[foundLocale];
+    if (foundLocale) return string[foundLocale]
   }
 
-  return null;
+  return null
 }

@@ -1,9 +1,11 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
-import ShareBarToggle from "./ShareBarToggle";
+import {
+  FunctionComponent, useEffect, useRef, useState,
+} from 'react'
+import styled from 'styled-components'
+import ShareBarToggle from './ShareBarToggle'
 // import ShareBarContent from "./ShareBarContent";
-import styled from "styled-components";
-import colors from "../../lib/util/colors";
-import { Caption } from "../shared/IconButton";
+import colors from '../../lib/util/colors'
+import { Caption } from '../shared/IconButton'
 
 type ShareBarProps = {
   shareButtonCaption: string;
@@ -26,28 +28,28 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
   className,
   onToggle,
 }): JSX.Element => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const shareBarToggleRef = useRef(null);
-  const collapseButtonRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false)
+  const shareBarToggleRef = useRef(null)
+  const collapseButtonRef = useRef(null)
 
   useEffect(() => {
-    toggleShareBar(false);
-  }, [featureId]);
+    toggleShareBar(false)
+  }, [featureId])
 
   useEffect(() => {
     if (isExpanded && collapseButtonRef) {
-      collapseButtonRef.current.focus();
+      collapseButtonRef.current.focus()
     } else if (!isExpanded && shareBarToggleRef) {
-      shareBarToggleRef.current.focus();
+      shareBarToggleRef.current.focus()
     }
-  }, [isExpanded]);
+  }, [isExpanded])
 
   const toggleShareBar = (show: boolean | undefined) => {
-    setIsExpanded(show !== undefined ? show : !isExpanded);
+    setIsExpanded(show !== undefined ? show : !isExpanded)
     if (onToggle) {
-      onToggle();
+      onToggle()
     }
-  };
+  }
 
   if (!isExpanded) {
     return (
@@ -57,22 +59,22 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
         onClick={toggleShareBar}
         caption={shareButtonCaption}
       />
-    );
+    )
   }
 
   return (<div>SHARING GOES HERE</div>
-    // <ShareBarContent
-    //   url={url}
-    //   sharedObjectTitle={sharedObjectTitle}
-    //   pageDescription={pageDescription}
-    //   mailToLink={mailToLink}
-    //   className={className}
-    //   isExpanded={isExpanded}
-    //   ref={collapseButtonRef}
-    //   onHide={() => toggleShareBar(false)}
-    // />
-  );
-};
+  // <ShareBarContent
+  //   url={url}
+  //   sharedObjectTitle={sharedObjectTitle}
+  //   pageDescription={pageDescription}
+  //   mailToLink={mailToLink}
+  //   className={className}
+  //   isExpanded={isExpanded}
+  //   ref={collapseButtonRef}
+  //   onHide={() => toggleShareBar(false)}
+  // />
+  )
+}
 
 const StyledShareBar = styled(ShareBar)`
   padding: 0 5px 0 0;
@@ -139,6 +141,6 @@ const StyledShareBar = styled(ShareBar)`
       }
     }
   }
-`;
+`
 
-export default StyledShareBar;
+export default StyledShareBar

@@ -1,14 +1,14 @@
-import { hsl } from "d3-color";
-import includes from "lodash/includes";
-import minBy from "lodash/minBy";
-import uniq from "lodash/uniq";
-import * as React from "react";
-import ResizeObserverPolyfill from "resize-observer-polyfill";
-import styled from "styled-components";
-import { t } from "ttag";
-import { isOnSmallViewport } from "../../lib/util/ViewportSize";
-import colors, { alpha } from "../../lib/util/colors";
-import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+import { hsl } from 'd3-color'
+import includes from 'lodash/includes'
+import minBy from 'lodash/minBy'
+import uniq from 'lodash/uniq'
+import * as React from 'react'
+import ResizeObserverPolyfill from 'resize-observer-polyfill'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { isOnSmallViewport } from '../../lib/util/ViewportSize'
+import colors, { alpha } from '../../lib/util/colors'
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
 type Props = {
   className?: string;
@@ -29,33 +29,32 @@ type Props = {
 function mergeRefs(refs) {
   return (value) => {
     refs.forEach((ref) => {
-      if (typeof ref === "function") {
-        ref(value);
+      if (typeof ref === 'function') {
+        ref(value)
       } else if (ref != null) {
-        ref.current = value;
+        ref.current = value
       }
-    });
-  };
+    })
+  }
 }
 
 function getNearestStopForTopOffset(
   topOffset: number,
-  stops: number[]
+  stops: number[],
 ): number {
-  return minBy(stops, (stop) => Math.abs(stop - topOffset));
+  return minBy(stops, (stop) => Math.abs(stop - topOffset))
 }
 
 function getMaxHeight(
   minimalTopPosition: number = 0,
   viewportWidth: number,
   viewportHeight: number,
-  isModal: boolean
+  isModal: boolean,
 ) {
   if (viewportHeight > 512 && viewportWidth > 512) {
-    return `calc(100% - ${minimalTopPosition}px - env(safe-area-inset-top) - 20px)`;
-  } else {
-    return `calc(100% - ${minimalTopPosition}px - env(safe-area-inset-top))`;
+    return `calc(100% - ${minimalTopPosition}px - env(safe-area-inset-top) - 20px)`
   }
+  return `calc(100% - ${minimalTopPosition}px - env(safe-area-inset-top))`
 }
 
 // Use this to debug state value changes in the console - very handy for complex state handling with
@@ -63,32 +62,32 @@ function getMaxHeight(
 function logStateValueChange(name: string, value: any) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useIsomorphicLayoutEffect(() => {
-    console.log(name, "=", value);
-  }, [name, value]);
+    console.log(name, '=', value)
+  }, [name, value])
 }
 
 type PositionSample = { pos: number; t: number };
-type FlickState = "up" | "down" | "noFlick";
+type FlickState = 'up' | 'down' | 'noFlick';
 
 function calculateFlickState(ySamples: PositionSample[]): FlickState {
   // console.log(ySamples);
-  const lastSample = ySamples[1];
-  const sampleBeforeLastSample = ySamples[0];
+  const lastSample = ySamples[1]
+  const sampleBeforeLastSample = ySamples[0]
   if (lastSample && sampleBeforeLastSample) {
     if (
-      lastSample.t - sampleBeforeLastSample.t < 50 &&
-      Math.abs(lastSample.pos - sampleBeforeLastSample.pos) > 15
+      lastSample.t - sampleBeforeLastSample.t < 50
+      && Math.abs(lastSample.pos - sampleBeforeLastSample.pos) > 15
     ) {
       if (lastSample.pos > sampleBeforeLastSample.pos) {
         // console.log('up');
-        return "up";
-      } else if (lastSample.pos < sampleBeforeLastSample.pos) {
+        return 'up'
+      } if (lastSample.pos < sampleBeforeLastSample.pos) {
         // console.log('down');
-        return "down";
+        return 'down'
       }
     }
   }
-  return "noFlick";
+  return 'noFlick'
 }
 
 const StyledSection = styled.section`
@@ -241,14 +240,14 @@ const StyledSection = styled.section`
     @media (hover), (-moz-touch-enabled: 0) {
       &:hover {
         background-color: ${hsl(colors.linkColor)
-          .brighter(0.2)
-          .formatRgb()};
+    .brighter(0.2)
+    .formatRgb()};
       }
     }
     &:active {
       background-color: ${hsl(colors.linkColor)
-        .darker(0.2)
-        .formatRgb()};
+    .darker(0.2)
+    .formatRgb()};
     }
 
     &.focus-visible {
@@ -264,8 +263,8 @@ const StyledSection = styled.section`
 
   .negative-button {
     color: ${hsl(colors.negativeColor)
-      .darker(1)
-      .formatRgb()};
+    .darker(1)
+    .formatRgb()};
     @media (hover), (-moz-touch-enabled: 0) {
       &:hover,
       &:focus {
@@ -275,8 +274,8 @@ const StyledSection = styled.section`
 
     &:active {
       background-color: ${hsl(colors.negativeBackgroundColorTransparent)
-        .darker(1)
-        .formatRgb()};
+    .darker(1)
+    .formatRgb()};
     }
 
     &[disabled] {
@@ -290,7 +289,7 @@ const StyledSection = styled.section`
     opacity: 0;
     pointer-events: none;
   }
-`;
+`
 
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports,
@@ -304,62 +303,60 @@ const StyledSection = styled.section`
  * Can be modal and is not swipeable then.
  */
 
-const BaseToolbar = (
-  {
-    hidden = false,
-    minimalHeight = 90,
-    isSwipeable = true,
-    isModal = false,
-    role = "",
-    minimalTopPosition = 60,
-    enableTransitions = true,
-    children,
-    inert,
-    className,
-    ariaLabel,
-    ariaDescribedBy,
-    innerRef,
-  }: Props & {
+function BaseToolbar({
+  hidden = false,
+  minimalHeight = 90,
+  isSwipeable = true,
+  isModal = false,
+  role = '',
+  minimalTopPosition = 60,
+  enableTransitions = true,
+  children,
+  inert,
+  className,
+  ariaLabel,
+  ariaDescribedBy,
+  innerRef,
+}: Props & {
     innerRef:
       | { current: null | HTMLElement }
       | ((elem: null | HTMLElement) => any);
-  }
-) => {
-  const scrollElementRef = React.useRef<HTMLElement | null>(null);
-  const [topOffset, setTopOffset] = React.useState(0);
-  const [scrollTop, setScrollTop] = React.useState(0);
-  const [isSwiping, setIsSwiping] = React.useState(false);
-  const [viewportWidth, setViewportWidth] = React.useState(0);
-  const [viewportHeight, setViewportHeight] = React.useState(0);
-  const [toolbarHeight, setToolbarHeight] = React.useState(0);
-  const [deltaY, setDeltaY] = React.useState(0);
-  const [touchStartY, setTouchStartY] = React.useState(0);
-  const [scrollTopStartY, setScrollTopStartY] = React.useState(0);
-  const [ySamples, setYSamples] = React.useState([]);
+  }) {
+  const scrollElementRef = React.useRef<HTMLElement | null>(null)
+  const [topOffset, setTopOffset] = React.useState(0)
+  const [scrollTop, setScrollTop] = React.useState(0)
+  const [isSwiping, setIsSwiping] = React.useState(false)
+  const [viewportWidth, setViewportWidth] = React.useState(0)
+  const [viewportHeight, setViewportHeight] = React.useState(0)
+  const [toolbarHeight, setToolbarHeight] = React.useState(0)
+  const [deltaY, setDeltaY] = React.useState(0)
+  const [touchStartY, setTouchStartY] = React.useState(0)
+  const [scrollTopStartY, setScrollTopStartY] = React.useState(0)
+  const [ySamples, setYSamples] = React.useState([])
 
   const isLandscapePhone = React.useMemo(
     () => isOnSmallViewport() && viewportWidth > viewportHeight,
-    [viewportWidth, viewportHeight]
-  );
+    [viewportWidth, viewportHeight],
+  )
 
   /** An array of top position offsets that the toolbar is allowed to stop on. */
   const stops: number[] = React.useMemo(() => {
     // On landscape phones, the toolbar is fixed on the left side.
     if (isLandscapePhone) {
-      return [0];
+      return [0]
     }
     // The toolbar needs a minimal height be draggable from the bottom when minimized
-    const absoluteMinimalHeight = Math.max(minimalHeight, 90);
-    const bottomPosition = Math.max(0, toolbarHeight - absoluteMinimalHeight);
-    let middleStop = toolbarHeight - 0.5 * viewportHeight;
+    const absoluteMinimalHeight = Math.max(minimalHeight, 90)
+    const bottomPosition = Math.max(0, toolbarHeight - absoluteMinimalHeight)
+    let middleStop = toolbarHeight - 0.5 * viewportHeight
     if (middleStop < 80) {
-      middleStop = 0;
+      middleStop = 0
     }
-    const defaultStops = uniq([0, middleStop, bottomPosition]);
-    return defaultStops;
-  }, [isLandscapePhone, minimalHeight, toolbarHeight, viewportHeight]);
+    const defaultStops = uniq([0, middleStop, bottomPosition])
+    return defaultStops
+  }, [isLandscapePhone, minimalHeight, toolbarHeight, viewportHeight])
 
-  const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset]);
+  const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset])
 
   // Enable these for debugging.
   // logStateValueChange('deltaY', deltaY);
@@ -370,33 +367,31 @@ const BaseToolbar = (
   // logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
 
   const touchAction = React.useMemo(
-    () => (isAtTopmostPosition ? "inherit" : "none"),
-    [isAtTopmostPosition]
-  );
+    () => (isAtTopmostPosition ? 'inherit' : 'none'),
+    [isAtTopmostPosition],
+  )
 
   const transition = React.useMemo(() => {
     if (!enableTransitions) {
-      return "";
+      return ''
     }
-    const defaultTransitions = "opacity 0.3s ease-out";
+    const defaultTransitions = 'opacity 0.3s ease-out'
     if (!isSwiping) {
-      return `${defaultTransitions}, transform 0.3s ease-out`;
+      return `${defaultTransitions}, transform 0.3s ease-out`
     }
-    return defaultTransitions;
-  }, [enableTransitions, isSwiping]);
+    return defaultTransitions
+  }, [enableTransitions, isSwiping])
 
   const transformY = React.useMemo(() => {
-    const isToolbarFittingOnScreenCompletely =
-      viewportHeight - toolbarHeight - stops[0] > 0;
-    const isBigViewport = viewportWidth > 512 && viewportHeight > 512;
-    const transformY =
-      isBigViewport && isToolbarFittingOnScreenCompletely
-        ? 0
-        : Math.max(
-            topOffset + (scrollTop <= 0 ? -scrollTopStartY - deltaY : 0),
-            0
-          );
-    return transformY;
+    const isToolbarFittingOnScreenCompletely = viewportHeight - toolbarHeight - stops[0] > 0
+    const isBigViewport = viewportWidth > 512 && viewportHeight > 512
+    const transformY = isBigViewport && isToolbarFittingOnScreenCompletely
+      ? 0
+      : Math.max(
+        topOffset + (scrollTop <= 0 ? -scrollTopStartY - deltaY : 0),
+        0,
+      )
+    return transformY
   }, [
     viewportHeight,
     toolbarHeight,
@@ -406,36 +401,36 @@ const BaseToolbar = (
     deltaY,
     scrollTop,
     scrollTopStartY,
-  ]);
+  ])
 
   const onWindowResize = React.useCallback(() => {
-    setViewportWidth(typeof window === "undefined" ? 1024 : window.innerWidth);
-    setViewportHeight(typeof window === "undefined" ? 768 : window.innerHeight);
-    const newTopOffset = getNearestStopForTopOffset(topOffset, stops);
-    setTopOffset(newTopOffset);
-  }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
+    setViewportWidth(typeof window === 'undefined' ? 1024 : window.innerWidth)
+    setViewportHeight(typeof window === 'undefined' ? 768 : window.innerHeight)
+    const newTopOffset = getNearestStopForTopOffset(topOffset, stops)
+    setTopOffset(newTopOffset)
+  }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset])
 
   // Register window resize observer
   useIsomorphicLayoutEffect(() => {
-    const resize = onWindowResize;
-    resize();
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", resize);
+    const resize = onWindowResize
+    resize()
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', resize)
     }
-    return () => window.removeEventListener("resize", resize);
-  }, [onWindowResize]);
+    return () => window.removeEventListener('resize', resize)
+  }, [onWindowResize])
 
   const onToolbarResize = React.useCallback(() => {
-    const ref = scrollElementRef.current;
+    const ref = scrollElementRef.current
     if (!ref) {
-      return;
+      return
     }
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       // @ts-ignore
-      window.scrollElement = ref;
+      window.scrollElement = ref
     }
-    const previousClientTop = ref.getClientRects()[0].top;
-    const newTopOffset = previousClientTop + toolbarHeight - viewportHeight;
+    const previousClientTop = ref.getClientRects()[0].top
+    const newTopOffset = previousClientTop + toolbarHeight - viewportHeight
     // console.log(
     //   'Setting height',
     //   ref.clientHeight,
@@ -444,133 +439,130 @@ const BaseToolbar = (
     //   'new offset',
     //   newTopOffset
     // );
-    setToolbarHeight(ref.clientHeight);
-    setTopOffset(newTopOffset);
-  }, [toolbarHeight, viewportHeight]);
+    setToolbarHeight(ref.clientHeight)
+    setTopOffset(newTopOffset)
+  }, [toolbarHeight, viewportHeight])
 
   // Register toolbar resize observer
   useIsomorphicLayoutEffect(() => {
-    const ref = scrollElementRef.current;
+    const ref = scrollElementRef.current
     if (!ref) {
-      return;
+      return
     }
     // @ts-ignore
-    const resizeObserver = new (typeof ResizeObserver === "undefined"
+    const resizeObserver = new (typeof ResizeObserver === 'undefined'
       ? ResizeObserverPolyfill
       : // @ts-ignore
-        ResizeObserver)(onToolbarResize);
-    onToolbarResize();
-    resizeObserver.observe(ref);
+      ResizeObserver)(onToolbarResize)
+    onToolbarResize()
+    resizeObserver.observe(ref)
     return () => {
-      resizeObserver.disconnect();
-    };
-  }, [onToolbarResize, scrollElementRef]);
+      resizeObserver.disconnect()
+    }
+  }, [onToolbarResize, scrollElementRef])
 
   const ensureFullVisibility = React.useCallback(() => {
     if (isSwiping) {
-      return;
+      return
     }
     // Move the toolbar to show as much of its content as possible.
-    setTopOffset(0);
-  }, [isSwiping]);
+    setTopOffset(0)
+  }, [isSwiping])
 
   useIsomorphicLayoutEffect(() => {
     if (isModal) {
-      ensureFullVisibility();
+      ensureFullVisibility()
     }
-  }, [isModal, ensureFullVisibility]);
+  }, [isModal, ensureFullVisibility])
 
   const onScroll = React.useCallback(() => {
     if (scrollElementRef.current) {
-      setScrollTop(scrollElementRef.current.scrollTop);
+      setScrollTop(scrollElementRef.current.scrollTop)
     }
-  }, [setScrollTop]);
+  }, [setScrollTop])
 
   const handleTouchStart = React.useCallback(
     (event: React.TouchEvent<HTMLElement>) => {
       if (isModal) {
-        return;
+        return
       }
       if (topOffset > 0) {
-        event.preventDefault();
+        event.preventDefault()
       }
-      setTouchStartY(event.touches[0].clientY);
+      setTouchStartY(event.touches[0].clientY)
       if (scrollElementRef.current) {
-        setScrollTopStartY(scrollElementRef.current.scrollTop);
+        setScrollTopStartY(scrollElementRef.current.scrollTop)
       }
-      setYSamples([]);
+      setYSamples([])
     },
-    [isModal, topOffset]
-  );
+    [isModal, topOffset],
+  )
 
   const handleTouchEnd = React.useCallback(
     (e: React.TouchEvent<HTMLElement>) => {
       if (!isSwipeable || isModal) {
-        return;
+        return
       }
-      setDeltaY(0);
-      setScrollTopStartY(0);
-      setIsSwiping(false);
+      setDeltaY(0)
+      setScrollTopStartY(0)
+      setIsSwiping(false)
       // console.log('Touch ended at', transformY);
-      const flickState = calculateFlickState(ySamples);
-      if (flickState !== "noFlick" && scrollTop <= 0) {
-        const newIndex = flickState === "up" ? 0 : stops.length - 1;
-        setTopOffset(stops[newIndex]);
+      const flickState = calculateFlickState(ySamples)
+      if (flickState !== 'noFlick' && scrollTop <= 0) {
+        const newIndex = flickState === 'up' ? 0 : stops.length - 1
+        setTopOffset(stops[newIndex])
       } else {
-        const newStop = getNearestStopForTopOffset(transformY, stops);
-        setTopOffset(newStop);
+        const newStop = getNearestStopForTopOffset(transformY, stops)
+        setTopOffset(newStop)
       }
     },
-    [isModal, isSwipeable, scrollTop, stops, transformY, ySamples]
-  );
+    [isModal, isSwipeable, scrollTop, stops, transformY, ySamples],
+  )
 
   const handleTouchMove = React.useCallback(
     (event: React.TouchEvent<HTMLElement>) => {
       if (isModal) {
-        return;
+        return
       }
-      event.stopPropagation();
-      setDeltaY(touchStartY - event.touches[0].clientY);
-      ySamples.unshift({ pos: event.touches[0].clientY, t: Date.now() });
-      ySamples.splice(3);
-      setIsSwiping(true);
+      event.stopPropagation()
+      setDeltaY(touchStartY - event.touches[0].clientY)
+      ySamples.unshift({ pos: event.touches[0].clientY, t: Date.now() })
+      ySamples.splice(3)
+      setIsSwiping(true)
       if (topOffset > 0) {
-        event.preventDefault();
+        event.preventDefault()
       }
     },
-    [isModal, touchStartY, ySamples, topOffset]
-  );
+    [isModal, touchStartY, ySamples, topOffset],
+  )
 
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {
-      return;
+      return
     }
-    const scrollElementHasMoreContentThanShown =
-      scrollElementRef.current.scrollHeight >
-      scrollElementRef.current.clientHeight;
-    const isScrollable =
-      isAtTopmostPosition && scrollElementHasMoreContentThanShown;
-    return isScrollable && scrollTop > 0;
-  }, [isAtTopmostPosition, scrollTop]);
+    const scrollElementHasMoreContentThanShown = scrollElementRef.current.scrollHeight
+      > scrollElementRef.current.clientHeight
+    const isScrollable = isAtTopmostPosition && scrollElementHasMoreContentThanShown
+    return isScrollable && scrollTop > 0
+  }, [isAtTopmostPosition, scrollTop])
 
-  const xModels = ["iPhone10,3", "iPhone10,6", "x86_64"];
-  const isIphoneX =
-    typeof window !== "undefined" &&
+  const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64']
+  const isIphoneX = typeof window !== 'undefined'
     // @ts-ignore
-    window.device &&
+    && window.device
     // @ts-ignore
-    window.device.model &&
+    && window.device.model
     // @ts-ignore
-    includes(xModels, window.device.model);
+    && includes(xModels, window.device.model)
   const classNames = [
-    "toolbar",
-    isIphoneX && "toolbar-iphone-x",
-    hidden && "toolbar-hidden",
-    isModal && "toolbar-is-modal",
-    toolbarIsScrollable && "toolbar-is-scrollable",
+    'toolbar',
+    isIphoneX && 'toolbar-iphone-x',
+    hidden && 'toolbar-hidden',
+    isModal && 'toolbar-is-modal',
+    toolbarIsScrollable && 'toolbar-is-scrollable',
     className,
-  ];
-  const filteredClassNames = classNames.filter(Boolean).join(" ");
+  ]
+  const filteredClassNames = classNames.filter(Boolean).join(' ')
 
   return (
     <StyledSection
@@ -578,7 +570,7 @@ const BaseToolbar = (
       style={{
         touchAction,
         transition,
-        overflowY: topOffset > 0 ? "hidden" : "auto",
+        overflowY: topOffset > 0 ? 'hidden' : 'auto',
         transform: `translate3d(0, ${transformY}px, 0)`,
         top:
           isModal || viewportHeight <= 512 || viewportWidth <= 512
@@ -588,7 +580,7 @@ const BaseToolbar = (
           minimalTopPosition,
           viewportWidth,
           viewportHeight,
-          isModal || false
+          isModal || false,
         ),
       }}
       ref={mergeRefs([scrollElementRef, innerRef])}
@@ -611,21 +603,21 @@ const BaseToolbar = (
       >
         {isSwipeable && !isModal ? (
           <button
-            style={{ transform: `translate3d(-50%, 0px, 0)` }}
+            style={{ transform: 'translate3d(-50%, 0px, 0)' }}
             className="grab-handle"
             aria-label={
               isAtTopmostPosition ? t`Collapse details` : t`Expand details`
             }
             onClick={() => {
               if (isAtTopmostPosition) {
-                const offset = stops[stops.length - 1];
+                const offset = stops[stops.length - 1]
                 // reset scroll position
                 if (scrollElementRef.current) {
-                  scrollElementRef.current.scrollTop = 0;
+                  scrollElementRef.current.scrollTop = 0
                 }
-                setTopOffset(offset);
+                setTopOffset(offset)
               } else {
-                ensureFullVisibility();
+                ensureFullVisibility()
               }
             }}
           />
@@ -633,8 +625,8 @@ const BaseToolbar = (
         {children}
       </div>
     </StyledSection>
-  );
-};
+  )
+}
 
 /**
  * A card-like panel component that has a fixed position on bigger viewports, and that turns into a
@@ -643,11 +635,11 @@ const BaseToolbar = (
 const Toolbar = React.forwardRef<HTMLElement, Props>(
   (
     props: Props,
-    ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any)
-  ) => {
-    // https://reactjs.org/docs/forwarding-refs.html
-    return <BaseToolbar {...props} innerRef={ref} />;
-  }
-);
+    ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any),
+  ) =>
+  // https://reactjs.org/docs/forwarding-refs.html
+    <BaseToolbar {...props} innerRef={ref} />,
 
-export default Toolbar;
+)
+
+export default Toolbar

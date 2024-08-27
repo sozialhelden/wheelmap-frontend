@@ -1,10 +1,10 @@
-import LRUQueue from './LRUQueue';
-import { IItem, IOptions, ISetItemOptions } from './types';
+import LRUQueue from './LRUQueue'
+import { IItem, IOptions, ISetItemOptions } from './types'
 
 export default class Cache<K, V> {
-  public options: Readonly<IOptions<K, V>>;
+  public options: Readonly<IOptions<K, V>>
 
-  public lruQueue = new LRUQueue<K>();
+  public lruQueue = new LRUQueue<K>()
 
   /**
    * A cache! 🐹
@@ -48,13 +48,13 @@ export default class Cache<K, V> {
     evictExceedingItemsBy = 'lru',
   }: Partial<IOptions<K, V>> = {}) {
     if (defaultTTL <= 0) {
-      throw new Error('Please supply a `defaultTTL` value greater than zero.');
+      throw new Error('Please supply a `defaultTTL` value greater than zero.')
     }
 
     if (maximalItemCount <= 0) {
       throw new Error(
         'Please supply a `maximalItemCount` parameter that is greater than zero. Supply no parameter or `Infinity` as value to allow an infinite number of items.',
-      );
+      )
     }
 
     this.options = Object.freeze({
@@ -62,7 +62,7 @@ export default class Cache<K, V> {
       defaultTTL,
       evictExceedingItemsBy,
       maximalItemCount,
-    });
+    })
   }
 
   /**
@@ -89,33 +89,33 @@ export default class Cache<K, V> {
     { dispose, storageTimestamp = Date.now(), ttl = this.options.defaultTTL }: ISetItemOptions = {},
   ): boolean {
     // Check for infinity in which case the item persists forever.
-    const expireAfterTimestamp = ttl < Infinity ? storageTimestamp + ttl : Infinity;
+    const expireAfterTimestamp = ttl < Infinity ? storageTimestamp + ttl : Infinity
 
     const item: IItem<V> = {
       dispose,
       expireAfterTimestamp,
       storageTimestamp,
       value,
-    };
+    }
 
     while (this.options.cache.size >= this.options.maximalItemCount) {
       switch (this.options.evictExceedingItemsBy) {
-        case 'age':
-          this.deleteOldestItem();
-          break;
-        case 'lru':
-          this.deleteLeastRecentlyUsedItem();
-          break;
-        default:
-          throw new Error('Must define "age" or "lru" as "evictExceedingItemsBy" strategy.');
+      case 'age':
+        this.deleteOldestItem()
+        break
+      case 'lru':
+        this.deleteLeastRecentlyUsedItem()
+        break
+      default:
+        throw new Error('Must define "age" or "lru" as "evictExceedingItemsBy" strategy.')
       }
     }
 
     if (this.options.evictExceedingItemsBy === 'lru') {
-      this.lruQueue.push(key);
+      this.lruQueue.push(key)
     }
-    this.options.cache.set(key, item);
-    return true;
+    this.options.cache.set(key, item)
+    return true
   }
 
   /**
@@ -126,7 +126,7 @@ export default class Cache<K, V> {
    */
 
   public peekWithMetaInfo(key: K): IItem<V> | undefined {
-    return this.options.cache.get(key);
+    return this.options.cache.get(key)
   }
 
   /**
@@ -137,8 +137,8 @@ export default class Cache<K, V> {
    */
 
   public peek(key: K): V | undefined {
-    const item = this.peekWithMetaInfo(key);
-    return item && item.value;
+    const item = this.peekWithMetaInfo(key)
+    return item && item.value
   }
 
   /**
@@ -149,16 +149,16 @@ export default class Cache<K, V> {
    */
 
   public getMetaInfo(key: K, ifNotExpiredOnTimestamp: number = Date.now()): IItem<V> | undefined {
-    const item = this.options.cache.get(key);
+    const item = this.options.cache.get(key)
     if (item !== undefined && item.expireAfterTimestamp <= ifNotExpiredOnTimestamp) {
-      this.delete(key);
-      return undefined;
+      this.delete(key)
+      return undefined
     }
     if (this.options.evictExceedingItemsBy === 'lru') {
       // Move the key to the end of the LRU deletion queue
-      this.lruQueue.touch(key);
+      this.lruQueue.touch(key)
     }
-    return item;
+    return item
   }
 
   /**
@@ -170,8 +170,8 @@ export default class Cache<K, V> {
    */
 
   public get(key: K, ifNotExpiredOnTimestamp: number = Date.now()): V | undefined {
-    const item = this.getMetaInfo(key, ifNotExpiredOnTimestamp);
-    return item && item.value;
+    const item = this.getMetaInfo(key, ifNotExpiredOnTimestamp)
+    return item && item.value
   }
 
   /**
@@ -185,7 +185,7 @@ export default class Cache<K, V> {
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, item] of this.options.cache) {
       if (item.expireAfterTimestamp <= ifOlderThanTimestamp) {
-        this.delete(key);
+        this.delete(key)
       }
     }
   }
@@ -197,7 +197,7 @@ export default class Cache<K, V> {
    */
 
   public has(key: K): boolean {
-    return this.options.cache.has(key);
+    return this.options.cache.has(key)
   }
 
   /**
@@ -208,17 +208,17 @@ export default class Cache<K, V> {
 
   public delete(key: K): boolean {
     if (this.options.evictExceedingItemsBy === 'lru') {
-      this.lruQueue.delete(key);
+      this.lruQueue.delete(key)
     }
-    const item = this.peekWithMetaInfo(key);
+    const item = this.peekWithMetaInfo(key)
     if (item !== undefined) {
-      const result = this.options.cache.delete(key);
+      const result = this.options.cache.delete(key)
       if (item.dispose) {
-        item.dispose();
+        item.dispose()
       }
-      return result;
+      return result
     }
-    return false;
+    return false
   }
 
   /**
@@ -226,9 +226,9 @@ export default class Cache<K, V> {
    */
 
   public clear(): void {
-    this.options.cache.clear();
+    this.options.cache.clear()
     if (this.options.evictExceedingItemsBy === 'lru') {
-      this.lruQueue.clear();
+      this.lruQueue.clear()
     }
   }
 
@@ -238,7 +238,7 @@ export default class Cache<K, V> {
    */
 
   public size(): number {
-    return this.options.cache.size;
+    return this.options.cache.size
   }
 
   /**
@@ -253,38 +253,38 @@ export default class Cache<K, V> {
    */
 
   public setTTL(key: K, ttl: number, now: number = Date.now()): number | undefined {
-    const item = this.options.cache.get(key);
+    const item = this.options.cache.get(key)
     if (item) {
-      item.expireAfterTimestamp = now + ttl;
-      return item.expireAfterTimestamp;
+      item.expireAfterTimestamp = now + ttl
+      return item.expireAfterTimestamp
     }
-    return undefined;
+    return undefined
   }
 
   public deleteLeastRecentlyUsedItem(): IItem<V> | undefined {
     if (this.options.evictExceedingItemsBy !== 'lru') {
       throw new Error(
         'Can only use this function if the cache is initialized to watch LRU of items.',
-      );
+      )
     }
-    const key = this.lruQueue.shift();
+    const key = this.lruQueue.shift()
     if (!key) {
-      return undefined;
+      return undefined
     }
-    const item = this.peekWithMetaInfo(key);
-    this.lruQueue.delete(key);
-    this.options.cache.delete(key);
+    const item = this.peekWithMetaInfo(key)
+    this.lruQueue.delete(key)
+    this.options.cache.delete(key)
     if (item && item.dispose) {
-      item.dispose();
+      item.dispose()
     }
-    return item;
+    return item
   }
 
   public deleteOldestItem() {
     // This works because the insertion order is maintained when iterating keys.
-    const key = this.options.cache.keys().next().value;
+    const key = this.options.cache.keys().next().value
     if (key !== undefined) {
-      this.delete(key);
+      this.delete(key)
     }
   }
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function Logo(props) {
   return (
@@ -13,5 +13,5 @@ export default function Logo(props) {
         fill="#111"
       />
     </svg>
-  );
+  )
 }

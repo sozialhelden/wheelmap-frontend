@@ -1,23 +1,23 @@
-import sortBy from 'lodash/sortBy';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { getFeatureId } from '../../lib/model/ac/Feature';
-import Categories, { CategoryLookupTables } from '../../lib/model/ac/categories/Categories';
-import { placeNameFor } from "../../lib/model/geo/placeNameFor";
-import colors from '../../lib/util/colors';
-import { Cluster } from '../Map/Cluster';
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import * as markers from '../icons/markers';
-import StyledCloseLink from '../shared/CloseLink';
-import ErrorBoundary from '../shared/ErrorBoundary';
-import { StyledIconContainer } from '../shared/Icon';
-import { Circle } from '../shared/IconButton';
-import { PlaceNameH1 } from '../shared/PlaceName';
-import StyledFrame from './AccessibilitySection/StyledFrame';
-import NodeHeader, { StyledNodeHeader } from './NodeHeader';
+import sortBy from 'lodash/sortBy'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import { getFeatureId } from '../../lib/model/ac/Feature'
+import Categories, { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
+import { placeNameFor } from '../../lib/model/geo/placeNameFor'
+import colors from '../../lib/util/colors'
+import { Cluster } from '../Map/Cluster'
+import StyledToolbar from './StyledToolbar'
+import * as markers from '../icons/markers'
+import StyledCloseLink from '../shared/CloseLink'
+import ErrorBoundary from '../shared/ErrorBoundary'
+import { StyledIconContainer } from '../shared/Icon'
+import { Circle } from '../shared/IconButton'
+import { PlaceNameH1 } from '../shared/PlaceName'
+import StyledFrame from './AccessibilitySection/StyledFrame'
+import NodeHeader, { StyledNodeHeader } from './NodeHeader'
 // import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
   hidden?: boolean,
@@ -36,20 +36,20 @@ const PositionedCloseLink = styled(StyledCloseLink)`
   align-self: flex-start;
   margin-top: -8px;
   margin-right: 1px;
-`;
-PositionedCloseLink.displayName = 'PositionedCloseLink';
+`
+PositionedCloseLink.displayName = 'PositionedCloseLink'
 
-const ClusterIcon = function({ cluster, className, onSelectClusterIcon }: Partial<Props>) {
-  const accessibility = cluster.accessibility || 'unknown';
-  const MarkerComponent = markers[`${accessibility}WithoutArrow`] || Circle;
+const ClusterIcon = function ({ cluster, className, onSelectClusterIcon }: Partial<Props>) {
+  const accessibility = cluster.accessibility || 'unknown'
+  const MarkerComponent = markers[`${accessibility}WithoutArrow`] || Circle
 
   return (
     <StyledIconContainer className={className} size="medium" onClick={onSelectClusterIcon}>
       <MarkerComponent />
       <div>{cluster.features.length}</div>
     </StyledIconContainer>
-  );
-};
+  )
+}
 
 export const StyledClusterIcon = styled(ClusterIcon)`
   margin-block-start: 0;
@@ -58,7 +58,7 @@ export const StyledClusterIcon = styled(ClusterIcon)`
   cursor: pointer;
 
   > div {
-    color: ${props => (props.cluster && props.cluster.foregroundColor) || 'white'};
+    color: ${(props) => (props.cluster && props.cluster.foregroundColor) || 'white'};
     font-size: 24px;
     z-index: 300;
   }
@@ -76,26 +76,25 @@ export const StyledClusterIcon = styled(ClusterIcon)`
   svg path,
   svg circle,
   svg rect {
-    fill: ${props =>
-      (props.cluster && props.cluster.backgroundColor) || colors.tonedDownSelectedColor};
+    fill: ${(props) => (props.cluster && props.cluster.backgroundColor) || colors.tonedDownSelectedColor};
   }
-`;
+`
 
 class UnstyledFeatureClusterPanel extends React.Component<Props> {
   renderCloseLink() {
-    const { onClose } = this.props;
-    return <PositionedCloseLink {...{ onClick: onClose }} />;
+    const { onClose } = this.props
+    return <PositionedCloseLink {...{ onClick: onClose }} />
   }
 
   renderClusterEntry(feature: PlaceInfo | EquipmentInfo, allFeatures: (PlaceInfo | EquipmentInfo)[]) {
     const { category, parentCategory } = Categories.getCategoriesForFeature(
       this.props.categories,
-      feature
-    );
+      feature,
+    )
 
-    const isEquipment = ['elevator', 'escalator'].includes(category._id);
-    const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
-    const equipmentInfoId = equipmentInfo?._id || equipmentInfo?.properties._id;
+    const isEquipment = ['elevator', 'escalator'].includes(category._id)
+    const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined
+    const equipmentInfoId = equipmentInfo?._id || equipmentInfo?.properties._id
     // const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
     return (
       <button onClick={() => this.props.onFeatureSelected(feature)}>
@@ -107,40 +106,40 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
           parentCategory={parentCategory}
           equipmentInfo={equipmentInfo}
           equipmentInfoId={equipmentInfoId}
-          hasIcon={true}
+          hasIcon
         />
       </button>
-    );
+    )
   }
 
   renderClusterEntries(features: ArrayLike<PlaceInfo | EquipmentInfo>) {
-    const sortedFeatures = sortBy(features, feature => {
+    const sortedFeatures = sortBy(features, (feature) => {
       if (!feature.properties) {
         return getFeatureId(feature)
       }
       const { category, parentCategory } = Categories.getCategoriesForFeature(
         this.props.categories,
-        feature
-      );
+        feature,
+      )
 
       // TODO comment that this should be typed
-      return placeNameFor(feature.properties as any, category || parentCategory);
-    });
+      return placeNameFor(feature.properties as any, category || parentCategory)
+    })
 
-    return sortedFeatures.map(feature => (
+    return sortedFeatures.map((feature) => (
       <li key={getFeatureId(feature)}>{this.renderClusterEntry(feature, sortedFeatures)}</li>
-    ));
+    ))
   }
 
   render() {
-    const { cluster } = this.props;
+    const { cluster } = this.props
 
     if (!cluster || cluster.features.length === 0) {
-      return null;
+      return null
     }
 
     // translator: Label caption of a cluster that contains multiple nodes with its count, e.g. '(3) Places'
-    const placesLabel = t`Places`;
+    const placesLabel = t`Places`
 
     return (
       <StyledToolbar
@@ -166,7 +165,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
           </section>
         </ErrorBoundary>
       </StyledToolbar>
-    );
+    )
   }
 }
 
@@ -211,6 +210,6 @@ const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
     }
   }
 
-}`;
+}`
 
-export default FeatureClusterPanel;
+export default FeatureClusterPanel

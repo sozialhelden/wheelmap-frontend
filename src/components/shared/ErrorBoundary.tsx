@@ -1,9 +1,9 @@
-import { Component, ReactNode } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
+import { Component, ReactNode } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import Link from "next/link";
-import colors from "../../lib/util/colors";
+import Link from 'next/link'
+import colors from '../../lib/util/colors'
 
 type Props = {
   className?: string;
@@ -18,31 +18,31 @@ type State = {
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props);
+    super(props)
 
-    this.state = { catched: false };
+    this.state = { catched: false }
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    this.setState({ catched: true, error, errorInfo });
+    this.setState({ catched: true, error, errorInfo })
 
-    console[console.error ? "error" : "log"](error, errorInfo);
+    console[console.error ? 'error' : 'log'](error, errorInfo)
   }
 
   render() {
-    const { catched, error, errorInfo } = this.state;
+    const { catched, error, errorInfo } = this.state
 
     if (catched) {
-      const { className } = this.props;
+      const { className } = this.props
 
       // translator: Shown as header text on the error page.
-      const errorText = t`Error`;
+      const errorText = t`Error`
 
       // translator: Shown as apology text / description on the error page.
-      const apologyText = t`Sorry, that should not have happened!`;
+      const apologyText = t`Sorry, that should not have happened!`
 
       // translator: Shown on the error page.
-      const returnHomeButtonCaption = t`Return home`;
+      const returnHomeButtonCaption = t`Return home`
 
       return (
         <div
@@ -63,10 +63,10 @@ class ErrorBoundary extends Component<Props, State> {
 
           </Link>
         </div>
-      );
+      )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }
 
@@ -74,7 +74,7 @@ const ErrorDetail = styled.p`
   font-family: monospace;
   color: rgba(0, 0, 0, 0.6);
   font-size: 0.8em;
-`;
+`
 
 export default styled(ErrorBoundary)`
   display: flex;
@@ -118,4 +118,4 @@ export default styled(ErrorBoundary)`
       transition: box-shadow 0.2s;
     }
   }
-`;
+`
