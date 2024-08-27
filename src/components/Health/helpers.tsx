@@ -104,6 +104,13 @@ export function generateAmenityStatsURL(options: QueryParameters, baseurl: strin
   return `${url}&mode=aggregate&aggregate=count`;
 }
 
+export function generateAccessibilityAttributesURL(baseurl: string, appToken: string): string | undefined {
+  if (!appToken || !baseurl) {
+    return undefined;
+  }
+  return `${baseurl}/accessibility-attributes.json?appToken=${appToken}`;
+}
+
 export const formatOSMAddress = (properties: any, longFormat: boolean = true) => {
   if (longFormat) {
     return (properties?.postcode || "") + " " + uniq([properties?.name, properties?.city, properties?.municipality, properties?.town, properties?.village, properties?.city_district, properties?.suburb, properties?.borough, properties?.county, properties?.country].filter(Boolean)).join(", ") + (properties?.neighbourhood ? ` (${properties?.neighbourhood})` : "");

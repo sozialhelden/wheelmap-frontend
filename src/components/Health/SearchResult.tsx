@@ -1,11 +1,11 @@
 import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
@@ -26,8 +26,9 @@ const StyledListItem = styled.li`
   ${shadowCSS}
 `;
 
-function SearchResult({ data }: any) {
+function SearchResult({ data, accessibilityAttributes }: any) {
   const { properties, _id, distance } = data;
+  const [results, setResults] = useState([]);
   const route = useRouter();
   const { name, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair, unisex, ["wheelchair:description"]: wheelchairDescription, ["blind:description"]: blindDescription, ["blind:description:de"]: blindDescriptionDE, ["blind:description:en"]: blindDescriptionEN, ["deaf:description"]: deafDescription, ["deaf:description:de"]: deafDescriptionDE, ["deaf:description:en"]: deafDescriptionEN, amenity } = properties;
   const customAddress = {
@@ -68,59 +69,21 @@ function SearchResult({ data }: any) {
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name), [userAgent, dataAsOSMFeature, name]);
   const chippedAttributes = ["access", "level", "centralkey", "changing_table", "shower", "fee", "toilets:disposal", "toilets:position"];
-  const filterAttributesAsObject = {
-    fee: {
-      yes: `${t`Fee required`}${properties?.charge ? ` (${properties?.charge})` : ""}`,
-      no: t`No fee required`,
-    },
-    access: {
-      yes: t`Accessible to all`,
-      customers: t`Customers only`,
-      public: t`Public entrance`,
-      private: t`Private entrance`,
-      permissive: t`Permissive entrance`,
-      permit: t`Permit required`,
-      conditional: t`Conditional entrance`,
-    },
-    "toilets:disposal": {
-      flush: t`Flush toilets`,
-      pitlatrine: t`Pit latrine`,
-      bucket: t`Bucket toilet`,
-      composting: t`Composting toilet`,
-      chemical: t`Chemical toilet`,
-      dry_toilet: t`Dry toilet`,
-    },
-    "toilets:position": {
-      seated: t`Seated toilet`,
-      urinal: t`Urinal toilet`,
-      squat: t`Squat toilet`,
-      standing: t`Standing toilet`,
-    },
-    changing_table: {
-      yes: t`Changing table available`,
-      no: t`No changing table available`,
-    },
-    centralkey: {
-      eurokey: t`Euro-Key required`,
-      yes: t`Central key required`,
-    },
-  };
   const filterAttributes = (attr) => {
-    const propertyValue = properties[attr];
-    if (!propertyValue) {
+    const stringFromObject = results?.find((result) => result._id === `osm:${attr}=${properties[attr]}`)?.shortLabel;
+    const translatedString = translatedStringFromObject(stringFromObject);
+    if (!translatedString) {
       return null;
     }
 
-    const attributeMapping = filterAttributesAsObject[attr];
-
-    if (attributeMapping) {
-      const splitValues = propertyValue.split(";");
-      const mappedValues = splitValues.map((value) => attributeMapping[value] || value).sort((a, b) => a.localeCompare(b));
-      return mappedValues.join(", ");
-    }
-
-    return `${attr} : ${propertyValue}`;
+    return translatedString;
   };
+
+  React.useEffect(() => {
+    if (accessibilityAttributes.data) {
+      setResults(accessibilityAttributes.data.results);
+    }
+  }, [accessibilityAttributes.data]);
 
   return (
     <StyledListItem>
