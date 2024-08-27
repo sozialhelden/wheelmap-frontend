@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMuseum(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMuseum(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMuseum;
+export default SvgMuseum

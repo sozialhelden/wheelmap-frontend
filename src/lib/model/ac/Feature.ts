@@ -1,10 +1,10 @@
-import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson';
-import flatten from 'lodash/flatten';
-import includes from 'lodash/includes';
-import uniq from 'lodash/uniq';
-import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults';
-import { isOSMFeature } from '../geo/AnyFeature';
-import OSMFeature from '../osm/OSMFeature';
+import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson'
+import flatten from 'lodash/flatten'
+import includes from 'lodash/includes'
+import uniq from 'lodash/uniq'
+import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults'
+import { isOSMFeature } from '../geo/AnyFeature'
+import OSMFeature from '../osm/OSMFeature'
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -13,10 +13,10 @@ export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
   'yes',
   'no',
   'unknown',
-];
-Object.freeze(yesNoLimitedUnknownArray);
-export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown'];
-Object.freeze(yesNoUnknownArray);
+]
+Object.freeze(yesNoLimitedUnknownArray)
+export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown']
+Object.freeze(yesNoUnknownArray)
 
 export type MappingEventFeature = SearchResultFeature;
 
@@ -63,85 +63,85 @@ export type AccessibilityCloudImages = {
 
 // todo: case analysis for id extraction
 export function getFeatureId(feature: PlaceInfo | EquipmentInfo | any): string | null {
-  if (!feature) return null;
+  if (!feature) return null
   const idProperties = [
     feature.id,
     feature._id,
     feature.properties.id,
     feature.properties._id,
     feature.properties.osm_id,
-  ];
-  const result = idProperties.filter((id) => typeof id === 'string' || typeof id === 'number')[0];
-  return result ? String(result) : null;
+  ]
+  const result = idProperties.filter((id) => typeof id === 'string' || typeof id === 'number')[0]
+  return result ? String(result) : null
 }
 
 export function hrefForPlaceInfo(
   feature: PlaceInfo,
 ) {
-  const featureId = getFeatureId(feature);
-  const [, osmFeatureType, osmId] = featureId.match(/^(node|way|relation)\/(\d+)$/) || [];
+  const featureId = getFeatureId(feature)
+  const [, osmFeatureType, osmId] = featureId.match(/^(node|way|relation)\/(\d+)$/) || []
   if (osmFeatureType && osmId) {
-    return `/${osmFeatureType}/${osmId}`;
+    return `/${osmFeatureType}/${osmId}`
   }
-  return `/nodes/${featureId}`;
+  return `/nodes/${featureId}`
 }
 
 export function hrefForEquipmentInfo(
   feature: EquipmentInfo,
 ) {
-  const { properties } = feature;
-  const featureId = getFeatureId(feature);
-  const placeInfoId = properties?.placeInfoId;
+  const { properties } = feature
+  const featureId = getFeatureId(feature)
+  const placeInfoId = properties?.placeInfoId
   if (includes(['elevator', 'escalator'], properties.category)) {
-    return `/nodes/${placeInfoId}/equipment/${featureId}`;
+    return `/nodes/${placeInfoId}/equipment/${featureId}`
   }
-  return `/nodes/${featureId}`;
+  return `/nodes/${featureId}`
 }
 
 export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): string[] {
-  if (!feature) return [];
+  if (!feature) return []
 
-  const { properties } = feature;
-  if (!properties) return [];
+  const { properties } = feature
+  if (!properties) return []
 
-  const placeSourceId = properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
+  const placeSourceId = properties && typeof properties.sourceId === 'string' ? properties.sourceId : null
 
-  return uniq([placeSourceId].filter(Boolean));
+  return uniq([placeSourceId].filter(Boolean))
 }
 
 function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
-  const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair'];
+  const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair']
   if (['yes', 'no'].includes(wheelchairToiletTag)) {
-    return wheelchairToiletTag as 'yes' | 'no';
+    return wheelchairToiletTag as 'yes' | 'no'
   }
-  return 'unknown';
+  return 'unknown'
 }
 
 export function hasAccessibleToilet(
   feature: PlaceInfo | OSMFeature | any,
 ): YesNoUnknown {
   if (isOSMFeature(feature)) {
-    return hasAccessibleToiletOSM(feature);
+    return hasAccessibleToiletOSM(feature)
   }
 
-  const { properties } = feature;
+  const { properties } = feature
 
   if (!properties.accessibility) {
-    return 'unknown';
+    return 'unknown'
   }
 
   const restrooms: Restroom[] = flatten(
     properties.accessibility.areas?.map((area) => {
-      if (!(area.restrooms instanceof Array)) return null;
-      return area.restrooms;
+      if (!(area.restrooms instanceof Array)) return null
+      return area.restrooms
     }).concat(properties.accessibility.restrooms),
-  );
+  )
 
-  const accessibleCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === true).length;
-  const nonAccessibleCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === false).length;
-  const unknownCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === null || r.isAccessibleWithWheelchair === undefined).length;
+  const accessibleCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === true).length
+  const nonAccessibleCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === false).length
+  const unknownCount = restrooms.filter((r) => r.isAccessibleWithWheelchair === null || r.isAccessibleWithWheelchair === undefined).length
 
-  if (accessibleCount >= 1) return 'yes';
-  if (nonAccessibleCount > unknownCount) return 'no';
-  return 'unknown';
+  if (accessibleCount >= 1) return 'yes'
+  if (nonAccessibleCount > unknownCount) return 'no'
+  return 'unknown'
 }

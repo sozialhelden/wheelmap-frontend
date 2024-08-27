@@ -1,4 +1,4 @@
-import { TypeTaggedPlaceInfo } from '../../../model/geo/AnyFeature';
+import { TypeTaggedPlaceInfo } from '../../../model/geo/AnyFeature'
 
 export const PlaceInfoNode: TypeTaggedPlaceInfo | any = {
   '@type': 'a11yjson:PlaceInfo',
@@ -36,4 +36,4 @@ export const PlaceInfoNode: TypeTaggedPlaceInfo | any = {
     },
     images: {},
   },
-};
+}

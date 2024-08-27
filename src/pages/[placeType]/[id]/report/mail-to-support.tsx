@@ -1,23 +1,23 @@
-import '@blueprintjs/core/lib/css/blueprint.css';
-import { useRouter } from 'next/router';
+import '@blueprintjs/core/lib/css/blueprint.css'
+import { useRouter } from 'next/router'
 import {
   Button,
   Dialog,
   DialogBody,
   DialogFooter,
   DialogProps,
-} from '@blueprintjs/core';
-import React from 'react';
-import { useCurrentApp } from '../../../../lib/context/AppContext';
-import { PlaceInfoNode } from '../../../../lib/fixtures/mocks/nodes/placeinfo';
+} from '@blueprintjs/core'
+import React from 'react'
+import { useCurrentApp } from '../../../../lib/context/AppContext'
+import { PlaceInfoNode } from '../../../../lib/fixtures/mocks/nodes/placeinfo'
 
 function ReportSupportMail() {
-  const router = useRouter();
-  const { placeType, id } = router.query;
+  const router = useRouter()
+  const { placeType, id } = router.query
 
-  const app = useCurrentApp();
-  const { _id } = PlaceInfoNode;
-  const { category } = PlaceInfoNode.properties;
+  const app = useCurrentApp()
+  const { _id } = PlaceInfoNode
+  const { category } = PlaceInfoNode.properties
 
   return (
     <>
@@ -48,10 +48,10 @@ function ReportSupportMail() {
         ) => {}}
       /> */}
     </>
-  );
+  )
 }
 
-export default ReportSupportMail;
+export default ReportSupportMail
 
 function ButtonWithDialog({
   buttonText,
@@ -61,12 +61,12 @@ function ButtonWithDialog({
   buttonText: string;
   footerStyle: 'default' | 'minimal' | 'none';
 }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
-  const handleClose = React.useCallback(() => setIsOpen(false), []);
+  const [isOpen, setIsOpen] = React.useState(false)
+  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen])
+  const handleClose = React.useCallback(() => setIsOpen(false), [])
   const footerActions = (
     <Button onClick={handleClose}>Close</Button>
-  );
+  )
 
   return (
     <>
@@ -93,5 +93,5 @@ function ButtonWithDialog({
         )}
       </Dialog>
     </>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import * as uuid from 'uuid';
+import * as uuid from 'uuid'
 
 export function useUniqueSurveyId() {
   // TODO: Replace mock implementation
-  return uuid.v4();
+  return uuid.v4()
 }

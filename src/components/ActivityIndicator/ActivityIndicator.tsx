@@ -25,7 +25,7 @@
   SOFTWARE.
 */
 
-import * as React from 'react';
+import * as React from 'react'
 
 interface IComposedProps {
   style: React.CSSProperties;
@@ -54,53 +54,53 @@ export default class ActivityIndicator extends React.Component<IProps> {
     animationDuration: 3,
     speed: 1,
     animating: true,
-  };
+  }
 
   constructor(props: IProps) {
-    super(props);
-    this.getDelayStyle = this.getDelayStyle.bind(this);
-    this.getFillStyle = this.getFillStyle.bind(this);
-    this.getBorderStyle = this.getBorderStyle.bind(this);
+    super(props)
+    this.getDelayStyle = this.getDelayStyle.bind(this)
+    this.getFillStyle = this.getFillStyle.bind(this)
+    this.getBorderStyle = this.getBorderStyle.bind(this)
   }
 
   getDelayStyle(delay) {
-    const style: React.CSSProperties = {};
+    const style: React.CSSProperties = {}
     if (delay) {
-      style.animationDelay = `-${delay * (1 / this.props.speed)}s`;
+      style.animationDelay = `-${delay * (1 / this.props.speed)}s`
     }
-    return style;
+    return style
   }
 
   getFillStyle(delay) {
-    const style = this.getDelayStyle(delay);
+    const style = this.getDelayStyle(delay)
     if (this.props.color) {
-      style.backgroundColor = this.props.color;
+      style.backgroundColor = this.props.color
     }
-    return style;
+    return style
   }
 
   getBorderStyle(delay) {
-    const style = this.getDelayStyle(delay);
+    const style = this.getDelayStyle(delay)
     if (this.props.color) {
-      style.borderColor = this.props.color;
+      style.borderColor = this.props.color
     }
-    return style;
+    return style
   }
 
   render() {
     if (!this.props.animating) {
-      return null;
+      return null
     }
     const containerStyle = {
       display: 'inline-block',
       fontSize: '16px',
       lineHeight: '0',
-    };
+    }
     const indicatorStyle = {
       animationDuration: `${this.props.animationDuration * (1 / this.props.speed)}s`,
       fontSize: this.props.size || undefined,
-    };
-    const { ComposedComponent } = this.props;
+    }
+    const { ComposedComponent } = this.props
     return (
       <div style={containerStyle} className={`rai-activity-indicator ${this.props.className}`}>
         <ComposedComponent
@@ -110,6 +110,6 @@ export default class ActivityIndicator extends React.Component<IProps> {
           color={this.props.color}
         />
       </div>
-    );
+    )
   }
 }

@@ -23,5 +23,5 @@ function NearbyToiletButton() {
   //     );
   //   });
 
-  return <Callout intent="warning">Nearby toilets go here.</Callout>;
+  return <Callout intent="warning">Nearby toilets go here.</Callout>
 }

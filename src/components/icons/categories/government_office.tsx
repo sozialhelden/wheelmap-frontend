@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgGovernmentOffice(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgGovernmentOffice(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgGovernmentOffice;
+export default SvgGovernmentOffice

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgLeisure(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgLeisure(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgLeisure;
+export default SvgLeisure

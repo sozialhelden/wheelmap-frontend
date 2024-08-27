@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgEmbassy(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgEmbassy(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgEmbassy;
+export default SvgEmbassy

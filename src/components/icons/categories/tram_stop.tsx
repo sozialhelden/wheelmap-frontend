@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgTramStop(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgTramStop(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgTramStop;
+export default SvgTramStop

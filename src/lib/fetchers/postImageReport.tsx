@@ -12,13 +12,13 @@ export default async function postImageReport(
         Accept: 'application/json',
       },
     },
-  );
+  )
 
-  const json = await response.json();
+  const json = await response.json()
 
   if (!response.ok) {
-    throw new Error(json.error.reason);
+    throw new Error(json.error.reason)
   }
 
-  return json;
+  return json
 }

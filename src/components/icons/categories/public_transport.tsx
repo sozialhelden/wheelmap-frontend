@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPublicTransport(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPublicTransport(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPublicTransport;
+export default SvgPublicTransport

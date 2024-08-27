@@ -1,26 +1,26 @@
-import * as React from 'react';
+import * as React from 'react'
 
 import {
   EquipmentInfo,
   PlaceInfo,
   PlaceProperties,
-} from '@sozialhelden/a11yjson';
-import StyledFrame from './StyledFrame';
-import AccessibilityDetailsTree from './AccessibilityDetailsTree';
-import AccessibleDescription from './AccessibleDescription';
-import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
-import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
+} from '@sozialhelden/a11yjson'
+import StyledFrame from './StyledFrame'
+import AccessibilityDetailsTree from './AccessibilityDetailsTree'
+import AccessibleDescription from './AccessibleDescription'
+import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer'
+import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility'
 
-import { SourceWithLicense } from '../../../../app/PlaceDetailsProps';
-import { isWheelchairAccessible, YesNoLimitedUnknown } from '../../../lib/Feature';
-import { Category } from '../../../lib/model/ac/categories/Categories';
-import filterAccessibility from '../../../lib/model/ac/filterAccessibility';
+import { SourceWithLicense } from '../../../../app/PlaceDetailsProps'
+import { isWheelchairAccessible, YesNoLimitedUnknown } from '../../../lib/Feature'
+import { Category } from '../../../lib/model/ac/categories/Categories'
+import filterAccessibility from '../../../lib/model/ac/filterAccessibility'
 
-import Description from './Description';
-import AppContext from '../../../AppContext';
-import isA11yEditable from '../AccessibilityEditor/isA11yEditable';
-import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
-import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
+import Description from './Description'
+import AppContext from '../../../AppContext'
+import isA11yEditable from '../AccessibilityEditor/isA11yEditable'
+import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes'
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
 
 type Props = {
   featureId: string | string[] | number | null;
@@ -45,57 +45,57 @@ export default function PlaceAccessibilitySection(props: Props) {
     cluster,
     sources,
     isWheelmapFeature,
-  } = props;
+  } = props
 
-  const appContext = React.useContext(AppContext);
-  const properties = feature && feature.properties;
+  const appContext = React.useContext(AppContext)
+  const properties = feature && feature.properties
 
   const { data: accessibilityAttributes, error } = useAccessibilityAttributes([
     appContext.preferredLanguage,
-  ]);
+  ])
   if (error) {
-    throw error;
+    throw error
   }
 
   if (!properties) {
-    return null;
+    return null
   }
 
-  const primarySource = sources.length > 0 ? sources[0].source : undefined;
+  const primarySource = sources.length > 0 ? sources[0].source : undefined
   const isEditingEnabled = isA11yEditable(
     featureId,
     appContext.app,
     primarySource,
-  );
+  )
 
   const accessibilityTree = accessibilityAttributes
     && properties
     && typeof properties.accessibility === 'object'
     ? properties.accessibility
-    : null;
+    : null
   const filteredAccessibilityTree = accessibilityTree
     ? filterAccessibility(accessibilityTree)
-    : null;
+    : null
   const accessibilityDetailsTree = filteredAccessibilityTree && (
     <AccessibilityDetailsTree
       details={filteredAccessibilityTree}
       isNested
       accessibilityAttributes={accessibilityAttributes}
     />
-  );
+  )
   const description: string = translatedStringFromObject(
     accessibilityTree?.description,
-  );
+  )
   const descriptionElement = description ? (
     <Description>{description}</Description>
-  ) : null;
+  ) : null
 
   if (
     isWheelmapFeature
     && !description
     && isWheelchairAccessible(properties) === 'unknown'
   ) {
-    return null;
+    return null
   }
 
   return (
@@ -112,5 +112,5 @@ export default function PlaceAccessibilitySection(props: Props) {
         />
       )}
     </StyledFrame>
-  );
+  )
 }

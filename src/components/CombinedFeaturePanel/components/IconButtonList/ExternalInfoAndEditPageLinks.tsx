@@ -1,19 +1,19 @@
-import Link from 'next/link';
-import { t } from 'ttag';
-import { useSourceSWR } from '../../../../lib/fetchers/useSourceSWR';
-import { TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature';
-import WorldIcon from '../../../icons/actions/World';
+import Link from 'next/link'
+import { t } from 'ttag'
+import { useSourceSWR } from '../../../../lib/fetchers/useSourceSWR'
+import { TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
+import WorldIcon from '../../../icons/actions/World'
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;
 };
 
 export default function ExternalInfoAndEditPageLinks(props: Props) {
-  const { feature } = props;
-  const featureId = feature._id;
-  const source = useSourceSWR(featureId);
-  const sourceNameString = source.data?.name;
-  const { editPageUrl, infoPageUrl } = feature.properties;
+  const { feature } = props
+  const featureId = feature._id
+  const source = useSourceSWR(featureId)
+  const sourceNameString = source.data?.name
+  const { editPageUrl, infoPageUrl } = feature.properties
 
   return (
     <>
@@ -37,5 +37,5 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
         </li>
       )}
     </>
-  );
+  )
 }

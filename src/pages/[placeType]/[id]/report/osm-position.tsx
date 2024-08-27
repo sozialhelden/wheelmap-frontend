@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
 function ReportOSMNonExisting() {
-  const router = useRouter();
-  const { placeType, id } = router.query;
+  const router = useRouter()
+  const { placeType, id } = router.query
 
-  console.log(router.query);
+  console.log(router.query)
   return (
     <>
       <header />
       <h1>Report OSM Position</h1>
       <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
     </>
-  );
+  )
 }
 
-export default ReportOSMNonExisting;
+export default ReportOSMNonExisting

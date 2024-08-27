@@ -1,18 +1,18 @@
 import {
   Button, ControlGroup, NonIdealState, Spinner,
-} from '@blueprintjs/core';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { t } from 'ttag';
+} from '@blueprintjs/core'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { t } from 'ttag'
 
 export default function ProfilePanel() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession()
 
   if (status === 'loading') {
-    return <Spinner size={20} />;
+    return <Spinner size={20} />
   }
 
   if (status === 'authenticated') {
-    const username = session?.user.name;
+    const username = session?.user.name
     return (
       <ControlGroup vertical style={{ margin: '2rem', alignItems: 'center' }}>
         <img
@@ -27,7 +27,7 @@ export default function ProfilePanel() {
           {JSON.stringify(session, null, 2)}
         </pre>
       </ControlGroup>
-    );
+    )
   }
 
   return (
@@ -36,5 +36,5 @@ export default function ProfilePanel() {
       <p>{t`Sign in to use your OpenStreetMap profile and enable advanced Wheelmap features.`}</p>
       <Button intent="primary" large onClick={() => signIn('osm')}>{t`Sign in`}</Button>
     </NonIdealState>
-  );
+  )
 }

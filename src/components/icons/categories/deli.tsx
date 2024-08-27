@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgDeli(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgDeli(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgDeli;
+export default SvgDeli

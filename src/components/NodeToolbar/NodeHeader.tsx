@@ -1,28 +1,28 @@
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import intersperse from 'intersperse';
-import { compact, uniq } from 'lodash';
-import get from 'lodash/get';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject';
-import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import intersperse from 'intersperse'
+import { compact, uniq } from 'lodash'
+import get from 'lodash/get'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject'
+import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo'
 import {
   CategoryLookupTables,
-} from '../../lib/model/ac/categories/Categories';
-import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible';
-import { placeNameFor } from '../../lib/model/geo/placeNameFor';
-import colors from '../../lib/util/colors';
-import { Cluster } from '../MapLegacy/Cluster';
-import ChevronRight from '../shared/ChevronRight';
-import Icon from '../shared/Icon';
-import { PlaceNameH1 } from '../shared/PlaceName';
-import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
+} from '../../lib/model/ac/categories/Categories'
+import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
+import { placeNameFor } from '../../lib/model/geo/placeNameFor'
+import colors from '../../lib/util/colors'
+import { Cluster } from '../MapLegacy/Cluster'
+import ChevronRight from '../shared/ChevronRight'
+import Icon from '../shared/Icon'
+import { PlaceNameH1 } from '../shared/PlaceName'
+import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription'
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;
   height: .9rem;
-`;
+`
 
 export const StyledNodeHeader = styled.header`
   /**
@@ -42,22 +42,22 @@ export const StyledNodeHeader = styled.header`
   ${PlaceNameH1} {
     flex-grow: 2;
   }
-`;
+`
 
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
   margin-left: ${(props) => (props.hasPadding ? '42' : '0')}px;
   font-size: 16px;
   margin-top: 8px;
-`;
+`
 
 const PlaceNameDetail = styled.div`
   margin-top: 0.5rem;
   color: ${colors.textMuted};
   font-size: 1rem;
-`;
+`
 
 function getRoomNumberString(roomNumber: string) {
-  return t`Room ${roomNumber}`;
+  return t`Room ${roomNumber}`
 }
 
 type Props = {
@@ -76,45 +76,45 @@ type Props = {
 
 export default class NodeHeader extends React.Component<Props> {
   onClickCurrentMarkerIcon = () => {
-    const { feature } = this.props;
+    const { feature } = this.props
     if (feature && this.props.onClickCurrentMarkerIcon) {
-      this.props.onClickCurrentMarkerIcon(feature);
+      this.props.onClickCurrentMarkerIcon(feature)
     }
-  };
+  }
 
   render() {
-    const isEquipment = !!this.props.equipmentInfoId;
-    const { feature } = this.props;
-    if (!feature) return null;
-    const { properties } = feature;
-    if (!properties) return null;
+    const isEquipment = !!this.props.equipmentInfoId
+    const { feature } = this.props
+    if (!feature) return null
+    const { properties } = feature
+    if (!properties) return null
 
-    const { category, parentCategory, children } = this.props;
-    const shownCategory = category || parentCategory;
-    const categoryName = shownCategory && getTranslatedCategoryNameFor(shownCategory);
-    const shownCategoryId = shownCategory && getCategoryId(shownCategory);
+    const { category, parentCategory, children } = this.props
+    const shownCategory = category || parentCategory
+    const categoryName = shownCategory && getTranslatedCategoryNameFor(shownCategory)
+    const shownCategoryId = shownCategory && getCategoryId(shownCategory)
 
-    const acFeature = feature;
-    const parentPlaceName = acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
-    const address = acFeature?.properties.address;
-    const addressObject = typeof address === 'object' ? address : undefined;
-    const levelName = addressObject && translatedStringFromObject(addressObject?.level);
-    const roomNumber = addressObject && translatedStringFromObject(addressObject?.roomNumber);
-    const roomName = addressObject && translatedStringFromObject(addressObject?.room);
-    let placeName = placeNameFor(properties, shownCategory) || roomName;
-    let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
+    const acFeature = feature
+    const parentPlaceName = acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName)
+    const address = acFeature?.properties.address
+    const addressObject = typeof address === 'object' ? address : undefined
+    const levelName = addressObject && translatedStringFromObject(addressObject?.level)
+    const roomNumber = addressObject && translatedStringFromObject(addressObject?.roomNumber)
+    const roomName = addressObject && translatedStringFromObject(addressObject?.room)
+    let placeName = placeNameFor(properties, shownCategory) || roomName
+    let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ')
     if (isEquipment) {
       placeName = getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription')
-      || t`Unnamed facility`;
-      ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
+      || t`Unnamed facility`
+      ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription')
     }
-    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined;
-    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
+    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined
+    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ')
 
     const accessibility = isEquipment
       ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties']))
-      : isWheelchairAccessible(properties);
-    const hasLongName = placeName && placeName.length > 50;
+      : isWheelchairAccessible(properties)
+    const hasLongName = placeName && placeName.length > 50
     const icon = (
       <Icon
         accessibility={accessibility}
@@ -124,7 +124,7 @@ export default class NodeHeader extends React.Component<Props> {
         centered
         onClick={this.onClickCurrentMarkerIcon}
       />
-    );
+    )
 
     const categoryElement = properties.name ? (
       <StyledBreadCrumbs
@@ -133,15 +133,15 @@ export default class NodeHeader extends React.Component<Props> {
         categories={this.props.categories}
         parentCategory={this.props.parentCategory}
       />
-    ) : null;
+    ) : null
 
-    const nameElements = uniq(compact([parentPlaceName, levelName, roomNameAndNumber, placeName]));
-    const lastNameElement = nameElements[nameElements.length - 1];
+    const nameElements = uniq(compact([parentPlaceName, levelName, roomNameAndNumber, placeName]))
+    const lastNameElement = nameElements[nameElements.length - 1]
 
     const parentElements = intersperse(
       nameElements.slice(0, nameElements.length - 1),
       <StyledChevronRight />,
-    );
+    )
 
     const placeNameElement = (
       <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
@@ -152,13 +152,13 @@ export default class NodeHeader extends React.Component<Props> {
           <PlaceNameDetail>{parentElements}</PlaceNameDetail>
         </div>
       </PlaceNameH1>
-    );
+    )
 
     return (
       <StyledNodeHeader>
         {placeNameElement}
         {children}
       </StyledNodeHeader>
-    );
+    )
   }
 }

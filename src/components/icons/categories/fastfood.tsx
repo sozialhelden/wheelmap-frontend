@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgFastfood(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgFastfood(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgFastfood;
+export default SvgFastfood

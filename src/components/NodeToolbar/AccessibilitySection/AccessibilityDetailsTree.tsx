@@ -1,13 +1,13 @@
-import humanizeString from 'humanize-string';
-import isPlainObject from 'lodash/isPlainObject';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
-import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject';
+import humanizeString from 'humanize-string'
+import isPlainObject from 'lodash/isPlainObject'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes'
+import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
 
 function humanizeCamelCase(string: string) {
-  return string.replace(/([a-z])([A-Z])/g, (substring, array) => `${substring[0]} ${substring[1].toLowerCase()}`);
+  return string.replace(/([a-z])([A-Z])/g, (substring, array) => `${substring[0]} ${substring[1].toLowerCase()}`)
 }
 
 function formatName(
@@ -16,8 +16,8 @@ function formatName(
 ): string {
   const string = (accessibilityAttributes
       && translatedStringFromObject(accessibilityAttributes.get(name)))
-    || humanizeString(name);
-  return string.replace(/^Rating /, '');
+    || humanizeString(name)
+  return string.replace(/^Rating /, '')
 }
 
 function formatValue(value: any): string {
@@ -25,12 +25,12 @@ function formatValue(value: any): string {
     value === true
     || (typeof value === 'string'
       && (value.match(/^true$/i) || value.match(/^yes$/i)))
-  ) return t`Yes`;
+  ) return t`Yes`
   if (
     value === false
     || (typeof value === 'string'
       && (value.match(/^false$/i) || value.match(/^no$/i)))
-  ) return t`No`;
+  ) return t`No`
   if (
     isPlainObject(value)
     && value
@@ -38,14 +38,14 @@ function formatValue(value: any): string {
     && typeof value.unit === 'string'
     && (typeof value.value === 'number' || typeof value.value === 'string')
   ) {
-    return `${value.value || '?'} ${value.unit}`;
+    return `${value.value || '?'} ${value.unit}`
   }
-  return humanizeCamelCase(String(value));
+  return humanizeCamelCase(String(value))
 }
 
 function FormatRating({ rating }: { rating: number }) {
-  const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5);
-  const stars = '★★★★★'.slice(5 - between1and5);
+  const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5)
+  const stars = '★★★★★'.slice(5 - between1and5)
   return (
     <span aria-label={`${between1and5} stars`}>
       <span className="stars" aria-hidden="true">
@@ -56,7 +56,7 @@ function FormatRating({ rating }: { rating: number }) {
         /5
       </span>
     </span>
-  );
+  )
 }
 
 function DetailsArray({
@@ -77,12 +77,12 @@ function DetailsArray({
         accessibilityAttributes={accessibilityAttributes}
       />
     </li>
-  ));
-  return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
+  ))
+  return <ul className={`ac-list ${className || ''}`}>{items}</ul>
 }
 
 function capitalizeFirstLetter(string): string {
-  return string.charAt(0).toLocaleUpperCase() + string.slice(1);
+  return string.charAt(0).toLocaleUpperCase() + string.slice(1)
 }
 
 function DetailsObject(props: {
@@ -91,20 +91,20 @@ function DetailsObject(props: {
   isNested?: boolean;
   accessibilityAttributes: AccessibilityAttributesMap;
 }) {
-  const { className, object, isNested } = props;
+  const { className, object, isNested } = props
   const properties = Object.keys(object)
     .map((key) => {
       if (key.match(/Localized/)) {
-        return null;
+        return null
       }
 
-      const value = object[key];
-      const name = formatName(key, props.accessibilityAttributes);
+      const value = object[key]
+      const name = formatName(key, props.accessibilityAttributes)
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
       // between the previous attribute value and the attribute name.
-      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
+      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name))
 
       if (
         value
@@ -121,7 +121,7 @@ function DetailsObject(props: {
               accessibilityAttributes={props.accessibilityAttributes}
             />
           </dd>,
-        ];
+        ]
       }
       if (key.startsWith('rating')) {
         return [
@@ -132,10 +132,10 @@ function DetailsObject(props: {
           <dd key={`${key}-rating`}>
             <FormatRating rating={parseFloat(String(value))} />
           </dd>,
-        ];
+        ]
       }
-      const generatedClassName = `ac-${typeof value}`;
-      const formattedValue = formatValue(value);
+      const generatedClassName = `ac-${typeof value}`
+      const formattedValue = formatValue(value)
       return [
         <dt key={`${key}-name`} className={generatedClassName}>
           {capitalizedName}
@@ -148,12 +148,12 @@ function DetailsObject(props: {
         >
           <em>{formattedValue}</em>
         </dd>,
-      ];
+      ]
     })
-    .filter(Boolean);
+    .filter(Boolean)
 
   if (properties.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -163,7 +163,7 @@ function DetailsObject(props: {
     >
       {properties}
     </dl>
-  );
+  )
 }
 
 type Props = {
@@ -175,7 +175,7 @@ type Props = {
 };
 
 function AccessibilityDetailsTree(props: Props) {
-  const { details } = props;
+  const { details } = props
   if (details instanceof Array) {
     return (
       <DetailsArray
@@ -183,7 +183,7 @@ function AccessibilityDetailsTree(props: Props) {
         array={details}
         accessibilityAttributes={props.accessibilityAttributes}
       />
-    );
+    )
   }
   if (isPlainObject(details)) {
     return (
@@ -193,12 +193,12 @@ function AccessibilityDetailsTree(props: Props) {
         isNested={props.isNested}
         accessibilityAttributes={props.accessibilityAttributes}
       />
-    );
+    )
   }
-  return <div className={props.className}>{details}</div>;
+  return <div className={props.className}>{details}</div>
 }
 
-AccessibilityDetailsTree.defaultProps = { className: null, locale: null };
+AccessibilityDetailsTree.defaultProps = { className: null, locale: null }
 
 const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   box-sizing: border-box;
@@ -493,6 +493,6 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
       margin-top: 10px;
     }
   }
-`;
+`
 
-export default StyledAccessibilityDetailsTree;
+export default StyledAccessibilityDetailsTree

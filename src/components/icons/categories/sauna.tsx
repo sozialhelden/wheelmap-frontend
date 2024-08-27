@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgSauna(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgSauna(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgSauna;
+export default SvgSauna

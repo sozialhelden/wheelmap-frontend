@@ -1,4 +1,4 @@
-import { LayerProps } from 'react-map-gl';
+import { LayerProps } from 'react-map-gl'
 
 export const layers = [
   {
@@ -49,7 +49,7 @@ export const layers = [
       'line-width': 1.1,
     },
   },
-];
+]
 
 export const entrancesWheelchairDescriptionLayer: LayerProps = {
   source: 'entrances_or_exits',
@@ -86,7 +86,7 @@ export const entrancesWheelchairDescriptionLayer: LayerProps = {
       '#000000',
     ],
   },
-};
+}
 export const entranceStepHeightLayer: LayerProps = {
   source: 'entrances_or_exits',
   'source-layer': 'default',
@@ -120,7 +120,7 @@ export const entranceStepHeightLayer: LayerProps = {
       '#000000',
     ],
   },
-};
+}
 
 export const entranceCircleLayer: LayerProps = {
   source: 'entrances_or_exits',
@@ -144,4 +144,4 @@ export const entranceCircleLayer: LayerProps = {
     ],
     'circle-radius': ['interpolate', ['linear'], ['zoom'], 13, 1, 22, 5],
   },
-};
+}

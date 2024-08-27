@@ -1,29 +1,29 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { t } from 'ttag';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import { t } from 'ttag'
 
-import { useRouter } from 'next/router';
-import AccessibilityFilterMenu from './AccessibilityFilterMenu';
-import CategoryMenu from './CategoryMenu';
-import SearchIcon from './SearchIcon';
-import SearchInputField from './SearchInputField';
-import SearchResults from './SearchResults';
+import { useRouter } from 'next/router'
+import AccessibilityFilterMenu from './AccessibilityFilterMenu'
+import CategoryMenu from './CategoryMenu'
+import SearchIcon from './SearchIcon'
+import SearchInputField from './SearchInputField'
+import SearchResults from './SearchResults'
 
-import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults';
-import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories';
+import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults'
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import {
   getAccessibilityFilterFrom,
   isAccessibilityFiltered,
-} from '../../lib/model/ac/filterAccessibility';
-import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature';
-import { isOnSmallViewport } from '../../lib/util/ViewportSize';
-import Spinner from '../ActivityIndicator/Spinner';
-import CloseLink from '../shared/CloseLink';
-import ErrorBoundary from '../shared/ErrorBoundary';
-import { PlaceFilter } from './AccessibilityFilterModel';
-import { GoButton } from './GoButton';
-import { StyledChevronRight } from './StyledChevronRight';
-import { StyledToolbar } from './StyledToolbar';
+} from '../../lib/model/ac/filterAccessibility'
+import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature'
+import { isOnSmallViewport } from '../../lib/util/ViewportSize'
+import Spinner from '../ActivityIndicator/Spinner'
+import CloseLink from '../shared/CloseLink'
+import ErrorBoundary from '../shared/ErrorBoundary'
+import { PlaceFilter } from './AccessibilityFilterModel'
+import { GoButton } from './GoButton'
+import { StyledChevronRight } from './StyledChevronRight'
+import { StyledToolbar } from './StyledToolbar'
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -63,21 +63,21 @@ export default function SearchPanel(props: Props) {
     minimalTopPosition,
     isSearching,
     searchError,
-  } = props;
+  } = props
 
-  const router = useRouter();
+  const router = useRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(
     router.query.wheelchair,
-  );
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet);
-  const searchInputFieldRef = React.createRef<HTMLInputElement>();
-  const goButtonRef = React.createRef<HTMLButtonElement>();
+  )
+  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet)
+  const searchInputFieldRef = React.createRef<HTMLInputElement>()
+  const goButtonRef = React.createRef<HTMLButtonElement>()
 
   React.useEffect(() => {
     if (!hidden) {
-      focus();
+      focus()
     }
-  }, [hidden]);
+  }, [hidden])
 
   const focus = React.useCallback(() => {
     if (
@@ -86,30 +86,30 @@ export default function SearchPanel(props: Props) {
       || window.document.activeElement
         === ReactDOM.findDOMNode(searchInputFieldRef.current)
     ) {
-      return;
+      return
     }
     if (isOnSmallViewport()) {
-      if (!goButtonRef.current) return;
-      goButtonRef.current.focus();
+      if (!goButtonRef.current) return
+      goButtonRef.current.focus()
     } else {
-      if (!searchInputFieldRef.current) return;
-      searchInputFieldRef.current.focus();
+      if (!searchInputFieldRef.current) return
+      searchInputFieldRef.current.focus()
     }
-  }, [goButtonRef, searchInputFieldRef]);
+  }, [goButtonRef, searchInputFieldRef])
 
   const blur = React.useCallback(() => {
-    if (!searchInputFieldRef.current) return;
-    searchInputFieldRef.current.blur();
-  }, []);
+    if (!searchInputFieldRef.current) return
+    searchInputFieldRef.current.blur()
+  }, [])
 
   const clearSearch = React.useCallback(() => {
-    onChangeSearchQuery('');
-  }, [onChangeSearchQuery]);
+    onChangeSearchQuery('')
+  }, [onChangeSearchQuery])
 
   const clearSearchAndFocusSearchField = React.useCallback(() => {
-    clearSearch();
-    searchInputFieldRef.current?.focus();
-  }, [searchInputFieldRef, clearSearch]);
+    clearSearch()
+    searchInputFieldRef.current?.focus()
+  }, [searchInputFieldRef, clearSearch])
 
   const searchInputField = (
     <SearchInputField
@@ -118,32 +118,32 @@ export default function SearchPanel(props: Props) {
       hidden={hidden}
       onClick={() => {
         if (category) {
-          clearSearchAndFocusSearchField();
+          clearSearchAndFocusSearchField()
         }
-        window.scrollTo(0, 0);
-        onClick();
+        window.scrollTo(0, 0)
+        onClick()
       }}
       onFocus={(event) => {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
       }}
       onChange={onChangeSearchQuery}
       onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
-        blur();
-        onSubmit(event.currentTarget.value);
+        blur()
+        onSubmit(event.currentTarget.value)
       }}
       ariaRole="searchbox"
     />
-  );
+  )
 
   // translator: button shown next to the search bar
-  const goButtonCaption = t`Go`;
+  const goButtonCaption = t`Go`
   const goButton = (
     <GoButton ref={goButtonRef} onClick={onClose}>
       {goButtonCaption}
       {' '}
       <StyledChevronRight />
     </GoButton>
-  );
+  )
 
   const categoryMenuOrNothing = (category
     || isExpanded
@@ -152,7 +152,7 @@ export default function SearchPanel(props: Props) {
       category={category}
       accessibilityFilter={accessibilityFilter}
     />
-  );
+  )
 
   const accessibilityFilterMenu = (isAccessibilityFiltered(
     accessibilityFilter,
@@ -163,19 +163,19 @@ export default function SearchPanel(props: Props) {
       toiletFilter={toiletFilter}
       category={category}
     />
-  );
+  )
 
   const closeLink = (
     <CloseLink
       ariaLabel={t`Clear search`}
       onClick={() => {
-        clearSearchAndFocusSearchField();
-        if (onClose) onClose();
+        clearSearchAndFocusSearchField()
+        if (onClose) onClose()
       }}
     />
-  );
+  )
 
-  let contentBelowSearchField = null;
+  let contentBelowSearchField = null
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
@@ -184,7 +184,7 @@ export default function SearchPanel(props: Props) {
         </span>
         <Spinner size={20} />
       </div>
-    );
+    )
   } else if (searchResults && searchQuery) {
     contentBelowSearchField = (
       <div aria-live="assertive">
@@ -195,14 +195,14 @@ export default function SearchPanel(props: Props) {
           error={searchError}
         />
       </div>
-    );
+    )
   } else {
     contentBelowSearchField = (
       <>
         {categoryMenuOrNothing}
         {accessibilityFilterMenu}
       </>
-    );
+    )
   }
 
   return (
@@ -220,7 +220,7 @@ export default function SearchPanel(props: Props) {
         <header>
           <form
             onSubmit={(ev) => {
-              ev.preventDefault();
+              ev.preventDefault()
             }}
           >
             <SearchIcon />
@@ -232,5 +232,5 @@ export default function SearchPanel(props: Props) {
         <section onTouchStart={() => blur()}>{contentBelowSearchField}</section>
       </ErrorBoundary>
     </StyledToolbar>
-  );
+  )
 }

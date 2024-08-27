@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMarina(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMarina(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMarina;
+export default SvgMarina

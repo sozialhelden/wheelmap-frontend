@@ -1,10 +1,10 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
+import { t } from 'ttag'
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import LicenseHint from './LicenseHint';
-import { SourceWithLicense } from '../../../app/PlaceDetailsProps';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import LicenseHint from './LicenseHint'
+import { SourceWithLicense } from '../../../app/PlaceDetailsProps'
 
 type Props = {
   feature: PlaceInfo | EquipmentInfo | null;
@@ -21,14 +21,14 @@ function renderLicenseHint(sourceWithLicense: SourceWithLicense) {
       source={sourceWithLicense.source}
       license={sourceWithLicense.license}
     />
-  );
+  )
 }
 
 function UnstyledSourceList(props: Props) {
-  const { sources } = props;
+  const { sources } = props
 
   // translator: Prefix for the sources on the PoI details panel
-  const prefixCaption = t`Source:`;
+  const prefixCaption = t`Source:`
 
   return (
     <section className={props.className}>
@@ -37,7 +37,7 @@ function UnstyledSourceList(props: Props) {
         {sources.map((sourceWithLicense) => renderLicenseHint(sourceWithLicense))}
       </ul>
     </section>
-  );
+  )
 }
 
 const SourceList = styled(UnstyledSourceList)`
@@ -55,6 +55,6 @@ const SourceList = styled(UnstyledSourceList)`
   li + li:before {
     content: ', ';
   }
-}`;
+}`
 
-export default SourceList;
+export default SourceList

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPhysiotherapist(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPhysiotherapist(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPhysiotherapist;
+export default SvgPhysiotherapist

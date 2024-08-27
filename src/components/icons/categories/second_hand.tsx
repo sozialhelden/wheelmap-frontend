@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgSecondHand(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgSecondHand(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgSecondHand;
+export default SvgSecondHand

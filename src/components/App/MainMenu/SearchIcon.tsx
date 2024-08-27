@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function SearchIcon(props) {
   return (
@@ -19,5 +19,5 @@ export default function SearchIcon(props) {
         </g>
       </g>
     </svg>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-import React from 'react';
-import StyledMarkdown from '../../../shared/StyledMarkdown';
-import { OSMTagProps } from './OSMTagProps';
-import { EditButton } from './EditButton';
+import React from 'react'
+import StyledMarkdown from '../../../shared/StyledMarkdown'
+import { OSMTagProps } from './OSMTagProps'
+import { EditButton } from './EditButton'
 
 export function OSMTagListElement(
   {
@@ -29,5 +29,5 @@ export function OSMTagListElement(
         </footer>
       )}
     </li>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function TelegramIcon(props: any) {
   return (
@@ -40,5 +40,5 @@ export default function TelegramIcon(props: any) {
         />
       </g>
     </svg>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function Email(props: any) {
   return (
@@ -22,5 +22,5 @@ export default function Email(props: any) {
         />
       </g>
     </svg>
-  );
+  )
 }

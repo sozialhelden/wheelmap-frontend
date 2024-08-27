@@ -1,8 +1,8 @@
-import { App } from '../App';
-import { MappingEvent, MappingEvents } from '../model/ac/MappingEvent';
-import URLDataCache from './URLDataCache';
+import { App } from '../App'
+import { MappingEvent, MappingEvents } from '../model/ac/MappingEvent'
+import URLDataCache from './URLDataCache'
 
-import { IImage } from '../model/ac/Image';
+import { IImage } from '../model/ac/Image'
 
 type MappingEventsListResult = {
   results: MappingEvents;
@@ -20,20 +20,20 @@ export type MappingEventByIdResult = MappingEvent & {
 export default class MappingEventsCache extends URLDataCache<
   MappingEventsListResult | MappingEventByIdResult
 > {
-  baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
+  baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
-    const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
+    const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`
     const data = (await this.getData(url, {
       useCache,
-    })) as MappingEventsListResult;
+    })) as MappingEventsListResult
     const results: MappingEvents = data.results.map((mappingEvent) => ({
       ...mappingEvent,
       images: Object.keys(data.related.images)
         .map((_id) => data.related.images[_id])
         .filter((image) => image.objectId === mappingEvent._id),
-    }));
-    return results;
+    }))
+    return results
   }
 
   async getMappingEvent(
@@ -41,21 +41,21 @@ export default class MappingEventsCache extends URLDataCache<
     _id: string,
     useCache = true,
   ): Promise<MappingEvent> {
-    const url = `${this.baseUrl}/mapping-events/${_id}.json?appToken=${app.tokenString}&includeRelated=images`;
+    const url = `${this.baseUrl}/mapping-events/${_id}.json?appToken=${app.tokenString}&includeRelated=images`
     const mappingEvent = (await this.getData(url, {
       useCache,
-    })) as MappingEventByIdResult;
+    })) as MappingEventByIdResult
     const result: MappingEvent = {
       ...mappingEvent,
       images: Object.keys(mappingEvent.related.images)
         .map((_id) => mappingEvent.related.images[_id])
         .filter((image) => image.objectId === mappingEvent._id),
-    };
-    return result;
+    }
+    return result
   }
 }
 
 export const mappingEventsCache = new MappingEventsCache({
   reloadInBackground: true,
   maxAllowedCacheAgeBeforeReload: 1000 * 30, // 30 seconds
-});
+})

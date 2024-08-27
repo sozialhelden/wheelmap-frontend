@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCurrencyexchange(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCurrencyexchange(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCurrencyexchange;
+export default SvgCurrencyexchange

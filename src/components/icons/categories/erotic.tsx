@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgErotic(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgErotic(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgErotic;
+export default SvgErotic

@@ -1,11 +1,11 @@
-import classNames from 'classnames';
-import get from 'lodash/get';
-import sortBy from 'lodash/sortBy';
-import * as React from 'react';
-import styled from 'styled-components';
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
-import colors from '../../../lib/util/colors';
-import EquipmentItem from './EquipmentItem';
+import classNames from 'classnames'
+import get from 'lodash/get'
+import sortBy from 'lodash/sortBy'
+import * as React from 'react'
+import styled from 'styled-components'
+import { EquipmentInfo } from '../../../lib/EquipmentInfo'
+import colors from '../../../lib/util/colors'
+import EquipmentItem from './EquipmentItem'
 
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
@@ -31,7 +31,7 @@ function EquipmentList(props: Props) {
         />
       ))}
     </div>
-  );
+  )
 }
 
 const StyledEquipmentList = styled(EquipmentList)`
@@ -44,6 +44,6 @@ const StyledEquipmentList = styled(EquipmentList)`
     color: ${colors.negativeColorDarker};
     margin: 0.5em 0;
   }
-`;
+`
 
-export default StyledEquipmentList;
+export default StyledEquipmentList

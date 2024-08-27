@@ -1,37 +1,37 @@
-import { omit } from 'lodash';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { useCurrentApp } from '../../lib/context/AppContext';
+import { omit } from 'lodash'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { useCurrentApp } from '../../lib/context/AppContext'
 import {
   getUUID,
   setJoinedMappingEventId,
   trackMappingEventMembershipChanged, useCurrentMappingEventId,
-} from '../../lib/context/MappingEventContext';
-import { buildFullImageUrl } from '../../lib/model/ac/Image';
-import { canMappingEventBeJoined } from '../../lib/model/ac/MappingEvent';
-import colors from '../../lib/util/colors';
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import GlobeIcon from '../icons/ui-elements/GlobeIcon';
-import MapPinIcon from '../icons/ui-elements/MapPinIcon';
+} from '../../lib/context/MappingEventContext'
+import { buildFullImageUrl } from '../../lib/model/ac/Image'
+import { canMappingEventBeJoined } from '../../lib/model/ac/MappingEvent'
+import colors from '../../lib/util/colors'
+import StyledToolbar from '../NodeToolbar/StyledToolbar'
+import GlobeIcon from '../icons/ui-elements/GlobeIcon'
+import MapPinIcon from '../icons/ui-elements/MapPinIcon'
 import Button, {
   ChromelessButton,
   DangerButton,
   PrimaryButton,
-} from '../shared/Button';
-import CloseButton from '../shared/CloseButton';
-import StyledMarkdown from '../shared/StyledMarkdown';
-import ChevronLeft from './ChevronLeft';
-import MappingEventShareBar from './MappingEventShareBar';
-import Statistics from './Statistics';
-import { useCurrentLanguage } from './useCurrentLanguage';
+} from '../shared/Button'
+import CloseButton from '../shared/CloseButton'
+import StyledMarkdown from '../shared/StyledMarkdown'
+import ChevronLeft from './ChevronLeft'
+import MappingEventShareBar from './MappingEventShareBar'
+import Statistics from './Statistics'
+import { useCurrentLanguage } from './useCurrentLanguage'
 
 export const StyledCloseButton = styled(CloseButton)`
   float: right;
   align-self: flex-start;
-`;
+`
 
 type Props = {
   mappingEvent?: MappingEvent;
@@ -101,14 +101,14 @@ const StyledMappingEventToolbar = styled(StyledToolbar)`
   .mapping-event-description {
     margin-bottom: 20px;
   }
-`;
+`
 
 export default function MappingEventPanel({ mappingEvent }: Props) {
-  const mappingEventId = mappingEvent._id;
+  const mappingEventId = mappingEvent._id
 
   const imageSource = mappingEvent?.images?.[0]
     ? buildFullImageUrl(mappingEvent.images[0])
-    : '/images/eventPlaceholder.png';
+    : '/images/eventPlaceholder.png'
 
   const dateFormatOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
@@ -116,100 +116,100 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-  };
+  }
 
   const startDate = mappingEvent?.startTime
     ? new Date(mappingEvent.startTime)
-    : null;
-  const endDate = mappingEvent?.endTime ? new Date(mappingEvent.endTime) : null;
-  let startDateString = null;
-  let endDateString = null;
+    : null
+  const endDate = mappingEvent?.endTime ? new Date(mappingEvent.endTime) : null
+  let startDateString = null
+  let endDateString = null
 
-  const { preferredLanguage } = useCurrentLanguage();
+  const { preferredLanguage } = useCurrentLanguage()
 
   if (startDate) {
     startDateString = Intl.DateTimeFormat(
       preferredLanguage,
       dateFormatOptions,
-    ).format(startDate);
+    ).format(startDate)
 
     if (endDate) {
       const isSameDay = startDate.getFullYear() === endDate.getFullYear()
         && startDate.getMonth() === endDate.getMonth()
-        && startDate.getDate() === endDate.getDate();
+        && startDate.getDate() === endDate.getDate()
 
       endDateString = Intl.DateTimeFormat(
         preferredLanguage,
         isSameDay
           ? omit(dateFormatOptions, 'year', 'month', 'day')
           : dateFormatOptions,
-      ).format(endDate);
+      ).format(endDate)
     } else {
       // translator: Prefix for the mapping event start date ("starting 01.12.2019")
-      const startingDatePrefix = t`starting`;
-      startDateString = `${startingDatePrefix} ${startDateString}`;
+      const startingDatePrefix = t`starting`
+      startDateString = `${startingDatePrefix} ${startDateString}`
     }
   } else {
     // translator: Prefix for the mapping event end date ("until 01.12.2019")
-    const untilDatePrefix = t`until`;
+    const untilDatePrefix = t`until`
     if (endDate) {
       endDateString = `${untilDatePrefix} ${Intl.DateTimeFormat(
         preferredLanguage,
         dateFormatOptions,
-      ).format(endDate)}`;
+      ).format(endDate)}`
     }
   }
 
-  const hasMeetingPoint = Boolean(mappingEvent?.meetingPoint);
+  const hasMeetingPoint = Boolean(mappingEvent?.meetingPoint)
 
-  const areaName = mappingEvent?.area?.properties?.name || null;
-  const meetingPointName = mappingEvent?.meetingPoint?.properties?.name;
-  const mappingEventName = mappingEvent?.name;
+  const areaName = mappingEvent?.area?.properties?.name || null
+  const meetingPointName = mappingEvent?.meetingPoint?.properties?.name
+  const mappingEventName = mappingEvent?.name
 
   // translator: Screenreader description for a mapping event
-  const toolbarAriaLabel = t`Mapping event ${mappingEventName}`;
+  const toolbarAriaLabel = t`Mapping event ${mappingEventName}`
   // translator: Label for clickable mapping event name that makes the map jump to the event's position
-  const centerMapOnMappingEvent = t`Center map on mapping event`;
+  const centerMapOnMappingEvent = t`Center map on mapping event`
   // translator: Label for the meeting point of a mapping event
-  const meetingPointLabel = t`Meeting point`;
+  const meetingPointLabel = t`Meeting point`
   // translator: Label for the area of a mapping event
-  const areaNameLabel = t`Area name`;
+  const areaNameLabel = t`Area name`
   // translator: Label for the date of a mapping event
-  const eventDateLabel = t`Event date`;
+  const eventDateLabel = t`Event date`
   // translator: Label for the start date of a mapping event
-  const eventStartDateLabel = t`Event start date`;
+  const eventStartDateLabel = t`Event start date`
   // translator: Label for the end date of a mapping event
-  const eventEndDateLabel = t`Event end date`;
+  const eventEndDateLabel = t`Event end date`
   // translator: Screenreader description for the back link that leads to the list of mapping events
-  const backLinkAriaLabel = t`Back to the mapping events list`;
+  const backLinkAriaLabel = t`Back to the mapping events list`
   // translator: Button name for social media sharing the current mapping event
-  const shareButtonCaption = t`Share`;
+  const shareButtonCaption = t`Share`
   // translator: Button caption for joining an event
-  const joinButtonCaption = t`Join mapping event`;
+  const joinButtonCaption = t`Join mapping event`
   // translator: Button caption for leaving an event
-  const leaveButtonCaption = t`Leave mapping event`;
+  const leaveButtonCaption = t`Leave mapping event`
 
-  const { data: joinedMappingEventId, mutate: mutateMappingEventId } = useCurrentMappingEventId();
-  const userJoinedMappingEvent = mappingEvent?._id === joinedMappingEventId;
-  const userUUID = getUUID();
-  const app = useCurrentApp();
+  const { data: joinedMappingEventId, mutate: mutateMappingEventId } = useCurrentMappingEventId()
+  const userJoinedMappingEvent = mappingEvent?._id === joinedMappingEventId
+  const userUUID = getUUID()
+  const app = useCurrentApp()
   const leaveMappingEvent = useCallback(() => {
-    setJoinedMappingEventId(null);
-    trackMappingEventMembershipChanged({ userUUID, app, reason: 'button' });
-    mutateMappingEventId();
-  }, []);
+    setJoinedMappingEventId(null)
+    trackMappingEventMembershipChanged({ userUUID, app, reason: 'button' })
+    mutateMappingEventId()
+  }, [])
 
-  const router = useRouter();
+  const router = useRouter()
   const joinMappingEventAndShowWelcomeDialog = useCallback(() => {
-    setJoinedMappingEventId(mappingEventId);
+    setJoinedMappingEventId(mappingEventId)
     trackMappingEventMembershipChanged({
       userUUID, app, reason: 'button', joinedMappingEvent: mappingEvent,
-    });
-    router.push(`/events/${mappingEventId}/welcome`);
-    mutateMappingEventId();
-  }, [mappingEvent, mappingEventId]);
+    })
+    router.push(`/events/${mappingEventId}/welcome`)
+    mutateMappingEventId()
+  }, [mappingEvent, mappingEventId])
 
-  const mappingEventCenterUrl = `/events/${mappingEventId}?lat=${mappingEvent?.meetingPoint?.geometry?.[1]}&lon=${mappingEvent?.meetingPoint?.geometry?.[0]}&zoom=18`;
+  const mappingEventCenterUrl = `/events/${mappingEventId}?lat=${mappingEvent?.meetingPoint?.geometry?.[1]}&lon=${mappingEvent?.meetingPoint?.geometry?.[0]}&zoom=18`
 
   return (
     <StyledMappingEventToolbar
@@ -220,11 +220,11 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
       <header style={{ marginTop: '24px' }}>
         {!joinedMappingEventId && (
           (
-          <Link href="/events" aria-label={backLinkAriaLabel}>
+            <Link href="/events" aria-label={backLinkAriaLabel}>
 
-            <ChevronLeft />
+              <ChevronLeft />
 
-          </Link>
+            </Link>
           )
         )}
 
@@ -304,25 +304,25 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
         {!joinedMappingEventId
           && canMappingEventBeJoined(mappingEvent)
           && (
-          <PrimaryButton onClick={joinMappingEventAndShowWelcomeDialog}>
-            {joinButtonCaption}
-          </PrimaryButton>
+            <PrimaryButton onClick={joinMappingEventAndShowWelcomeDialog}>
+              {joinButtonCaption}
+            </PrimaryButton>
           )}
 
         {userJoinedMappingEvent
           && (
-          <DangerButton onClick={leaveMappingEvent}>
-            {leaveButtonCaption}
-          </DangerButton>
+            <DangerButton onClick={leaveMappingEvent}>
+              {leaveButtonCaption}
+            </DangerButton>
           )}
 
         {mappingEvent && (
-        <MappingEventShareBar
-          mappingEvent={mappingEvent}
-          buttonCaption={shareButtonCaption}
-        />
+          <MappingEventShareBar
+            mappingEvent={mappingEvent}
+            buttonCaption={shareButtonCaption}
+          />
         )}
       </div>
     </StyledMappingEventToolbar>
-  );
+  )
 }

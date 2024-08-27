@@ -1,30 +1,30 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { map } from 'lodash';
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import { map } from 'lodash'
 
-import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson'
 import {
   accessibilityName,
   isWheelchairAccessible,
-} from '../../../lib/Feature';
-import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories';
-import { AppContextData } from '../../../AppContext';
+} from '../../../lib/Feature'
+import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories'
+import { AppContextData } from '../../../AppContext'
 
-import strings from './strings';
-import FixOsmComment from './FixOsmComment';
-import MailToSupportLegacy from './MailToSupportLegacy';
-import SendReportToAc, { reportStrings, ReportReasons } from './SendReportToAc';
-import FixOsmPlacePosition from './FixOsmPlacePosition';
-import FixOnExternalPage from './FixOnExternalPage';
-import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
-import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
-import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
+import strings from './strings'
+import FixOsmComment from './FixOsmComment'
+import MailToSupportLegacy from './MailToSupportLegacy'
+import SendReportToAc, { reportStrings, ReportReasons } from './SendReportToAc'
+import FixOsmPlacePosition from './FixOsmPlacePosition'
+import FixOnExternalPage from './FixOnExternalPage'
+import FixOsmNonExistingPlace from './FixOsmNonExistingPlace'
+import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor'
+import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor'
 import {
   DataSource,
   dataSourceCache,
-} from '../../../lib/cache/DataSourceCache';
-import Spinner from '../../ActivityIndicator/Spinner';
+} from '../../../lib/cache/DataSourceCache'
+import Spinner from '../../ActivityIndicator/Spinner'
 
 type IssueEntry = {
   className?: string;
@@ -39,9 +39,9 @@ const generateWheelmapClassicIssues = (
   {
     className: 'wrong-wheelchair-accessibility',
     issueLink: () => {
-      const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || '';
+      const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || ''
       // translator: Shown as issue description in the report dialog
-      return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
+      return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`
     },
     component: WheelchairStatusEditor,
   },
@@ -77,7 +77,7 @@ const generateWheelmapClassicIssues = (
     issueLink: () => t`The problem isn’t listed here…`,
     component: MailToSupportLegacy,
   },
-].filter(Boolean);
+].filter(Boolean)
 
 const generateAcIssues = (
   properties: PlaceProperties,
@@ -85,13 +85,13 @@ const generateAcIssues = (
   source: DataSource | null,
   appToken: string,
 ): IssueEntry[] => {
-  const isExternal = source && source.organizationId !== appContext.app.organizationId;
+  const isExternal = source && source.organizationId !== appContext.app.organizationId
   const hasExternalPage = Boolean(
     properties.infoPageUrl || properties.editPageUrl,
-  );
-  const sourceName = (source && (source.shortName || source.name)) || t`Unknown`;
+  )
+  const sourceName = (source && (source.shortName || source.name)) || t`Unknown`
 
-  const sendReportToAcStrings = reportStrings();
+  const sendReportToAcStrings = reportStrings()
 
   return [
     isExternal
@@ -122,8 +122,8 @@ const generateAcIssues = (
       issueLink: () => t`The problem isn’t listed here…`,
       component: MailToSupportLegacy,
     },
-  ].filter(Boolean) as IssueEntry[];
-};
+  ].filter(Boolean) as IssueEntry[]
+}
 
 type Props = {
   appContext: AppContextData;
@@ -142,13 +142,13 @@ type State = {
 };
 
 class ReportDialog extends React.Component<Props, State> {
-  props: Props;
+  props: Props
 
   state: State = {
     lastFeatureId: null,
     SelectedComponentClass: null,
     source: null,
-  };
+  }
 
   static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
     if (props.featureId !== state.lastFeatureId) {
@@ -156,10 +156,10 @@ class ReportDialog extends React.Component<Props, State> {
         SelectedComponentClass: null,
         lastFeatureId: props.featureId,
         source: null,
-      };
+      }
     }
 
-    return null;
+    return null
   }
 
   componentDidMount() {}
@@ -175,8 +175,8 @@ class ReportDialog extends React.Component<Props, State> {
       dataSourceCache
         .getDataSourceWithId(props.sourceId, appToken)
         .then((source) => {
-          this.setState({ source });
-        });
+          this.setState({ source })
+        })
     }
 
     return generateAcIssues(
@@ -184,35 +184,35 @@ class ReportDialog extends React.Component<Props, State> {
       this.props.appContext,
       this.state.source,
       appToken,
-    );
+    )
   }
 
   onClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
-      event.preventDefault();
-      event.stopPropagation();
+      event.preventDefault()
+      event.stopPropagation()
     }
 
     if (this.state.SelectedComponentClass) {
-      this.setState({ SelectedComponentClass: null });
+      this.setState({ SelectedComponentClass: null })
     } else if (this.props.onClose) {
-      this.props.onClose();
+      this.props.onClose()
     }
-  };
+  }
 
   onSelectComponentClass = (
     component: React.ComponentType<any>,
     event: UIEvent,
   ) => {
-    this.setState({ SelectedComponentClass: component });
-    event.stopPropagation();
-    event.preventDefault();
-  };
+    this.setState({ SelectedComponentClass: component })
+    event.stopPropagation()
+    event.preventDefault()
+  }
 
   render() {
-    const { featureId, feature, categories } = this.props;
-    const { backButtonCaption, reportIssueHeader } = strings();
-    const { properties } = feature || {};
+    const { featureId, feature, categories } = this.props
+    const { backButtonCaption, reportIssueHeader } = strings()
+    const { properties } = feature || {}
 
     if (!featureId || !feature || !properties) {
       return (
@@ -230,10 +230,10 @@ class ReportDialog extends React.Component<Props, State> {
             {backButtonCaption}
           </button>
         </div>
-      );
+      )
     }
 
-    const ComponentClass = this.state.SelectedComponentClass;
+    const ComponentClass = this.state.SelectedComponentClass
     if (ComponentClass) {
       return (
         <ComponentClass
@@ -245,14 +245,14 @@ class ReportDialog extends React.Component<Props, State> {
           inline
           source={this.state.source}
         />
-      );
+      )
     }
 
     const issues = this.generateIssues(
       featureId,
       properties,
       this.props.appContext.app.tokenString,
-    );
+    )
 
     return (
       <div
@@ -263,9 +263,9 @@ class ReportDialog extends React.Component<Props, State> {
         <header id="report-dialog-header">{reportIssueHeader}</header>
         <ul className="issue-types">
           {issues.map((issue, index) => {
-            const link = issue.issueLink ? issue.issueLink() : null;
-            const header = issue.issueHeader ? issue.issueHeader() : null;
-            const { component } = issue;
+            const link = issue.issueLink ? issue.issueLink() : null
+            const header = issue.issueHeader ? issue.issueHeader() : null
+            const { component } = issue
             return (
               <li
                 key={issue.className || index}
@@ -281,14 +281,14 @@ class ReportDialog extends React.Component<Props, State> {
                   </button>
                 )}
               </li>
-            );
+            )
           })}
         </ul>
         <button className="link-button negative-button" onClick={this.onClose}>
           {backButtonCaption}
         </button>
       </div>
-    );
+    )
   }
 }
 
@@ -302,6 +302,6 @@ const StyledReportDialog = styled(ReportDialog)`
     padding: 0;
     list-style-type: none;
   }
-`;
+`
 
-export default StyledReportDialog;
+export default StyledReportDialog

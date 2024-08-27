@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { t } from 'ttag';
+import * as React from 'react'
+import { t } from 'ttag'
 
-import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson'
 import SourceLink, {
   PropertyName,
-} from '../../CombinedFeaturePanel/components/IconButtonList/SourceLink';
-import { DataSource } from '../../../lib/cache/DataSourceCache';
-import strings from './strings';
-import { AppContextConsumer } from '../../../AppContext';
+} from '../../CombinedFeaturePanel/components/IconButtonList/SourceLink'
+import { DataSource } from '../../../lib/cache/DataSourceCache'
+import strings from './strings'
+import { AppContextConsumer } from '../../../AppContext'
 
 type Props = {
   feature: PlaceInfo;
@@ -21,18 +21,18 @@ const callToActions: { [key in PropertyName]: (v: string) => string } = {
   infoPageUrl: (name: string) => t`View this place on ${name}`,
   // translator: Edit on external webpage link in report dialog.
   editPageUrl: (name: string) => t`Edit this place on ${name}`,
-};
+}
 
 function FixOnExternalPage(props: Props) {
   const {
     feature, source, properties, onClose,
-  } = props;
-  if (!feature || !properties || !source) return null;
+  } = props
+  if (!feature || !properties || !source) return null
   const {
     useLinkExplanation,
     editingDelayExplanation,
     backButtonCaption,
-  } = strings();
+  } = strings()
 
   return (
     <section>
@@ -60,7 +60,7 @@ function FixOnExternalPage(props: Props) {
         {backButtonCaption}
       </button>
     </section>
-  );
+  )
 }
 
-export default FixOnExternalPage;
+export default FixOnExternalPage

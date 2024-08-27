@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function Camera(props: any) {
   return (
@@ -9,7 +9,7 @@ function Camera(props: any) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default Camera;
+export default Camera

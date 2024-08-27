@@ -1,10 +1,10 @@
 // Nested custom component is not recognized but rule is fullfilled.
 /* eslint-disable jsx-a11y/label-has-for */
 
-import * as React from 'react';
-import { Radio } from 'react-radio-group';
-import RadioButtonUnselected from '../../icons/ui-elements/RadioButtonUnselected';
-import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';
+import * as React from 'react'
+import { Radio } from 'react-radio-group'
+import RadioButtonUnselected from '../../icons/ui-elements/RadioButtonUnselected'
+import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected'
 
 interface Focusable {
   focus(): void
@@ -26,28 +26,28 @@ type State = {
 export default class CustomRadio extends React.Component<Props, State> {
   state = {
     isFocused: false,
-  };
+  }
 
-  radioButton = React.createRef<React.Component<any> & Focusable>();
+  radioButton = React.createRef<React.Component<any> & Focusable>()
 
   onFocus = () => {
-    this.setState({ isFocused: true });
-  };
+    this.setState({ isFocused: true })
+  }
 
   onBlur = () => {
-    this.setState({ isFocused: false });
-  };
+    this.setState({ isFocused: false })
+  }
 
   focus() {
-    this.radioButton.current?.focus();
+    this.radioButton.current?.focus()
   }
 
   render() {
-    const shownValue = this.props.shownValue || '';
-    const isDisabled = this.props.disabled;
-    const isSelected = this.props.currentValue === shownValue;
-    const RadioButton = isSelected ? RadioButtonSelected : RadioButtonUnselected;
-    const id = `accessibility-${shownValue}`;
+    const shownValue = this.props.shownValue || ''
+    const isDisabled = this.props.disabled
+    const isSelected = this.props.currentValue === shownValue
+    const RadioButton = isSelected ? RadioButtonSelected : RadioButtonUnselected
+    const id = `accessibility-${shownValue}`
 
     return (
       <label
@@ -78,6 +78,6 @@ export default class CustomRadio extends React.Component<Props, State> {
         </header>
         {this.props.description ? <footer>{this.props.description}</footer> : null}
       </label>
-    );
+    )
   }
 }

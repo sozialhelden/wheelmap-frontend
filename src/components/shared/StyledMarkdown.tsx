@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import colors from '../../lib/util/colors';
-import Markdown from './Markdown';
+import styled from 'styled-components'
+import colors from '../../lib/util/colors'
+import Markdown from './Markdown'
 
 const StyledMarkdown = styled(Markdown)`
   max-width: 100%;
@@ -42,6 +42,6 @@ const StyledMarkdown = styled(Markdown)`
   ol {
     margin: 1em 1.25em;
   }
-`;
+`
 
-export default StyledMarkdown;
+export default StyledMarkdown

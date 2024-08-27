@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPoliticalParty(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPoliticalParty(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPoliticalParty;
+export default SvgPoliticalParty

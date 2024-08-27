@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgAlcohol(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgAlcohol(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgAlcohol;
+export default SvgAlcohol

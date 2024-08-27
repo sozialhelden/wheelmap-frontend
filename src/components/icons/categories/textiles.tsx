@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgTextiles(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgTextiles(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgTextiles;
+export default SvgTextiles

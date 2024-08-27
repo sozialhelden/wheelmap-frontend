@@ -1,5 +1,5 @@
-import { Locale } from './Locale';
-import { localeFromString } from './localeFromString';
+import { Locale } from './Locale'
+import { localeFromString } from './localeFromString'
 
 // Returns a fallback locale for the given locale. Might use a language code without country code
 // etc. removed (for example "en" if given "en-GB"). This is preliminary, a 'real' mechanism should
@@ -15,5 +15,5 @@ import { localeFromString } from './localeFromString';
 // Maybe we can implement this algorithm as a library using WebAssembly.
 
 export function nextFallbackLocale(locale: Locale): Locale {
-  return localeFromString(locale.string.substring(0, 2));
+  return localeFromString(locale.string.substring(0, 2))
 }

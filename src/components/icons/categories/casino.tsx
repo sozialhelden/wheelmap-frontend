@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCasino(props: React.SVGAttributes<{}>) {
   return (
@@ -8,7 +8,7 @@ function SvgCasino(props: React.SVGAttributes<{}>) {
         <path d="M1.017 3.873a.806.806 0 01.648-.965l4.997-.895a.843.843 0 01.975.674l1.667 8.374a.806.806 0 01-.649.965l-4.997.895a.843.843 0 01-.975-.674L1.017 3.873zM3.7 11.788l4.479-.802-1.56-7.84-4.48.802 1.561 7.84z" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgCasino;
+export default SvgCasino

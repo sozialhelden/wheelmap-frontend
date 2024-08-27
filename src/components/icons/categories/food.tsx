@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgFood(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgFood(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgFood;
+export default SvgFood

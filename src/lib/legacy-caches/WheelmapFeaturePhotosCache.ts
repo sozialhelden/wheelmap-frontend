@@ -1,6 +1,6 @@
-import { WheelmapFeaturePhotos } from '../Feature';
-import config from '../util/config';
-import URLDataCache from './URLDataCache';
+import { WheelmapFeaturePhotos } from '../Feature'
+import config from '../util/config'
+import URLDataCache from './URLDataCache'
 
 export default class WheelmapFeaturePhotosCache extends URLDataCache<
   WheelmapFeaturePhotos | undefined
@@ -13,10 +13,10 @@ export default class WheelmapFeaturePhotosCache extends URLDataCache<
     return this.getData(
       `${config.wheelmapApiBaseUrl}/api/nodes/${featureId}/photos?api_key=${config.wheelmapApiKey}`,
       { useCache },
-    );
+    )
   }
 }
 
 export const wheelmapFeaturePhotosCache = new WheelmapFeaturePhotosCache({
   ttl: 1000 * 60 * 5, // 5 minutes
-});
+})

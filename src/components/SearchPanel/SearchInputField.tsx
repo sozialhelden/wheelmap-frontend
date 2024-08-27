@@ -1,15 +1,15 @@
-import { interpolateLab } from 'd3-interpolate';
-import _ from 'lodash';
-import * as React from 'react';
+import { interpolateLab } from 'd3-interpolate'
+import _ from 'lodash'
+import * as React from 'react'
 import {
   KeyboardEvent, forwardRef, useCallback, useState,
-} from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import colors from '../../lib/util/colors';
+} from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../lib/util/colors'
 
 // (ms)
-const DEBOUNCE_THRESHOLD = 500;
+const DEBOUNCE_THRESHOLD = 500
 
 type SearchInputFieldProps = {
   onChange: (value: string) => void;
@@ -41,31 +41,31 @@ const SearchInputField = forwardRef(
     ref: { current: null | HTMLInputElement },
   ): JSX.Element => {
     // translator: Placeholder for search input field
-    const defaultPlaceholder = t`Search for place or address`;
+    const defaultPlaceholder = t`Search for place or address`
     const [currentSearchQuery, setCurrentSearchQuery] = useState(
       searchQuery || '',
-    );
+    )
 
     const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
       /* Enter */
       if (event.key === '13' && onSubmit && typeof onSubmit === 'function') {
-        event.preventDefault();
-        onSubmit(event);
+        event.preventDefault()
+        onSubmit(event)
       }
-    };
+    }
 
     const debouncedInternalOnChange = useCallback(
       _.debounce((searchTerm) => {
-        onChange(searchTerm);
+        onChange(searchTerm)
       }, DEBOUNCE_THRESHOLD),
       [],
-    );
+    )
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const searchTerm = event.target.value;
-      setCurrentSearchQuery(searchTerm);
-      debouncedInternalOnChange(searchTerm);
-    };
+      const searchTerm = event.target.value
+      setCurrentSearchQuery(searchTerm)
+      debouncedInternalOnChange(searchTerm)
+    }
 
     return (
       <StyledSearchInputField
@@ -85,9 +85,9 @@ const SearchInputField = forwardRef(
         role={ariaRole}
         autoComplete="off"
       />
-    );
+    )
   },
-);
+)
 
 const StyledSearchInputField = styled.input`
   display: block;
@@ -122,6 +122,6 @@ const StyledSearchInputField = styled.input`
   &:disabled {
     opacity: 1;
   }
-`;
+`
 
-export default SearchInputField;
+export default SearchInputField

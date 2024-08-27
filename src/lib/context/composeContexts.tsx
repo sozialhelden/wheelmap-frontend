@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export type ContextAndValue<T> = [React.Context<T>, T];
 
@@ -26,6 +26,6 @@ const composeContexts = (
 ) => contextAndValuePairs.reduce(
   (acc: React.ReactNode, [Context, value]: ContextAndValue<any>) => <Context.Provider value={value}>{acc}</Context.Provider>,
   children,
-);
+)
 
-export default composeContexts;
+export default composeContexts

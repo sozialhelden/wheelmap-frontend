@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgLocateOff(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgLocateOff(props: React.SVGAttributes<{}>) {
         fill="#000"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgLocateOff;
+export default SvgLocateOff

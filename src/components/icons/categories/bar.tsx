@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgBar(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgBar(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgBar;
+export default SvgBar

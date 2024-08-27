@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgJewelry(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgJewelry(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgJewelry;
+export default SvgJewelry

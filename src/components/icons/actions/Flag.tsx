@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgFlag(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgFlag(props: React.SVGAttributes<{}>) {
         fill="none"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgFlag;
+export default SvgFlag

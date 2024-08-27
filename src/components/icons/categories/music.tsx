@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMusic(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMusic(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMusic;
+export default SvgMusic

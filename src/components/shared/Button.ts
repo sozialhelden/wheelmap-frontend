@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import colors from '../../lib/util/colors';
+import colors from '../../lib/util/colors'
 
 export const UnstyledButton = styled.button`
   appearance: none;
@@ -18,7 +18,7 @@ export const UnstyledButton = styled.button`
     pointer-events: none;
     opacity: 0.75;
   }
-`;
+`
 
 export const PrimaryButton = styled(UnstyledButton)`
   color: #ffffff;
@@ -35,7 +35,7 @@ export const PrimaryButton = styled(UnstyledButton)`
     box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight} !important;
     transition: box-shadow 0.2s;
   }
-`;
+`
 
 export const SecondaryButton = styled(UnstyledButton)`
   color: #22262d;
@@ -53,7 +53,7 @@ export const SecondaryButton = styled(UnstyledButton)`
   &.focus-visible {
     background-color: ${colors.neutralBackgroundColorTransparent};
   }
-`;
+`
 
 export const DangerButton = styled(SecondaryButton)`
   color: ${colors.negativeColorDarker};
@@ -61,7 +61,7 @@ export const DangerButton = styled(SecondaryButton)`
   &:hover {
     background-color: ${colors.negativeBackgroundColorTransparent};
   }
-`;
+`
 
 export const ChromelessButton = styled.button`
   padding: 0.375rem 0.75rem;
@@ -82,7 +82,7 @@ export const ChromelessButton = styled.button`
   &:hover {
     background-color: ${colors.neutralBackgroundColorTransparent};
   }
-`;
+`
 
 export const CallToActionButton = styled.button`
   border: none;
@@ -109,7 +109,7 @@ export const CallToActionButton = styled.button`
     box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
     transition: box-shadow 0.2s;
   }
-`;
+`
 
 export const CallToActionLink = styled.a`
   border: none;
@@ -136,6 +136,6 @@ export const CallToActionLink = styled.a`
     box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
     transition: box-shadow 0.2s;
   }
-`;
+`
 
-export default UnstyledButton;
+export default UnstyledButton

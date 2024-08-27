@@ -19,7 +19,7 @@ export type OSMFeatureOrError = OSMFeature | OSMAPIErrorResponse;
 export function isErrorResponse(
   featureOrError: OSMFeatureOrError,
 ): featureOrError is OSMAPIErrorResponse {
-  return featureOrError.error !== undefined;
+  return featureOrError.error !== undefined
 }
 
 export type OSMFeatureId = {
@@ -27,4 +27,4 @@ export type OSMFeatureId = {
   id: string;
 };
 
-export default OSMFeature;
+export default OSMFeature

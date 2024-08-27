@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { PrimaryButton } from './Button';
+import { PrimaryButton } from './Button'
 
 type Props = {
   onClose?: () => void;
@@ -108,10 +108,10 @@ const StyledSection = styled.section`
       align-self: center;
     }
   }
-`;
+`
 
 export default function ModalDialog(props: Props) {
-  const { isVisible } = props;
+  const { isVisible } = props
 
   // const { containerRef } = useFocusTrap({
   //   disabled: !isVisible,
@@ -119,10 +119,10 @@ export default function ModalDialog(props: Props) {
 
   // a ref object is used to set the initial focus
   // useFocusTrap not working probably with SSR
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   if (!isVisible) {
-    return null;
+    return null
   }
 
   return (
@@ -165,5 +165,5 @@ export default function ModalDialog(props: Props) {
         </div>
       </div>
     </StyledSection>
-  );
+  )
 }

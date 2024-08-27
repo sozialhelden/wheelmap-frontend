@@ -1,4 +1,4 @@
-import colors from '../../../lib/util/colors';
+import colors from '../../../lib/util/colors'
 
 export default function ChevronLeft(props: any) {
   return (
@@ -13,5 +13,5 @@ export default function ChevronLeft(props: any) {
         <polygon points="19.0749351 0.817290107 23.7991461 0.817290107 5.32606215 28.6563909 23.7991461 58.1827099 19.0749351 58.1827099 0.601851111 28.6563909" />
       </g>
     </svg>
-  );
+  )
 }

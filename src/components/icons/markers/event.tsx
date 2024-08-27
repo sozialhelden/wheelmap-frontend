@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgEvent(props: React.SVGAttributes<{}>) {
   return (
@@ -17,7 +17,7 @@ function SvgEvent(props: React.SVGAttributes<{}>) {
         <circle stroke="#FFF" cx={27.75} cy={12.5} r={3.5} />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgEvent;
+export default SvgEvent

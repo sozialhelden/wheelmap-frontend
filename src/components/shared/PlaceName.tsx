@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 const placeNameCSS = css`
   margin: 0;
@@ -18,16 +18,16 @@ const placeNameCSS = css`
     left: 0;
     top: 0;
   }
-`;
+`
 
 export const PlaceNameH1 = styled.h1.attrs({ isSmall: false })`
   ${placeNameCSS}
-`;
+`
 
 export const PlaceNameH2 = styled.h2.attrs({ isSmall: true })`
   ${placeNameCSS}
-`;
+`
 
 export const PlaceNameHeader = styled.header.attrs({ isSmall: false })`
   ${placeNameCSS}
-`;
+`

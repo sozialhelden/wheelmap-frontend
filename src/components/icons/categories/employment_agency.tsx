@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgEmploymentAgency(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgEmploymentAgency(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgEmploymentAgency;
+export default SvgEmploymentAgency

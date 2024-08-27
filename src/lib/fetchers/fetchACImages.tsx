@@ -10,5 +10,5 @@ export function fetchImages(
     `${baseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`,
   )
     .then((r) => r.json())
-    .then((json) => json.images);
+    .then((json) => json.images)
 }

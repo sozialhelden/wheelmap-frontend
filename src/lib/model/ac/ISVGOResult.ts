@@ -8,4 +8,4 @@ export default interface ISVGOResult {
       strokes?: string[];
     };
   };
-};
+}

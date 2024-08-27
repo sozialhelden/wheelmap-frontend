@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCompany(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCompany(props: React.SVGAttributes<{}>) {
         fill="#000"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCompany;
+export default SvgCompany

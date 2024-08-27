@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import colors from '../../lib/util/colors';
+import styled from 'styled-components'
+import colors from '../../lib/util/colors'
 
-const color = colors.editHintBackgroundColor;
+const color = colors.editHintBackgroundColor
 
 export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
   @keyframes slideIn {
@@ -46,4 +46,4 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
     border-right-color: ${color};
     box-sizing: border-box;
   }
-`;
+`

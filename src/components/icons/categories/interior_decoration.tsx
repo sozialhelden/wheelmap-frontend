@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgInteriorDecoration(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgInteriorDecoration(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgInteriorDecoration;
+export default SvgInteriorDecoration

@@ -1,5 +1,5 @@
-import { AnyFeature } from '../../../model/geo/AnyFeature';
-import { fixtureDivStyle } from '../styles';
+import { AnyFeature } from '../../../model/geo/AnyFeature'
+import { fixtureDivStyle } from '../styles'
 
 type Props = {
   feature?: AnyFeature | any;
@@ -11,7 +11,7 @@ type Props = {
 export default function MockedPOIDetails(props: Props) {
   const {
     feature, relation, description, heading,
-  } = props;
+  } = props
   return (
     <>
       <header>{heading}</header>
@@ -26,5 +26,5 @@ export default function MockedPOIDetails(props: Props) {
         </section>
       </div>
     </>
-  );
+  )
 }

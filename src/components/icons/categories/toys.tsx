@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgToys(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgToys(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgToys;
+export default SvgToys

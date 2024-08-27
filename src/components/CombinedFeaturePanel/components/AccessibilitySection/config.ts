@@ -60,9 +60,9 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'automatic_door',
   'door:handle',
   'door:wings',
-]);
+])
 
-export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/;
+export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/
 
 /**
  * These tags are not displayed in the accessibility section.
@@ -89,15 +89,15 @@ export const omittedKeyPrefixes = [
   'building:roof',
   'building:levels:underground',
   'building:architecture',
-];
+]
 
 export const omittedKeySuffixes = [
 
-];
+]
 
 export const omittedKeys = new Set([
   'building',
-]);
+])
 
 export const tagsWithSemicolonSupport = [
   'access',
@@ -122,7 +122,7 @@ export const tagsWithSemicolonSupport = [
   'community_centre:for',
   'social_facility',
   'social_facility:for',
-];
+]
 
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['building_object.type', /^building$/],
@@ -181,7 +181,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['crossing.$1', /^crossing:([\w_]+)$/],
   ['description.$1', /^description:([\w_]+)$/],
   ['$1', /(.*)/],
-];
+]
 
 export const sortOrderMap = new Map<string, number>([
   ['name', 0],
@@ -221,7 +221,7 @@ export const sortOrderMap = new Map<string, number>([
   ['material', 801],
   ['operator', 1000000000],
   ['smoking', 10000000],
-]);
+])
 
 export const defaultUnits = new Map<string, string>([
   ['voltage', 'V'],
@@ -229,7 +229,7 @@ export const defaultUnits = new Map<string, string>([
   ['amperage', 'A'],
   ['output', 'W'],
   ['socket', '×'],
-]);
+])
 
 export const editableKeys = new Set([
   'wheelchair',
@@ -237,9 +237,9 @@ export const editableKeys = new Set([
   'wheelchair:description:de',
   'wheelchair:description:en',
   'toilets:wheelchair',
-]);
+])
 
-const sidewalkPrefixSet = new Set(['sidewalk', 'sidewalk:left', 'sidewalk:right', 'sidewalk:both']);
+const sidewalkPrefixSet = new Set(['sidewalk', 'sidewalk:left', 'sidewalk:right', 'sidewalk:both'])
 
 export const additionalPrefixesForKeys: Map<string, Set<string>> = new Map([
   // https://wiki.openstreetmap.org/wiki/Key:sidewalk
@@ -253,7 +253,7 @@ export const additionalPrefixesForKeys: Map<string, Set<string>> = new Map([
   ['wheelchair', sidewalkPrefixSet],
   ['tactile_paving', sidewalkPrefixSet],
   ['traffic_sign', sidewalkPrefixSet],
-]);
+])
 
 export const languageTaggedKeys = new Set([
   'name',
@@ -265,10 +265,10 @@ export const languageTaggedKeys = new Set([
   'blind:description',
   'deaf:description',
   'toilets:wheelchair:description',
-]);
+])
 
 export const horizontalKeys = new Set([
   'payment',
   'internet_access',
   'diet',
-]);
+])

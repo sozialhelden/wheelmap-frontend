@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgYesWithArrow(props: React.SVGAttributes<{}>) {
   return (
@@ -12,7 +12,7 @@ function SvgYesWithArrow(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgYesWithArrow;
+export default SvgYesWithArrow

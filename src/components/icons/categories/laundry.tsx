@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgLaundry(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgLaundry(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgLaundry;
+export default SvgLaundry

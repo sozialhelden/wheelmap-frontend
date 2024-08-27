@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop', isActive: false })`
   position: fixed;
@@ -13,6 +13,6 @@ const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop', 
   z-index: 1;
   transform: none !important;
   backdrop-filter: blur(5px) grayscale(1);
-`;
+`
 
-export default FullscreenBackdrop;
+export default FullscreenBackdrop

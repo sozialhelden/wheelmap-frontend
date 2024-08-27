@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgTourism(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgTourism(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgTourism;
+export default SvgTourism

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgVideoStore(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgVideoStore(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgVideoStore;
+export default SvgVideoStore

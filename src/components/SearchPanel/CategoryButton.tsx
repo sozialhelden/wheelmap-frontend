@@ -1,15 +1,15 @@
-import styled, { css } from 'styled-components';
-import { t } from 'ttag';
+import styled, { css } from 'styled-components'
+import { t } from 'ttag'
 
-import { omit } from 'lodash';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
-import colors from '../../lib/util/colors';
-import CloseIcon from '../icons/actions/Close';
-import IconButton, { Caption, Circle } from '../shared/IconButton';
-import CombinedIcon from './CombinedIcon';
+import { omit } from 'lodash'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
+import colors from '../../lib/util/colors'
+import CloseIcon from '../icons/actions/Close'
+import IconButton, { Caption, Circle } from '../shared/IconButton'
+import CombinedIcon from './CombinedIcon'
 
 type Props = {
   name: string;
@@ -110,7 +110,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
             color: ${colors.darkSelectedColor};
           }
         `)};
-`;
+`
 
 export default function CategoryButton(props: Props) {
   const {
@@ -120,11 +120,11 @@ export default function CategoryButton(props: Props) {
     toiletFilter,
     showCloseButton,
     className,
-  } = props;
+  } = props
 
-  let shownAccessibilities = accessibilityFilter;
+  let shownAccessibilities = accessibilityFilter
   if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
-    shownAccessibilities = [];
+    shownAccessibilities = []
   }
 
   const icon = (
@@ -135,12 +135,12 @@ export default function CategoryButton(props: Props) {
       isMainCategory={isMainCategory}
       aria-hidden
     />
-  );
+  )
 
-  const router = useRouter();
-  const query = omit(router.query, 'q', 'category');
+  const router = useRouter()
+  const query = omit(router.query, 'q', 'category')
   if (!showCloseButton) {
-    query.category = category;
+    query.category = category
   }
 
   return (
@@ -166,5 +166,5 @@ export default function CategoryButton(props: Props) {
         {showCloseButton && <CloseIcon style={{ order: 1 }} />}
       </StyledCategoryIconButton>
     </Link>
-  );
+  )
 }

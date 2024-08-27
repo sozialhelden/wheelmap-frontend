@@ -1,5 +1,5 @@
-import { LocalizedString } from '@sozialhelden/a11yjson';
-import { ClientSideConfiguration } from './ClientSideConfiguration';
+import { LocalizedString } from '@sozialhelden/a11yjson'
+import { ClientSideConfiguration } from './ClientSideConfiguration'
 
 export interface IAppLink {
   _id: string;

@@ -1,6 +1,6 @@
-import { AccessibilityCloudTypeMapping } from './AccessibilityCloudTypeMapping';
-import { KomootTypeMapping } from './KomootTypeMapping';
-import { OSMTypeMapping } from './OSMTypeMapping';
+import { AccessibilityCloudTypeMapping } from './AccessibilityCloudTypeMapping'
+import { KomootTypeMapping } from './KomootTypeMapping'
+import { OSMTypeMapping } from './OSMTypeMapping'
 
 export type TypeMapping = AccessibilityCloudTypeMapping & OSMTypeMapping & KomootTypeMapping;
 export type KnownTypeString = keyof TypeMapping;

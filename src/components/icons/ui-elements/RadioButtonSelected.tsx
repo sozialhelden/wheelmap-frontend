@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function AllAccessibilitiesIcon(props) {
   return (
@@ -8,5 +8,5 @@ export default function AllAccessibilitiesIcon(props) {
         <rect id="Point" fill="#6895B5" x="5" y="5" width="14" height="14" rx="7" />
       </g>
     </svg>
-  );
+  )
 }

@@ -1,55 +1,55 @@
-import FocusTrap from 'focus-trap-react';
-import fromPairs from 'lodash/fromPairs';
-import get from 'lodash/get';
-import includes from 'lodash/includes';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
+import FocusTrap from 'focus-trap-react'
+import fromPairs from 'lodash/fromPairs'
+import get from 'lodash/get'
+import includes from 'lodash/includes'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import Button from '../shared/Button';
-import CloseLink from '../shared/CloseLink';
-import ErrorBoundary from '../shared/ErrorBoundary';
-import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
-import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySectionLegacy';
-import EquipmentOverview from './Equipment/EquipmentOverview';
-import NodeHeader from './NodeHeader';
-import PhotoSection from './Photos/PhotoSection';
-import ReportDialog from './Report/ReportDialog';
-import SourceList from './SourceList';
-import StyledToolbar from './StyledToolbar';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import Button from '../shared/Button'
+import CloseLink from '../shared/CloseLink'
+import ErrorBoundary from '../shared/ErrorBoundary'
+import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility'
+import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySectionLegacy'
+import EquipmentOverview from './Equipment/EquipmentOverview'
+import NodeHeader from './NodeHeader'
+import PhotoSection from './Photos/PhotoSection'
+import ReportDialog from './Report/ReportDialog'
+import SourceList from './SourceList'
+import StyledToolbar from './StyledToolbar'
 
 import {
   YesNoLimitedUnknown,
   isWheelmapFeatureId,
-} from '../../lib/model/ac/Feature';
-import { PhotoModel } from '../../lib/model/ac/PhotoModel';
-import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible';
-import { placeNameFor } from '../../lib/model/geo/placeNameFor';
+} from '../../lib/model/ac/Feature'
+import { PhotoModel } from '../../lib/model/ac/PhotoModel'
+import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
+import { placeNameFor } from '../../lib/model/geo/placeNameFor'
 
-import { SourceWithLicense } from '../../../app/PlaceDetailsProps';
-import { AppContextConsumer } from '../../AppContext';
-import { ModalNodeState } from '../../lib/ModalNodeState';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import { SourceWithLicense } from '../../../app/PlaceDetailsProps'
+import { AppContextConsumer } from '../../AppContext'
+import { ModalNodeState } from '../../lib/ModalNodeState'
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache'
 import {
   Category,
   CategoryLookupTables,
   getTranslatedCategoryNameFor,
-} from '../../lib/model/ac/categories/Categories';
-import { UAResult } from '../../lib/userAgent';
-import { Cluster } from '../Map/Cluster';
-import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
-import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
-import isA11yEditable from './AccessibilityEditor/isA11yEditable';
-import IconButtonList from './IconButtonList/IconButtonList';
+} from '../../lib/model/ac/categories/Categories'
+import { UAResult } from '../../lib/userAgent'
+import { Cluster } from '../Map/Cluster'
+import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor'
+import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor'
+import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor'
+import isA11yEditable from './AccessibilityEditor/isA11yEditable'
+import IconButtonList from './IconButtonList/IconButtonList'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
   margin-top: -8px;
   margin-right: 1px;
-`;
-PositionedCloseLink.displayName = 'PositionedCloseLink';
+`
+PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 type Props = {
   equipmentInfoId: string | null;
@@ -99,24 +99,24 @@ type Props = {
 type State = {};
 
 class NodeToolbar extends React.PureComponent<Props, State> {
-  toolbar = React.createRef<HTMLElement>();
+  toolbar = React.createRef<HTMLElement>()
 
-  reportDialog: React.ElementRef<typeof ReportDialog> | null;
+  reportDialog: React.ElementRef<typeof ReportDialog> | null
 
-  state = {};
+  state = {}
 
   placeName() {
     return placeNameFor(
       get(this.props, 'feature.properties'),
       this.props.category,
-    );
+    )
   }
 
   focus() {
-    this.toolbar.current?.focus();
+    this.toolbar.current?.focus()
   }
 
-  onLightboxStateChange = (isLightboxOpen: boolean) => {};
+  onLightboxStateChange = (isLightboxOpen: boolean) => {}
 
   renderReportDialog() {
     return (
@@ -128,16 +128,16 @@ class NodeToolbar extends React.PureComponent<Props, State> {
             feature={this.props.feature}
             featureId={this.props.featureId}
             onClose={() => {
-              if (this.props.onClose) this.props.onClose();
+              if (this.props.onClose) this.props.onClose()
             }}
           />
         )}
       </AppContextConsumer>
-    );
+    )
   }
 
   renderIconButtonList() {
-    return <IconButtonList {...this.props} />;
+    return <IconButtonList {...this.props} />
   }
 
   renderNodeHeader() {
@@ -151,14 +151,14 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       parentCategory,
       onClickCurrentMarkerIcon,
       onClickCurrentCluster,
-    } = this.props;
+    } = this.props
 
-    const statesWithIcon = ['edit-toilet-accessibility', 'report'];
+    const statesWithIcon = ['edit-toilet-accessibility', 'report']
     const isModalStateWithPlaceIcon = includes(
       statesWithIcon,
       this.props.modalNodeState,
-    );
-    const hasIcon = !this.props.modalNodeState || isModalStateWithPlaceIcon;
+    )
+    const hasIcon = !this.props.modalNodeState || isModalStateWithPlaceIcon
 
     return (
       <NodeHeader
@@ -175,7 +175,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       >
         {this.renderCloseLink()}
       </NodeHeader>
-    );
+    )
   }
 
   renderPhotoSection() {
@@ -189,27 +189,27 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         photoFlowErrorMessage={this.props.photoFlowErrorMessage}
         onLightbox={this.onLightboxStateChange}
       />
-    );
+    )
   }
 
   renderPlaceNameForEquipment() {
-    const { featureId } = this.props;
-    if (!featureId) return;
+    const { featureId } = this.props
+    if (!featureId) return
 
     return (
       <Button
         className="link-button"
         onClick={(e) => {
           if (this.props.onShowPlaceDetails) {
-            this.props.onShowPlaceDetails(this.props.featureId);
-            e.preventDefault();
-            e.stopPropagation();
+            this.props.onShowPlaceDetails(this.props.featureId)
+            e.preventDefault()
+            e.stopPropagation()
           }
         }}
       >
         {this.placeName()}
       </Button>
-    );
+    )
   }
 
   renderToiletAccessibilityEditor() {
@@ -219,12 +219,12 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         featureId={this.props.featureId as any}
         feature={this.props.feature}
         onSave={() => {
-          this.props.onClose();
-          this.props.onCloseToiletAccessibility();
+          this.props.onClose()
+          this.props.onCloseToiletAccessibility()
         }}
         onClose={this.props.onClose}
       />
-    );
+    )
   }
 
   renderWheelchairAccessibilityEditor() {
@@ -234,13 +234,13 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         featureId={this.props.featureId as any}
         feature={this.props.feature}
         onSave={() => {
-          this.props.onClose();
-          this.props.onCloseWheelchairAccessibility();
+          this.props.onClose()
+          this.props.onCloseWheelchairAccessibility()
         }}
         presetStatus={this.props.accessibilityPresetStatus}
         onClose={this.props.onClose}
       />
-    );
+    )
   }
 
   renderInlineWheelchairAccessibilityEditor(
@@ -248,26 +248,26 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     category: null | undefined | Category,
     sources: null | undefined | SourceWithLicense[],
   ) {
-    const { featureId } = this.props;
+    const { featureId } = this.props
     const wheelchairAccessibility = feature.properties
       ? isWheelchairAccessible(feature.properties)
-      : 'unknown';
+      : 'unknown'
 
     if (wheelchairAccessibility !== 'unknown') {
-      return null;
+      return null
     }
 
-    const primarySource = sources && sources.length > 0 ? sources[0].source : undefined;
+    const primarySource = sources && sources.length > 0 ? sources[0].source : undefined
     // translator: Shown as header/title when you edit wheelchair accessibility of a place
-    const header = t`How wheelchair accessible is this place?`;
+    const header = t`How wheelchair accessible is this place?`
 
-    const categoryName = getTranslatedCategoryNameFor(category);
+    const categoryName = getTranslatedCategoryNameFor(category)
 
     return (
       <AppContextConsumer>
         {(appContext) => {
           if (!isA11yEditable(featureId, appContext.app, primarySource)) {
-            return null;
+            return null
           }
 
           return (
@@ -278,28 +278,28 @@ class NodeToolbar extends React.PureComponent<Props, State> {
                 onChange={this.props.onSelectWheelchairAccessibility}
               />
             </section>
-          );
+          )
         }}
       </AppContextConsumer>
-    );
+    )
   }
 
   renderEquipmentInfos() {
-    const { featureId, equipmentInfoId, onEquipmentSelected } = this.props;
+    const { featureId, equipmentInfoId, onEquipmentSelected } = this.props
     if (!featureId) {
-      return;
+      return
     }
-    const isWheelmapFeature = isWheelmapFeatureId(featureId);
+    const isWheelmapFeature = isWheelmapFeatureId(featureId)
     if (isWheelmapFeature) {
-      return;
+      return
     }
 
     const equipmentInfoSet = equipmentInfoCache.getIndexedFeatures(
       'properties.placeInfoId',
       featureId,
-    );
+    )
     if (!equipmentInfoSet) {
-      return;
+      return
     }
 
     const equipmentInfos = fromPairs(
@@ -307,7 +307,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         get(equipmentInfo, 'properties._id'),
         equipmentInfo,
       ]),
-    );
+    )
 
     return (
       <EquipmentOverview
@@ -316,7 +316,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         equipmentInfoId={equipmentInfoId}
         onEquipmentSelected={onEquipmentSelected}
       />
-    );
+    )
   }
 
   renderContentBelowHeader() {
@@ -329,24 +329,24 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       onOpenReportMode,
       category,
       sources,
-    } = this.props;
+    } = this.props
 
-    const isEquipment = !!equipmentInfoId;
+    const isEquipment = !!equipmentInfoId
 
     if (featureId && !isEquipment) {
       switch (this.props.modalNodeState) {
-        case 'edit-wheelchair-accessibility':
-          return this.renderWheelchairAccessibilityEditor();
-        case 'edit-toilet-accessibility':
-          return this.renderToiletAccessibilityEditor();
-        case 'report':
-          return this.renderReportDialog();
-        default:
-          break;
+      case 'edit-wheelchair-accessibility':
+        return this.renderWheelchairAccessibilityEditor()
+      case 'edit-toilet-accessibility':
+        return this.renderToiletAccessibilityEditor()
+      case 'report':
+        return this.renderReportDialog()
+      default:
+        break
       }
     }
 
-    if (!featureId) return;
+    if (!featureId) return
 
     const sourceLinkProps = {
       equipmentInfoId,
@@ -354,7 +354,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       featureId,
       onOpenReportMode,
       sources,
-    };
+    }
 
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
@@ -364,7 +364,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         isWheelmapFeature={isWheelmapFeatureId(featureId)}
         {...this.props}
       />
-    );
+    )
 
     const inlineWheelchairAccessibilityEditor = feature
       ? this.renderInlineWheelchairAccessibilityEditor(
@@ -372,9 +372,9 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         category,
         sources,
       )
-      : null;
-    const photoSection = this.renderPhotoSection();
-    const equipmentOverview = this.renderEquipmentInfos();
+      : null
+    const photoSection = this.renderPhotoSection()
+    const equipmentOverview = this.renderEquipmentInfos()
 
     return (
       <div>
@@ -386,12 +386,12 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         {this.renderIconButtonList()}
         <SourceList {...sourceLinkProps} />
       </div>
-    );
+    )
   }
 
   renderCloseLink() {
-    const { onClose } = this.props;
-    return <PositionedCloseLink {...{ onClick: onClose }} />;
+    const { onClose } = this.props
+    return <PositionedCloseLink {...{ onClick: onClose }} />
   }
 
   render() {
@@ -417,8 +417,8 @@ class NodeToolbar extends React.PureComponent<Props, State> {
           </StyledToolbar>
         </div>
       </FocusTrap>
-    );
+    )
   }
 }
 
-export default NodeToolbar;
+export default NodeToolbar

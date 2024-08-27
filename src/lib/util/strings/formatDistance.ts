@@ -1,4 +1,4 @@
-import shouldPreferImperialUnits from '../../model/geo/shouldPreferImperialUnits';
+import shouldPreferImperialUnits from '../../model/geo/shouldPreferImperialUnits'
 
 const unitSets = {
   metric: [
@@ -34,7 +34,7 @@ const unitSets = {
       mult: 1 / 1760,
     },
   ],
-};
+}
 
 // transforms the distance into the closest fitting unit and displays with reduced precision
 //    5.31 becomes 5.3m
@@ -45,22 +45,22 @@ export function formatDistance(
   distanceInMeters: number,
   precision: number = 2,
 ): { unit: string | number; distance: string | number } {
-  const unitSet = shouldPreferImperialUnits() ? unitSets.imperialYard : unitSets.metric;
+  const unitSet = shouldPreferImperialUnits() ? unitSets.imperialYard : unitSets.metric
 
   // TODO: check types
-  let distance: number | string = distanceInMeters;
-  let unit: number | string = distanceInMeters;
+  let distance: number | string = distanceInMeters
+  let unit: number | string = distanceInMeters
   // find the best matching unit to display
   for (const step of unitSet) {
-    distance *= (step.mult || 1.0);
-    unit = step.unit;
+    distance *= (step.mult || 1.0)
+    unit = step.unit
 
     if (!step.max || distance < step.max) {
-      break;
+      break
     }
   }
 
   // format according to precision, parseFloat ensures no 5e+2 from toPrecision remains
-  distance = parseFloat(distance.toPrecision(precision)).toString();
-  return { unit, distance };
+  distance = parseFloat(distance.toPrecision(precision)).toString()
+  return { unit, distance }
 }

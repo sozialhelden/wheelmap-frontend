@@ -110,11 +110,11 @@ export const accessibilityPrefixes = new Set([
   'winter_service', // https://wiki.openstreetmap.org/wiki/Key:winter_service
   'healthcare', // https://wiki.openstreetmap.org/wiki/Key:healthcare
   'healthcare:speciality', // https://wiki.openstreetmap.org/wiki/Key:healthcare:speciality
-]);
+])
 
 export default function isAccessibilityRelevantOSMKey(osmKey: string): boolean {
   return (
     accessibilityPrefixes.has(osmKey)
     || accessibilityPrefixes.has(osmKey.substr(0, osmKey.indexOf(':')))
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgAtm(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgAtm(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgAtm;
+export default SvgAtm

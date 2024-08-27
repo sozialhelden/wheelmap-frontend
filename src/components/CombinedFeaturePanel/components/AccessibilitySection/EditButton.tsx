@@ -1,6 +1,6 @@
-import { AnchorButton } from '@blueprintjs/core';
-import React from 'react';
-import { t } from 'ttag';
+import { AnchorButton } from '@blueprintjs/core'
+import React from 'react'
+import { t } from 'ttag'
 
 export function EditButton({ editURL }: { editURL: string; }) {
   return (
@@ -11,5 +11,5 @@ export function EditButton({ editURL }: { editURL: string; }) {
       small
       href={editURL}
     />
-  );
+  )
 }

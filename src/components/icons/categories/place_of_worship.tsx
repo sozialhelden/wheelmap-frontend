@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPlaceOfWorship(props: React.SVGAttributes<{}>) {
   return (
@@ -8,7 +8,7 @@ function SvgPlaceOfWorship(props: React.SVGAttributes<{}>) {
         <path d="M13.5 4a.5.5 0 01-.22-.05L7.5 1 1.72 3.93A.514.514 0 011.28 3L7.5-.08 13.72 3a.512.512 0 01-.22 1z" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgPlaceOfWorship;
+export default SvgPlaceOfWorship

@@ -1,5 +1,5 @@
-import router from 'next/router';
-import StyledNotFound from '../components/NotFound/NotFound';
+import router from 'next/router'
+import StyledNotFound from '../components/NotFound/NotFound'
 
 export default function NotFound() {
   return (
@@ -14,5 +14,5 @@ export default function NotFound() {
         statusCode={404}
       /> */}
     </>
-  );
+  )
 }

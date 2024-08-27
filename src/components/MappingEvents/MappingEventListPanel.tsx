@@ -1,17 +1,17 @@
-import Link from 'next/link';
-import styled from 'styled-components';
-import useSWR from 'swr';
-import { t } from 'ttag';
-import { useCurrentApp } from '../../lib/context/AppContext';
-import fetchMappingEvents from '../../lib/fetchers/fetchMappingEvents';
-import { MappingEvent } from '../../lib/model/ac/MappingEvent';
-import colors from '../../lib/util/colors';
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
-import CloseButton from '../shared/CloseButton';
-import StyledMarkdown from '../shared/StyledMarkdown';
+import Link from 'next/link'
+import styled from 'styled-components'
+import useSWR from 'swr'
+import { t } from 'ttag'
+import { useCurrentApp } from '../../lib/context/AppContext'
+import fetchMappingEvents from '../../lib/fetchers/fetchMappingEvents'
+import { MappingEvent } from '../../lib/model/ac/MappingEvent'
+import colors from '../../lib/util/colors'
+import StyledToolbar from '../NodeToolbar/StyledToolbar'
+import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers'
+import CloseButton from '../shared/CloseButton'
+import StyledMarkdown from '../shared/StyledMarkdown'
 
-export const StyledCloseButton = styled(CloseButton)``;
+export const StyledCloseButton = styled(CloseButton)``
 
 const StyledMappingEventsToolbar = styled(StyledToolbar)`
   padding-top: 0;
@@ -85,40 +85,40 @@ const StyledMappingEventsToolbar = styled(StyledToolbar)`
     min-width: 30px;
     line-height: 22px;
   }
-`;
+`
 
 function getMappingEventLink(event: MappingEvent): string {
-  const extent = event && event.area && event.area.properties.extent;
+  const extent = event && event.area && event.area.properties.extent
   if (!extent) {
-    return `/events/${event._id}`;
+    return `/events/${event._id}`
   }
-  return `/events/${event._id}?extent=${extent}`;
+  return `/events/${event._id}?extent=${extent}`
 }
 
 type Props = {};
 
 export default function MappingEventListPanel({}: Props) {
-  const app = useCurrentApp();
-  const { tokenString: appToken } = app;
+  const app = useCurrentApp()
+  const { tokenString: appToken } = app
   const { data: mappingEvents, isValidating, error } = useSWR(
     [appToken],
     fetchMappingEvents,
-  );
+  )
 
-  const eventCount = mappingEvents?.length || 0;
+  const eventCount = mappingEvents?.length || 0
 
   // translator: Screenreader description for the mapping events list
-  const mappingEventsListAriaLabel = t`Mapping events list`;
+  const mappingEventsListAriaLabel = t`Mapping events list`
   // translator: Screenreader description for the number of active mapping events in the shown list
-  const activeMappingEventsCountAriaLabel = t`${eventCount} active mapping events`;
+  const activeMappingEventsCountAriaLabel = t`${eventCount} active mapping events`
   // translator: Generic name for mapping events
-  const eventsText = t`Events`;
+  const eventsText = t`Events`
   // translator: Tagline describing the purpose of mapping events (supports Markdown)
-  const mapathonFeatureClaim = t`Meet the community and map the accessibility of places around you!`;
+  const mapathonFeatureClaim = t`Meet the community and map the accessibility of places around you!`
   // translator: Link for further infos about how to organize mapping events
-  const mapathonExplanationLinkCaption = t`Learn how to organize a mapping event`;
+  const mapathonExplanationLinkCaption = t`Learn how to organize a mapping event`
   // translator: Link for further infos about how to organize mapping events
-  const mapathonExplanationLinkURL = t`https://news.wheelmap.org/en/organize-a-mapping-event/`;
+  const mapathonExplanationLinkURL = t`https://news.wheelmap.org/en/organize-a-mapping-event/`
 
   return (
     <StyledMappingEventsToolbar
@@ -167,5 +167,5 @@ export default function MappingEventListPanel({}: Props) {
       </ul>
       <footer />
     </StyledMappingEventsToolbar>
-  );
+  )
 }

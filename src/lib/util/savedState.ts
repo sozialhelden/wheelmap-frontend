@@ -1,17 +1,17 @@
-import storage from 'local-storage-fallback';
+import storage from 'local-storage-fallback'
 
-export { storage };
+export { storage }
 
-const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
+const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate')
 
 const initialPropsCategoryDataString = storage.getItem(
   'wheelmap.initialProps.rawCategoryLists',
-);
-const initialPropsAppString = storage.getItem('wheelmap.initialProps.app');
+)
+const initialPropsAppString = storage.getItem('wheelmap.initialProps.app')
 
 const hasInitialProps = !!(
   initialPropsCategoryDataString && initialPropsAppString
-);
+)
 
 const savedState = {
   map: {
@@ -27,22 +27,22 @@ const savedState = {
       app: JSON.parse(initialPropsAppString),
     }
     : null,
-};
+}
 
-export default savedState;
+export default savedState
 
 export function saveState(state: { [key: string]: string }) {
-  Object.keys(state).forEach((key) => storage.setItem(`wheelmap.${key}`, state[key]));
+  Object.keys(state).forEach((key) => storage.setItem(`wheelmap.${key}`, state[key]))
 }
 
 export function isFirstStart() {
-  return storage.getItem('wheelmap.onboardingCompleted') !== 'true';
+  return storage.getItem('wheelmap.onboardingCompleted') !== 'true'
 }
 
 export function hasOpenedLocationHelp() {
-  return storage.getItem('wheelmap.hasOpenedLocationHelp') === 'true';
+  return storage.getItem('wheelmap.hasOpenedLocationHelp') === 'true'
 }
 
 export function shouldLocate() {
-  return storage.getItem('wheelmap.map.locate') === 'true';
+  return storage.getItem('wheelmap.map.locate') === 'true'
 }

@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import Head from 'next/head';
+import React, { PureComponent } from 'react'
+import Head from 'next/head'
 
-import { FacebookConfiguration } from '../lib/ClientSideConfiguration';
+import { FacebookConfiguration } from '../lib/ClientSideConfiguration'
 
 type Props = {
   facebook: FacebookConfiguration & {
@@ -14,7 +14,7 @@ class FacebookMeta extends PureComponent<Props> {
   render() {
     const {
       appId, admins, imageURL, imageWidth, imageHeight,
-    } = this.props.facebook;
+    } = this.props.facebook
 
     return (
       <Head>
@@ -23,15 +23,15 @@ class FacebookMeta extends PureComponent<Props> {
         {imageURL && <meta content={imageURL} property="og:image" key="og:image" />}
         {imageURL
           && imageWidth && (
-            <meta content={String(imageWidth)} property="og:image:width" key="og:image:width" />
+          <meta content={String(imageWidth)} property="og:image:width" key="og:image:width" />
         )}
         {imageURL
           && imageHeight && (
-            <meta content={String(imageHeight)} property="og:image:height" key="og:image:height" />
+          <meta content={String(imageHeight)} property="og:image:height" key="og:image:height" />
         )}
       </Head>
-    );
+    )
   }
 }
 
-export default FacebookMeta;
+export default FacebookMeta

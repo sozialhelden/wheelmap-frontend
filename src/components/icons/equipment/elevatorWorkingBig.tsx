@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgElevatorWorkingBig(props: React.SVGAttributes<{}>) {
   return (
@@ -15,7 +15,7 @@ function SvgElevatorWorkingBig(props: React.SVGAttributes<{}>) {
         />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgElevatorWorkingBig;
+export default SvgElevatorWorkingBig

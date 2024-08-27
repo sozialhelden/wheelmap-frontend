@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-const EnvContext = React.createContext<Record<string, string>>({});
+const EnvContext = React.createContext<Record<string, string>>({})
 
-export default EnvContext;
+export default EnvContext
 
 export function useEnvContext() {
-  return React.useContext(EnvContext);
+  return React.useContext(EnvContext)
 }

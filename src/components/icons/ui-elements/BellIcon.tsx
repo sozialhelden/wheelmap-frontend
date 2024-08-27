@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function BellIcon() {
   return (
@@ -17,7 +17,7 @@ function BellIcon() {
         </g>
       </g>
     </svg>
-  );
+  )
 }
 
-export default BellIcon;
+export default BellIcon

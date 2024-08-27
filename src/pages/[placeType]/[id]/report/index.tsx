@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
-import React from 'react';
-import { useCurrentApp } from '../../../../lib/context/AppContext';
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useCurrentApp } from '../../../../lib/context/AppContext'
 
 function Report() {
   // onOpenReportMode = () => {
@@ -10,9 +10,9 @@ function Report() {
   //   }
   // };
 
-  const router = useRouter();
-  const { placeType, id } = router.query;
-  const app = useCurrentApp();
+  const router = useRouter()
+  const { placeType, id } = router.query
+  const app = useCurrentApp()
 
   return (
     <div>
@@ -25,7 +25,7 @@ function Report() {
         {placeType}
       </h2>
     </div>
-  );
+  )
 }
 
-export default Report;
+export default Report

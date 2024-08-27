@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCalendarIcon(props: any) {
   return (
@@ -11,7 +11,7 @@ function SvgCalendarIcon(props: any) {
         />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgCalendarIcon;
+export default SvgCalendarIcon

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgSpeechTherapist(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgSpeechTherapist(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgSpeechTherapist;
+export default SvgSpeechTherapist

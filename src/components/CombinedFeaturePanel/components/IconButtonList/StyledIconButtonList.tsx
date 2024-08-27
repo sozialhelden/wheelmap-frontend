@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import colors from '../../../../lib/util/colors';
+import styled from 'styled-components'
+import colors from '../../../../lib/util/colors'
 
 const StyledIconButtonList = styled.ul`
   display: flex;
@@ -49,6 +49,6 @@ const StyledIconButtonList = styled.ul`
       color: ${colors.textColorTonedDown};
     }
   }
-`;
+`
 
-export default StyledIconButtonList;
+export default StyledIconButtonList

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMapPinIcon(props: any) {
   return (
@@ -13,7 +13,7 @@ function SvgMapPinIcon(props: any) {
         <use fill="#37404D" fillRule="nonzero" xlinkHref="#MapPinIcon_svg__a" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgMapPinIcon;
+export default SvgMapPinIcon

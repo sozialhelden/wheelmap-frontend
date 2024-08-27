@@ -1,54 +1,54 @@
-import EventTarget, { CustomEvent } from '../../util/EventTarget';
-import customFetch from './fetch';
+import EventTarget, { CustomEvent } from '../../util/EventTarget'
+import customFetch from './fetch'
 
 export class FetchManager extends EventTarget<CustomEvent> {
-  lastError: Error | null = null;
+  lastError: Error | null = null
 
-  runningPromises: Map<Promise<Response>, boolean> = new Map();
+  runningPromises: Map<Promise<Response>, boolean> = new Map()
 
-  externalStatus: { [key: string]: boolean } = {};
+  externalStatus: { [key: string]: boolean } = {}
 
   isLoading(): boolean {
-    let count = this.runningPromises.size ? this.runningPromises.size : 0;
+    let count = this.runningPromises.size ? this.runningPromises.size : 0
     for (const e in this.externalStatus) {
       if (this.externalStatus[e] === true) {
-        count++;
+        count++
       }
     }
 
-    return count > 0;
+    return count > 0
   }
 
   injectExternalStatus(key: string, busy: boolean) {
-    this.externalStatus[key] = busy;
+    this.externalStatus[key] = busy
   }
 
   fetch(input: string, init?: any): Promise<Response> {
-    let promise = null;
+    let promise = null
 
     const removeFromRunningPromises = (response: Response) => {
       if (promise) {
-        this.runningPromises.delete(promise);
+        this.runningPromises.delete(promise)
       }
-      this.dispatchEvent(new CustomEvent('stop', { target: this }));
-      return response;
-    };
+      this.dispatchEvent(new CustomEvent('stop', { target: this }))
+      return response
+    }
 
     const handleError = (reason: any) => {
-      console.log('Unhandled error while fetching:', reason);
-      this.dispatchEvent(new CustomEvent('error', { target: this }));
+      console.log('Unhandled error while fetching:', reason)
+      this.dispatchEvent(new CustomEvent('error', { target: this }))
       if (reason instanceof Error) {
-        this.lastError = reason;
+        this.lastError = reason
       }
-    };
+    }
 
     promise = customFetch(input, init)
       .then(removeFromRunningPromises, removeFromRunningPromises)
-      .catch(handleError);
-    this.runningPromises.set(promise, true);
-    this.dispatchEvent(new CustomEvent('start', { target: this }));
-    return promise;
+      .catch(handleError)
+    this.runningPromises.set(promise, true)
+    this.dispatchEvent(new CustomEvent('start', { target: this }))
+    return promise
   }
 }
 
-export const globalFetchManager = new FetchManager();
+export const globalFetchManager = new FetchManager()

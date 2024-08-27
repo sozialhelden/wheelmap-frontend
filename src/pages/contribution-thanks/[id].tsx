@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 
 function Contribs() {
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
 
   // TODO: trackModalView('contribution-thanks');
 
@@ -26,7 +26,7 @@ function Contribs() {
         {id}
       </h1>
     </>
-  );
+  )
 }
 
-export default Contribs;
+export default Contribs

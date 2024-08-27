@@ -1,9 +1,9 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import colors from '../../../lib/util/colors';
-import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
-import ProblemIcon from '../../icons/actions/ProblemIcon';
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../../lib/util/colors'
+import CheckmarkIcon from '../../icons/actions/CheckmarkIcon'
+import ProblemIcon from '../../icons/actions/ProblemIcon'
 
 type Props = {
   className?: string,
@@ -14,13 +14,13 @@ type Props = {
 
 type State = {};
 
-const defaultState: State = {};
+const defaultState: State = {}
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   path {
     fill: ${(props) => props.color};
   }
-`;
+`
 
 const StyledProblemIcon = styled(ProblemIcon)`
   path {
@@ -29,20 +29,20 @@ const StyledProblemIcon = styled(ProblemIcon)`
   circle {
     fill: ${(props) => props.color};
   }
-`;
+`
 
 class PhotoNotification extends React.Component<Props, State> {
-  props: Props;
+  props: Props
 
-  state: State = defaultState;
+  state: State = defaultState
 
   componentDidMount() {}
 
   UNSAFE_componentWillReceiveProps(newProps: Props) {}
 
   render() {
-    const { className, notificationType, uploadProgress } = this.props;
-    const usedType = notificationType || 'none';
+    const { className, notificationType, uploadProgress } = this.props
+    const usedType = notificationType || 'none'
 
     const notificationComponents = {
       uploadProgress: (
@@ -73,13 +73,13 @@ class PhotoNotification extends React.Component<Props, State> {
         </small>
       ),
       none: null,
-    };
+    }
 
     return (
       <div className={`${className || ''} notification-mode-${usedType}`}>
         {notificationComponents[usedType]}
       </div>
-    );
+    )
   }
 }
 
@@ -131,6 +131,6 @@ const StyledPhotoNotification = styled(PhotoNotification)`
       font-size: 3rem;
     }
   }
-`;
+`
 
-export default StyledPhotoNotification;
+export default StyledPhotoNotification

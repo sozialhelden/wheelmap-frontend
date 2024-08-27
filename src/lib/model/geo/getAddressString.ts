@@ -1,8 +1,8 @@
-import { StructuredAddress } from '@sozialhelden/a11yjson';
+import { StructuredAddress } from '@sozialhelden/a11yjson'
 
 export default function getAddressString(parts: StructuredAddress): string | undefined {
   if (!parts) {
-    return undefined;
+    return undefined
   }
   return [
     [parts.street, parts.house].filter(Boolean).join(' '),
@@ -11,5 +11,5 @@ export default function getAddressString(parts: StructuredAddress): string | und
     parts.countryCode,
   ]
     .filter(Boolean)
-    .join(', ');
+    .join(', ')
 }

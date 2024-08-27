@@ -1,6 +1,6 @@
-import { LocalesToTranslations } from './LocalesToTranslations';
-import { Translations } from './Translations';
-import { Locale } from './Locale';
+import { LocalesToTranslations } from './LocalesToTranslations'
+import { Translations } from './Translations'
+import { Locale } from './Locale'
 
 export function getTranslationsForLocale(
   translations: LocalesToTranslations,
@@ -10,5 +10,5 @@ export function getTranslationsForLocale(
   return (
     translations[locale.string]
     || translations[locale.transifexLanguageIdentifier]
-  );
+  )
 }

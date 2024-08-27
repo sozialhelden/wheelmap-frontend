@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgParking(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgParking(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgParking;
+export default SvgParking

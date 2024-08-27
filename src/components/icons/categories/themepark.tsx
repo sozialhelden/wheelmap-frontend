@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgThemepark(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgThemepark(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgThemepark;
+export default SvgThemepark

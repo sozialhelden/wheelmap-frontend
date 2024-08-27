@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgHiking(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgHiking(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgHiking;
+export default SvgHiking

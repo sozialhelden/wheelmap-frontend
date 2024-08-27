@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgUserIcon(props: any) {
   return (
@@ -13,7 +13,7 @@ function SvgUserIcon(props: any) {
         <use fill="#37404D" fillRule="nonzero" xlinkHref="#UserIcon_svg__a" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgUserIcon;
+export default SvgUserIcon

@@ -1,16 +1,16 @@
-import { uniqBy } from 'lodash';
-import React from 'react';
-import OSMFeature from '../../../../lib/model/osm/OSMFeature';
-import WikipediaLink from '../WikipediaLink';
-import { getWikipediaLemma } from '../getWikipediaLemma';
-import WikidataEntityImage from './WikidataEntityImage';
-import WikimediaCommonsImage from './WikimediaCommonsImage';
+import { uniqBy } from 'lodash'
+import React from 'react'
+import OSMFeature from '../../../../lib/model/osm/OSMFeature'
+import WikipediaLink from '../WikipediaLink'
+import { getWikipediaLemma } from '../getWikipediaLemma'
+import WikidataEntityImage from './WikidataEntityImage'
+import WikimediaCommonsImage from './WikimediaCommonsImage'
 
 const imageStyle = (link) => ({
   maxHeight: link.prefix === 'subject' ? '6rem' : '3rem',
   maxWidth: link.prefix === 'subject' ? '6rem' : '3rem',
   borderRadius: '0.125rem',
-});
+})
 
 export default function FeatureImage({ feature }: { feature: OSMFeature }) {
   const links = React.useMemo(() => uniqBy(
@@ -29,7 +29,7 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
       },
     ],
     (link) => getWikipediaLemma(feature, link.prefix),
-  ), [feature]);
+  ), [feature])
 
   return (
     <>
@@ -48,5 +48,5 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
         style={imageStyle}
       />
     </>
-  );
+  )
 }

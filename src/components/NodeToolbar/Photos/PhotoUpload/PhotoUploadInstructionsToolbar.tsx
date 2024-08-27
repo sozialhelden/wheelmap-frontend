@@ -1,12 +1,12 @@
-import FocusTrap from 'focus-trap-react';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import colors from '../../../../lib/util/colors';
-import Spinner from '../../../ActivityIndicator/Spinner';
-import { CheckmarkIcon } from '../../../icons/actions';
-import StyledCloseLink from '../../../shared/CloseLink';
-import Toolbar from '../../../shared/Toolbar';
+import FocusTrap from 'focus-trap-react'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../../../lib/util/colors'
+import Spinner from '../../../ActivityIndicator/Spinner'
+import { CheckmarkIcon } from '../../../icons/actions'
+import StyledCloseLink from '../../../shared/CloseLink'
+import Toolbar from '../../../shared/Toolbar'
 
 export type Props = {
   waitingForPhotoUpload: boolean;
@@ -23,7 +23,7 @@ const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   path {
     fill: ${(props) => props.color};
   }
-`;
+`
 
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
@@ -152,7 +152,7 @@ const StyledToolbar = styled(Toolbar)`
     opacity: 0.8;
     background-color: ${colors.neutralBackgroundColor};
   }
-`;
+`
 
 function CheckmarkItem({
   caption,
@@ -169,50 +169,50 @@ function CheckmarkItem({
       </header>
       {children}
     </li>
-  );
+  )
 }
 
 export default class PhotoUploadInstructionsToolbar extends React.Component<
   Props,
   State
 > {
-  props: Props;
+  props: Props
 
   state: State = {
     guidelinesAccepted: false,
-  };
+  }
 
-  fileInput: null | HTMLInputElement;
+  fileInput: null | HTMLInputElement
 
-  checkBox: null | HTMLInputElement;
+  checkBox: null | HTMLInputElement
 
-  backLink: null | HTMLButtonElement;
+  backLink: null | HTMLButtonElement
 
-  goButton: null | React.ElementRef<'button'>;
+  goButton: null | React.ElementRef<'button'>
 
   onFileInputChanged = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const input = event.currentTarget;
-    const { files } = input;
+    const input = event.currentTarget
+    const { files } = input
 
     if (!files || files.length === 0) {
       if (this.props.onClose) {
-        this.props.onClose();
+        this.props.onClose()
       }
     } else if (this.props.onCompleted) {
-      this.props.onCompleted(files);
+      this.props.onCompleted(files)
     }
-  };
+  }
 
   onClose = (event: React.SyntheticEvent) => {
     if (this.props.onClose) {
-      this.props.onClose();
-      event.preventDefault();
+      this.props.onClose()
+      event.preventDefault()
     }
-  };
+  }
 
   render() {
-    const { waitingForPhotoUpload } = this.props;
-    const canSubmit = !waitingForPhotoUpload;
+    const { waitingForPhotoUpload } = this.props
+    const canSubmit = !waitingForPhotoUpload
 
     const captions = {
       header: t`The following images…`,
@@ -220,7 +220,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<
       copyright: t`...were taken by me.`,
       people: t`...do not show any identifiable persons.`,
       copyrightDetail: t`I hereby publish these images into the public domain and renounce copyright protection (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0 1.0 Universal license</a>).`,
-    };
+    }
 
     return (
       <FocusTrap>
@@ -291,7 +291,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<
                 {waitingForPhotoUpload && <Spinner />}
                 <input
                   ref={(input) => {
-                    this.fileInput = input;
+                    this.fileInput = input
                   }}
                   type="file"
                   id="photo-file-upload"
@@ -307,6 +307,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<
           </StyledToolbar>
         </div>
       </FocusTrap>
-    );
+    )
   }
 }

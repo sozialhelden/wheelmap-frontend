@@ -1,6 +1,6 @@
-import useSWR, { responseInterface } from 'swr';
-import { fetcherFn, ConfigInterface, keyInterface } from 'swr/dist/types';
-import { createContext, useContext } from 'react';
+import useSWR, { responseInterface } from 'swr'
+import { fetcherFn, ConfigInterface, keyInterface } from 'swr/dist/types'
+import { createContext, useContext } from 'react'
 
 type FetchJob<Data = any, Error = any> = {
   key: keyInterface;
@@ -13,15 +13,15 @@ type FetchJob<Data = any, Error = any> = {
 // so we can use getInitialProps to hand over the preloaded data to the client.
 // See also _document.tsx.
 
-const prefetchContext = createContext<FetchJob<any>[]>([]);
+const prefetchContext = createContext<FetchJob<any>[]>([])
 
 export default function useSWRWithPrefetch<Data = any, Error = any>(
   key: keyInterface,
   fn?: fetcherFn<Data>,
   config?: ConfigInterface<Data, Error>,
 ): responseInterface<Data, Error> {
-  const ctx = useContext(prefetchContext);
-  ctx.push({ key, fn, config });
-  const result = useSWR(key, fn, config);
-  return result;
+  const ctx = useContext(prefetchContext)
+  ctx.push({ key, fn, config })
+  const result = useSWR(key, fn, config)
+  return result
 }

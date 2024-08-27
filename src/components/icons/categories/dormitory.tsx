@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgDormitory(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgDormitory(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgDormitory;
+export default SvgDormitory

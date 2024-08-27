@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgConfectionery(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgConfectionery(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgConfectionery;
+export default SvgConfectionery

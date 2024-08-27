@@ -5,4 +5,4 @@ export default {
   maxZoom: 20,
   minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
-};
+}

@@ -1,4 +1,4 @@
-import { LIST_UNSTYLED } from '@blueprintjs/core/lib/esm/common/classes';
+import { LIST_UNSTYLED } from '@blueprintjs/core/lib/esm/common/classes'
 
 export default function ExternalFeatureLink(props: {
   href: string;
@@ -10,5 +10,5 @@ export default function ExternalFeatureLink(props: {
         {props.children}
       </a>
     </li>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCaravanSite(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCaravanSite(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCaravanSite;
+export default SvgCaravanSite

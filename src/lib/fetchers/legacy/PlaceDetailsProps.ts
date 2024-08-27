@@ -1,8 +1,8 @@
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import { DataSource } from '../lib/cache/DataSourceCache';
-import { License } from '../lib/cache/LicenseCache';
-import { PhotoModel } from '../lib/PhotoModel';
-import { RenderContext } from './getInitialProps';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import { DataSource } from '../lib/cache/DataSourceCache'
+import { License } from '../lib/cache/LicenseCache'
+import { PhotoModel } from '../lib/PhotoModel'
+import { RenderContext } from './getInitialProps'
 
 export type SourceWithLicense = {
   source: DataSource;
@@ -13,17 +13,17 @@ export type PotentialPromise<T> = T | Promise<T>;
 
 export function getDataIfAlreadyResolved<T>(potentialPromise: PotentialPromise<T>): T | null {
   if (potentialPromise instanceof Promise) {
-    return null;
+    return null
   }
 
-  return potentialPromise;
+  return potentialPromise
 }
 
 function getDataPromise<T>(potentialPromise: PotentialPromise<T>): Promise<T> {
   if (potentialPromise instanceof Promise) {
-    return potentialPromise;
+    return potentialPromise
   }
-  return Promise.resolve(potentialPromise);
+  return Promise.resolve(potentialPromise)
 }
 
 // this is in its own file, to prevent circular dependencies
@@ -65,18 +65,18 @@ export type ResolvedPlaceDetailsProps = {
 export function getPlaceDetailsIfAlreadyResolved(
   props: PlaceDetailsProps,
 ): ResolvedPlaceDetailsProps | null {
-  const resolvedFeature = getDataIfAlreadyResolved(props.feature);
-  const resolvedSources = getDataIfAlreadyResolved(props.sources);
-  const resolvedPhotos = getDataIfAlreadyResolved(props.photos);
+  const resolvedFeature = getDataIfAlreadyResolved(props.feature)
+  const resolvedSources = getDataIfAlreadyResolved(props.sources)
+  const resolvedPhotos = getDataIfAlreadyResolved(props.photos)
   const resolvedEquimentInfo = props.equipmentInfo
     ? getDataIfAlreadyResolved(props.equipmentInfo)
-    : null;
+    : null
   const resolvedToiletsNearby = props.toiletsNearby
     ? getDataIfAlreadyResolved(props.toiletsNearby)
-    : null;
+    : null
 
   if (!resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
-    return null;
+    return null
   }
 
   return {
@@ -87,21 +87,21 @@ export function getPlaceDetailsIfAlreadyResolved(
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquimentInfo,
     toiletsNearby: resolvedToiletsNearby || [],
-  };
+  }
 }
 
 export async function awaitPlaceDetails(
   props: PlaceDetailsProps,
 ): Promise<ResolvedPlaceDetailsProps> {
-  const resolvedFeature = await getDataPromise(props.feature);
-  const resolvedSources = await getDataPromise(props.sources);
-  const resolvedPhotos = await getDataPromise(props.photos);
+  const resolvedFeature = await getDataPromise(props.feature)
+  const resolvedSources = await getDataPromise(props.sources)
+  const resolvedPhotos = await getDataPromise(props.photos)
   const resolvedEquipmentInfo = props.equipmentInfo
     ? await getDataPromise(props.equipmentInfo)
-    : null;
+    : null
   const resolvedToiletsNearby = props.toiletsNearby
     ? await getDataPromise(props.toiletsNearby)
-    : null;
+    : null
 
   return {
     feature: resolvedFeature,
@@ -111,5 +111,5 @@ export async function awaitPlaceDetails(
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquipmentInfo,
     toiletsNearby: resolvedToiletsNearby,
-  };
+  }
 }

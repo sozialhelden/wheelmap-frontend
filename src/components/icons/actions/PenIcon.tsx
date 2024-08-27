@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPenIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPenIcon(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPenIcon;
+export default SvgPenIcon

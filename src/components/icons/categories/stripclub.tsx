@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgStripclub(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgStripclub(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgStripclub;
+export default SvgStripclub

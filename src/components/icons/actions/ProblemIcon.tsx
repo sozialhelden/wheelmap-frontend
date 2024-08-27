@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgProblemIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -19,7 +19,7 @@ function SvgProblemIcon(props: React.SVGAttributes<{}>) {
         <circle fill="#000" cx={11.5} cy={16} r={1} />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgProblemIcon;
+export default SvgProblemIcon

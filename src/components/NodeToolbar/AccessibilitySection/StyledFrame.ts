@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import colors from '../../../lib/util/colors';
+import styled from 'styled-components'
+import colors from '../../../lib/util/colors'
 
 const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame' })`
   position: relative;
@@ -53,6 +53,6 @@ const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 
-export default StyledFrame;
+export default StyledFrame

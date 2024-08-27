@@ -1,4 +1,4 @@
-import Router from '../lib/Router';
+import Router from '../lib/Router'
 
 const routes = [
   {
@@ -45,6 +45,6 @@ const routes = [
     name: 'map',
     path: '/',
   },
-];
+]
 
-export default new Router(routes);
+export default new Router(routes)

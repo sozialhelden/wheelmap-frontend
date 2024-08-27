@@ -9,4 +9,4 @@ export const fixtureDivStyle: React.CSSProperties = {
   color: 'red',
   scrollBehavior: 'smooth',
   overflowY: 'scroll',
-};
+}

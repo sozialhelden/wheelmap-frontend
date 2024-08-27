@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgTownhall(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgTownhall(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgTownhall;
+export default SvgTownhall

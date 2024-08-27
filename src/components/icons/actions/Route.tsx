@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgRoute(props: React.SVGAttributes<{}>) {
   return (
@@ -8,7 +8,7 @@ function SvgRoute(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgRoute;
+export default SvgRoute

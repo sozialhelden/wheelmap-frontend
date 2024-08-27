@@ -1,5 +1,5 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-const StatusBarBackground = styled.div``;
+const StatusBarBackground = styled.div``
 
-export default StatusBarBackground;
+export default StatusBarBackground

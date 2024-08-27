@@ -1,10 +1,10 @@
-import upperFirst from 'lodash/upperFirst';
-import { Locale } from './Locale';
-import { isScript } from './isScript';
+import upperFirst from 'lodash/upperFirst'
+import { Locale } from './Locale'
+import { isScript } from './isScript'
 
 export function localeFromString(localeString: string): Locale {
-  const lowercaseLocale = localeString.toLowerCase().replace(/_/, '-');
-  const [languageCode, countryCodeOrScript] = localeString.split(/[-_]/);
+  const lowercaseLocale = localeString.toLowerCase().replace(/_/, '-')
+  const [languageCode, countryCodeOrScript] = localeString.split(/[-_]/)
   // Transifex uses `-` to separate subtags if the second subtag is a script, and '_' otherwise
   const transifexLanguageIdentifier = isScript(countryCodeOrScript)
     ? `${languageCode}${
@@ -14,7 +14,7 @@ export function localeFromString(localeString: string): Locale {
     }`
     : `${languageCode}${
       countryCodeOrScript ? `_${countryCodeOrScript.toUpperCase()}` : ''
-    }`;
+    }`
   return {
     languageCode,
     countryCodeOrScript,
@@ -23,7 +23,7 @@ export function localeFromString(localeString: string): Locale {
     // e.g. en or en_UK
     transifexLanguageIdentifier,
     isEqual(otherLocale) {
-      return otherLocale.string === lowercaseLocale;
+      return otherLocale.string === lowercaseLocale
     },
-  };
+  }
 }

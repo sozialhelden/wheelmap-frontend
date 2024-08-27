@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgSportsCenter(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgSportsCenter(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgSportsCenter;
+export default SvgSportsCenter

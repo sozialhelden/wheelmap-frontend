@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCoffee(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCoffee(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCoffee;
+export default SvgCoffee

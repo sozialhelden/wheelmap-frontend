@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCulture(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCulture(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCulture;
+export default SvgCulture

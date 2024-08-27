@@ -1,15 +1,15 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
-import { t } from 'ttag';
+import * as React from 'react'
+import styled, { css } from 'styled-components'
+import { t } from 'ttag'
 
-import { omit } from 'lodash';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
-import colors from '../../lib/util/colors';
-import CloseIcon from '../icons/actions/Close';
-import Button from '../shared/Button';
-import CombinedIcon from './CombinedIcon';
+import { omit } from 'lodash'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import colors from '../../lib/util/colors'
+import CloseIcon from '../icons/actions/Close'
+import Button from '../shared/Button'
+import CombinedIcon from './CombinedIcon'
 
 type Props = {
   className?: string;
@@ -28,7 +28,7 @@ type Props = {
 export const Caption = styled.span`
   flex: 1;
   color: ${colors.darkSelectedColor};
-`;
+`
 
 function AccessibilityFilterButton(props: Props) {
   const {
@@ -40,19 +40,19 @@ function AccessibilityFilterButton(props: Props) {
     caption,
     isActive,
     className,
-  } = props;
+  } = props
 
-  const router = useRouter();
+  const router = useRouter()
 
   const query = {
     ...omit(router.query, 'q', 'wheelchair', 'toilet'),
-  };
+  }
   if (!isActive) {
     if (accessibilityFilter.length > 0) {
-      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(',');
+      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(',')
     }
     if (toiletFilter.length > 0) {
-      query.toilet = toiletFilter.map((t) => t.toString()).join(',');
+      query.toilet = toiletFilter.map((t) => t.toString()).join(',')
     }
   }
 
@@ -81,7 +81,7 @@ function AccessibilityFilterButton(props: Props) {
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </Link>
-  );
+  )
 }
 
 export default styled(AccessibilityFilterButton)`
@@ -113,4 +113,4 @@ export default styled(AccessibilityFilterButton)`
       background-color: ${colors.linkBackgroundColorTransparent};
     }
   }
-`;
+`

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgBeach(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgBeach(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgBeach;
+export default SvgBeach

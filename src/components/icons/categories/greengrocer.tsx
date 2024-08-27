@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgGreengrocer(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgGreengrocer(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgGreengrocer;
+export default SvgGreengrocer

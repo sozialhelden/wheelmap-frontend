@@ -1,23 +1,23 @@
-const lastPath: string = '/';
-let lastModalName: string = '';
+const lastPath: string = '/'
+let lastModalName: string = ''
 
 export function trackPageView(path: string) {
   if (typeof window === 'undefined') {
     // Don't track anything when running on server
-    return;
+    return
   }
 
   // Matomo
   if (typeof window._paq !== 'undefined') {
-    window._paq.push(['setDocumentTitle', window.document.title]);
-    window._paq.push(['trackPageView']);
+    window._paq.push(['setDocumentTitle', window.document.title])
+    window._paq.push(['trackPageView'])
   }
 }
 
 export function trackModalView(name: string | null) {
   if (typeof window === 'undefined') {
     // Don't track anything when running on server
-    return;
+    return
   }
   // Matomo
   if (typeof window._paq !== 'undefined') {
@@ -25,9 +25,9 @@ export function trackModalView(name: string | null) {
       'trackEvent',
       name ? 'ModalOpen' : 'ModalClose',
       name ? String(name) : String(lastModalName),
-    ]);
+    ])
   }
-  lastModalName = name || '';
+  lastModalName = name || ''
 }
 
 export function trackEvent(options: {
@@ -39,7 +39,7 @@ export function trackEvent(options: {
 }) {
   if (typeof window === 'undefined') {
     // Don't track anything when running on server
-    return;
+    return
   }
 
   // Matomo
@@ -50,6 +50,6 @@ export function trackEvent(options: {
       options.action,
       options.label,
       options.value,
-    ]);
+    ])
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPublicArt(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPublicArt(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPublicArt;
+export default SvgPublicArt

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgDryCleaning(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgDryCleaning(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgDryCleaning;
+export default SvgDryCleaning

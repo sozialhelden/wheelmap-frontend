@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function MapPinWithPlusIcon() {
   return (
@@ -31,7 +31,7 @@ function MapPinWithPlusIcon() {
         </g>
       </g>
     </svg>
-  );
+  )
 }
 
-export default MapPinWithPlusIcon;
+export default MapPinWithPlusIcon

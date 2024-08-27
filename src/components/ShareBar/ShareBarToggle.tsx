@@ -1,7 +1,7 @@
-import React from 'react';
-import { t } from 'ttag';
-import ShareIcon from '../icons/actions/ShareIOS';
-import { ChromelessButton } from '../shared/Button';
+import React from 'react'
+import { t } from 'ttag'
+import ShareIcon from '../icons/actions/ShareIOS'
+import { ChromelessButton } from '../shared/Button'
 
 type ShareBarToggleProps = {
   isExpanded: boolean;
@@ -15,7 +15,7 @@ const ShareBarToggle = React.forwardRef(
     ref: { current: null | HTMLButtonElement },
   ) => {
     // translator: Screenreader description for the button that expands the share menu
-    const shareMenuExpandButtonAriaLabel = t`Expand share menu`;
+    const shareMenuExpandButtonAriaLabel = t`Expand share menu`
     return (
       <ChromelessButton
         ref={ref}
@@ -27,8 +27,8 @@ const ShareBarToggle = React.forwardRef(
         <ShareIcon />
         <span>{caption}</span>
       </ChromelessButton>
-    );
+    )
   },
-);
+)
 
-export default ShareBarToggle;
+export default ShareBarToggle

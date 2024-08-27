@@ -1,7 +1,7 @@
-import TTLCache, { TTLCacheOptions } from './TTLCache';
+import TTLCache, { TTLCacheOptions } from './TTLCache'
 import Categories, {
   RawCategoryLists,
-} from '../model/ac/categories/Categories';
+} from '../model/ac/categories/Categories'
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean;
@@ -11,9 +11,9 @@ export type CategoryLookupTablesCacheOptions = {
 };
 
 export default class CategoryLookupTablesCache {
-  lookupTablesCache: TTLCache<string, Promise<RawCategoryLists>>;
+  lookupTablesCache: TTLCache<string, Promise<RawCategoryLists>>
 
-  options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>;
+  options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>
 
   constructor(
     options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>,
@@ -22,9 +22,9 @@ export default class CategoryLookupTablesCache {
       maxAllowedCacheAgeBeforeReload: 15000,
       reloadInBackground: true,
       ...options,
-    };
+    }
 
-    this.lookupTablesCache = new TTLCache<string, Promise<RawCategoryLists>>();
+    this.lookupTablesCache = new TTLCache<string, Promise<RawCategoryLists>>()
   }
 
   getRawCategoryLists(options: {
@@ -32,25 +32,25 @@ export default class CategoryLookupTablesCache {
     disableWheelmapSource?: boolean;
     appToken: string;
   }): Promise<RawCategoryLists> {
-    const languageCode = options.locale.substr(0, 2);
+    const languageCode = options.locale.substr(0, 2)
 
-    const storedPromise = this.lookupTablesCache.get(languageCode);
+    const storedPromise = this.lookupTablesCache.get(languageCode)
     if (storedPromise) {
       if (this.options.reloadInBackground) {
-        this.reloadInBackground(languageCode, options.appToken);
+        this.reloadInBackground(languageCode, options.appToken)
       }
 
-      return storedPromise;
+      return storedPromise
     }
 
-    const promise = Categories.fetchCategoryData(options);
-    this.lookupTablesCache.set(languageCode, promise);
-    return promise;
+    const promise = Categories.fetchCategoryData(options)
+    this.lookupTablesCache.set(languageCode, promise)
+    return promise
   }
 
   injectLookupTables(localeString: string, rawCategoryLists: RawCategoryLists) {
-    const languageCode = localeString.substr(0, 2);
-    this.lookupTablesCache.set(languageCode, Promise.resolve(rawCategoryLists));
+    const languageCode = localeString.substr(0, 2)
+    this.lookupTablesCache.set(languageCode, Promise.resolve(rawCategoryLists))
   }
 
   /**
@@ -68,36 +68,36 @@ export default class CategoryLookupTablesCache {
    * an edge case that no one will care about.
    */
   reloadInBackground(languageCode: string, appToken: string) {
-    const now = Date.now();
-    const cacheEntry = this.lookupTablesCache.getCacheItem(languageCode);
+    const now = Date.now()
+    const cacheEntry = this.lookupTablesCache.getCacheItem(languageCode)
 
     if (!cacheEntry) {
       // something went wrong, this should not happen
-      return;
+      return
     }
 
     if (cacheEntry.isReloading) {
-      return;
+      return
     }
 
-    const elapsed = now - cacheEntry.storageTimestamp;
+    const elapsed = now - cacheEntry.storageTimestamp
 
     if (elapsed > this.options.maxAllowedCacheAgeBeforeReload) {
-      cacheEntry.isReloading = true;
+      cacheEntry.isReloading = true
       // download data
       const promise = this.getRawCategoryLists({
         locale: languageCode,
         appToken,
-      });
+      })
       // only update the cache when the promise resolves
       promise
         .then(() => {
-          cacheEntry.isReloading = false;
-          this.lookupTablesCache.set(languageCode, promise);
+          cacheEntry.isReloading = false
+          this.lookupTablesCache.set(languageCode, promise)
         })
         .catch((e) => {
-          cacheEntry.isReloading = false;
-        });
+          cacheEntry.isReloading = false
+        })
     }
   }
 }

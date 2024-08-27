@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMemorial(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMemorial(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMemorial;
+export default SvgMemorial

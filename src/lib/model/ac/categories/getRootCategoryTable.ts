@@ -1,7 +1,7 @@
-import { PlaceProperties } from '@sozialhelden/a11yjson';
-import { t } from 'ttag';
-import { isOrHasAccessibleToilet } from '../../accessibility/isOrHasAccessibleToilet';
-import { RootCategoryEntry } from './RootCategoryEntry';
+import { PlaceProperties } from '@sozialhelden/a11yjson'
+import { t } from 'ttag'
+import { isOrHasAccessibleToilet } from '../../accessibility/isOrHasAccessibleToilet'
+import { RootCategoryEntry } from './RootCategoryEntry'
 
 // This must be a function - Results from t`` are dependent on the current context.
 // If t`` is called at root level of a module, it doesn't know the translations yet
@@ -62,13 +62,13 @@ export function getRootCategoryTable(): { [key: string]: RootCategoryEntry } {
       isSubCategory: true,
       filter: (properties: PlaceProperties | undefined) => {
         if (!properties) {
-          return true;
+          return true
         }
         return (
           properties.category === 'toilets'
           || isOrHasAccessibleToilet(properties) === 'yes'
-        );
+        )
       },
     },
-  };
+  }
 }

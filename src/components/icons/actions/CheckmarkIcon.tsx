@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCheckmarkIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCheckmarkIcon(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCheckmarkIcon;
+export default SvgCheckmarkIcon

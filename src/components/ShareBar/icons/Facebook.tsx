@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function Facebook(props: any) {
   return (
@@ -12,5 +12,5 @@ export default function Facebook(props: any) {
         />
       </g>
     </svg>
-  );
+  )
 }

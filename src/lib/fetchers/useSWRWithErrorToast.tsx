@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
-import useSWR from 'swr';
-import { t } from 'ttag';
+import { useEffect, useMemo } from 'react'
+import { toast } from 'react-toastify'
+import useSWR from 'swr'
+import { t } from 'ttag'
 
 type ErrorTransformerProps<ErrorType> = {
   summary: (error: ErrorType) => React.ReactNode;
@@ -27,18 +27,18 @@ function ErrorMessage<ErrorType>({
         </details>
       </summary>
     </>
-  );
+  )
 }
 
 export default function useSWRWithErrorToast<Data, ErrorType>(
   transform: ErrorTransformerProps<ErrorType>,
   ...args: Parameters<typeof useSWR<Data, ErrorType>>
 ) {
-  const { data, error } = useSWR(...args);
-  const toastId = useMemo(() => String(Math.random()), []);
+  const { data, error } = useSWR(...args)
+  const toastId = useMemo(() => String(Math.random()), [])
   useEffect(() => {
     if (error) {
-      const errorElement = <ErrorMessage {...transform} error={error} />;
+      const errorElement = <ErrorMessage {...transform} error={error} />
       toast.error(errorElement, {
         toastId,
         delay: 2000,
@@ -50,10 +50,10 @@ export default function useSWRWithErrorToast<Data, ErrorType>(
         draggable: true,
         progress: undefined,
         theme: 'light',
-      });
+      })
     } else if (data) {
-      toast.dismiss(toastId);
+      toast.dismiss(toastId)
     }
-  }, [error, data, toastId, transform]);
-  return { data, error };
+  }, [error, data, toastId, transform])
+  return { data, error }
 }

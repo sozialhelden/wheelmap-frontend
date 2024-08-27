@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgLawyer(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgLawyer(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgLawyer;
+export default SvgLawyer

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
 export const Circle = styled.div`
   width: 35px;
@@ -9,16 +9,16 @@ export const Circle = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-`;
+`
 
 function UnstyledCaption(props: Partial<Props>) {
-  return <div className={props.className}>{props.children}</div>;
+  return <div className={props.className}>{props.children}</div>
 }
 
 export const Caption = styled(UnstyledCaption)`
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.2;
-`;
+`
 
 type Props = {
   caption: string | null;
@@ -39,14 +39,14 @@ const StyledIconButtonContainer = styled.div<{ isHorizontal: boolean }>`
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-`;
+`
 
 export default function IconButton(props: Props) {
   const icon = props.hasCircle ? (
     <Circle>{props.children}</Circle>
   ) : (
     props.children
-  );
+  )
 
   return (
     <StyledIconButtonContainer
@@ -57,5 +57,5 @@ export default function IconButton(props: Props) {
       {icon}
       <Caption isHorizontal={props.isHorizontal}>{props.caption}</Caption>
     </StyledIconButtonContainer>
-  );
+  )
 }

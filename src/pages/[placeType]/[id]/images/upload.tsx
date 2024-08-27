@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
-import React, { ReactElement, useCallback } from 'react';
-import { t } from 'ttag';
-import { toast } from 'react-toastify';
-import Layout from '../../../../components/App/Layout';
+import { useRouter } from 'next/router'
+import React, { ReactElement, useCallback } from 'react'
+import { t } from 'ttag'
+import { toast } from 'react-toastify'
+import Layout from '../../../../components/App/Layout'
 // import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
-import { useCurrentAppToken } from '../../../../lib/context/AppContext';
-import postImageUpload from '../../../../lib/fetchers/postImageUpload';
+import { useCurrentAppToken } from '../../../../lib/context/AppContext'
+import postImageUpload from '../../../../lib/fetchers/postImageUpload'
 
 export default function Page() {
-  const router = useRouter();
-  const { placeType, id } = router.query;
+  const router = useRouter()
+  const { placeType, id } = router.query
   if (typeof id !== 'string') {
-    throw new Error('Feature ID must be a single string.');
+    throw new Error('Feature ID must be a single string.')
   }
 
   // <PhotoUploadInstructionsToolbar
@@ -25,35 +25,35 @@ export default function Page() {
   // />
 
   const closeToolbar = useCallback(() => {
-    router.push(`/${placeType}/${id}`);
-  }, [router, placeType, id]);
+    router.push(`/${placeType}/${id}`)
+  }, [router, placeType, id])
 
   const [waitingForPhotoUpload, setWaitingForPhotoUpload] = React.useState(
     false,
-  );
+  )
 
-  const appToken = useCurrentAppToken();
+  const appToken = useCurrentAppToken()
 
   const uploadFiles = useCallback(
     async (photos: FileList) => {
-      setWaitingForPhotoUpload(true);
+      setWaitingForPhotoUpload(true)
       try {
-        const result = await postImageUpload(id, 'place', photos, appToken);
+        const result = await postImageUpload(id, 'place', photos, appToken)
         if (result.result._id) {
           toast.success(
             t`Thank you for contributing. Your image will be visible after we have checked it.`,
-          );
+          )
         }
       } catch (error) {
         toast.error(
           t`Upload failed: server error or file-format not supported`,
-        );
+        )
       }
 
-      router.push(`/${placeType}/${id}`);
+      router.push(`/${placeType}/${id}`)
     },
     [router, placeType, id, appToken],
-  );
+  )
 
   return (<div>PHOTO UPLOAD INSTRUCTIONS GO HERE</div>
   // <PhotoUploadInstructionsToolbar
@@ -61,9 +61,9 @@ export default function Page() {
   //   onCompleted={uploadFiles}
   //   waitingForPhotoUpload={waitingForPhotoUpload}
   // />
-  );
+  )
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout blur>{page}</Layout>;
-};
+  return <Layout blur>{page}</Layout>
+}

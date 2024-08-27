@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMappingEventHalo(props: React.SVGAttributes<{}>) {
   return (
@@ -24,7 +24,7 @@ function SvgMappingEventHalo(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMappingEventHalo;
+export default SvgMappingEventHalo

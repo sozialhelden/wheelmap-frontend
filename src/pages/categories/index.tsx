@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 function Category() {
-  const router = useRouter();
-  const { categories, category } = router.query;
+  const router = useRouter()
+  const { categories, category } = router.query
 
   return (
     <>
@@ -21,10 +21,10 @@ function Category() {
         </li>
       </ul>
     </>
-  );
+  )
 }
 
-export default Category;
+export default Category
 
 // import Link from 'next/link';
 

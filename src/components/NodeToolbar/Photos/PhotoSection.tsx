@@ -1,17 +1,17 @@
-import * as React from 'react';
-import Lightbox, { Modal, ModalGateway } from 'react-images';
-import PhotoAlbum from 'react-photo-album';
-import styled, { createGlobalStyle } from 'styled-components';
-import { t } from 'ttag';
+import * as React from 'react'
+import Lightbox, { Modal, ModalGateway } from 'react-images'
+import PhotoAlbum from 'react-photo-album'
+import styled, { createGlobalStyle } from 'styled-components'
+import { t } from 'ttag'
 
-import { maxBy } from 'lodash';
-import Link from 'next/link';
-import useSWR from 'swr';
-import { PhotoModel } from '../../../lib/model/ac/PhotoModel';
-import { useCurrentAppToken } from '../../../lib/context/AppContext';
-import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages';
-import convertAcPhotosToLightboxPhotos from '../../../lib/model/ac/convertAcPhotosToLightboxPhotos';
-import PhotoUploadButton from './PhotoUpload/PhotoUploadButton';
+import { maxBy } from 'lodash'
+import Link from 'next/link'
+import useSWR from 'swr'
+import { PhotoModel } from '../../../lib/model/ac/PhotoModel'
+import { useCurrentAppToken } from '../../../lib/context/AppContext'
+import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages'
+import convertAcPhotosToLightboxPhotos from '../../../lib/model/ac/convertAcPhotosToLightboxPhotos'
+import PhotoUploadButton from './PhotoUpload/PhotoUploadButton'
 
 type Props = {
   entityType: string,
@@ -30,15 +30,15 @@ const GlobalLightboxStyles = createGlobalStyle`
     margin-bottom: 0;
     margin-bottom: env(safe-area-inset-bottom);
   }
-`;
+`
 
 function flipPhotoDimensions(photo: PhotoModel) {
-  const needsFlip = photo.angle && photo.angle % 180 !== 0;
+  const needsFlip = photo.angle && photo.angle % 180 !== 0
   return {
     ...photo,
     height: needsFlip ? photo.width : photo.height,
     width: needsFlip ? photo.height : photo.width,
-  };
+  }
 }
 
 const StyledSection = styled.section`
@@ -80,11 +80,11 @@ const StyledSection = styled.section`
       }
     }
   }
-`;
+`
 
 export default function PhotoSection(props: Props) {
-  const { entityId, entityType } = props;
-  const appToken = useCurrentAppToken();
+  const { entityId, entityType } = props
+  const appToken = useCurrentAppToken()
 
   // Only support 'place' context for now
   const context = {
@@ -92,37 +92,37 @@ export default function PhotoSection(props: Props) {
     way: 'place',
     relation: 'place',
     nodes: 'place',
-  }[entityType] || 'place';
+  }[entityType] || 'place'
 
-  const { data: rawPhotos, isValidating, error } = useSWR([appToken, context, entityId], fetchImagesCached);
+  const { data: rawPhotos, isValidating, error } = useSWR([appToken, context, entityId], fetchImagesCached)
 
   const photos = rawPhotos?.map(convertAcPhotosToLightboxPhotos)
-    .map((photo) => (photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)));
-  const hasPhotos = photos?.length > 0;
+    .map((photo) => (photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)))
+  const hasPhotos = photos?.length > 0
 
-  const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
-  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
-  const currentImage = React.useMemo(() => photos?.[currentImageIndex], [currentImageIndex, photos]);
+  const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false)
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0)
+  const currentImage = React.useMemo(() => photos?.[currentImageIndex], [currentImageIndex, photos])
 
   const showImage = React.useCallback((_event, _photo, index) => {
-    setCurrentImageIndex(index);
-    setIsLightboxOpen(true);
-  }, []);
+    setCurrentImageIndex(index)
+    setIsLightboxOpen(true)
+  }, [])
 
   const closeLightbox = React.useCallback(() => {
-    setCurrentImageIndex(0);
-    setIsLightboxOpen(false);
-  }, []);
+    setCurrentImageIndex(0)
+    setIsLightboxOpen(false)
+  }, [])
 
   const gotoPrevious = React.useCallback(() => {
-    setCurrentImageIndex(currentImageIndex - 1);
-  }, [currentImageIndex]);
+    setCurrentImageIndex(currentImageIndex - 1)
+  }, [currentImageIndex])
 
   const gotoNext = React.useCallback(() => {
-    setCurrentImageIndex(currentImageIndex + 1);
-  }, [currentImageIndex]);
+    setCurrentImageIndex(currentImageIndex + 1)
+  }, [currentImageIndex])
 
-  const canReportPhoto = currentImage?.appSource === 'accessibility-cloud';
+  const canReportPhoto = currentImage?.appSource === 'accessibility-cloud'
 
   const FooterCaption = React.useMemo(() => function () {
     return (
@@ -133,20 +133,20 @@ export default function PhotoSection(props: Props) {
           <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
         </div>
         {canReportPhoto && (
-        <Link
-          href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}
-          legacyBehavior
-        >
-          <button className="report-image">{t`Report image`}</button>
-        </Link>
+          <Link
+            href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}
+            legacyBehavior
+          >
+            <button className="report-image">{t`Report image`}</button>
+          </Link>
         )}
       </section>
-    );
-  }, [entityType, entityId, currentImage, canReportPhoto, currentImageIndex, photos]);
+    )
+  }, [entityType, entityId, currentImage, canReportPhoto, currentImageIndex, photos])
 
   const FooterCount = React.useMemo(() => {
     // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
-    const separator = t`of`;
+    const separator = t`of`
     return function () {
       return (
         <span>
@@ -156,13 +156,13 @@ export default function PhotoSection(props: Props) {
 &nbsp;
           <span>{photos.length}</span>
         </span>
-      );
-    };
-  }, [currentImageIndex, photos]);
+      )
+    }
+  }, [currentImageIndex, photos])
 
   const HeaderFullscreen = React.useMemo(() => function () {
-    return <span />;
-  }, []);
+    return <span />
+  }, [])
 
   // const customStyles = {
   //   header: (base, state) => ({
@@ -223,7 +223,7 @@ export default function PhotoSection(props: Props) {
         )}
       </ModalGateway>
     </>
-  );
+  )
 
   return (
     <StyledSection>
@@ -232,5 +232,5 @@ export default function PhotoSection(props: Props) {
         <PhotoUploadButton />
       </Link>
     </StyledSection>
-  );
+  )
 }

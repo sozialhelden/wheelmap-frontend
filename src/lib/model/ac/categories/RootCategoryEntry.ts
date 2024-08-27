@@ -1,4 +1,4 @@
-import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
+import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson'
 
 export type RootCategoryEntry = {
   name: string;

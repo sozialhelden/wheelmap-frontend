@@ -1,7 +1,7 @@
-import pick from 'lodash/pick';
-import { IApp } from '../model/ac/App';
-import { MappingEvent } from '../model/ac/MappingEvent';
-import { TrackingEvent } from '../model/ac/TrackingModel';
+import pick from 'lodash/pick'
+import { IApp } from '../model/ac/App'
+import { MappingEvent } from '../model/ac/MappingEvent'
+import { TrackingEvent } from '../model/ac/TrackingModel'
 
 export type Query = {
   [k: string]: string | Array<string> | null;
@@ -37,7 +37,7 @@ export async function trackAccessibilityCloudEvent({
     userUUID,
     timestamp: Math.round(Date.now() / 1000),
     userAgent,
-  });
+  })
 
   const fetchRequest = {
     body,
@@ -46,9 +46,9 @@ export async function trackAccessibilityCloudEvent({
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-  };
+  }
 
-  const fetchUrl = `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`
 
-  return fetch(fetchUrl, fetchRequest).then((r) => r.json());
+  return fetch(fetchUrl, fetchRequest).then((r) => r.json())
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgFerry(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgFerry(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgFerry;
+export default SvgFerry

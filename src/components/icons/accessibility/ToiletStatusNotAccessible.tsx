@@ -1,5 +1,5 @@
-import * as React from 'react';
-import colors from '../../../lib/util/colors';
+import * as React from 'react'
+import colors from '../../../lib/util/colors'
 
 export default function ToiletStatusNotAccessibleIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -30,5 +30,5 @@ export default function ToiletStatusNotAccessibleIcon(props: React.SVGAttributes
         />
       </g>
     </svg>
-  );
+  )
 }

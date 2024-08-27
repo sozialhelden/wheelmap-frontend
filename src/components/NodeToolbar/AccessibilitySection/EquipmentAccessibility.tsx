@@ -1,19 +1,19 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import { EquipmentInfo } from '../../../lib/EquipmentInfo'
 import {
   equipmentStatusTitle,
   isEquipmentAccessible, isExistingInformationOutdated, lastUpdateString,
-} from '../../../lib/model/ac/EquipmentInfo';
-import colors from '../../../lib/util/colors';
+} from '../../../lib/model/ac/EquipmentInfo'
+import colors from '../../../lib/util/colors'
 
-import AppContext from '../../../AppContext';
-import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
-import AccessibilityDetailsTree from './AccessibilityDetailsTree';
+import AppContext from '../../../AppContext'
+import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes'
+import AccessibilityDetailsTree from './AccessibilityDetailsTree'
 
 function capitalizeFirstLetter(string): string {
-  return string.charAt(0).toLocaleUpperCase() + string.slice(1);
+  return string.charAt(0).toLocaleUpperCase() + string.slice(1)
 }
 
 type Props = {
@@ -22,28 +22,28 @@ type Props = {
 };
 
 function EquipmentAccessibility(props: Props) {
-  const { properties } = props.equipmentInfo;
+  const { properties } = props.equipmentInfo
   const lastUpdate = properties.lastUpdate
     ? new Date(properties.lastUpdate)
-    : null;
-  const isOutdated = isExistingInformationOutdated(lastUpdate);
-  const { category } = properties;
-  const { isWorking } = properties;
-  const { accessibility } = properties;
-  const appContext = React.useContext(AppContext);
+    : null
+  const isOutdated = isExistingInformationOutdated(lastUpdate)
+  const { category } = properties
+  const { isWorking } = properties
+  const { accessibility } = properties
+  const appContext = React.useContext(AppContext)
 
   const { data: accessibilityAttributes, error } = useAccessibilityAttributes([
     appContext.preferredLanguage,
-  ]);
+  ])
   if (error) {
-    throw error;
+    throw error
   }
   if (!accessibilityAttributes) {
-    return null;
+    return null
   }
 
-  if (!props.equipmentInfo) return null;
-  if (!props.equipmentInfo.properties) return null;
+  if (!props.equipmentInfo) return null
+  if (!props.equipmentInfo.properties) return null
 
   return (
     <div className={`equipment-accessibility ${props.className || ''}`}>
@@ -68,7 +68,7 @@ function EquipmentAccessibility(props: Props) {
         />
       ) : null}
     </div>
-  );
+  )
 }
 
 const StyledEquipmentAccessibility = styled(EquipmentAccessibility)`
@@ -106,6 +106,6 @@ const StyledEquipmentAccessibility = styled(EquipmentAccessibility)`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 
-export default StyledEquipmentAccessibility;
+export default StyledEquipmentAccessibility

@@ -1,4 +1,4 @@
-import { LocalizedString } from '../../../i18n/LocalizedString';
+import { LocalizedString } from '../../../i18n/LocalizedString'
 
 export type ACCategory = {
   _id: string;

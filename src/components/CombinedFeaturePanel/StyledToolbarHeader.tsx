@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import colors from '../../lib/util/colors';
-import { PlaceNameH1 } from '../shared/PlaceName';
+import styled from 'styled-components'
+import colors from '../../lib/util/colors'
+import { PlaceNameH1 } from '../shared/PlaceName'
 
 export const StyledToolbarHeader = styled.header`
   /**
@@ -20,4 +20,4 @@ export const StyledToolbarHeader = styled.header`
   ${PlaceNameH1} {
     flex-grow: 2;
   }
-`;
+`

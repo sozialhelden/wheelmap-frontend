@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgGlobeIcon(props: any) {
   return (
@@ -11,7 +11,7 @@ function SvgGlobeIcon(props: any) {
       </defs>
       <use fill="#37404D" fillRule="nonzero" xlinkHref="#GlobeIcon_svg__a" />
     </svg>
-  );
+  )
 }
 
-export default SvgGlobeIcon;
+export default SvgGlobeIcon

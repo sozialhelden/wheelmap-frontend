@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgNoWithArrow(props: React.SVGAttributes<{}>) {
   return (
@@ -12,7 +12,7 @@ function SvgNoWithArrow(props: React.SVGAttributes<{}>) {
         fill="none"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgNoWithArrow;
+export default SvgNoWithArrow

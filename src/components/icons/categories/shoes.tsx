@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgShoes(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgShoes(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgShoes;
+export default SvgShoes

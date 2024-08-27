@@ -1,26 +1,26 @@
-import { UAParser } from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js'
 
-import { ReactElement } from 'react';
-import App from 'next/app';
-import { Translations } from 'ttag/types';
-import SearchData from './SearchData';
-import PlaceDetailsData from './PlaceDetailsData';
-import MapData from './MapData';
-import ContributionThanksData from './ContributionThanksData';
-import MappingEventDetailData from './MappingEventDetailData';
-import { PotentialPromise } from './PlaceDetailsProps';
-import CategoryLookupTablesCache from '../cache/CategoryLookupTablesCache';
-import { mappingEventsCache } from '../cache/MappingEventsCache';
-import { getAvailableTranslationsByPreference } from '../i18n';
-import { RawCategoryLists } from '../model/Categories';
+import { ReactElement } from 'react'
+import App from 'next/app'
+import { Translations } from 'ttag/types'
+import SearchData from './SearchData'
+import PlaceDetailsData from './PlaceDetailsData'
+import MapData from './MapData'
+import ContributionThanksData from './ContributionThanksData'
+import MappingEventDetailData from './MappingEventDetailData'
+import { PotentialPromise } from './PlaceDetailsProps'
+import CategoryLookupTablesCache from '../cache/CategoryLookupTablesCache'
+import { mappingEventsCache } from '../cache/MappingEventsCache'
+import { getAvailableTranslationsByPreference } from '../i18n'
+import { RawCategoryLists } from '../model/Categories'
 import {
   YesNoLimitedUnknown,
   YesNoUnknown,
   getAccessibilityFilterFrom,
   getToiletFilterFrom,
-} from '../model/Feature';
-import { MappingEvents, MappingEvent } from '../model/MappingEvent';
-import { UAResult, configureUserAgent } from '../userAgent';
+} from '../model/Feature'
+import { MappingEvents, MappingEvent } from '../model/MappingEvent'
+import { UAResult, configureUserAgent } from '../userAgent'
 
 export type RenderContext = {
   app: App;
@@ -86,12 +86,12 @@ const dataTable: DataTable = Object.freeze({
   contributionThanks: ContributionThanksData,
   mappingEventDetail: MappingEventDetailData,
   mappingEventJoin: MappingEventDetailData,
-});
+})
 
 export const categoriesCache = new CategoryLookupTablesCache({
   reloadInBackground: true,
   maxAllowedCacheAgeBeforeReload: 1000 * 60 * 60, // 1 hour
-});
+})
 
 export async function getInitialRouteProps(
   {
@@ -104,13 +104,13 @@ export async function getInitialRouteProps(
   renderContextPromise: Promise<RenderContext>,
   isServer: boolean,
 ) {
-  const dataItem = dataTable[routeName];
+  const dataItem = dataTable[routeName]
 
   if (!dataItem || !dataItem.getInitialRouteProps) {
-    return {};
+    return {}
   }
 
-  return dataItem.getInitialRouteProps(query, renderContextPromise, isServer);
+  return dataItem.getInitialRouteProps(query, renderContextPromise, isServer)
 }
 
 export function getAdditionalPageComponentProps<Props>(
@@ -118,13 +118,13 @@ export function getAdditionalPageComponentProps<Props>(
   props: Props,
   isServer: boolean,
 ): Props {
-  const dataItem = dataTable[routeName];
+  const dataItem = dataTable[routeName]
 
   if (!dataItem || !dataItem.getAdditionalPageComponentProps) {
-    return props;
+    return props
   }
 
-  return dataItem.getAdditionalPageComponentProps(props, isServer);
+  return dataItem.getAdditionalPageComponentProps(props, isServer)
 }
 
 export async function getInitialRenderContext({
@@ -165,57 +165,57 @@ export async function getInitialRenderContext({
   embedToken?: string;
   [key: string]: any;
 }): Promise<RenderContext> {
-  const userAgentParser = new UAParser(userAgentString);
-  const userAgent = userAgentParser.getResult();
-  configureUserAgent(userAgent);
+  const userAgentParser = new UAParser(userAgentString)
+  const userAgent = userAgentParser.getResult()
+  configureUserAgent(userAgent)
 
-  const usedHostName = overriddenAppId || hostName;
+  const usedHostName = overriddenAppId || hostName
 
   // load application configuration
-  const appPromise = appCache.getApp(usedHostName);
+  const appPromise = appCache.getApp(usedHostName)
 
   // setup translations
   const translations = getAvailableTranslationsByPreference(
     allTranslations,
     localeStrings,
     overriddenLocaleString,
-  );
+  )
 
-  const preferredLocaleString = translations[0].headers.language;
+  const preferredLocaleString = translations[0].headers.language
 
-  const app = await appPromise;
+  const app = await appPromise
 
   // load categories
   const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
     appToken: app.tokenString,
     locale: preferredLocaleString,
     disableWheelmapSource: overriddenWheelmapSource === 'true',
-  });
+  })
 
-  const clientSideConfiguration = app.clientSideConfiguration as any;
+  const clientSideConfiguration = app.clientSideConfiguration as any
   const [rawCategoryLists, mappingEvents] = await Promise.all([
     rawCategoryListsPromise,
     mappingEventsCache.getMappingEvents(app),
-  ]);
+  ])
 
   if (!clientSideConfiguration) {
-    throw new Error('missing clientSideConfiguration');
+    throw new Error('missing clientSideConfiguration')
   }
 
   if (!rawCategoryLists) {
-    throw new Error('missing raw category data');
+    throw new Error('missing raw category data')
   }
 
   const usedDisableWheelmapSource = typeof overriddenWheelmapSource === 'undefined'
     ? clientSideConfiguration.disableWheelmapSource
-    : overriddenWheelmapSource === 'true';
-  const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
-  const toiletFilter = getToiletFilterFrom(toilet);
+    : overriddenWheelmapSource === 'true'
+  const accessibilityFilter = getAccessibilityFilterFrom(accessibility)
+  const toiletFilter = getToiletFilterFrom(toilet)
 
   const includeSourceIdsArray = (includeSourceIds ? includeSourceIds.split(/,/) : null)
-    || (clientSideConfiguration ? clientSideConfiguration.includeSourceIds : []);
+    || (clientSideConfiguration ? clientSideConfiguration.includeSourceIds : [])
   const excludeSourceIdsArray = (excludeSourceIds ? excludeSourceIds.split(/,/) : null)
-    || (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : []);
+    || (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : [])
 
   // assign to local variable for better flow errors
   const renderContext = {
@@ -241,8 +241,8 @@ export async function getInitialRenderContext({
     disableWheelmapSource: usedDisableWheelmapSource,
     inEmbedMode: embedded === 'true',
     embedToken,
-  };
-  return renderContext;
+  }
+  return renderContext
 }
 
-const cachedTranslations: Translations[] = [];
+const cachedTranslations: Translations[] = []

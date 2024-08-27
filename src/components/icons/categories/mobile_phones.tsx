@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMobilePhones(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMobilePhones(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMobilePhones;
+export default SvgMobilePhones

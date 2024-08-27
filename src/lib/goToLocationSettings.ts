@@ -1,23 +1,23 @@
-import { t } from 'ttag';
+import { t } from 'ttag'
 import {
   getUserAgentString,
   parseUserAgentString,
-} from './context/UserAgentContext';
-import { saveState } from './util/savedState';
+} from './context/UserAgentContext'
+import { saveState } from './util/savedState'
 
 // Open location settings or show the user how to open them
 
 export default function goToLocationSettings() {
-  saveState({ hasOpenedLocationHelp: 'true' });
+  saveState({ hasOpenedLocationHelp: 'true' })
 
-  const userAgent = parseUserAgentString(getUserAgentString());
+  const userAgent = parseUserAgentString(getUserAgentString())
 
   // @ts-ignore
-  let identity = userAgent.browser.name;
+  let identity = userAgent.browser.name
   if (userAgent.os.name === 'iOS') {
-    identity = 'iOS';
+    identity = 'iOS'
   } else if (userAgent.os.name === 'Android') {
-    identity = 'Android';
+    identity = 'Android'
   }
 
   const supportURLs = {
@@ -30,15 +30,15 @@ export default function goToLocationSettings() {
       'https://support.mozilla.org/en-US/kb/does-firefox-share-my-location-websites',
     Edge:
       'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/',
-  };
+  }
 
-  const supportURL = supportURLs[identity];
+  const supportURL = supportURLs[identity]
   if (supportURL) {
-    window.open(supportURL, '_blank');
-    return;
+    window.open(supportURL, '_blank')
+    return
   }
 
   window.alert(
     t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`,
-  );
+  )
 }

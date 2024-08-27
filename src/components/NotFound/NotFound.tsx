@@ -1,15 +1,15 @@
-import get from 'lodash/get';
-import * as React from 'react';
-import { useEffect } from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
+import get from 'lodash/get'
+import * as React from 'react'
+import { useEffect } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
-import colors from '../../lib/util/colors';
-import ChevronRight from '../icons/actions/ChevronRight';
+import colors from '../../lib/util/colors'
+import ChevronRight from '../icons/actions/ChevronRight'
 
-import Logo from '../App/Logo';
-import { PrimaryButton } from '../shared/Button';
-import ModalDialog from '../shared/ModalDialog';
+import Logo from '../App/Logo'
+import { PrimaryButton } from '../shared/Button'
+import ModalDialog from '../shared/ModalDialog'
 
 type Props = {
   className?: string;
@@ -24,52 +24,52 @@ const NotFound: React.FC<Props> = ({
 }) => {
   const manageFocus = React.useCallback(({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
-      nativeEvent.preventDefault();
+      nativeEvent.preventDefault()
     }
-  }, []);
+  }, [])
 
-  const closeButton = React.useRef<HTMLButtonElement>(null);
+  const closeButton = React.useRef<HTMLButtonElement>(null)
 
   const focus = React.useCallback(() => {
     if (!closeButton || !(closeButton instanceof HTMLElement)) {
-      return;
+      return
     }
 
-    closeButton.focus();
-  }, [closeButton]);
+    closeButton.focus()
+  }, [closeButton])
 
-  useEffect(() => focus(), []);
+  useEffect(() => focus(), [])
 
-  const classList = [className, 'not-found-page'].filter(Boolean);
+  const classList = [className, 'not-found-page'].filter(Boolean)
 
   // translator: Shown as header text on the error page.
-  const errorText = t`Error`;
+  const errorText = t`Error`
 
   // translator: Shown as header text on the error page when the URL is not found.
-  const notFoundText = t`This URL does not work anymore. If you think the place does exist, you can use the search to find it.`;
+  const notFoundText = t`This URL does not work anymore. If you think the place does exist, you can use the search to find it.`
 
   // translator: Shown when device is offline.
-  const offlineText = t`Sorry, we are offline!`;
+  const offlineText = t`Sorry, we are offline!`
 
-  const isNotFound = statusCode === 404;
+  const isNotFound = statusCode === 404
 
   const isOffline = get(
     { className, onReturnHomeClick, statusCode },
     'error.response.status',
-  ) === 3;
+  ) === 3
 
-  const shouldShowApology = !isNotFound && !isOffline;
+  const shouldShowApology = !isNotFound && !isOffline
 
-  let headerText = errorText;
-  if (isNotFound) headerText = notFoundText;
-  if (isOffline) headerText = offlineText;
+  let headerText = errorText
+  if (isNotFound) headerText = notFoundText
+  if (isOffline) headerText = offlineText
 
   // translator: Shown as apology text / description on the error page.
-  const apologyText = t`Sorry, that should not have happened!`;
+  const apologyText = t`Sorry, that should not have happened!`
   // translator: Shown on the error page.
-  const returnHomeButtonCaption = t`Return home`;
+  const returnHomeButtonCaption = t`Return home`
   // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
-  const retryCaption = t`Retry`;
+  const retryCaption = t`Retry`
 
   const returnHomeLink = (
     <PrimaryButton
@@ -82,7 +82,7 @@ const NotFound: React.FC<Props> = ({
       {' '}
       <ChevronRight />
     </PrimaryButton>
-  );
+  )
 
   const reloadButton = (
     <button
@@ -91,7 +91,7 @@ const NotFound: React.FC<Props> = ({
     >
       {retryCaption}
     </button>
-  );
+  )
 
   return (
     <ModalDialog
@@ -113,8 +113,8 @@ const NotFound: React.FC<Props> = ({
 
       <footer>{isOffline ? reloadButton : returnHomeLink}</footer>
     </ModalDialog>
-  );
-};
+  )
+}
 
 const StyledNotFound = styled(NotFound)`
   @media (max-height: 320px), (max-width: 320px) {
@@ -164,6 +164,6 @@ const StyledNotFound = styled(NotFound)`
   .error-text {
     opacity: 0.7;
   }
-`;
+`
 
-export default StyledNotFound;
+export default StyledNotFound

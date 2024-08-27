@@ -1,5 +1,5 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
-import { OAuthConfig } from 'next-auth/providers/oauth';
+import NextAuth, { NextAuthOptions } from 'next-auth'
+import { OAuthConfig } from 'next-auth/providers/oauth'
 
 interface IOSMProfile {
   version: '0.6',
@@ -24,8 +24,8 @@ interface IOSMProfile {
   },
 }
 
-const baseUrl = process.env.NEXTAUTH_BASE_URL || 'https://www.openstreetmap.org';
-const apiBaseUrl = process.env.NEXTAUTH_API_BASE_URL || 'https://api.openstreetmap.org';
+const baseUrl = process.env.NEXTAUTH_BASE_URL || 'https://www.openstreetmap.org'
+const apiBaseUrl = process.env.NEXTAUTH_API_BASE_URL || 'https://api.openstreetmap.org'
 const OSMProvider: OAuthConfig<IOSMProfile> = {
   id: 'osm',
   name: 'OpenStreetMap',
@@ -44,9 +44,9 @@ const OSMProvider: OAuthConfig<IOSMProfile> = {
       name: profile.user.display_name,
       email: profile.user.display_name,
       image: profile.user.img?.href,
-    };
+    }
   },
-};
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [OSMProvider],
@@ -56,22 +56,22 @@ export const authOptions: NextAuthOptions = {
       return {
         ...session,
         accessToken: token.accessToken,
-      };
+      }
     },
     async jwt({
       token, user, account, profile, isNewUser,
     }) {
       console.log('JWT callback', {
         token, user, account, profile, isNewUser,
-      });
+      })
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
-        token.accessToken = account.access_token;
-        token.tokenType = account.token_type;
+        token.accessToken = account.access_token
+        token.tokenType = account.token_type
       }
-      return token;
+      return token
     },
   },
-};
+}
 
-export default NextAuth(authOptions);
+export default NextAuth(authOptions)

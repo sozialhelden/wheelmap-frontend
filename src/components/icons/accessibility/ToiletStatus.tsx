@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default function UnknownToiletStatusIcon(props: React.SVGAttributes<{}>) {
   return (
@@ -29,5 +29,5 @@ export default function UnknownToiletStatusIcon(props: React.SVGAttributes<{}>) 
         />
       </g>
     </svg>
-  );
+  )
 }

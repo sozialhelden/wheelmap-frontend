@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgSearch(props: React.SVGAttributes<{}>) {
   return (
@@ -10,7 +10,7 @@ function SvgSearch(props: React.SVGAttributes<{}>) {
         opacity={0.283}
       />
     </svg>
-  );
+  )
 }
 
-export default SvgSearch;
+export default SvgSearch

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import colors from '../../lib/util/colors';
-import { ChromelessButton } from '../shared/Button';
-import Toolbar from '../shared/Toolbar';
+import styled from 'styled-components'
+import colors from '../../lib/util/colors'
+import { ChromelessButton } from '../shared/Button'
+import Toolbar from '../shared/Toolbar'
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
@@ -45,6 +45,6 @@ const StyledToolbar = styled(Toolbar)`
   > div > header {
     transition: box-shadow 0.3s ease-out;
   }
-`;
+`
 
-export default StyledToolbar;
+export default StyledToolbar

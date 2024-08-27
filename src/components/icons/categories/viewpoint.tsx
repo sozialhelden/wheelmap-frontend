@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgViewpoint(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgViewpoint(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgViewpoint;
+export default SvgViewpoint

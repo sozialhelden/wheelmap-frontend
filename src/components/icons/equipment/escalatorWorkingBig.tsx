@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgEscalatorWorkingBig(props: React.SVGAttributes<{}>) {
   return (
@@ -8,7 +8,7 @@ function SvgEscalatorWorkingBig(props: React.SVGAttributes<{}>) {
         <path d="M22.548 11.09c0 .766-.622 1.387-1.388 1.387h-2.193a1.388 1.388 0 00-.985.402l-7.523 7.523a1.388 1.388 0 01-.971.402H5.893a1.388 1.388 0 110-2.776H8.1c.364-.001.713-.146.972-.402l7.522-7.522c.262-.26.616-.405.985-.403h3.58c.767 0 1.389.622 1.389 1.388z" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgEscalatorWorkingBig;
+export default SvgEscalatorWorkingBig

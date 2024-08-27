@@ -1,5 +1,5 @@
 function CreatePage() {
-  return <div>TODO</div>;
+  return <div>TODO</div>
 }
 
-export default CreatePage;
+export default CreatePage

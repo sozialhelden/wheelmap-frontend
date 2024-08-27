@@ -1,12 +1,12 @@
-import { EquipmentInfo } from '@sozialhelden/a11yjson';
-import get from 'lodash/get';
-import * as React from 'react';
-import styled from 'styled-components';
-import { msgid, ngettext } from 'ttag';
-import colors from '../../../lib/util/colors';
-import * as equipmentIcons from '../../icons/equipment';
-import getHumanEnumeration from '../../shared/getHumanEnumeration';
-import getEquipmentInfoDescription from './getEquipmentInfoDescription';
+import { EquipmentInfo } from '@sozialhelden/a11yjson'
+import get from 'lodash/get'
+import * as React from 'react'
+import styled from 'styled-components'
+import { msgid, ngettext } from 'ttag'
+import colors from '../../../lib/util/colors'
+import * as equipmentIcons from '../../icons/equipment'
+import getHumanEnumeration from '../../shared/getHumanEnumeration'
+import getEquipmentInfoDescription from './getEquipmentInfoDescription'
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
@@ -25,10 +25,10 @@ function EquipmentIconWrapper({
   count: number,
   isCountHidden: boolean,
 }) {
-  const { properties } = equipmentInfo;
-  if (!properties) return null;
-  const { _id } = properties;
-  const { isWorking, category } = properties;
+  const { properties } = equipmentInfo
+  if (!properties) return null
+  const { _id } = properties
+  const { isWorking, category } = properties
 
   const ariaLabels: { [key: string]: { [key: string]: string } } = {
     true: {
@@ -67,17 +67,17 @@ function EquipmentIconWrapper({
         count,
       ),
     },
-  };
-  const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null;
+  }
+  const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null
 
   const workingStringPart = {
     true: 'Working',
     false: 'Broken',
     undefined: 'Unknown',
-  }[String(isWorking)];
+  }[String(isWorking)]
 
-  const iconName = `${category || 'elevator'}${workingStringPart}Big`;
-  const EquipmentIcon = equipmentIcons[iconName] || (() => null);
+  const iconName = `${category || 'elevator'}${workingStringPart}Big`
+  const EquipmentIcon = equipmentIcons[iconName] || (() => null)
 
   return (
     <figure
@@ -88,32 +88,32 @@ function EquipmentIconWrapper({
       {!isCountHidden ? <span className="badge">{count}</span> : null}
       <EquipmentIcon key={_id} className="icon" />
     </figure>
-  );
+  )
 }
 
 function EquipmentItem(props: Props) {
-  const { equipmentInfos } = props;
-  const firstEquipmentInfo = equipmentInfos[0];
+  const { equipmentInfos } = props
+  const firstEquipmentInfo = equipmentInfos[0]
 
-  const longDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'longDescription');
-  const description = getEquipmentInfoDescription(firstEquipmentInfo, 'description');
-  const shortDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'shortDescription');
+  const longDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'longDescription')
+  const description = getEquipmentInfoDescription(firstEquipmentInfo, 'description')
+  const shortDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'shortDescription')
 
-  const { isExpanded } = props;
-  const working = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === true);
-  const broken = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === false);
+  const { isExpanded } = props
+  const working = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === true)
+  const broken = equipmentInfos.filter((e) => get(e, ['properties', 'isWorking']) === false)
   const unknown = equipmentInfos.filter(
     (e) => typeof get(e, ['properties', 'isWorking']) === 'undefined',
-  );
-  const hasBrokenEquipment = broken.length > 0;
+  )
+  const hasBrokenEquipment = broken.length > 0
 
   const itemSelectedHandler = (
     event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>,
   ) => {
-    event.stopPropagation();
-    event.preventDefault();
-    props.onSelected(props.placeInfoId, equipmentInfos[0]);
-  };
+    event.stopPropagation()
+    event.preventDefault()
+    props.onSelected(props.placeInfoId, equipmentInfos[0])
+  }
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
   return (
@@ -124,7 +124,7 @@ function EquipmentItem(props: Props) {
       key={description}
       onKeyPress={(event) => {
         if (event.keyCode === 13) {
-          itemSelectedHandler(event);
+          itemSelectedHandler(event)
         }
       }}
       onClick={itemSelectedHandler}
@@ -132,17 +132,17 @@ function EquipmentItem(props: Props) {
       {getHumanEnumeration(
         [working, broken, unknown]
           .map((infos, index) => {
-            const count = infos.length;
+            const count = infos.length
             if (count) {
-              const equipmentInfo = infos[0];
+              const equipmentInfo = infos[0]
               return (
                 <EquipmentIconWrapper
                   key={index}
                   {...{ count, isCountHidden: equipmentInfos.length === 1, equipmentInfo }}
                 />
-              );
+              )
             }
-            return null;
+            return null
           })
           .filter(Boolean),
         'and',
@@ -151,13 +151,13 @@ function EquipmentItem(props: Props) {
         {shortDescription || description}
       </span>
     </button>
-  );
+  )
 }
 
 const linkColorFunction = (props) => {
-  if (get(props, 'equipmentInfo.properties.isWorking')) return colors.linkColor;
-  return colors.negativeColorDarker;
-};
+  if (get(props, 'equipmentInfo.properties.isWorking')) return colors.linkColor
+  return colors.negativeColorDarker
+}
 
 const StyledEquipmentItem = styled(EquipmentItem)`
   display: flex !important;
@@ -220,6 +220,6 @@ const StyledEquipmentItem = styled(EquipmentItem)`
       }
     }
   }
-`;
+`
 
-export default StyledEquipmentItem;
+export default StyledEquipmentItem

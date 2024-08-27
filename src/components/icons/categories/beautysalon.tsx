@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgBeautysalon(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgBeautysalon(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgBeautysalon;
+export default SvgBeautysalon

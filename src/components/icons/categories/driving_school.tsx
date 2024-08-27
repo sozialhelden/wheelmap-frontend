@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgDrivingSchool(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgDrivingSchool(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgDrivingSchool;
+export default SvgDrivingSchool

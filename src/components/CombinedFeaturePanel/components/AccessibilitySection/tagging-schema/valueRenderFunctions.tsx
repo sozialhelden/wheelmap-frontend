@@ -1,9 +1,9 @@
-import React from 'react';
-import { t } from 'ttag';
-import StyledMarkdown from '../../../../shared/StyledMarkdown';
-import DisplayedQuantity from '../tags/values/DisplayedQuantity';
-import OpeningHoursValue from '../tags/values/OpeningHoursValue';
-import { ValueRenderProps } from './ValueRenderProps';
+import React from 'react'
+import { t } from 'ttag'
+import StyledMarkdown from '../../../../shared/StyledMarkdown'
+import DisplayedQuantity from '../tags/values/DisplayedQuantity'
+import OpeningHoursValue from '../tags/values/OpeningHoursValue'
+import { ValueRenderProps } from './ValueRenderProps'
 
 export const valueRenderFunctions: Record<
   string, (props: ValueRenderProps) => React.ReactNode
@@ -36,9 +36,9 @@ export const valueRenderFunctions: Record<
   '(?:socket:([\w_]+):)?output': (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
   'kerb:height': (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   '(?:([\w_]+):)?description(?:(\w\w))?': (props) => {
-    const text = props.value;
-    const targetGroup = props.matches[1];
-    const lang = props.matches[2];
-    return <StyledMarkdown lang={lang}>{t`“${text}”`}</StyledMarkdown>;
+    const text = props.value
+    const targetGroup = props.matches[1]
+    const lang = props.matches[2]
+    return <StyledMarkdown lang={lang}>{t`“${text}”`}</StyledMarkdown>
   },
-};
+}

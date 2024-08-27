@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgInsurance(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgInsurance(props: React.SVGAttributes<{}>) {
         fill="#000"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgInsurance;
+export default SvgInsurance

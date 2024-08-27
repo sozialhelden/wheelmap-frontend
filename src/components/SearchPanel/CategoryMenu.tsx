@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import map from 'lodash/map';
+import React from 'react'
+import styled from 'styled-components'
+import map from 'lodash/map'
 
-import { Circle } from '../shared/IconButton';
-import CategoryButton, { StyledCategoryIconButton } from './CategoryButton';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
-import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable';
+import { Circle } from '../shared/IconButton'
+import CategoryButton, { StyledCategoryIconButton } from './CategoryButton'
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
+import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable'
 
 type Props = {
   onFocus?: () => void;
@@ -18,15 +18,15 @@ type Props = {
 };
 
 function CategoryMenu(props: Props) {
-  const { category } = props;
+  const { category } = props
 
-  let rootCategories = getRootCategoryTable();
+  let rootCategories = getRootCategoryTable()
 
   if (category) {
-    rootCategories = { [category]: rootCategories[category] };
+    rootCategories = { [category]: rootCategories[category] }
   }
 
-  const showCloseButton = Boolean(category);
+  const showCloseButton = Boolean(category)
 
   return (
     <div className={props.className}>
@@ -48,7 +48,7 @@ function CategoryMenu(props: Props) {
         />
       ))}
     </div>
-  );
+  )
 }
 
 export default styled(CategoryMenu)`
@@ -87,4 +87,4 @@ export default styled(CategoryMenu)`
       }
     }
   }
-`;
+`

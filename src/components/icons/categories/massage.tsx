@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgMassage(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgMassage(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgMassage;
+export default SvgMassage

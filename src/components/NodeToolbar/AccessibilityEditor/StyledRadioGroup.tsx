@@ -1,9 +1,9 @@
-import { hsl } from 'd3-color';
-import { RadioGroup } from 'react-radio-group';
-import styled from 'styled-components';
+import { hsl } from 'd3-color'
+import { RadioGroup } from 'react-radio-group'
+import styled from 'styled-components'
 
-import colors from '../../../lib/util/colors';
-import { Caption } from '../../IconButton';
+import colors from '../../../lib/util/colors'
+import { Caption } from '../../IconButton'
 
 const StyledRadioGroup = styled(RadioGroup)`
   margin-top: 1em;
@@ -101,6 +101,6 @@ const StyledRadioGroup = styled(RadioGroup)`
       background-color: yellow;
     }
   }
-`;
+`
 
-export default StyledRadioGroup;
+export default StyledRadioGroup

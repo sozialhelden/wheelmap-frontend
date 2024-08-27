@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPostOffice(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPostOffice(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPostOffice;
+export default SvgPostOffice

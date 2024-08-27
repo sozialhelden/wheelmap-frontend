@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgBreadcrumbChevron(props: any) {
   return (
@@ -26,7 +26,7 @@ function SvgBreadcrumbChevron(props: any) {
         <path fillOpacity={0.3} fill="#000" d="M8.139 0h1.285l12.572 25L9.424 50H8.14L20.71 25z" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgBreadcrumbChevron;
+export default SvgBreadcrumbChevron

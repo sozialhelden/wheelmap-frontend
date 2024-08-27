@@ -1,11 +1,11 @@
-import * as React from 'react';
-import isEqual from 'lodash/isEqual';
-import styled from 'styled-components';
+import * as React from 'react'
+import isEqual from 'lodash/isEqual'
+import styled from 'styled-components'
 
-import Icon from '../shared/Icon';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature';
-import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility';
+import Icon from '../shared/Icon'
+import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible'
+import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
@@ -16,11 +16,11 @@ type Props = {
 };
 
 function CombinedIcon(props: Props) {
-  if (!props.accessibilityFilter) return null;
+  if (!props.accessibilityFilter) return null
 
   const accessibilities = isAccessibilityFiltered(props.accessibilityFilter)
     ? props.accessibilityFilter
-    : [null];
+    : [null]
 
   return (
     <div aria-hidden className={props.className}>
@@ -39,10 +39,10 @@ function CombinedIcon(props: Props) {
         </ToiletIcon>
       ) : null}
     </div>
-  );
+  )
 }
 
-const ToiletIcon = styled.figure``;
+const ToiletIcon = styled.figure``
 
 export default styled(CombinedIcon)`
   display: flex;
@@ -96,4 +96,4 @@ export default styled(CombinedIcon)`
       stroke: white;
     }
   }
-`;
+`

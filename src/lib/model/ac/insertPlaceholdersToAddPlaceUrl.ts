@@ -1,4 +1,4 @@
-import { MappingEvent } from './MappingEvent';
+import { MappingEvent } from './MappingEvent'
 
 export function insertPlaceholdersToAddPlaceUrl(
   baseUrl: string,
@@ -13,16 +13,16 @@ export function insertPlaceholdersToAddPlaceUrl(
     uniqueSurveyId,
     mappingEventId: encodeURIComponent(joinedMappingEvent?._id),
     mappingEventName: encodeURIComponent(joinedMappingEvent?.name),
-  };
+  }
 
-  let replacedUrl = url;
+  let replacedUrl = url
   if (typeof replacedUrl === 'string') {
     for (const key in replacements) {
       if (replacements.hasOwnProperty(key)) {
-        const fieldRegexp = new RegExp(`{${key}}`, 'g');
-        replacedUrl = replacedUrl.replace(fieldRegexp, replacements[key]);
+        const fieldRegexp = new RegExp(`{${key}}`, 'g')
+        replacedUrl = replacedUrl.replace(fieldRegexp, replacements[key])
       }
     }
   }
-  return replacedUrl;
+  return replacedUrl
 }

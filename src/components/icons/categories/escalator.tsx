@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgEscalator(props: React.SVGAttributes<{}>) {
   return (
@@ -8,7 +8,7 @@ function SvgEscalator(props: React.SVGAttributes<{}>) {
         <path d="M14 6a1 1 0 01-1 1h-1.58a1 1 0 00-.71.29l-5.42 5.42a1 1 0 01-.7.29H2a1 1 0 110-2h1.59a1 1 0 00.7-.29l5.42-5.42a1 1 0 01.71-.29H13a1 1 0 011 1z" />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SvgEscalator;
+export default SvgEscalator

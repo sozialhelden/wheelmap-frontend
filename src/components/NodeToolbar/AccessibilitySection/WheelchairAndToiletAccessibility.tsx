@@ -1,8 +1,8 @@
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import includes from 'lodash/includes';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
+import includes from 'lodash/includes'
+import * as React from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
 import {
   YesNoLimitedUnknown, YesNoUnknown,
   accessibilityDescription,
@@ -11,13 +11,13 @@ import {
   isWheelchairAccessible,
   normalizedCoordinatesForFeature,
   toiletDescription,
-} from '../../../lib/Feature';
-import colors from '../../../lib/util/colors';
-import { geoDistance } from '../../../lib/util/geoDistance';
-import { formatDistance } from '../../../lib/util/strings/formatDistance';
-import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
-import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import PenIcon from '../../icons/actions/PenIcon';
+} from '../../../lib/Feature'
+import colors from '../../../lib/util/colors'
+import { geoDistance } from '../../../lib/util/geoDistance'
+import { formatDistance } from '../../../lib/util/strings/formatDistance'
+import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible'
+import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible'
+import PenIcon from '../../icons/actions/PenIcon'
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -30,40 +30,40 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'escalator',
   'entrance',
   'subway_entrance',
-];
+]
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
-  const description = accessibilityName(accessibility);
+  const description = accessibilityName(accessibility)
   switch (accessibility) {
-    case 'yes':
-    case 'limited':
-    case 'no':
-      return <span>{description}</span>;
-    case 'unknown':
-    default:
-      return null;
+  case 'yes':
+  case 'limited':
+  case 'no':
+    return <span>{description}</span>
+  case 'unknown':
+  default:
+    return null
   }
 }
 
 const toiletIcons = {
   yes: <ToiletStatusAccessibleIcon />,
   no: <ToiletStatusNotAccessibleIcon />,
-};
+}
 
 function ToiletDescription(accessibility: YesNoUnknown) {
-  if (!accessibility) return;
+  if (!accessibility) return
 
   // translator: Button caption, shown in the place toolbar
-  const editButtonCaption = t`Mark wheelchair accessibility of WC`;
-  const description = toiletDescription(accessibility) || editButtonCaption;
-  const icon = toiletIcons[accessibility] || null;
+  const editButtonCaption = t`Mark wheelchair accessibility of WC`
+  const description = toiletDescription(accessibility) || editButtonCaption
+  const icon = toiletIcons[accessibility] || null
   return (
     <>
       {icon}
       {icon && <>&nbsp;</>}
       <span>{description}</span>
     </>
-  );
+  )
 }
 
 type Props = {
@@ -93,7 +93,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
           {accessibilityDescription(wheelchairAccessibility)}
         </footer>
       </button>
-    );
+    )
   }
 
   renderToiletButton(toiletAccessibility) {
@@ -108,23 +108,23 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
           {/* {this.props.isEditingEnabled && <PenIcon className="pen-icon" />} */}
         </header>
       </button>
-    );
+    )
   }
 
   renderNearbyToilets() {
-    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
+    const { feature, toiletsNearby, onOpenToiletNearby } = this.props
     if (!toiletsNearby) {
-      return;
+      return
     }
 
-    const featureCoords = normalizedCoordinatesForFeature(feature);
+    const featureCoords = normalizedCoordinatesForFeature(feature)
     // for now render only the closest toilet
     return toiletsNearby.slice(0, 1).map((toiletFeature, i) => {
-      const toiletCoords = normalizedCoordinatesForFeature(toiletFeature);
-      const distanceInMeters = geoDistance(featureCoords, toiletCoords);
-      const formattedDistance = formatDistance(distanceInMeters);
-      const { distance, unit } = formattedDistance;
-      const caption = t`Show next wheelchair accessible toilet`;
+      const toiletCoords = normalizedCoordinatesForFeature(toiletFeature)
+      const distanceInMeters = geoDistance(featureCoords, toiletCoords)
+      const formattedDistance = formatDistance(distanceInMeters)
+      const { distance, unit } = formattedDistance
+      const caption = t`Show next wheelchair accessible toilet`
       return (
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
           {caption}
@@ -136,31 +136,31 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 &nbsp;→
           </span>
         </button>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    const { feature, toiletsNearby, isEditingEnabled } = this.props;
-    const { properties } = feature || {};
+    const { feature, toiletsNearby, isEditingEnabled } = this.props
+    const { properties } = feature || {}
     if (!properties) {
-      return null;
+      return null
     }
 
-    const wheelchairAccessibility = isWheelchairAccessible(properties);
-    const toiletAccessibility = hasAccessibleToilet(properties);
+    const wheelchairAccessibility = isWheelchairAccessible(properties)
+    const toiletAccessibility = hasAccessibleToilet(properties)
 
-    const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
-    const categoryId = properties.category;
-    const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
-    const canAddToiletStatus = isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);
+    const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown'
+    const categoryId = properties.category
+    const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId)
+    const canAddToiletStatus = isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility)
     const isToiletButtonShown = (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus)
-      || (toiletAccessibility === 'yes' && categoryId !== 'toilets');
+      || (toiletAccessibility === 'yes' && categoryId !== 'toilets')
 
-    const findToiletsNearby = toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
-    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown; /* || findToiletsNearby */
+    const findToiletsNearby = toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0
+    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown /* || findToiletsNearby */
     if (!hasContent) {
-      return null;
+      return null
     }
 
     return (
@@ -169,7 +169,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
       </div>
-    );
+    )
   }
 }
 
@@ -303,6 +303,6 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
       background-color: ${colors.linkBackgroundColorTransparent};
     }
   }
-`;
+`
 
-export default StyledBasicPlaceAccessibility;
+export default StyledBasicPlaceAccessibility

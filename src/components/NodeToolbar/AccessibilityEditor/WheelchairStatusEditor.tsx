@@ -1,6 +1,6 @@
-import { t } from 'ttag';
+import { t } from 'ttag'
 
-import { AppContextConsumer } from '../../../AppContext';
+import { AppContextConsumer } from '../../../AppContext'
 import {
   AccessibilityCloudFeature,
   WheelmapFeature,
@@ -8,12 +8,12 @@ import {
   accessibilityDescription,
   isWheelchairAccessible,
   shortAccessibilityName,
-} from '../../../lib/Feature';
-import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories';
-import { isOnSmallViewport } from '../../../lib/util/ViewportSize';
-import Icon from '../../Icon';
-import RadioStatusEditor from './RadioStatusEditor';
-import { saveWheelchairStatus } from './saveStatus';
+} from '../../../lib/Feature'
+import { CategoryLookupTables } from '../../../lib/model/ac/categories/Categories'
+import { isOnSmallViewport } from '../../../lib/util/ViewportSize'
+import Icon from '../../Icon'
+import RadioStatusEditor from './RadioStatusEditor'
+import { saveWheelchairStatus } from './saveStatus'
 
 type SaveOptions = {
   featureId: string;
@@ -60,5 +60,5 @@ export default function WheelchairStatusEditor(props: Props) {
         </RadioStatusEditor>
       )}
     </AppContextConsumer>
-  );
+  )
 }

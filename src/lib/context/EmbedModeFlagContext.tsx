@@ -1,3 +1,3 @@
 function useEmbedModeFlag() {
-  return false;
+  return false
 }

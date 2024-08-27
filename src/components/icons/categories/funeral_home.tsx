@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgFuneralHome(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgFuneralHome(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgFuneralHome;
+export default SvgFuneralHome

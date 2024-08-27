@@ -1,4 +1,4 @@
-import { TypeTaggedOSMFeature } from '../../../model/geo/AnyFeature';
+import { TypeTaggedOSMFeature } from '../../../model/geo/AnyFeature'
 
 export const RossmannNode: TypeTaggedOSMFeature = {
   _id: '1308877470',
@@ -29,7 +29,7 @@ export const RossmannNode: TypeTaggedOSMFeature = {
     shop: 'chemist',
     wheelchair: 'yes',
   },
-};
+}
 
 const OSMROSSMANN = {
   version: '0.6',
@@ -71,4 +71,4 @@ const OSMROSSMANN = {
       },
     },
   ],
-};
+}

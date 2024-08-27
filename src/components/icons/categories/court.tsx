@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCourt(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCourt(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCourt;
+export default SvgCourt

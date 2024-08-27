@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgPetStore(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgPetStore(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgPetStore;
+export default SvgPetStore

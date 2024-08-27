@@ -1,5 +1,5 @@
-import { MappingEventFeature } from './Feature';
-import { IImage } from './Image';
+import { MappingEventFeature } from './Feature'
+import { IImage } from './Image'
 
 type MappingEventStatusEnum =
   | 'draft'
@@ -50,14 +50,14 @@ export type MappingEvent = {
 
 export type MappingEvents = MappingEvent[];
 
-export const hrefForMappingEvent = (mappingEvent: MappingEvent): string => `/events/${mappingEvent._id}`;
+export const hrefForMappingEvent = (mappingEvent: MappingEvent): string => `/events/${mappingEvent._id}`
 
 export const canMappingEventBeJoined = (mappingEvent?: MappingEvent): boolean => !!mappingEvent
-  && (mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned');
+  && (mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned')
 
 export const isMappingEventVisible = (mappingEvent?: MappingEvent): boolean => !!mappingEvent
   && ((mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned')
-    && mappingEvent.visibility !== 'unlisted');
+    && mappingEvent.visibility !== 'unlisted')
 
 // filters mapping events for the active app & shown mapping event
 export function filterMappingEvents(
@@ -69,5 +69,5 @@ export function filterMappingEvents(
     .filter(
       (event) => isMappingEventVisible(event) || activeEventId === event._id,
     )
-    .filter((event) => appId === event.appId);
+    .filter((event) => appId === event.appId)
 }

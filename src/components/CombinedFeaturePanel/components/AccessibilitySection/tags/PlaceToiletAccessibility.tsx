@@ -1,20 +1,20 @@
-import { ControlGroup } from '@blueprintjs/core';
-import includes from 'lodash/includes';
-import { t } from 'ttag';
+import { ControlGroup } from '@blueprintjs/core'
+import includes from 'lodash/includes'
+import { t } from 'ttag'
 import {
   hasAccessibleToilet, YesNoUnknown,
-} from '../../../../../lib/model/ac/Feature';
+} from '../../../../../lib/model/ac/Feature'
 import {
   accessibilityDescription, toiletDescription,
-} from '../../../../../lib/model/accessibility/accessibilityStrings';
-import { isWheelchairAccessible } from '../../../../../lib/model/accessibility/isWheelchairAccessible';
+} from '../../../../../lib/model/accessibility/accessibilityStrings'
+import { isWheelchairAccessible } from '../../../../../lib/model/accessibility/isWheelchairAccessible'
 import {
   AnyFeature,
   isOSMFeature,
   isPlaceInfo,
-} from '../../../../../lib/model/geo/AnyFeature';
-import ToiletStatuAccessibleIcon from '../../../../icons/accessibility/ToiletStatusAccessible';
-import ToiletStatusNotAccessibleIcon from '../../../../icons/accessibility/ToiletStatusNotAccessible';
+} from '../../../../../lib/model/geo/AnyFeature'
+import ToiletStatuAccessibleIcon from '../../../../icons/accessibility/ToiletStatusAccessible'
+import ToiletStatusNotAccessibleIcon from '../../../../icons/accessibility/ToiletStatusNotAccessible'
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -25,39 +25,39 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'toilets',
   'elevator',
   'escalator',
-];
+]
 
 const toiletIcons = {
   yes: <ToiletStatuAccessibleIcon style={{ verticalAlign: 'middle' }} />,
   no: <ToiletStatusNotAccessibleIcon style={{ verticalAlign: 'middle' }} />,
-};
+}
 
 function ToiletDescription(accessibility: YesNoUnknown) {
-  if (!accessibility) return;
+  if (!accessibility) return
 
   // translator: Button caption, shown in the place toolbar
-  const editButtonCaption = t`Mark wheelchair accessibility of WC`;
-  const description = toiletDescription(accessibility) || editButtonCaption;
-  const icon = toiletIcons[accessibility] || null;
+  const editButtonCaption = t`Mark wheelchair accessibility of WC`
+  const description = toiletDescription(accessibility) || editButtonCaption
+  const icon = toiletIcons[accessibility] || null
   return (
     <>
       {icon}
       {icon && <>&nbsp;</>}
       {description}
     </>
-  );
+  )
 }
 
 export default function PlaceWheelchairAccessibility({ feature }: { feature?: AnyFeature }) {
   if (!feature || (!isOSMFeature(feature) && !isPlaceInfo(feature))) {
-    return null;
+    return null
   }
-  const { properties } = feature || {};
+  const { properties } = feature || {}
   if (!properties) {
-    return null;
+    return null
   }
 
-  const wheelchairAccessibility = isWheelchairAccessible(feature);
+  const wheelchairAccessibility = isWheelchairAccessible(feature)
   return (
     <ControlGroup vertical>
       <header>accessibilityName(wheelchairAccessibility)</header>
@@ -65,40 +65,40 @@ export default function PlaceWheelchairAccessibility({ feature }: { feature?: An
         {accessibilityDescription(wheelchairAccessibility)}
       </footer>
     </ControlGroup>
-  );
+  )
 }
 
 export function PlaceToiletAccessibility({ feature }: { feature: AnyFeature }) {
   if (!isOSMFeature(feature) && !isPlaceInfo(feature)) {
-    return null;
+    return null
   }
-  const { properties } = feature || {};
+  const { properties } = feature || {}
   if (!properties) {
-    return null;
+    return null
   }
 
-  const wheelchairAccessibility = isWheelchairAccessible(feature);
-  const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
-  const toiletAccessibility = hasAccessibleToilet(feature);
-  const categoryId = properties.category;
+  const wheelchairAccessibility = isWheelchairAccessible(feature)
+  const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown'
+  const toiletAccessibility = hasAccessibleToilet(feature)
+  const categoryId = properties.category
   const hasBannedCategory = includes(
     placeCategoriesWithoutExtraToiletEntry,
     categoryId,
-  );
-  const canAddToiletStatus = includes(['yes', 'limited'], wheelchairAccessibility);
+  )
+  const canAddToiletStatus = includes(['yes', 'limited'], wheelchairAccessibility)
   const isToiletButtonShown = ((isKnownWheelchairAccessibility
         && !hasBannedCategory
         && canAddToiletStatus))
-    || (toiletAccessibility === 'yes' && categoryId !== 'toilets');
+    || (toiletAccessibility === 'yes' && categoryId !== 'toilets')
 
-  const hasContent = isToiletButtonShown; /* || findToiletsNearby */
+  const hasContent = isToiletButtonShown /* || findToiletsNearby */
   if (!hasContent) {
-    return null;
+    return null
   }
 
   return (
     <>
       {ToiletDescription(toiletAccessibility)}
     </>
-  );
+  )
 }

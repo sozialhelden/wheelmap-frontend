@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgBicycleStore(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgBicycleStore(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgBicycleStore;
+export default SvgBicycleStore

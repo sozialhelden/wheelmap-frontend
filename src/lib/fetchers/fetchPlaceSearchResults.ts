@@ -1,8 +1,8 @@
-import includes from 'lodash/includes';
-import { Point } from 'geojson';
+import includes from 'lodash/includes'
+import { Point } from 'geojson'
 
-import { currentLocales } from '../i18n/i18n';
-import debouncePromise from './legacy/debouncePromise';
+import { currentLocales } from '../i18n/i18n'
+import debouncePromise from './legacy/debouncePromise'
 
 export type SearchResultProperties = {
   city?: any;
@@ -35,10 +35,10 @@ export function getOsmIdFromSearchResultProperties(
 ) {
   let osmId: number | null = searchResultProperties
     ? searchResultProperties.osm_id
-    : null;
+    : null
 
   if (!osmId) {
-    return null;
+    return null
   }
 
   // Only nodes with type 'N' and 'W' can be on Wheelmap.
@@ -46,26 +46,26 @@ export function getOsmIdFromSearchResultProperties(
     searchResultProperties.osm_type !== 'N'
     && searchResultProperties.osm_type !== 'W'
   ) {
-    return null;
+    return null
   }
 
   // Wheelmap stores features with osm type 'W' with negativ ids.
   // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
   if (searchResultProperties.osm_type === 'W') {
-    osmId = -osmId;
+    osmId = -osmId
   }
 
-  return osmId;
+  return osmId
 }
 
 export function buildOriginalOsmId(
   searchResultProperties?: SearchResultProperties,
 ) {
   if (!searchResultProperties) {
-    return undefined;
+    return undefined
   }
   return `osm://${searchResultProperties.osm_type
-    || 'unknown'}/${searchResultProperties.osm_id || 'unknown'}`;
+    || 'unknown'}/${searchResultProperties.osm_id || 'unknown'}`
 }
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
@@ -78,7 +78,7 @@ export const searchPlacesDebounced: (
 ) => Promise<SearchResultCollection> = debouncePromise(
   fetchPlaceSearchResults,
   500,
-);
+)
 
 export default function fetchPlaceSearchResults(
   query: string,
@@ -86,19 +86,19 @@ export default function fetchPlaceSearchResults(
   lon: number | undefined,
 ): Promise<SearchResultCollection | null> {
   if (!query) {
-    return Promise.resolve(null);
+    return Promise.resolve(null)
   }
-  const locale = currentLocales[0];
-  const languageCode = locale && locale.languageCode;
-  const supportedLanguageCodes = ['en', 'de', 'fr', 'it']; // See Photon documentation
-  let localeSuffix = '';
+  const locale = currentLocales[0]
+  const languageCode = locale && locale.languageCode
+  const supportedLanguageCodes = ['en', 'de', 'fr', 'it'] // See Photon documentation
+  let localeSuffix = ''
   if (includes(supportedLanguageCodes, languageCode)) {
-    localeSuffix = `&lang=${languageCode}`;
+    localeSuffix = `&lang=${languageCode}`
   }
 
-  const encodedQuery = encodeURIComponent(query);
+  const encodedQuery = encodeURIComponent(query)
 
-  const url = `https://photon.komoot.io/api/?q=${encodedQuery}&limit=30${localeSuffix}`;
+  const url = `https://photon.komoot.io/api/?q=${encodedQuery}&limit=30${localeSuffix}`
 
   // For now, no location bias anymore: It seems to sort irrelevant results to the top
   // so you are not able to find New York anymore when entering 'New York', for example
@@ -107,5 +107,5 @@ export default function fetchPlaceSearchResults(
   //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
   // }
 
-  return fetch(url).then((response) => response.json());
+  return fetch(url).then((response) => response.json())
 }

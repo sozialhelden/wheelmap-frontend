@@ -1,12 +1,12 @@
 declare module 'leaflet' {
-  export const control: any;
-  export const Browser: any;
-  export const Util: any;
-  export const Control: any;
-  export const DomUtil: any;
-  export const DomEvent: any;
-  export const Map: any;
-  export const Handler: any;
+  export const control: any
+  export const Browser: any
+  export const Util: any
+  export const Control: any
+  export const DomUtil: any
+  export const DomEvent: any
+  export const Map: any
+  export const Handler: any
 
   export class CircleMarker {}
 
@@ -59,19 +59,19 @@ declare module 'leaflet' {
   export type TileLayerOptions = any;
 
   export class TileLayer extends LayerGroup {
-    public readonly _url: string;
+    public readonly _url: string
 
-    protected options: TileLayerOptions;
+    protected options: TileLayerOptions
 
-    protected _layerGroup: LayerGroup;
+    protected _layerGroup: LayerGroup
 
-    protected _tiles: any;
+    protected _tiles: any
 
-    protected _tilesToLoad: any;
+    protected _tilesToLoad: any
 
-    protected _map: any;
+    protected _map: any
 
-    protected _globalTileRange: any;
+    protected _globalTileRange: any
 
     constructor(url: string, options: TileLayerOptions);
 
@@ -87,9 +87,9 @@ declare module 'leaflet' {
   }
 
   export class Point {
-    public readonly x: number;
+    public readonly x: number
 
-    public readonly y: number;
+    public readonly y: number
 
     constructor(x: number, y: number);
   }
@@ -97,19 +97,19 @@ declare module 'leaflet' {
   export type IconOptions = any;
 
   export class Icon {
-    protected options: IconOptions;
+    protected options: IconOptions
 
-    protected iconSvgElement: React.ReactElement;
+    protected iconSvgElement: React.ReactElement
 
-    protected onClick: () => void;
+    protected onClick: () => void
 
-    protected href: string;
+    protected href: string
 
-    protected highlighted: boolean;
+    protected highlighted: boolean
 
-    protected accessibleName: string;
+    protected accessibleName: string
 
-    protected size: any;
+    protected size: any
 
     constructor(options: IconOptions);
 

@@ -1,22 +1,22 @@
-import { interpolateLab } from 'd3-interpolate';
-import React from 'react';
+import { interpolateLab } from 'd3-interpolate'
+import React from 'react'
 import {
   FacebookShareButton,
   TelegramShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-} from 'react-share';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import colors from '../../lib/util/colors';
-import { ChromelessButton } from '../shared/Button';
-import IconButton, { Caption, Circle } from '../shared/IconButton';
-import ChevronLeft from './icons/ChevronLeft';
-import EmailIcon from './icons/Email';
-import FacebookIcon from './icons/Facebook';
-import TelegramIcon from './icons/Telegram';
-import TwitterIcon from './icons/Twitter';
-import WhatsAppIcon from './icons/WhatsApp';
+} from 'react-share'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../lib/util/colors'
+import { ChromelessButton } from '../shared/Button'
+import IconButton, { Caption, Circle } from '../shared/IconButton'
+import ChevronLeft from './icons/ChevronLeft'
+import EmailIcon from './icons/Email'
+import FacebookIcon from './icons/Facebook'
+import TelegramIcon from './icons/Telegram'
+import TwitterIcon from './icons/Twitter'
+import WhatsAppIcon from './icons/WhatsApp'
 
 type ShareBarContentProps = {
   url: string;
@@ -42,9 +42,9 @@ const ShareBarContent = React.forwardRef(
     ref: { current: null | HTMLButtonElement },
   ) => {
     // translator: Screenreader description for the share menu collapse button
-    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;
+    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`
 
-    const linkOpeningViaLocationHrefProps = {};
+    const linkOpeningViaLocationHrefProps = {}
 
     return (
       <div className={className}>
@@ -142,9 +142,9 @@ const ShareBarContent = React.forwardRef(
           </WhatsappShareButton>
         </footer>
       </div>
-    );
+    )
   },
-);
+)
 
 const StyledIconButton = styled(IconButton)<{
   hoverColor?: string;
@@ -184,6 +184,6 @@ const StyledIconButton = styled(IconButton)<{
       }
     }
   }
-`;
+`
 
-export default ShareBarContent;
+export default ShareBarContent

@@ -1,14 +1,14 @@
-import isEqual from 'lodash/isEqual';
-import styled from 'styled-components';
-import { t } from 'ttag';
+import isEqual from 'lodash/isEqual'
+import styled from 'styled-components'
+import { t } from 'ttag'
 
 import {
   YesNoLimitedUnknown,
   yesNoUnknownArray,
-} from '../../lib/model/ac/Feature';
-import colors from '../../lib/util/colors';
-import AccessibilityFilterButton from './AccessibilityFilterButton';
-import { PlaceFilter } from './AccessibilityFilterModel';
+} from '../../lib/model/ac/Feature'
+import colors from '../../lib/util/colors'
+import AccessibilityFilterButton from './AccessibilityFilterButton'
+import { PlaceFilter } from './AccessibilityFilterModel'
 
 type Props = PlaceFilter & {
   className?: string;
@@ -65,31 +65,31 @@ function getAvailableFilters() {
       accessibilityFilter: ['no'],
       toiletFilter: [],
     },
-  };
+  }
 }
 
 function findFilterKey({ toiletFilter, accessibilityFilter }) {
-  const availableFilters = getAvailableFilters();
+  const availableFilters = getAvailableFilters()
   return Object.keys(availableFilters).find((key) => {
-    const filter = availableFilters[key];
+    const filter = availableFilters[key]
     const requestedToiletFilter = isEqual(toiletFilter, yesNoUnknownArray)
       ? []
-      : toiletFilter;
+      : toiletFilter
     return (
       isEqual(requestedToiletFilter, filter.toiletFilter)
       && isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
-    );
-  });
+    )
+  })
 }
 
 function AccessibilityFilterMenu(props: Props) {
-  const availableFilters = getAvailableFilters();
-  const { accessibilityFilter, toiletFilter } = props;
-  const category = props.category || 'undefined';
-  const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
+  const availableFilters = getAvailableFilters()
+  const { accessibilityFilter, toiletFilter } = props
+  const category = props.category || 'undefined'
+  const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter })
   const shownFilterKeys = currentFilterKey
     ? [currentFilterKey]
-    : Object.keys(availableFilters);
+    : Object.keys(availableFilters)
 
   return (
     <section
@@ -97,10 +97,10 @@ function AccessibilityFilterMenu(props: Props) {
       aria-label={t`Wheelchair accessibility filter`}
     >
       {shownFilterKeys.map((key) => {
-        const item = availableFilters[key];
+        const item = availableFilters[key]
 
         if (typeof item.isVisible === 'function' && !item.isVisible(category)) {
-          return null;
+          return null
         }
 
         return (
@@ -114,10 +114,10 @@ function AccessibilityFilterMenu(props: Props) {
             showCloseButton={shownFilterKeys.length === 1}
             key={key}
           />
-        );
+        )
       })}
     </section>
-  );
+  )
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
@@ -154,6 +154,6 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
   .close-icon {
     margin-left: 1em;
   }
-`;
+`
 
-export default StyledAccessibilityFilterMenu;
+export default StyledAccessibilityFilterMenu

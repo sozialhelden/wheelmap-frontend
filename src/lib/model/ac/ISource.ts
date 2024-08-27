@@ -38,4 +38,4 @@ type ISource = {
   allowedImportStreamUnits?: string[];
 } & TrackingEventStatistics;
 
-export default ISource;
+export default ISource

@@ -1028,4 +1028,4 @@ export const BERLIN = {
       },
     },
   ],
-};
+}

@@ -19,7 +19,7 @@ export const databaseTableNames = [
   'platforms',
   'stop_positions',
   'stations',
-];
+]
 
 const publicTransportLayerIds = new Set([
   'osm-master-routes',
@@ -31,7 +31,7 @@ const publicTransportLayerIds = new Set([
   'osm-platforms',
   'osm-stop-positions',
   'osm-stations',
-]);
+])
 
 const buildingLayerIds = new Set([
   'osm-building-wheelchair-fill',
@@ -42,12 +42,12 @@ const buildingLayerIds = new Set([
   'osm-wheelchair-limited-label',
   'osm-wheelchair-yes-label',
   'osm-poi-wheelchair-circle',
-]);
+])
 
 const surfaceLayerIds = new Set([
   'osm-pedestrian-outline',
   'osm-surface-fill',
-]);
+])
 
 /**
  * Filter layers from a mapbox-gl stylesheet.
@@ -70,22 +70,22 @@ export function filterLayers(
   return layers
     .filter((layer) => layer.id?.startsWith('osm-'))
     .filter((layer) => {
-      if (publicTransportLayerIds.has(layer.id) && !hasPublicTransport) return false;
-      if (buildingLayerIds.has(layer.id) && !hasBuildings) return false;
-      if (surfaceLayerIds.has(layer.id) && !hasSurfaces) return false;
-      return true;
+      if (publicTransportLayerIds.has(layer.id) && !hasPublicTransport) return false
+      if (buildingLayerIds.has(layer.id) && !hasBuildings) return false
+      if (surfaceLayerIds.has(layer.id) && !hasSurfaces) return false
+      return true
     })
     .map((layer) => {
       // In Mapbox Studio, layers have a source layer reference that uses a random string ID like
       // 'entrances_or_exits_saarbrueck-0vxz2q'. We need to replace that with the actual table name,
       // for example 'entrances_or_exits'.
-      const source = databaseTableNames.find((tableName) => layer['source-layer']?.startsWith(tableName));
+      const source = databaseTableNames.find((tableName) => layer['source-layer']?.startsWith(tableName))
 
       return {
         ...layer,
         source,
         'source-layer': 'default',
-      };
+      }
     })
-    .filter((layer) => layer.source);
+    .filter((layer) => layer.source)
 }

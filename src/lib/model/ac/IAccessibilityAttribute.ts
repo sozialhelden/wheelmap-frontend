@@ -1,6 +1,6 @@
-import { LocalizedString } from '@sozialhelden/a11yjson';
-import { IPersonalProfile } from './IPersonalProfile';
-import ISVGOResult from './ISVGOResult';
+import { LocalizedString } from '@sozialhelden/a11yjson'
+import { IPersonalProfile } from './IPersonalProfile'
+import ISVGOResult from './ISVGOResult'
 
 export default interface IAccessibilityAttribute {
   _id: string,
@@ -26,4 +26,4 @@ export default interface IAccessibilityAttribute {
   describesArchitecture: boolean,
   isMachineData: boolean,
   vectorIconSVG: ISVGOResult,
-};
+}

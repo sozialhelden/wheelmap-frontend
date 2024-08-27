@@ -1,8 +1,8 @@
-import React from 'react';
-import { t } from 'ttag';
-import { get } from 'lodash';
+import React from 'react'
+import { t } from 'ttag'
+import { get } from 'lodash'
 
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson'
 import {
   isWheelmapFeatureId,
   sourceIdsForFeature,
@@ -12,34 +12,34 @@ import {
   accessibilityName,
   normalizedCoordinatesForFeature,
   getFeatureId,
-} from '../lib/Feature';
-import { licenseCache } from '../lib/cache/LicenseCache';
-import { dataSourceCache } from '../lib/cache/DataSourceCache';
-import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
-import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
+} from '../lib/Feature'
+import { licenseCache } from '../lib/cache/LicenseCache'
+import { dataSourceCache } from '../lib/cache/DataSourceCache'
+import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache'
+import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache'
+import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache'
+import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache'
 
-import Categories from '../lib/model/Categories';
+import Categories from '../lib/model/Categories'
 
-import { RenderContext, DataTableEntry } from './getInitialProps';
+import { RenderContext, DataTableEntry } from './getInitialProps'
 import {
   PlaceDetailsProps,
   SourceWithLicense,
   getDataIfAlreadyResolved,
-} from './PlaceDetailsProps';
-import router from './router';
-import { getProductTitle } from '../lib/ClientSideConfiguration';
+} from './PlaceDetailsProps'
+import router from './router'
+import { getProductTitle } from '../lib/ClientSideConfiguration'
 
-import { PhotoModel } from '../lib/PhotoModel';
+import { PhotoModel } from '../lib/PhotoModel'
 
-import { wheelmapFeaturePhotosCache } from '../lib/cache/WheelmapFeaturePhotosCache';
-import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapPhotosToLightboxPhotos';
+import { wheelmapFeaturePhotosCache } from '../lib/cache/WheelmapFeaturePhotosCache'
+import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapPhotosToLightboxPhotos'
 
-import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
-import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
-import { translatedStringFromObject } from '../lib/i18n';
-import { fetchToiletsNearFeature } from '../lib/data-fetching/getToiletsNearby';
+import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache'
+import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos'
+import { translatedStringFromObject } from '../lib/i18n'
+import { fetchToiletsNearFeature } from '../lib/data-fetching/getToiletsNearby'
 
 function fetchFeature(
   featureId: string,
@@ -47,16 +47,16 @@ function fetchFeature(
   useCache: boolean,
   disableWheelmapSource?: boolean,
 ): Promise<PlaceInfo | EquipmentInfo> | null {
-  const isWheelmap = isWheelmapFeatureId(featureId);
+  const isWheelmap = isWheelmapFeatureId(featureId)
 
   if (isWheelmap) {
     if (disableWheelmapSource) {
-      return null;
+      return null
     }
-    return wheelmapFeatureCache.fetchFeature(featureId, appToken, useCache);
+    return wheelmapFeatureCache.fetchFeature(featureId, appToken, useCache)
   }
 
-  return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache);
+  return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache)
 }
 
 function fetchEquipment(
@@ -64,7 +64,7 @@ function fetchEquipment(
   appToken: string,
   useCache: boolean,
 ): Promise<EquipmentInfo> {
-  return equipmentInfoCache.fetchFeature(equipmentId, appToken, useCache);
+  return equipmentInfoCache.fetchFeature(equipmentId, appToken, useCache)
 }
 
 async function fetchSourceWithLicense(
@@ -74,23 +74,23 @@ async function fetchSourceWithLicense(
   useCache: boolean,
 ): Promise<SourceWithLicense[]> {
   if (!isWheelmapFeatureId(featureId)) {
-    const feature = await featurePromise;
-    const sourceIds = sourceIdsForFeature(feature);
+    const feature = await featurePromise
+    const sourceIds = sourceIdsForFeature(feature)
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map((sourceId) => dataSourceCache
       .getDataSourceWithId(sourceId, appToken)
       .then(async (source): Promise<SourceWithLicense> => {
         if (typeof source.licenseId === 'string') {
-          return licenseCache.getLicenseWithId(source.licenseId, appToken).then((license) => ({ source, license }));
+          return licenseCache.getLicenseWithId(source.licenseId, appToken).then((license) => ({ source, license }))
         }
-        return { source, license: null };
-      }));
+        return { source, license: null }
+      }))
 
-    return Promise.all(sourcesWithLicense);
+    return Promise.all(sourcesWithLicense)
   }
 
-  return Promise.resolve([]);
+  return Promise.resolve([])
 }
 
 function fetchPhotos(
@@ -99,36 +99,36 @@ function fetchPhotos(
   useCache: boolean,
   disableWheelmapSource?: boolean,
 ) {
-  const isWheelmap = isWheelmapFeatureId(featureId);
-  const useWheelmap = isWheelmap && !disableWheelmapSource;
+  const isWheelmap = isWheelmapFeatureId(featureId)
+  const useWheelmap = isWheelmap && !disableWheelmapSource
 
   const photosPromise = Promise.all([
     accessibilityCloudImageCache
       .getPhotosForFeature(featureId, appToken, useCache)
       .then((acPhotos) => {
         if (acPhotos) {
-          return convertAcPhotosToLightboxPhotos(acPhotos);
+          return convertAcPhotosToLightboxPhotos(acPhotos)
         }
-        return [] as PhotoModel[];
+        return [] as PhotoModel[]
       }),
     useWheelmap
       ? wheelmapFeaturePhotosCache
         .getPhotosForFeature(featureId, appToken, useCache)
         .then((wmPhotos) => {
           if (wmPhotos) {
-            return convertWheelmapPhotosToLightboxPhotos(wmPhotos);
+            return convertWheelmapPhotosToLightboxPhotos(wmPhotos)
           }
-          return [] as PhotoModel[];
+          return [] as PhotoModel[]
         })
       : Promise.resolve([] as PhotoModel[]),
   ])
     .then((photoArrays: PhotoModel[][]) => [].concat(photoArrays[0], photoArrays[1]) as PhotoModel[])
     .catch((err) => {
-      console.error(err);
-      return [] as PhotoModel[];
-    });
+      console.error(err)
+      return [] as PhotoModel[]
+    })
 
-  return photosPromise;
+  return photosPromise
 }
 
 function fetchToiletsNearby(
@@ -143,49 +143,49 @@ function fetchToiletsNearby(
       renderContext.includeSourceIds,
       renderContext.app.tokenString,
     ))
-    : [];
+    : []
 }
 
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialRouteProps(query, renderContextPromise, isServer): Promise<PlaceDetailsProps> {
-    const featureId = query.id;
-    const equipmentInfoId = query.eid;
+    const featureId = query.id
+    const equipmentInfoId = query.eid
 
     if (!featureId) {
       const error: Error & { statusCode?: number } = new Error(
         'No feature id passed into placeDetailsData',
-      );
-      error.statusCode = 404;
-      throw error;
+      )
+      error.statusCode = 404
+      throw error
     }
     if (!featureId.match(/\w+/)) {
       const error: Error & { statusCode?: number } = new Error(
         'Invalid feature ID.',
-      );
-      error.statusCode = 404;
-      throw error;
+      )
+      error.statusCode = 404
+      throw error
     }
     // do not cache features on server
-    const useCache = !isServer;
-    const disableWheelmapSource = query.disableWheelmapSource === 'true';
-    const renderContext = await renderContextPromise;
-    const appToken = renderContext.app.tokenString;
-    const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
-    const photosPromise = fetchPhotos(featureId, appToken, useCache, disableWheelmapSource);
+    const useCache = !isServer
+    const disableWheelmapSource = query.disableWheelmapSource === 'true'
+    const renderContext = await renderContextPromise
+    const appToken = renderContext.app.tokenString
+    const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource)
+    const photosPromise = fetchPhotos(featureId, appToken, useCache, disableWheelmapSource)
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
-      : null;
-    const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, appToken, true);
+      : null
+    const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, appToken, true)
     const toiletsNearby = isServer
       ? undefined
-      : fetchToiletsNearby(renderContext, featurePromise);
+      : fetchToiletsNearby(renderContext, featurePromise)
 
     const [feature, equipmentInfo, sources, photos] = await Promise.all([
       featurePromise,
       equipmentPromise,
       sourcesPromise,
       photosPromise,
-    ]);
+    ])
 
     return {
       feature,
@@ -196,11 +196,11 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       equipmentInfo,
       toiletsNearby,
       renderContext,
-    };
+    }
   },
 
   storeInitialRouteProps(props: PlaceDetailsProps, appToken: string) {
-    const { feature, sources, equipmentInfo } = props;
+    const { feature, sources, equipmentInfo } = props
 
     // only store fully resolved data that comes from the server
     if (
@@ -209,73 +209,73 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       || sources instanceof Promise
       || equipmentInfo instanceof Promise
     ) {
-      return;
+      return
     }
 
     // inject feature
     if (isWheelmapFeatureId(feature._id)) {
-      wheelmapFeatureCache.injectFeature(feature);
+      wheelmapFeatureCache.injectFeature(feature)
     } else {
-      accessibilityCloudFeatureCache.injectFeature(feature);
+      accessibilityCloudFeatureCache.injectFeature(feature)
     }
 
-    const sourceWithLicenseArray: SourceWithLicense[] = sources;
+    const sourceWithLicenseArray: SourceWithLicense[] = sources
     // inject sources & licenses
     sourceWithLicenseArray.forEach((sourceWithLicense) => {
-      const { license, source } = sourceWithLicense;
-      dataSourceCache.injectDataSource(source, appToken);
+      const { license, source } = sourceWithLicense
+      dataSourceCache.injectDataSource(source, appToken)
 
       if (license) {
-        licenseCache.injectLicense(license, appToken);
+        licenseCache.injectLicense(license, appToken)
       }
-    });
+    })
   },
 
   getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
-      return props;
+      return props
     }
 
-    let { toiletsNearby, feature } = props;
+    let { toiletsNearby, feature } = props
     if (!toiletsNearby) {
       // fetch toilets for client
-      const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature);
-      toiletsNearby = fetchToiletsNearby(props.renderContext, featurePromise);
+      const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature)
+      toiletsNearby = fetchToiletsNearby(props.renderContext, featurePromise)
     }
 
-    return { ...props, toiletsNearby };
+    return { ...props, toiletsNearby }
   },
 
   getHead(props, baseUrl) {
     // @ts-ignore
     const {
       feature, photos, app, categories, equipmentInfo,
-    } = props;
-    const { textContent, meta } = app.clientSideConfiguration;
+    } = props
+    const { textContent, meta } = app.clientSideConfiguration
 
     const renderTitle = (feature, photos) => {
-      const extras = [];
-      let fullTitle;
-      let placeTitle;
+      const extras = []
+      let fullTitle
+      let placeTitle
 
       if (feature != null) {
         const { category, parentCategory } = Categories.getCategoriesForFeature(
           categories,
           (equipmentInfo && getDataIfAlreadyResolved(equipmentInfo))
             || getDataIfAlreadyResolved(feature),
-        );
+        )
 
-        fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties, category || parentCategory);
-        const accessibilityTitle = feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
+        fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties, category || parentCategory)
+        const accessibilityTitle = feature.properties && accessibilityName(isWheelchairAccessible(feature.properties))
 
         if (placeTitle && accessibilityTitle) {
-          fullTitle = `${placeTitle}, ${accessibilityTitle}`;
+          fullTitle = `${placeTitle}, ${accessibilityTitle}`
         }
 
-        const coordinates = normalizedCoordinatesForFeature(feature);
+        const coordinates = normalizedCoordinatesForFeature(feature)
         // translator: Title for sharing a place detail page
-        const productName = translatedStringFromObject(get(textContent, 'product.name'));
-        const thisPlaceIsOn = t`This place is on ${productName}: ${placeTitle}`;
+        const productName = translatedStringFromObject(get(textContent, 'product.name'))
+        const thisPlaceIsOn = t`This place is on ${productName}: ${placeTitle}`
 
         if (coordinates) {
           extras.push(
@@ -286,51 +286,51 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
                 key={`place:location:${property}`}
               />
             )),
-          );
+          )
         }
 
         const placeDetailPath = router.generatePath('placeDetail', {
           id: getFeatureId(feature),
-        });
-        const ogUrl = baseUrl ? `${baseUrl}${placeDetailPath}` : placeDetailPath;
+        })
+        const ogUrl = baseUrl ? `${baseUrl}${placeDetailPath}` : placeDetailPath
 
-        extras.push(<meta content={ogUrl} property="og:url" key="og:url" />);
+        extras.push(<meta content={ogUrl} property="og:url" key="og:url" />)
 
         if (placeTitle) {
-          extras.push(<meta content={thisPlaceIsOn} property="og:title" key="og:title" />);
+          extras.push(<meta content={thisPlaceIsOn} property="og:title" key="og:title" />)
 
           if (meta?.twitter?.siteHandle || meta?.twitter?.creatorHandle) {
             extras.push(
               <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />,
-            );
+            )
           }
         }
       }
 
       if (photos.length > 0) {
-        const image = photos[0].original;
+        const image = photos[0].original
 
-        extras.push(<meta content={image} property="og:image" key="og:image" />);
+        extras.push(<meta content={image} property="og:image" key="og:image" />)
 
         if (meta?.twitter?.siteHandle || meta?.twitter?.creatorHandle) {
-          extras.push(<meta content={image} property="twitter:image" key="twitter:image" />);
+          extras.push(<meta content={image} property="twitter:image" key="twitter:image" />)
         }
       }
 
       extras.unshift(
         <meta content="place" property="og:type" key="og:type" />,
         <title key="title">{getProductTitle(app.clientSideConfiguration, fullTitle)}</title>,
-      );
+      )
 
-      return <>{extras}</>;
-    };
-
-    if (feature instanceof Promise || photos instanceof Promise) {
-      return Promise.all([feature, photos]).then(([feature, photos]) => renderTitle(feature, photos));
+      return <>{extras}</>
     }
 
-    return renderTitle(feature, photos);
-  },
-};
+    if (feature instanceof Promise || photos instanceof Promise) {
+      return Promise.all([feature, photos]).then(([feature, photos]) => renderTitle(feature, photos))
+    }
 
-export default PlaceDetailsData;
+    return renderTitle(feature, photos)
+  },
+}
+
+export default PlaceDetailsData

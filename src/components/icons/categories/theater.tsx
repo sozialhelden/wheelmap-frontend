@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgTheater(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgTheater(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgTheater;
+export default SvgTheater

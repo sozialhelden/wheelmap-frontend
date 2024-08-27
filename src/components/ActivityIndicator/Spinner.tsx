@@ -25,9 +25,9 @@
   SOFTWARE.
 */
 
-import * as React from 'react';
-import styled from 'styled-components';
-import ActivityIndicator, { IExternalProps } from './ActivityIndicator';
+import * as React from 'react'
+import styled from 'styled-components'
+import ActivityIndicator, { IExternalProps } from './ActivityIndicator'
 
 interface IProps {
   style: React.CSSProperties;
@@ -39,7 +39,7 @@ interface IProps {
 }
 
 function UnstyledSpinner(props: IProps) {
-  return <div style={props.style} className={props.className} />;
+  return <div style={props.style} className={props.className} />
 }
 
 const StyledSpinner = styled(UnstyledSpinner)`
@@ -67,8 +67,8 @@ const StyledSpinner = styled(UnstyledSpinner)`
       transform: rotate(360deg);
     }
   }
-`;
+`
 
 export default function Spinner(props: Partial<IExternalProps>) {
-  return <ActivityIndicator ComposedComponent={StyledSpinner} animationDuration={0.6} {...props} />;
+  return <ActivityIndicator ComposedComponent={StyledSpinner} animationDuration={0.6} {...props} />
 }

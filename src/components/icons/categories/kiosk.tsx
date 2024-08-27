@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgKiosk(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgKiosk(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgKiosk;
+export default SvgKiosk

@@ -1,8 +1,8 @@
 export default class ResponseError extends Error {
-  response: Response;
+  response: Response
 
   constructor(message: string, response: Response) {
-    super(message);
-    this.response = response;
+    super(message)
+    this.response = response
   }
 }

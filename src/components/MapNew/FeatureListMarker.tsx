@@ -1,6 +1,6 @@
-import React from 'react';
-import { MapContext } from 'react-map-gl';
-import { FeatureId } from '../../model/Feature';
+import React from 'react'
+import { MapContext } from 'react-map-gl'
+import { FeatureId } from '../../model/Feature'
 
 type Props = {
   featureIds: FeatureId[];
@@ -9,12 +9,12 @@ type Props = {
 };
 
 export default function FeatureListMarker(props: Props) {
-  const context = React.useContext(MapContext);
-  const { longitude, latitude } = props;
+  const context = React.useContext(MapContext)
+  const { longitude, latitude } = props
   if (!context.viewport) {
-    return null;
+    return null
   }
-  const [x, y] = context.viewport.project([longitude, latitude]);
+  const [x, y] = context.viewport.project([longitude, latitude])
 
   return (
     <div
@@ -32,5 +32,5 @@ export default function FeatureListMarker(props: Props) {
       {latitude}
       )
     </div>
-  );
+  )
 }

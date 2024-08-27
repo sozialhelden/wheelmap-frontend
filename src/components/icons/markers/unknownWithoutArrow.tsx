@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgUnknownWithoutArrow(props: React.SVGAttributes<{}>) {
   return (
@@ -11,7 +11,7 @@ function SvgUnknownWithoutArrow(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgUnknownWithoutArrow;
+export default SvgUnknownWithoutArrow

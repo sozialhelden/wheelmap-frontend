@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function SvgCinema(props: React.SVGAttributes<{}>) {
   return (
@@ -9,7 +9,7 @@ function SvgCinema(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }
 
-export default SvgCinema;
+export default SvgCinema

@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import styled from 'styled-components';
-import colors from '../../lib/util/colors';
+import Link from 'next/link'
+import styled from 'styled-components'
+import colors from '../../lib/util/colors'
 
 const Button = styled.button`
   display: flex;
@@ -33,7 +33,7 @@ const Button = styled.button`
   &:not(:hover) {
     color: ${colors.textColorTonedDown};
   }
-`;
+`
 
 export default function PanelButton(props: {
   icon: React.ReactNode;
@@ -43,12 +43,12 @@ export default function PanelButton(props: {
 }) {
   const {
     icon, children, onClick, href,
-  } = props;
+  } = props
   const button = (
     <Button onClick={onClick} className="panel-button">
       {icon}
       {children}
     </Button>
-  );
-  return href ? <Link href={href}>{button}</Link> : button;
+  )
+  return href ? <Link href={href}>{button}</Link> : button
 }

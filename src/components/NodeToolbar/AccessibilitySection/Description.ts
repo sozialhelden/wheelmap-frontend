@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Description = styled.footer.attrs({ className: 'description' as string })`
   margin-top: 0.5rem;
@@ -22,6 +22,6 @@ const Description = styled.footer.attrs({ className: 'description' as string })`
       content: close-quote;
     }
   }
-`;
+`
 
-export default Description;
+export default Description

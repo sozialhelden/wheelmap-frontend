@@ -1,57 +1,57 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
+import { t } from 'ttag'
+import * as React from 'react'
+import styled from 'styled-components'
 
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import StyledToolbar from '../NodeToolbar/StyledToolbar'
 
-import colors from '../../lib/colors';
+import colors from '../../lib/colors'
 
-import CloseLink from '../CloseLink';
-import CustomRadio from '../NodeToolbar/AccessibilityEditor/CustomRadio';
-import StyledRadioGroup from '../NodeToolbar/AccessibilityEditor/StyledRadioGroup';
+import CloseLink from '../CloseLink'
+import CustomRadio from '../NodeToolbar/AccessibilityEditor/CustomRadio'
+import StyledRadioGroup from '../NodeToolbar/AccessibilityEditor/StyledRadioGroup'
 
-import { PhotoModel } from '../../lib/PhotoModel';
-import CloseButton from '../CloseButton';
+import { PhotoModel } from '../../lib/PhotoModel'
+import CloseButton from '../CloseButton'
 
 export type ReportOptions = 'wrong-place' | 'outdated' | 'offensive' | 'other';
 
-const ReportValues: ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 'other'];
+const ReportValues: ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 'other']
 
 function shortReportCaption(reportValue: ReportOptions): string | null {
   switch (reportValue) {
-    case 'wrong-place':
-      // translator: title for a report option where the photo does not match the place
-      return t`Image shows another place.`;
-    case 'outdated':
-      // translator: title for a report option where the photo does not match the current state of the place
-      return t`Outdated`;
-    case 'offensive':
-      // translator: title for a report option where the photo is nsfw
-      return t`Offensive or inappropriate`;
-    case 'other':
-      // translator: title for a report option where the photo has another problem
-      return t`Other problems`;
-    default:
-      return null;
+  case 'wrong-place':
+    // translator: title for a report option where the photo does not match the place
+    return t`Image shows another place.`
+  case 'outdated':
+    // translator: title for a report option where the photo does not match the current state of the place
+    return t`Outdated`
+  case 'offensive':
+    // translator: title for a report option where the photo is nsfw
+    return t`Offensive or inappropriate`
+  case 'other':
+    // translator: title for a report option where the photo has another problem
+    return t`Other problems`
+  default:
+    return null
   }
 }
 
 function reportDescription(reportValue: ReportOptions): string | null {
   switch (reportValue) {
-    case 'wrong-place':
-      // translator: title for a report option where the photo does not match the place
-      return t`This image does not depict this place.`;
-    case 'outdated':
-      // translator: title for a report option where the photo does not match the current state of the place
-      return t`This image does not show the current state of this place.`;
-    case 'offensive':
-      // translator: title for a report option where the photo is nsfw
-      return t`This image shows sexually explicit content, depicts violence or is inappropriate in another way.`;
-    case 'other':
-      // translator: title for a report option where the photo has another problem
-      return t`This image infringes on my copyright or has other problems.`;
-    default:
-      return null;
+  case 'wrong-place':
+    // translator: title for a report option where the photo does not match the place
+    return t`This image does not depict this place.`
+  case 'outdated':
+    // translator: title for a report option where the photo does not match the current state of the place
+    return t`This image does not show the current state of this place.`
+  case 'offensive':
+    // translator: title for a report option where the photo is nsfw
+    return t`This image shows sexually explicit content, depicts violence or is inappropriate in another way.`
+  case 'other':
+    // translator: title for a report option where the photo has another problem
+    return t`This image infringes on my copyright or has other problems.`
+  default:
+    return null
   }
 }
 
@@ -68,50 +68,50 @@ type State = {
 };
 
 class ReportPhotoToolbar extends React.Component<Props, State> {
-  props: Props;
+  props: Props
 
   state: State = {
     selectedValue: null,
-  };
+  }
 
   renderCloseLink() {
-    return <CloseLink onClick={this.onClose} />;
+    return <CloseLink onClick={this.onClose} />
   }
 
   onSubmit = (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
-      this.props.onCompleted(this.props.photo, this.state.selectedValue);
-      event.preventDefault();
+      this.props.onCompleted(this.props.photo, this.state.selectedValue)
+      event.preventDefault()
     }
-  };
+  }
 
   onClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (this.props.onClose) {
-      this.props.onClose();
-      event.preventDefault();
+      this.props.onClose()
+      event.preventDefault()
     }
-  };
+  }
 
   onRadioGroupKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      this.onSubmit(event);
+      this.onSubmit(event)
     }
-  };
+  }
 
   render() {
-    const { photo } = this.props;
-    const { selectedValue } = this.state;
+    const { photo } = this.props
+    const { selectedValue } = this.state
 
     if (!photo) {
-      return null;
+      return null
     }
 
-    const canSubmit = !!selectedValue;
+    const canSubmit = !!selectedValue
 
     // translator: Screen reader description for the 'report photo' reason choice dialog
-    const ariaLabel = t`Reason for reporting image`;
+    const ariaLabel = t`Reason for reporting image`
 
     return (
       <StyledToolbar
@@ -134,7 +134,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
           name="report-reason"
           selectedValue={selectedValue}
           onChange={(newValue) => {
-            this.setState({ selectedValue: newValue });
+            this.setState({ selectedValue: newValue })
           }}
           className={`${selectedValue ? 'has-selection' : ''} radio-group`}
           onKeyDown={this.onRadioGroupKeyDown}
@@ -165,7 +165,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
           </button>
         </footer>
       </StyledToolbar>
-    );
+    )
   }
 }
 
@@ -224,4 +224,4 @@ export default styled(ReportPhotoToolbar)`
     opacity: 0.8;
     background-color: ${colors.neutralBackgroundColor};
   }
-`;
+`
