@@ -17,7 +17,7 @@ import {
   ViewStateChangeEvent,
 } from 'react-map-gl'
 
-import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+
 // import FeatureListPopup from "../feature/FeatureListPopup";
 import { useHotkeys } from '@blueprintjs/core'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
