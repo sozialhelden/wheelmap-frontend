@@ -95,7 +95,7 @@ function AccessibilityFilterMenu(props: Props) {
 
         return (
           <AccessibilityFilterButton
-            accessibilityFilter={[...item.accessibilityFilter].sort()}
+            accessibilityFilter={item.accessibilityFilter}
             toiletFilter={item.toiletFilter}
             caption={item.caption}
             category={category}

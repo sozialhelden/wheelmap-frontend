@@ -1,9 +1,6 @@
 import * as React from 'react'
 import { t } from 'ttag'
 import styled from 'styled-components'
-import { Button } from '@blueprintjs/core'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import SearchIcon from './SearchIcon'
 import CombinedIcon from './CombinedIcon'
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron'
@@ -11,6 +8,7 @@ import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import { translatedRootCategoryName } from '../../lib/model/ac/categories/Categories'
 import MapButton from '../../../src-legacy/MapLegacy/MapButton'
+import { AppStateLink } from '../App/AppStateLink'
 
 type Props = {
   className?: string;
@@ -20,7 +18,7 @@ type Props = {
   toiletFilter?: YesNoUnknown[];
 };
 
-const PositionedLink = styled(Link)`
+const PositionedLink = styled(AppStateLink)`
     position: absolute;
     top: 1rem;
     left: 1rem;
@@ -59,14 +57,14 @@ const StyledButton = styled(MapButton)`
     }
 `
 
-export default function SearchButton(props: Props) {
-  const { toiletFilter, accessibilityFilter, category } = props
-  const isAnyFilterSet = isAccessibilityFiltered(accessibilityFilter) || category
+export default function SearchButton({
+  toiletFilter, accessibilityFilter, category, ...props
+}: Props) {
+  const isAnyFilterSet = category || isAccessibilityFiltered(accessibilityFilter)
   // translator: Shown in collapsed search/filter combi button when there is no category filter set
   const allPlacesCaption = t`All places`
-  const { query } = useRouter()
   return (
-    <PositionedLink href={{ pathname: '/search', query }}>
+    <PositionedLink href="/search">
 
       <StyledButton
         {...props}

@@ -3,6 +3,7 @@ import MapLayout from '../components/App/MapLayout'
 import React, { ReactElement, useEffect } from 'react'
 import { isFirstStart } from '../lib/util/savedState'
 import SearchButton from '../components/SearchPanel/SearchButton'
+import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'
 
 export default function Page() {
   const router = useRouter()
@@ -14,7 +15,7 @@ export default function Page() {
   }, [router])
 
   return (
-    <SearchButton />
+    <SearchButtonOrInput />
   )
 }
 

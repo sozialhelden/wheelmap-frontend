@@ -2,14 +2,12 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { t } from 'ttag'
 
-import { omit } from 'lodash'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import colors from '../../lib/util/colors'
 import CloseIcon from '../icons/actions/Close'
 import Button from '../shared/Button'
 import CombinedIcon from './CombinedIcon'
+import { AppStateLink } from '../App/AppStateLink'
 
 type Props = {
   className?: string;
@@ -42,25 +40,13 @@ function AccessibilityFilterButton(props: Props) {
     className,
   } = props
 
-  const router = useRouter()
-
-  const query = {
-    ...omit(router.query, 'q', 'wheelchair', 'toilet'),
-  }
-  if (!isActive) {
-    if (accessibilityFilter.length > 0) {
-      query.wheelchair = accessibilityFilter.map((a) => a.toString()).join(',')
-    }
-    if (toiletFilter.length > 0) {
-      query.toilet = toiletFilter.map((a) => a.toString()).join(',')
-    }
-  }
-
   return (
-    <Link
+    <AppStateLink
       href={{
-        pathname: router.pathname,
-        query,
+        query: isActive ? { wheelchair: null, toilet: null } : {
+          wheelchair: accessibilityFilter.length > 0 ? accessibilityFilter : null,
+          toilet: toiletFilter.length > 0 ? toiletFilter : null,
+        },
       }}
       legacyBehavior
     >
@@ -80,7 +66,7 @@ function AccessibilityFilterButton(props: Props) {
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
-    </Link>
+    </AppStateLink>
   )
 }
 

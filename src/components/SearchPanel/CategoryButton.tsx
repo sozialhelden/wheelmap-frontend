@@ -1,15 +1,13 @@
 import styled from 'styled-components'
 import { t } from 'ttag'
 
-import { omit } from 'lodash'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 import colors from '../../lib/util/colors'
 import CloseIcon from '../icons/actions/Close'
 import IconButton, { Caption, Circle } from '../shared/IconButton'
 import CombinedIcon from './CombinedIcon'
+import { AppStateLink } from '../App/AppStateLink'
 
 type Props = {
   name: string;
@@ -136,17 +134,10 @@ export default function CategoryButton(props: Props) {
     />
   )
 
-  const router = useRouter()
-  const query = omit(router.query, 'q', 'category')
-  if (!showCloseButton) {
-    query.category = category
-  }
-
   return (
-    <Link
+    <AppStateLink
       href={{
-        pathname: router.pathname,
-        query,
+        query: { category: showCloseButton ? null : category },
       }}
       onClick={props.onClick ? (e) => { e.preventDefault(); props.onClick(category) } : undefined}
     >
@@ -165,6 +156,6 @@ export default function CategoryButton(props: Props) {
         {icon}
         {showCloseButton && <CloseIcon style={{ order: 1 }} />}
       </StyledCategoryIconButton>
-    </Link>
+    </AppStateLink>
   )
 }

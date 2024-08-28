@@ -23,8 +23,12 @@ export default function filterAccessibility(
   return removeNullAndUndefinedFields(omit(props, paths))
 }
 
-function sortedIsEqual(array1: any[], array2: any[]): boolean {
-  return isEqual([].concat(array1).sort(), [].concat(array2).sort())
+function sortedIsEqual(array1: unknown[], array2: unknown[]): boolean {
+  if (array1.length !== array2.length) {
+    return false
+  }
+
+  return isEqual(array1.sort(), array2.sort())
 }
 
 function parseStatusString(
@@ -34,6 +38,8 @@ function parseStatusString(
   let statusStringArray = []
   if (typeof statusStringOrStringArray === 'string') {
     statusStringArray = statusStringOrStringArray.split(',')
+  } else if (Array.isArray(statusStringOrStringArray)) {
+    statusStringArray = statusStringOrStringArray
   }
   // Safe mutable sort as filter always returns a new array.
   return statusStringArray

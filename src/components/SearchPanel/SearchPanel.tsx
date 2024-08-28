@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { t } from 'ttag'
 
-import { useRouter } from 'next/router'
 import AccessibilityFilterMenu from './AccessibilityFilterMenu'
 import CategoryMenu from './CategoryMenu'
 import SearchIcon from './SearchIcon'
@@ -25,6 +24,7 @@ import { GoButton } from './GoButton'
 import { StyledChevronRight } from './StyledChevronRight'
 import { StyledToolbar } from './StyledToolbar'
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -64,11 +64,9 @@ export default function SearchPanel({
   isSearching,
   searchError,
 }: Props) {
-  const router = useRouter()
-  const accessibilityFilter = getAccessibilityFilterFrom(
-    router.query.wheelchair,
-  )
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet) as YesNoUnknown[]
+  const { searchParams } = useAppStateAwareRouter()
+  const accessibilityFilter = getAccessibilityFilterFrom(searchParams.wheelchair)
+  const toiletFilter = getAccessibilityFilterFrom(searchParams.toilet) as YesNoUnknown[]
   const searchInputFieldRef = React.createRef<HTMLInputElement>()
   const goButtonRef = React.createRef<HTMLButtonElement>()
 
@@ -141,19 +139,16 @@ export default function SearchPanel({
     </GoButton>
   )
 
-  const categoryMenuOrNothing = (category
-    || isExpanded
-    || showCategoryMenu) && (
+  const categoryMenuOrNothing = (category || isExpanded || showCategoryMenu) && (
     <CategoryMenu
       category={category}
       accessibilityFilter={accessibilityFilter}
     />
   )
 
-  const accessibilityFilterMenu = (isAccessibilityFiltered(
+  const accessibilityFilterMenu = (isExpanded || isAccessibilityFiltered(
     accessibilityFilter,
-  )
-    || isExpanded) && (
+  )) && (
     <AccessibilityFilterMenu
       accessibilityFilter={accessibilityFilter}
       toiletFilter={toiletFilter}
