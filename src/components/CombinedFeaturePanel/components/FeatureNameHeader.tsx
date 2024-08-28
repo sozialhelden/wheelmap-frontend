@@ -5,9 +5,7 @@ import styled from 'styled-components'
 import { t } from 'ttag'
 import { useCurrentAppToken } from '../../../lib/context/AppContext'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
-import { useAccessibilityAttributesIdMap } from '../../../lib/fetchers/fetchAccessibilityAttributes'
-import { usePlaceInfo } from '../../../lib/fetchers/fetchOnePlaceInfo'
-import useCategory from '../../../lib/fetchers/useCategory'
+import useCategory from '../../../lib/fetchers/ac/refactor-this/useCategory'
 import { getLocalizedStringTranslationWithMultipleLocales } from '../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
 import {
   getCategoryForFeature,
@@ -23,6 +21,8 @@ import getEquipmentInfoDescription from '../../NodeToolbar/Equipment/getEquipmen
 import ChevronRight from '../../shared/ChevronRight'
 import Icon from '../../shared/Icon'
 import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName'
+import { usePlaceInfo } from '../../../lib/fetchers/ac/refactor-this/fetchOnePlaceInfo'
+import useAccessibilityAttributesIdMap from '../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -201,9 +201,9 @@ function useFeatureLabel({
     )
 
   const {
-    data: attributesById,
+    map: attributesById,
     isValidating,
-  } = useAccessibilityAttributesIdMap(languageTags, appToken)
+  } = useAccessibilityAttributesIdMap(languageTags)
 
   if ((!category || category?._id === 'unknown') && feature['@type'] === 'osm:Feature') {
     const { displayName, tagKeys } = getGenericCategoryDisplayName(feature, attributesById, languageTags)

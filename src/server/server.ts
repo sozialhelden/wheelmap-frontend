@@ -1,8 +1,7 @@
 import { createServer } from 'http'
 import next from 'next'
-import { parse } from 'url'
 import addEmbedModeResponseHeaders from '../lib/util/addEmbedModeResponseHeaders'
-import fetchApp from '../lib/fetchers/fetchApp'
+import fetchApp from '../lib/ac/fetchApp'
 
 const dev = process.env.NODE_ENV !== 'production'
 const hostname = 'localhost'
@@ -13,14 +12,15 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   createServer(async (req, res) => {
     try {
-      // Be sure to pass `true` as the second argument to `url.parse`.
-      // This tells it to parse the query portion of the URL.
-      const parsedUrl = parse(req.url, true)
-      const { pathname, query } = parsedUrl
+      const url = new URL(req.url)
       const hostname = req ? req.headers.host : location.hostname
       const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
-      const { embedToken } = query
-      const app = await fetchApp([hostname, appToken])
+      const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
+      const app = await fetchApp({ baseUrl, appToken, hostname });
+      if (!app) {
+        throw new Error(`No app found for hostname ${hostname}`)
+      }
+      const embedToken = url.searchParams.get('embedToken');
 
       addEmbedModeResponseHeaders(
         app,
@@ -28,14 +28,7 @@ app.prepare().then(() => {
         typeof embedToken === 'string' ? embedToken : undefined,
       )
 
-      // if (pathname === "/a") {
-      //   await app.render(req, res, "/a", query);
-      // } else if (pathname === "/b") {
-      //   await app.render(req, res, "/b", query);
-      // } else {
-      // }
-
-      await handle(req, res, parsedUrl)
+      await handle(req, res);
     } catch (err) {
       console.error('Error occurred handling', req.url, err)
       res.statusCode = 500

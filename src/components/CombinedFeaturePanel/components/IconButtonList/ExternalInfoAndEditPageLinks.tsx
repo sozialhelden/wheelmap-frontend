@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { t } from 'ttag'
-import { useSourceSWR } from '../../../../lib/fetchers/useSourceSWR'
 import { TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
 import WorldIcon from '../../../icons/actions/World'
+import ISource from '../../../../lib/model/ac/ISource'
+import useDocumentSWR from '../../../../lib/fetchers/ac/useDocumentSWR'
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;
@@ -10,8 +11,8 @@ type Props = {
 
 export default function ExternalInfoAndEditPageLinks(props: Props) {
   const { feature } = props
-  const featureId = feature._id
-  const source = useSourceSWR(featureId)
+  const featureId = feature._id;
+  const source = useDocumentSWR<ISource>({ collectionName: 'Sources', _id: featureId });
   const sourceNameString = source.data?.name
   const { editPageUrl, infoPageUrl } = feature.properties
 

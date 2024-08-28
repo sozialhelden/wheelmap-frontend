@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import Layout from '../../../../components/App/Layout'
 // import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
 import { useCurrentAppToken } from '../../../../lib/context/AppContext'
-import postImageUpload from '../../../../lib/fetchers/postImageUpload'
+import postImageUpload from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
 
 export default function Page() {
   const router = useRouter()

@@ -3,10 +3,10 @@ import { DateTime } from 'luxon'
 import opening_hours from 'opening_hours'
 import * as React from 'react'
 import { t } from 'ttag'
-import { useAdminAreas } from '../../../../../../lib/fetchers/fetchAdminAreas'
-import { isOSMFeature } from '../../../../../../lib/model/geo/AnyFeature'
 import StyledMarkdown from '../../../../../shared/StyledMarkdown'
 import FeatureContext from '../../../FeatureContext'
+import { isOSMFeature } from '../../../../../../lib/model/geo/AnyFeature'
+import { useAdminAreas } from '../../../../../../lib/fetchers/osm-api/fetchAdminAreas'
 
 // helper function
 function getReadableState(oh: opening_hours) {

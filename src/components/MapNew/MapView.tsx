@@ -30,6 +30,7 @@ import { FixedHelpButton } from '../CombinedFeaturePanel/components/HelpButton'
 import * as categoryIcons from '../icons/categories'
 import { databaseTableNames, filterLayers } from './filterLayers'
 import useMapStyle from './useMapStyle'
+import { useEnvContext } from '../../lib/context/EnvContext'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -276,13 +277,18 @@ export default function MapView(props: IProps) {
     [mapStyle, hasBuildings, hasPublicTransport],
   )
 
+  const {
+    NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
+    NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
+  } = useEnvContext();
+
   return (
     <>
       <MapboxExtraStyles />
       <MapProvider>
         <Map
           {...viewport}
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
+          mapboxAccessToken={mapboxAccessToken}
           onMove={setViewportCallback}
           onTransitionEnd={updateViewportQuery}
           onTouchEnd={updateViewportQuery}
@@ -298,7 +304,7 @@ export default function MapView(props: IProps) {
             <Source
               type="vector"
               tiles={[0, 1, 2, 3].map(
-                (n) => `${process.env.NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL?.replace(
+                (n) => `${tileBackendUrl?.replace(
                   /{n}/,
                   n.toString(),
                 )}/${name}.mvt?limit=10000&bbox={bbox-epsg-3857}&epsg=3857`,

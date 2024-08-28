@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router'
-import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
-import { useAccessibilityAttributesIdMap } from '../../../../lib/fetchers/fetchAccessibilityAttributes'
 import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import { OSMTagTableRow } from './OSMTagTableRow'
 import { StyledList } from './StyledList'
@@ -9,6 +7,7 @@ import { StyledTable } from './StyledTable'
 import { tagsWithSemicolonSupport } from './config'
 import { getOSMTagProps } from './getOSMTagProps'
 import { valueRenderFunctions } from './tagging-schema/valueRenderFunctions'
+import useAccessibilityAttributesIdMap from '../../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
 
 export type TagOrTagGroup = {
   key: string;
@@ -24,12 +23,10 @@ export default function OSMTagTable(props: {
   const { ids } = router.query
   const { feature } = props
 
-  const appToken = useCurrentAppToken()
   const languageTags = useCurrentLanguageTagStrings()
   const {
-    data: attributesById,
-    isValidating,
-  } = useAccessibilityAttributesIdMap(languageTags, appToken)
+    map: attributesById,
+  } = useAccessibilityAttributesIdMap(languageTags)
 
   const SurroundingListElement = props.isHorizontal ? StyledList : StyledTable
   return (

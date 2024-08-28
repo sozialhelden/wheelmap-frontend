@@ -1,8 +1,8 @@
-import React from 'react'
-import useSWR from 'swr'
-import { useEnvContext } from '../context/EnvContext'
-import { OSMFeatureCollection } from '../model/geo/AnyFeature'
-import OSMFeature from '../model/osm/OSMFeature'
+import React from 'react';
+import useSWR from 'swr';
+import { OSMFeatureCollection } from '../../model/geo/AnyFeature';
+import { useEnvContext } from '../../context/EnvContext';
+import OSMFeature from '../../model/osm/OSMFeature';
 
 export async function fetchOSMFeatures(
   table: string,
@@ -25,7 +25,7 @@ export function useAdminAreas({ longitude, latitude }: { longitude: number, lati
   const features = useSWR(
     baseUrl && latitude && longitude && [table, baseUrl, longitude, latitude],
     fetchOSMFeatures,
-  )
+  );
   const result = React.useMemo(() => {
     const featuresByType = features?.data?.features?.reduce((acc, feature) => {
       const type = feature.properties.border_type || feature.properties.place

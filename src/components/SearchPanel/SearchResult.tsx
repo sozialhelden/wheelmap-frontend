@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { SearchResultFeature } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
-import useCategory from '../../lib/fetchers/useCategory'
+import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
 import { TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
 import getAddressString from '../../lib/model/geo/getAddressString'
 import colors from '../../lib/util/colors'

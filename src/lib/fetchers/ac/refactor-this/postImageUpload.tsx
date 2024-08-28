@@ -1,4 +1,4 @@
-import { AnyFeature, isOSMFeature, isPlaceInfo } from '../model/geo/AnyFeature'
+import { AnyFeature, isOSMFeature, isPlaceInfo } from '../../../model/geo/AnyFeature'
 
 const imageResizeConfig = {
   quality: 0.7,

@@ -17,9 +17,9 @@ import { HostnameContext } from '../lib/context/HostnameContext'
 import { LanguageTagContext } from '../lib/context/LanguageTagContext'
 import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext'
 import composeContexts, { ContextAndValue } from '../lib/context/composeContexts'
-import fetchApp from '../lib/fetchers/fetchApp'
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString'
 import { IApp } from '../lib/model/ac/App'
+import fetchApp from '../lib/fetchers/ac/fetchApp'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -107,8 +107,11 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`)
   }
-  const centralAppToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
-  const app = await fetchApp([hostname, centralAppToken])
+  const {
+    NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken,
+    NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL: baseUrl,
+  } = process.env;
+  const app = await fetchApp({ baseUrl, appToken, hostname });
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`)
   }
