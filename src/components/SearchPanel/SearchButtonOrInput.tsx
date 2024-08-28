@@ -7,8 +7,9 @@ export const SearchButtonOrInput = () => {
   const { searchParams } = useAppStateAwareRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(searchParams.wheelchair)
   const toiletFilter = getAccessibilityFilterFrom(searchParams.toilet) as YesNoUnknown[]
+  const { category } = searchParams
 
   return (
-    <SearchButton accessibilityFilter={accessibilityFilter} toiletFilter={toiletFilter} />
+    <SearchButton accessibilityFilter={accessibilityFilter} toiletFilter={toiletFilter} category={category} />
   )
 }
