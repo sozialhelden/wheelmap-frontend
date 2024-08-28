@@ -14,7 +14,7 @@ import getFeatureIdsFromLocation from '../model/geo/getFeatureIdsFromLocation'
 type Url = Parameters<NextRouter['push']>[0]
 type TransitionOptions = Parameters<NextRouter['push']>[2]
 
-const undefinedTest = (value: unknown) => value === undefined
+const testForEmptyValues = (value: unknown) => value === undefined || value === null
 
 function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSearchParams) {
   if (!previous) {
@@ -26,47 +26,47 @@ function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSea
   const hasExtent = updated.extent !== undefined
   const hasLatLon = updated.lat !== undefined && updated.lon !== undefined
 
-  const shouldApplyLatLon = !hasExtent && previous.lat !== undefined && previous.lon !== undefined
-  const shouldApplyExtent = !hasLatLon && previous.extent !== undefined
+  const shouldPreserveLatLon = !hasExtent && previous.lat !== undefined && previous.lon !== undefined
+  const shouldPreserveExtent = !hasLatLon && previous.extent !== undefined
 
   if (hasExtent) {
     merged.extent = updated.extent
     delete merged.lat
     delete merged.lon
     delete merged.zoom
-  } else if (shouldApplyLatLon) {
+  } else if (shouldPreserveLatLon) {
     merged.lat = previous.lat
     merged.lon = previous.lon
     merged.zoom = previous.zoom
     delete merged.extent
-  } else if (shouldApplyExtent) {
+  } else if (shouldPreserveExtent) {
     merged.extent = previous.extent
     delete merged.lat
     delete merged.lon
     delete merged.zoom
   }
 
-  const shouldApplySearch = updated.searchQuery === undefined && previous.searchQuery !== undefined
-  if (shouldApplySearch) {
+  const shouldPreserveSearch = updated.searchQuery === undefined && previous.searchQuery !== undefined
+  if (shouldPreserveSearch) {
     merged.searchQuery = previous.searchQuery
   }
 
-  const shouldApplyCategory = updated.category === undefined && previous.category !== undefined
-  if (shouldApplyCategory) {
+  const shouldPreserveCategory = updated.category === undefined && previous.category !== undefined
+  if (shouldPreserveCategory) {
     merged.category = previous.category
   }
 
-  const shouldApplyAccessibility = updated.wheelchair === undefined && previous.wheelchair !== undefined
-  if (shouldApplyAccessibility) {
+  const shouldPreserveAccessibility = updated.wheelchair === undefined && previous.wheelchair !== undefined
+  if (shouldPreserveAccessibility) {
     merged.wheelchair = previous.wheelchair
   }
 
-  const shouldApplyToilet = updated.toilet === undefined && previous.toilet !== undefined
-  if (shouldApplyToilet) {
+  const shouldPreserveToilet = updated.toilet === undefined && previous.toilet !== undefined
+  if (shouldPreserveToilet) {
     merged.toilet = previous.toilet
   }
 
-  return omitBy(merged, undefinedTest) as AppStateSearchParams
+  return omitBy(merged, testForEmptyValues) as AppStateSearchParams
 }
 
 export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) : Url {
@@ -80,6 +80,7 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
       const parsedUrl = new URL(url, window.location.href)
       const updated = parseSearchParams(parsedUrl.searchParams)
       mergedSearchParams = mergeSearchParams(updated, previous)
+
       return {
         pathname: parsedUrl.pathname,
         query: mergedSearchParams,
@@ -87,7 +88,6 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
       }
     } catch (error) {
       mergedSearchParams = previous
-
       return {
         path: url,
         query: mergedSearchParams,

@@ -5,18 +5,19 @@ import { YesNoLimitedUnknown, YesNoUnknown } from '../model/ac/Feature'
 
 type ParsedUrlQuery = NextRouter['query']
 
+// undefined can be preserved from previous state, null is cleared
 export type MapSearchParams = {
-  zoom?: number;
-  lat?: number;
-  lon?: number;
-  extent?: [number, number, number, number];
+  zoom?: number | null;
+  lat?: number | null;
+  lon?: number | null;
+  extent?: [number, number, number, number] | null;
 }
 
 export type FilterSearchParams = {
-  searchQuery?: string;
-  category?: string;
-  wheelchair?: YesNoLimitedUnknown;
-  toilet?: YesNoUnknown;
+  searchQuery?: string | null;
+  category?: string | null;
+  wheelchair?: YesNoLimitedUnknown[] | null;
+  toilet?: YesNoUnknown[] | null;
 }
 
 export type AppStateSearchParams = MapSearchParams & FilterSearchParams & ParsedUrlQueryInput
@@ -39,8 +40,11 @@ function saveParseFloat(value: string | undefined | boolean | number) {
 }
 
 function parseNumberParam(value: ParseValue) {
-  if (value === undefined || value === null) {
+  if (value === undefined) {
     return undefined
+  }
+  if (value === null) {
+    return null
   }
   if (typeof value === 'number') {
     return value
@@ -54,8 +58,11 @@ function parseNumberParam(value: ParseValue) {
 }
 
 function parseNumberArrayParams<T extends number[] = number[]>(value: ParseValue) {
-  if (!value) {
+  if (value === undefined) {
     return undefined
+  }
+  if (value === null) {
+    return null
   }
 
   const parsedArray = Array.isArray(value) ? value.map(saveParseFloat) : [parseNumberParam(value)]
@@ -64,10 +71,27 @@ function parseNumberArrayParams<T extends number[] = number[]>(value: ParseValue
 }
 
 function parseStringParam<T extends string = string>(value: ParseValue): T {
-  if (!value) {
+  if (value === undefined) {
     return undefined
   }
+  if (value === null) {
+    return null
+  }
   return (typeof value === 'string' ? value : value[0]) as T
+}
+
+function parseStringArrayParam<T extends string = string>(value: ParseValue): T[] {
+  if (value === undefined) {
+    return undefined
+  }
+  if (value === null) {
+    return null
+  }
+  if (typeof value === 'string') {
+    return [value] as T[]
+  }
+
+  return value as T[]
 }
 
 export const parseQuery = (query: ParsedUrlQuery): AppStateSearchParams => ({
@@ -77,8 +101,8 @@ export const parseQuery = (query: ParsedUrlQuery): AppStateSearchParams => ({
   extent: parseNumberArrayParams(query.extent),
   category: parseStringParam(query.category),
   searchQuery: parseStringParam(query.q),
-  wheelchair: parseStringParam(query.wheelchair),
-  toilet: parseStringParam(query.toilet),
+  wheelchair: parseStringArrayParam(query.wheelchair),
+  toilet: parseStringArrayParam(query.toilet),
 })
 
 export const parseQueryInput = (query: ParsedUrlQueryInput): AppStateSearchParams => ({
@@ -88,17 +112,17 @@ export const parseQueryInput = (query: ParsedUrlQueryInput): AppStateSearchParam
   extent: parseNumberArrayParams(query.extent),
   category: parseStringParam(query.category),
   searchQuery: parseStringParam(query.q),
-  wheelchair: parseStringParam(query.wheelchair),
-  toilet: parseStringParam(query.toilet),
+  wheelchair: parseStringArrayParam(query.wheelchair),
+  toilet: parseStringArrayParam(query.toilet),
 })
 
 export const parseSearchParams = (search: ReadonlyURLSearchParams | URLSearchParams): AppStateSearchParams => ({
-  lat: parseNumberParam(search.get('lat')),
-  lon: parseNumberParam(search.get('lon')),
-  zoom: parseNumberParam(search.get('zoom')),
-  extent: parseNumberArrayParams(search.getAll('extent')),
-  category: parseStringParam(search.get('category')),
-  searchQuery: parseStringParam(search.get('q')),
-  wheelchair: parseStringParam(search.get('wheelchair')),
-  toilet: parseStringParam(search.get('toilet')),
+  lat: search.has('lat') ? parseNumberParam(search.get('lat')) : undefined,
+  lon: search.has('lon') ? parseNumberParam(search.get('lon')) : undefined,
+  zoom: search.has('zoom') ? parseNumberParam(search.get('zoom')) : undefined,
+  extent: search.has('extent') ? parseNumberArrayParams(search.getAll('extent')) : undefined,
+  category: search.has('category') ? parseStringParam(search.get('category')) : undefined,
+  searchQuery: search.has('q') ? parseStringParam(search.get('q')) : undefined,
+  wheelchair: search.has('wheelchair') ? parseStringArrayParam(search.get('wheelchair')) : undefined,
+  toilet: search.has('toilet') ? parseStringArrayParam(search.get('toilet')) : undefined,
 })
