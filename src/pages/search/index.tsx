@@ -1,6 +1,4 @@
-import { omit } from 'lodash'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useContext } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
@@ -19,17 +17,13 @@ import { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPl
 import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export default function Page() {
-  const router = useRouter()
-  const accessibilityFilter = getAccessibilityFilterFrom(
-    router.query.wheelchair,
-  )
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet) as YesNoUnknown[]
-  const category = router.query.category
-    ? String(router.query.category)
-    : undefined
-  const searchQuery = router.query.q && String(router.query.q)
+  const router = useAppStateAwareRouter()
+  const accessibilityFilter = getAccessibilityFilterFrom(router.searchParams.wheelchair)
+  const toiletFilter = getAccessibilityFilterFrom(router.searchParams.toilet) as YesNoUnknown[]
+  const { category, q: searchQuery } = router.searchParams
 
   // TODO: Load this correctly via SWR
   const categories: CategoryLookupTables = {
@@ -38,14 +32,14 @@ export default function Page() {
   }
 
   const handleSearchQueryChange = useCallback(
-    (newSearchQuery) => {
-      const query = omit(router.query, 'q', 'category', 'toilet', 'wheelchair')
-      if (newSearchQuery && newSearchQuery.length > 0) {
-        query.q = newSearchQuery
-      }
+    (newSearchQuery: string | undefined) => {
       router.replace({
-        pathname: router.pathname,
-        query,
+        query: {
+          q: newSearchQuery && newSearchQuery.length > 0 ? newSearchQuery : null,
+          category: null,
+          toilet: null,
+          wheelchair: null,
+        },
       })
     },
     [router],
@@ -54,9 +48,7 @@ export default function Page() {
   const handlePlaceFilterChange = useCallback(
     (newPlaceFilter) => {
       router.replace({
-        pathname: router.pathname,
         query: {
-          ...router.query,
           wheelchair: newPlaceFilter.accessibility,
           toilet: newPlaceFilter.toilet,
         },
@@ -70,7 +62,6 @@ export default function Page() {
   const closeSearchPanel = useCallback(() => {
     router.push({
       pathname: '/',
-      query: { ...router.query },
     })
   }, [router])
 

@@ -11,7 +11,6 @@ import SearchResults from './SearchResults'
 import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import {
-  getAccessibilityFilterFrom,
   isAccessibilityFiltered,
 } from '../../lib/model/ac/filterAccessibility'
 import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature'
@@ -23,16 +22,15 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { GoButton } from './GoButton'
 import { StyledChevronRight } from './StyledChevronRight'
 import { StyledToolbar } from './StyledToolbar'
-import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
   hidden: boolean;
   inert: boolean;
-  category: null | string;
+  category?: null | string;
   showCategoryMenu?: boolean;
-  searchQuery: null | string;
+  searchQuery?: null | string;
   onChangeSearchQuery: (newSearchQuery: string) => void;
   onSubmit: (searchQuery: string) => void;
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void;
@@ -64,9 +62,7 @@ export default function SearchPanel({
   isSearching,
   searchError,
 }: Props) {
-  const { searchParams } = useAppStateAwareRouter()
-  const accessibilityFilter = getAccessibilityFilterFrom(searchParams.wheelchair)
-  const toiletFilter = getAccessibilityFilterFrom(searchParams.toilet) as YesNoUnknown[]
+  const { accessibilityFilter, toiletFilter } = useAppStateAwareRouter()
   const searchInputFieldRef = React.createRef<HTMLInputElement>()
   const goButtonRef = React.createRef<HTMLButtonElement>()
 
@@ -112,9 +108,6 @@ export default function SearchPanel({
       searchQuery={searchQuery || ''}
       hidden={hidden}
       onClick={() => {
-        if (category) {
-          clearSearchAndFocusSearchField()
-        }
         window.scrollTo(0, 0)
         onClick()
       }}

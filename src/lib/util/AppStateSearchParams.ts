@@ -14,7 +14,7 @@ export type MapSearchParams = {
 }
 
 export type FilterSearchParams = {
-  searchQuery?: string | null;
+  q?: string | null;
   category?: string | null;
   wheelchair?: YesNoLimitedUnknown[] | null;
   toilet?: YesNoUnknown[] | null;
@@ -100,7 +100,7 @@ export const parseQuery = (query: ParsedUrlQuery): AppStateSearchParams => ({
   zoom: parseNumberParam(query.zoom),
   extent: parseNumberArrayParams(query.extent),
   category: parseStringParam(query.category),
-  searchQuery: parseStringParam(query.q),
+  q: parseStringParam(query.q),
   wheelchair: parseStringArrayParam(query.wheelchair),
   toilet: parseStringArrayParam(query.toilet),
 })
@@ -111,7 +111,7 @@ export const parseQueryInput = (query: ParsedUrlQueryInput): AppStateSearchParam
   zoom: parseNumberParam(query.zoom),
   extent: parseNumberArrayParams(query.extent),
   category: parseStringParam(query.category),
-  searchQuery: parseStringParam(query.q),
+  q: parseStringParam(query.q),
   wheelchair: parseStringArrayParam(query.wheelchair),
   toilet: parseStringArrayParam(query.toilet),
 })
@@ -122,7 +122,7 @@ export const parseSearchParams = (search: ReadonlyURLSearchParams | URLSearchPar
   zoom: search.has('zoom') ? parseNumberParam(search.get('zoom')) : undefined,
   extent: search.has('extent') ? parseNumberArrayParams(search.getAll('extent')) : undefined,
   category: search.has('category') ? parseStringParam(search.get('category')) : undefined,
-  searchQuery: search.has('q') ? parseStringParam(search.get('q')) : undefined,
+  q: search.has('q') ? parseStringParam(search.get('q')) : undefined,
   wheelchair: search.has('wheelchair') ? parseStringArrayParam(search.get('wheelchair')) : undefined,
   toilet: search.has('toilet') ? parseStringArrayParam(search.get('toilet')) : undefined,
 })

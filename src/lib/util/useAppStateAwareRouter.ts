@@ -10,6 +10,8 @@ import {
   parseSearchParams,
 } from './AppStateSearchParams'
 import getFeatureIdsFromLocation from '../model/geo/getFeatureIdsFromLocation'
+import { getAccessibilityFilterFrom } from '../model/ac/filterAccessibility'
+import { YesNoUnknown } from '../model/ac/Feature'
 
 type Url = Parameters<NextRouter['push']>[0]
 type TransitionOptions = Parameters<NextRouter['push']>[2]
@@ -117,7 +119,10 @@ export function useAppStateAwareRouter() {
   const appStateSearchParams = parseSearchParams(searchParams)
   const appStateSearchParamsRef = useRef(appStateSearchParams)
 
+  // derive some values from the AppStateSearchParams
   const featureIds = useMemo(() => getFeatureIdsFromLocation(pathname), [pathname])
+  const accessibilityFilter = useMemo(() => getAccessibilityFilterFrom(appStateSearchParams.wheelchair), [appStateSearchParams.wheelchair])
+  const toiletFilter = useMemo(() => getAccessibilityFilterFrom(appStateSearchParams.toilet) as YesNoUnknown[], [appStateSearchParams.toilet])
 
   // useEffect for the appStateSearchParams, to keep the push/replace functions stable
   useEffect(() => {
@@ -138,6 +143,8 @@ export function useAppStateAwareRouter() {
     nextRouter,
     searchParams: appStateSearchParams,
     featureIds,
+    accessibilityFilter,
+    toiletFilter,
     push,
     replace,
   }
