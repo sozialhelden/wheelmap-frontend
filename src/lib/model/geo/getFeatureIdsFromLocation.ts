@@ -1,7 +1,7 @@
 import { uniq } from 'lodash'
 import { OSMFeatureId } from '../osm/OSMFeature'
 
-export default function useFeatureIdsFromLocation(pathname: string) {
+export default function getFeatureIdsFromLocation(pathname: string) {
   const match = pathname.match(/^\/(\w+)\/([\w,:-]+)/)
   let featureIds: OSMFeatureId[] = []
   if (match && typeof match[1] === 'string' && typeof match[2] === 'string') {
