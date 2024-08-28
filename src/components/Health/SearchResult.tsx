@@ -96,23 +96,25 @@ function SearchResult({ data }: any) {
     return healthcareSpecialityName;
   }, [category, healthcareSpecialityName]);
 
-  const showBlindDescriptionByLanguage = React.useMemo(() => {
+  const getDescriptionByLanguage = (languageTags, descriptions) => {
     if (languageTags.includes("de")) {
-      return blindDescriptionDE;
-    } else if (languageTags.includes("en")) {
-      return blindDescriptionEN;
+      return descriptions.de;
     }
-    return blindDescriptionEN;
-  }, [blindDescriptionDE, blindDescriptionEN, languageTags]);
+    return descriptions.en; // Return EN as default if "de" is not found
+  };
 
-  const showDeafDescriptionByLanguage = React.useMemo(() => {
-    if (languageTags.includes("de")) {
-      return deafDescriptionDE;
-    } else if (languageTags.includes("en")) {
-      return deafDescriptionEN;
-    }
-    return deafDescriptionEN;
-  }, [deafDescriptionDE, deafDescriptionEN, languageTags]);
+  const showDescriptionByLanguage = React.useMemo(() => {
+    return {
+      blind: getDescriptionByLanguage(languageTags, {
+        de: blindDescriptionDE,
+        en: blindDescriptionEN,
+      }),
+      deaf: getDescriptionByLanguage(languageTags, {
+        de: deafDescriptionDE,
+        en: deafDescriptionEN,
+      }),
+    };
+  }, [blindDescriptionDE, blindDescriptionEN, deafDescriptionDE, deafDescriptionEN, languageTags]);
 
   const userAgent = useUserAgent();
   const openInMaps = React.useMemo(() => generateMapsUrl(userAgent, dataAsOSMFeature, name ? name : healthcare), [userAgent, dataAsOSMFeature, name]);
@@ -164,9 +166,9 @@ function SearchResult({ data }: any) {
             <StyledUL $showBullets>
               {wheelchairDescription && <li>{wheelchairDescription}</li>}
               {blindDescription && <li>{blindDescription}</li>}
-              {showBlindDescriptionByLanguage && <li>{showBlindDescriptionByLanguage}</li>}
+              {showDescriptionByLanguage.blind && <li>{showDescriptionByLanguage.blind}</li>}
               {deafDescription && <li>{deafDescription}</li>}
-              {showDeafDescriptionByLanguage && <li>{showDeafDescriptionByLanguage}</li>}
+              {showDescriptionByLanguage.deaf && <li>{showDescriptionByLanguage.deaf}</li>}
             </StyledUL>
           </div>
         </div>
