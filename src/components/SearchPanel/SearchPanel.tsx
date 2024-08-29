@@ -23,28 +23,31 @@ import { GoButton } from './GoButton'
 import { StyledChevronRight } from './StyledChevronRight'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { cx } from '../../lib/util/cx'
 
 export type Props = PlaceFilter & {
+  className?: string;
   categories: CategoryLookupTables;
-  hidden: boolean;
-  inert: boolean;
+  hidden?: boolean;
+  inert?: boolean;
   category?: null | string;
   showCategoryMenu?: boolean;
   searchQuery?: null | string;
-  onChangeSearchQuery: (newSearchQuery: string) => void;
-  onSubmit: (searchQuery: string) => void;
-  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void;
-  onClose: () => void | null;
-  onClick: () => void;
-  isExpanded: boolean;
-  hasGoButton: boolean;
-  searchResults: null | SearchResultCollection | AnyFeatureCollection;
-  isSearching: boolean;
-  searchError: string;
-  minimalTopPosition: number;
+  onChangeSearchQuery?: (newSearchQuery: string) => void;
+  onSubmit?: (searchQuery: string) => void;
+  onAccessibilityFilterButtonClick?: (filter: PlaceFilter) => void;
+  onClose?: () => void | null;
+  onClick?: () => void;
+  isExpanded?: boolean;
+  hasGoButton?: boolean;
+  searchResults?: null | SearchResultCollection | AnyFeatureCollection;
+  isSearching?: boolean;
+  searchError?: string;
+  minimalTopPosition?: number;
 };
 
 export default function SearchPanel({
+  className,
   categories,
   hidden,
   inert,
@@ -91,10 +94,10 @@ export default function SearchPanel({
     if (!hidden) {
       focus()
     }
-  }, [hidden])
+  }, [focus, hidden])
 
   const clearSearch = React.useCallback(() => {
-    onChangeSearchQuery('')
+    onChangeSearchQuery?.('')
   }, [onChangeSearchQuery])
 
   const clearSearchAndFocusSearchField = React.useCallback(() => {
@@ -109,7 +112,7 @@ export default function SearchPanel({
       hidden={hidden}
       onClick={() => {
         window.scrollTo(0, 0)
-        onClick()
+        onClick?.()
       }}
       onFocus={(event) => {
         window.scrollTo(0, 0)
@@ -198,7 +201,7 @@ export default function SearchPanel({
       enableTransitions={false}
       minimalTopPosition={minimalTopPosition}
       role="search"
-      className={isExpanded ? 'isExpanded' : null}
+      className={cx(className, isExpanded && 'isExpanded')}
     >
       <ErrorBoundary>
         <header>

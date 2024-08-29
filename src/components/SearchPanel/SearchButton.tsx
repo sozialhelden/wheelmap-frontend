@@ -18,17 +18,10 @@ type Props = {
   toiletFilter?: YesNoUnknown[];
 };
 
-const PositionedLink = styled(AppStateLink)`
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-`
-
 const Caption = styled.div.attrs({ className: 'caption' })`
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0 0.75rem 0 0;
 `
 
 const StyledButton = styled(MapButton)`
@@ -39,7 +32,7 @@ const StyledButton = styled(MapButton)`
     width: auto;
     max-width: calc(100vw - 80px);
     min-height: 50px;
-    padding: 0.9rem 0.5rem;
+    padding: 0 0.75rem;
 
     > svg.breadcrumb-chevron {
         width: auto;
@@ -58,13 +51,13 @@ const StyledButton = styled(MapButton)`
 `
 
 export default function SearchButton({
-  toiletFilter, accessibilityFilter, category, ...props
+  toiletFilter, accessibilityFilter, category, className, ...props
 }: Props) {
   const isAnyFilterSet = category || isAccessibilityFiltered(accessibilityFilter)
   // translator: Shown in collapsed search/filter combi button when there is no category filter set
   const allPlacesCaption = t`All places`
   return (
-    <PositionedLink href="/search">
+    <AppStateLink href="/search" className={className}>
 
       <StyledButton
         {...props}
@@ -92,6 +85,6 @@ export default function SearchButton({
             : allPlacesCaption}
         </Caption>
       </StyledButton>
-    </PositionedLink>
+    </AppStateLink>
   )
 }
