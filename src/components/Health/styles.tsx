@@ -47,6 +47,9 @@ export const shadowCSS = css`
 `;
 
 export const StyledMainContainer = styled.div`
+  * {
+    outline-color: ${colors.linkColor};
+  }
   background-color: white;
   > div {
     overflow-y: auto;
