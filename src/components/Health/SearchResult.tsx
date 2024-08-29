@@ -131,7 +131,7 @@ function SearchResult({ data }: any) {
           {customContact.phone && <StyledButtonAsLink aria-label={`tel:${customContact.phone}`} href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>}
 
           {customContact.website && (
-            <StyledButtonAsLink href={`${customContact.website}`} target="_blank" rel="noreferrer noopener">
+            <StyledButtonAsLink aria-label={customContact.website.split("/")?.[2]?.replace("www.", "")} href={`${customContact.website}`} target="_blank" rel="noreferrer noopener">
               {customContact.website.split("/")?.[2]?.replace("www.", "")}
             </StyledButtonAsLink>
           )}
