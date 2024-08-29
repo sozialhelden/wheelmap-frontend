@@ -6,34 +6,10 @@ import { LocationNoPermissionPrimaryText, selectProductName } from "./language";
 import { LocationSearch } from "./components/LocationSearch";
 import { KomootPhotonResultFeature } from "../../lib/fetchers/fetchPlacesOnKomootPhoton";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
-import marked from "marked";
+import { LocationContainer } from "./components/LocationContainer";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-
-  h1 {
-    @media (min-width: 414px) {
-      font-size: 1.25rem;
-    }
-    @media (min-height: 414px) {
-      font-size: 1.25rem;
-    }
-  }
-
-  > * {
-    max-width: 400px;
-  }
-
+const Container = styled(LocationContainer)`
   .footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-self: center;
-    gap: 24px;
-
     > .input,
     > .button {
       flex: 1;
@@ -45,12 +21,13 @@ export const LocationNoPermissionStep: FC<{
   onSubmit: (location?: KomootPhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext);
+  const [url] = getLocationSettingsUrl();
   return (
     <Container>
       <StyledMarkdown>
         {LocationNoPermissionPrimaryText(
           selectProductName(clientSideConfiguration),
-          getLocationSettingsUrl()
+          url
         )}
       </StyledMarkdown>
       <footer className="footer">
