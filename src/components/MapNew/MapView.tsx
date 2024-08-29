@@ -74,14 +74,30 @@ export default function MapView(props: IProps) {
   const zoom = typeof query.zoom === 'string' ? query.zoom : undefined
 
   const [viewport, setViewport] = useState<
-    Partial<ViewState> & { width: number; height: number }
+    Partial<ViewState> & { width: number; height: number, lastUpdate: number }
   >({
     width: 100,
     height: 100,
     latitude: (latitude && parseFloat(latitude)) || 52.5,
     longitude: (longitude && parseFloat(longitude)) || 13.3,
     zoom: (zoom && parseFloat(zoom)) || (latitude && longitude ? 18 : 10),
+    lastUpdate: 0,
   })
+
+  React.useEffect(() => {
+    if (!latitude || !longitude) {
+      return
+    }
+    // poor but effective: the map allows location jumping from URI, if the map hasn't been touched for some time
+    if (Date.now() - viewport.lastUpdate < 10_000) {
+      return
+    }
+    const lat = parseFloat(latitude)
+    const lon = parseFloat(longitude)
+    if (viewport.latitude !== lat || viewport.longitude !== lon) {
+      setViewport({ ...viewport, latitude: lat, longitude: lon })
+    }
+  }, [latitude, longitude, viewport, setViewport])
 
   // Reset viewport when map size changes
   useLayoutEffect(() => {
@@ -173,7 +189,7 @@ export default function MapView(props: IProps) {
   const setViewportCallback = useCallback(
     (event: ViewStateChangeEvent) => {
       // console.log("Setting viewport because of callback:", event);
-      setViewport({ ...viewport, ...event.viewState })
+      setViewport({ ...viewport, ...event.viewState, lastUpdate: Date.now() })
     },
     [setViewport, viewport],
   )
