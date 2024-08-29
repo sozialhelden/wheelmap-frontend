@@ -70,7 +70,7 @@ function parseNumberArrayParams<T extends number[] = number[]>(value: ParseValue
   return cleanedArray.length > 0 ? cleanedArray : undefined
 }
 
-function parseStringParam<T extends string = string>(value: ParseValue): T {
+function parseStringParam<T extends string = string>(value: ParseValue): T | null | undefined {
   if (value === undefined) {
     return undefined
   }
@@ -80,7 +80,7 @@ function parseStringParam<T extends string = string>(value: ParseValue): T {
   return (typeof value === 'string' ? value : value[0]) as T
 }
 
-function parseStringArrayParam<T extends string = string>(value: ParseValue): T[] {
+function parseStringArrayParam<T extends string = string>(value: ParseValue): T[] | null | undefined {
   if (value === undefined) {
     return undefined
   }

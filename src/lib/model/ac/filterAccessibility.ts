@@ -28,36 +28,43 @@ function sortedIsEqual(array1: unknown[], array2: unknown[]): boolean {
     return false
   }
 
+  if (!array1 || !array2) {
+    return array1 === array2
+  }
+
+  console.log(array1, array2)
+
   return isEqual(array1.sort(), array2.sort())
 }
 
-function parseStatusString(
+function parseStatusString<T extends string>(
   statusStringOrStringArray: string | string[],
-  allowedStatuses: string[],
-) {
-  let statusStringArray = []
+  allowedStatuses: T[],
+): T[] {
+  let statusStringArray: string[] | undefined
   if (typeof statusStringOrStringArray === 'string') {
     statusStringArray = statusStringOrStringArray.split(',')
   } else if (Array.isArray(statusStringOrStringArray)) {
     statusStringArray = statusStringOrStringArray
   }
+
   // Safe mutable sort as filter always returns a new array.
-  return statusStringArray
-    ? statusStringArray.filter((s) => allowedStatuses.includes(s)).sort()
+  return (statusStringArray
+    ? statusStringArray.filter((s) => allowedStatuses.includes(s as T)).sort() as T[]
     // No explicitly set filter means all status values are allowed.
-    : [...allowedStatuses]
+    : [...allowedStatuses])
 }
 
 export function getAccessibilityFilterFrom(
-  statusString?: string | string[],
+  statusString?: string | string[] | null,
 ): YesNoLimitedUnknown[] {
-  return parseStatusString(statusString, yesNoLimitedUnknownArray)
+  return statusString ? parseStatusString(statusString, [...yesNoLimitedUnknownArray]) : []
 }
 
 export function getToiletFilterFrom(
-  toiletString?: string | string[],
+  toiletString?: string | string[] | null,
 ): YesNoUnknown[] {
-  return parseStatusString(toiletString, yesNoUnknownArray)
+  return toiletString ? parseStatusString<YesNoUnknown>(toiletString, [...yesNoUnknownArray]) : []
 }
 
 /**
@@ -66,19 +73,19 @@ export function getToiletFilterFrom(
  */
 
 export function isAccessibilityFiltered(
-  accessibilityFilter: YesNoLimitedUnknown[] | null,
+  accessibilityFilter?: YesNoLimitedUnknown[] | null,
 ): boolean {
   return (
     !!accessibilityFilter
     && !isEqual(accessibilityFilter, [])
-    && !sortedIsEqual(accessibilityFilter, yesNoLimitedUnknownArray)
+    && !sortedIsEqual(accessibilityFilter, [...yesNoLimitedUnknownArray])
   )
 }
 
-export function isToiletFiltered(toiletFilter: YesNoUnknown[] | null): boolean {
+export function isToiletFiltered(toiletFilter?: YesNoUnknown[] | null): boolean {
   return (
     !!toiletFilter
     && !isEqual(toiletFilter, [])
-    && !sortedIsEqual(toiletFilter, yesNoUnknownArray)
+    && !sortedIsEqual(toiletFilter, [...yesNoUnknownArray])
   )
 }

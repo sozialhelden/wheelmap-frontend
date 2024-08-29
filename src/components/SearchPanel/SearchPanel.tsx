@@ -120,7 +120,7 @@ export default function SearchPanel({
       onChange={onChangeSearchQuery}
       onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
         blur()
-        onSubmit(event.currentTarget.value)
+        onSubmit?.(event.currentTarget.value)
       }}
       ariaRole="searchbox"
     />
@@ -162,7 +162,7 @@ export default function SearchPanel({
     />
   )
 
-  let contentBelowSearchField = null
+  let contentBelowSearchField: React.ReactElement | null = null
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>

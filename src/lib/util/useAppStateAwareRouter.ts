@@ -72,7 +72,7 @@ function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSea
 }
 
 export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) : Url {
-  let mergedSearchParams: AppStateSearchParams
+  let mergedSearchParams: AppStateSearchParams | undefined
   if (typeof url === 'string') {
     if (url.includes('://')) {
       return url
@@ -97,7 +97,7 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
     }
   }
 
-  if (typeof url.query === 'object') {
+  if (typeof url.query === 'object' && url.query) {
     const updated = parseQueryInput(url.query)
     mergedSearchParams = mergeSearchParams(updated, previous)
   } else if (typeof url.query === 'string') {
@@ -111,12 +111,14 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
   }
 }
 
+const emptySearchParams: AppStateSearchParams = { }
+
 export function useAppStateAwareRouter() {
   const nextRouter = useRouter()
   const searchParams = useSearchParams()
   const { push: nextPush, replace: nextReplace, pathname } = nextRouter
 
-  const appStateSearchParams = parseSearchParams(searchParams)
+  const appStateSearchParams = searchParams ? parseSearchParams(searchParams) : emptySearchParams
   const appStateSearchParamsRef = useRef(appStateSearchParams)
 
   // derive some values from the AppStateSearchParams
@@ -126,8 +128,8 @@ export function useAppStateAwareRouter() {
 
   // useEffect for the appStateSearchParams, to keep the push/replace functions stable
   useEffect(() => {
-    appStateSearchParamsRef.current = appStateSearchParams
-  }, [appStateSearchParams, appStateSearchParamsRef])
+    appStateSearchParamsRef.current = searchParams ? parseSearchParams(searchParams) : emptySearchParams
+  }, [searchParams])
 
   const push = useCallback((url: Url, as?: Url, options?: TransitionOptions) => {
     const preservedUrl = preserveSearchParams(url, appStateSearchParamsRef.current)

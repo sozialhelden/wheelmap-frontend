@@ -11,7 +11,7 @@ import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCateg
 type Props = {
   onFocus?: () => void;
   onBlur?: () => void;
-  category: string | null;
+  category?: string | null;
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
   className?: string;

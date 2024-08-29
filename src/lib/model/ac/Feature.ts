@@ -8,14 +8,14 @@ import { KomootPhotonResultFeature } from '../../fetchers/fetchPlacesOnKomootPho
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
-export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
+export const yesNoLimitedUnknownArray: readonly YesNoLimitedUnknown[] = [
   'limited',
   'yes',
   'no',
   'unknown',
 ]
 Object.freeze(yesNoLimitedUnknownArray)
-export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown']
+export const yesNoUnknownArray: readonly YesNoUnknown[] = ['yes', 'no', 'unknown']
 Object.freeze(yesNoUnknownArray)
 
 export type MappingEventFeature = KomootPhotonResultFeature;

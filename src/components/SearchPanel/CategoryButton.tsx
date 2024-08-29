@@ -139,7 +139,7 @@ export default function CategoryButton(props: Props) {
       href={{
         query: { category: showCloseButton ? null : category },
       }}
-      onClick={props.onClick ? (e) => { e.preventDefault(); props.onClick(category) } : undefined}
+      onClick={props.onClick ? (e) => { e.preventDefault(); props.onClick?.(category) } : undefined}
     >
       <StyledCategoryIconButton
         aria-label={

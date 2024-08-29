@@ -11,7 +11,7 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 
 type Props = PlaceFilter & {
   className?: string;
-  category: string;
+  category?: string | null;
 };
 
 function getAvailableFilters() {

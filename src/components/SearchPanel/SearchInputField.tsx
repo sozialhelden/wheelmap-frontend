@@ -2,7 +2,7 @@ import { interpolateLab } from 'd3-interpolate'
 import _ from 'lodash'
 import * as React from 'react'
 import {
-  KeyboardEvent, forwardRef, useCallback, useState, useMemo,
+  KeyboardEvent, forwardRef, useState, useMemo,
 } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
@@ -46,13 +46,13 @@ const StyledSearchInputField = styled.input`
 `
 
 type SearchInputFieldProps = {
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   onSubmit?: (event: React.FormEvent<HTMLInputElement>) => void | null;
   onBlur?: () => void | null;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void | null;
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void | null;
   searchQuery: string | null;
-  hidden: boolean;
+  hidden?: boolean;
   ariaRole: string;
   disabled?: boolean | null;
   className?: string;
@@ -88,12 +88,15 @@ const SearchInputField = forwardRef(
       }
     }
 
-    const debouncedInternalOnChange = useMemo(() => _.debounce(onChange, DEBOUNCE_THRESHOLD_MS), [onChange])
+    const debouncedInternalOnChange = useMemo(
+      () => (onChange ? _.debounce(onChange, DEBOUNCE_THRESHOLD_MS) : onChange),
+      [onChange],
+    )
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
       const searchTerm = event.target.value
       setCurrentSearchQuery(searchTerm)
-      debouncedInternalOnChange(searchTerm)
+      debouncedInternalOnChange?.(searchTerm)
     }
 
     return (
@@ -102,7 +105,7 @@ const SearchInputField = forwardRef(
         value={currentSearchQuery}
         name="search"
         onChange={updateSearchQuery}
-        disabled={disabled}
+        disabled={!!disabled}
         tabIndex={hidden ? -1 : 0}
         onFocus={onFocus}
         onBlur={onBlur}

@@ -33,17 +33,14 @@ export type SearchResultCollection = {
 export function getOsmIdFromSearchResultProperties(
   searchResultProperties?: SearchResultProperties,
 ) {
-  let osmId: number | null = searchResultProperties
-    ? searchResultProperties.osm_id
-    : null
-
-  if (!osmId) {
+  if (!searchResultProperties?.osm_id) {
     return null
   }
 
+  let osmId = searchResultProperties.osm_id
+
   // Only nodes with type 'N' and 'W' can be on Wheelmap.
-  if (
-    searchResultProperties.osm_type !== 'N'
+  if (searchResultProperties.osm_type !== 'N'
     && searchResultProperties.osm_type !== 'W'
   ) {
     return null
@@ -70,15 +67,6 @@ export function buildOriginalOsmId(
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
-
-// todo: unused: coords
-export const searchPlacesDebounced: (
-  query: string,
-  coords: { lat?: number | undefined; lon?: number | undefined }
-) => Promise<SearchResultCollection> = debouncePromise(
-  fetchPlaceSearchResults,
-  500,
-)
 
 export default function fetchPlaceSearchResults(
   query: string,
@@ -109,3 +97,11 @@ export default function fetchPlaceSearchResults(
 
   return fetch(url).then((response) => response.json())
 }
+
+export const searchPlacesDebounced: (
+  query: string,
+  coords: { lat?: number | undefined; lon?: number | undefined }
+) => Promise<SearchResultCollection | null> = debouncePromise(
+  (q, c) => fetchPlaceSearchResults(q, c.lat, c.lon),
+  500,
+)

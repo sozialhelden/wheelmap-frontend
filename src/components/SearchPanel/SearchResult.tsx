@@ -22,79 +22,77 @@ type Props = {
 };
 
 const StyledListItem = styled.li`
-  padding: 0;
+    padding: 0;
 
-  > a {
-    display: block;
-    font-size: 16px;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: ${colors.linkColor};
-    text-align: left;
-    overflow: hidden;
-    color: rgba(0, 0, 0, 0.8) !important;
-    display: block;
-    width: 100%;
+    > a {
+        display: block;
+        font-size: 16px;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        text-align: left;
+        overflow: hidden;
+        color: rgba(0, 0, 0, 0.8) !important;
+        width: 100%;
 
-    @media (hover), (-moz-touch-enabled: 0) {
-      &:hover {
-        background-color: ${colors.linkBackgroundColorTransparent};
-      }
+        @media (hover), (-moz-touch-enabled: 0) {
+            &:hover {
+                background-color: ${colors.linkBackgroundColorTransparent};
+            }
+        }
+
+        &:focus&:not(.primary-button) {
+            background-color: ${colors.linkBackgroundColorTransparent};
+        }
+
+        &:disabled {
+            opacity: 0.15;
+        }
+
+        &:hover {
+            color: rgba(0, 0, 0, 0.8) !important;
+        }
+
+        address {
+            font-size: 16px !important;
+            color: rgba(0, 0, 0, 0.6);
+        }
     }
 
-    &:focus&:not(.primary-button) {
-      background-color: ${colors.linkBackgroundColorTransparent};
+    &.no-result {
+        text-align: center;
+        font-size: 16px;
+        overflow: hidden;
+        padding: 20px;
     }
 
-    &:disabled {
-      opacity: 0.15;
+    &.error-result {
+        text-align: center;
+        font-size: 16px;
+        overflow: hidden;
+        padding: 20px;
+        font-weight: 400;
+        background-color: ${colors.negativeBackgroundColorTransparent};
     }
 
-    &:hover {
-      color: rgba(0, 0, 0, 0.8) !important;
+    &.osm-category-place-borough,
+    &.osm-category-place-suburb,
+    &.osm-category-place-village,
+    &.osm-category-place-hamlet,
+    &.osm-category-place-town,
+    &.osm-category-place-city,
+    &.osm-category-place-county,
+    &.osm-category-place-state,
+    &.osm-category-place-country,
+    &.osm-category-boundary-administrative {
+        h1 {
+            font-weight: 600;
+        }
     }
-
-    address {
-      font-size: 16px !important;
-      color: rgba(0, 0, 0, 0.6);
-    }
-  }
-
-  &.no-result {
-    text-align: center;
-    font-size: 16px;
-    overflow: hidden;
-    padding: 20px;
-  }
-
-  &.error-result {
-    text-align: center;
-    font-size: 16px;
-    overflow: hidden;
-    padding: 20px;
-    font-weight: 400;
-    background-color: ${colors.negativeBackgroundColorTransparent};
-  }
-
-  &.osm-category-place-borough,
-  &.osm-category-place-suburb,
-  &.osm-category-place-village,
-  &.osm-category-place-hamlet,
-  &.osm-category-place-town,
-  &.osm-category-place-city,
-  &.osm-category-place-county,
-  &.osm-category-place-state,
-  &.osm-category-place-country,
-  &.osm-category-boundary-administrative {
-    h1 {
-      font-weight: 600;
-    }
-  }
 `
 
 export default function SearchResult(props: Props) {
@@ -119,7 +117,7 @@ export default function SearchResult(props: Props) {
   // const accessibility =
   //   wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
 
-  const { categorySynonymCache, category } = useCategory(
+  const { category } = useCategory(
     feature as TypeTaggedSearchResultFeature,
   )
 

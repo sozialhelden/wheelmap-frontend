@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { t } from 'ttag'
 
+import { Feature } from 'geojson'
 import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature'
@@ -10,7 +11,7 @@ type Props = {
   searchResults?: SearchResultCollection | AnyFeatureCollection;
   categories: CategoryLookupTables;
   className?: string;
-  hidden: boolean | null;
+  hidden?: boolean;
   error: string | undefined;
 };
 
@@ -19,12 +20,12 @@ const StyledSearchResultList = styled.ul`
   margin: 0;
 `
 
-export default function SearchResults(props: Props) {
-  const id = (result) => result && result.properties && result.properties.osm_id
-  const { features } = props.searchResults
+const idAccessor = (result: Feature): string => result?.properties?.osm_id
 
+export default function SearchResults(props: Props) {
+  const features = props.searchResults?.features
   const failedLoading = !!props.error
-  const hasNoResults = !failedLoading && features.length === 0
+  const hasNoResults = !failedLoading && features?.length === 0
 
   // translator: Text in search results when nothing was found
   const noResultsFoundCaption = t`No results found`
@@ -32,7 +33,8 @@ export default function SearchResults(props: Props) {
   // translator: Text in search results when an error occurred
   const searchErrorCaption = t`No results available. Please try again later!`
 
-  const renderedFeatureIds = []
+  // only render each feature once
+  const renderedFeatureIds = new Set()
 
   return (
     <StyledSearchResultList
@@ -41,19 +43,19 @@ export default function SearchResults(props: Props) {
     >
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
-      {features.map((feature, index) => {
-        const featureId = id(feature)
+      {features?.map((feature) => {
+        const featureId = idAccessor(feature)
 
-        if (renderedFeatureIds.indexOf(featureId) > -1) {
+        if (renderedFeatureIds.has(featureId)) {
           return null
         }
 
-        renderedFeatureIds.push(featureId)
+        renderedFeatureIds.add(featureId)
 
         return (
           <SearchResult
-            feature={feature}
             key={featureId}
+            feature={feature}
             hidden={!!props.hidden}
             categories={props.categories}
           />
