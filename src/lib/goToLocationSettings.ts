@@ -5,11 +5,11 @@ import {
 } from './context/UserAgentContext'
 import { saveState } from './util/savedState'
 
-// Open location settings or show the user how to open them
 
-export default function goToLocationSettings() {
-  saveState({ hasOpenedLocationHelp: 'true' })
+const alertText = t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`;
 
+/** Get the URL to the devices location settings */
+export function getLocationSettingsUrl(): string | undefined {
   const userAgent = parseUserAgentString(getUserAgentString())
 
   // @ts-ignore
@@ -32,13 +32,22 @@ export default function goToLocationSettings() {
       'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/',
   }
 
-  const supportURL = supportURLs[identity]
+  if(identity in supportURLs) {
+    return supportURLs[identity]
+  }
+  // poor but effective: when using a markdown renderer, this works reasonably well with prior behavior
+  return encodeURI(`javascript:window.alert(${alertText})`);
+}
+
+/** Open location settings or show the user how to open them */
+export default function goToLocationSettings() {
+  saveState({ hasOpenedLocationHelp: 'true' })
+  const supportURL = getLocationSettingsUrl();
+
   if (supportURL) {
     window.open(supportURL, '_blank')
     return
   }
 
-  window.alert(
-    t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`,
-  )
+  window.alert(alertText)
 }
