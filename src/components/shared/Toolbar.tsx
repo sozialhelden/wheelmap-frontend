@@ -436,7 +436,12 @@ const BaseToolbar = (
       // @ts-ignore
       window.scrollElement = ref
     }
-    const previousClientTop = ref.getClientRects()[0].top
+    const rects = ref.getClientRects()
+    if (rects.length === 0) {
+      return
+    }
+
+    const previousClientTop = rects[0].top
     const newTopOffset = previousClientTop + toolbarHeight - viewportHeight
     // log.log(
     //   'Setting height',
