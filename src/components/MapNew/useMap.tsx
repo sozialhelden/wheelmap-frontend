@@ -1,13 +1,7 @@
-import { uniq } from "lodash";
+import { defaults, uniq } from "lodash";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MapboxGeoJSONFeature, ViewState } from "react-map-gl";
 
 export type RelevantViewState = Omit<
@@ -20,6 +14,20 @@ export interface MapOptions {
   lowPriority?: boolean;
   features?: MapboxGeoJSONFeature[];
 }
+
+const LocalStorageLocation = "wheelmap.viewstate" as const;
+
+const storeViewState = (viewState: Partial<RelevantViewState>) => {
+  localStorage.setItem(LocalStorageLocation, JSON.stringify(viewState));
+};
+const loadViewState = (): Partial<RelevantViewState> => {
+  const value = localStorage.getItem(LocalStorageLocation);
+  if (!value) {
+    return {};
+  }
+
+  return JSON.parse(value) as Partial<RelevantViewState>;
+};
 
 const getFeatureUrl = (features: MapboxGeoJSONFeature[] | undefined) => {
   if (!features) {
@@ -52,22 +60,21 @@ export const useMap = () => {
 
       const basepath = getFeatureUrl(features);
 
-      const {
-        lat: fallbackLat,
-        lon: fallbackLon,
-        zoom: fallBackZoom,
-      } = router.query;
-
+      const fallback = parseViewState("unlocked", router.query, undefined);
       let components = {
-        lat: latitude ?? fallbackLat,
-        lon: longitude ?? fallbackLon,
-        zoom: zoom ?? fallBackZoom,
+        lat: latitude ?? fallback?.latitude,
+        lon: longitude ?? fallback?.longitude,
+        zoom: zoom ?? fallback?.zoom,
       };
       const lowPriorityFlake = lowPriority ? { lp: true } : undefined;
-      console.log(`path: ${basepath}`);
+      storeViewState({
+        latitude: components.lat,
+        longitude: components.lon,
+        zoom: components.zoom,
+      });
       router.replace({
         pathname: basepath,
-        query: { ...router.query, ...components, ...lowPriorityFlake },
+        query: { ...components, ...lowPriorityFlake },
       });
     },
     [router]
@@ -119,10 +126,27 @@ const parseViewState = (
 
   return {
     ...viewState,
-    latitude: parsedViewState.latitude ?? viewState.latitude,
-    longitude: parsedViewState.longitude ?? viewState.longitude,
-    zoom: parsedViewState.zoom ?? viewState.zoom,
+    latitude: parsedViewState.latitude ?? viewState?.latitude,
+    longitude: parsedViewState.longitude ?? viewState?.longitude,
+    zoom: parsedViewState.zoom ?? viewState?.zoom,
   };
+};
+
+/** Fallback values if there is nothing in the URI, the viewport state or local storage */
+const defaultState: ViewState & Viewport = {
+  latitude: 52.5162,
+  longitude: 13.37857,
+  zoom: 11,
+  pitch: 0,
+  bearing: 0,
+  padding: {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  width: 100,
+  height: 100,
 };
 
 export const useMapState = (initialViewport?: Viewport) => {
@@ -130,26 +154,16 @@ export const useMapState = (initialViewport?: Viewport) => {
 
   const [controlMode, setControlMode] = useState<ControlMode>("unlocked");
   const [viewState, setViewState] = useState<ViewState & Viewport>(() => {
+    const storedState = loadViewState();
     const initialState =
       parseViewState(controlMode, query, undefined) ??
       ({} as Partial<ViewState>);
 
-    console.log(initialState);
     return {
+      ...defaultState,
+      ...storedState,
       ...initialState,
-      latitude: initialState.latitude ?? 52.5162,
-      longitude: initialState.longitude ?? 13.37857,
-      zoom: initialState.zoom ?? 11,
-      pitch: 0,
-      bearing: 0,
-      padding: {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      },
-      width: initialViewport.width ?? 100,
-      height: initialViewport.height ?? 100,
+      ...initialViewport,
     };
   });
 

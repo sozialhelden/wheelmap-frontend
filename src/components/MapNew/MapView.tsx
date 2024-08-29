@@ -132,6 +132,7 @@ export default function MapView(props: IProps) {
   const setViewportCallback = useCallback(
     (event: ViewStateChangeEvent) => {
       // console.log("Setting viewport because of callback:", event);
+      setExclusiveControlMode();
       setViewState(event.viewState);
     },
     [setViewState]
