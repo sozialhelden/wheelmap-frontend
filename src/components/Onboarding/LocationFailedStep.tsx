@@ -7,6 +7,7 @@ import {
   selectProductName,
 } from './language'
 import { LocationSearch } from './components/LocationSearch'
+import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 
 const Container = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const Container = styled.div`
 `
 
 export const LocationFailedStep: FC<{
-  onSubmit: () => unknown;
+  onSubmit: (location?: KomootPhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext)
 

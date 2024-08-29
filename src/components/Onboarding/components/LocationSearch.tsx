@@ -90,13 +90,14 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResu
   )
 
   const handleSelect = (index: number) => {
+    const { key } = filteredData[index]
     if (selectedIndex === index) {
-      const { key } = filteredData[index]
       setValue({ value: key, origin: 'selection', selection: key })
       setSelectedIndex(-1)
       return
     }
 
+    setValue({ value, origin, selection: key })
     setSelectedIndex(index)
   }
 
