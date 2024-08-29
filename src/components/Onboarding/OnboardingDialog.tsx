@@ -1,20 +1,12 @@
-import { parse } from 'marked'
-import * as React from 'react'
-import { useEffect } from 'react'
-import styled from 'styled-components'
-import { t } from 'ttag'
-import { AppContext } from '../../lib/context/AppContext'
-import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject'
-import {
-  accessibilityDescription,
-  accessibilityName,
-} from '../../lib/model/accessibility/accessibilityStrings'
-import colors from '../../lib/util/colors'
-import ChevronRight from '../icons/actions/ChevronRight'
-import { CallToActionButton } from '../shared/Button'
-import Icon from '../shared/Icon'
-import ModalDialog from '../shared/ModalDialog'
-import VectorImage from '../shared/VectorImage'
+import * as React from "react";
+import { useState } from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import colors from "../../lib/util/colors";
+import ModalDialog from "../shared/ModalDialog";
+import { LocationFailedStep } from "./LocationFailedStep";
+import { LocationStep } from "./LocationStep";
+import { OnboardingStep } from "./OnboardingStep";
 
 type Props = {
   onClose: () => void;
@@ -266,145 +258,46 @@ const StyledModalDialog = styled(ModalDialog)`
   p {
     margin: 1em;
   }
-`
+`;
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
-  const app = React.useContext(AppContext)
-  const { clientSideConfiguration } = app
+  const [step, setStep] = useState<
+    "onboarding" | "permission" | "no-permission"
+  >("onboarding");
 
-  const callToActionButton = React.createRef<HTMLButtonElement>()
-
-  const { headerMarkdown } = clientSideConfiguration.textContent
-    ?.onboarding || {
-    headerMarkdown: undefined,
-  }
-
-  const productName = translatedStringFromObject(
-    clientSideConfiguration.textContent?.product.name,
-  ) || 'Wheelmap'
-
-  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`
-
-  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`
-
-  const handleClose = () => {
-    // Prevent that touch up opens a link underneath the primary button after closing
-    // the onboarding dialog
-    setTimeout(() => onClose(), 10)
-  }
-
-  const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown))
-
-  /* translator: The alternative desription of the app logo for screenreaders */
-  const appLogoAltText = t`App Logo`
-
-  useEffect(() => {
-    setTimeout(() => {
-      callToActionButton.current?.focus()
-    }, 100)
-  }, [])
+  // simple dsa to change flow of the onboarding steps depending on what's more important
+  // optional result for the permission step
+  const onStepFinished = (result?: "accept" | "deny") => () => {
+    switch (step) {
+      case "onboarding":
+        setStep("permission");
+        break;
+      case "permission":
+        result === "deny" ? setStep("no-permission") : onClose();
+        break;
+      case "no-permission":
+        onClose();
+    }
+  };
 
   return (
     <StyledModalDialog
-      isVisible
-      onClose={handleClose}
+      isVisible={true}
+      onClose={onClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
       ariaLabel={t`Start screen`}
     >
-      <header>
-        <VectorImage
-          className="logo"
-          svg={clientSideConfiguration.branding?.vectorLogoSVG}
-          aria-label={productName}
-          maxHeight="50px"
-          maxWidth="200px"
-          hasShadow={false}
+      {step === "onboarding" && <OnboardingStep onClose={onStepFinished()} />}
+      {step === "permission" && (
+        <LocationStep
+          onAccept={onStepFinished("accept")}
+          onRejected={onStepFinished("deny")}
         />
-
-        {headerMarkdownHTML && (
-          <p
-            id="wheelmap-claim-onboarding"
-            className="claim"
-            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
-          />
-        )}
-      </header>
-
-      <section>
-        <ul id="wheelmap-icon-descriptions">
-          <li className="ac-marker-yes">
-            <Icon
-              accessibility="yes"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('yes')}</header>
-            <footer>{accessibilityDescription('yes')}</footer>
-          </li>
-          <li className="ac-marker-limited">
-            <Icon
-              accessibility="limited"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('limited')}</header>
-            <footer>{accessibilityDescription('limited')}</footer>
-          </li>
-          <li className="ac-marker-no">
-            <Icon
-              accessibility="no"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('no')}</header>
-            <footer>{accessibilityDescription('no')}</footer>
-          </li>
-          <li className="ac-marker-unknown">
-            <Icon
-              accessibility="unknown"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('unknown')}</header>
-            <footer>{unknownAccessibilityIncentiveText}</footer>
-          </li>
-        </ul>
-      </section>
-
-      <footer className="button-footer">
-        <CallToActionButton
-          className="button-continue"
-          data-focus-visible-added
-          onClick={() => {
-            handleClose()
-          }}
-          ref={callToActionButton}
-        >
-          {startButtonCaption}
-          <ChevronRight />
-        </CallToActionButton>
-      </footer>
+      )}
+      {step === "no-permission" && <LocationFailedStep />}
     </StyledModalDialog>
-  )
-}
+  );
+};
 
 const Version = styled.div`
   position: absolute;
@@ -417,6 +310,6 @@ const Version = styled.div`
   font-size: 12px;
   color: white;
   opacity: 0.5;
-`
+`;
 
-export default OnboardingDialog
+export default OnboardingDialog;
