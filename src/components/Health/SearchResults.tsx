@@ -2,12 +2,12 @@ import Head from "next/head";
 // @ts-ignore
 import { T } from "@transifex/react";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
-import { AmenityListResponse, calculateDistance, generateAmenityListURL, getGoodName, getWheelchairSettings } from "./helpers";
+import { AmenityListResponse, calculateDistance, generateAmenityListURL, getGoodName } from "./helpers";
 import { FullSizeFlexContainer, HugeText, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function NonIdealContent() {
@@ -82,7 +82,7 @@ function SearchResults() {
     [data, route.query]
   );
 
-  const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? `${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
+  const [headText, setHeadText] = useState("Find health sites");
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) return <T _str={`No results found – please try again with a different location or different settings.`} />;
   }, [data]);
@@ -90,7 +90,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <Head>
-        <title key="title">{sortedFeatures ? <T _str={`${headText} | Find health sites`} /> : <T _str={`Find health sites`} />}</title>
+        <title key="title">{sortedFeatures ? headText : <T _str={`${headText} | Find health sites`} />}</title>
       </Head>
       {!isLoading && text && (
         <StyledH2 style={{ textAlign: "center" }} $fontBold>

@@ -14,7 +14,7 @@ import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledAccessibleToiletIcon, StyledButtonAsLink, StyledH3, StyledHDivider, StyledListItem, StyledUL } from "./styles";
+import { StyledAccessibleToiletIcon, StyledButtonAsLink, StyledH2, StyledHDivider, StyledListItem, StyledUL } from "./styles";
 
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
@@ -107,13 +107,13 @@ function SearchResult({ data }: any) {
       </div>
 
       <div style={{ flex: 1 }}>
-        <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
+        <StyledH2 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
           <Link aria-label={name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
             {name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))}
             &nbsp;
             <ExternalLinkIcon />
           </Link>
-        </StyledH3>
+        </StyledH2>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>
           {optionalHealthcare}
