@@ -129,7 +129,7 @@ function SearchResult({ data }: any) {
 
       <div style={{ flex: 1 }}>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <Link href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
+          <Link title={name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
             {name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))}
             &nbsp;
             <ExternalLinkIcon />

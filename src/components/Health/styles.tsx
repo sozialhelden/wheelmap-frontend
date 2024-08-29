@@ -47,7 +47,7 @@ export const shadowCSS = css`
 `;
 
 export const StyledMainContainer = styled.div`
-  background-color: #d8e5e8;
+  background-color: white;
   > div {
     overflow-y: auto;
     margin-inline: auto;
