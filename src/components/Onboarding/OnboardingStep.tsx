@@ -1,9 +1,6 @@
-import { parse } from "marked";
 import * as React from "react";
 import { useEffect } from "react";
-import { t } from "ttag";
 import { AppContext } from "../../lib/context/AppContext";
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import {
   accessibilityDescription,
   accessibilityName,
@@ -12,32 +9,18 @@ import ChevronRight from "../icons/actions/ChevronRight";
 import { CallToActionButton } from "../shared/Button";
 import Icon from "../shared/Icon";
 import VectorImage from "../shared/VectorImage";
+import {
+  selectHeaderMarkdownHTML,
+  selectProductName,
+  startButtonCaption,
+  unknownAccessibilityIncentiveText,
+} from "./language";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose }) => {
-  const app = React.useContext(AppContext);
-  const { clientSideConfiguration } = app;
-  const { headerMarkdown } = clientSideConfiguration.textContent
-    ?.onboarding || {
-    headerMarkdown: undefined,
-  };
-
-  const productName =
-    translatedStringFromObject(
-      clientSideConfiguration.textContent?.product.name
-    ) || "Wheelmap";
-
-  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
-
-  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`;
-  const headerMarkdownHTML =
-    headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
-
-  /* translator: The alternative description of the app logo for screen readers */
-  const appLogoAltText = t`App Logo`;
+  const { clientSideConfiguration } = React.useContext(AppContext);
+  const headerMarkdownHTML = selectHeaderMarkdownHTML(clientSideConfiguration);
 
   const callToActionButton = React.createRef<HTMLButtonElement>();
   const handleClose = () => {
@@ -58,7 +41,7 @@ export const OnboardingStep: React.FC<{
         <VectorImage
           className="logo"
           svg={clientSideConfiguration.branding?.vectorLogoSVG}
-          aria-label={productName}
+          aria-label={selectProductName(clientSideConfiguration)}
           maxHeight={"50px"}
           maxWidth={"200px"}
           hasShadow={false}

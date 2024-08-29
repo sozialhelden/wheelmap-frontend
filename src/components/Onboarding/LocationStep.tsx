@@ -2,13 +2,21 @@ import { FC, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { cx } from "../../lib/util/cx";
 import { CallToActionButton, SecondaryButton } from "../shared/Button";
+import StyledMarkdown from "../shared/StyledMarkdown";
+import {
+  DenyLocationPermissionText,
+  GrantLocationPermissionText,
+  LocationStepAdditionalHint,
+  LocationStepPrimaryText,
+} from "./language";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
 
-  .title {
+  h1 {
     @media (min-width: 414px) {
       font-size: 1.25rem;
     }
@@ -17,11 +25,8 @@ const Container = styled.div`
     }
   }
 
-  .details {
-    display: flex;
-    flex-direction: column;
-    > .explainer {
-    }
+  > * {
+    max-width: 400px;
   }
 
   .footer {
@@ -130,7 +135,7 @@ export const LocationStep: FC<{
         error.code === error.TIMEOUT
       ) {
         if (stage.retries >= maxRetries) {
-          onRejected();
+          onFailed();
           return;
         }
         setStage({ stage: "failed-not-exited", retries: stage.retries + 1 });
@@ -139,38 +144,28 @@ export const LocationStep: FC<{
 
       onGeneralError(error);
     });
-  }, [onAccept, stage, setStage, onGeneralError, maxRetries, onRejected]);
+  }, [onAccept, stage, setStage, onGeneralError, maxRetries, onFailed]);
 
   const isAcquiring = stage.stage === "acquiring";
 
+  // when retries fail, show an additional hint
+  const primaryText = `${LocationStepPrimaryText}${
+    stage.retries > 0 ? `\n\n${LocationStepAdditionalHint("about:blank")}` : ""
+  }`;
+
   return (
     <Container>
-      <header className="title">
-        Hold up — we may need your location permissions
-      </header>
-      <section className="details">
-        <p className="explainer">
-          Wheelmap is primarily a map app, to orient yourself next to your
-          surroundings, we may ask for location permissions of your device. You
-          may change your decision at any time!
-        </p>
-        <p>Your location always stays on your device.</p>
-        {stage.retries > 0 && (
-          <p>
-            If you&apos;re experiencing issues, you may consult{" "}
-            <a href="about:blank">your devices permission configuration</a>
-          </p>
-        )}
-      </section>
+      <StyledMarkdown>{primaryText}</StyledMarkdown>
+
       <footer className="footer">
         <ReducedSecondaryButton onClick={onRejected} className="deny">
-          Continue without location access
+          {DenyLocationPermissionText}
         </ReducedSecondaryButton>
         <CallToActionButton
           onClick={requestLocationPermission}
           className={cx("accept", isAcquiring && "active")}
         >
-          <span className="text">I&apos;m in!</span>
+          <span className="text">{GrantLocationPermissionText}</span>
           <span className="loader" />
         </CallToActionButton>
       </footer>

@@ -1,7 +1,14 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../lib/context/AppContext";
 import SearchInputField from "../SearchPanel/SearchInputField";
 import { CallToActionButton } from "../shared/Button";
+import StyledMarkdown from "../shared/StyledMarkdown";
+import {
+  LocationFailedStepPrimaryText,
+  LocationSearchContinueText,
+  selectProductName,
+} from "./language";
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +35,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-self: center;
     gap: 24px;
+    max-width: 400px;
 
     > .input,
     > .button {
@@ -40,13 +49,15 @@ const Container = styled.div`
 export const LocationFailedStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
+  const { clientSideConfiguration } = useContext(AppContext);
+
   return (
     <Container>
-      <header className="title">That did not work!</header>
-      <section className="details">
-        <p>Don&apos;t worry, you can still use all features of Wheelmap.</p>
-        <p>Do you want to start with in the center of a city instead?</p>
-      </section>
+      <StyledMarkdown>
+        {LocationFailedStepPrimaryText(
+          selectProductName(clientSideConfiguration)
+        )}
+      </StyledMarkdown>
       <footer className="footer">
         <SearchInputField
           searchQuery="Berlin"
@@ -55,7 +66,7 @@ export const LocationFailedStep: FC<{
           ariaRole="search"
         />
         <CallToActionButton className="button" onClick={onSubmit}>
-          Continue
+          {LocationSearchContinueText}
         </CallToActionButton>
       </footer>
     </Container>
