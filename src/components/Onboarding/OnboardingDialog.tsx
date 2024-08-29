@@ -1,13 +1,13 @@
-import * as React from "react";
-import { useCallback, useMemo, useState } from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import colors from "../../lib/util/colors";
-import ModalDialog from "../shared/ModalDialog";
-import { LocationFailedStep } from "./LocationFailedStep";
-import { LocationNoPermissionStep } from "./LocationNoPermissionStep";
-import { LocationStep } from "./LocationStep";
-import { OnboardingStep } from "./OnboardingStep";
+import * as React from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import styled from 'styled-components'
+import { t } from 'ttag'
+import colors from '../../lib/util/colors'
+import ModalDialog from '../shared/ModalDialog'
+import { LocationFailedStep } from './LocationFailedStep'
+import { LocationNoPermissionStep } from './LocationNoPermissionStep'
+import { LocationStep } from './LocationStep'
+import { OnboardingStep } from './OnboardingStep'
 
 type Props = {
   onClose: () => void;
@@ -259,113 +259,101 @@ const StyledModalDialog = styled(ModalDialog)`
   p {
     margin: 1em;
   }
-`;
+`
 
 type OnboardingState =
-  | "onboarding"
-  | "permission"
-  | "no-permission"
-  | "failed-permission";
+  | 'onboarding'
+  | 'permission'
+  | 'no-permission'
+  | 'failed-permission';
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
-  const [step, setStep] = useState<OnboardingState>("onboarding");
+  const [step, setStep] = useState<OnboardingState>('onboarding')
 
   // simple dsa to change flow of the onboarding steps depending on what's more important
   // optional result for the permission step
   const stepFunctions = useMemo(
     () => ({
       onboardingFinished: () => {
-        if (step === "onboarding") {
-          setStep("permission");
+        if (step === 'onboarding') {
+          setStep('permission')
         }
       },
       onPermissionGranted: () => {
-        if (step === "permission") {
-          onClose();
-          return;
+        if (step === 'permission') {
+          onClose()
         }
       },
       onPermissionRejected: () => {
-        if (step === "permission") {
-          setStep("no-permission");
+        if (step === 'permission') {
+          setStep('no-permission')
         }
       },
       onPermissionFailed: () => {
-        if (step === "permission") {
-          setStep("failed-permission");
+        if (step === 'permission') {
+          setStep('failed-permission')
         }
       },
       onPermissionError: (error: GeolocationPositionError) => {
         // todo: define behaviour or place it into a logger that's quiet in prod
-        console.log("Something did not work quite right here", error);
-        if (step === "permission") {
-          setStep("failed-permission");
+        console.log('Something did not work quite right here', error)
+        if (step === 'permission') {
+          setStep('failed-permission')
         }
       },
       onRejectionSubmit: () => {
-        onClose();
+        onClose()
       },
       onLocationFailureResolved: () => {
-        onClose();
+        onClose()
       },
     }),
-    [setStep, step, onClose]
-  );
+    [setStep, step, onClose],
+  )
 
   const viewSelector = useCallback(
     (state: OnboardingState) => {
       switch (state) {
-        case "onboarding":
-          return <OnboardingStep onClose={stepFunctions.onboardingFinished} />;
-        case "permission":
-          return (
-            <LocationStep
-              onAccept={stepFunctions.onPermissionGranted}
-              onRejected={stepFunctions.onPermissionRejected}
-              onFailed={stepFunctions.onPermissionFailed}
-              onGeneralError={stepFunctions.onPermissionError}
-            />
-          );
-        case "no-permission":
-          return (
-            <LocationNoPermissionStep
-              onSubmit={stepFunctions.onRejectionSubmit}
-            />
-          );
-        case "failed-permission":
-          return (
-            <LocationFailedStep
-              onSubmit={stepFunctions.onLocationFailureResolved}
-            />
-          );
+      case 'onboarding':
+        return <OnboardingStep onClose={stepFunctions.onboardingFinished} />
+      case 'permission':
+        return (
+          <LocationStep
+            onAccept={stepFunctions.onPermissionGranted}
+            onRejected={stepFunctions.onPermissionRejected}
+            onFailed={stepFunctions.onPermissionFailed}
+            onGeneralError={stepFunctions.onPermissionError}
+          />
+        )
+      case 'no-permission':
+        return (
+          <LocationNoPermissionStep
+            onSubmit={stepFunctions.onRejectionSubmit}
+          />
+        )
+      case 'failed-permission':
+        return (
+          <LocationFailedStep
+            onSubmit={stepFunctions.onLocationFailureResolved}
+          />
+        )
+      default:
+        return undefined
       }
     },
-    [stepFunctions]
-  );
+    [stepFunctions],
+  )
 
   return (
     <StyledModalDialog
-      isVisible={true}
+      isVisible
       onClose={onClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
       ariaLabel={t`Start screen`}
     >
       {viewSelector(step)}
     </StyledModalDialog>
-  );
-};
+  )
+}
 
-const Version = styled.div`
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  margin-right: constant(safe-area-inset-right);
-  margin-right: env(safe-area-inset-right);
-  margin-bottom: constant(safe-area-inset-bottom);
-  margin-bottom: env(safe-area-inset-bottom);
-  font-size: 12px;
-  color: white;
-  opacity: 0.5;
-`;
-
-export default OnboardingDialog;
+export default OnboardingDialog

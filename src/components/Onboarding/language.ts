@@ -1,8 +1,8 @@
-import { parse } from "marked";
-import { t } from "ttag";
+import { parse } from 'marked'
+import { t } from 'ttag'
 
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
-import { ClientSideConfiguration } from "../../lib/model/ac/ClientSideConfiguration";
+import { translatedStringFromObject } from '../../lib/i18n/translatedStringFromObject'
+import { ClientSideConfiguration } from '../../lib/model/ac/ClientSideConfiguration'
 
 /**
  * Onboarding Step Texts
@@ -10,31 +10,30 @@ import { ClientSideConfiguration } from "../../lib/model/ac/ClientSideConfigurat
 
 // select a white label product name
 export const selectProductName = (
-  clientSideConfiguration: ClientSideConfiguration
-) =>
-  translatedStringFromObject(
-    clientSideConfiguration.textContent?.product.name
-  ) || "Wheelmap";
+  clientSideConfiguration: ClientSideConfiguration,
+) => translatedStringFromObject(
+  clientSideConfiguration.textContent?.product.name,
+) || 'Wheelmap'
 
 // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
 export const selectHeaderMarkdownHTML = (
-  clientSideConfiguration: ClientSideConfiguration
+  clientSideConfiguration: ClientSideConfiguration,
 ) => {
   const { headerMarkdown } = clientSideConfiguration.textContent
     ?.onboarding || {
     headerMarkdown: undefined,
-  };
-  return headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
-};
+  }
+  return headerMarkdown && parse(translatedStringFromObject(headerMarkdown))
+}
 
 // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-export const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+export const unknownAccessibilityIncentiveText = t`Help out by marking places!`
 
 // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-export const startButtonCaption = t`Okay, let’s go!`;
+export const startButtonCaption = t`Okay, let’s go!`
 
 // translator: The alternative description of the app logo for screen readers
-export const appLogoAltText = t`App Logo`;
+export const appLogoAltText = t`App Logo`
 
 /**
  * Location Step Texts
@@ -44,20 +43,22 @@ export const appLogoAltText = t`App Logo`;
 export const LocationStepPrimaryText = t`
 # Hold up — we may need your location permissions
 
-Wheelmap is primarily a map app, to orient yourself next to your surroundings, we may ask for location permissions of your device. You may change your decision at any time!
+Wheelmap is primarily a map app, to orient yourself next to your surroundings, we may ask for location permissions of your device.
+You may change your decision at any time!
 
 Your location always stays on your device.
-`;
+`
 
-export const DenyLocationPermissionText = t`Continue without location access`;
-export const GrantLocationPermissionText = t`I’m in!`;
+export const DenyLocationPermissionText = t`Continue without location access`
+export const GrantLocationPermissionText = t`I’m in!`
 
 export const LocationStepAdditionalHint = (uri: string) =>
   // translator: A hint that shows up, when acquiring location permissions initially failed
-  t`If you’re experiencing issues, you may consult [your devices permission configuration](${uri}).`;
+  // eslint-disable-next-line implicit-arrow-linebreak
+  t`If you’re experiencing issues, you may consult [your devices permission configuration](${uri}).`
 
 // translator: The onboarding shows a location search if there is no device location, this text shows up next to the search field
-export const LocationSearchContinueText = t`Continue`;
+export const LocationSearchContinueText = t`Continue`
 /**
  * Location No Permission Step Texts
  */
@@ -65,7 +66,7 @@ export const LocationSearchContinueText = t`Continue`;
 // translator: The text shows when a location perrmision has not been given
 export const LocationNoPermissionPrimaryText = (
   productName: string,
-  uri: string
+  uri: string,
 ) => t`
 # No Problem!
 
@@ -75,7 +76,7 @@ If you change our mind at any time, you can grant location permission for ${prod
 You can still use all features of Wheelmap.
 
 Do you want to start in the center of city instead?
-`;
+`
 
 /**
  * Location Failed Step Texts
@@ -87,4 +88,4 @@ export const LocationFailedStepPrimaryText = (productName: string) => t`
 
 Don't worry, you can still use all features of ${productName}.
 Do you want to start in the center of a city instead?
-`;
+`

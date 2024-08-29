@@ -1,14 +1,14 @@
-import { FC, useContext } from "react";
-import styled from "styled-components";
-import { AppContext } from "../../lib/context/AppContext";
-import SearchInputField from "../SearchPanel/SearchInputField";
-import { CallToActionButton } from "../shared/Button";
-import StyledMarkdown from "../shared/StyledMarkdown";
+import { FC, useContext } from 'react'
+import styled from 'styled-components'
+import { AppContext } from '../../lib/context/AppContext'
+import SearchInputField from '../SearchPanel/SearchInputField'
+import { CallToActionButton } from '../shared/Button'
+import StyledMarkdown from '../shared/StyledMarkdown'
 import {
   LocationFailedStepPrimaryText,
   LocationSearchContinueText,
   selectProductName,
-} from "./language";
+} from './language'
 
 const Container = styled.div`
   display: flex;
@@ -44,18 +44,18 @@ const Container = styled.div`
       flex: 1;
     }
   }
-`;
+`
 
 export const LocationFailedStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
-  const { clientSideConfiguration } = useContext(AppContext);
+  const { clientSideConfiguration } = useContext(AppContext)
 
   return (
     <Container>
       <StyledMarkdown>
         {LocationFailedStepPrimaryText(
-          selectProductName(clientSideConfiguration)
+          selectProductName(clientSideConfiguration),
         )}
       </StyledMarkdown>
       <footer className="footer">
@@ -70,5 +70,5 @@ export const LocationFailedStep: FC<{
         </CallToActionButton>
       </footer>
     </Container>
-  );
-};
+  )
+}
