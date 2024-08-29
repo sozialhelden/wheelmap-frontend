@@ -1,14 +1,22 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../lib/context/AppContext";
 import SearchInputField from "../SearchPanel/SearchInputField";
 import { CallToActionButton } from "../shared/Button";
+import StyledMarkdown from "../shared/StyledMarkdown";
+import {
+  LocationNoPermissionPrimaryText,
+  LocationSearchContinueText,
+  selectProductName,
+} from "./language";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
 
-  .title {
+  h1 {
     @media (min-width: 414px) {
       font-size: 1.25rem;
     }
@@ -17,11 +25,8 @@ const Container = styled.div`
     }
   }
 
-  .details {
-    display: flex;
-    flex-direction: column;
-    > .explainer {
-    }
+  > * {
+    max-width: 400px;
   }
 
   .footer {
@@ -30,7 +35,6 @@ const Container = styled.div`
     justify-content: center;
     align-self: center;
     gap: 24px;
-    max-width: 400px;
 
     > .input,
     > .button {
@@ -47,18 +51,16 @@ const OutlinedSearchInputField = styled(SearchInputField)`
 export const LocationNoPermissionStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
+  const { clientSideConfiguration } = useContext(AppContext);
+
   return (
     <Container>
-      <header className="title">No Problem!</header>
-      <section className="details">
-        <p>
-          If you change your mind at any time, you can grant location
-          permissions for Wheelmap at any time through{" "}
-          <a href="about:blank">your devices&apos; location setting</a>.
-        </p>
-        <p>Don&apos;t worry, you can still use all features of Wheelmap.</p>
-        <p>Do you want to start with in the center of a city instead?</p>
-      </section>
+      <StyledMarkdown>
+        {LocationNoPermissionPrimaryText(
+          selectProductName(clientSideConfiguration),
+          "about:blank"
+        )}
+      </StyledMarkdown>
       <footer className="footer">
         <OutlinedSearchInputField
           searchQuery="Berlin"
@@ -67,7 +69,7 @@ export const LocationNoPermissionStep: FC<{
           ariaRole="search"
         />
         <CallToActionButton className="button" onClick={onSubmit}>
-          Continue
+          {LocationSearchContinueText}
         </CallToActionButton>
       </footer>
     </Container>
