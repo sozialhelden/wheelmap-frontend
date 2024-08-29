@@ -27,8 +27,10 @@ const Container = styled.div`
   .footer {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-self: center;
     gap: 24px;
+    max-width: 400px;
 
     > .input,
     > .button {
@@ -37,18 +39,28 @@ const Container = styled.div`
   }
 `;
 
-export const LocationFailedStep: FC<{
+const OutlinedSearchInputField = styled(SearchInputField)`
+  border: 1px solid;
+  border-radius: 0.5rem;
+`;
+
+export const LocationNoPermissionStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
   return (
     <Container>
-      <header className="title">That did not work!</header>
+      <header className="title">No Problem!</header>
       <section className="details">
+        <p>
+          If you change your mind at any time, you can grant location
+          permissions for Wheelmap at any time through{" "}
+          <a href="about:blank">your devices&apos; location setting</a>.
+        </p>
         <p>Don&apos;t worry, you can still use all features of Wheelmap.</p>
         <p>Do you want to start with in the center of a city instead?</p>
       </section>
       <footer className="footer">
-        <SearchInputField
+        <OutlinedSearchInputField
           searchQuery="Berlin"
           onChange={() => {}}
           hidden={false}

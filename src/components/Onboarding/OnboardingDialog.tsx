@@ -1,10 +1,11 @@
 import * as React from "react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import colors from "../../lib/util/colors";
 import ModalDialog from "../shared/ModalDialog";
 import { LocationFailedStep } from "./LocationFailedStep";
+import { LocationNoPermissionStep } from "./LocationNoPermissionStep";
 import { LocationStep } from "./LocationStep";
 import { OnboardingStep } from "./OnboardingStep";
 
@@ -260,25 +261,87 @@ const StyledModalDialog = styled(ModalDialog)`
   }
 `;
 
+type OnboardingState =
+  | "onboarding"
+  | "permission"
+  | "no-permission"
+  | "failed-permission";
+
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
-  const [step, setStep] = useState<
-    "onboarding" | "permission" | "no-permission"
-  >("onboarding");
+  const [step, setStep] = useState<OnboardingState>("onboarding");
 
   // simple dsa to change flow of the onboarding steps depending on what's more important
   // optional result for the permission step
-  const onStepFinished = (result?: "accept" | "deny") => () => {
-    switch (step) {
-      case "onboarding":
-        setStep("permission");
-        break;
-      case "permission":
-        result === "deny" ? setStep("no-permission") : onClose();
-        break;
-      case "no-permission":
+  const stepFunctions = useMemo(
+    () => ({
+      onboardingFinished: () => {
+        if (step === "onboarding") {
+          setStep("permission");
+        }
+      },
+      onPermissionGranted: () => {
+        if (step === "permission") {
+          onClose();
+          return;
+        }
+      },
+      onPermissionRejected: () => {
+        if (step === "permission") {
+          setStep("no-permission");
+        }
+      },
+      onPermissionFailed: () => {
+        if (step === "permission") {
+          setStep("failed-permission");
+        }
+      },
+      onPermissionError: (error: GeolocationPositionError) => {
+        // todo: define behaviour or place it into a logger that's quiet in prod
+        console.log("Something did not work quite right here", error);
+        if (step === "permission") {
+          setStep("failed-permission");
+        }
+      },
+      onRejectionSubmit: () => {
         onClose();
-    }
-  };
+      },
+      onLocationFailureResolved: () => {
+        onClose();
+      },
+    }),
+    [setStep, step, onClose]
+  );
+
+  const viewSelector = useCallback(
+    (state: OnboardingState) => {
+      switch (state) {
+        case "onboarding":
+          return <OnboardingStep onClose={stepFunctions.onboardingFinished} />;
+        case "permission":
+          return (
+            <LocationStep
+              onAccept={stepFunctions.onPermissionGranted}
+              onRejected={stepFunctions.onPermissionRejected}
+              onFailed={stepFunctions.onPermissionFailed}
+              onGeneralError={stepFunctions.onPermissionError}
+            />
+          );
+        case "no-permission":
+          return (
+            <LocationNoPermissionStep
+              onSubmit={stepFunctions.onRejectionSubmit}
+            />
+          );
+        case "failed-permission":
+          return (
+            <LocationFailedStep
+              onSubmit={stepFunctions.onLocationFailureResolved}
+            />
+          );
+      }
+    },
+    [stepFunctions]
+  );
 
   return (
     <StyledModalDialog
@@ -287,14 +350,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
       ariaLabel={t`Start screen`}
     >
-      {step === "onboarding" && <OnboardingStep onClose={onStepFinished()} />}
-      {step === "permission" && (
-        <LocationStep
-          onAccept={onStepFinished("accept")}
-          onRejected={onStepFinished("deny")}
-        />
-      )}
-      {step === "no-permission" && <LocationFailedStep />}
+      {viewSelector(step)}
     </StyledModalDialog>
   );
 };

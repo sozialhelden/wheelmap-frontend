@@ -1,6 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { CallToActionButton } from "../shared/Button";
+import { cx } from "../../lib/util/cx";
+import { CallToActionButton, SecondaryButton } from "../shared/Button";
 
 const Container = styled.div`
   display: flex;
@@ -24,15 +25,71 @@ const Container = styled.div`
   }
 
   .footer {
+    max-width: 400px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-self: center;
+    gap: 24px;
 
-    > .accept,
+    > .accept {
+      flex: 0;
+      display: flex;
+      gap: 10px;
+      min-width: fit-content;
+      justify-items: center;
+      align-items: center;
+      padding: 0 24px;
+
+      > .text {
+        transition: 0.25s transform ease;
+        transform: translateX(12px);
+      }
+
+      &.active {
+        > .text {
+          transform: translateX(0);
+        }
+
+        > .loader {
+          opacity: 1;
+        }
+      }
+
+      > .loader {
+        width: 22px;
+        height: 22px;
+        border: 3px solid #fff;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        transition: 0.25s opacity ease;
+        opacity: 0;
+      }
+    }
     > .deny {
       flex: 1;
     }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
+`;
+
+const ReducedSecondaryButton = styled(SecondaryButton)`
+  // width is 100%
+  width: auto;
+  // conforms more with the call to action button
+  padding: 0.5em 0.75em;
+  border-radius: 0.5rem;
 `;
 
 type Stage = "idle" | "acquiring" | "failed-not-exited";
@@ -42,10 +99,10 @@ type Stage = "idle" | "acquiring" | "failed-not-exited";
 // position unavailable: stop being in a tunnel
 // timeout: "Geolocation information was not obtained in the allowed time."
 export const LocationStep: FC<{
-  onAccept?: () => unknown;
-  onRejected?: () => unknown;
-  onFailed?: () => unknown;
-  onGeneralError?: (error: GeolocationPositionError) => unknown;
+  onAccept: () => unknown;
+  onRejected: () => unknown;
+  onFailed: () => unknown;
+  onGeneralError: (error: GeolocationPositionError) => unknown;
   maxRetries?: number;
 }> = ({ onAccept, onFailed, onGeneralError, onRejected, maxRetries = 2 }) => {
   const [stage, setStage] = useState({ stage: "idle" as Stage, retries: 0 });
@@ -84,6 +141,8 @@ export const LocationStep: FC<{
     });
   }, [onAccept, stage, setStage, onGeneralError, maxRetries, onRejected]);
 
+  const isAcquiring = stage.stage === "acquiring";
+
   return (
     <Container>
       <header className="title">
@@ -98,21 +157,21 @@ export const LocationStep: FC<{
         <p>Your location always stays on your device.</p>
         {stage.retries > 0 && (
           <p>
-            If you&apos;re experiencing issues, you may consult your devices
-            permission configuration:
-            <a href="about:blank">device location permission</a>
+            If you&apos;re experiencing issues, you may consult{" "}
+            <a href="about:blank">your devices permission configuration</a>
           </p>
         )}
       </section>
       <footer className="footer">
-        <CallToActionButton onClick={onRejected} className=".deny">
+        <ReducedSecondaryButton onClick={onRejected} className="deny">
           Continue without location access
-        </CallToActionButton>
+        </ReducedSecondaryButton>
         <CallToActionButton
           onClick={requestLocationPermission}
-          className=".accept"
+          className={cx("accept", isAcquiring && "active")}
         >
-          I&apos;m in!
+          <span className="text">I&apos;m in!</span>
+          <span className="loader" />
         </CallToActionButton>
       </footer>
     </Container>
