@@ -8,8 +8,13 @@ import { saveState } from './util/savedState'
 
 const alertText = t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`;
 
-/** Get the URL to the devices location settings */
-export function getLocationSettingsUrl(): string | undefined {
+/**
+ * Get the URL to the devices location settings.
+ * Returns if `isSupportUrl` the devices support page on, otherwise an js-href link to show an alert box
+ * 
+ * @returns [locationUri, isSupportUrl]
+ */
+export function getLocationSettingsUrl(): [string, boolean] {
   const userAgent = parseUserAgentString(getUserAgentString())
 
   // @ts-ignore
@@ -33,19 +38,19 @@ export function getLocationSettingsUrl(): string | undefined {
   }
 
   if(identity in supportURLs) {
-    return supportURLs[identity]
+    return [supportURLs[identity], true] as const;
   }
   // poor but effective: when using a markdown renderer, this works reasonably well with prior behavior
-  return encodeURI(`javascript:window.alert(${alertText})`);
+  return [encodeURI(`javascript:window.alert(${alertText})`), false];
 }
 
 /** Open location settings or show the user how to open them */
 export default function goToLocationSettings() {
   saveState({ hasOpenedLocationHelp: 'true' })
-  const supportURL = getLocationSettingsUrl();
+  const [url, isSupportUrl] = getLocationSettingsUrl();
 
-  if (supportURL) {
-    window.open(supportURL, '_blank')
+  if (isSupportUrl) {
+    window.open(url, '_blank')
     return
   }
 

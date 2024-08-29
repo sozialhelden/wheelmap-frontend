@@ -10,34 +10,10 @@ import {
   LocationStepPrimaryText,
 } from "./language";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
+import { LocationContainer } from "./components/LocationContainer";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-
-  h1 {
-    @media (min-width: 414px) {
-      font-size: 1.25rem;
-    }
-    @media (min-height: 414px) {
-      font-size: 1.25rem;
-    }
-  }
-
-  > * {
-    max-width: 400px;
-  }
-
+const Container = styled(LocationContainer)`
   .footer {
-    max-width: 400px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-self: center;
-    gap: 24px;
-
     > .accept {
       flex: 0;
       display: flex;
@@ -148,12 +124,11 @@ export const LocationStep: FC<{
   }, [onAccept, stage, setStage, onGeneralError, maxRetries, onFailed]);
 
   const isAcquiring = stage.stage === "acquiring";
+  const [url] = getLocationSettingsUrl();
 
   // when retries fail, show an additional hint
   const primaryText = `${LocationStepPrimaryText}${
-    stage.retries > 0
-      ? `\n\n${LocationStepAdditionalHint(getLocationSettingsUrl())}`
-      : ""
+    stage.retries > 0 ? `\n\n${LocationStepAdditionalHint(url)}` : ""
   }`;
 
   return (
