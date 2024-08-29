@@ -11,7 +11,7 @@ export const maxContentWidth = 1280;
 
 export const StyledColors = {
   green: "#77AD2B",
-  grey: "#7b99a0",
+  grey: "#3E5656",
   darkgrey: "#394e51",
   silver: "#575757",
   red: "#d51030",

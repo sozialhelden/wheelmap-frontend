@@ -1,4 +1,5 @@
 import { uniq } from "lodash";
+import colors from "../../lib/colors";
 import { StyledColors } from "./styles";
 
 export const defaultLimit = 10000;
@@ -185,7 +186,7 @@ export function getWheelchairSettings(wheelchair: string): any {
     default:
       return {
         label: "Wheelchair accessibility Unknown",
-        color: StyledColors.grey,
+        color: colors.neutralColor,
       };
   }
 }
