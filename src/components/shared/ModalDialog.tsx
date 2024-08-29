@@ -16,8 +16,8 @@ type Props = {
 };
 
 const StyledSection = styled.section`
-  z-index: 10000000000;
-
+  z-index: 10000;
+  
   &,
   .modal-dialog-fullscreen-overlay,
   .modal-dialog-inner {

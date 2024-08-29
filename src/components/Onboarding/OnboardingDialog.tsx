@@ -14,6 +14,7 @@ type Props = {
 };
 
 const StyledModalDialog = styled(ModalDialog)`
+  isolation: isolate;
   @keyframes fadeIn {
     0% {
       opacity: 0;

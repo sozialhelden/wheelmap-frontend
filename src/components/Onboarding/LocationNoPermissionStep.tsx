@@ -1,14 +1,12 @@
 import { FC, useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../lib/context/AppContext'
-import SearchInputField from '../SearchPanel/SearchInputField'
-import { CallToActionButton } from '../shared/Button'
 import StyledMarkdown from '../shared/StyledMarkdown'
 import {
   LocationNoPermissionPrimaryText,
-  LocationSearchContinueText,
   selectProductName,
 } from './language'
+import { LocationSearch } from './components/LocationSearch'
 
 const Container = styled.div`
   display: flex;
@@ -43,11 +41,6 @@ const Container = styled.div`
   }
 `
 
-const OutlinedSearchInputField = styled(SearchInputField)`
-  border: 1px solid;
-  border-radius: 0.5rem;
-`
-
 export const LocationNoPermissionStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
@@ -62,15 +55,7 @@ export const LocationNoPermissionStep: FC<{
         )}
       </StyledMarkdown>
       <footer className="footer">
-        <OutlinedSearchInputField
-          searchQuery="Berlin"
-          onChange={() => {}}
-          hidden={false}
-          ariaRole="search"
-        />
-        <CallToActionButton className="button" onClick={onSubmit}>
-          {LocationSearchContinueText}
-        </CallToActionButton>
+        <LocationSearch onUserSelection={onSubmit} />
       </footer>
     </Container>
   )

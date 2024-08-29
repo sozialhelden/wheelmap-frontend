@@ -1,14 +1,12 @@
 import { FC, useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../lib/context/AppContext'
-import SearchInputField from '../SearchPanel/SearchInputField'
-import { CallToActionButton } from '../shared/Button'
 import StyledMarkdown from '../shared/StyledMarkdown'
 import {
   LocationFailedStepPrimaryText,
-  LocationSearchContinueText,
   selectProductName,
 } from './language'
+import { LocationSearch } from './components/LocationSearch'
 
 const Container = styled.div`
   display: flex;
@@ -59,15 +57,7 @@ export const LocationFailedStep: FC<{
         )}
       </StyledMarkdown>
       <footer className="footer">
-        <SearchInputField
-          searchQuery="Berlin"
-          onChange={() => {}}
-          hidden={false}
-          ariaRole="search"
-        />
-        <CallToActionButton className="button" onClick={onSubmit}>
-          {LocationSearchContinueText}
-        </CallToActionButton>
+        <LocationSearch onUserSelection={onSubmit} />
       </footer>
     </Container>
   )
