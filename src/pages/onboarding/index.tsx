@@ -7,7 +7,7 @@ import { saveState } from '../../lib/util/savedState'
 export default function Page() {
   const router = useRouter()
   const handleClose = React.useCallback(() => {
-    saveState({ onboardingCompleted: 'true' })
+    // saveState({ onboardingCompleted: 'true' })
     router.push('/')
   }, [router])
 

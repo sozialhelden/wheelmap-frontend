@@ -57,7 +57,8 @@ export const LocationStepAdditionalHint = (uri: string) =>
   // eslint-disable-next-line implicit-arrow-linebreak
   t`If you’re experiencing issues, you may consult [your devices permission configuration](${uri}).`
 
-// translator: The onboarding shows a location search if there is no device location, this text shows up next to the search field
+// translator: The onboarding shows a location search if there is no device location,
+// this text shows up next to the search field
 export const LocationSearchContinueText = t`Continue`
 /**
  * Location No Permission Step Texts
@@ -89,3 +90,12 @@ export const LocationFailedStepPrimaryText = (productName: string) => t`
 Don't worry, you can still use all features of ${productName}.
 Do you want to start in the center of a city instead?
 `
+
+/**
+ * Location Search Texts
+ */
+
+// translator: Text in a button to skip initial location selection
+export const SearchSkipText = t`Skip`
+// translator: Text in a button to set the initial location selection
+export const SearchConfirmText = t`Let’s go`

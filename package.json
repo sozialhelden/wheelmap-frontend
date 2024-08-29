@@ -9,6 +9,7 @@
   "dependencies": {
     "@blueprintjs/core": "^5.10.4",
     "@blueprintjs/popover2": "^2.1.6",
+    "@floating-ui/react": "^0.26.23",
     "@mapbox/mapbox-gl-language": "^1.0.0",
     "@primer/react": "^36.23.0",
     "@sozialhelden/a11yjson": "^31.0.2",
