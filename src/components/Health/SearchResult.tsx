@@ -3,7 +3,6 @@ import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import styled from "styled-components";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useUserAgent from "../../lib/context/UserAgentContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
@@ -13,29 +12,9 @@ import { getCategory } from "../../lib/model/ac/categories/Categories";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import CombinedIcon from "../SearchPanel/CombinedIcon";
-import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledHDivider, StyledUL, shadowCSS } from "./styles";
-
-const StyledListItem = styled.li`
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: space-between;
-  padding: 1rem;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-  background-color: white;
-  ${shadowCSS}
-`;
-
-const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
-  margin-left: 0.25rem;
-  margin-top: 0rem;
-  width: 2rem;
-`;
+import { StyledAccessibleToiletIcon, StyledButtonAsLink, StyledH3, StyledHDivider, StyledListItem, StyledUL } from "./styles";
 
 function SearchResult({ data }: any) {
   const { properties, _id, distance } = data;
@@ -129,7 +108,7 @@ function SearchResult({ data }: any) {
 
       <div style={{ flex: 1 }}>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <Link title={name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
+          <Link aria-label={name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
             {name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))}
             &nbsp;
             <ExternalLinkIcon />
@@ -144,12 +123,12 @@ function SearchResult({ data }: any) {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street && (
-            <StyledButtonAsLink href={openInMaps.url} target="_blank">
+            <StyledButtonAsLink aria-label={[[customAddress.street, customAddress.housenumber].filter(Boolean).join(" "), customAddress.postcode, customAddress.city].filter(Boolean).join(", ")} href={openInMaps.url} target="_blank">
               {[[customAddress.street, customAddress.housenumber].filter(Boolean).join(" "), customAddress.postcode, customAddress.city].filter(Boolean).join(", ")}
             </StyledButtonAsLink>
           )}
 
-          {customContact.phone && <StyledButtonAsLink href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>}
+          {customContact.phone && <StyledButtonAsLink aria-label={`tel:${customContact.phone}`} href={`tel:${customContact.phone}`} target="_blank"></StyledButtonAsLink>}
 
           {customContact.website && (
             <StyledButtonAsLink href={`${customContact.website}`} target="_blank" rel="noreferrer noopener">

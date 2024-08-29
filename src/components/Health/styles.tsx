@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import colors from "../../lib/colors";
 import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
 import SozialheldenInnenLogo from "../MapLegacy/SozialheldInnenLogo";
+import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
 
 export const containerSpacing = "1rem";
 export const borderRadius = "2rem";
@@ -46,11 +47,61 @@ export const shadowCSS = css`
   box-shadow: rgba(60, 64, 67, 0.1) 0px 1px 20px, rgba(60, 64, 67, 0.2) 0px 1px 3px;
 `;
 
+export const HugeText = styled.p`
+  font-size: 1.25rem;
+  opacity: 0.92;
+`;
+
+export const StyledListItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  background-color: white;
+  ${shadowCSS}
+`;
+
+export const StyledAccessibleToiletIcon = styled(ToiletStatuAccessibleIcon)`
+  margin-left: 0.25rem;
+  margin-top: 0rem;
+  width: 2rem;
+`;
+
+export const DialogContainer = styled.nav`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  line-height: 2rem;
+  background-color: rgb(255, 255, 255, 1);
+  border-radius: 0.25rem;
+  ${shadowCSS}
+  gap: .5rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+    max-width: 100%;
+  }
+
+  fieldset + fieldset {
+    margin-top: 1rem;
+  }
+`;
+
 export const StyledMainContainer = styled.div`
   * {
     outline-color: ${colors.linkColor};
   }
-  background-color: white;
+  background-color: ${colors.neutralBackgroundColor};
   > div {
     overflow-y: auto;
     margin-inline: auto;

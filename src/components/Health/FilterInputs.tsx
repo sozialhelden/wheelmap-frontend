@@ -3,7 +3,6 @@ import { Callout } from "@blueprintjs/core";
 import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
-import styled from "styled-components";
 import useSWR from "swr";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
@@ -15,33 +14,7 @@ import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter, shadowCSS } from "./styles";
-
-const DialogContainer = styled.nav`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  line-height: 2rem;
-  background-color: rgb(255, 255, 255, 1);
-  border-radius: 0.25rem;
-  ${shadowCSS}
-  gap: .5rem;
-
-  fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: start;
-    max-width: 100%;
-  }
-
-  fieldset + fieldset {
-    margin-top: 1rem;
-  }
-`;
+import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();

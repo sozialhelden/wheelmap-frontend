@@ -1,24 +1,16 @@
 import Head from "next/head";
 // @ts-ignore
-import { T, useT } from "@transifex/react";
+import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
-import styled from "styled-components";
 import useSWR from "swr";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityListResponse, calculateDistance, generateAmenityListURL, getGoodName, getWheelchairSettings } from "./helpers";
-import { FullSizeFlexContainer, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
-
-const HugeText = styled.p`
-  font-size: 1.25rem;
-  opacity: 0.92;
-`;
+import { FullSizeFlexContainer, HugeText, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function NonIdealContent() {
-  const t = useT();
-
   return (
     <div style={{ marginTop: "10rem", textAlign: "center" }}>
       <HugeText>
