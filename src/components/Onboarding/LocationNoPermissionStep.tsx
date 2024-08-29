@@ -1,14 +1,14 @@
-import { FC, useContext } from "react";
-import styled from "styled-components";
-import { AppContext } from "../../lib/context/AppContext";
-import SearchInputField from "../SearchPanel/SearchInputField";
-import { CallToActionButton } from "../shared/Button";
-import StyledMarkdown from "../shared/StyledMarkdown";
+import { FC, useContext } from 'react'
+import styled from 'styled-components'
+import { AppContext } from '../../lib/context/AppContext'
+import SearchInputField from '../SearchPanel/SearchInputField'
+import { CallToActionButton } from '../shared/Button'
+import StyledMarkdown from '../shared/StyledMarkdown'
 import {
   LocationNoPermissionPrimaryText,
   LocationSearchContinueText,
   selectProductName,
-} from "./language";
+} from './language'
 
 const Container = styled.div`
   display: flex;
@@ -41,24 +41,24 @@ const Container = styled.div`
       flex: 1;
     }
   }
-`;
+`
 
 const OutlinedSearchInputField = styled(SearchInputField)`
   border: 1px solid;
   border-radius: 0.5rem;
-`;
+`
 
 export const LocationNoPermissionStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
-  const { clientSideConfiguration } = useContext(AppContext);
+  const { clientSideConfiguration } = useContext(AppContext)
 
   return (
     <Container>
       <StyledMarkdown>
         {LocationNoPermissionPrimaryText(
           selectProductName(clientSideConfiguration),
-          "about:blank"
+          'about:blank',
         )}
       </StyledMarkdown>
       <footer className="footer">
@@ -73,5 +73,5 @@ export const LocationNoPermissionStep: FC<{
         </CallToActionButton>
       </footer>
     </Container>
-  );
-};
+  )
+}

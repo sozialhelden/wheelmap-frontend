@@ -1,14 +1,16 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
-import { cx } from "../../lib/util/cx";
-import { CallToActionButton, SecondaryButton } from "../shared/Button";
-import StyledMarkdown from "../shared/StyledMarkdown";
+import {
+  FC, useCallback, useEffect, useState,
+} from 'react'
+import styled from 'styled-components'
+import { cx } from '../../lib/util/cx'
+import { CallToActionButton, SecondaryButton } from '../shared/Button'
+import StyledMarkdown from '../shared/StyledMarkdown'
 import {
   DenyLocationPermissionText,
   GrantLocationPermissionText,
   LocationStepAdditionalHint,
   LocationStepPrimaryText,
-} from "./language";
+} from './language'
 
 const Container = styled.div`
   display: flex;
@@ -87,7 +89,7 @@ const Container = styled.div`
       }
     }
   }
-`;
+`
 
 const ReducedSecondaryButton = styled(SecondaryButton)`
   // width is 100%
@@ -95,9 +97,9 @@ const ReducedSecondaryButton = styled(SecondaryButton)`
   // conforms more with the call to action button
   padding: 0.5em 0.75em;
   border-radius: 0.5rem;
-`;
+`
 
-type Stage = "idle" | "acquiring" | "failed-not-exited";
+type Stage = 'idle' | 'acquiring' | 'failed-not-exited';
 
 // oeuf, there are many exit points that may be consolidated:
 // permission denied: ok, they denied
@@ -109,49 +111,51 @@ export const LocationStep: FC<{
   onFailed: () => unknown;
   onGeneralError: (error: GeolocationPositionError) => unknown;
   maxRetries?: number;
-}> = ({ onAccept, onFailed, onGeneralError, onRejected, maxRetries = 2 }) => {
-  const [stage, setStage] = useState({ stage: "idle" as Stage, retries: 0 });
+}> = ({
+  onAccept, onFailed, onGeneralError, onRejected, maxRetries = 2,
+}) => {
+  const [stage, setStage] = useState({ stage: 'idle' as Stage, retries: 0 })
 
   useEffect(() => {
     if (!navigator.geolocation) {
       // unsupported feature, default disabled?
-      onFailed();
+      onFailed()
     }
-  }, [onFailed]);
+  }, [onFailed])
 
   // failing to get the permission puts the UI in a failure state, but does not
   // exit. If the user pressed okay, but then denied from the browser
   // we may as well retry and give enough insights
   const requestLocationPermission = useCallback(() => {
-    setStage({ ...stage, stage: "acquiring" });
+    setStage({ ...stage, stage: 'acquiring' })
 
     navigator.geolocation.getCurrentPosition(onAccept, (error) => {
       if (error.code === error.POSITION_UNAVAILABLE) {
-        onAccept();
-        return;
+        onAccept()
+        return
       }
       if (
-        error.code === error.PERMISSION_DENIED ||
-        error.code === error.TIMEOUT
+        error.code === error.PERMISSION_DENIED
+        || error.code === error.TIMEOUT
       ) {
         if (stage.retries >= maxRetries) {
-          onFailed();
-          return;
+          onFailed()
+          return
         }
-        setStage({ stage: "failed-not-exited", retries: stage.retries + 1 });
-        return;
+        setStage({ stage: 'failed-not-exited', retries: stage.retries + 1 })
+        return
       }
 
-      onGeneralError(error);
-    });
-  }, [onAccept, stage, setStage, onGeneralError, maxRetries, onFailed]);
+      onGeneralError(error)
+    })
+  }, [onAccept, stage, setStage, onGeneralError, maxRetries, onFailed])
 
-  const isAcquiring = stage.stage === "acquiring";
+  const isAcquiring = stage.stage === 'acquiring'
 
   // when retries fail, show an additional hint
   const primaryText = `${LocationStepPrimaryText}${
-    stage.retries > 0 ? `\n\n${LocationStepAdditionalHint("about:blank")}` : ""
-  }`;
+    stage.retries > 0 ? `\n\n${LocationStepAdditionalHint('about:blank')}` : ''
+  }`
 
   return (
     <Container>
@@ -163,12 +167,12 @@ export const LocationStep: FC<{
         </ReducedSecondaryButton>
         <CallToActionButton
           onClick={requestLocationPermission}
-          className={cx("accept", isAcquiring && "active")}
+          className={cx('accept', isAcquiring && 'active')}
         >
           <span className="text">{GrantLocationPermissionText}</span>
           <span className="loader" />
         </CallToActionButton>
       </footer>
     </Container>
-  );
-};
+  )
+}
