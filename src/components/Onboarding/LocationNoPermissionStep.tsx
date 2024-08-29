@@ -1,13 +1,12 @@
-import { FC, useContext } from 'react'
-import styled from 'styled-components'
-import { AppContext } from '../../lib/context/AppContext'
-import StyledMarkdown from '../shared/StyledMarkdown'
-import {
-  LocationNoPermissionPrimaryText,
-  selectProductName,
-} from './language'
-import { LocationSearch } from './components/LocationSearch'
-import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { FC, useContext } from "react";
+import styled from "styled-components";
+import { AppContext } from "../../lib/context/AppContext";
+import StyledMarkdown from "../shared/StyledMarkdown";
+import { LocationNoPermissionPrimaryText, selectProductName } from "./language";
+import { LocationSearch } from "./components/LocationSearch";
+import { KomootPhotonResultFeature } from "../../lib/fetchers/fetchPlacesOnKomootPhoton";
+import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
+import marked from "marked";
 
 const Container = styled.div`
   display: flex;
@@ -40,24 +39,23 @@ const Container = styled.div`
       flex: 1;
     }
   }
-`
+`;
 
 export const LocationNoPermissionStep: FC<{
   onSubmit: (location?: KomootPhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
-  const { clientSideConfiguration } = useContext(AppContext)
-
+  const { clientSideConfiguration } = useContext(AppContext);
   return (
     <Container>
       <StyledMarkdown>
         {LocationNoPermissionPrimaryText(
           selectProductName(clientSideConfiguration),
-          'about:blank',
+          getLocationSettingsUrl()
         )}
       </StyledMarkdown>
       <footer className="footer">
         <LocationSearch onUserSelection={onSubmit} />
       </footer>
     </Container>
-  )
-}
+  );
+};
