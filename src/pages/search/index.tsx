@@ -23,7 +23,9 @@ export default function Page() {
   const router = useAppStateAwareRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(router.searchParams.wheelchair)
   const toiletFilter = getAccessibilityFilterFrom(router.searchParams.toilet) as YesNoUnknown[]
-  const { category, q: searchQuery } = router.searchParams
+  const {
+    category, q: searchQuery, lat, lon,
+  } = router.searchParams
 
   // TODO: Load this correctly via SWR
   const categories: CategoryLookupTables = {
@@ -73,11 +75,15 @@ export default function Page() {
     searchTitle = t`Search results`
   }
 
+  // TODO use user position for search, not just map center
   const {
     data: searchResults,
     isValidating: isSearching,
     error: searchError,
-  } = useSWR({ query: searchQuery }, fetchPlacesOnKomootPhoton)
+  } = useSWR(
+    [searchQuery?.trim(), lat, lon],
+    fetchPlacesOnKomootPhoton,
+    { isPaused: () => !searchQuery || searchQuery.trim().length < 2 })
 
   function toTypeTaggedSearchResults(
     col: SearchResultCollection,
@@ -105,7 +111,6 @@ export default function Page() {
         onClose={closeSearchPanel}
         onClick={handleSearchPanelClick}
         isExpanded
-        hasGoButton={false}
         accessibilityFilter={accessibilityFilter}
         toiletFilter={toiletFilter}
         categories={categories}

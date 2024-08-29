@@ -68,6 +68,8 @@ export function buildOriginalOsmId(
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
 
+const useLocationBiasedSearch = true
+
 export default function fetchPlaceSearchResults(
   query: string,
   lat: number | undefined,
@@ -88,20 +90,19 @@ export default function fetchPlaceSearchResults(
 
   const url = `https://photon.komoot.io/api/?q=${encodedQuery}&limit=30${localeSuffix}`
 
-  // For now, no location bias anymore: It seems to sort irrelevant results to the top
-  // so you are not able to find New York anymore when entering 'New York', for example
-  // let locationBiasedUrl = url;
-  // if (typeof lat === 'number' && typeof lon === 'number') {
-  //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
-  // }
+  let locationBiasedUrl = url
+  if (useLocationBiasedSearch && typeof lat === 'number' && typeof lon === 'number') {
+    locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`
+  }
 
-  return fetch(url).then((response) => response.json())
+  return fetch(locationBiasedUrl).then((response) => response.json())
 }
 
 export const searchPlacesDebounced: (
   query: string,
-  coords: { lat?: number | undefined; lon?: number | undefined }
+  lat: number | undefined,
+  lon: number | undefined
 ) => Promise<SearchResultCollection | null> = debouncePromise(
-  (q, c) => fetchPlaceSearchResults(q, c.lat, c.lon),
-  500,
+  (q, lat, lon) => fetchPlaceSearchResults(q, lat, lon),
+  350,
 )

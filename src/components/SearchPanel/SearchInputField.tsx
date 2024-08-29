@@ -1,4 +1,3 @@
-import { interpolateLab } from 'd3-interpolate'
 import _ from 'lodash'
 import * as React from 'react'
 import {
@@ -6,9 +5,8 @@ import {
 } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
-import colors from '../../lib/util/colors'
 
-const DEBOUNCE_THRESHOLD_MS = 500
+const DEBOUNCE_THRESHOLD_MS = 350
 
 const StyledSearchInputField = styled.input`
     display: block;
@@ -20,15 +18,12 @@ const StyledSearchInputField = styled.input`
     border-radius: 0;
     background-color: transparent;
     margin: 0;
-
-    ${(props) => (props.disabled ? 'cursor: pointer;' : '')}
+    cursor: pointer;
 
     transition: width 0.3s ease-out, height 0.3s ease-out;
 
     &:focus, &.focus-visible {
         outline: none;
-        box-shadow: none;
-            /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
     }
 
     &::-webkit-input-placeholder,
@@ -42,6 +37,7 @@ const StyledSearchInputField = styled.input`
 
     &:disabled {
         opacity: 1;
+        cursor: unset;
     }
 `
 
@@ -56,7 +52,8 @@ type SearchInputFieldProps = {
   ariaRole: string;
   disabled?: boolean | null;
   className?: string;
-};
+  autoFocus?: boolean;
+}
 
 const SearchInputField = forwardRef(
   (
@@ -71,6 +68,7 @@ const SearchInputField = forwardRef(
       onBlur,
       onFocus,
       onClick,
+      autoFocus,
     }: SearchInputFieldProps,
     ref: { current: null | HTMLInputElement },
   ) => {
@@ -116,7 +114,7 @@ const SearchInputField = forwardRef(
         aria-label={defaultPlaceholder}
         role={ariaRole}
         autoComplete="off"
-        autoFocus={false}
+        autoFocus={autoFocus}
       />
     )
   },

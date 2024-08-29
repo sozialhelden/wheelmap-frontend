@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import { t } from 'ttag'
 
 import AccessibilityFilterMenu from './AccessibilityFilterMenu'
@@ -14,13 +13,10 @@ import {
   isAccessibilityFiltered,
 } from '../../lib/model/ac/filterAccessibility'
 import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature'
-import { isOnSmallViewport } from '../../lib/util/ViewportSize'
 import Spinner from '../ActivityIndicator/Spinner'
 import CloseLink from '../shared/CloseLink'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { PlaceFilter } from './AccessibilityFilterModel'
-import { GoButton } from './GoButton'
-import { StyledChevronRight } from './StyledChevronRight'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
@@ -39,7 +35,6 @@ export type Props = PlaceFilter & {
   onClose?: () => void | null;
   onClick?: () => void;
   isExpanded?: boolean;
-  hasGoButton?: boolean;
   searchResults?: null | SearchResultCollection | AnyFeatureCollection;
   isSearching?: boolean;
   searchError?: string;
@@ -59,7 +54,6 @@ export default function SearchPanel({
   onClose,
   onClick,
   isExpanded,
-  hasGoButton,
   searchResults,
   minimalTopPosition,
   isSearching,
@@ -67,34 +61,11 @@ export default function SearchPanel({
 }: Props) {
   const { accessibilityFilter, toiletFilter } = useAppStateAwareRouter()
   const searchInputFieldRef = React.createRef<HTMLInputElement>()
-  const goButtonRef = React.createRef<HTMLButtonElement>()
-
-  const focus = React.useCallback(() => {
-    if (
-      window.document.activeElement === ReactDOM.findDOMNode(goButtonRef.current)
-      || window.document.activeElement === ReactDOM.findDOMNode(searchInputFieldRef.current)
-    ) {
-      return
-    }
-    if (isOnSmallViewport()) {
-      if (!goButtonRef.current) return
-      goButtonRef.current.focus()
-    } else {
-      if (!searchInputFieldRef.current) return
-      searchInputFieldRef.current.focus()
-    }
-  }, [goButtonRef, searchInputFieldRef])
 
   const blur = React.useCallback(() => {
     if (!searchInputFieldRef.current) return
     searchInputFieldRef.current.blur()
   }, [searchInputFieldRef])
-
-  React.useEffect(() => {
-    if (!hidden) {
-      focus()
-    }
-  }, [focus, hidden])
 
   const clearSearch = React.useCallback(() => {
     onChangeSearchQuery?.('')
@@ -110,6 +81,7 @@ export default function SearchPanel({
       ref={searchInputFieldRef}
       searchQuery={searchQuery || ''}
       hidden={hidden}
+      autoFocus={!inert}
       onClick={() => {
         window.scrollTo(0, 0)
         onClick?.()
@@ -124,15 +96,6 @@ export default function SearchPanel({
       }}
       ariaRole="searchbox"
     />
-  )
-
-  // translator: button shown next to the search bar
-  const goButtonCaption = t`Go`
-  const goButton = (
-    <GoButton ref={goButtonRef} onClick={onClose}>
-      {goButtonCaption}
-      <StyledChevronRight />
-    </GoButton>
   )
 
   const categoryMenuOrNothing = (category || isExpanded || showCategoryMenu) && (
@@ -213,7 +176,6 @@ export default function SearchPanel({
             <SearchIcon />
             {searchInputField}
             {searchQuery && closeLink}
-            {!searchQuery && hasGoButton && goButton}
           </form>
         </header>
         <section onTouchStart={() => blur()}>{contentBelowSearchField}</section>

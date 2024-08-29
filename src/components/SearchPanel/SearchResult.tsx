@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { t } from 'ttag'
 
-import Link from 'next/link'
 import styled from 'styled-components'
 import { SearchResultFeature } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
@@ -13,6 +12,7 @@ import colors from '../../lib/util/colors'
 import Address from '../NodeToolbar/Address'
 import Icon from '../shared/Icon'
 import { PlaceNameHeader } from '../shared/PlaceName'
+import { AppStateLink } from '../App/AppStateLink'
 
 type Props = {
   className?: string;
@@ -144,7 +144,7 @@ export default function SearchResult(props: Props) {
   )
   return (
     <StyledListItem className={className}>
-      <Link href={href} tabIndex={props.hidden ? -1 : 0}>
+      <AppStateLink href={href} tabIndex={props.hidden ? -1 : 0}>
         <PlaceNameHeader
           className={wheelmapFeatureProperties ? 'is-on-wheelmap' : undefined}
         >
@@ -160,7 +160,7 @@ export default function SearchResult(props: Props) {
           {placeName}
         </PlaceNameHeader>
         {address ? <Address role="none">{address}</Address> : null}
-      </Link>
+      </AppStateLink>
     </StyledListItem>
   )
 }
