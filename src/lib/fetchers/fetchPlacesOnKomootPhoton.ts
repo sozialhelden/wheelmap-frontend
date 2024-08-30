@@ -34,6 +34,9 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
   query: string,
   additionalQueryParameters: Record<string, string | string[]> | {},
 }): Promise<SearchResultCollection> {
+  if (query.length <= 0) {
+    return undefined
+  }
   const languageCode = window.navigator.language.slice(0, 2)
   const supportedLanguageCodes = ['en', 'de', 'fr', 'it'] // See Photon documentation
 
@@ -54,7 +57,7 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
     queryParameters.append('lang', languageCode)
   }
 
-  const url = `https://photon.komoot.io/api/?${queryParameters.toString()}`
+  const url = `https://photon.komoot.io/api?${queryParameters.toString()}`
 
   // For now, no location bias anymore: It seems to sort irrelevant results to the top
   // so you are not able to find New York anymore when entering 'New York', for example

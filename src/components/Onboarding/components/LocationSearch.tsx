@@ -1,5 +1,5 @@
 import {
-  FC, useMemo, useRef, useState,
+  FC, useContext, useMemo, useRef, useState,
 } from 'react'
 import {
   useFloating,
@@ -16,14 +16,42 @@ import {
   FloatingPortal,
 } from '@floating-ui/react'
 import useSWR from 'swr'
+import { FeatureCollection, Point } from 'geojson'
+import { center as turfCenter } from '@turf/turf'
 import fetchPlacesOnKomootPhoton, { KomootPhotonResultFeature } from '../../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { CallToActionButton } from '../../shared/Button'
 import { SearchConfirmText, SearchSkipText } from '../language'
+import CountryContext from '../../../lib/context/CountryContext'
+import fetchCountryGeometry from '../../../lib/fetchers/fetchCountryGeometry'
 
 export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
   const [{ value, origin, selection }, setValue] = useState({ value: '', origin: 'system', selection: '' })
 
-  const { data } = useSWR({ query: value, additionalQueryParameters: { layer: 'city' } }, fetchPlacesOnKomootPhoton)
+  const region = useContext(CountryContext)
+  const { data: regionGeometry } = useSWR<FeatureCollection>({ }, fetchCountryGeometry)
+  const bias = useMemo(() => {
+    if (!regionGeometry) {
+      return undefined
+    }
+
+    const location = regionGeometry.features.find((x) => x.properties['ISO3166-1'] === region)
+
+    let center: Point
+    if ('centroid' in location) {
+      center = location.centroid as Point
+    } else {
+      center = turfCenter(location).geometry
+    }
+    const computedBias = {
+      lon: center.coordinates[0].toString(),
+      lat: center.coordinates[1].toString(),
+      zoom: '5',
+      location_bias_scale: '1.0',
+    } as const
+    return computedBias
+  }, [regionGeometry, region])
+
+  const { data } = useSWR({ query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPlacesOnKomootPhoton)
   const filteredData = useMemo(() => {
     if (!data) {
       return []
