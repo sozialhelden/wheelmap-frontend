@@ -45,6 +45,8 @@
       "error",
       "as-needed"
     ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "@stylistic/js/max-len": [
       "error",
       {
