@@ -65,7 +65,7 @@ function nest(tree: ITreeNode) {
 export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
   const nestedTags = React.useMemo(
     () => {
-      const filteredKeys = Object.keys(feature.properties)
+      const filteredKeys = Object.keys(feature.properties || {})
         .filter((key) => !omittedKeys.has(key))
         .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
         .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)))
@@ -81,8 +81,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
       // );
 
       const tree = generateTree(accessibilityRelevantKeys)
-      const nestedTags = nest(tree)
-      return nestedTags
+      return nest(tree)
     },
     [feature],
   )

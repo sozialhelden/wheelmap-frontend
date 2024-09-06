@@ -15,9 +15,12 @@ const Unit = styled.span.attrs({ className: 'unit' })`
 
 `
 
-export default function DisplayedQuantity({ value, defaultUnit }: { value: string; defaultUnit: string }) {
-  const quantity = React.useMemo(() => parseQuantity(value), [value])
-  if (typeof quantity === 'string') {
+export default function DisplayedQuantity({ value, defaultUnit }: { value: string | number; defaultUnit: string }) {
+  const quantity = React.useMemo(
+    () => (typeof value === 'string' ? parseQuantity(value) : value),
+    [value],
+  )
+  if (typeof quantity === 'string' || typeof quantity === 'number') {
     return <Quantity>{quantity}</Quantity>
   }
   const { unit, value: quantityValue } = quantity

@@ -16,7 +16,7 @@ export const addressKeys = {
 }
 
 type PartialAddress = Partial<
-  { [Property in keyof typeof addressKeys]: string }
+  { [Property in keyof typeof addressKeys]: string | number }
 >;
 
 type Props = {
@@ -46,14 +46,14 @@ export default function FeatureAddressString(props: Props) {
 export function addressForFeature(feature: AnyFeature) {
   const address: PartialAddress = {}
 
-  for (const key of Object.keys(addressKeys)) {
+  Object.keys(addressKeys).forEach((key) => {
     if (feature.properties[key]) {
       address[key] = feature.properties[key]
     }
     if (feature.properties[`addr:${key}`]) {
       address[key] = feature.properties[`addr:${key}`]
     }
-  }
+  })
 
   if ('city' in address && 'suburb' in address) {
     address.city = `${address.city}-${address.suburb}`
@@ -71,9 +71,10 @@ export function addressForFeature(feature: AnyFeature) {
   }
 
   if ('level' in address) {
-    if (address.level.match(/^-?\d+(?:[.,;]\d+)*$/)) {
-      const level = address.level.replace(/[,;]/g, '–')
-      address.level = t`Level ${level}`
+    const { level } = address
+    if (typeof level === 'number' || level.match(/^-?\d+(?:[.,;]\d+)*$/)) {
+      const levelString = typeof level === 'string' ? level.replace?.(/[,;]/g, '–') : String(level)
+      address.level = t`Level ${levelString}`
     }
   }
 

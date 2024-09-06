@@ -21,21 +21,24 @@ export default function OSMTagTable(props: {
 }) {
   const router = useRouter()
   const { ids } = router.query
-  const { feature } = props
+  const { feature, isHorizontal, nestedTags } = props
 
   const languageTags = useCurrentLanguageTagStrings()
   const {
     map: attributesById,
   } = useAccessibilityAttributesIdMap(languageTags)
 
-  const SurroundingListElement = props.isHorizontal ? StyledList : StyledTable
+  const SurroundingListElement = isHorizontal ? StyledList : StyledTable
   return (
     <SurroundingListElement>
-      {props.nestedTags.map(({ key, children }) => {
+      {nestedTags.map(({ key, children }) => {
         const originalOSMTagValue = feature.properties[key] || ''
-        const tagValues = tagsWithSemicolonSupport.includes(key)
-          ? originalOSMTagValue?.split(';') || []
-          : [originalOSMTagValue]
+        let tagValues = []
+        if (tagsWithSemicolonSupport.includes(key) && typeof originalOSMTagValue === 'string') {
+          tagValues = originalOSMTagValue?.split(';') || []
+        } else {
+          tagValues = [originalOSMTagValue]
+        }
         return tagValues.map((singleValue) => {
           const matchedKey = Object.keys(
             valueRenderFunctions,
@@ -64,11 +67,11 @@ export default function OSMTagTable(props: {
                 keyName={singleValue}
                 {...tagProps}
                 valueElement={nestedTable}
-                isHorizontal={props.isHorizontal}
+                isHorizontal={isHorizontal}
               />
             )
           }
-          return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={props.isHorizontal} />
+          return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={isHorizontal} />
         })
       })}
     </SurroundingListElement>
