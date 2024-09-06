@@ -1,13 +1,12 @@
-import useSWR, { SWRResponse } from "swr";
-import AccessibilityCloudError from "./AccessibilityCloudError";
-import { CollectionName } from "./ACCollection";
-import { fetchCollectionWithTypeTags } from "./fetchCollection";
-import useAccessibilityCloudAPI from "./useAccessibilityCloudAPI";
-import { Geometry, Point } from "geojson";
-import { ListOrFeatureCollection } from "./ListOrFeatureCollection";
-import { CollectionResultType } from "./CollectionResultType";
-import useSWRWithErrorToast from "../../util/useSWRWithErrorToast";
-import { useMemo } from "react";
+import useSWR, { SWRResponse } from 'swr'
+import { Geometry, Point } from 'geojson'
+import { useMemo } from 'react'
+import ResourceError from '../ResourceError'
+import { CollectionName } from './ACCollection'
+import { fetchCollectionWithTypeTags } from './fetchCollection'
+import useAccessibilityCloudAPI from './useAccessibilityCloudAPI'
+import { ListOrFeatureCollection } from './ListOrFeatureCollection'
+import { CollectionResultType } from './CollectionResultType'
 
 type Args = {
   collectionName: CollectionName;
@@ -16,13 +15,19 @@ type Args = {
   shouldRun?: boolean;
 }
 
-
 /**
  * Fetch a collection of documents from the accessibility.cloud API and cache it with SWR.
  *
  * The collection can be a list of documents (wrapped with metadata) or a geometry-typed GeoJSON FeatureCollection.
  *
- * @example const { data, error } = useCollectionSWR({ collectionName: 'PlaceInfos', params: new URLSearchParams({ x: 1, y: 2, z: 3 }, cached: false, shouldRun: true })
+ * @example ```typescript
+ * const { data, error } = useCollectionSWR({
+ *   collectionName: 'PlaceInfos',
+ *   params: new URLSearchParams({ x: 1, y: 2, z: 3 },
+ *   cached: false,
+ *   shouldRun: true,
+ * });
+ * ```
  */
 
 export default function useCollectionSWR<D, R extends CollectionResultType = 'List', G extends Geometry | null = Point>({
@@ -30,21 +35,15 @@ export default function useCollectionSWR<D, R extends CollectionResultType = 'Li
   params,
   cached = true,
   shouldRun = true,
-}: Args): SWRResponse<ListOrFeatureCollection<D, R, G>, AccessibilityCloudError> {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached });
-  const paramsWithAppToken = new URLSearchParams(params);
-  paramsWithAppToken.append('appToken', appToken);
-  const paramsString = paramsWithAppToken.toString();
-  const transform = useMemo(() => ({
-    summary: (text: any) => <span>{text}</span>,
-    instructions: (text: any) => <span>{text}</span>,
-    details: (text: any) => <span>{text}</span>,
-  }), []);
-  const swrConfig = useMemo(() => ({}), []);
-  return useSWRWithErrorToast<ListOrFeatureCollection<D, R, G>, AccessibilityCloudError>(
-    transform,
+}: Args): SWRResponse<ListOrFeatureCollection<D, R, G>, ResourceError> {
+  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached })
+  const paramsWithAppToken = new URLSearchParams(params)
+  paramsWithAppToken.append('appToken', appToken)
+  const paramsString = paramsWithAppToken.toString()
+  const swrConfig = useMemo(() => ({}), [])
+  return useSWR<ListOrFeatureCollection<D, R, G>, ResourceError>(
     shouldRun && baseUrl && [baseUrl, collectionName, paramsString],
     fetchCollectionWithTypeTags,
     swrConfig,
-  );
+  )
 }

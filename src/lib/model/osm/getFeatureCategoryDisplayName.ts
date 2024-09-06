@@ -5,6 +5,9 @@ import OSMFeature from './OSMFeature'
 
 export default function getGenericCategoryDisplayName(feature: OSMFeature, attributeMap: Map<string, IAccessibilityAttribute>, languageTags: string[]) {
   const { properties } = feature
+  if (!properties) {
+    return { tagKeys: [], displayName: undefined }
+  }
   const tagKeys: string[] = []
 
   const keysWithKeyAsSuffix = [
@@ -34,15 +37,14 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
 
   const result = []
 
-  for (const key of keysWithoutKeyAsSuffix) {
+  keysWithoutKeyAsSuffix.forEach((key) => {
     if (properties[key] && properties[key] !== 'yes') {
-      result.push(`${humanize(properties[key])} ${properties.ref || ''}`)
+      result.push(`${humanize(String(properties[key]))} ${properties.ref || ''}`)
       tagKeys.push(key)
-      break
     }
-  }
+  })
 
-  for (const key of keysWithKeyAsSuffix) {
+  keysWithKeyAsSuffix.forEach((key) => {
     if (properties[key] && properties[key] !== 'yes') {
       const attributeId = `osm:${key}=${properties[key]}`
       const attribute = attributeMap?.get(attributeId)
@@ -51,16 +53,15 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
       if (attribute) {
         const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags)
         result.push(`${fullTypeName} ${properties.ref || ''}`)
-        break
+      } else {
+        const specifier = humanize(String(properties[key]))
+        const typeName = key
+        result.push(`${specifier} ${typeName} ${properties.ref || ''}`)
       }
-      const specifier = humanize(properties[key])
-      const typeName = key
-      result.push(`${specifier} ${typeName} ${properties.ref || ''}`)
-      break
     }
-  }
+  })
 
-  for (const key of [...keysWithKeyAsSuffix, ...keysWithoutKeyAsSuffix]) {
+  keysWithKeyAsSuffix.concat(keysWithoutKeyAsSuffix).find((key) => {
     if (properties[key] === 'yes') {
       tagKeys.push(key)
       const attributeId = `osm:${key}=yes`
@@ -72,9 +73,10 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
           || `${fullTypeName || humanize(key)} ${properties.ref || properties.note || ''}`,
         )
       }
-      break
+      return true
     }
-  }
+    return false
+  })
 
   return { tagKeys, displayName: result.join(', ') }
 }

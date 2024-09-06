@@ -1,21 +1,28 @@
-import { IApp } from '../../model/ac/App';
-import { fetchDocumentWithTypeTag } from './fetchDocument';
+import { IApp } from '../../model/ac/App'
+import { fetchDocumentWithTypeTag } from './fetchDocument'
 
 export function interpretJSONResponseAsApp(json: unknown): IApp {
   return json as IApp
 }
 
-export function appIdForHostname(hostname: string) {
-  const cleanedHostName = hostname
+export function appIdForHostnameOrIPAddress(hostnameOrIPAddress: string) {
+  const cleanedHostName = hostnameOrIPAddress
     // Allow sharing a deployment with ngrok
     .replace(/.*\.ngrok(?:-free)\.app$/, 'wheelmap.tech')
-    // Allow branch test deployments
+    // Allow branch test deployments with a common branding
     .replace(/.*\.wheelmap\.tech$/, 'wheelmap.tech')
-    // Use 'localhost' as hostname for loopback IP
+    // Use 'localhost' branding for loopback IPs
     .replace(/127\.0\.0\.1/, 'localhost')
-  return cleanedHostName;
+    .replace(/0\.0\.0\.0/, 'localhost')
+    .replace(/::1/, 'localhost')
+  return cleanedHostName
 }
 
-export default function fetchApp({ baseUrl, appToken, hostname }: { baseUrl: string, appToken: string, hostname: string }) {
-  return fetchDocumentWithTypeTag<IApp>(baseUrl, 'ac:App', appIdForHostname(hostname), `appToken=${appToken}`);
+export default function fetchApp([baseUrl, appToken, hostname]: [string, string, string]) {
+  return fetchDocumentWithTypeTag<IApp>([
+    baseUrl,
+    'ac:App',
+    appIdForHostnameOrIPAddress(hostname),
+    `appToken=${appToken}`,
+  ])
 }

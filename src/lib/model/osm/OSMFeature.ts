@@ -2,7 +2,7 @@ type OSMFeature = {
   _id: string;
   geometry: { coordinates: any; type: 'Polygon' | 'MultiPolygon' | 'Point' };
   centroid: { coordinates: number[]; type: 'Point' };
-  properties: Record<string, string>;
+  properties: Record<string, string | number>;
   type: 'Feature';
   source: string;
   sourceLayer: string;

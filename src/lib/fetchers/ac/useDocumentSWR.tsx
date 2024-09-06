@@ -1,10 +1,9 @@
-import { SWRResponse } from "swr";
-import AccessibilityCloudError from "./AccessibilityCloudError";
-import { CollectionName } from "./ACCollection";
-import { fetchDocumentWithTypeTag } from "./fetchDocument";
-import useAccessibilityCloudAPI from "./useAccessibilityCloudAPI";
-import { useMemo } from "react";
-import useSWRWithErrorToast from "../../util/useSWRWithErrorToast";
+import useSWR, { SWRResponse } from 'swr'
+import { useMemo } from 'react'
+import ResourceError from '../ResourceError'
+import { CollectionName } from './ACCollection'
+import { fetchDocumentWithTypeTag } from './fetchDocument'
+import useAccessibilityCloudAPI from './useAccessibilityCloudAPI'
 
 type Args = {
   collectionName: CollectionName;
@@ -17,7 +16,11 @@ type Args = {
 /**
  * Fetch a single document from the accessibility.cloud API and cache it with SWR.
  *
- * @example const { data, error } = useDocumentSWR({ collectionName: 'PlaceInfos', _id: 'abc123', params: new URLSearchParams({ includeXYZ: 'true' })
+ * @example const { data, error } = useDocumentSWR({
+ *   collectionName: 'PlaceInfos',
+ *   _id: 'abc123',
+ *   params: new URLSearchParams({ includeXYZ: 'true' },
+ * })
  */
 
 type ExtraAPIResultFields = {
@@ -30,22 +33,16 @@ export default function useDocumentSWR<D>({
   params,
   cached = true,
   shouldRun = true,
-}: Args): SWRResponse<D & ExtraAPIResultFields, AccessibilityCloudError> {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached });
-  const paramsWithAppToken = new URLSearchParams(params);
-  paramsWithAppToken.append('appToken', appToken);
-  const paramsString = paramsWithAppToken.toString();
-  const transform = useMemo(() => ({
-    summary: (text: any) => <span>{text}</span>,
-    instructions: (text: any) => <span>{text}</span>,
-    details: (text: any) => <span>{text}</span>,
-  }), []);
-  const swrConfig = useMemo(() => ({}), []);
-  const document = useSWRWithErrorToast<D & ExtraAPIResultFields, AccessibilityCloudError>(
-    transform,
+}: Args): SWRResponse<D & ExtraAPIResultFields, ResourceError> {
+  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached })
+  const paramsWithAppToken = new URLSearchParams(params)
+  paramsWithAppToken.append('appToken', appToken)
+  const paramsString = paramsWithAppToken.toString()
+  const swrConfig = useMemo(() => ({}), [])
+  const document = useSWR<D & ExtraAPIResultFields, ResourceError>(
     shouldRun && baseUrl && _id && [baseUrl, collectionName, _id, paramsString],
     fetchDocumentWithTypeTag,
     swrConfig,
-  );
-  return document;
+  )
+  return document
 }

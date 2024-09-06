@@ -68,7 +68,7 @@ const NotFound: React.FC<Props> = ({
   const apologyText = t`Sorry, that should not have happened!`
   // translator: Shown on the error page.
   const returnHomeButtonCaption = t`Return home`
-  // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
+  // translator: Shown as button when there is no internet connection. Tapping the button retries to load the data.
   const retryCaption = t`Retry`
 
   const returnHomeLink = (
@@ -85,13 +85,15 @@ const NotFound: React.FC<Props> = ({
   )
 
   const reloadButton = (
-    <button
-      className="button-cta-close focus-visible"
+    <PrimaryButton
+      className="PrimaryButton-cta-close focus-visible"
       onClick={() => window.location.reload()}
     >
       {retryCaption}
-    </button>
+    </PrimaryButton>
   )
+
+  debugger
 
   return (
     <ModalDialog

@@ -1,15 +1,15 @@
-import React from 'react';
-import useSWR from 'swr';
-import { OSMFeatureCollection } from '../../model/geo/AnyFeature';
-import { useEnvContext } from '../../context/EnvContext';
-import OSMFeature from '../../model/osm/OSMFeature';
+import React from 'react'
+import useSWR from 'swr'
+import { OSMFeatureCollection } from '../../model/geo/AnyFeature'
+import { useEnvContext } from '../../context/EnvContext'
+import OSMFeature from '../../model/osm/OSMFeature'
 
-export async function fetchOSMFeatures(
-  table: string,
-  baseUrl: string,
-  longitude: number,
-  latitude: number,
-): Promise<OSMFeatureCollection | undefined> {
+export async function fetchOSMFeatures([
+  table,
+  baseUrl,
+  longitude,
+  latitude,
+]: [string, string, number, number]): Promise<OSMFeatureCollection | undefined> {
   const response = await fetch(`${baseUrl}/${table}.json?geometryTypes=centroid&limit=1000&lon=${longitude}&lat=${latitude}`)
   const featureCollection = await response.json()
   return {
@@ -25,7 +25,7 @@ export function useAdminAreas({ longitude, latitude }: { longitude: number, lati
   const features = useSWR(
     baseUrl && latitude && longitude && [table, baseUrl, longitude, latitude],
     fetchOSMFeatures,
-  );
+  )
   const result = React.useMemo(() => {
     const featuresByType = features?.data?.features?.reduce((acc, feature) => {
       const type = feature.properties.border_type || feature.properties.place
