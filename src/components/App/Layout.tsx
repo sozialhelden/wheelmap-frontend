@@ -70,7 +70,7 @@ export default function Layout({
         <LoadableMapView {...{ width, height }} />
         <BlurLayer active={blur} style={{ zIndex: 1000 }} />
         <div style={{ zIndex: 2000 }}>{children}</div>
-        <ToastContainer position="bottom-center" />
+        <ToastContainer position="bottom-center" stacked />
       </main>
     </>
   )
