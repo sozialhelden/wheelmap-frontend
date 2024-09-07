@@ -3,7 +3,6 @@ import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttr
 
 export type OSMTagProps = {
   key: string;
-  keyName: string;
   hasDisplayedKey: boolean;
   keyLabel: React.ReactNode;
   valueElement: React.ReactNode;

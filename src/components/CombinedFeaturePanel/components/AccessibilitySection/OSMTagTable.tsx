@@ -14,6 +14,19 @@ export type TagOrTagGroup = {
   children: TagOrTagGroup[];
 };
 
+
+function getTagValues(feature: TypeTaggedOSMFeature, key: string) {
+  const originalOSMTagValue = feature.properties[key] || ''
+  let tagValues = []
+  if (tagsWithSemicolonSupport.includes(key) && typeof originalOSMTagValue === 'string') {
+    tagValues = originalOSMTagValue?.split(';') || []
+  } else {
+    tagValues = [originalOSMTagValue]
+  }
+  return tagValues
+}
+
+
 export default function OSMTagTable(props: {
   nestedTags: TagOrTagGroup[];
   feature: TypeTaggedOSMFeature;
@@ -32,17 +45,11 @@ export default function OSMTagTable(props: {
   return (
     <SurroundingListElement>
       {nestedTags.map(({ key, children }) => {
-        const originalOSMTagValue = feature.properties[key] || ''
-        let tagValues = []
-        if (tagsWithSemicolonSupport.includes(key) && typeof originalOSMTagValue === 'string') {
-          tagValues = originalOSMTagValue?.split(';') || []
-        } else {
-          tagValues = [originalOSMTagValue]
-        }
+        let tagValues = getTagValues(feature, key)
+
         return tagValues.map((singleValue) => {
-          const matchedKey = Object.keys(
-            valueRenderFunctions,
-          ).find((renderFunctionKey) => key.match(renderFunctionKey))
+          const matchedKey = Object.keys(valueRenderFunctions)
+            .find((renderFunctionKey) => key.match(renderFunctionKey))
           const tagProps = getOSMTagProps({
             key,
             matchedKey,
@@ -52,26 +59,26 @@ export default function OSMTagTable(props: {
             languageTags,
             attributesById,
           })
-          if (children?.length) {
-            const nestedTable = (
-              <OSMTagTable
-                key={singleValue}
-                feature={feature}
-                nestedTags={children}
-                isHorizontal={tagProps.isHorizontal}
-              />
-            )
-            return (
-              <OSMTagTableRow
-                key={singleValue}
-                keyName={singleValue}
-                {...tagProps}
-                valueElement={nestedTable}
-                isHorizontal={isHorizontal}
-              />
-            )
+          if (!children || !children.length) {
+            return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={isHorizontal} />
           }
-          return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={isHorizontal} />
+
+          const nestedTable = (
+            <OSMTagTable
+              key={singleValue}
+              feature={feature}
+              nestedTags={children}
+              isHorizontal={tagProps.isHorizontal}
+            />
+          )
+          return (
+            <OSMTagTableRow
+              key={singleValue}
+              {...tagProps}
+              valueElement={nestedTable}
+              isHorizontal={isHorizontal}
+            />
+          );
         })
       })}
     </SurroundingListElement>

@@ -34,7 +34,6 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'cuisine',
   'outdoor_seating',
   'indoor_seating',
-  'healthcare:speciality',
   'air_conditioning',
   'takeaway',
   'social_facility',
@@ -60,4 +59,7 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'automatic_door',
   'door:handle',
   'door:wings',
+  'smoking',
+  'healthcare',
+  'healthcare:speciality',
 ])

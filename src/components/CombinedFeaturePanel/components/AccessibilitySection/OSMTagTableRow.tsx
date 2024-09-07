@@ -13,7 +13,6 @@ const StyledListElement = styled.li`
 export function OSMTagTableRow(
   {
     key,
-    keyName,
     hasDisplayedKey,
     keyLabel,
     valueElement,
@@ -80,7 +79,7 @@ export function OSMTagTableRow(
 
   return (
     <ListElementTag key={key} className={Classes.LABEL}>
-      <RowTag className={keyName}>
+      <RowTag className={key}>
         {displayedKey}
         {displayedValue}
         <CellTag style={{ textAlign: 'right' }} />
