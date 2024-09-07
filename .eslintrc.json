@@ -2,7 +2,8 @@
   "extends": [
     "next/core-web-vitals",
     "airbnb",
-    "airbnb/hooks"
+    "airbnb/hooks",
+    "airbnb-typescript"
   ],
   "plugins": [
     "@stylistic/eslint-plugin-js",
@@ -45,8 +46,7 @@
       "error",
       "as-needed"
     ],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "no-underscore-dangle": "off",
     "@stylistic/js/max-len": [
       "error",
       {
@@ -61,6 +61,10 @@
       2
     ],
     "@stylistic/js/semi": [
+      "error",
+      "never"
+    ],
+    "@stylistic/ts/semi": [
       "error",
       "never"
     ],
