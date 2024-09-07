@@ -1,15 +1,14 @@
 import Link from 'next/link'
 import styled from 'styled-components'
-import useSWR from 'swr'
 import { t } from 'ttag'
 import { useCurrentApp } from '../../lib/context/AppContext'
-import fetchMappingEvents from '../../lib/fetchers/fetchMappingEvents'
 import { MappingEvent } from '../../lib/model/ac/MappingEvent'
 import colors from '../../lib/util/colors'
 import StyledToolbar from '../NodeToolbar/StyledToolbar'
 import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers'
 import CloseButton from '../shared/CloseButton'
 import StyledMarkdown from '../shared/StyledMarkdown'
+import useCollectionSWR from '../../lib/fetchers/ac/useCollectionSWR'
 
 export const StyledCloseButton = styled(CloseButton)``
 
@@ -100,10 +99,14 @@ type Props = {};
 export default function MappingEventListPanel({}: Props) {
   const app = useCurrentApp()
   const { tokenString: appToken } = app
-  const { data: mappingEvents, isValidating, error } = useSWR(
-    [appToken],
-    fetchMappingEvents,
-  )
+  const { data, isValidating, error } = useCollectionSWR<MappingEvent>({
+    collectionName: 'MappingEvents',
+    params: new URLSearchParams({
+      includeRelated: 'images',
+    }),
+  })
+
+  const mappingEvents = data?.results;
 
   const eventCount = mappingEvents?.length || 0
 

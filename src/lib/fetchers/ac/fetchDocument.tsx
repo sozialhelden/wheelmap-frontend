@@ -1,5 +1,5 @@
 import { memoizedPluralize } from '../../model/ac/pluralize'
-import { AccessibilityCloudTypeMapping } from '../../model/typing/AccessibilityCloudTypeMapping'
+import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
 import { memoizedKebabCase } from '../../util/strings/memoizedKebabCase'
 import ResourceError from '../ResourceError'
 
@@ -20,7 +20,7 @@ export async function fetchDocumentWithTypeTag<D>([
   paramsString,
 ]: [
   string,
-  keyof AccessibilityCloudTypeMapping,
+  AccessibilityCloudRDFType,
   string,
   string,
 ]): Promise<D> {

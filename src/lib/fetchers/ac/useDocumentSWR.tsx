@@ -1,12 +1,12 @@
-import useSWR, { SWRResponse } from 'swr'
 import { useMemo } from 'react'
+import useSWR, { SWRResponse } from 'swr'
+import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping } from '../../model/typing/AccessibilityCloudTypeMapping'
 import ResourceError from '../ResourceError'
-import { CollectionName } from './ACCollection'
 import { fetchDocumentWithTypeTag } from './fetchDocument'
 import useAccessibilityCloudAPI from './useAccessibilityCloudAPI'
 
-type Args = {
-  collectionName: CollectionName;
+type Args<RDFTypeName> = {
+  rdfType: RDFTypeName;
   _id: string;
   params?: URLSearchParams;
   cached?: boolean;
@@ -27,20 +27,20 @@ type ExtraAPIResultFields = {
   related: Record<string, Record<string, unknown>>;
 }
 
-export default function useDocumentSWR<D>({
-  collectionName,
+export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName]>({
+  rdfType,
   _id,
   params,
   cached = true,
   shouldRun = true,
-}: Args): SWRResponse<D & ExtraAPIResultFields, ResourceError> {
+}: Args<RDFTypeName>): SWRResponse<DataType & ExtraAPIResultFields, ResourceError> {
   const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached })
   const paramsWithAppToken = new URLSearchParams(params)
   paramsWithAppToken.append('appToken', appToken)
   const paramsString = paramsWithAppToken.toString()
   const swrConfig = useMemo(() => ({}), [])
   const document = useSWR<D & ExtraAPIResultFields, ResourceError>(
-    shouldRun && baseUrl && _id && [baseUrl, collectionName, _id, paramsString],
+    shouldRun && baseUrl && _id && [baseUrl, rdfType, _id, paramsString],
     fetchDocumentWithTypeTag,
     swrConfig,
   )
