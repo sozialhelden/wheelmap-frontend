@@ -10,6 +10,7 @@ import OSMBuildingDetails from './OSMBuildingDetails'
 import OSMSidewalkDetails from './OSMSidewalkDetails'
 import FeaturesDebugJSON from './components/FeaturesDebugJSON'
 import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
+import NextToiletDirections from './components/AccessibilitySection/NextToiletDirections'
 
 type Props = {
   features: AnyFeature[];

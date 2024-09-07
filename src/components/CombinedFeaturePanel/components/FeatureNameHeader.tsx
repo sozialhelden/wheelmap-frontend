@@ -23,6 +23,7 @@ import Icon from '../../shared/Icon'
 import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName'
 import { usePlaceInfo } from '../../../lib/fetchers/ac/usePlaceInfo'
 import useAccessibilityAttributesIdMap from '../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
+import useWikidataName from '../../../lib/fetchers/wikidata/useWikidataName'
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -169,6 +170,7 @@ function useFeatureLabel({
   )
 
   const acFeature = feature['@type'] === 'a11yjson:PlaceInfo' ? feature : null
+  const osmFeature = feature['@type'] === 'osm:Feature' ? feature : null
   const parentPlaceName = parentPlaceInfo.data
     && placeNameFor(parentPlaceInfo.data, parentPlaceInfoCategory, languageTags)
   acFeature
@@ -218,13 +220,18 @@ function useFeatureLabel({
     placeName = getEquipmentInfoDescription(feature, 'shortDescription')
       || t`Unnamed facility`
     ariaLabel = getEquipmentInfoDescription(feature, 'longDescription')
-  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
-    placeName = placeNameFor(feature, category, languageTags) || roomName
-  } else if (feature['@type'] === 'osm:Feature') {
-    placeName = placeNameFor(feature, category, languageTags)
-  } else {
-    placeName = t`Unknown feature`
+  } else if (acFeature) {
+    placeName = placeNameFor(acFeature, category, languageTags) || roomName
+  } else if (osmFeature) {
+    placeName = placeNameFor(osmFeature, category, languageTags)
   }
+  const wikidataEntityId = osmFeature?.properties?.wikidata
+  const localizedNameFromWikidata = useWikidataName(!placeName && wikidataEntityId)
+  const nameFromWikidata = getLocalizedStringTranslationWithMultipleLocales(
+    localizedNameFromWikidata,
+    languageTags,
+  )
+  placeName ||= nameFromWikidata
 
   const roomNumberString = (roomNumber !== roomName
       && roomNumber !== placeName

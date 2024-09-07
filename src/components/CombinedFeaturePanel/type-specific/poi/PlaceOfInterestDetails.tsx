@@ -12,6 +12,7 @@ import PlaceWebsiteLink from '../../components/IconButtonList/PlaceWebsiteLink'
 import StyledIconButtonList from '../../components/IconButtonList/StyledIconButtonList'
 import FeatureImage from '../../components/image/FeatureImage'
 import FeaturesDebugJSON from '../../components/FeaturesDebugJSON'
+import NextToiletDirections from '../../components/AccessibilitySection/NextToiletDirections'
 
 type Props = {
   feature: AnyFeature;
@@ -42,7 +43,9 @@ export default function PlaceOfInterestDetails(props: Props) {
         )}
       </FeatureNameHeader>
 
-      <FeatureAccessibility feature={feature} />
+      <FeatureAccessibility feature={feature}>
+        <NextToiletDirections feature={feature} />
+      </FeatureAccessibility>
 
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />

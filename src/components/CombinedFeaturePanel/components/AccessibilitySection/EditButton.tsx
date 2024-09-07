@@ -1,4 +1,5 @@
 import { AnchorButton } from '@blueprintjs/core'
+import { ROUND } from '@blueprintjs/core/lib/esm/common/classes';
 import React from 'react'
 import { t } from 'ttag'
 
@@ -7,8 +8,6 @@ export function EditButton({ editURL }: { editURL: string; }) {
     <AnchorButton
       aria-label={t`Edit`}
       icon="edit"
-      minimal
-      small
       href={editURL}
     />
   )
