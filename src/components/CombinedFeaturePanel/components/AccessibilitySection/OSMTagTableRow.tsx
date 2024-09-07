@@ -50,14 +50,14 @@ export function OSMTagTableRow(
 
   const valueIsString = typeof valueElement === 'string'
   const ValueElement = isHorizontal ? Tag : 'td'
-  const displayedValueContent = (
-    <>
-      {valueIsString
-        ? <StyledMarkdown inline style={{ textDecoration: hasDetails ? 'underline dotted' : 'none' }}>{valueElement}</StyledMarkdown>
-        : valueElement}
-      {isEditable && <EditButton editURL={editURL} />}
-    </>
-  )
+  const editButton = isEditable && <EditButton editURL={editURL} />;
+  const displayedValueContent =
+      valueIsString
+        ? <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+            <StyledMarkdown inline style={{ textDecoration: hasDetails ? 'underline dotted' : 'none' }}>{valueElement}</StyledMarkdown>
+            {editButton}
+          </span>
+        : <>{valueElement} {editButton}</>;
 
   const displayedValue = (
     <ValueElement

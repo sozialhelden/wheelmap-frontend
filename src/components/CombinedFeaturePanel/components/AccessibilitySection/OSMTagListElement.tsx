@@ -8,6 +8,8 @@ export function OSMTagListElement(
     key, hasDisplayedKey, keyLabel, valueElement: valueLabel, isEditable, editURL, valueDetails: shownDetailsLine,
   }: OSMTagProps,
 ) {
+  const editButton = isEditable && <EditButton editURL={editURL} />;
+
   return (
     <li key={key}>
       <header>{hasDisplayedKey && keyLabel}</header>
@@ -15,11 +17,10 @@ export function OSMTagListElement(
         ? (
           <header>
             <StyledMarkdown inline>{valueLabel}</StyledMarkdown>
+            {editButton}
           </header>
         )
-        : <header>{valueLabel}</header>}
-
-      {isEditable && <EditButton editURL={editURL} />}
+        : <header>{valueLabel} {editButton}</header>}
 
       {shownDetailsLine && shownDetailsLine !== '' && (
         <footer>

@@ -1,6 +1,6 @@
 import { t } from 'ttag'
 import { TypeTaggedOSMFeature } from '../../lib/model/geo/AnyFeature'
-import isAccessibilityRelevantOSMKey from '../../lib/model/osm/isAccessibilityRelevantOSMKey'
+import isAccessibilityRelevantOSMKey from '../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
 import { OSMTagPanel } from './components/AccessibilitySection/OSMTagPanel'
 
 export default function OSMSidewalkDetails({ feature }: { feature: TypeTaggedOSMFeature }) {

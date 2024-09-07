@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import { OSMFeatureCollection } from '../../model/geo/AnyFeature'
 import { useEnvContext } from '../../context/EnvContext'
 import OSMFeature from '../../model/osm/OSMFeature'
+import useOSMAPI from './useOSMAPI'
 
 export async function fetchOSMFeatures([
   table,
@@ -19,8 +20,7 @@ export async function fetchOSMFeatures([
 }
 
 export function useAdminAreas({ longitude, latitude }: { longitude: number, latitude: number }) {
-  const env = useEnvContext()
-  const baseUrl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL
+  const { baseUrl } = useOSMAPI({ cached: true })
   const table = 'admin_gen0'
   const features = useSWR(
     baseUrl && latitude && longitude && [table, baseUrl, longitude, latitude],

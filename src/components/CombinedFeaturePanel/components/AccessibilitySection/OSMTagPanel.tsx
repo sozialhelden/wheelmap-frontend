@@ -1,12 +1,14 @@
 import { get, set, sortBy } from 'lodash'
 import * as React from 'react'
 import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
-import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/isAccessibilityRelevantOSMKey'
-import isAddressRelevantOSMKey from '../../../../lib/model/osm/isAddressRelevantOSMKey'
+import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
+import isAddressRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAddressRelevantOSMKey'
 import OSMTagTable from './OSMTagTable'
-import {
-  omittedKeyPrefixes, omittedKeySuffixes, omittedKeys, pathsToConsumedTagKeys, sortOrderMap,
-} from './config'
+import { sortOrderMap } from '../../../../lib/model/osm/tag-config/sortOrderMap'
+import { pathsToConsumedTagKeys } from '../../../../lib/model/osm/tag-config/pathsToConsumedTagKeys'
+import { omittedKeys } from '../../../../lib/model/osm/tag-config/omittedKeys'
+import { omittedKeySuffixes } from '../../../../lib/model/osm/tag-config/omittedKeySuffixes'
+import { omittedKeyPrefixes } from '../../../../lib/model/osm/tag-config/omittedKeyPrefixes'
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode // type for unknown keys.
@@ -67,7 +69,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
     () => {
       const filteredKeys = Object.keys(feature.properties || {})
         .filter((key) => !omittedKeys.has(key))
-        .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
+        .filter((key) => !omittedKeyPrefixes.find((prefix) => typeof prefix === 'string' ? key.startsWith(prefix) : key.match(prefix)))
         .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)))
       const accessibilityRelevantKeys = filteredKeys.filter(
         isAccessibilityRelevantOSMKey,

@@ -1,13 +1,22 @@
 import React from 'react'
-import { getLocalizedStringTranslationWithMultipleLocales as localize } from '../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
+import {
+  getLocalizedStringTranslationWithMultipleLocales as localize,
+} from '../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
 import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttribute'
 import { OSMTagProps } from './OSMTagProps'
-import {
-  additionalPrefixesForKeys, editableKeys, horizontalKeys, languageTaggedKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet,
-} from './config'
+import { horizontalKeys } from '../../../../lib/model/osm/tag-config/horizontalKeys'
+import { languageTaggedKeys } from '../../../../lib/model/osm/tag-config/languageTaggedKeys'
+import { additionalPrefixesForKeys } from '../../../../lib/model/osm/tag-config/sidewalkPrefixSet'
+import { editableKeys } from '../../../../lib/model/osm/tag-config/editableKeys'
+import { tagsWithoutDisplayedKeyRegExp } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeyRegExp'
+import { tagsWithoutDisplayedKeySet } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeySet'
 import { valueRenderFunctions } from './tagging-schema/valueRenderFunctions'
 
-function findAttribute(attributesById: Map<string, IAccessibilityAttribute>, key: string, value?: string): IAccessibilityAttribute | undefined {
+function findAttribute(
+  attributesById: Map<string, IAccessibilityAttribute>,
+  key: string,
+  value?: string,
+): IAccessibilityAttribute | undefined {
   const suffix = key.match('[^:]+$')?.[0]
   const prefixes = [null, ...(additionalPrefixesForKeys.get(suffix) || [])] || [null]
   for (const prefix of prefixes) {

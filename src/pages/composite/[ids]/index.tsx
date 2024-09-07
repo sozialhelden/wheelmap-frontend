@@ -17,8 +17,8 @@ PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 export default function CompositeFeaturesPage() {
   const router = useRouter()
-  const { ids } = router.query
-  const { data, error, isValidating } = useMultipleFeatures(ids)
+  const { ids, id } = router.query
+  const { data, isValidating } = useMultipleFeatures(ids)
 
   if (!data && isValidating) {
     return <Spinner size={50} />

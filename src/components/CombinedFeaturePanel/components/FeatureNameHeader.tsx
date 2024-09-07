@@ -21,7 +21,7 @@ import getEquipmentInfoDescription from '../../NodeToolbar/Equipment/getEquipmen
 import ChevronRight from '../../shared/ChevronRight'
 import Icon from '../../shared/Icon'
 import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName'
-import { usePlaceInfo } from '../../../lib/fetchers/ac/refactor-this/fetchOnePlaceInfo'
+import { usePlaceInfo } from '../../../lib/fetchers/ac/usePlaceInfo'
 import useAccessibilityAttributesIdMap from '../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
 
 const StyledChevronRight = styled(ChevronRight)`

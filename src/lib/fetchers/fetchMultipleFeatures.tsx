@@ -4,9 +4,10 @@ import { useEnvContext } from '../context/EnvContext'
 import { AnyFeature } from '../model/geo/AnyFeature'
 import { fetchDocumentWithTypeTag } from './ac/fetchDocument'
 import { fetchOneOSMFeature } from './osm-api/fetchOneOSMFeature'
+import useOSMAPI from './osm-api/useOSMAPI'
 
-function fetchOnePlaceInfo(baseUrl: string, appToken: string, _id: string) {
-  return fetchDocumentWithTypeTag(baseUrl, 'ac:PlaceInfo', _id, `appToken=${appToken}`)
+function fetchOnePlaceInfo([baseUrl, appToken, _id]: [string, string, string]) {
+  return fetchDocumentWithTypeTag([baseUrl, 'ac:PlaceInfo', _id, `appToken=${appToken}`])
 }
 
 export async function fetchMultipleFeatures([
@@ -39,8 +40,7 @@ export function useMultipleFeatures(ids: string | string[]) {
   const idsAsString = typeof ids === 'string' ? ids : ids.join(',')
   const app = useCurrentApp()
   const appToken = app.tokenString
-  const env = useEnvContext()
-  const baseUrl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL
+  const { baseUrl } = useOSMAPI({ cached: false })
 
   const features = useSWR(
     appToken && baseUrl && idsAsString && [appToken, baseUrl, idsAsString],

@@ -20,7 +20,13 @@ export const valueRenderFunctions: Record<
       lang="en"
       aria-label={props.value}
       style={{
-        backgroundColor: props.value, borderRadius: '0.5rem', boxShadow: 'inset 0 0 1px rgba(0,0,0,255)', width: '1rem', height: '1rem', display: 'inline-block',
+        backgroundColor: props.value,
+        borderRadius: '0.5rem',
+        boxShadow: 'inset 0 0 1px rgba(0,0,0,.5), inset 0 2px 4px rgba(255, 255, 255, .2), 0 1px 10px rgba(0,0,0,.1)',
+        width: '1rem',
+        height: '1rem',
+        lineHeight: '1rem',
+        display: 'inline-block',
       }}
     />
   ),

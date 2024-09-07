@@ -21,7 +21,7 @@ export default function DisplayedQuantity({ value, defaultUnit }: { value: strin
     [value],
   )
   if (typeof quantity === 'string' || typeof quantity === 'number') {
-    return <Quantity>{quantity}</Quantity>
+    return <Quantity>{quantity} {defaultUnit}</Quantity>
   }
   const { unit, value: quantityValue } = quantity
   return (
