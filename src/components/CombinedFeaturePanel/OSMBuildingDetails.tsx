@@ -13,7 +13,7 @@ export default function OSMBuildingDetails({ feature }: { feature: TypeTaggedOSM
 
   return (
     <section>
-      <h4>{t`Probably inside…`}</h4>
+      <h4>{t`Part of`}</h4>
       <article>
         <FeatureNameHeader feature={feature} size="small" />
         <FeatureAccessibility feature={feature} />
