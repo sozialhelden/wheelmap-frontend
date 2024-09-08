@@ -11,6 +11,7 @@ import { editableKeys } from '../../../../lib/model/osm/tag-config/editableKeys'
 import { tagsWithoutDisplayedKeyRegExp } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeyRegExp'
 import { tagsWithoutDisplayedKeySet } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeySet'
 import { valueRenderFunctions } from './tagging-schema/valueRenderFunctions'
+import { AnyFeature, isOSMFeature, isPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
 
 function findAttribute(
   attributesById: Map<string, IAccessibilityAttribute>,
@@ -33,6 +34,7 @@ function findAttribute(
 export function getOSMTagProps(
   {
     key, matchedKey, singleValue, ids, currentId, attributesById, languageTags,
+    feature,
   }: {
     key: string;
     matchedKey: string;
@@ -41,6 +43,7 @@ export function getOSMTagProps(
     currentId: string;
     attributesById: Map<string, IAccessibilityAttribute>;
     languageTags: string[];
+    feature: AnyFeature;
   },
 ): OSMTagProps {
   const keyWithoutLanguageTag = key.replace(/:\w\w(?:[_-]\w\w)?$/, '')
@@ -54,7 +57,9 @@ export function getOSMTagProps(
 
   const valueRenderFn = valueRenderFunctions[matchedKey]
   if (valueRenderFn) {
-    valueLabel = valueRenderFn({ value: singleValue, matches })
+    const osmFeature = isOSMFeature(feature) ? feature : null
+    const accessibilityCloudFeature = isPlaceInfo(feature) ? feature : null
+    valueLabel = valueRenderFn({ value: singleValue, matches, languageTags, osmFeature, accessibilityCloudFeature })
   } else {
     valueLabel = localize(valueAttribute?.label, languageTags)
     || localize(valueAttribute?.shortLabel, languageTags)

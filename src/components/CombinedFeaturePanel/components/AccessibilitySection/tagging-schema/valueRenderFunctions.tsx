@@ -1,9 +1,25 @@
 import React from 'react'
 import { t } from 'ttag'
+import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../../../../lib/model/geo/AnyFeature'
 import StyledMarkdown from '../../../../shared/StyledMarkdown'
 import DisplayedQuantity from '../tags/values/DisplayedQuantity'
 import OpeningHoursValue from '../tags/values/OpeningHoursValue'
-import { ValueRenderProps } from './ValueRenderProps'
+
+export type ValueRenderProps = {
+  value: string;
+  matches: RegExpMatchArray;
+  languageTags: string[];
+  osmFeature: TypeTaggedOSMFeature | undefined;
+  accessibilityCloudFeature: TypeTaggedPlaceInfo | undefined;
+};
+
+/**
+ * This file contains functions that render values of OSM tags in a human-readable way.
+ * The functions are used in the {@link OSMTagTable} to display the values of OSM tags.
+ *
+ * The keys of the `valueRenderFunctions` object are regular expressions that match OSM tag keys.
+ * The values are functions that take a {@link ValueRenderProps} object and return a React node.
+ */
 
 export const valueRenderFunctions: Record<
   string, (props: ValueRenderProps) => React.ReactNode
@@ -15,6 +31,18 @@ export const valueRenderFunctions: Record<
   width: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   height: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   depth: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  level: (props) => {
+    // https://wiki.openstreetmap.org/wiki/Key:level#Level_designations
+    if (props.osmFeature?.properties['level:ref'] || props.osmFeature?.properties['addr:floor'])  {
+      // In case the level has a human-readable reference, we display it as a string so the UI matches signs in the real world.
+      return null;
+    }
+
+    // skip 0 in Kazakhstan, Korea and Mongolia (see wiki article)
+
+
+    return <span>{String(props.value)}</span>;
+  },
   colour: (props) => (
     <span
       lang="en"

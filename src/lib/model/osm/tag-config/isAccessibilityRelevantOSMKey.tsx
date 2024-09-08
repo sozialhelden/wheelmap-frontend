@@ -62,6 +62,7 @@ export const accessibilityPrefixes = new Set([
   'kerb', // https://wiki.openstreetmap.org/wiki/Key:kerb
   'lesbian', // https://wiki.openstreetmap.org/wiki/Key:lesbian
   'level', // https://wiki.openstreetmap.org/wiki/Key:level
+  'level:ref', // https://wiki.openstreetmap.org/wiki/Key:level
   'lgbtq', // https://wiki.openstreetmap.org/wiki/Key:lgbtq
   'lit', // https://wiki.openstreetmap.org/wiki/Key:lit
   'location', // https://wiki.openstreetmap.org/wiki/Key:location

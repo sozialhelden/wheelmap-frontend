@@ -16,7 +16,7 @@ export type TagOrTagGroup = {
 
 
 function getTagValues(feature: TypeTaggedOSMFeature, key: string) {
-  const originalOSMTagValue = feature.properties[key] || ''
+  const originalOSMTagValue = feature.properties[key] ?? ''
   let tagValues = []
   if (tagsWithSemicolonSupport.includes(key) && typeof originalOSMTagValue === 'string') {
     tagValues = originalOSMTagValue?.split(';') || []
@@ -58,7 +58,9 @@ export default function OSMTagTable(props: {
             currentId: feature._id,
             languageTags,
             attributesById,
+            feature,
           })
+
           if (!children || !children.length) {
             return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={isHorizontal} />
           }
