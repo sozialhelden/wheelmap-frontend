@@ -33,8 +33,8 @@ export function generateSearchParams(
 
 export default function useAccessibilityAttributesIdMap(languageTags: string[]) {
   const params = generateSearchParams(languageTags);
-  const response = useCollectionSWR<IAccessibilityAttribute>({
-    collectionName: 'AccessibilityAttributes',
+  const response = useCollectionSWR({
+    type: 'ac:AccessibilityAttribute',
     params,
   });
 

@@ -98,9 +98,8 @@ type Props = {};
 
 export default function MappingEventListPanel({}: Props) {
   const app = useCurrentApp()
-  const { tokenString: appToken } = app
-  const { data, isValidating, error } = useCollectionSWR<MappingEvent>({
-    collectionName: 'MappingEvents',
+  const { data, isValidating, error } = useCollectionSWR({
+    type: 'ac:MappingEvent',
     params: new URLSearchParams({
       includeRelated: 'images',
     }),

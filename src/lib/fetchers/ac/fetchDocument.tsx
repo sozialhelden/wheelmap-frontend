@@ -1,7 +1,5 @@
-import { memoizedPluralize } from '../../model/ac/pluralize'
-import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
-import { memoizedKebabCase } from '../../util/strings/memoizedKebabCase'
-import ResourceError from '../ResourceError'
+import { AccessibilityCloudRDFType, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping';
+import ResourceError from '../ResourceError';
 
 /**
  * Fetch a single document from the accessibility.cloud API.
@@ -10,7 +8,7 @@ export async function fetchDocumentWithTypeTag<D>([
   /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
   baseUrl,
   /** The accessibility.cloud collection to fetch the document from. */
-  rdfType,
+  type,
   /** Alphanumeric ID of the document to fetch. */
   _id,
   /**
@@ -24,21 +22,16 @@ export async function fetchDocumentWithTypeTag<D>([
   string,
   string,
 ]): Promise<D> {
-  const nameWithoutPrefix = rdfType.match(/[^:]+:(.*)$/)?.[1]
-  if (nameWithoutPrefix === undefined) {
-    throw new Error(`Could not extract name from rdfType ${rdfType}`)
-  }
-  const kebabName = memoizedKebabCase(nameWithoutPrefix)
-  const kebabPluralName = memoizedPluralize(kebabName)
+  const kebabPluralName = getAccessibilityCloudCollectionName(type);
   const url = `${baseUrl}/${kebabPluralName}/${_id}.json${paramsString ? `?${paramsString}` : ''}`
   const response = await fetch(url)
   if (!response.ok) {
     const errorResponse = await response.json()
-    const defaultReason = `Failed to fetch \`${rdfType}\` with ID \`${_id}\` from \`${url}\`.`
+    const defaultReason = `Failed to fetch \`${type}\` with ID \`${_id}\` from \`${url}\`.`
     throw new ResourceError(errorResponse.reason || defaultReason, errorResponse.details, response.status, response.statusText)
   }
   return {
-    '@type': rdfType,
+    '@type': type,
     ...await response.json(),
   }
 }
