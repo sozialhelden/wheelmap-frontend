@@ -17,6 +17,7 @@
     "@turf/turf": "^7.1.0",
     "abort-controller": "^3.0.0",
     "classnames": "^2.2.6",
+    "colorjs.io": "^0.5.2",
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.0",
     "d3-scale": "^4.0.0",
