@@ -17,7 +17,7 @@ app.prepare().then(() => {
       const hostname = req ? req.headers.host : window.location.hostname
       const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
       const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
-      const customizedApp = await fetchApp([baseUrl, appToken, hostname])
+      const customizedApp = await fetchApp({ baseUrl, appToken, hostname })
       if (!customizedApp) {
         throw new Error(`No app found for hostname ${hostname}`)
       }

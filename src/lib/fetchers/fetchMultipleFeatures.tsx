@@ -1,13 +1,12 @@
 import useSWR from 'swr'
 import { useCurrentApp } from '../context/AppContext'
-import { useEnvContext } from '../context/EnvContext'
 import { AnyFeature } from '../model/geo/AnyFeature'
 import { fetchDocumentWithTypeTag } from './ac/fetchDocument'
 import { fetchOneOSMFeature } from './osm-api/fetchOneOSMFeature'
 import useOSMAPI from './osm-api/useOSMAPI'
 
 function fetchOnePlaceInfo([baseUrl, appToken, _id]: [string, string, string]) {
-  return fetchDocumentWithTypeTag([baseUrl, 'ac:PlaceInfo', _id, `appToken=${appToken}`])
+  return fetchDocumentWithTypeTag({ baseUrl, type: 'ac:PlaceInfo', _id, paramsString: `appToken=${appToken}` })
 }
 
 export async function fetchMultipleFeatures([

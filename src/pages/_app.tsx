@@ -246,7 +246,7 @@ async function retrieveAppByHostname(hostnameAndPort: string, query: queryString
   const {
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken, NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL: baseUrl,
   } = process.env
-  const app = await fetchApp([baseUrl, appToken, hostname])
+  const app = await fetchApp({ baseUrl, appToken, hostname })
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`)
   }

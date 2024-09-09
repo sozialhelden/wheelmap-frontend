@@ -18,11 +18,11 @@ export function appIdForHostnameOrIPAddress(hostnameOrIPAddress: string) {
   return cleanedHostName
 }
 
-export default function fetchApp([baseUrl, appToken, hostname]: [string, string, string]) {
-  return fetchDocumentWithTypeTag<IApp>([
+export default function fetchApp({ baseUrl, appToken, hostname }: { baseUrl: string, appToken: string, hostname: string }) {
+  return fetchDocumentWithTypeTag({
     baseUrl,
-    'ac:App',
-    appIdForHostnameOrIPAddress(hostname),
-    `appToken=${appToken}`,
-  ])
+    type: 'ac:App',
+    _id: appIdForHostnameOrIPAddress(hostname),
+    paramsString: `appToken=${appToken}`,
+  })
 }

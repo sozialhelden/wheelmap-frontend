@@ -57,7 +57,7 @@ export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDF
   const paramsString = paramsWithAppToken.toString()
   const swrConfig = useMemo(() => ({}), [])
   const document = useSWR<DataType & ExtraAPIResultFields, ResourceError>(
-    shouldRun && baseUrl && _id && [baseUrl, type, _id, paramsString],
+    shouldRun && baseUrl && type && _id && { baseUrl, type, _id, paramsString },
     fetchDocumentWithTypeTag,
     swrConfig,
   )

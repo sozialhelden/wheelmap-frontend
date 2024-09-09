@@ -60,7 +60,7 @@ export default function useCollectionSWR<
   const paramsString = paramsWithAppToken.toString()
   const swrConfig = useMemo(() => ({}), [])
   return useSWR<ListOrFeatureCollection<DataType, R, G>, ResourceError>(
-    shouldRun && baseUrl && [baseUrl, type, paramsString],
+    shouldRun && baseUrl && { baseUrl, type, paramsString },
     fetchCollectionWithTypeTags,
     swrConfig,
   )

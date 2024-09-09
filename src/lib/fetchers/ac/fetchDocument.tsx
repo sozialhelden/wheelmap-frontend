@@ -1,10 +1,23 @@
 import { AccessibilityCloudRDFType, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping';
 import ResourceError from '../ResourceError';
 
+type Params<RDFTypeName extends AccessibilityCloudRDFType> = {
+  /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
+  baseUrl: string,
+  /** The accessibility.cloud collection to fetch the document from. */
+  type: RDFTypeName,
+  /** Alphanumeric ID of the document to fetch. */
+  _id: string,
+  /**
+   * URL query string. This is a string so it works as a partial cache key (when used with useSWR).
+   * Usually includes an `appToken=...` parameter.
+   */
+  paramsString: string,
+}
 /**
  * Fetch a single document from the accessibility.cloud API.
  */
-export async function fetchDocumentWithTypeTag<D>([
+export async function fetchDocumentWithTypeTag<D extends AccessibilityCloudRDFType>({
   /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
   baseUrl,
   /** The accessibility.cloud collection to fetch the document from. */
@@ -16,12 +29,7 @@ export async function fetchDocumentWithTypeTag<D>([
    * Usually includes an `appToken=...` parameter.
    */
   paramsString,
-]: [
-  string,
-  AccessibilityCloudRDFType,
-  string,
-  string,
-]): Promise<D> {
+}: Params<D>): Promise<D> {
   const kebabPluralName = getAccessibilityCloudCollectionName(type);
   const url = `${baseUrl}/${kebabPluralName}/${_id}.json${paramsString ? `?${paramsString}` : ''}`
   const response = await fetch(url)
