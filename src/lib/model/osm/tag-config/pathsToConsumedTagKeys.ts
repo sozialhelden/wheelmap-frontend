@@ -59,5 +59,8 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['crossing.1', /^crossing$/],
   ['crossing.$1', /^crossing:([\w_]+)$/],
   ['description.$1', /^description:([\w_]+)$/],
+  ['location.indoor', /^indoor$/],
+  ['location.level', /^level$/],
+  ['location.level_ref', /^level:ref$/],
   ['$1', /(.*)/],
 ]

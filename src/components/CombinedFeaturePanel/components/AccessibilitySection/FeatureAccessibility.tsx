@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React from 'react'
-import { AnyFeature, isOSMFeature } from '../../../lib/model/geo/AnyFeature'
-import { OSMTagPanel } from './AccessibilitySection/OSMTagPanel'
+import { AnyFeature, isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
+import { OSMTagPanel } from './OSMTagPanel'
 
 type Props = {
   feature: AnyFeature;

@@ -2,13 +2,13 @@ import { uniqBy } from 'lodash'
 import React from 'react'
 import OSMFeature from '../../../../lib/model/osm/OSMFeature'
 import WikipediaLink from '../WikipediaLink'
-import { getWikipediaLemma } from '../getWikipediaLemma'
+import { getWikipediaLemma } from '../../../../lib/model/osm/getWikipediaLemma'
 import WikidataEntityImage from './WikidataEntityImage'
 import WikimediaCommonsImage from './WikimediaCommonsImage'
 
 const imageStyle = (link) => ({
-  maxHeight: link.prefix === 'subject' ? '6rem' : '3rem',
-  maxWidth: link.prefix === 'subject' ? '6rem' : '3rem',
+  maxHeight: link.prefix === 'subject' ? '8rem' : '3rem',
+  maxWidth: link.prefix === 'subject' ? '8rem' : '3rem',
   borderRadius: '0.125rem',
 })
 
@@ -45,7 +45,7 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
 
       <WikimediaCommonsImage
         fileName={feature.properties.image}
-        style={imageStyle}
+        style={imageStyle({ prefix: 'subject' })}
       />
     </>
   )

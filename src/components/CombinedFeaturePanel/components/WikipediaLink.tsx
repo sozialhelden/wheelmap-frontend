@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { HTMLAttributes } from 'react'
 import OSMFeature from '../../../lib/model/osm/OSMFeature'
-import { getWikipediaLemma } from './getWikipediaLemma'
+import { getWikipediaLemma } from '../../../lib/model/osm/getWikipediaLemma'
 
 type Props = HTMLAttributes<HTMLAnchorElement> & {
   feature: OSMFeature;

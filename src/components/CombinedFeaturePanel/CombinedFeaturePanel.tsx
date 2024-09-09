@@ -6,11 +6,12 @@ import {
   AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
 import colors from '../../lib/util/colors'
-import OSMBuildingDetails from './OSMBuildingDetails'
-import OSMSidewalkDetails from './OSMSidewalkDetails'
 import FeaturesDebugJSON from './components/FeaturesDebugJSON'
 import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 import NextToiletDirections from './components/AccessibilitySection/NextToiletDirections'
+import ErrorBoundary from '../shared/ErrorBoundary'
+import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
+import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
 
 type Props = {
   features: AnyFeature[];
@@ -32,8 +33,6 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
   ) {
     return <OSMSidewalkDetails feature={feature} />
   }
-  // Place of Interest
-  // Environment
 }
 
 const Panel = styled.section`
@@ -41,44 +40,35 @@ const Panel = styled.section`
 `
 
 export function CombinedFeaturePanel(props: Props) {
-  const { handleOpenReportMode } = props.options || {}
   const features = uniqBy(props.features, (feature) => (isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id))
 
-  /* Hotkeys */
-  const [toogle, setToogle] = useState(false)
+  const [showDebugger, setShowDebugger] = useState(false)
   const hotkeys = useMemo(() => [
     {
       combo: 'j',
       global: true,
       label: 'Show JSON Feature Debugger',
-      onKeyDown: () => setToogle(!toogle),
+      onKeyDown: () => setShowDebugger(!showDebugger),
     },
 
-  ], [toogle])
+  ], [showDebugger])
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
 
   return (
-    <Panel onKeyDown={handleKeyDown}>
-      {features && features[0] && (
-        <>
-          <PlaceOfInterestDetails feature={features[0]} />
+    <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+      <ErrorBoundary>
+        {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
+        {/* TODO: Report button goes here. */}
+        {features
+          && features.length > 1
+          && features
+            .slice(1)
+            .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
 
-          {/* <ReportIssueButton
-            equipmentInfoId={null}
-            feature={features[0]}
-            onOpenReportMode={handleOpenReportMode}
-          /> */}
-        </>
-      )}
-      {features
-        && features.length > 1
-        && features
-          .slice(1)
-          .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
-
-      <p>
-        {toogle && <FeaturesDebugJSON features={features} /> }
-      </p>
+        <p>
+          {showDebugger && <FeaturesDebugJSON features={features} /> }
+        </p>
+      </ErrorBoundary>
     </Panel>
   )
 }

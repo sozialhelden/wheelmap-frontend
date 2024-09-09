@@ -1,17 +1,17 @@
 import React from 'react'
 import {
   getLocalizedStringTranslationWithMultipleLocales as localize,
-} from '../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
-import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttribute'
-import { OSMTagProps } from './OSMTagProps'
-import { horizontalKeys } from '../../../../lib/model/osm/tag-config/horizontalKeys'
-import { languageTaggedKeys } from '../../../../lib/model/osm/tag-config/languageTaggedKeys'
-import { additionalPrefixesForKeys } from '../../../../lib/model/osm/tag-config/sidewalkPrefixSet'
-import { editableKeys } from '../../../../lib/model/osm/tag-config/editableKeys'
-import { tagsWithoutDisplayedKeyRegExp } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeyRegExp'
-import { tagsWithoutDisplayedKeySet } from '../../../../lib/model/osm/tag-config/tagsWithoutDisplayedKeySet'
-import { valueRenderFunctions } from './tagging-schema/valueRenderFunctions'
-import { AnyFeature, isOSMFeature, isPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
+} from '../../../i18n/getLocalizedStringTranslationWithMultipleLocales'
+import IAccessibilityAttribute from '../../ac/IAccessibilityAttribute'
+import { OSMTagProps } from '../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps'
+import { horizontalKeys } from './horizontalKeys'
+import { languageTaggedKeys } from './languageTaggedKeys'
+import { additionalPrefixesForKeys } from './sidewalkPrefixSet'
+import { editableKeys } from './editableKeys'
+import { tagsWithoutDisplayedKeyRegExp } from './tagsWithoutDisplayedKeyRegExp'
+import { tagsWithoutDisplayedKeySet } from './tagsWithoutDisplayedKeySet'
+import { valueRenderFunctions } from '../../../../components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions'
+import { AnyFeature, isOSMFeature, isPlaceInfo } from '../../geo/AnyFeature'
 
 function findAttribute(
   attributesById: Map<string, IAccessibilityAttribute>,
@@ -84,7 +84,7 @@ export function getOSMTagProps(
   const isEditable = editableKeys.has(key)
   const editURL = `/composite/${ids}/${currentId}/${key}/edit`
   const tagProps: OSMTagProps = {
-    key,
+    tagKey: key,
     hasDisplayedKey,
     keyLabel,
     keyAttribute,

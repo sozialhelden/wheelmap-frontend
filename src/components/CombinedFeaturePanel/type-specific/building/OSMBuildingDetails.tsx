@@ -1,9 +1,9 @@
 import { isEqual } from 'lodash'
 import { t } from 'ttag'
-import { TypeTaggedOSMFeature } from '../../lib/model/geo/AnyFeature'
-import isAccessibilityRelevantOSMKey from '../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
-import FeatureAccessibility from './components/FeatureAccessibility'
-import FeatureNameHeader from './components/FeatureNameHeader'
+import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
+import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
+import FeatureNameHeader from '../../components/FeatureNameHeader'
+import FeatureAccessibility from '../../components/AccessibilitySection/FeatureAccessibility'
 
 export default function OSMBuildingDetails({ feature }: { feature: TypeTaggedOSMFeature }) {
   const keys = Object.keys(feature.properties).filter(isAccessibilityRelevantOSMKey)

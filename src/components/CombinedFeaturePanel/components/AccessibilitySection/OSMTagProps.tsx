@@ -2,7 +2,7 @@ import React from 'react'
 import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttribute'
 
 export type OSMTagProps = {
-  key: string;
+  tagKey: string;
   hasDisplayedKey: boolean;
   keyLabel: React.ReactNode;
   valueElement: React.ReactNode;

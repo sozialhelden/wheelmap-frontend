@@ -10,7 +10,7 @@ import colors from '../../../../lib/util/colors'
 export default function NextToiletDirections({ feature }: { feature: AnyFeature }) {
   const shouldShowNextToilets = hasAccessibleToilet(feature) !== 'yes';
   const { response: { isLoading }, nearbyFeatures } = useNearbyFeatures(shouldShowNextToilets && feature, { wheelchair: 'yes' })
-  const caption = t`Next wheelchair accessible toilet`;
+  const caption = t`Next wheelchair-accessible WC`;
 
   if (isLoading) {
     return <PlaceholderSpan color={colors.linkColor}>{caption} 100 m →</PlaceholderSpan>

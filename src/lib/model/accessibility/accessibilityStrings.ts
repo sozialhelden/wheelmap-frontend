@@ -70,10 +70,10 @@ export function toiletDescription(accessibility: YesNoUnknown): string | null {
   switch (accessibility) {
   // translator: Long toilet accessibility description on place toolbar if the toilet IS accessible
   case 'yes':
-    return t`Wheelchair accessible toilet`
+    return t`Wheelchair accessible WC`
     // translator: Long toilet accessibility description on place toolbar if the toilet is NOT accessible
   case 'no':
-    return t`No wheelchair accessible toilet`
+    return t`No wheelchair accessible WC`
   case 'unknown':
   default:
     return null
@@ -87,7 +87,7 @@ export const accessibleToiletDescription = (useImperialUnits: boolean) => [
   useImperialUnits
     ? t`Clear turning space ≥ 59 inches wide`
     : t`Clear turning space ≥ 150 cm wide`,
-  t`Wheelchair-height toilet seat`,
+  t`Wheelchair-height WC seat`,
   t`Foldable grab rails`,
   t`Accessible sink`,
 ]

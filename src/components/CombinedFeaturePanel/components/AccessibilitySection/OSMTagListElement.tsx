@@ -5,7 +5,7 @@ import { EditButton } from './EditButton'
 
 export function OSMTagListElement(
   {
-    key, hasDisplayedKey, keyLabel, valueElement: valueLabel, isEditable, editURL, valueDetails: shownDetailsLine,
+    tagKey: key, hasDisplayedKey, keyLabel, valueElement: valueLabel, isEditable, editURL, valueDetails: shownDetailsLine,
   }: OSMTagProps,
 ) {
   const editButton = isEditable && <EditButton editURL={editURL} />;

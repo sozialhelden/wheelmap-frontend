@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import StyledMarkdown from '../../../shared/StyledMarkdown'
 import { EditButton } from './EditButton'
 import { OSMTagProps } from './OSMTagProps'
+import { horizontalKeys } from '../../../../lib/model/osm/tag-config/horizontalKeys'
 
 const StyledListElement = styled.li`
   list-style: none;
@@ -10,9 +11,14 @@ const StyledListElement = styled.li`
   margin: 0;
 `
 
-export function OSMTagTableRow(
+const StyledTag = styled(Tag)`
+  background-color: #fca0ff2c !important;
+  color: #7700b3 !important;
+`;
+
+export function OSMTagTableRowOrListElement(
   {
-    key,
+    tagKey,
     hasDisplayedKey,
     keyLabel,
     valueElement,
@@ -23,8 +29,13 @@ export function OSMTagTableRow(
     isHorizontal,
   }: OSMTagProps,
 ) {
+  // Baseline alignment for keys that display a list of horizontal tags
+  const keyStyle = horizontalKeys.has(tagKey) ? { paddingTop: '0.55rem' } : {};
+
   const displayedKey = hasDisplayedKey && (
-    <th rowSpan={keyDetails ? 1 : 2}>{keyLabel}</th>
+    <th rowSpan={keyDetails ? 1 : 2} style={keyStyle}>
+      {keyLabel}
+    </th>
   )
 
   const detailElements = [keyDetails, valueDetails].filter(Boolean)
@@ -48,38 +59,47 @@ export function OSMTagTableRow(
   )
 
   const valueIsString = typeof valueElement === 'string'
-  const ValueElement = isHorizontal ? Tag : 'td'
   const editButton = isEditable && <EditButton editURL={editURL} />;
   const displayedValueContent =
-      valueIsString
-        ? <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-            <StyledMarkdown inline style={{ textDecoration: hasDetails ? 'underline dotted' : 'none' }}>{valueElement}</StyledMarkdown>
-            {editButton}
-          </span>
-        : <>{valueElement} {editButton}</>;
+    valueIsString
+    ? <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+        <StyledMarkdown inline style={{ textDecoration: hasDetails ? 'underline dotted' : 'none' }}>{valueElement}</StyledMarkdown>
+        {editButton}
+      </span>
+    : <>{valueElement} {editButton}</>;
+  const displayedValueContentWithTooltip = hasDetails ? (
+    <Tooltip content={detailElementsContained} lazy compact>
+      {displayedValueContent}
+    </Tooltip>
+  ) : displayedValueContent;
 
-  const displayedValue = (
-    <ValueElement
-      colSpan={hasDisplayedKey ? 1 : 2}
-      style={{ paddingBottom: '0.25rem', cursor: hasDetails ? 'help' : 'auto' }}
+  const valueElementStyle = { paddingBottom: '0.25rem', cursor: hasDetails ? 'help' : 'auto' };
+  const displayedValue = isHorizontal
+  ? (
+    <StyledTag
       minimal
       large
+      round
     >
-      {hasDetails ? (
-        <Tooltip content={detailElementsContained} lazy compact>
-          {displayedValueContent}
-        </Tooltip>
-      ) : displayedValueContent}
-    </ValueElement>
+      {displayedValueContentWithTooltip}
+    </StyledTag>
   )
+  : (
+    <td
+      colSpan={hasDisplayedKey ? 1 : 2}
+      style={valueElementStyle}
+    >
+      {displayedValueContentWithTooltip}
+    </td>
+  );
 
   const ListElementTag = isHorizontal ? StyledListElement : 'tbody'
   const RowTag = isHorizontal ? 'div' : 'tr'
   const CellTag = isHorizontal ? 'div' : 'td'
 
   return (
-    <ListElementTag key={key} className={Classes.LABEL}>
-      <RowTag className={key}>
+    <ListElementTag key={tagKey} className={Classes.LABEL}>
+      <RowTag className={tagKey}>
         {displayedKey}
         {displayedValue}
         <CellTag style={{ textAlign: 'right' }} />
