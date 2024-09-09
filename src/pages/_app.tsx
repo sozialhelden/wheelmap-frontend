@@ -286,7 +286,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostnameAndPort !== 'string') {
     throw new Error('Please supply only one appId query parameter.')
   }
-  const app = await retrieveAppByHostname(environmentVariables, hostnameAndPort, query)
+  const app = await retrieveAppByHostname(globalEnvironmentVariables ?? environmentVariables, hostnameAndPort, query)
 
   const pageProps: ExtraProps = {
     userAgentString, app, languageTags, ipCountryCode, environmentVariables,
