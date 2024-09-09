@@ -205,7 +205,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     trackMappingEventMembershipChanged({
       userUUID, app, reason: 'button', joinedMappingEvent: mappingEvent,
     })
-    router.push(`/events/${mappingEventId}/welcome`)
+    router.push(`/events/${mappingEventId}/welcome`, undefined, { shallow: true })
     mutateMappingEventId()
   }, [mappingEvent, mappingEventId])
 

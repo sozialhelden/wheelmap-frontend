@@ -20,7 +20,7 @@ export default function CompositeFeaturesPage() {
   const features = useMultipleFeatures(`${placeType}:${id}`)
 
   const options = {
-    handleOpenReportMode: () => router.push(`/${placeType}/${id}/report`),
+    handleOpenReportMode: () => router.push(`/${placeType}/${id}/report`, undefined, { shallow: true }),
   }
 
   return (
