@@ -1,6 +1,6 @@
 import { Callout, useHotkeys } from '@blueprintjs/core'
 import { uniqBy } from 'lodash'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
 import {
@@ -63,21 +63,23 @@ export function CombinedFeaturePanel(props: Props) {
   useMapHighlight(features[0])
 
   return (
-    <ErrorBoundary>
-      <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
-        {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
-        {surroundings && surroundings.map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
+    <React.StrictMode>
+      <ErrorBoundary>
+        <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+          {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
+          {surroundings && surroundings.map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
 
-        {(!features || features.length === 0) && (
-          <Callout>
-            <h2>{t`No features found.`}</h2>
-          </Callout>
-        )}
+          {(!features || features.length === 0) && (
+            <Callout>
+              <h2>{t`No features found.`}</h2>
+            </Callout>
+          )}
 
-        <p>
-          {showDebugger && <FeaturesDebugJSON features={features} /> }
-        </p>
-      </Panel>
-    </ErrorBoundary>
+          <p>
+            {showDebugger && <FeaturesDebugJSON features={features} /> }
+          </p>
+        </Panel>
+      </ErrorBoundary>
+    </React.StrictMode>
   )
 }

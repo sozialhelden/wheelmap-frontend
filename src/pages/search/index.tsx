@@ -31,7 +31,7 @@ export default function Page() {
           toilet: null,
           wheelchair: null,
         },
-      })
+      }, undefined, { shallow: true })
     },
     [router],
   )
@@ -41,7 +41,7 @@ export default function Page() {
   const closeSearchPanel = useCallback(() => {
     router.push({
       pathname: '/',
-    })
+    }, undefined, { shallow: true })
   }, [router])
 
   const { clientSideConfiguration } = useCurrentApp()
