@@ -10,8 +10,10 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000
 const app = next({ dev, hostname: defaultHostname, port })
 const handle = app.getRequestHandler()
 
+console.log('Preparing app...');
 app.prepare().then(() => {
-  createServer(async (req, res) => {
+  console.log('Creating server...');
+  const server = createServer(async (req, res) => {
     try {
       const url = new URL(req.url)
       const hostname = req ? req.headers.host : window.location.hostname
@@ -35,7 +37,9 @@ app.prepare().then(() => {
       res.statusCode = 500
       res.end('internal server error')
     }
-  }).listen(port, () => {
+  })
+  console.log('Start listening...');
+  server.listen(port, () => {
     console.log(`> Ready on http://${defaultHostname}:${port}`)
   })
 })

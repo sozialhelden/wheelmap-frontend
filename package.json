@@ -135,7 +135,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "build": "rm -rf dist/ && rm -rf .next/ && rm -rf src/.next/ && npm run copy-files && NEXT_TELEMETRY_DISABLED=1 next build src && tsc -p src/server/ --outDir dist/ --noEmit false && mv src/.next .",
-    "start": "pwd; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",
+    "start": "pwd; NODE_ENV=production NODE_OPTIONS=--icu-data-dir=node_modules/full-icu next start",
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist && copyfiles ./public ./dist",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "wdio tests/conf/parallel.conf.js",
@@ -155,7 +155,9 @@
     "compile-svgs": "npm run compile-main-categories && npm run compile-action-icons && npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "eslint \"src/**/*.js\" --write",
-    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
+    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
+    "docs:build": "typedoc src --options typedoc.json --out dist/docs/typescript --json dist/typedoc-output.json && npx esrun ./tools/generate-overview.ts",
+    "docs:install": "docker pull squidfunk/mkdocs-material"
   },
   "browserslist": [
     "Android > 4.4",
