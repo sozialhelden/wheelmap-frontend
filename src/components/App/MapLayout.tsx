@@ -17,7 +17,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { isFirstStart } from '../../lib/util/savedState'
 
-import Onboarding from '../Onboarding/OnboardinView'
+import Onboarding from '../Onboarding/OnboardingView'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
