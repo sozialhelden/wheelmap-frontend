@@ -9,7 +9,6 @@ export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
 export function generateSearchParams(
   languageTags: string[],
-  appToken?: string,
 ) {
   // either fetches a response over the network,
   // or returns a cached promise with the same URL (if available)
@@ -23,7 +22,6 @@ export function generateSearchParams(
 
   const params = {
     limit: '10000',
-    appToken,
     surrogateKeys: 'false',
     include: `effects,${localizedFields.sort().join(',')}`,
   };
