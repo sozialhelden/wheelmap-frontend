@@ -48,7 +48,7 @@ export default function HeadMetaTags() {
 
       {/* Relations */}
       <link href="/search" rel="search" title={t`Search`} />
-      <link href="/onboarding" rel="home" title={t`Homepage`} />
+      <link href="/" rel="home" title={t`Homepage`} />
 
       {/* Misc */}
       <meta
