@@ -1,4 +1,4 @@
-import { IApp } from '../../model/ac/App'
+import { IApp } from '../../model/ac/App.js'
 import { fetchDocumentWithTypeTag } from './fetchDocument'
 
 export function interpretJSONResponseAsApp(json: unknown): IApp {
