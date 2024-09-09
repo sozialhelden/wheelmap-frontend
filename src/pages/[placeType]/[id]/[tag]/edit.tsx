@@ -140,7 +140,7 @@ export default function CompositeFeaturesPage() {
   const feature = features.data?.find((f) => isOSMFeature(f) && f._id === id)
   const osmFeature = isOSMFeature(feature) ? feature : null
   const closeEditor = React.useCallback(() => {
-    router.push(`/composite/${ids}`)
+    router.push(`/composite/${ids}`, undefined, { shallow: true })
   }, [router, ids])
   const [editedTagValue, setEditedTagValue] = React.useState<string | undefined>(feature?.properties[tagName])
   const osmType = getOSMType(osmFeature)
