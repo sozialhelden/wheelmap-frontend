@@ -3,11 +3,8 @@ import React, { ReactElement, useState } from 'react'
 import Layout from '../../../../components/App/Layout'
 import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import Toolbar from '../../../../components/shared/Toolbar'
-import {
-  useEquipmentInfo,
-} from '../../../../lib/fetchers/fetchOneEquipmentInfo'
-import { usePlaceInfo } from '../../../../lib/fetchers/fetchOnePlaceInfo'
 import MockedPOIDetails from '../../../../lib/fixtures/mocks/features/MockedPOIDetails'
+import useDocumentSWR from '../../../../lib/fetchers/ac/useDocumentSWR'
 // TODO clean up this page
 function EquipmentInfoPage() {
   const router = useRouter()
@@ -23,18 +20,23 @@ function EquipmentInfoPage() {
   const equipmentInfoId = typeof eid === 'string' ? eid : eid.shift()
   const placeInfoId = typeof id === 'string' ? id : id.shift()
 
-  // TODO
-  // move fetching closer to render of fetched data? avoid re-rendering?
-  // Implies changing CombinedFeaturePanel to fetch the data, not the page
-  const fallbackEquipmentResponse = useEquipmentInfo(
-    fallbackId,
-  )
+  const fallbackEquipmentResponse = useDocumentSWR({
+    type: 'ac:EquipmentInfo',
+    _id: fallbackId,
+  })
 
-  const equipmentResponse = useEquipmentInfo(equipmentInfoId)
-  const placeResponse = usePlaceInfo(placeInfoId)
-  const fallbackplaceResponse = usePlaceInfo(
-    '222RZF9r2AAzqBQXh',
-  )
+  const equipmentResponse = useDocumentSWR({
+    type: 'ac:EquipmentInfo',
+    _id: equipmentInfoId,
+  })
+  const placeResponse = useDocumentSWR({
+    type: 'ac:EquipmentInfo',
+    _id: placeInfoId,
+  })
+  const fallbackplaceResponse = useDocumentSWR({
+    type: 'ac:PlaceInfo',
+    _id: '222RZF9r2AAzqBQXh',
+  });
   React.useEffect(() => {
     console.log('rendered')
     const equipment = equipmentResponse.data

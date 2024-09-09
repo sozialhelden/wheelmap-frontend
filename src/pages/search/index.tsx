@@ -38,10 +38,7 @@ import { t } from 'ttag'
 import Layout from '../../components/App/Layout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
 import { AppContext } from '../../lib/context/AppContext'
-import fetchPlaceSearchResults, {
-  SearchResultCollection,
-  SearchResultFeature,
-} from '../../lib/fetchers/fetchPlaceSearchResults'
+
 import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
 import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
 import {
@@ -49,6 +46,8 @@ import {
   AnyFeatureCollection,
   TypeTaggedSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
+import fetchPlaceSearchResults, { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
+import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 
 export default function Page() {
   const router = useRouter()
@@ -115,7 +114,7 @@ export default function Page() {
     data: searchResults,
     isValidating: isSearching,
     error: searchError,
-  } = useSWR([searchQuery, undefined, undefined], fetchPlaceSearchResults)
+  } = useSWR({ query: searchQuery }, fetchPlacesOnKomootPhoton)
 
   function toTypeTaggedSearchResults(
     col: SearchResultCollection,

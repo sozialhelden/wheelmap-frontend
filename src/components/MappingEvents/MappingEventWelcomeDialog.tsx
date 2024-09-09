@@ -8,12 +8,12 @@ import { useCurrentApp } from '../../lib/context/AppContext'
 import {
   getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId,
 } from '../../lib/context/MappingEventContext'
-import { useMappingEvent } from '../../lib/fetchers/fetchMappingEvent'
 import colors from '../../lib/util/colors'
 import { PrimaryButton } from '../shared/Button'
 import CloseButton from '../shared/CloseButton'
 import ModalDialog from '../shared/ModalDialog'
 import { EmailInputForm } from './EmailInputForm'
+import useDocumentSWR from '../../lib/fetchers/ac/useDocumentSWR'
 
 type Props = {
   mappingEventId: string;
@@ -177,9 +177,11 @@ export default function MappingEventWelcomeDialog({
   const dialogAriaLabel = t`Welcome`
   const app = useCurrentApp()
   const { tokenString: appToken } = app
-  const { data: mappingEvent, isValidating, error } = useMappingEvent(
-    { appToken, _id: mappingEventId },
-  )
+  const { data: mappingEvent } = useDocumentSWR({
+    type: 'ac:MappingEvent',
+    _id: mappingEventId,
+    cached: false,
+  });
   const collectionMode = mappingEvent?.emailCollectionMode || 'disabled'
   const emailCollectionModeMessage = EmailCollectionModeMessages[
     collectionMode
