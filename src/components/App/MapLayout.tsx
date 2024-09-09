@@ -15,6 +15,9 @@ import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
+import { isFirstStart } from '../../lib/util/savedState'
+
+import Onboarding from '../Onboarding/OnboardinView'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -46,6 +49,7 @@ export default function MapLayout({
   const app = React.useContext(AppContext)
   const { clientSideConfiguration } = app || {}
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const firstStart = isFirstStart()
   const toggleMainMenu = React.useCallback((newValue?: boolean) => {
     setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen)
   }, [isMenuOpen])
@@ -60,6 +64,7 @@ export default function MapLayout({
 
   return (
     <ErrorBoundary>
+      {firstStart && <Onboarding />}
       <HeadMetaTags />
       <GlobalStyle />
 
