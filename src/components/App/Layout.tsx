@@ -13,6 +13,7 @@ import LoadableMapView from '../MapNew/LoadableMapView'
 import GlobalStyle from './GlobalAppStyle'
 import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
+import { useDarkMode } from '../shared/useDarkMode'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -50,6 +51,7 @@ export default function Layout({
   React.useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
+  const isDarkMode = useDarkMode();
 
   return (
     <>
@@ -65,6 +67,7 @@ export default function Layout({
 
       <main
         style={{ height: '100%' }}
+        className={isDarkMode ? 'bp5-dark' : 'bp5-light'}
         ref={containerRef}
       >
         <LoadableMapView {...{ width, height }} />
