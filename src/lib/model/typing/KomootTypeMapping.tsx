@@ -1,5 +1,5 @@
-import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults'
+import { KomootPhotonResultFeature } from "../../fetchers/fetchPlacesOnKomootPhoton";
 
 export interface KomootTypeMapping {
-  'komoot:SearchResult': SearchResultFeature;
+  'komoot:SearchResult': KomootPhotonResultFeature;
 }

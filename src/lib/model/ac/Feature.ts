@@ -2,9 +2,9 @@ import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson'
 import flatten from 'lodash/flatten'
 import includes from 'lodash/includes'
 import uniq from 'lodash/uniq'
-import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults'
 import { isOSMFeature } from '../geo/AnyFeature'
 import OSMFeature from '../osm/OSMFeature'
+import { KomootPhotonResultFeature } from '../../fetchers/fetchPlacesOnKomootPhoton'
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -18,7 +18,7 @@ Object.freeze(yesNoLimitedUnknownArray)
 export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown']
 Object.freeze(yesNoUnknownArray)
 
-export type MappingEventFeature = SearchResultFeature;
+export type MappingEventFeature = KomootPhotonResultFeature;
 
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',
@@ -79,7 +79,7 @@ export function hrefForPlaceInfo(
   feature: PlaceInfo,
 ) {
   const featureId = getFeatureId(feature)
-  const [, osmFeatureType, osmId] = featureId.match(/^(node|way|relation)\/(\d+)$/) || []
+  const [, osmFeatureType, osmId] = featureId?.match(/^(node|way|relation)\/(\d+)$/) || []
   if (osmFeatureType && osmId) {
     return `/${osmFeatureType}/${osmId}`
   }
@@ -92,7 +92,7 @@ export function hrefForEquipmentInfo(
   const { properties } = feature
   const featureId = getFeatureId(feature)
   const placeInfoId = properties?.placeInfoId
-  if (includes(['elevator', 'escalator'], properties.category)) {
+  if (includes(['elevator', 'escalator'], properties?.category)) {
     return `/nodes/${placeInfoId}/equipment/${featureId}`
   }
   return `/nodes/${featureId}`
@@ -111,7 +111,7 @@ export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): s
 
 function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
   const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair']
-  if (['yes', 'no'].includes(wheelchairToiletTag)) {
+  if (['yes', 'no'].includes(String(wheelchairToiletTag))) {
     return wheelchairToiletTag as 'yes' | 'no'
   }
   return 'unknown'
