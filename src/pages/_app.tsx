@@ -16,7 +16,7 @@ import { t } from 'ttag'
 import { toast } from 'react-toastify'
 import { AppContext } from '../lib/context/AppContext'
 import CountryContext from '../lib/context/CountryContext'
-import EnvContext from '../lib/context/EnvContext'
+import EnvContext, { EnvironmentVariables } from '../lib/context/EnvContext'
 import { HostnameContext } from '../lib/context/HostnameContext'
 import { LanguageTagContext } from '../lib/context/LanguageTagContext'
 import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext'
@@ -40,7 +40,7 @@ interface ExtraProps {
   app: IApp;
   languageTags: ILanguageSubtag[];
   ipCountryCode?: string;
-  environmentVariables: Record<string, string>;
+  environmentVariables: Record<string, string | undefined>;
 }
 
 let globalEnvironmentVariables
@@ -230,14 +230,14 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   )
 }
 
-const environmentVariables = pick(
+const environmentVariables: EnvironmentVariables = pick(
   process.env,
   Object
     .keys(process.env)
     .filter((key) => key.startsWith('NEXT_PUBLIC_')),
 )
 
-async function retrieveAppByHostname(hostnameAndPort: string, query: queryString.ParsedQuery<string>) {
+async function retrieveAppByHostname(env: EnvironmentVariables, hostnameAndPort: string, query: queryString.ParsedQuery<string>) {
   const hostname = hostnameAndPort.split(':')[0]
   console.log('Hostname:', query, query.appId, hostname)
   if (typeof hostname !== 'string') {
@@ -245,7 +245,10 @@ async function retrieveAppByHostname(hostnameAndPort: string, query: queryString
   }
   const {
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken, NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL: baseUrl,
-  } = process.env
+  } = env;
+  if (!appToken || !baseUrl) {
+    throw new Error('Please provide NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN and NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL.')
+  }
   const app = await fetchApp({ baseUrl, appToken, hostname })
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`)
@@ -271,10 +274,10 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const appProps = await NextApp.getInitialProps(appContext)
   const { ctx } = appContext
   const { req, res } = ctx
-  const url = req ? req.url : window.location.href
-  const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
-  const languageTags = determinePreferredLanguageTags(req, res)
-  const { query } = queryString.parseUrl(url)
+  const url = req?.url ?? window.location.href
+  const userAgentString = req?.headers['user-agent'] ?? navigator.userAgent
+  const languageTags = (req && res) ? determinePreferredLanguageTags(req, res) : window.navigator.languages.map(parseLanguageTag)
+  const { query } = queryString.parseUrl(url ?? '')
   const ipCountryCode = query.countryCode
     || req?.headers?.['cf-ipcountry']
     || req?.headers?.['x-country-code']
@@ -283,7 +286,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostnameAndPort !== 'string') {
     throw new Error('Please supply only one appId query parameter.')
   }
-  const app = await retrieveAppByHostname(hostnameAndPort, query)
+  const app = await retrieveAppByHostname(environmentVariables, hostnameAndPort, query)
 
   const pageProps: ExtraProps = {
     userAgentString, app, languageTags, ipCountryCode, environmentVariables,

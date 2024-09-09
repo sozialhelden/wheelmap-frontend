@@ -1,6 +1,7 @@
 import React from 'react'
 
-const EnvContext = React.createContext<Record<string, string>>({})
+export type EnvironmentVariables = Record<string, string | undefined>;
+const EnvContext = React.createContext<EnvironmentVariables>({})
 
 export default EnvContext
 
