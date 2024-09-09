@@ -18,8 +18,7 @@ import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { isFirstStart } from '../../lib/util/savedState'
 
 import Onboarding from '../Onboarding/OnboardingView'
-import { MapFilterContext, MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
-import { useFilterContextState } from '../MapNew/filter/useMapFilterContextValue'
+import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -70,15 +69,12 @@ export default function MapLayout({
         {firstStart && <Onboarding />}
         <HeadMetaTags />
         <GlobalStyle />
-
         <GlobalMapContextProvider>
-
           <MainMenu
             onToggle={toggleMainMenu}
             isOpen={isMenuOpen}
             clientSideConfiguration={clientSideConfiguration}
           />
-
           <main
             style={{ height: '100%' }}
             ref={containerRef}
@@ -91,6 +87,5 @@ export default function MapLayout({
         </GlobalMapContextProvider>
       </MapFilterContextProvider>
     </ErrorBoundary>
-
   )
 }

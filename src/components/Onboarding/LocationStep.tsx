@@ -76,7 +76,7 @@ const ReducedSecondaryButton = styled(SecondaryButton)`
   border-radius: 0.5rem;
 `
 
-type Stage = 'idle' | 'acquiring' | 'failed-not-exited'
+type Stage = 'idle' | 'acquiring' | 'failed-not-exited';
 
 // oeuf, there are many exit points that may be consolidated:
 // permission denied: ok, they denied
@@ -118,6 +118,8 @@ export const LocationStep: FC<{
         if (stage.retries >= maxRetries) {
           onFailed()
           return
+          onFailed()
+          return
         }
         setStage({ stage: 'failed-not-exited', retries: stage.retries + 1 })
         return
@@ -152,5 +154,5 @@ export const LocationStep: FC<{
         </CallToActionButton>
       </footer>
     </Container>
-  )
-}
+  );
+};
