@@ -26,6 +26,7 @@ import { IApp } from '../lib/model/ac/App'
 import fetchApp from '../lib/fetchers/ac/fetchApp'
 import ResourceError from '../lib/fetchers/ResourceError'
 import StyledMarkdown from '../components/shared/StyledMarkdown'
+import { patchFetcher } from '../lib/util/patchClientFetch'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -43,7 +44,7 @@ interface ExtraProps {
   environmentVariables: Record<string, string | undefined>;
 }
 
-let globalEnvironmentVariables
+let globalEnvironmentVariables = {}
 
 function ErrorMessage({ error }: { error: ResourceError | Error }) {
   const id = React.useId()
@@ -200,10 +201,9 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   const {
     userAgentString, app, session, languageTags, ipCountryCode, environmentVariables,
   } = pageProps
-  if (!globalEnvironmentVariables && Object.keys(environmentVariables).length > 0) {
-    globalEnvironmentVariables = environmentVariables
+  if(Object.keys(globalEnvironmentVariables).length <= 0) {
+    globalEnvironmentVariables = environmentVariables ?? {}
   }
-
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
@@ -236,6 +236,8 @@ const environmentVariables: EnvironmentVariables = pick(
     .keys(process.env)
     .filter((key) => key.startsWith('NEXT_PUBLIC_')),
 )
+
+patchFetcher();
 
 async function retrieveAppByHostname(env: EnvironmentVariables, hostnameAndPort: string, query: queryString.ParsedQuery<string>) {
   const hostname = hostnameAndPort.split(':')[0]
@@ -286,7 +288,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostnameAndPort !== 'string') {
     throw new Error('Please supply only one appId query parameter.')
   }
-  const app = await retrieveAppByHostname(globalEnvironmentVariables ?? environmentVariables, hostnameAndPort, query)
+  const app = await retrieveAppByHostname(Object.keys(globalEnvironmentVariables).length > 0 ? globalEnvironmentVariables : environmentVariables, hostnameAndPort, query)
 
   const pageProps: ExtraProps = {
     userAgentString, app, languageTags, ipCountryCode, environmentVariables,

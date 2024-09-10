@@ -31,6 +31,7 @@ import * as categoryIcons from '../icons/categories'
 import { databaseTableNames, filterLayers } from './filterLayers'
 import useMapStyle from './useMapStyle'
 import { useEnvContext } from '../../lib/context/EnvContext'
+import { StyledLoadingIndicator } from './LoadingIndictor'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -329,6 +330,7 @@ export default function MapView(props: IProps) {
         </Map>
       </MapProvider>
       <FixedHelpButton />
+      <StyledLoadingIndicator />
     </>
   )
 }
