@@ -1,6 +1,6 @@
 import { useHotkeys } from '@blueprintjs/core'
 import { uniqBy } from 'lodash'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import {
   AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
@@ -57,27 +57,29 @@ export function CombinedFeaturePanel(props: Props) {
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
 
   return (
-    <Panel onKeyDown={handleKeyDown}>
-      {features && features[0] && (
-        <>
-          <PlaceOfInterestDetails feature={features[0]} />
+    <React.StrictMode>
+      <Panel onKeyDown={handleKeyDown}>
+        {features && features[0] && (
+          <>
+            <PlaceOfInterestDetails feature={features[0]} />
 
-          {/* <ReportIssueButton
+            {/* <ReportIssueButton
             equipmentInfoId={null}
             feature={features[0]}
             onOpenReportMode={handleOpenReportMode}
           /> */}
-        </>
-      )}
-      {features
+          </>
+        )}
+        {features
         && features.length > 1
         && features
           .slice(1)
           .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
 
-      <p>
-        {toogle && <FeaturesDebugJSON features={features} /> }
-      </p>
-    </Panel>
+        <p>
+          {toogle && <FeaturesDebugJSON features={features} /> }
+        </p>
+      </Panel>
+    </React.StrictMode>
   )
 }

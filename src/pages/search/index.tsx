@@ -75,7 +75,7 @@ export default function Page() {
       router.replace({
         pathname: router.pathname,
         query,
-      })
+      }, undefined, { shallow: true })
     },
     [router],
   )
@@ -89,7 +89,7 @@ export default function Page() {
           wheelchair: newPlaceFilter.accessibility,
           toilet: newPlaceFilter.toilet,
         },
-      })
+      }, undefined, { shallow: true })
     },
     [router],
   )
@@ -100,7 +100,7 @@ export default function Page() {
     router.push({
       pathname: '/',
       query: { ...router.query },
-    })
+    }, undefined, { shallow: true })
   }, [router])
 
   const { clientSideConfiguration } = useContext(AppContext)

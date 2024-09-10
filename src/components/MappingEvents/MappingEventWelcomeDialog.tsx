@@ -205,7 +205,7 @@ export default function MappingEventWelcomeDialog({
       userUUID, app, reason: 'button', joinedMappingEvent: mappingEvent, emailAddress,
     })
     mutateMappingEventId(null)
-    router.push('/')
+    router.push('/', undefined, { shallow: true })
   }, [mappingEvent, userUUID, mutateMappingEventId, router, app, mappingEventId])
 
   return (

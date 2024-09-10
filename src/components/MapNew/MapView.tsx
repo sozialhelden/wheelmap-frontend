@@ -146,26 +146,22 @@ export default function MapView(props: IProps) {
       const selectedFeatureCount = event?.features?.length
       if (!selectedFeatureCount) {
         // Clicked outside of a clickable map feature
-        router.push('/')
+        router.push('/', undefined, { shallow: true })
       }
 
       if (selectedFeatureCount === 1) {
         const feature = event.features?.[0]
         // Show source overview again if user just clicks/taps on the map
         feature
-          && router.push(
-            `/${feature.source}/${feature.properties.id?.replace('/', ':')}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`,
-          )
+          && router.push(`/${feature.source}/${feature.properties.id?.replace('/', ':')}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`, undefined, { shallow: true })
         return
       }
 
       if (event.features?.length) {
-        router.push(
-          `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id?.replace('/', ':')].join(':')))
-            .join(',')}?lon=${event.lngLat.lng}&lat=${
-            event.lngLat.lat
-          }&zoom=${zoom}`,
-        )
+        router.push(`/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id?.replace('/', ':')].join(':')))
+          .join(',')}?lon=${event.lngLat.lng}&lat=${
+          event.lngLat.lat
+        }&zoom=${zoom}`, undefined, { shallow: true })
       }
     },
     [router, zoom],
@@ -186,11 +182,11 @@ export default function MapView(props: IProps) {
         newQuery.lon = viewport.longitude.toString()
       }
     }
-    router.replace({ query: newQuery })
+    router.replace({ query: newQuery }, undefined, { shallow: true })
   }, [viewport, query, featureIds])
 
   const closePopup = useCallback(() => {
-    router.push('/')
+    router.push('/', undefined, { shallow: true })
     updateViewportQuery()
   }, [router, updateViewportQuery])
 

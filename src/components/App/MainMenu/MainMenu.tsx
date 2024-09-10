@@ -339,7 +339,7 @@ export default function MainMenu(props: Props) {
 
   const homeLink = (
     <div className="home-link">
-      <Link href="/onboarding" legacyBehavior>
+      <Link href="/" legacyBehavior>
         <button
           className="btn-unstyled home-button"
           aria-label={t`Home`}

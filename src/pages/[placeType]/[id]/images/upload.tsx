@@ -25,7 +25,7 @@ export default function Page() {
   // />
 
   const closeToolbar = useCallback(() => {
-    router.push(`/${placeType}/${id}`)
+    router.push(`/${placeType}/${id}`, undefined, { shallow: true })
   }, [router, placeType, id])
 
   const [waitingForPhotoUpload, setWaitingForPhotoUpload] = React.useState(
@@ -50,7 +50,7 @@ export default function Page() {
         )
       }
 
-      router.push(`/${placeType}/${id}`)
+      router.push(`/${placeType}/${id}`, undefined, { shallow: true })
     },
     [router, placeType, id, appToken],
   )
