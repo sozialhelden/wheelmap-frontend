@@ -332,7 +332,7 @@ export default function MapView(props: IProps) {
       )} */}
           {/* <ZoomToDataOnLoad /> */}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
-          <GeolocateControl />
+          <GeolocateControl positionOptions={{ enableHighAccuracy: true }} />
         </Map>
       </MapProvider>
       <FixedHelpButton />
