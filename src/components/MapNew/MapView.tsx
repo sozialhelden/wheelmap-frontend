@@ -7,6 +7,7 @@ import {
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import {
+  GeolocateControl,
   Layer,
   Map,
   MapProvider,
@@ -16,7 +17,6 @@ import {
   ViewState,
   ViewStateChangeEvent,
 } from 'react-map-gl'
-
 
 // import FeatureListPopup from "../feature/FeatureListPopup";
 import { useHotkeys } from '@blueprintjs/core'
@@ -32,6 +32,8 @@ import { databaseTableNames, filterLayers } from './filterLayers'
 import useMapStyle from './useMapStyle'
 import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
+import useUserAgent from '../../lib/context/UserAgentContext'
+import LocateIcon from '../icons/actions/LocateOff.svg'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -63,6 +65,12 @@ const MapboxExtraStyles = createGlobalStyle`
     min-width: 44px;
     min-height: 44px;
   }
+`
+
+const MapboxLocationPinStyles = createGlobalStyle`
+  .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate > .mapboxgl-ctrl-icon {
+    background-image: url(${LocateIcon.src});
+  } 
 `
 
 export default function MapView(props: IProps) {
@@ -283,9 +291,13 @@ export default function MapView(props: IProps) {
     NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
   } = useEnvContext();
 
+  const userAgent = useUserAgent()
+  const isAndroid = userAgent?.os?.name === 'Android'
+
   return (
     <>
       <MapboxExtraStyles />
+      { !isAndroid && <MapboxLocationPinStyles />}
       <MapProvider>
         <Map
           {...viewport}
@@ -327,6 +339,7 @@ export default function MapView(props: IProps) {
       )} */}
           {/* <ZoomToDataOnLoad /> */}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
+          <GeolocateControl positionOptions={{ enableHighAccuracy: true }} />
         </Map>
       </MapProvider>
       <FixedHelpButton />

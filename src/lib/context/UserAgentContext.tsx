@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http'
 import React from 'react'
 import { UAParser } from 'ua-parser-js'
 
-export const UserAgentContext = React.createContext<IUAParser.IResult | null>(
+export const UserAgentContext = React.createContext<UAParser.IResult | null>(
   null,
 )
 
@@ -32,7 +32,7 @@ export function parseUserAgentString(userAgentString: string) {
   return userAgent
 }
 
-export function isTouchDevice(userAgent: IUAParser.IResult) {
+export function isTouchDevice(userAgent: UAParser.IResult) {
   // If on client check for touch points.
   if (typeof window !== 'undefined' && window.navigator.maxTouchPoints > 0) {
     return true
