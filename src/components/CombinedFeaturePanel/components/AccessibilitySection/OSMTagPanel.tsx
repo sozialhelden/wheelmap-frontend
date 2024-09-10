@@ -39,9 +39,9 @@ function generateTree(keys: string[]): ITreeNode {
         const existingParent = get(result, parentPath)
         const newObject = typeof existingParent === 'string' ? existingParent : key
         set(result, path, newObject)
-        // console.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
-        // console.log(`Assigned`, path, '=', newObject);
-        // console.log(`Result`, result);
+        console.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
+        console.log(`Assigned`, path, '=', newObject);
+        console.log(`Result`, result);
         break
       }
     }

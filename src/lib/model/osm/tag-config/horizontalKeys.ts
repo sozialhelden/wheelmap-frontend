@@ -5,4 +5,6 @@ export const horizontalKeys = new Set([
   'health',
   'stay',
   'audience',
+  'location',
+  'look',
 ])

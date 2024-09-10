@@ -67,4 +67,8 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'indoor',
   'level',
   'level:ref',
+  'lit',
+  'height',
+  'building:material',
+  'building:colour',
 ])

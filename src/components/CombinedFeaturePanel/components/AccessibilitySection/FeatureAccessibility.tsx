@@ -9,9 +9,7 @@ type Props = {
 };
 
 const Card = styled.section`
-  background-color: white;
   padding: 0.25rem 0.5rem;
-  box-shadow: 0 0.125rem 4rem rgba(0, 0, 0, 0.1);
   border-radius: 0.25rem;
   margin: 0 -0.25rem;
 `

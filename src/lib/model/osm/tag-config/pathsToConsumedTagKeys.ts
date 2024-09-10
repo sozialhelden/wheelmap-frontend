@@ -1,5 +1,6 @@
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['building_object.type', /^building$/],
+  ['look.$1', /^building:(colour|material)|height$/],
   ['building_object.$1', /^building:([\w_]+)$/],
   ['building_object.$1_level', /^(min|max)_level$/],
   ['payment.$1', /^payment:([\w_]+)$/],

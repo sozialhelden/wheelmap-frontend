@@ -12,8 +12,8 @@ const StyledListElement = styled.li`
 `
 
 const StyledTag = styled(Tag)`
-  background-color: #fca0ff2c !important;
-  color: #7700b3 !important;
+  background-color: #a4bae530 !important;
+  color: #0b2743 !important;
 `;
 
 export function OSMTagTableRowOrListElement(
