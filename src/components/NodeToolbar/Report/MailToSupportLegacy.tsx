@@ -1,16 +1,15 @@
 import { PlaceInfo } from '@sozialhelden/a11yjson'
 import * as React from 'react'
-import {
-  getCategoryId,
-  Category,
-} from '../../../lib/model/ac/categories/Categories'
+import { ACCategory as Category } from '../../../lib/model/ac/categories/ACCategory'
 import strings from './strings'
+import UAParser from 'ua-parser-js';
 
 type Props = {
   feature: PlaceInfo;
   featureId: string | number | null;
   category: Category | null;
   parentCategory: Category | null;
+  userAgent: UAParser.IResult
   onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -51,7 +50,7 @@ export default class MailToSupportLegacy extends React.Component<Props> {
   }
 
   render() {
-    const { feature, featureId } = this.props
+    const { feature, featureId, userAgent } = this.props
 
     if (!featureId || !feature || !feature.properties) return null
 
@@ -59,7 +58,7 @@ export default class MailToSupportLegacy extends React.Component<Props> {
     const { properties } = feature
     const categoryOrParentCategory = this.props.category || this.props.parentCategory
     const categoryName = categoryOrParentCategory
-      ? getCategoryId(categoryOrParentCategory)
+      ? categoryOrParentCategory._id
       : null
 
     const {
@@ -70,8 +69,8 @@ export default class MailToSupportLegacy extends React.Component<Props> {
       backButtonCaption,
     } = strings()
 
-    const subject = reportSubject(properties.name, categoryName)
-    const body = reportBody(url)
+    const subject = reportSubject(properties.name ?? null, categoryName)
+    const body = reportBody(url, userAgent.ua)
     const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(
       subject,
     )}&body=${encodeURIComponent(body)}`

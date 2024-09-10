@@ -1,5 +1,6 @@
 import { t } from 'ttag'
 import { LocalizedString } from '../../../lib/i18n/LocalizedString'
+import UAParser from 'ua-parser-js'
 
 export default function strings() {
   return {
@@ -33,9 +34,9 @@ export default function strings() {
     contactButtonCaption: t`Contact the Wheelmap support team`,
     // translator: Apologizes for the issue and mentions that the support team can help you.
     apologyAndSolution: t`Sorry about that! Just drop us a line so we can help you to fix the problem.`,
-    reportBody(url: string) {
+    reportBody(url: string, userAgent: string) {
       // translator: Report email body with place URL
-      return t`(Please only write in English or German.)\n\nDear Sozialhelden,\n\nsomething about this place is wrong: ${url}\n\nThe problem is:\n\nMy browser:\n\n${navigator.userAgent}`
+      return t`(Please only write in English or German.)\n\nDear Sozialhelden,\n\nsomething about this place is wrong: ${url}\n\nThe problem is:\n\nMy browser:\n\n${userAgent}`
     },
     reportSubject(
       placeName: LocalizedString | string | null,
