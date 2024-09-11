@@ -73,7 +73,7 @@
     "next": "^12.1.0",
     "next-transpile-modules": "^5.0.0",
     "node-fetch": "^3.3.2",
-    "path-to-regexp": "^2.4.0",
+    "path-to-regexp": "^3.3.0",
     "plist": "^3.0.5",
     "postcss": "^8.4.31",
     "query-string": "^6.13.7",
