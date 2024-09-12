@@ -25,6 +25,16 @@ const BlurLayer = styled.div<{ active: boolean }>`
   pointer-events: ${(p) => (p.active ? 'initial' : 'none')};
 `
 
+const StyledToastContainer = styled(ToastContainer)`
+width: min(400px, 80vw);
+  > .Toastify__toast > .Toastify__toast-body {
+    > .Toastify__toast-icon {
+      visibility: hidden;
+      width: 0;
+    }
+  }
+`
+
 export default function MapLayout({
   children,
   blur,
@@ -32,11 +42,6 @@ export default function MapLayout({
   children?: React.ReactNode;
   blur?: boolean;
 }) {
-  // const { data, error } = useSWR('/api/navigation', fetcher)
-
-  // if (error) return <div>Failed to load</div>
-  // if (!data) return <div>Loading...</div>
-
   const app = React.useContext(AppContext)
   const { clientSideConfiguration } = app || {}
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -51,7 +56,7 @@ export default function MapLayout({
   React.useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
-  const isDarkMode = useDarkMode();
+  const isDarkMode = useDarkMode()
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function MapLayout({
         <LoadableMapView {...{ width, height }} />
         <BlurLayer active={blur} style={{ zIndex: 1000 }} />
         <div style={{ zIndex: 2000 }}>{children}</div>
-        <ToastContainer position="bottom-center" stacked />
+        <StyledToastContainer position="bottom-center" stacked />
       </main>
     </>
   )
