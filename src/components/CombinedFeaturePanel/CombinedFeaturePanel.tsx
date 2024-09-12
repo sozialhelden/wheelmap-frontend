@@ -55,8 +55,8 @@ export function CombinedFeaturePanel(props: Props) {
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
 
   return (
-    <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
-      <ErrorBoundary>
+    <ErrorBoundary>
+      <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} onClick={() => { throw new Error() }}>
         {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
         {/* TODO: Report button goes here. */}
         {features
@@ -68,7 +68,7 @@ export function CombinedFeaturePanel(props: Props) {
         <p>
           {showDebugger && <FeaturesDebugJSON features={features} /> }
         </p>
-      </ErrorBoundary>
-    </Panel>
+      </Panel>
+    </ErrorBoundary>
   )
 }

@@ -11,7 +11,7 @@ type Props = {
 };
 
 type State = {
-  catched: boolean;
+  hasError: boolean;
   error?: Error;
   errorInfo?: any;
 };
@@ -20,19 +20,24 @@ class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    this.state = { catched: false }
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true }
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    this.setState({ catched: true, error, errorInfo })
+    this.setState({ hasError: true, error, errorInfo })
 
     console[console.error ? 'error' : 'log'](error, errorInfo)
   }
 
   render() {
-    const { catched, error, errorInfo } = this.state
+    const { hasError, error, errorInfo } = this.state
 
-    if (catched) {
+    if (hasError) {
       const { className } = this.props
 
       // translator: Shown as header text on the error page.
@@ -87,6 +92,7 @@ export default styled(ErrorBoundary)`
   max-height: 100%;
   overflow: hidden;
   background-color: white;
+  color: black;
 
   h1 {
     font-size: 1.25em;

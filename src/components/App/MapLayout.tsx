@@ -14,6 +14,7 @@ import GlobalStyle from './GlobalAppStyle'
 import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import { useDarkMode } from '../shared/useDarkMode'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -59,7 +60,8 @@ export default function MapLayout({
   const isDarkMode = useDarkMode()
 
   return (
-    <>
+
+    <ErrorBoundary>
       <HeadMetaTags />
 
       <GlobalStyle />
@@ -80,6 +82,7 @@ export default function MapLayout({
         <div style={{ zIndex: 2000 }}>{children}</div>
         <StyledToastContainer position="bottom-center" stacked />
       </main>
-    </>
+    </ErrorBoundary>
+
   )
 }
