@@ -12,6 +12,13 @@ type Props = HTMLAttributes<HTMLImageElement> & {
   verb: string;
 };
 
+const makeWikiQuery = (entityId: string | number, entityVerb: string) => encodeURIComponent(
+  `SELECT ?o
+WHERE {
+    wd:${entityId} wdt:${entityVerb} ?o.
+}`,
+)
+
 /**
  * Renders a React component that loads brand info from the Wikidata API (with SWR) and displays the
  * brand logo.
@@ -20,9 +27,9 @@ export default function WikidataEntityImage(props: Props) {
   const {
     [props.prefix ? `${props.prefix}:wikidata` : 'wikidata']: entityId,
   } = props.feature.properties
-  const url = `https://query.wikidata.org/sparql?query=SELECT%20%3Fo%0AWHERE%20%7B%0A%20%20%20%20wd%3A${encodeURIComponent(
-    entityId,
-  )}%20wdt%3A${props.verb}%20%3Fo.%0A%7D&format=json`
+
+  // eslint-disable-next-line react/destructuring-assignment
+  const url = `https://query.wikidata.org/sparql?query=${makeWikiQuery(entityId, props.verb)}&format=json`
   const { data, error } = useSWR(entityId ? url : null, fetcher)
   if (error) return null
   if (!data) return null
