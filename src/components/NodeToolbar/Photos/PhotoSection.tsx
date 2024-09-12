@@ -12,6 +12,7 @@ import { useCurrentAppToken } from '../../../lib/context/AppContext'
 import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages'
 import convertAcPhotosToLightboxPhotos from '../../../lib/model/ac/convertAcPhotosToLightboxPhotos'
 import PhotoUploadButton from './PhotoUpload/PhotoUploadButton'
+import { withErrorBoundary } from '../../shared/ErrorBoundary'
 
 type Props = {
   entityType: string,
@@ -82,7 +83,50 @@ const StyledSection = styled.section`
   }
 `
 
-export default function PhotoSection(props: Props) {
+const FooterCaption: React.FC<{
+  currentImageIndex: number,
+  canReportPhoto: boolean,
+  photos: any[],
+  entityType: string,
+  entityId: string,
+  currentImage: any
+}> = ({
+  currentImageIndex, canReportPhoto, photos, entityType, entityId, currentImage,
+}) => (
+  <section key="lightbox-actions" className="lightbox-actions">
+    <div>
+      <kbd>esc</kbd>
+      <kbd className={currentImageIndex === 0 ? 'disabled' : ''}>←</kbd>
+      <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
+    </div>
+    {canReportPhoto && (
+      <Link
+        href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}
+        legacyBehavior
+      >
+        <button type="submit" className="report-image">{t`Report image`}</button>
+      </Link>
+    )}
+  </section>
+)
+
+const FooterCount: React.FC<{currentImageIndex: number, photos: any[]}> = ({ currentImageIndex, photos }) => {
+  // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
+  const separator = t`of`
+  return (
+    <span>
+      <span>{currentImageIndex + 1}</span>
+&nbsp;
+      <span>{separator}</span>
+&nbsp;
+      <span>{photos.length}</span>
+    </span>
+  )
+}
+
+const HeaderFullscreen: React.FC = () => <span />
+
+const PhotoSection: React.FC<Props> = (props: Props) => {
   const { entityId, entityType } = props
   const appToken = useCurrentAppToken()
 
@@ -124,45 +168,14 @@ export default function PhotoSection(props: Props) {
 
   const canReportPhoto = currentImage?.appSource === 'accessibility-cloud'
 
-  const FooterCaption = React.useMemo(() => function () {
-    return (
-      <section key="lightbox-actions" className="lightbox-actions">
-        <div>
-          <kbd>esc</kbd>
-          <kbd className={currentImageIndex === 0 ? 'disabled' : ''}>←</kbd>
-          <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
-        </div>
-        {canReportPhoto && (
-          <Link
-            href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}
-            legacyBehavior
-          >
-            <button className="report-image">{t`Report image`}</button>
-          </Link>
-        )}
-      </section>
-    )
-  }, [entityType, entityId, currentImage, canReportPhoto, currentImageIndex, photos])
-
-  const FooterCount = React.useMemo(() => {
-    // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
-    const separator = t`of`
-    return function () {
-      return (
-        <span>
-          <span>{currentImageIndex + 1}</span>
-&nbsp;
-          <span>{separator}</span>
-&nbsp;
-          <span>{photos.length}</span>
-        </span>
-      )
-    }
-  }, [currentImageIndex, photos])
-
-  const HeaderFullscreen = React.useMemo(() => function () {
-    return <span />
-  }, [])
+  const footerCaption = (
+    <FooterCaption {...{
+      entityId, entityType, currentImage, canReportPhoto, currentImageIndex, photos,
+    }}
+    />
+  )
+  const footerCount = <FooterCount {...{ currentImageIndex: currentImageIndex + 1, photos }} />
+  const headerFullscreen = <HeaderFullscreen />
 
   // const customStyles = {
   //   header: (base, state) => ({
@@ -199,7 +212,7 @@ export default function PhotoSection(props: Props) {
         {isLightboxOpen && (
           <Modal onClose={closeLightbox}>
             <Lightbox
-              components={{ FooterCaption, FooterCount, HeaderFullscreen }}
+              components={{ footerCaption, footerCount, headerFullscreen }}
               views={photos.map((p) => ({
                 ...p,
                 src: maxBy(p.images, (mp) => Math.max(mp.width, mp.height))?.src,
@@ -234,3 +247,5 @@ export default function PhotoSection(props: Props) {
     </StyledSection>
   )
 }
+
+export default withErrorBoundary(PhotoSection)

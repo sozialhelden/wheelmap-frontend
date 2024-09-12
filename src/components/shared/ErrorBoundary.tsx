@@ -1,4 +1,6 @@
-import { Component, ReactNode } from 'react'
+import React, {
+  Component, ComponentType, ElementType, ReactNode,
+} from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
 
@@ -73,6 +75,15 @@ class ErrorBoundary extends Component<Props, State> {
 
     return this.props.children
   }
+}
+
+export const withErrorBoundary = (WrappedComponent: React.FC) => {
+  const Wrapper = ({ ...props }) => (
+    <ErrorBoundary>
+      <WrappedComponent {...props} />
+    </ErrorBoundary>
+  )
+  return Wrapper
 }
 
 const ErrorDetail = styled.p`
