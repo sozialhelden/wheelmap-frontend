@@ -3,7 +3,7 @@ import { ReactElement } from 'react'
 import styled from 'styled-components'
 import CloseLink from '../../components/shared/CloseLink'
 
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import Toolbar from '../../components/shared/Toolbar'
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -40,14 +40,14 @@ export default function LegacyNodePage() {
   // )
 
   return (
-    <Layout>
+    <MapLayout>
       <Toolbar>
         <div>TODO: Load place details from OSM / AC here or redirect</div>
       </Toolbar>
-    </Layout>
+    </MapLayout>
   )
 }
 
 LegacyNodePage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

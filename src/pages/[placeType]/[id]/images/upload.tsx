@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React, { ReactElement, useCallback } from 'react'
 import { t } from 'ttag'
 import { toast } from 'react-toastify'
-import Layout from '../../../../components/App/Layout'
+import MapLayout from '../../../../components/App/MapLayout'
 // import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
 import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import postImageUpload from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
@@ -65,5 +65,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout blur>{page}</Layout>
+  return <MapLayout blur>{page}</MapLayout>
 }

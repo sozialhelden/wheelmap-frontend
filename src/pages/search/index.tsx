@@ -35,7 +35,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useCallback, useContext } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
 import { AppContext } from '../../lib/context/AppContext'
 
@@ -167,5 +167,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

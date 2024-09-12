@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { t } from 'ttag'
-import Layout from '../../../../../components/App/Layout'
+import MapLayout from '../../../../../components/App/MapLayout'
 import { CombinedFeaturePanel } from '../../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import { OSMTagEditor } from '../../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor'
 import CloseLink from '../../../../../components/shared/CloseLink'
@@ -180,5 +180,5 @@ export default function CompositeFeaturesPage() {
 }
 
 CompositeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

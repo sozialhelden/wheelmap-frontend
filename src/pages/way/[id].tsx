@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import { useCurrentApp } from '../../lib/context/AppContext'
 import { exampleStreet } from '../../lib/fixtures/mocks/ways/exampleStreet'
 import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
@@ -16,7 +16,7 @@ function WayPage(props) {
 }
 
 WayPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }
 
 export default WayPage

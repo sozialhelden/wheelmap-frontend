@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import Layout from '../../../components/App/Layout'
+import MapLayout from '../../../components/App/MapLayout'
 import { MappingEventMetadata } from '../../../components/MappingEvents/MappingEventMetadata'
 import MappingEventPanel from '../../../components/MappingEvents/MappingEventPanel'
 import useDocumentSWR from '../../../lib/fetchers/ac/useDocumentSWR'
@@ -28,5 +28,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

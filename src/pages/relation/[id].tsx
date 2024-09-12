@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import { useCurrentApp } from '../../lib/context/AppContext'
 import { BERLIN } from '../../lib/fixtures/mocks/relations/berlin'
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
 
 function RelationPage() {
@@ -19,7 +19,7 @@ function RelationPage() {
 }
 
 RelationPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }
 
 export default RelationPage

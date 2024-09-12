@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import OnboardingDialog from '../../components/Onboarding/OnboardingDialog'
 import { saveState } from '../../lib/util/savedState'
 import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
@@ -17,5 +17,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

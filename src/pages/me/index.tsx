@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import Layout from '../../components/App/Layout'
+import MapLayout from '../../components/App/MapLayout'
 import ProfilePanel from '../../components/Session/ProfilePanel'
 import Toolbar from '../../components/shared/Toolbar'
 
@@ -12,5 +12,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

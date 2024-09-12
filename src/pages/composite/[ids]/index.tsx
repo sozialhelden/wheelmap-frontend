@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import styled from 'styled-components'
-import Layout from '../../../components/App/Layout'
+import MapLayout from '../../../components/App/MapLayout'
 import { CombinedFeaturePanel } from '../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import CloseLink from '../../../components/shared/CloseLink'
 import Toolbar from '../../../components/shared/Toolbar'
@@ -36,5 +36,5 @@ export default function CompositeFeaturesPage() {
 }
 
 CompositeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

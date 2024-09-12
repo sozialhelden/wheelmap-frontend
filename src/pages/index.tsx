@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
-import Layout from '../components/App/Layout'
+import MapLayout from '../components/App/MapLayout'
 import { isFirstStart } from '../lib/util/savedState'
 
 export default function Page() {
@@ -16,5 +16,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

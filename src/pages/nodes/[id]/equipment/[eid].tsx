@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ReactElement, useState } from 'react'
-import Layout from '../../../../components/App/Layout'
+import MapLayout from '../../../../components/App/MapLayout'
 import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import Toolbar from '../../../../components/shared/Toolbar'
 import MockedPOIDetails from '../../../../lib/fixtures/mocks/features/MockedPOIDetails'
@@ -69,5 +69,5 @@ function EquipmentInfoPage() {
 export default EquipmentInfoPage
 
 EquipmentInfoPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+  return <MapLayout>{page}</MapLayout>
 }

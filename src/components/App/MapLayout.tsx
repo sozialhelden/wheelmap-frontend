@@ -25,7 +25,7 @@ const BlurLayer = styled.div<{ active: boolean }>`
   pointer-events: ${(p) => (p.active ? 'initial' : 'none')};
 `
 
-export default function Layout({
+export default function MapLayout({
   children,
   blur,
 }: {
