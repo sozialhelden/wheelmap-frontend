@@ -28,7 +28,6 @@ import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelcha
 import { placeNameFor } from '../../lib/model/geo/placeNameFor'
 
 import { SourceWithLicense } from '../../../app/PlaceDetailsProps'
-import { AppContextConsumer } from '../../AppContext'
 import { ModalNodeState } from '../../lib/ModalNodeState'
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache'
 import {
@@ -43,6 +42,7 @@ import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor'
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor'
 import isA11yEditable from './AccessibilityEditor/isA11yEditable'
 import IconButtonList from './IconButtonList/IconButtonList'
+import { AppContextConsumer } from './AppContextConsumer'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;

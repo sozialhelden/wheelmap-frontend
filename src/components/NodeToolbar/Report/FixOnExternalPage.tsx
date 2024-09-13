@@ -7,7 +7,7 @@ import SourceLink, {
 } from '../../CombinedFeaturePanel/components/IconButtonList/SourceLink'
 import { DataSource } from '../../../lib/cache/DataSourceCache'
 import strings from './strings'
-import { AppContextConsumer } from '../../../AppContext'
+import { AppContextConsumer } from '../AppContextConsumer'
 
 type Props = {
   feature: PlaceInfo;
