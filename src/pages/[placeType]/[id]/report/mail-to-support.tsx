@@ -5,10 +5,11 @@ import React, { FC, ReactElement, useRef } from 'react'
 import { t } from 'ttag'
 import styled from 'styled-components'
 import { LocalizedString } from '@sozialhelden/a11yjson'
+import Link from 'next/link'
 import MapLayout from '../../../../components/App/MapLayout'
 import Toolbar from '../../../../components/shared/Toolbar'
 import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
-import { ErrorToolBar, LoadingToolbar } from '.'
+import { ErrorToolBar, LoadingToolbar, StyledToolbar } from '.'
 import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
 import FeatureNameHeader, { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
@@ -45,11 +46,9 @@ My browser:\n\n${userAgent}`
 const makeEmailUri = (mailAddress: `${string}@${string}`, subject: string, body: string) => `mailto:${mailAddress}`
 + `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
-const StyledToolbar = styled(Toolbar)`
-  color: black;
-`
-
 const EmailView: FC<{ feature: AnyFeature}> = ({ feature }) => {
+  const router = useRouter()
+  const { placeType, id } = router.query
   const ref = useRef(null)
   const userAgent = useUserAgent()
 
@@ -68,12 +67,18 @@ const EmailView: FC<{ feature: AnyFeature}> = ({ feature }) => {
         </FeatureNameHeader>
         <h1>{t`We're sorry about the inconvenience!`}</h1>
         <p>{t`To help you best, we kindly ask you to send us an email and our support will personally help you.`}</p>
-        <Button onClick={() => {
-          window.open(makeEmailUri('bugs@wheelmap.org', subject, body))
-        }}
-        >
-          Email Us
-        </Button>
+        <footer className="_footer">
+          <Link href={{ pathname: '../report', query: { placeType, id } }}><div role="button" className="_option _back">Back</div></Link>
+          <div
+            role="button"
+            className="_option _primary"
+            onClick={() => { window.open(makeEmailUri('bugs@wheelmap.org', subject, body)) }}
+            onKeyDown={() => { window.open(makeEmailUri('bugs@wheelmap.org', subject, body)) }}
+          >
+            Email Us
+          </div>
+
+        </footer>
       </div>
     </StyledToolbar>
   )

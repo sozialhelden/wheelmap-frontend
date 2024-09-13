@@ -44,6 +44,10 @@ export const StyledToolbar = styled(Toolbar)`
     flex-direction: column;
     gap: 12px;
 
+    ._view {
+      display: contents;
+    }
+
     ._title {
       font-size: 1.5rem;
     }
@@ -54,6 +58,7 @@ export const StyledToolbar = styled(Toolbar)`
     }
 
     ._option, ._option a {
+      cursor: pointer;
       color: rgb(46, 108, 224);
       &:hover {
         color: rgb(46, 108, 224);
@@ -84,6 +89,28 @@ export const StyledToolbar = styled(Toolbar)`
         &:hover {
           background-color: rgba(245, 75, 75, 0.1);
         }
+      }
+
+      &._primary {
+        &._disabled, &._disabled:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+        &:hover {
+          background-color: rgba(46, 108, 224, 0.877);
+          color: white;
+        }
+        background-color: rgb(46, 108, 224);
+        color: white;
+      }
+    }
+
+    ._footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      > div {
+        padding: 10px 20px;
       }
     }
   }
@@ -128,27 +155,29 @@ function Report() {
 
   return (
     <StyledToolbar innerRef={ref}>
-      <FeatureNameHeader feature={feature}>
-        {feature['@type'] === 'osm:Feature' && (
-          <FeatureImage feature={feature} />
-        )}
-      </FeatureNameHeader>
-      <p className="_title">Is there a problem with this place?</p>
-      {
-        options.map((x) => (
-          <div className="_option">
-            <Link href={{
-              pathname: x.redirect,
-              query: {
-                placeType, id,
-              },
-            }}
-            >
-              {x.title}
-            </Link>
-          </div>
-        ))
-      }
+      <div className="_view" ref={ref}>
+        <FeatureNameHeader feature={feature}>
+          {feature['@type'] === 'osm:Feature' && (
+            <FeatureImage feature={feature} />
+          )}
+        </FeatureNameHeader>
+        <p className="_title">Is there a problem with this place?</p>
+        {
+          options.map((x) => (
+            <div className="_option">
+              <Link href={{
+                pathname: x.redirect,
+                query: {
+                  placeType, id,
+                },
+              }}
+              >
+                {x.title}
+              </Link>
+            </div>
+          ))
+        }
+      </div>
     </StyledToolbar>
   )
 }

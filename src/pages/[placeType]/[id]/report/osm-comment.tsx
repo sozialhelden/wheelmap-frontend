@@ -1,17 +1,20 @@
-import { useRouter } from 'next/router'
+import { t } from 'ttag'
+import { ReactElement } from 'react'
+import { ReportOSM } from './osm-position'
+import { useCurrentApp } from '../../../../lib/context/AppContext'
+import MapLayout from '../../../../components/App/MapLayout'
+
+const makeTitle = (appName: string) => t`Most places on ${appName} come from OpenStreetMap.`
+const subtitle = t`You can change this place's information on OpenStreetMap directly`
 
 function ReportOSMComment() {
-  const router = useRouter()
-  const { placeType, id } = router.query
+  const app = useCurrentApp()
 
-  console.log(router.query)
-  return (
-    <>
-      <header />
-      <h1>Report OSM Comment</h1>
-      <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
-    </>
-  )
+  return <ReportOSM title={makeTitle(app?.name ?? 'Wheelmap.org')} subtitle={subtitle} />
+}
+
+ReportOSMComment.getLayout = function getLayout(page: ReactElement) {
+  return <MapLayout>{page}</MapLayout>
 }
 
 export default ReportOSMComment
