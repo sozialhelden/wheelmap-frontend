@@ -108,8 +108,8 @@ function SearchResult({ data }: any) {
 
       <div style={{ flex: 1 }}>
         <StyledH2 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <Link aria-label={name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
-            {name ? _.capitalize(name) : _.capitalize(healthcare.replace("_", " "))}
+          <Link aria-label={name || _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
+            {name || healthcare.replace("_", " ")}
             &nbsp;
             <ExternalLinkIcon />
           </Link>
