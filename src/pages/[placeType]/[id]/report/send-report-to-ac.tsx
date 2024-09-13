@@ -17,8 +17,7 @@ import RadioButtonOn from '../../../../components/icons/ui-elements/RadioButtonS
 import RadioButtonOff from '../../../../components/icons/ui-elements/RadioButtonUnselected'
 import { cx } from '../../../../lib/util/cx'
 
-const StyledToolbar = styled(ReportStyledToolbar)`
-
+export const StyledToolbar = styled(ReportStyledToolbar)`
   a {
     text-decoration: none;
   }
@@ -26,6 +25,7 @@ const StyledToolbar = styled(ReportStyledToolbar)`
   ._option > ._header {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 8px;
 
     font-weight: bold;
@@ -53,15 +53,25 @@ const StyledToolbar = styled(ReportStyledToolbar)`
 
   ._option._no {
     ._caption {
-      color: rgb(111, 10, 10);
+      color: rgb(171, 10, 10)
     }
     &, &:hover {
       background-color: rgba(245, 75, 75, 0.1);
     }
   }
+
+  ._option._okay {
+    ._caption {
+      color: rgb(161, 91, 10)
+    }
+
+    &, &:hover {
+      background-color: rgba(243, 158, 59, 0.1);
+    }
+  }
 `
 
-const AccessibilityView: FC<{
+export const AccessibilityView: FC<{
   onClick: () => unknown,
   className?: string,
   inputLabel: string,
