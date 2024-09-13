@@ -6,7 +6,6 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
-import { getServerSideTranslations } from "../../lib/i18n";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
@@ -359,16 +358,6 @@ function FilterInputs() {
       )}
     </DialogContainer>
   );
-}
-
-export async function getServerSideProps(context) {
-  const data = await getServerSideTranslations(context);
-  console.log("data", data);
-  return {
-    props: {
-      ...data,
-    },
-  };
 }
 
 export default FilterInputs;

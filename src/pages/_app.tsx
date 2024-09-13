@@ -2,7 +2,7 @@
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import { HotkeysProvider } from "@blueprintjs/core";
 import { ILanguageSubtag, parseLanguageTag } from "@sozialhelden/ietf-language-tags";
-import { pick, uniq } from "lodash";
+import { uniq } from "lodash";
 import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -18,7 +18,8 @@ import { HostnameContext } from "../lib/context/HostnameContext";
 import { LanguageTagContext } from "../lib/context/LanguageTagContext";
 import { UserAgentContext, parseUserAgentString } from "../lib/context/UserAgentContext";
 import fetchApp from "../lib/fetchers/fetchApp";
-import { getServerSideTranslations, setClientSideTranslations } from "../lib/i18n";
+import { addToEnvironment, getEnvironment } from "../lib/globalEnvironment";
+import { TransifexTranslations, getServerSideTranslations, getTransifexTranslations, setTransifexTranslations } from "../lib/i18n";
 import { parseAcceptLanguageString } from "../lib/i18n/parseAcceptLanguageString";
 
 export type NextPageWithLayout = NextPage & {
@@ -35,33 +36,20 @@ interface ExtraProps {
   languageTags: ILanguageSubtag[];
   ipCountryCode?: string;
   environmentVariables: Record<string, string>;
-}
-
-function getPublicEnvironmentVariablesOnServer() {
-  return pick(
-    process.env,
-    Object.keys(process.env).filter((key) => key.startsWith("NEXT_PUBLIC_"))
-  );
-}
-
-let isometricEnvironmentVariables: Record<string, string> | undefined;
-if (typeof window === "undefined") {
-  // We are on the server, so we can directly populate the environment variables with real values
-  // as we have access to process.env.
-  isometricEnvironmentVariables = getPublicEnvironmentVariablesOnServer();
+  transifexTranslations: TransifexTranslations;
 }
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  setClientSideTranslations(pageProps);
+  setTransifexTranslations(pageProps.transifexTranslations);
+  
   const { userAgentString, session, languageTags, ipCountryCode, environmentVariables, hostname } = pageProps;
-  // On the first render pass, we set the environment variables to what the server hands over.
-  // On every following render pass, the variables are already set globally.
-  isometricEnvironmentVariables = isometricEnvironmentVariables || Object.freeze(environmentVariables);
+  // can be done always, if it's empty, it won't overwrite anything
+  addToEnvironment(environmentVariables)
+  const environment = getEnvironment()
 
-  const centralAppToken = isometricEnvironmentVariables.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
-  const baseUrl = isometricEnvironmentVariables.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
-
+  const centralAppToken = environment.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const baseUrl = environment.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
   const { data: app, isLoading: isAppLoading } = useSWR([baseUrl, hostname, centralAppToken], fetchApp);
   if (!isAppLoading && !app) {
     throw new Error(`No app found for hostname ${hostname}`);
@@ -117,10 +105,11 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostname !== "string") {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }
-  // On the client, isometricEnvironmentVariables is set on the first page rendering.
-  const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
-  const translationProps = await getServerSideTranslations({ locale: query.locale || languageTagStrings[0], locales: languageTagStrings });
-  const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname, ...translationProps };
+
+  const transifexTranslations = getTransifexTranslations() || await getServerSideTranslations({ locale: query.locale || languageTagStrings[0], locales: languageTagStrings });
+  setTransifexTranslations(transifexTranslations);
+  const environmentVariables = getEnvironment();
+  const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname, transifexTranslations };
   return { ...appProps, pageProps };
 };
 

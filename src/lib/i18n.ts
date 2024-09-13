@@ -1,6 +1,39 @@
 import { normalizeLocale, tx } from "@transifex/native";
 
-const TRANSLATIONS_TTL_SEC = 10 * 60; // 10 minutes
+const TRANSLATIONS_TTL_SEC = 10 * 60; // 5 minutes
+
+
+export type TransifexTranslations = {
+  locale: string;
+  locales: string[];
+  translations: Record<string, string>;
+}
+
+declare global {
+  interface Window {
+    transifexTranslations?: TransifexTranslations;
+  }
+}
+
+
+export const getTransifexTranslations = () => (global.window && window.transifexTranslations);
+
+export const setTransifexTranslations = (transifexTranslations?: TransifexTranslations) => {
+  if (!transifexTranslations) {
+    return;
+  }
+  if (global.window) {
+    window.transifexTranslations = transifexTranslations;
+
+    // Initialize client side Transifex Native instance cache
+    const { locale, translations } = transifexTranslations;
+    if (!locale || !translations) return;
+    tx.init({
+      currentLocale: locale,
+    });
+    tx.cache.update(locale, translations);
+  }
+}
 
 /**
  * Used by SSR to pass translation to browser
@@ -41,19 +74,4 @@ export async function getServerSideTranslations({ locale, locales }) {
     locales,
     translations: tx.cache.getTranslations(txLocale),
   };
-}
-
-/**
- * Initialize client side Transifex Native instance cache
- *
- * @export
- * @param {*} { locale, translations }
- * @return {*}
- */
-export function setClientSideTranslations({ locale, translations }) {
-  if (!locale || !translations) return;
-  tx.init({
-    currentLocale: locale,
-  });
-  tx.cache.update(locale, translations);
 }
