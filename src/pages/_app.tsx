@@ -42,7 +42,7 @@ interface ExtraProps {
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
   setTransifexTranslations(pageProps.transifexTranslations);
-  
+
   const { userAgentString, session, languageTags, ipCountryCode, environmentVariables, hostname } = pageProps;
   // can be done always, if it's empty, it won't overwrite anything
   addToEnvironment(environmentVariables)

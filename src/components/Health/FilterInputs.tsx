@@ -325,15 +325,15 @@ function FilterInputs() {
               </StyledLabel>
               <label htmlFor="filter-toilets">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-toilets" checked={hasToiletInfoFilter} value="toilets" onChange={handleFilterType} />
-                <T _str="Show only with toilets" />
+                <T _str="accessible toilet" />
               </label>
               <label htmlFor="filter-blind">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-blind" checked={hasBlindFilter} value="blind" onChange={handleFilterType} />
-                <T _str="Infos for blind people" />
+                <T _str="info for blind/visually impaired people" />
               </label>
               <label htmlFor="filter-deaf">
                 <StyledCheckbox type="checkbox" name="filter" id="filter-deaf" checked={hasDeafFilter} value="deaf" onChange={handleFilterType} />
-                <T _str="Infos for hearing impaired people" />
+                <T _str="info for hearing-impaired people" />
               </label>
             </StyledRadioBox>
           </fieldset>
