@@ -37,41 +37,53 @@ const options = [
   } as const,
 ] as const
 
-const StyledToolbar = styled(Toolbar)`
+export const StyledToolbar = styled(Toolbar)`
   color: black;
   > div {
-    > ._loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    > ._title {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ._title {
       font-size: 1.5rem;
     }
 
-    > ._options {
-      list-style: none;
+    ._subtitle {
       font-size: 1.1rem;
-      padding: 8px;
+      opacity: 0.6;
+    }
 
-      > li + li {
-        margin-top: 15px;
+    ._option, ._option a {
+      color: rgb(46, 108, 224);
+      &:hover {
+        color: rgb(46, 108, 224);
       }
 
-      > ._entry {
-        border-radius: 10px;
-        padding: 5px 10px;
-        transition: 0.25s background-color ease;
-
+      &._back {
+        color: rgb(212, 12, 12);
         &:hover {
-          background-color: rgba(0, 161, 255, 0.1);
+          color: rgb(212, 12, 12);
         }
-      
+      }
+    }
+
+    ._option {
+      margin: 0 -10px;
+
+      border-radius: 4px;
+      background-color: transparent;
+      padding: 10px;
+      transition: 0.25s background-color ease;
+
+
+      &:hover {
+        background-color: rgba(0, 161, 255, 0.1);
       }
 
-      > ._entry, >._entry a {
-        color: #2e6ce0;
+      &._back:hover {
+        &:hover {
+          background-color: rgba(245, 75, 75, 0.1);
+        }
       }
     }
   }
@@ -122,23 +134,21 @@ function Report() {
         )}
       </FeatureNameHeader>
       <p className="_title">Is there a problem with this place?</p>
-      <ul className="_options">
-        {
-          options.map((x) => (
-            <li className="_entry">
-              <Link href={{
-                pathname: x.redirect,
-                query: {
-                  placeType, id,
-                },
-              }}
-              >
-                {x.title}
-              </Link>
-            </li>
-          ))
-        }
-      </ul>
+      {
+        options.map((x) => (
+          <div className="_option">
+            <Link href={{
+              pathname: x.redirect,
+              query: {
+                placeType, id,
+              },
+            }}
+            >
+              {x.title}
+            </Link>
+          </div>
+        ))
+      }
     </StyledToolbar>
   )
 }
