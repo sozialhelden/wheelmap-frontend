@@ -144,7 +144,7 @@ export default function FeatureNameHeader(props: Props) {
   )
 }
 
-function useFeatureLabel({
+export function useFeatureLabel({
   feature,
   languageTags,
 }: {
@@ -252,5 +252,5 @@ function useFeatureLabel({
     categoryName,
     category,
     categoryTagKeys,
-  }
+  } as const
 }

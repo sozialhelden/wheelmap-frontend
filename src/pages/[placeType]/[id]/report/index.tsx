@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { ReactElement, useRef } from 'react'
+import React, { FC, ReactElement, useRef } from 'react'
 import { t } from 'ttag'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -75,9 +75,28 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
   }
-
-
 `
+
+export const LoadingToolbar: FC = () => {
+  const ref = useRef(null)
+  return (
+    <StyledToolbar innerRef={ref}>
+      <div className="_loading" ref={ref}>
+        <Spinner size={50} />
+        <p className="_title">{t`Loading further details`}</p>
+      </div>
+    </StyledToolbar>
+  )
+}
+
+export const ErrorToolBar: FC = () => {
+  const ref = useRef(null)
+  return (
+    <StyledToolbar innerRef={ref}>
+      <p className="_title" ref={ref}>Something did not work right</p>
+    </StyledToolbar>
+  )
+}
 
 function Report() {
   const router = useRouter()
@@ -86,22 +105,11 @@ function Report() {
   const ref = useRef(null)
 
   if (features.isLoading || features.isValidating) {
-    return (
-      <StyledToolbar innerRef={ref}>
-        <div className="_loading" ref={ref}>
-          <Spinner size={50} />
-          <p className="_title">{t`Loading further details`}</p>
-        </div>
-      </StyledToolbar>
-    )
+    return <LoadingToolbar />
   }
 
   if (features.data === undefined) {
-    return (
-      <StyledToolbar innerRef={ref}>
-        <p className="_title" ref={ref}>Something did not work right</p>
-      </StyledToolbar>
-    )
+    return <ErrorToolBar />
   }
 
   const feature = features.data[0]

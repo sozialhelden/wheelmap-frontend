@@ -1,97 +1,103 @@
 import '@blueprintjs/core/lib/css/blueprint.css'
 import { useRouter } from 'next/router'
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogProps,
-} from '@blueprintjs/core'
-import React from 'react'
-import { useCurrentApp } from '../../../../lib/context/AppContext'
-import { PlaceInfoNode } from '../../../../lib/fixtures/mocks/nodes/placeinfo'
+import { Button } from '@blueprintjs/core'
+import React, { FC, ReactElement, useRef } from 'react'
+import { t } from 'ttag'
+import styled from 'styled-components'
+import { LocalizedString } from '@sozialhelden/a11yjson'
+import MapLayout from '../../../../components/App/MapLayout'
+import Toolbar from '../../../../components/shared/Toolbar'
+import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
+import { ErrorToolBar, LoadingToolbar } from '.'
+import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
+import FeatureNameHeader, { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
+import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
+import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
+import useUserAgent from '../../../../lib/context/UserAgentContext'
+
+const reportSubject = (
+  placeName: LocalizedString | string | undefined,
+  categoryName: string | undefined,
+) => {
+  if (placeName) {
+    // translator: Report email subject if place name is known
+    return t`[Wheelmap] Problem with ${placeName} on Wheelmap`
+  }
+  if (categoryName) {
+    // translator: Report email subject if place name is unknown, but place category name (for example ‘toilet’)
+    // is known (don't use an indefinite article if it would need to be inflected in the target language)
+    return t`[Wheelmap] Problem with a ${categoryName} on Wheelmap`
+  }
+  // translator: Report email subject if neither place name nor category name is known
+  return t`[Wheelmap] Problem with a place on Wheelmap`
+}
+
+// translator: Report email body with place URL
+const reportBody = (url: string, userAgent: string) => t`(Please only write in English or German.)
+
+Dear Sozialhelden,
+something about this place is wrong: ${url}
+
+The problem is:
+
+My browser:\n\n${userAgent}`
+
+const makeEmailUri = (mailAddress: `${string}@${string}`, subject: string, body: string) => `mailto:${mailAddress}`
++ `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+
+const StyledToolbar = styled(Toolbar)`
+  color: black;
+`
+
+const EmailView: FC<{ feature: AnyFeature}> = ({ feature }) => {
+  const ref = useRef(null)
+  const userAgent = useUserAgent()
+
+  const languageTags = useCurrentLanguageTagStrings()
+  const { placeName, categoryName } = useFeatureLabel({ feature, languageTags })
+  const subject = reportSubject(placeName, categoryName)
+  const body = reportBody(global?.window?.location.href, userAgent?.ua ?? navigator?.userAgent)
+
+  return (
+    <StyledToolbar innerRef={ref}>
+      <div ref={ref}>
+        <FeatureNameHeader feature={feature}>
+          {feature['@type'] === 'osm:Feature' && (
+            <FeatureImage feature={feature} />
+          )}
+        </FeatureNameHeader>
+        <h1>{t`We're sorry about the inconvenience!`}</h1>
+        <p>{t`To help you best, we kindly ask you to send us an email and our support will personally help you.`}</p>
+        <Button onClick={() => {
+          window.open(makeEmailUri('bugs@wheelmap.org', subject, body))
+        }}
+        >
+          Email Us
+        </Button>
+      </div>
+    </StyledToolbar>
+  )
+}
 
 function ReportSupportMail() {
   const router = useRouter()
   const { placeType, id } = router.query
+  const features = useMultipleFeatures(`${placeType}:${id}`)
+  const feature = features && features.data ? features.data[0] : undefined
 
-  const app = useCurrentApp()
-  const { _id } = PlaceInfoNode
-  const { category } = PlaceInfoNode.properties
+  if (features.isLoading || features.isValidating) {
+    return <LoadingToolbar />
+  }
 
-  return (
-    <>
-      <header />
-      <h1>Report Support Mail Page</h1>
-      <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
-      <ButtonWithDialog
-        className="buttonreportdialogemail"
-        buttonText="Email me"
-        footerStyle="minimal"
-        usePortal
-        shouldReturnFocusOnClose
-        enforceFocus
-        canEscapeKeyClose
-        canOutsideClickClose
-      />
-      {/* <Dialog isOpen={true} onClose={() => {}}>
-        <DialogBody>TEst</DialogBody>
-        <DialogFooter></DialogFooter>
-      </Dialog> */}
-      {/* <MailToSupportLegacy
-        feature={PlaceInfoNode}
-        featureId={_id}
-        category={category}
-        parentCategory={undefined}
-        onClose={(
-          event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-        ) => {}}
-      /> */}
-    </>
-  )
+  if (features.data === undefined || !feature) {
+    return <ErrorToolBar />
+  }
+
+  return <EmailView feature={feature} />
+}
+
+ReportSupportMail.getLayout = function getLayout(page: ReactElement) {
+  return <MapLayout>{page}</MapLayout>
 }
 
 export default ReportSupportMail
-
-function ButtonWithDialog({
-  buttonText,
-  footerStyle,
-  ...props
-}: Omit<DialogProps, 'isOpen'> & {
-  buttonText: string;
-  footerStyle: 'default' | 'minimal' | 'none';
-}) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen])
-  const handleClose = React.useCallback(() => setIsOpen(false), [])
-  const footerActions = (
-    <Button onClick={handleClose}>Close</Button>
-  )
-
-  return (
-    <>
-      <Button onClick={handleButtonClick} text={buttonText} />
-      <Dialog {...props} isOpen={isOpen} onClose={handleClose}>
-        <DialogBody
-          useOverflowScrollContainer={
-            footerStyle === 'minimal' ? false : undefined
-          }
-        >
-          <p>
-            <strong>Dialog... hier öffnet sich der Emaildialog</strong>
-          </p>
-        </DialogBody>
-
-        {footerStyle === 'default' && (
-          <DialogFooter actions={footerActions}>
-            Dialog-footerbereich
-          </DialogFooter>
-        )}
-
-        {footerStyle === 'minimal' && (
-          <DialogFooter minimal actions={footerActions} />
-        )}
-      </Dialog>
-    </>
-  )
-}
