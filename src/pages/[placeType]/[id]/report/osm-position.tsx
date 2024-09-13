@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useRef } from 'react'
+import React, {
+  FC, ReactElement, useRef,
+} from 'react'
 import { t } from 'ttag'
 import Link from 'next/link'
 import { center } from '@turf/turf'
@@ -10,9 +12,10 @@ import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatu
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
 import { ErrorToolBar, LoadingToolbar, StyledToolbar } from '.'
+import StyledMarkdown from '../../../../components/shared/StyledMarkdown'
 
-const title = t`You can change this place's location on OpenStreetMap.`
-const subtitle = t`Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.`
+const changeTitle = t`You can change this place's location on OpenStreetMap.`
+const note = t`Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.`
 const optionEdit = t`Edit this place on OpenStreetMap`
 const optionNote = t`Leave a note on OpenStreetMap`
 
@@ -38,7 +41,7 @@ const getPoint = (geometry: Polygon | Point | PointGeometry | MultiPolygon | und
   }
 }
 
-function ReportOSMPosition() {
+export const ReportOSM: FC<{title: string, subtitle?: string}> = ({ title, subtitle }) => {
   const router = useRouter()
   const { placeType, id } = router.query
 
@@ -65,8 +68,9 @@ function ReportOSMPosition() {
           <FeatureImage feature={feat} />
         )}
       </FeatureNameHeader>
-      <div className="_title">{title}</div>
-      <div className="_subtitle">{subtitle}</div>
+      <StyledMarkdown className="_title">{title}</StyledMarkdown>
+      { subtitle && <StyledMarkdown className="_subtitle">{subtitle}</StyledMarkdown> }
+      <div className="_explanation">{note}</div>
       <a href={makeOSMEditUrl(osmNodeId)} rel="noreferrer" target="_blank"><div className="_option">{optionEdit}</div></a>
       <a
         href={makeOSMNoteUrl({
@@ -88,6 +92,10 @@ function ReportOSMPosition() {
       </Link>
     </StyledToolbar>
   )
+}
+
+function ReportOSMPosition() {
+  return <ReportOSM title={changeTitle} />
 }
 
 ReportOSMPosition.getLayout = function getLayout(page: ReactElement) {

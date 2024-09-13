@@ -1,17 +1,20 @@
-import { useRouter } from 'next/router'
+import { t } from 'ttag'
+import { ReactElement } from 'react'
+import { ReportOSM } from './osm-position'
+import MapLayout from '../../../../components/App/MapLayout'
 
-function ReportOSMPosition() {
-  const router = useRouter()
-  const { placeType, id } = router.query
+const disusedUrl = 'https://wiki.openstreetmap.org/wiki/Key:disused:*'
+const title = t`You can remove non-existent places on OpenStreetMap.`
+const sub = t`If the place has closed permanently, you can tag the place as 'disused' on OpenStreetMap. ([Find out how](${disusedUrl}))`
 
-  console.log(router.query)
+function ReportOSMNonExisting() {
   return (
-    <>
-      <header />
-      <h1>Report Non Existing</h1>
-      <h2>{`id: ${id}, placeType: ${placeType}`}</h2>
-    </>
+    <ReportOSM title={title} subtitle={sub} />
   )
 }
 
-export default ReportOSMPosition
+ReportOSMNonExisting.getLayout = function getLayout(page: ReactElement) {
+  return <MapLayout>{page}</MapLayout>
+}
+
+export default ReportOSMNonExisting

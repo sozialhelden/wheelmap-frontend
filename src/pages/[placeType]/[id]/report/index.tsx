@@ -48,7 +48,7 @@ export const StyledToolbar = styled(Toolbar)`
       font-size: 1.5rem;
     }
 
-    ._subtitle {
+    ._subtitle, ._explanation {
       font-size: 1.1rem;
       opacity: 0.6;
     }
