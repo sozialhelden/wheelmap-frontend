@@ -1,8 +1,8 @@
-import mapboxgl, { MapLayerMouseEvent } from 'mapbox-gl'
+import mapboxgl, { MapLayerMouseEvent, MapLayerTouchEvent } from 'mapbox-gl'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 import {
-  useCallback, useLayoutEffect, useRef, useState,
+  useCallback, useLayoutEffect, useState,
 } from 'react'
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
@@ -11,17 +11,15 @@ import {
   Layer,
   Map,
   MapProvider,
-  MapRef,
   NavigationControl,
   Source,
-  ViewState,
   ViewStateChangeEvent,
 } from 'react-map-gl'
 
 // import FeatureListPopup from "../feature/FeatureListPopup";
 import { useHotkeys } from '@blueprintjs/core'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
-import { uniq } from 'lodash'
+import _, { uniq } from 'lodash'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { createGlobalStyle } from 'styled-components'
 import { t } from 'ttag'
@@ -34,7 +32,10 @@ import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
 import useUserAgent from '../../lib/context/UserAgentContext'
 import LocateIcon from '../icons/actions/LocateOff.svg'
+import LocateOnIcon from '../icons/actions/LocateOn.svg'
 import { log } from '../../lib/util/logger'
+import { useMapViewInternals } from './useMapInternals'
+import { uriFriendlyPosition } from './utils'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -69,51 +70,51 @@ const MapboxExtraStyles = createGlobalStyle`
 `
 
 const MapboxLocationPinStyles = createGlobalStyle`
+  .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active > .mapboxgl-ctrl-icon {
+    background-image: url(${LocateOnIcon.src});
+    background-size: 75%;
+    background-position: center center;
+  }
+
   .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate > .mapboxgl-ctrl-icon {
     background-image: url(${LocateIcon.src});
-  } 
+    background-size: 75%;
+    background-position: center center;
+  }
+
+
+  .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting .mapboxgl-ctrl-icon {
+    animation: 1.5s crossfade ease infinite;
+
+    @keyframes crossfade {
+      0% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 1;
+      }
+      
+      100% {
+        opacity: 0.2;
+      }
+    }
+  }
 `
 
+
 export default function MapView(props: IProps) {
-  const mapRef = useRef<MapRef>(null)
-  const { width, height } = props
   const router = useRouter()
   const featureIds = getFeatureIdsFromLocation(router.pathname)
+  
+  const { width, height } = props
   const { query } = router
-  const latitude = typeof query.lat === 'string' ? query.lat : undefined
-  const longitude = typeof query.lon === 'string' ? query.lon : undefined
-  const zoom = typeof query.zoom === 'string' ? query.zoom : undefined
-
-  const [viewport, setViewport] = useState<
-    Partial<ViewState> & { width: number; height: number, lastUpdate: number }
-  >({
-    width: 100,
-    height: 100,
-    latitude: (latitude && parseFloat(latitude)) || 52.5,
-    longitude: (longitude && parseFloat(longitude)) || 13.3,
-    zoom: (zoom && parseFloat(zoom)) || (latitude && longitude ? 18 : 10),
-    lastUpdate: 0,
-  })
-
-  React.useEffect(() => {
-    if (!latitude || !longitude) {
-      return
-    }
-    // poor but effective: the map allows location jumping from URI, if the map hasn't been touched for some time
-    if (Date.now() - viewport.lastUpdate < 10_000) {
-      return
-    }
-    const lat = parseFloat(latitude)
-    const lon = parseFloat(longitude)
-    if (viewport.latitude !== lat || viewport.longitude !== lon) {
-      setViewport({ ...viewport, latitude: lat, longitude: lon })
-    }
-  }, [latitude, longitude, viewport, setViewport])
+  const { setMapRef, initialViewport, onViewportUpdate, map } = useMapViewInternals(query)
 
   // Reset viewport when map size changes
   useLayoutEffect(() => {
-    const newViewport = { ...viewport, width, height }
-    setViewport(newViewport)
+    const newViewport = { ...initialViewport, width, height }
+    onViewportUpdate(newViewport)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height])
 
@@ -121,13 +122,13 @@ export default function MapView(props: IProps) {
     if (['unavailable', 'error'].includes(mapboxgl.getRTLTextPluginStatus())) {
       mapboxgl.setRTLTextPlugin(
         'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
-        null,
+        (error) => { log.error(error) },
         true, // Lazy load the plugin
       )
     }
     const language = new MapboxLanguage()
-    mapRef.current?.getMap().addControl(language)
-  }, [mapRef])
+    map?.getMap?.().addControl(language)
+  }, [map])
 
   // const featureLayer = React.useMemo(() => {
   //   return generateSelectedFeatureLayer(props.featureId);
@@ -141,78 +142,60 @@ export default function MapView(props: IProps) {
   //   return generateUnclusteredPointLabelLayer(lastImportType, languageTagsStrings, props.featureId);
   // }, [lastImportType, props.featureId]);
 
-  const handleMapClick = useCallback<(
-    event: MapLayerMouseEvent) => void>(
-    (event) => {
-      log.log(event)
-
-      const selectedFeatureCount = event?.features?.length
-      if (!selectedFeatureCount) {
-        // Clicked outside of a clickable map feature
-        router.push('/', { query })
-        return
-      }
-
-      if (selectedFeatureCount === 1) {
-        const feature = event.features?.[0]
-        // Show source overview again if user just clicks/taps on the map
-        if (feature) {
-          // TODO keep filter state
-          // TODO use query param instead of template strings
-          router.push(
-            `/${feature.source}/${feature.properties.id?.replace('/', ':')}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`,
-          )
-          return
-        }
-      }
-
-      if (event.features?.length) {
-        // TODO keep filter state
-        // TODO use query param instead of template strings
-        router.push(
-          `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id?.replace('/', ':')].join(':')))
-            .join(',')}?lon=${event.lngLat.lng}&lat=${
-            event.lngLat.lat
-          }&zoom=${zoom}`,
-        )
-      }
-    },
-    [router, zoom],
-    )
-
-  const updateViewportQuery = useCallback(() => {
-    const newQuery = { ...query }
-
-    if (viewport.zoom) {
-      newQuery.zoom = viewport.zoom.toString()
-    }
-
+  const updateViewportQuery = useCallback(({ longitude: lon, latitude: lat, zoom: z }: { longitude: number, latitude: number, zoom: number}) => {
+    const newQuery = { ...query};
+    const { zoom, latitude, longitude } = uriFriendlyPosition({
+      latitude: lat,
+      longitude: lon,
+      zoom: z
+    })
+    newQuery.zoom = zoom
     if (featureIds.length === 0) {
-      if (viewport.latitude) {
-        newQuery.lat = viewport.latitude.toString()
-      }
-      if (viewport.longitude) {
-        newQuery.lon = viewport.longitude.toString()
-      }
+      newQuery.lat = latitude
+      newQuery.lon = longitude
     }
+    // update the initial viewport (and the local storage)
+    onViewportUpdate({ ...initialViewport, latitude: lat, longitude: lon, zoom: z })
     router.replace({ query: newQuery })
-  }, [viewport, query, featureIds])
+  }, [query, featureIds, onViewportUpdate, router])
 
-  const closePopup = useCallback(() => {
-    router.push('/')
-    updateViewportQuery()
+  const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
+    updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom });
+  }, [updateViewportQuery])
+
+  const onMouseClick = useCallback((evt: MapLayerMouseEvent | MapLayerTouchEvent) => {
+    const features = evt.features ?? [];
+    if(features.length <= 0) {
+      updateViewportQuery({
+        latitude: evt.lngLat.lat, longitude: evt.lngLat.lng, zoom: initialViewport.zoom
+      })
+      return;
+    }
+    const { latitude, longitude, zoom} = uriFriendlyPosition({
+      latitude: evt.lngLat.lat,
+      longitude: evt.lngLat.lng,
+      zoom: initialViewport.zoom
+    }) 
+
+    if (features.length === 1) {
+      const feature = features[0]
+      router.push(
+          `/${feature.source}/${feature.properties?.id?.replace('/', ':')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+        )
+      return
+    }
+    router.push(
+      `/composite/${uniq(features.map((f) => [f.source, f.properties?.id?.replace('/', ':')].join(':')))
+        .join(',')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+    )
   }, [router, updateViewportQuery])
 
-  const setViewportCallback = useCallback(
-    (event: ViewStateChangeEvent) => {
-      // log.log("Setting viewport because of callback:", event);
-      setViewport({ ...viewport, ...event.viewState, lastUpdate: Date.now() })
-    },
-    [setViewport, viewport],
-  )
-
   const onLoadCallback = useCallback(() => {
-    const map = mapRef.current?.getMap()
+    const mapInstance = map?.getMap?.()
+    if(!mapInstance) {
+      log.warn("Expected a map instance but got nothing");
+      return;
+    }
     Object.keys(categoryIcons).forEach((iconName) => {
       const CategoryIconComponent = categoryIcons[iconName]
       const div = document.createElement('div')
@@ -221,6 +204,9 @@ export default function MapView(props: IProps) {
         root.render(<CategoryIconComponent />)
       })
       const svgElement = div.querySelector('svg')
+      if(!svgElement) {
+        throw new Error("Expected an SVG element, but node creation apparently failed");
+      }
       svgElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg')
       const graphicalElements = svgElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
       // set fill to white for all elements
@@ -243,20 +229,17 @@ export default function MapView(props: IProps) {
 
       const svg = div.innerHTML
       const dataUrl = `data:image/svg+xml;base64,${btoa(svg)}`
-
-      // let blob = new Blob([svg], {type: 'image/svg+xml'});
-      // let url = URL.createObjectURL(blob);
       const customIcon = new Image(30, 30)
       customIcon.onload = () => {
         log.debug('adding icon', `${iconName}-15-white`)
-        map.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
+        mapInstance.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
       }
       customIcon.onerror = () => {
         log.warn('error loading icon', iconName, dataUrl)
       }
       customIcon.src = dataUrl
     })
-  }, [mapRef.current])
+  }, [map])
 
   const mapStyle = useMapStyle()
 
@@ -296,7 +279,7 @@ export default function MapView(props: IProps) {
   const {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
     NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
-  } = useEnvContext();
+  } = useEnvContext()
 
   const userAgent = useUserAgent()
   const isAndroid = userAgent?.os?.name === 'Android'
@@ -307,18 +290,18 @@ export default function MapView(props: IProps) {
       { !isAndroid && <MapboxLocationPinStyles />}
       <MapProvider>
         <Map
-          {...viewport}
+          initialViewState={initialViewport}
           mapboxAccessToken={mapboxAccessToken}
-          onMove={setViewportCallback}
-          onTransitionEnd={updateViewportQuery}
-          onTouchEnd={updateViewportQuery}
-          onMouseUp={updateViewportQuery}
+          onMoveEnd={onViewStateChange}
+          onTouchEnd={onMouseClick}
+          onMouseUp={onMouseClick}
+          onZoomEnd={onViewStateChange}
+          onClick={onMouseClick}
           interactive
           interactiveLayerIds={layers?.map((l) => l.id)}
-          onClick={handleMapClick}
           onLoad={onLoadCallback}
           mapStyle="mapbox://styles/mapbox/light-v11"
-          ref={mapRef}
+          ref={setMapRef}
         >
           {databaseTableNames.map((name) => (
             <Source
@@ -346,7 +329,9 @@ export default function MapView(props: IProps) {
       )} */}
           {/* <ZoomToDataOnLoad /> */}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
-          <GeolocateControl positionOptions={{ enableHighAccuracy: true }} />
+          <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={(e) => {
+            console.log("onGeoLocate", e);
+          }} trackUserLocation={true} onTrackUserLocationStart={(e) => console.log("onTrackUserLocationStart", e)} />
         </Map>
       </MapProvider>
       <FixedHelpButton />
