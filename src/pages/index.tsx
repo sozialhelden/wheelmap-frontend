@@ -28,7 +28,7 @@ export default function Page() {
 
   React.useEffect(() => {
     if (searchFiltersRef.current) {
-      searchFiltersRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      searchFiltersRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }
   }, [route.query]);
 
