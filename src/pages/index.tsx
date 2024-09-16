@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import MapLayout from '../components/App/MapLayout'
 import { isFirstStart } from '../lib/util/savedState'
+import SearchButton from '../components/SearchPanel/SearchButton'
+import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'
 
 export default function Page() {
   const router = useRouter()
@@ -12,7 +14,9 @@ export default function Page() {
     }
   }, [router])
 
-  return <></>
+  return (
+    <SearchButtonOrInput />
+  )
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {

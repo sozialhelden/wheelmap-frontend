@@ -7,13 +7,15 @@ import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 
+const ToiletIcon = styled.figure``
+
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
   category?: string | null;
   isMainCategory?: boolean;
   className?: string;
-};
+}
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null
@@ -41,8 +43,6 @@ function CombinedIcon(props: Props) {
     </div>
   )
 }
-
-const ToiletIcon = styled.figure``
 
 export default styled(CombinedIcon)`
   display: flex;

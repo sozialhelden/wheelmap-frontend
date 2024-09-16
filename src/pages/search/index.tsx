@@ -1,43 +1,10 @@
-// if (this.mainView) this.mainView.focusSearchPanel();
-
-// onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: PlaceInfo | null) => {
-//   const params = this.getCurrentParams() as any;
-//   let routeName = 'map';
-
-//   if (wheelmapFeature) {
-//     let id = getFeatureId(wheelmapFeature);
-//     if (id) {
-//       params.id = id;
-//       delete params.eid;
-//       routeName = 'placeDetail';
-//     }
-//   }
-
-//   if (routeName === 'map') {
-//     delete params.id;
-//     delete params.eid;
-//   }
-
-//   if (feature.properties.extent) {
-//     const extent = feature.properties.extent;
-//     this.setState({ lat: null, lon: null, extent });
-//   } else {
-//     const [lon, lat] = feature.geometry.coordinates;
-//     this.setState({ lat, lon, extent: null });
-//   }
-
-//   this.props.routerHistory.push(routeName, params);
-// };
-
-import { omit } from 'lodash'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { ReactElement, useCallback, useContext } from 'react'
+import { ReactElement, useCallback } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
 import MapLayout from '../../components/App/MapLayout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
-import { AppContext } from '../../lib/context/AppContext'
+import { useCurrentApp } from '../../lib/context/AppContext'
 
 import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
 import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
@@ -46,34 +13,35 @@ import {
   AnyFeatureCollection,
   TypeTaggedSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
-import fetchPlaceSearchResults, { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
+import { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
 import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { YesNoUnknown } from '../../lib/model/ac/Feature'
+import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export default function Page() {
-  const router = useRouter()
-  const accessibilityFilter = getAccessibilityFilterFrom(
-    router.query.wheelchair,
-  )
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet)
-  const category = router.query.category
-    ? String(router.query.category)
-    : undefined
-  const searchQuery = router.query.q && String(router.query.q)
+  const router = useAppStateAwareRouter()
+  const accessibilityFilter = getAccessibilityFilterFrom(router.searchParams.wheelchair)
+  const toiletFilter = getAccessibilityFilterFrom(router.searchParams.toilet) as YesNoUnknown[]
+  const {
+    category, q: searchQuery, lat, lon,
+  } = router.searchParams
+
   // TODO: Load this correctly via SWR
-  const categories = {
-    synonymCache: {},
-    categoryTree: [],
+  const categories: CategoryLookupTables = {
+    synonymCache: undefined,
+    categories: [],
   }
 
   const handleSearchQueryChange = useCallback(
-    (newSearchQuery) => {
-      const query = omit(router.query, 'q', 'category', 'toilet', 'wheelchair')
-      if (newSearchQuery && newSearchQuery.length > 0) {
-        query.q = newSearchQuery
-      }
+    (newSearchQuery: string | undefined) => {
       router.replace({
-        pathname: router.pathname,
-        query,
+        query: {
+          q: newSearchQuery && newSearchQuery.length > 0 ? newSearchQuery : null,
+          category: null,
+          toilet: null,
+          wheelchair: null,
+        },
       })
     },
     [router],
@@ -82,9 +50,7 @@ export default function Page() {
   const handlePlaceFilterChange = useCallback(
     (newPlaceFilter) => {
       router.replace({
-        pathname: router.pathname,
         query: {
-          ...router.query,
           wheelchair: newPlaceFilter.accessibility,
           toilet: newPlaceFilter.toilet,
         },
@@ -98,11 +64,10 @@ export default function Page() {
   const closeSearchPanel = useCallback(() => {
     router.push({
       pathname: '/',
-      query: { ...router.query },
     })
   }, [router])
 
-  const { clientSideConfiguration } = useContext(AppContext)
+  const { clientSideConfiguration } = useCurrentApp()
 
   let searchTitle
   if (searchQuery) {
@@ -112,9 +77,23 @@ export default function Page() {
 
   const {
     data: searchResults,
-    isValidating: isSearching,
+    isLoading,
+    isValidating,
     error: searchError,
-  } = useSWR({ query: searchQuery }, fetchPlacesOnKomootPhoton)
+  } = useSWR(
+    {
+      query: searchQuery?.trim(),
+      // additionalQueryParameters: {
+      //   lat: typeof lat === 'number' ? String(lat) : undefined,
+      //   lon:  typeof lat === 'number' ? String(lon) : undefined
+      // }
+    },
+    fetchPlacesOnKomootPhoton,
+    { isPaused: () => !searchQuery || searchQuery.trim().length < 2, keepPreviousData: false },
+  )
+
+  const searchPaused = !searchQuery || searchQuery.trim().length < 2
+  const isSearching = (isLoading || isValidating) && !searchPaused
 
   function toTypeTaggedSearchResults(
     col: SearchResultCollection,
@@ -142,7 +121,6 @@ export default function Page() {
         onClose={closeSearchPanel}
         onClick={handleSearchPanelClick}
         isExpanded
-        hasGoButton={false}
         accessibilityFilter={accessibilityFilter}
         toiletFilter={toiletFilter}
         categories={categories}

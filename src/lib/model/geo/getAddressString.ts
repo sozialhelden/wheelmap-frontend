@@ -1,6 +1,8 @@
 import { StructuredAddress } from '@sozialhelden/a11yjson'
 
-export default function getAddressString(parts: StructuredAddress): string | undefined {
+type StringFieldStructuredAddress = { [K in keyof StructuredAddress]?: string }
+
+export default function getAddressString(parts: StringFieldStructuredAddress): string | undefined {
   if (!parts) {
     return undefined
   }

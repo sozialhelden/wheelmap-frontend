@@ -1,28 +1,59 @@
-import { interpolateLab } from 'd3-interpolate'
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import * as React from 'react'
 import {
-  KeyboardEvent, forwardRef, useCallback, useState,
+  KeyboardEvent, forwardRef, useState, useMemo, useEffect,
 } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
-import colors from '../../lib/util/colors'
 
-// (ms)
-const DEBOUNCE_THRESHOLD = 500
+const DEBOUNCE_THRESHOLD_MS = 350
+
+const StyledSearchInputField = styled.input`
+    display: block;
+    flex: 1;
+    box-sizing: border-box;
+    font-size: 1em;
+    padding: 0px 0 0 2.5em;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    margin: 0;
+    cursor: pointer;
+
+    transition: width 0.3s ease-out, height 0.3s ease-out;
+
+    &:focus, &.focus-visible {
+        outline: none;
+    }
+
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-moz-placeholder,
+    &::-ms-input-placeholder,
+    &:-ms-input-placeholder {
+        color: #333;
+        opacity: 1;
+    }
+
+    &:disabled {
+        opacity: 1;
+        cursor: unset;
+    }
+`
 
 type SearchInputFieldProps = {
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   onSubmit?: (event: React.FormEvent<HTMLInputElement>) => void | null;
   onBlur?: () => void | null;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void | null;
   onClick?: (event: React.MouseEvent<HTMLInputElement>) => void | null;
   searchQuery: string | null;
-  hidden: boolean;
+  hidden?: boolean;
   ariaRole: string;
   disabled?: boolean | null;
   className?: string;
-};
+  autoFocus?: boolean;
+}
 
 const SearchInputField = forwardRef(
   (
@@ -37,9 +68,10 @@ const SearchInputField = forwardRef(
       onBlur,
       onFocus,
       onClick,
+      autoFocus,
     }: SearchInputFieldProps,
     ref: { current: null | HTMLInputElement },
-  ): JSX.Element => {
+  ) => {
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`
     const [currentSearchQuery, setCurrentSearchQuery] = useState(
@@ -48,23 +80,27 @@ const SearchInputField = forwardRef(
 
     const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
       /* Enter */
-      if (event.key === '13' && onSubmit && typeof onSubmit === 'function') {
+      const isEnter = event.key === 'Enter' || event.key === 'NumpadEnter'
+      if (isEnter && onSubmit && typeof onSubmit === 'function') {
         event.preventDefault()
         onSubmit(event)
       }
     }
 
-    const debouncedInternalOnChange = useCallback(
-      _.debounce((searchTerm) => {
-        onChange(searchTerm)
-      }, DEBOUNCE_THRESHOLD),
+    const onSearchQueryChangeRef = React.useRef(onChange)
+    useEffect(() => {
+      onSearchQueryChangeRef.current = onChange
+    }, [onChange])
+
+    const debouncedInternalOnChange = useMemo(
+      () => debounce((evt) => onSearchQueryChangeRef.current?.(evt), DEBOUNCE_THRESHOLD_MS),
       [],
     )
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
       const searchTerm = event.target.value
       setCurrentSearchQuery(searchTerm)
-      debouncedInternalOnChange(searchTerm)
+      debouncedInternalOnChange?.(searchTerm)
     }
 
     return (
@@ -73,7 +109,7 @@ const SearchInputField = forwardRef(
         value={currentSearchQuery}
         name="search"
         onChange={updateSearchQuery}
-        disabled={disabled}
+        disabled={!!disabled}
         tabIndex={hidden ? -1 : 0}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -84,44 +120,10 @@ const SearchInputField = forwardRef(
         aria-label={defaultPlaceholder}
         role={ariaRole}
         autoComplete="off"
+        autoFocus={autoFocus}
       />
     )
   },
 )
-
-const StyledSearchInputField = styled.input`
-  display: block;
-  flex: 1;
-  box-sizing: border-box;
-  font-size: 1em;
-  padding: 0px 0 0 2.5em;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  margin: 0;
-
-  ${(props) => (props.disabled ? 'cursor: pointer;' : '')}
-
-  transition: width 0.3s ease-out, height 0.3s ease-out;
-
-  &:focus, &.focus-visible {
-    outline: none;
-    box-shadow: none;
-    /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
-  }
-
-  &::-webkit-input-placeholder,
-  &::-moz-placeholder,
-  &:-moz-placeholder,
-  &::-ms-input-placeholder,
-  &:-ms-input-placeholder {
-    color: #333;
-    opacity: 1;
-  }
-
-  &:disabled {
-    opacity: 1;
-  }
-`
 
 export default SearchInputField

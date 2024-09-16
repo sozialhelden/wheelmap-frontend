@@ -13,6 +13,16 @@
     "project": "tsconfig.json"
   },
   "rules": {
+    "no-underscore-dangle": "off",
+    "no-console": "off",
+    "react/destructuring-assignment": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none",
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "import/prefer-default-export": "off",
     "import/extensions": "off",
     "react/function-component-definition": "off",
@@ -33,10 +43,10 @@
       "never"
     ],
     "max-len": [
-      "error",
+      "warn",
       {
         "code": 140,
-        "comments": 120,
+        "comments": 140,
         "ignoreUrls": true,
         "tabWidth": 2
       }

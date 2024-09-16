@@ -11,7 +11,7 @@ type Size = 'big' | 'medium' | 'small';
 
 type Props = {
   accessibility?: YesNoLimitedUnknown | null;
-  category: string | null;
+  category?: string | null;
   isMainCategory?: boolean;
   className?: string | null;
   size: Size;

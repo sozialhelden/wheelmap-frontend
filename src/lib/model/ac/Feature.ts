@@ -8,14 +8,14 @@ import { KomootPhotonResultFeature } from '../../fetchers/fetchPlacesOnKomootPho
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
-export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
+export const yesNoLimitedUnknownArray: readonly YesNoLimitedUnknown[] = [
   'limited',
   'yes',
   'no',
   'unknown',
 ]
 Object.freeze(yesNoLimitedUnknownArray)
-export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown']
+export const yesNoUnknownArray: readonly YesNoUnknown[] = ['yes', 'no', 'unknown']
 Object.freeze(yesNoUnknownArray)
 
 export type MappingEventFeature = KomootPhotonResultFeature;
@@ -110,7 +110,10 @@ export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): s
 }
 
 function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
-  const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair']
+  const wheelchairToiletTag = feature.properties['toilets:wheelchair']
+    || feature.properties['wheelchair:toilets']
+    || feature.properties['wheelchair:toilet']
+    || feature.properties['toilet:wheelchair']
   if (['yes', 'no'].includes(String(wheelchairToiletTag))) {
     return wheelchairToiletTag as 'yes' | 'no'
   }

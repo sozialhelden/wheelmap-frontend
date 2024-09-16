@@ -1,6 +1,11 @@
 import isPlainObject from 'lodash/isPlainObject'
 import { isDefined } from './isDefined'
 
+export function removeNullAndUndefinedFields<T extends {}>(something: T): T;
+// eslint-disable-next-line no-redeclare
+export function removeNullAndUndefinedFields<T extends []>(something: T): T;
+
+// eslint-disable-next-line no-redeclare
 export function removeNullAndUndefinedFields(something: unknown): unknown {
   if (isPlainObject(something) && something instanceof Object) {
     const result = {}

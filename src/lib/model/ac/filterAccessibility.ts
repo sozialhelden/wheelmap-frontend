@@ -1,12 +1,8 @@
 import { Accessibility } from '@sozialhelden/a11yjson'
-import { cloneDeep, isEqual } from 'lodash'
-import omit from 'lodash/omit'
+import { cloneDeep, isEqual, omit } from 'lodash'
 import { removeNullAndUndefinedFields } from '../../util/removeNullAndUndefinedFields'
 import {
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
+  YesNoLimitedUnknown, yesNoLimitedUnknownArray, YesNoUnknown, yesNoUnknownArray,
 } from './Feature'
 
 /** @returns a better structure to represent in the UI than the basic tree structure would provide. */
@@ -22,48 +18,53 @@ export default function filterAccessibility(
     'areas.0.entrances.0.isLevel',
     'entrances.0.isLevel',
   ]
+
   const props = cloneDeep(properties)
-  // TODO: check why called twice
-  let result = removeNullAndUndefinedFields(
-    removeNullAndUndefinedFields(omit(props, paths)),
-  )
+  return removeNullAndUndefinedFields(omit(props, paths))
+}
 
-  // if the PoI only has one marked area, move root one level down
-  if (result && result.areas && result.areas.length === 1) {
-    result = result.areas[0]
+function sortedIsEqual(array1: unknown[], array2: unknown[]): boolean {
+  if (array1.length !== array2.length) {
+    return false
   }
-  return result
+
+  if (!array1 || !array2) {
+    return array1 === array2
+  }
+
+  console.log(array1, array2)
+
+  return isEqual(array1.sort(), array2.sort())
 }
 
-function sortedIsEqual(array1: any[], array2: any[]): boolean {
-  return isEqual([].concat(array1).sort(), [].concat(array2).sort())
-}
-
-function parseStatusString(
+function parseStatusString<T extends string>(
   statusStringOrStringArray: string | string[],
-  allowedStatuses: string[],
-) {
-  let statusStringArray = []
+  allowedStatuses: T[],
+): T[] {
+  let statusStringArray: string[] | undefined
   if (typeof statusStringOrStringArray === 'string') {
     statusStringArray = statusStringOrStringArray.split(',')
+  } else if (Array.isArray(statusStringOrStringArray)) {
+    statusStringArray = statusStringOrStringArray
   }
+
   // Safe mutable sort as filter always returns a new array.
-  return statusStringArray
-    ? statusStringArray.filter((s) => allowedStatuses.includes(s)).sort()
-    : // No explicitly set filter means all status values are allowed.
-    [...allowedStatuses]
+  return (statusStringArray
+    ? statusStringArray.filter((s) => allowedStatuses.includes(s as T)).sort() as T[]
+    // No explicitly set filter means all status values are allowed.
+    : [...allowedStatuses])
 }
 
 export function getAccessibilityFilterFrom(
-  statusString?: string | string[],
+  statusString?: string | string[] | null,
 ): YesNoLimitedUnknown[] {
-  return parseStatusString(statusString, yesNoLimitedUnknownArray)
+  return statusString ? parseStatusString(statusString, [...yesNoLimitedUnknownArray]) : []
 }
 
 export function getToiletFilterFrom(
-  toiletString?: string | string[],
+  toiletString?: string | string[] | null,
 ): YesNoUnknown[] {
-  return parseStatusString(toiletString, yesNoUnknownArray)
+  return toiletString ? parseStatusString<YesNoUnknown>(toiletString, [...yesNoUnknownArray]) : []
 }
 
 /**
@@ -72,19 +73,19 @@ export function getToiletFilterFrom(
  */
 
 export function isAccessibilityFiltered(
-  accessibilityFilter: YesNoLimitedUnknown[] | null,
+  accessibilityFilter?: YesNoLimitedUnknown[] | null,
 ): boolean {
   return (
     !!accessibilityFilter
     && !isEqual(accessibilityFilter, [])
-    && !sortedIsEqual(accessibilityFilter, yesNoLimitedUnknownArray)
+    && !sortedIsEqual(accessibilityFilter, [...yesNoLimitedUnknownArray])
   )
 }
 
-export function isToiletFiltered(toiletFilter: YesNoUnknown[] | null): boolean {
+export function isToiletFiltered(toiletFilter?: YesNoUnknown[] | null): boolean {
   return (
     !!toiletFilter
     && !isEqual(toiletFilter, [])
-    && !sortedIsEqual(toiletFilter, yesNoUnknownArray)
+    && !sortedIsEqual(toiletFilter, [...yesNoUnknownArray])
   )
 }
