@@ -44,7 +44,7 @@ export const setTransifexTranslations = (transifexTranslations?: TransifexTransl
  */
 export async function getServerSideTranslations({ locale, locales }) {
   tx.init({
-    token: process.env.TRANSIFEX_API_TOKEN,
+    token: process.env.TRANSIFEX_TOKEN,
   });
   // ensure that nextjs locale is in the Transifex format,
   // for example, de-de -> de_DE

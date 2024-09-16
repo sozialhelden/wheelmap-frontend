@@ -1,6 +1,6 @@
 const withTranspileModules = require("next-transpile-modules");
 const isProd = process.env.NODE_ENV === "production";
-const transifexToken = process.env.TRANSIFEX_API_TOKEN;
+const transifexToken = process.env.TRANSIFEX_TOKEN;
 
 let configuration = withTranspileModules({
   webpack: (config) => {
