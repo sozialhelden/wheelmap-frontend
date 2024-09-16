@@ -1,5 +1,3 @@
-import useMeasure from 'react-use-measure'
-
 export function isOnSmallViewport(): boolean {
   if (typeof window === 'undefined') return false
   return window.innerWidth <= 512 || window.innerHeight <= 512

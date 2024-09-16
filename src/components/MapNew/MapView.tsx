@@ -241,11 +241,11 @@ export default function MapView(props: IProps) {
       // let url = URL.createObjectURL(blob);
       const customIcon = new Image(30, 30)
       customIcon.onload = () => {
-        console.log('adding icon', `${iconName}-15-white`)
+        console.debug('adding icon', `${iconName}-15-white`)
         map.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
       }
       customIcon.onerror = () => {
-        console.log('error loading icon', iconName, dataUrl)
+        console.warn('error loading icon', iconName, dataUrl)
       }
       customIcon.src = dataUrl
     })
