@@ -43,7 +43,7 @@ function SearchResult({ data }: any) {
   }, [synonymCache.data, healthcare, languageTags]);
 
   const healthcareSpecialityName = React.useMemo(() => {
-    return getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${healthcareSpeciality}`)?.translations?._id, languageTags) || getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${healthcareSpeciality}`)?.translations?._id, languageTags);
+    return getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${healthcareSpeciality}`)?.translations?._id, languageTags);
   }, [synonymCache.data, healthcareSpeciality, languageTags]);
 
   const optionalHealthcare = React.useMemo(() => {
@@ -75,6 +75,10 @@ function SearchResult({ data }: any) {
     return healthcareSpecialityName;
   }, [category, healthcareSpecialityName]);
 
+  const displayedCategoryString = React.useMemo(() =>
+    [optionalHealthcare, optionalHealthcareSpeciality].filter(Boolean).join(", "),
+    [healthcare, healthcareSpeciality],
+  );
   const getDescriptionByLanguage = (languageTags, descriptions) => {
     if (languageTags.includes("de")) {
       return descriptions.de;
@@ -108,17 +112,15 @@ function SearchResult({ data }: any) {
       <div style={{ flex: 1 }}>
         <StyledH2 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
           <Link aria-label={name || _.capitalize(healthcare.replace("_", " "))} href={`https://wheelmap.org/${_id}`} target="_blank" style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: ".5rem" }}>
-            {name || healthcare.replace("_", " ")}
+            {name || displayedCategoryString}
             &nbsp;
             <ExternalLinkIcon />
           </Link>
         </StyledH2>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>
-          {optionalHealthcare}
-          {optionalHealthcare && optionalHealthcareSpeciality && `, `}
-          {optionalHealthcareSpeciality && `${optionalHealthcareSpeciality}`}
-        </div>
+        {name && <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 600 }}>
+          {displayedCategoryString}
+        </div>}
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           {customAddress.street && (
