@@ -1,6 +1,6 @@
 import { useHotkeys } from '@blueprintjs/core'
 import { uniqBy } from 'lodash'
-import { useMemo, useState } from 'react'
+import { StrictMode, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import {
   AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
@@ -8,7 +8,6 @@ import {
 import colors from '../../lib/util/colors'
 import FeaturesDebugJSON from './components/FeaturesDebugJSON'
 import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
-import NextToiletDirections from './components/AccessibilitySection/NextToiletDirections'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
 import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
@@ -56,7 +55,7 @@ export function CombinedFeaturePanel(props: Props) {
 
   return (
     <ErrorBoundary>
-      <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} onClick={() => { throw new Error() }}>
+      <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
         {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
         {/* TODO: Report button goes here. */}
         {features
