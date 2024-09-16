@@ -9,6 +9,7 @@ import { pathsToConsumedTagKeys } from '../../../../lib/model/osm/tag-config/pat
 import { omittedKeys } from '../../../../lib/model/osm/tag-config/omittedKeys'
 import { omittedKeySuffixes } from '../../../../lib/model/osm/tag-config/omittedKeySuffixes'
 import { omittedKeyPrefixes } from '../../../../lib/model/osm/tag-config/omittedKeyPrefixes'
+import { log } from '../../../../lib/util/logger'
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode // type for unknown keys.
@@ -39,9 +40,9 @@ function generateTree(keys: string[]): ITreeNode {
         const existingParent = get(result, parentPath)
         const newObject = typeof existingParent === 'string' ? existingParent : key
         set(result, path, newObject)
-        console.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
-        console.log(`Assigned`, path, '=', newObject);
-        console.log(`Result`, result);
+        log.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
+        log.log(`Assigned`, path, '=', newObject);
+        log.log(`Result`, result);
         break
       }
     }

@@ -1,4 +1,5 @@
 import EventTarget, { CustomEvent } from '../../util/EventTarget'
+import { log } from '../../util/logger'
 import customFetch from './fetch'
 
 export class FetchManager extends EventTarget<CustomEvent> {
@@ -24,7 +25,7 @@ export class FetchManager extends EventTarget<CustomEvent> {
   }
 
   fetch(input: string, init?: any): Promise<Response> {
-    let promise = null
+    let promise: Promise<Response>;
 
     const removeFromRunningPromises = (response: Response) => {
       if (promise) {
@@ -35,7 +36,7 @@ export class FetchManager extends EventTarget<CustomEvent> {
     }
 
     const handleError = (reason: any) => {
-      console.log('Unhandled error while fetching:', reason)
+      log.log('Unhandled error while fetching:', reason)
       this.dispatchEvent(new CustomEvent('error', { target: this }))
       if (reason instanceof Error) {
         this.lastError = reason

@@ -7,10 +7,12 @@ import { useAdminAreas } from '../../../../lib/fetchers/osm-api/fetchAdminAreas'
 import StyledMarkdown from '../../../shared/StyledMarkdown'
 import FeatureContext from '../FeatureContext'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
+import { features } from 'process'
+import { log } from '../../../../lib/util/logger'
 
 // helper function
 function getReadableState(oh: opening_hours) {
-  const outputs = []
+  const outputs: string[] = []
   const comment = oh.getComment()
   if (oh.getUnknown()) {
     const maybeOpen = t`Maybe open`
@@ -70,7 +72,7 @@ export default function OpeningHoursValue(props: { value: string }) {
       }
       return { outputs, oh, niceString }
     } catch (e) {
-      console.error(e)
+      log.error(e)
       return { outputs: [] }
     }
   }, [lat, lon, country, state, value])

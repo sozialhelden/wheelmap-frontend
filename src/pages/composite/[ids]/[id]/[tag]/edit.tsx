@@ -14,6 +14,7 @@ import { useEnvContext } from '../../../../../lib/context/EnvContext'
 import { useMultipleFeatures } from '../../../../../lib/fetchers/fetchMultipleFeatures'
 import { isOSMFeature } from '../../../../../lib/model/geo/AnyFeature'
 import { getOSMType } from '../../../../../lib/model/osm/generateOsmUrls'
+import { log } from '../../../../../lib/util/logger'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -44,7 +45,7 @@ async function createChangeset({
 async function createChange({
   accessToken, baseUrl, osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer,
 }: { baseUrl: string; accessToken: string; osmType: string; osmId: string | string[]; changesetId: string; tagName: string; newTagValue: any; currentTagsOnServer: any; }) {
-  console.log('createChange', osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer)
+  log.log('createChange', osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer)
   debugger
   const newTags = {
     ...currentTagsOnServer,
@@ -52,7 +53,7 @@ async function createChange({
   }
   const allTagsAsXML = Object.entries(newTags).map(([key, value]) => `<tag k="${key}" v="${value}" />`).join('\n')
 
-  console.log('allTagsAsXML', allTagsAsXML)
+  log.log('allTagsAsXML', allTagsAsXML)
   return fetch(`${baseUrl}/api/0.6/${osmType}/${osmId}`, {
     method: 'PUT',
     headers: {
@@ -65,7 +66,7 @@ async function createChange({
       </${osmType}>
     </osm>`,
   }).then((res) => res.text()).then((data) => {
-    console.log(data)
+    log.log(data)
   })
 }
 
@@ -132,7 +133,7 @@ export default function CompositeFeaturesPage() {
         }).then(() => setChangesetState('changesetComplete'))
       })
       .catch((err) => {
-        console.error(err)
+        log.error(err)
         setChangesetState('error')
         setError(err)
       })

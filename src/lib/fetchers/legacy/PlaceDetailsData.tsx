@@ -40,6 +40,7 @@ import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudIma
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos'
 import { translatedStringFromObject } from '../lib/i18n'
 import { fetchToiletsNearFeature } from '../lib/data-fetching/getToiletsNearby'
+import { log } from '../../util/logger'
 
 function fetchFeature(
   featureId: string,
@@ -77,7 +78,7 @@ async function fetchSourceWithLicense(
     const feature = await featurePromise
     const sourceIds = sourceIdsForFeature(feature)
 
-    // console.log("loading", { sources });
+    // log.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map((sourceId) => dataSourceCache
       .getDataSourceWithId(sourceId, appToken)
       .then(async (source): Promise<SourceWithLicense> => {
@@ -124,7 +125,7 @@ function fetchPhotos(
   ])
     .then((photoArrays: PhotoModel[][]) => [].concat(photoArrays[0], photoArrays[1]) as PhotoModel[])
     .catch((err) => {
-      console.error(err)
+      log.error(err)
       return [] as PhotoModel[]
     })
 

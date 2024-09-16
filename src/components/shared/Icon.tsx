@@ -5,6 +5,7 @@ import colors from '../../lib/util/colors'
 import * as categoryIcons from '../icons/categories'
 import * as mainCategoryIcons from '../icons/mainCategories'
 import * as markers from '../icons/markers'
+import { log } from '../../lib/util/logger'
 
 type Size = 'big' | 'medium' | 'small';
 
@@ -144,7 +145,7 @@ export default function Icon({
 
   if (typeof CategoryIconComponent === 'object') {
     // eslint-disable-next-line no-console
-    console.log(
+    log.log(
       'Found a CategoryIconComponent that was an object, but should not be.',
     )
   }

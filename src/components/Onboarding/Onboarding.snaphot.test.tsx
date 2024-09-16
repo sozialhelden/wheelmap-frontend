@@ -3,9 +3,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import OnboardingDialog from './OnboardingDialog'
+import { log } from '../../lib/util/logger'
 
 const handleClose = React.useCallback(() => {
-  console.log('calling handleClose in OnboardingDialog snapshot test')
+  log.log('calling handleClose in OnboardingDialog snapshot test')
 }, [])
 
 it('renders correctly', () => {

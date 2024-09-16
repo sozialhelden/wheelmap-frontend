@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import { OAuthConfig } from 'next-auth/providers/oauth'
+import { log } from '../../../lib/util/logger'
 
 interface IOSMProfile {
   version: '0.6',
@@ -61,7 +62,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({
       token, user, account, profile, isNewUser,
     }) {
-      console.log('JWT callback', {
+      log.log('JWT callback', {
         token, user, account, profile, isNewUser,
       })
       // Persist the OAuth access_token and or the user id to the token right after signin

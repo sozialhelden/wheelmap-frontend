@@ -6,6 +6,7 @@ import { accessibilityCloudFeatureCache } from '../../../lib/cache/Accessibility
 import colors from '../../../lib/util/colors'
 import Spinner from '../../ActivityIndicator/Spinner'
 import strings from './strings'
+import { log } from '../../../lib/util/logger'
 
 export type ReportReasons =
   | 'invalid-place'
@@ -114,7 +115,7 @@ class SendReportToAc extends React.Component<Props, State> {
           if (this.state.request === request) this.setState({ isLoading: false, isSuccess: true })
         })
         .catch((error) => {
-          console.error(error)
+          log.error(error)
           if (this.state.request === request) this.setState({ isLoading: false, error })
         })
     }

@@ -3,6 +3,7 @@ import { createServer } from 'http'
 import next from 'next'
 import addEmbedModeResponseHeaders from '../lib/util/addEmbedModeResponseHeaders'
 import fetchApp from '../lib/fetchers/ac/fetchApp'
+import { log } from '../lib/util/logger'
 
 const dev = process.env.NODE_ENV !== 'production'
 const defaultHostname = 'localhost'
@@ -10,9 +11,9 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000
 const app = next({ dev, hostname: defaultHostname, port })
 const handle = app.getRequestHandler()
 
-console.log('Preparing app...');
+log.log('Preparing app...');
 app.prepare().then(() => {
-  console.log('Creating server...');
+  log.log('Creating server...');
   const server = createServer(async (req, res) => {
     try {
       const url = new URL(req.url)
@@ -33,13 +34,13 @@ app.prepare().then(() => {
 
       await handle(req, res)
     } catch (err) {
-      console.error('Error occurred handling', req.url, err)
+      log.error('Error occurred handling', req.url, err)
       res.statusCode = 500
       res.end('internal server error')
     }
   })
-  console.log('Start listening...');
+  log.log('Start listening...');
   server.listen(port, () => {
-    console.log(`> Ready on http://${defaultHostname}:${port}`)
+    log.log(`> Ready on http://${defaultHostname}:${port}`)
   })
 })

@@ -15,7 +15,7 @@ export function addTranslationsToTTag(translations: Translations[]) {
     localesToUse.push(locale)
   }
 
-  // console.log('Available locales:', localesToUse.map(l => l.string));
+  // log.log('Available locales:', localesToUse.map(l => l.string));
   // set locale in ttag
   useLocales(localesToUse.map((locale) => locale.string))
 

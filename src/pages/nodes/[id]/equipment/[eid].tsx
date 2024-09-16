@@ -5,6 +5,7 @@ import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePane
 import Toolbar from '../../../../components/shared/Toolbar'
 import MockedPOIDetails from '../../../../lib/fixtures/mocks/features/MockedPOIDetails'
 import useDocumentSWR from '../../../../lib/fetchers/ac/useDocumentSWR'
+import { log } from '../../../../lib/util/logger'
 // TODO clean up this page
 function EquipmentInfoPage() {
   const router = useRouter()
@@ -38,7 +39,7 @@ function EquipmentInfoPage() {
     _id: '222RZF9r2AAzqBQXh',
   });
   React.useEffect(() => {
-    console.log('rendered')
+    log.log('rendered')
     const equipment = equipmentResponse.data
     const fallbackEquipment = fallbackEquipmentResponse.data
     const place = placeResponse.data

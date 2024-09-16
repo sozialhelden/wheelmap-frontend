@@ -8,6 +8,7 @@ import { LocalesToTranslations } from './LocalesToTranslations'
 import { Translations } from './Translations'
 import { Locale } from './Locale'
 import { localeFromString } from './localeFromString'
+import { log } from '../util/logger'
 
 export function getAvailableTranslationsByPreference(
   allTranslations: LocalesToTranslations,
@@ -33,13 +34,13 @@ export function getAvailableTranslationsByPreference(
   const availableLocales: Locale[] = availableTranslations
     .map((t) => t.headers.language)
     .map(localeFromString)
-  // console.log('Currently available locales:', availableLocales);
+  // log.log('Currently available locales:', availableLocales);
   const missingLocales: Locale[] = differenceBy(
     preferredLocales,
     availableLocales,
     (locale) => locale.string,
   )
-  // console.log('Missing locales:', missingLocales);
+  // log.log('Missing locales:', missingLocales);
   // If the missing locale has no country suffix, maybe we find a loaded variant with a country
   // suffix that we can use instead.
   missingLocales.forEach((missingLocale) => {
@@ -48,7 +49,7 @@ export function getAvailableTranslationsByPreference(
     }
     const replacementLocale = availableLocales.find((loadedLocale) => nextFallbackLocale(loadedLocale).isEqual(missingLocale))
     if (replacementLocale) {
-      // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
+      // log.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
       const translation = getTranslationsForLocale(
         allTranslations,
         replacementLocale,
@@ -74,7 +75,7 @@ export function getAvailableTranslationsByPreference(
   ).filter(Boolean)
 
   if (localesToUse.length === 0) {
-    console.warn(
+    log.warn(
       'Warning: No locales to use available after loading translations.',
       preferredLocales,
       availableLocales,

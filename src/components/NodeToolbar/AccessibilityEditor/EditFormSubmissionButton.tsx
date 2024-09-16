@@ -10,6 +10,7 @@ import { accessibilityCloudFeatureCache } from '../../../lib/cache/Accessibility
 import colors from '../../../lib/util/colors'
 import Spinner from '../../ActivityIndicator/Spinner'
 import { PrimaryButton } from '../../Button'
+import { log } from '../../../lib/util/logger'
 
 function hasKoboSubmission(feature: PlaceInfo | null) {
   if (!feature) {
@@ -72,7 +73,7 @@ function EditFormSubmissionButton(props: Props) {
         tokenString,
       )
       .then((uri) => {
-        console.log(uri)
+        log.log(uri)
         resolvedEditUrl.current = uri
         setState('Idle')
         setTimeout(() => (resolvedEditUrl.current = null), validLinkDuration)

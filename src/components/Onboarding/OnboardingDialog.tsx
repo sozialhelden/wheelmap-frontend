@@ -9,6 +9,7 @@ import { LocationNoPermissionStep } from './LocationNoPermissionStep'
 import { LocationStep } from './LocationStep'
 import { OnboardingStep } from './OnboardingStep'
 import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { log } from '../../lib/util/logger'
 
 const StyledModalDialog = styled(ModalDialog)`
   isolation: isolate;
@@ -298,7 +299,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
       },
       onPermissionError: (error: GeolocationPositionError) => {
         // todo: define behaviour or place it into a logger that's quiet in prod
-        console.log('Something did not work quite right here', error)
+        log.log('Something did not work quite right here', error)
         if (step === 'permission') {
           setStep('failed-permission')
         }

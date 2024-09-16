@@ -13,6 +13,7 @@ import ErrorBoundary from '../../shared/ErrorBoundary'
 import NodeHeader from '../NodeHeader'
 import PhotoSection from '../Photos/PhotoSection'
 import StyledToolbar from '../StyledToolbar'
+import { log } from '../../lib/util/logger'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -32,7 +33,7 @@ type Props = {
 // TODO why is it rendered 3-5+ times?
 function PlaceInfoPanel(props: Props) {
   const { placeInfoId } = props
-  console.log(placeInfoId)
+  log.log(placeInfoId)
 
   const router = useRouter()
   const app = useCurrentApp()

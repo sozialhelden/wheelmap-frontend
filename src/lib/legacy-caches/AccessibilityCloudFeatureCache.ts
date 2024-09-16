@@ -2,6 +2,7 @@ import {
   AccessibilityCloudFeature,
   AccessibilityCloudFeatureCollection,
 } from '../Feature'
+import { log } from '../util/logger';
 import { equipmentInfoCache } from './EquipmentInfoCache'
 import FeatureCache from './FeatureCache'
 
@@ -98,7 +99,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           }
         })
         .catch(reject)
-        .catch(console.error)
+        .catch(log.error)
     })
 
     return uploadPromise
@@ -143,7 +144,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           }
         })
         .catch(reject)
-        .catch(console.error)
+        .catch(log.error)
     })
 
     return uploadPromise
@@ -192,7 +193,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           }
         })
         .catch(reject)
-        .catch(console.error)
+        .catch(log.error)
     })
 
     return editUrlPromise
@@ -229,7 +230,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           }
         })
         .catch(reject)
-        .catch(console.error)
+        .catch(log.error)
     })
     return uploadPromise
   }

@@ -34,6 +34,7 @@ import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
 import useUserAgent from '../../lib/context/UserAgentContext'
 import LocateIcon from '../icons/actions/LocateOff.svg'
+import { log } from '../../lib/util/logger'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -143,7 +144,7 @@ export default function MapView(props: IProps) {
   const handleMapClick = useCallback<(
     event: MapLayerMouseEvent) => void>(
     (event) => {
-      console.log(event)
+      log.log(event)
 
       const selectedFeatureCount = event?.features?.length
       if (!selectedFeatureCount) {
@@ -198,7 +199,7 @@ export default function MapView(props: IProps) {
 
   const setViewportCallback = useCallback(
     (event: ViewStateChangeEvent) => {
-      // console.log("Setting viewport because of callback:", event);
+      // log.log("Setting viewport because of callback:", event);
       setViewport({ ...viewport, ...event.viewState, lastUpdate: Date.now() })
     },
     [setViewport, viewport],
@@ -241,11 +242,11 @@ export default function MapView(props: IProps) {
       // let url = URL.createObjectURL(blob);
       const customIcon = new Image(30, 30)
       customIcon.onload = () => {
-        console.debug('adding icon', `${iconName}-15-white`)
+        log.debug('adding icon', `${iconName}-15-white`)
         map.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
       }
       customIcon.onerror = () => {
-        console.warn('error loading icon', iconName, dataUrl)
+        log.warn('error loading icon', iconName, dataUrl)
       }
       customIcon.src = dataUrl
     })

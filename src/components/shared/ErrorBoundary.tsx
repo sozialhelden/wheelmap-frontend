@@ -6,6 +6,7 @@ import { t } from 'ttag'
 
 import Link from 'next/link'
 import colors from '../../lib/util/colors'
+import { log } from '../../lib/util/logger'
 
 type Props = {
   className?: string;
@@ -33,7 +34,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: any) {
     this.setState({ hasError: true, error, errorInfo })
 
-    console[console.error ? 'error' : 'log'](error, errorInfo)
+    log.error(error, errorInfo)
   }
 
   render() {

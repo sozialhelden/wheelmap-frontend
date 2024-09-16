@@ -32,11 +32,11 @@
 // };
 
 // onFinishPhotoUploadFlow = (photos: FileList) => {
-//   console.log('onFinishPhotoUploadFlow');
+//   log.log('onFinishPhotoUploadFlow');
 //   const { featureId } = this.props;
 
 //   if (!featureId) {
-//     console.error('No feature found, aborting upload!');
+//     log.error('No feature found, aborting upload!');
 //     this.onExitPhotoUploadFlow();
 //     return;
 //   }
@@ -46,11 +46,11 @@
 //   accessibilityCloudImageCache
 //     .uploadPhotoForFeature(String(featureId), photos, this.props.app.tokenString)
 //     .then(() => {
-//       console.log('Succeeded upload');
+//       log.log('Succeeded upload');
 //       this.onExitPhotoUploadFlow('waitingForReview');
 //     })
 //     .catch(reason => {
-//       console.error('Failed upload', reason);
+//       log.error('Failed upload', reason);
 //       this.onExitPhotoUploadFlow('uploadFailed', reason && reason.message);
 //     });
 // };

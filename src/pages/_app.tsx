@@ -28,6 +28,7 @@ import ResourceError from '../lib/fetchers/ResourceError'
 import { patchFetcher } from '../lib/util/patchClientFetch'
 import { ErrorMessage } from '../components/SWRError/ErrorMessage'
 import { addToEnvironment, getEnvironment } from '../lib/util/globalEnvironment'
+import { log } from '../lib/util/logger'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -130,7 +131,7 @@ patchFetcher()
 
 async function retrieveAppByHostname(env: EnvironmentVariables, hostnameAndPort: string, query: queryString.ParsedQuery<string>) {
   const hostname = hostnameAndPort.split(':')[0]
-  console.log('Hostname:', query, query.appId, hostname)
+  log.log('Hostname:', query, query.appId, hostname)
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`)
   }

@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
+import { log } from '../../../../lib/util/logger'
 
 function UploadPhotoThanks() {
   const router = useRouter()
   const { placeType, id } = router.query
 
-  console.log(router.query)
+  log.log(router.query)
   return (
     <>
       <header />

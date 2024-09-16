@@ -6,6 +6,7 @@ import {
   SearchResultProperties,
 } from '../lib/searchPlaces'
 import { DataTableEntry } from './getInitialProps'
+import { log } from '../../util/logger'
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>;
@@ -37,7 +38,7 @@ async function fetchWheelmapNode(
     return feature
   } catch (error) {
     if (error.status !== 404) {
-      console.error(error)
+      log.error(error)
     }
 
     return null
