@@ -7,7 +7,6 @@ import {
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import {
-  GeolocateControl,
   Layer,
   Map,
   MapProvider,
@@ -30,12 +29,11 @@ import { databaseTableNames, filterLayers } from './filterLayers'
 import useMapStyle from './useMapStyle'
 import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
-import useUserAgent from '../../lib/context/UserAgentContext'
-import LocateIcon from '../icons/actions/LocateOff.svg'
-import LocateOnIcon from '../icons/actions/LocateOn.svg'
+
 import { log } from '../../lib/util/logger'
 import { useMapViewInternals } from './useMapInternals'
 import { uriFriendlyPosition } from './utils'
+import { GeolocateButton } from './GeolocateButton'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -69,38 +67,6 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `
 
-const MapboxLocationPinStyles = createGlobalStyle`
-  .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active > .mapboxgl-ctrl-icon {
-    background-image: url(${LocateOnIcon.src});
-    background-size: 75%;
-    background-position: center center;
-  }
-
-  .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate > .mapboxgl-ctrl-icon {
-    background-image: url(${LocateIcon.src});
-    background-size: 75%;
-    background-position: center center;
-  }
-
-
-  .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting .mapboxgl-ctrl-icon {
-    animation: 1.5s crossfade ease infinite;
-
-    @keyframes crossfade {
-      0% {
-        opacity: 0.2;
-      }
-
-      50% {
-        opacity: 1;
-      }
-      
-      100% {
-        opacity: 0.2;
-      }
-    }
-  }
-`
 
 
 export default function MapView(props: IProps) {
@@ -281,13 +247,11 @@ export default function MapView(props: IProps) {
     NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
   } = useEnvContext()
 
-  const userAgent = useUserAgent()
-  const isAndroid = userAgent?.os?.name === 'Android'
+
 
   return (
     <>
       <MapboxExtraStyles />
-      { !isAndroid && <MapboxLocationPinStyles />}
       <MapProvider>
         <Map
           initialViewState={initialViewport}
@@ -329,9 +293,7 @@ export default function MapView(props: IProps) {
       )} */}
           {/* <ZoomToDataOnLoad /> */}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
-          <GeolocateControl positionOptions={{ enableHighAccuracy: true }} onGeolocate={(e) => {
-            console.log("onGeoLocate", e);
-          }} trackUserLocation={true} onTrackUserLocationStart={(e) => console.log("onTrackUserLocationStart", e)} />
+          <GeolocateButton />
         </Map>
       </MapProvider>
       <FixedHelpButton />
