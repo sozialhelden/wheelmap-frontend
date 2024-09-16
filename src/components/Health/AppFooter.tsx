@@ -1,6 +1,6 @@
 import { T, useT } from "@transifex/react";
 import styled from "styled-components";
-import BMBFLogo from "./BMBFLogo";
+import BMBFLogo from "../icons/ui-elements/BMBFLogo";
 import WheelmapLogo from "./WheelmapLogo";
 import { StyledIncluscienceLogo, StyledSozialheldInnenLogo, responsiveValue } from "./styles";
 

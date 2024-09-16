@@ -4,16 +4,16 @@ import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { getCategory } from "../../lib/model/ac/categories/Categories";
-import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import EnvContext from "../shared/EnvContext";
-import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
-import { fetchJSON } from "./fetchJSON";
-import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
-import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "./styles";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import { useCategorySynonymCache } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { getCategory } from "../../../lib/model/ac/categories/Categories";
+import AccessibilityFilterButton from "../../shared/AccessibilityFilterButton";
+import EnvContext from "../../shared/EnvContext";
+import { SearchBoxAutocomplete } from "../SearchBoxAutocomplete";
+import { fetchJSON } from "../fetchJSON";
+import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "../helpers";
+import { DialogContainer, StyledBigTextInput, StyledCheckbox, StyledHDivider, StyledLabel, StyledRadio, StyledRadioBox, StyledSelect, StyledSubLabel, StyledWheelchairFilter } from "../styles";
 
 function FilterInputs() {
   const route = useRouter();

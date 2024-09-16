@@ -11,8 +11,8 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
-import CombinedIcon from "../SearchPanel/CombinedIcon";
 import { ExternalLinkIcon } from "../icons/ui-elements";
+import CombinedIcon from "../shared/CombinedIcon";
 import { getWheelchairSettings } from "./helpers";
 import { StyledAccessibleToiletIcon, StyledButtonAsLink, StyledH2, StyledHDivider, StyledListItem, StyledUL } from "./styles";
 

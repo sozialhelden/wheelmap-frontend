@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 import colors from "../../lib/colors";
-import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
-import SozialheldenInnenLogo from "../MapLegacy/SozialheldInnenLogo";
 import ToiletStatuAccessibleIcon from "../icons/accessibility/ToiletStatusAccessible";
+import IncluscienceLogo from "../icons/ui-elements/IncluscienceLogo";
+import SozialheldenInnenLogo from "../icons/ui-elements/SozialheldInnenLogo";
 
 export const containerSpacing = "1rem";
 export const borderRadius = "2rem";

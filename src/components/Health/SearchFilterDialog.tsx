@@ -2,7 +2,7 @@ import { T } from "@transifex/react";
 import Link from "next/link";
 import ChevronLeft from "../ShareBar/icons/ChevronLeft";
 import AppFooter from "./AppFooter";
-import FilterInputs from "./FilterInputs";
+import FilterInputs from "./Filter/FilterInputs";
 import { StyledClaim, StyledH1, StyledMainContainerColumn } from "./styles";
 
 function SearchFilterDialog(props: any) {

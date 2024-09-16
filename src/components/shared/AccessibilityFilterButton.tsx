@@ -10,7 +10,7 @@ import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import { StyledBadge } from "../Health/styles";
 import CloseIcon from "../icons/actions/Close";
 import { ExternalLinkIcon } from "../icons/ui-elements";
-import Button from "../shared/Button";
+import Button from "./Button";
 import CombinedIcon from "./CombinedIcon";
 
 type Props = {

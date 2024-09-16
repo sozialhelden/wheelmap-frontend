@@ -4,7 +4,7 @@ import styled, { CSSProperties } from "styled-components";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
-import Icon from "../shared/Icon";
+import Icon from "./Icon";
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
