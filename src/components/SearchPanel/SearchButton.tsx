@@ -16,7 +16,7 @@ type Props = {
   category?: string | null;
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
-};
+}
 
 const Caption = styled.div.attrs({ className: 'caption' })`
     display: flex;

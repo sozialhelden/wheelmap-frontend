@@ -13,7 +13,7 @@ type Props = {
   className?: string;
   hidden?: boolean;
   error: string | undefined;
-};
+}
 
 const StyledSearchResultList = styled.ul`
   list-style-type: none;

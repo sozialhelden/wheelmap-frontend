@@ -15,7 +15,7 @@ type Props = {
   category?: string | null;
   isMainCategory?: boolean;
   className?: string;
-};
+}
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null

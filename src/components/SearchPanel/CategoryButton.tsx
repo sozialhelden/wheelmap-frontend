@@ -21,7 +21,7 @@ type Props = {
   onBlur?: () => void;
   className?: string;
   isMainCategory: boolean;
-};
+}
 
 export const StyledCategoryIconButton = styled(IconButton)`
   figure {

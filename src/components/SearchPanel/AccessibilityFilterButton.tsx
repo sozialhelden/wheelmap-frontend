@@ -21,7 +21,7 @@ type Props = {
   onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
   isActive: boolean;
-};
+}
 
 export const Caption = styled.span`
   flex: 1;

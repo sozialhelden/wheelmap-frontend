@@ -15,7 +15,7 @@ type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
   className?: string;
-};
+}
 
 function CategoryMenu(props: Props) {
   const { category } = props

@@ -1,8 +1,8 @@
 import { debounce } from 'lodash'
 import * as React from 'react'
 import {
-  KeyboardEvent, forwardRef, useState, useMemo, useEffect
-} from "react"
+  KeyboardEvent, forwardRef, useState, useMemo, useEffect,
+} from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
 
@@ -93,11 +93,7 @@ const SearchInputField = forwardRef(
     }, [onChange])
 
     const debouncedInternalOnChange = useMemo(
-      () => {
-        return debounce((evt) => {
-          return onSearchQueryChangeRef.current?.(evt)
-        }, DEBOUNCE_THRESHOLD_MS)
-      },
+      () => debounce((evt) => onSearchQueryChangeRef.current?.(evt), DEBOUNCE_THRESHOLD_MS),
       [],
     )
 

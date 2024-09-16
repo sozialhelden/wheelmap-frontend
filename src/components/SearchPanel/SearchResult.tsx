@@ -12,14 +12,14 @@ import Address from '../NodeToolbar/Address'
 import Icon from '../shared/Icon'
 import { PlaceNameHeader } from '../shared/PlaceName'
 import { AppStateLink } from '../App/AppStateLink'
-import { KomootPhotonResultFeature } from "../../lib/fetchers/fetchPlacesOnKomootPhoton"
+import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 
 type Props = {
   className?: string;
   feature: KomootPhotonResultFeature;
   categories: CategoryLookupTables;
   hidden: boolean;
-};
+}
 
 const StyledListItem = styled.li`
     padding: 0;
@@ -137,7 +137,8 @@ export default function SearchResult(props: Props) {
         extent: feature.properties.extent,
         lat: feature.geometry.coordinates[1],
         lon: feature.geometry.coordinates[0],
-      } }
+      },
+    }
     : {
       pathname: `/${osmType}/${feature.properties.osm_id}`,
       query: {
@@ -145,7 +146,7 @@ export default function SearchResult(props: Props) {
         extent: feature.properties.extent,
         lat: feature.geometry.coordinates[1],
         lon: feature.geometry.coordinates[0],
-      }
+      },
     }
 
   const className = classNames(

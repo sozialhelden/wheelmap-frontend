@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import MapLayout from '../components/App/MapLayout'
 import React, { ReactElement, useEffect } from 'react'
+import MapLayout from '../components/App/MapLayout'
 import { isFirstStart } from '../lib/util/savedState'
 import SearchButton from '../components/SearchPanel/SearchButton'
 import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'

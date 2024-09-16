@@ -19,7 +19,7 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
-import { SearchResultCollection } from "../../lib/fetchers/fetchPlacesOnKomootPhoton"
+import { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 
 export type Props = PlaceFilter & {
   className?: string;
@@ -39,7 +39,7 @@ export type Props = PlaceFilter & {
   isSearching?: boolean;
   searchError?: string;
   minimalTopPosition?: number;
-};
+}
 
 export default function SearchPanel({
   className,
