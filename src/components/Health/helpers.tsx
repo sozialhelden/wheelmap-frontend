@@ -1,3 +1,4 @@
+import { T } from "@transifex/react";
 import { uniq } from "lodash";
 import colors from "../../lib/colors";
 import { StyledColors } from "./styles";
@@ -169,23 +170,23 @@ export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
     case "yes":
       return {
-        label: "Fully wheelchair accessible",
+        label: <T _str="Fully wheelchair accessible" />,
         color: StyledColors.green,
       };
     case "limited":
       return {
-        label: "Partially wheelchair accessible",
+        label: <T _str="Partially wheelchair accessible" />,
         color: StyledColors.orange,
       };
 
     case "no":
       return {
-        label: "Not wheelchair accessible",
+        label: <T _str="Not wheelchair accessible" />,
         color: StyledColors.red,
       };
     default:
       return {
-        label: "Wheelchair accessibility Unknown",
+        label: <T _str="Unknown wheelchair accessibility" />,
         color: colors.neutralColor,
       };
   }

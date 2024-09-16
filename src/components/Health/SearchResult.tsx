@@ -1,4 +1,3 @@
-import { T } from "@transifex/react";
 import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -139,7 +138,7 @@ function SearchResult({ data }: any) {
           <StyledHDivider $space={5} />
           {(route.query.wheelchair === "yes;limited" || route.query.wheelchair === undefined) && (
             <div style={{ color: getWheelchairSettings(wheelchair).color, display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 500 }}>
-              <T _str={getWheelchairSettings(wheelchair).label} />
+              {getWheelchairSettings(wheelchair).label}
             </div>
           )}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
