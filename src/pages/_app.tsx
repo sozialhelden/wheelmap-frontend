@@ -106,7 +106,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
-    <>
+    <React.StrictMode>
       <Head />
       <HotkeysProvider>
         <SessionProvider session={session}>
@@ -115,7 +115,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
           </SWRConfig>
         </SessionProvider>
       </HotkeysProvider>
-    </>
+    </React.StrictMode>
   )
 }
 
