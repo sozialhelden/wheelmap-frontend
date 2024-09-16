@@ -17,7 +17,7 @@ function SearchFilterDialog(props: any) {
           <T _str="Find accessible health sites" />
         </a>
         <StyledClaim>
-          <T _str="- easily and everywhere." />
+          <T _str="- easily and everywhere." /> <em style={{ float: 'right', fontWeight: 200 }}><T _str="Beta version" /></em>
         </StyledClaim>
       </StyledH1>
       <FilterInputs />
