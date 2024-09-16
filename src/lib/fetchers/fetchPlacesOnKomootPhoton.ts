@@ -32,8 +32,8 @@ export type SearchResultCollection = {
 
 export default async function fetchPlacesOnKomootPhoton({ query, additionalQueryParameters = {} }: {
   query: string,
-  additionalQueryParameters: Record<string, string | string[]> | {},
-}): Promise<SearchResultCollection> {
+  additionalQueryParameters: Record<string, string | string[] | undefined> | {},
+}): Promise<SearchResultCollection | undefined> {
   if (query.length <= 0) {
     return undefined
   }
@@ -45,11 +45,16 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
     ['limit', '30'],
     ...Object.entries(additionalQueryParameters)
       .flatMap(
-        ([key, stringOrStringArray]) => (
-          typeof stringOrStringArray === 'string'
-            ? [[key, stringOrStringArray]]
-            : stringOrStringArray.map((value) => [key, value])
-        ),
+        ([key, stringOrStringArray]) => {
+          if (stringOrStringArray === undefined) {
+            return []
+          }
+          return (
+            typeof stringOrStringArray === "string"
+              ? [[key, stringOrStringArray]]
+              : stringOrStringArray.map((value) => [key, value])
+          )
+        },
       ),
   ])
 

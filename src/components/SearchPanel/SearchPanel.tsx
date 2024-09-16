@@ -7,7 +7,6 @@ import SearchIcon from './SearchIcon'
 import SearchInputField from './SearchInputField'
 import SearchResults from './SearchResults'
 
-import { SearchResultCollection } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import {
   isAccessibilityFiltered,
@@ -20,6 +19,7 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
+import { SearchResultCollection } from "../../lib/fetchers/fetchPlacesOnKomootPhoton"
 
 export type Props = PlaceFilter & {
   className?: string;
@@ -92,6 +92,7 @@ export default function SearchPanel({
       onChange={onChangeSearchQuery}
       onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
         blur()
+        console.log('onSubmit', event.currentTarget.value)
         onSubmit?.(event.currentTarget.value)
       }}
       ariaRole="searchbox"

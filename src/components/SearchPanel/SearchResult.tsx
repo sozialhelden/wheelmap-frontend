@@ -2,7 +2,6 @@ import classNames from 'classnames'
 import { t } from 'ttag'
 
 import styled from 'styled-components'
-import { SearchResultFeature } from '../../lib/fetchers/fetchPlaceSearchResults'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
 import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
@@ -13,10 +12,11 @@ import Address from '../NodeToolbar/Address'
 import Icon from '../shared/Icon'
 import { PlaceNameHeader } from '../shared/PlaceName'
 import { AppStateLink } from '../App/AppStateLink'
+import { KomootPhotonResultFeature } from "../../lib/fetchers/fetchPlacesOnKomootPhoton"
 
 type Props = {
   className?: string;
-  feature: SearchResultFeature;
+  feature: KomootPhotonResultFeature;
   categories: CategoryLookupTables;
   hidden: boolean;
 };
@@ -129,11 +129,24 @@ export default function SearchResult(props: Props) {
     N: 'node',
     W: 'way',
     R: 'relation',
-  }[feature.properties.osm_type]
+  }[feature.properties.osm_type || 'N']
 
   const href = feature.properties.osm_key === 'place'
-    ? `/?extent=${feature.properties.extent}`
-    : `/${osmType}/${feature.properties.osm_id}`
+    ? {
+      query: {
+        extent: feature.properties.extent,
+        lat: feature.geometry.coordinates[1],
+        lon: feature.geometry.coordinates[0],
+      } }
+    : {
+      pathname: `/${osmType}/${feature.properties.osm_id}`,
+      query: {
+        q: null,
+        extent: feature.properties.extent,
+        lat: feature.geometry.coordinates[1],
+        lon: feature.geometry.coordinates[0],
+      }
+    }
 
   const className = classNames(
     props.className,

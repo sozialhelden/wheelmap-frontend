@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import { ReactElement, useCallback, useContext } from 'react'
+import { ReactElement, useCallback } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
 import MapLayout from '../../components/App/MapLayout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
-import { AppContext } from '../../lib/context/AppContext'
+import { useCurrentApp } from '../../lib/context/AppContext'
 
 import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
 import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
@@ -67,7 +67,7 @@ export default function Page() {
     })
   }, [router])
 
-  const { clientSideConfiguration } = useContext(AppContext)
+  const { clientSideConfiguration } = useCurrentApp()
 
   let searchTitle
   if (searchQuery) {
@@ -75,15 +75,25 @@ export default function Page() {
     searchTitle = t`Search results`
   }
 
-  // TODO use user position for search, not just map center
   const {
     data: searchResults,
-    isValidating: isSearching,
+    isLoading,
+    isValidating,
     error: searchError,
   } = useSWR(
-    [searchQuery?.trim(), lat, lon],
+    {
+      query: searchQuery?.trim(),
+      // additionalQueryParameters: {
+      //   lat: typeof lat === 'number' ? String(lat) : undefined,
+      //   lon:  typeof lat === 'number' ? String(lon) : undefined
+      // }
+    },
     fetchPlacesOnKomootPhoton,
-    { isPaused: () => !searchQuery || searchQuery.trim().length < 2 })
+    { isPaused: () => !searchQuery || searchQuery.trim().length < 2, keepPreviousData: false },
+  )
+
+  const searchPaused = !searchQuery || searchQuery.trim().length < 2
+  const isSearching = (isLoading || isValidating) && !searchPaused
 
   function toTypeTaggedSearchResults(
     col: SearchResultCollection,

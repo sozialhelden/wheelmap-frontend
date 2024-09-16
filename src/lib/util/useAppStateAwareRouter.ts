@@ -25,32 +25,28 @@ function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSea
 
   const merged : AppStateSearchParams = structuredClone(updated)
 
-  const hasExtent = updated.extent !== undefined
-  const hasLatLon = updated.lat !== undefined && updated.lon !== undefined
 
-  const shouldPreserveLatLon = !hasExtent && previous.lat !== undefined && previous.lon !== undefined
-  const shouldPreserveExtent = !hasLatLon && previous.extent !== undefined
 
-  if (hasExtent) {
-    merged.extent = updated.extent
-    delete merged.lat
-    delete merged.lon
-    delete merged.zoom
-  } else if (shouldPreserveLatLon) {
-    merged.lat = previous.lat
-    merged.lon = previous.lon
-    merged.zoom = previous.zoom
-    delete merged.extent
-  } else if (shouldPreserveExtent) {
+  const shouldPreserveExtent = previous.extent !== undefined && updated.extent === undefined
+
+  if (shouldPreserveExtent) {
     merged.extent = previous.extent
-    delete merged.lat
-    delete merged.lon
-    delete merged.zoom
   }
 
-  const shouldPreserveSearch = updated.searchQuery === undefined && previous.searchQuery !== undefined
+  const shouldPreserveLatLon = previous.lat !== undefined && previous.lon !== undefined && updated.lat === undefined && updated.lon === undefined
+  if (shouldPreserveLatLon) {
+    merged.lat = previous.lat
+    merged.lon = previous.lon
+  }
+
+  const shouldPreserveZoom = previous.zoom !== undefined && updated.zoom === undefined
+  if (shouldPreserveZoom) {
+    merged.zoom = previous.zoom
+  }
+
+  const shouldPreserveSearch = updated.q === undefined && previous.q !== undefined
   if (shouldPreserveSearch) {
-    merged.searchQuery = previous.searchQuery
+    merged.q = previous.q
   }
 
   const shouldPreserveCategory = updated.category === undefined && previous.category !== undefined

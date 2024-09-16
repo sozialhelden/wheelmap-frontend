@@ -1,8 +1,8 @@
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import * as React from 'react'
 import {
-  KeyboardEvent, forwardRef, useState, useMemo,
-} from 'react'
+  KeyboardEvent, forwardRef, useState, useMemo, useEffect
+} from "react"
 import styled from 'styled-components'
 import { t } from 'ttag'
 
@@ -80,15 +80,25 @@ const SearchInputField = forwardRef(
 
     const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
       /* Enter */
-      if (event.key === '13' && onSubmit && typeof onSubmit === 'function') {
+      const isEnter = event.key === 'Enter' || event.key === 'NumpadEnter'
+      if (isEnter && onSubmit && typeof onSubmit === 'function') {
         event.preventDefault()
         onSubmit(event)
       }
     }
 
+    const onSearchQueryChangeRef = React.useRef(onChange)
+    useEffect(() => {
+      onSearchQueryChangeRef.current = onChange
+    }, [onChange])
+
     const debouncedInternalOnChange = useMemo(
-      () => (onChange ? _.debounce(onChange, DEBOUNCE_THRESHOLD_MS) : onChange),
-      [onChange],
+      () => {
+        return debounce((evt) => {
+          return onSearchQueryChangeRef.current?.(evt)
+        }, DEBOUNCE_THRESHOLD_MS)
+      },
+      [],
     )
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
