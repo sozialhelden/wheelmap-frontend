@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { ReactElement, useCallback } from 'react'
+import { ReactElement, useCallback, useMemo } from "react"
 import useSWR from 'swr'
 import { t } from 'ttag'
 import MapLayout from '../../components/App/MapLayout'
@@ -18,6 +18,20 @@ import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fet
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+
+function toTypeTaggedSearchResults(
+  col: SearchResultCollection,
+): AnyFeatureCollection {
+  // returns the col.features array with the type tag added to each feature
+  return {
+    features: col.features.map(
+      (feature: SearchResultFeature | AnyFeature) => ({
+        '@type': 'komoot:SearchResult',
+        ...feature,
+      } as TypeTaggedSearchResultFeature),
+    ),
+  }
+}
 
 export default function Page() {
   const router = useAppStateAwareRouter()
@@ -75,39 +89,30 @@ export default function Page() {
     searchTitle = t`Search results`
   }
 
+  const queryData = useMemo(() => {
+    return {
+      query: searchQuery?.trim(),
+      // additionalQueryParameters: {
+      //   lat: typeof lat === 'number' ? String(lat) : undefined,
+      //   lon:  typeof lat === 'number' ? String(lon) : undefined
+      // }
+    }
+  }, [searchQuery, lat, lon])
+
   const {
     data: searchResults,
     isLoading,
     isValidating,
     error: searchError,
   } = useSWR(
-    {
-      query: searchQuery?.trim(),
-      // additionalQueryParameters: {
-      //   lat: typeof lat === 'number' ? String(lat) : undefined,
-      //   lon:  typeof lat === 'number' ? String(lon) : undefined
-      // }
-    },
+    queryData,
     fetchPlacesOnKomootPhoton,
-    { isPaused: () => !searchQuery || searchQuery.trim().length < 2, keepPreviousData: false },
+    {
+      keepPreviousData: false
+    }
   )
 
-  const searchPaused = !searchQuery || searchQuery.trim().length < 2
-  const isSearching = (isLoading || isValidating) && !searchPaused
-
-  function toTypeTaggedSearchResults(
-    col: SearchResultCollection,
-  ): AnyFeatureCollection {
-    // returns the col.features array with the type tag added to each feature
-    return {
-      features: col.features.map(
-        (feature: SearchResultFeature | AnyFeature) => ({
-          '@type': 'komoot:SearchResult',
-          ...feature,
-        } as TypeTaggedSearchResultFeature),
-      ),
-    }
-  }
+  const isSearching = (isLoading || isValidating)
 
   return (
     <>

@@ -34,7 +34,7 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
   query: string,
   additionalQueryParameters: Record<string, string | string[] | undefined> | {},
 }): Promise<SearchResultCollection | undefined> {
-  if (query.length <= 0) {
+  if (!query || query.trim().length <= 0) {
     return undefined
   }
   const languageCode = window.navigator.language.slice(0, 2)
