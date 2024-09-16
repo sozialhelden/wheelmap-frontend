@@ -50,6 +50,7 @@ const globalSWRConfig: SWRConfiguration<unknown, ResourceError> = {
   onError: (error, key) => {
     const toastId = key
     if (error) {
+      console.error('SWR error', error)
       const errorElement = <ErrorMessage error={error} />
       toast.error(errorElement, {
         toastId,
