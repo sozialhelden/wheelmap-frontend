@@ -9,6 +9,9 @@
     "@stylistic/eslint-plugin-js",
     "jsx-a11y"
   ],
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
   "rules": {
     "import/prefer-default-export": "off",
     "import/extensions": "off",
@@ -64,7 +67,7 @@
       "error",
       "never"
     ],
-    "@stylistic/ts/semi": [
+    "@typescript-eslint/semi": [
       "error",
       "never"
     ],
