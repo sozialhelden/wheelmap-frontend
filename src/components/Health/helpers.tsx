@@ -73,7 +73,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
     const tString = {
       ...(name && { "t[name]": name }),
       "t[healthcare]": healthcare || "*",
-      ...(healthcareSpeciality && { "t[healthcare:speciality]": healthcareSpeciality }),
+      ...(healthcareSpeciality && { "t[healthcare:speciality]": `~${healthcareSpeciality}` }),
       ...(blindDescription && { "t[blind:description]": "*" }),
       ...(deafDescription && { "t[deaf:description]": "*" }),
       ...(hasToiletInfo && { "t[toilets:wheelchair]": "yes" }),
