@@ -160,6 +160,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
     } else {
       map?.flyTo({
         center: [geometry.coordinates[0], geometry.coordinates[1]],
+        zoom: 20,
       })
     }
 

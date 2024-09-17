@@ -141,9 +141,9 @@ export default function MapView(props: IProps) {
       return
     }
     const { latitude, longitude, zoom } = uriFriendlyPosition({
-      latitude: evt.lngLat.lat,
-      longitude: evt.lngLat.lng,
-      zoom: initialViewport.zoom,
+      latitude: evt.target.getCenter().lat,
+      longitude: evt.target.getCenter().lng,
+      zoom: evt.target.getZoom(),
     })
 
     if (features.length === 1) {
