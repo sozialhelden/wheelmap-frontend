@@ -327,7 +327,7 @@ export const StyledBadge = styled.span`
 
 export const StyledClaim = styled.div`
   font-size: 0.8em;
-  opacity: 0.6;
+  opacity: 0.7;
 `;
 
 export const StyledWheelchairFilter = styled.div`
