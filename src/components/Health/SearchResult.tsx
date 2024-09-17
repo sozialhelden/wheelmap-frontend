@@ -12,6 +12,7 @@ import { formatDistance } from "../../lib/model/formatDistance";
 import { generateMapsUrl } from "../../lib/model/generateMapsUrls";
 import { ExternalLinkIcon } from "../icons/ui-elements";
 import CombinedIcon from "../shared/CombinedIcon";
+import StyledMarkdown from "../shared/StyledMarkdown";
 import { getWheelchairSettings } from "./helpers";
 import { StyledAccessibleToiletIcon, StyledButtonAsLink, StyledH2, StyledHDivider, StyledListItem, StyledUL } from "./styles";
 
@@ -143,13 +144,23 @@ function SearchResult({ data }: any) {
               {getWheelchairSettings(wheelchair).label}
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 300 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", opacity: 0.9, fontWeight: 400 }}>
             <StyledUL $showBullets>
-              {wheelchairDescription && <li>{wheelchairDescription}</li>}
-              {blindDescription && <li>{blindDescription}</li>}
-              {showDescriptionByLanguage.blind && <li>{showDescriptionByLanguage.blind}</li>}
-              {deafDescription && <li>{deafDescription}</li>}
-              {showDescriptionByLanguage.deaf && <li>{showDescriptionByLanguage.deaf}</li>}
+              {wheelchairDescription && <li>
+                <StyledMarkdown>{wheelchairDescription}</StyledMarkdown>
+              </li>}
+              {blindDescription && <li>
+                <StyledMarkdown>{blindDescription}</StyledMarkdown>
+              </li>}
+              {showDescriptionByLanguage.blind && <li>
+                <StyledMarkdown>{showDescriptionByLanguage.blind}</StyledMarkdown>
+              </li>}
+              {deafDescription && <li>
+                <StyledMarkdown>{deafDescription}</StyledMarkdown>
+              </li>}
+              {showDescriptionByLanguage.deaf && <li>
+                <StyledMarkdown>{showDescriptionByLanguage.deaf}</StyledMarkdown>
+              </li>}
             </StyledUL>
           </div>
         </div>
