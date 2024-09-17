@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import SearchButton from './SearchButton'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import SearchPanel from './SearchPanel'
-import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
 const SearchContainer = styled.div`
     position: absolute;
@@ -35,12 +34,6 @@ export const SearchButtonOrInput = () => {
     return null
   }
 
-  // TODO: Load this correctly via SWR
-  const categories: CategoryLookupTables = {
-    synonymCache: undefined,
-    categories: [],
-  }
-
   return (
     <SearchContainer>
       <SearchButton className="search-button" accessibilityFilter={accessibilityFilter} toiletFilter={toiletFilter} category={category} />
@@ -53,7 +46,6 @@ export const SearchButtonOrInput = () => {
         accessibilityFilter={accessibilityFilter}
         toiletFilter={toiletFilter}
         category={category}
-        categories={categories}
       />
     </SearchContainer>
   )

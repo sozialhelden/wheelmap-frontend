@@ -7,11 +7,9 @@ import SearchIcon from './SearchIcon'
 import SearchInputField from './SearchInputField'
 import SearchResults from './SearchResults'
 
-import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import {
   isAccessibilityFiltered,
 } from '../../lib/model/ac/filterAccessibility'
-import { AnyFeatureCollection } from '../../lib/model/geo/AnyFeature'
 import Spinner from '../ActivityIndicator/Spinner'
 import CloseLink from '../shared/CloseLink'
 import ErrorBoundary from '../shared/ErrorBoundary'
@@ -19,12 +17,10 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
-import { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { EnrichedSearchResult } from './useEnrichedSearchResults'
 
 export type Props = PlaceFilter & {
   className?: string;
-  categories: CategoryLookupTables;
   hidden?: boolean;
   inert?: boolean;
   category?: null | string;
@@ -32,7 +28,6 @@ export type Props = PlaceFilter & {
   searchQuery?: null | string;
   onChangeSearchQuery?: (newSearchQuery: string) => void;
   onSubmit?: (searchQuery: string) => void;
-  onAccessibilityFilterButtonClick?: (filter: PlaceFilter) => void;
   onClose?: () => void | null;
   onClick?: () => void;
   isExpanded?: boolean;
@@ -44,7 +39,6 @@ export type Props = PlaceFilter & {
 
 export default function SearchPanel({
   className,
-  categories,
   hidden,
   inert,
   category,
@@ -87,7 +81,7 @@ export default function SearchPanel({
         window.scrollTo(0, 0)
         onClick?.()
       }}
-      onFocus={(event) => {
+      onFocus={() => {
         window.scrollTo(0, 0)
       }}
       onChange={onChangeSearchQuery}
@@ -126,7 +120,7 @@ export default function SearchPanel({
     />
   )
 
-  let contentBelowSearchField: React.ReactElement | null = null
+  let contentBelowSearchField: React.ReactElement | null
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
@@ -142,7 +136,6 @@ export default function SearchPanel({
         <SearchResults
           searchResults={searchResults}
           hidden={hidden}
-          categories={categories}
           error={searchError}
         />
       </div>

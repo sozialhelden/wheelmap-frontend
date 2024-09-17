@@ -9,7 +9,6 @@ import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
 import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
 
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
-import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
 
@@ -21,12 +20,6 @@ export default function Page() {
     category, q: searchQuery, lat, lon,
   } = router.searchParams
 
-  // TODO: Load this correctly via SWR
-  const categories: CategoryLookupTables = {
-    synonymCache: undefined,
-    categories: [],
-  }
-
   const handleSearchQueryChange = useCallback(
     (newSearchQuery: string | undefined) => {
       router.replace({
@@ -35,18 +28,6 @@ export default function Page() {
           category: null,
           toilet: null,
           wheelchair: null,
-        },
-      })
-    },
-    [router],
-  )
-
-  const handlePlaceFilterChange = useCallback(
-    (newPlaceFilter) => {
-      router.replace({
-        query: {
-          wheelchair: newPlaceFilter.accessibility,
-          toilet: newPlaceFilter.toilet,
         },
       })
     },
@@ -85,13 +66,11 @@ export default function Page() {
         isExpanded
         accessibilityFilter={accessibilityFilter}
         toiletFilter={toiletFilter}
-        categories={categories}
         hidden={false}
         inert={false}
         category={category}
         onChangeSearchQuery={handleSearchQueryChange}
         onSubmit={handleSearchQueryChange}
-        onAccessibilityFilterButtonClick={handlePlaceFilterChange}
         minimalTopPosition={60}
         searchQuery={searchQuery}
         searchError={searchError}

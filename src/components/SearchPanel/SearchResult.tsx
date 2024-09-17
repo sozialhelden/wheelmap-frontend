@@ -88,14 +88,56 @@ const StyledListItem = styled.li`
     &.osm-category-place-state,
     &.osm-category-place-country,
     &.osm-category-boundary-administrative {
-        h1 {
+        header {
             font-weight: 600;
         }
     }
 `
 
+function mapResultToUrlObject(result: EnrichedSearchResult) {
+  const { properties, geometry } = result.komootPhotonResult
+
+  if (result.placeInfo) {
+    return {
+      pathname: `/nodes/${result.placeInfo.properties._id}`,
+      query: {
+        q: null,
+        extent: properties.extent,
+        lat: geometry.coordinates[1],
+        lon: geometry.coordinates[0],
+      },
+    }
+  }
+
+  if (properties.osm_key === 'place') {
+    return {
+      query: {
+        extent: properties.extent,
+        lat: geometry.coordinates[1],
+        lon: geometry.coordinates[0],
+      },
+    }
+  }
+
+  const osmType = {
+    N: 'node',
+    W: 'way',
+    R: 'relation',
+  }[properties.osm_type || 'N']
+
+  return {
+    pathname: `/amenities/${osmType}:${properties.osm_id}`,
+    query: {
+      q: null,
+      extent: properties.extent,
+      lat: geometry.coordinates[1],
+      lon: geometry.coordinates[0],
+    },
+  }
+}
+
 export default function SearchResult({ feature, className, hidden }: Props) {
-  const { properties, geometry } = feature.komootPhotonResult
+  const { properties } = feature.komootPhotonResult
 
   // translator: Place name shown in search results for places with unknown name / category.
   const placeName = properties ? properties.name : t`Unnamed`
@@ -116,29 +158,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
   const detailedFeature = (feature.placeInfo || feature.osmFeature) as AnyFeature | null
   const accessibility = detailedFeature && isWheelchairAccessible(detailedFeature)
 
-  const osmType = {
-    N: 'node',
-    W: 'way',
-    R: 'relation',
-  }[properties.osm_type || 'N']
-
-  const href = properties.osm_key === 'place'
-    ? {
-      query: {
-        extent: properties.extent,
-        lat: geometry.coordinates[1],
-        lon: geometry.coordinates[0],
-      },
-    }
-    : {
-      pathname: `/amenities/${osmType}:${properties.osm_id}`,
-      query: {
-        q: null,
-        extent: properties.extent,
-        lat: geometry.coordinates[1],
-        lon: geometry.coordinates[0],
-      },
-    }
+  const href = mapResultToUrlObject(feature)
 
   const classNames = cx(
     className,
