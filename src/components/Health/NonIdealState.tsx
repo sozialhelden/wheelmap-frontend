@@ -16,13 +16,13 @@ const Section = styled.section`
 `;
 
 
-export default function NonIdealState(props: Props) {
+export default function NonIdealState({ locationName }: Props) {
   const t = useT();
 
   const emoji = '🤔'
   const title = t("There’s nothing here yet. Why?");
   const ctaSummary = t("There is still **too little open data** on health for blind and deaf people – **but that can change!**");
-  const ctaInstructions = t("Are you familiar with OpenStreetMap, Wikipedia, or OpenData? Then [go to OpenStreetMap](https://www.openstreetmap.org/search?query={locationName}) and **add the following tags** on places:").replace('{locationName}', props.regionName || '');
+  const ctaInstructions = t("Are you familiar with OpenStreetMap, Wikipedia, or OpenData? Then [go to OpenStreetMap](https://www.openstreetmap.org/search?query={locationName}) and **add the following tags** on places:", { locationName });
   const languageTags = useCurrentLanguageTagStrings();
   const osmLanguageTag = languageTags[0]?.match(/^[a-z]+/)?.[0] || 'en';
   const tags = `
