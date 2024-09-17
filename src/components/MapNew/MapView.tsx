@@ -200,7 +200,7 @@ export default function MapView(props: IProps) {
       const dataUrl = `data:image/svg+xml;base64,${btoa(svg)}`
       const customIcon = new Image(30, 30)
       customIcon.onload = () => {
-        log.debug('adding icon', `${iconName}-15-white`)
+        // log.debug('adding icon', `${iconName}-15-white`)
         mapInstance.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
       }
       customIcon.onerror = () => {

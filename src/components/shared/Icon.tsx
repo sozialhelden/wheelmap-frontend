@@ -7,7 +7,7 @@ import * as mainCategoryIcons from '../icons/mainCategories'
 import * as markers from '../icons/markers'
 import { log } from '../../lib/util/logger'
 
-type Size = 'big' | 'medium' | 'small';
+type Size = 'big' | 'medium' | 'small'
 
 type Props = {
   accessibility?: YesNoLimitedUnknown | null;
@@ -23,7 +23,7 @@ type Props = {
   backgroundColor?: string | null;
   children?: React.ReactNode | null;
   onClick?: () => void;
-};
+}
 
 function width(size: Size) {
   return {
@@ -68,7 +68,7 @@ export const StyledIconContainer = styled(Figure)`
     color: ${(props) => (props.accessibility
     ? colors.markers.foreground[props.accessibility]
     : props.foregroundColor || '#496394')};
-  }
+  } 
 
   > small {
     position: absolute;

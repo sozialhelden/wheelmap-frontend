@@ -16,7 +16,6 @@ const StyledSearchInputField = styled.input`
     padding: 0px 0 0 2.5em;
     border: none;
     border-radius: 0;
-    background-color: transparent;
     margin: 0;
     cursor: pointer;
 

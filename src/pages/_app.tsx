@@ -29,6 +29,7 @@ import { patchFetcher } from '../lib/util/patchClientFetch'
 import { ErrorMessage } from '../components/SWRError/ErrorMessage'
 import { addToEnvironment, getEnvironment } from '../lib/util/globalEnvironment'
 import { log } from '../lib/util/logger'
+import { useDarkMode } from '../components/shared/useDarkMode'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -106,6 +107,8 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  useDarkMode()
 
   return (
     <React.StrictMode>
