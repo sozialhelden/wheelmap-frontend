@@ -18,7 +18,7 @@ import {
 // import FeatureListPopup from "../feature/FeatureListPopup";
 import { useHotkeys } from '@blueprintjs/core'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
-import _, { uniq } from 'lodash'
+import { uniq } from 'lodash'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { createGlobalStyle } from 'styled-components'
 import { t } from 'ttag'
@@ -67,15 +67,15 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `
 
-
-
 export default function MapView(props: IProps) {
   const router = useRouter()
   const featureIds = getFeatureIdsFromLocation(router.pathname)
-  
+
   const { width, height } = props
   const { query } = router
-  const { setMapRef, initialViewport, onViewportUpdate, map } = useMapViewInternals(query)
+  const {
+    setMapRef, initialViewport, onViewportUpdate, map,
+  } = useMapViewInternals(query)
 
   // Reset viewport when map size changes
   useLayoutEffect(() => {
@@ -108,12 +108,13 @@ export default function MapView(props: IProps) {
   //   return generateUnclusteredPointLabelLayer(lastImportType, languageTagsStrings, props.featureId);
   // }, [lastImportType, props.featureId]);
 
-  const updateViewportQuery = useCallback(({ longitude: lon, latitude: lat, zoom: z }: { longitude: number, latitude: number, zoom: number}) => {
-    const newQuery = { ...query};
+  const updateViewportQuery = useCallback(({ longitude: lon, latitude: lat, zoom: z }:
+  { longitude: number, latitude: number, zoom: number }) => {
+    const newQuery = { ...query }
     const { zoom, latitude, longitude } = uriFriendlyPosition({
       latitude: lat,
       longitude: lon,
-      zoom: z
+      zoom: z,
     })
     newQuery.zoom = zoom
     if (featureIds.length === 0) {
@@ -121,46 +122,48 @@ export default function MapView(props: IProps) {
       newQuery.lon = longitude
     }
     // update the initial viewport (and the local storage)
-    onViewportUpdate({ ...initialViewport, latitude: lat, longitude: lon, zoom: z })
+    onViewportUpdate({
+      ...initialViewport, latitude: lat, longitude: lon, zoom: z,
+    })
     router.replace({ query: newQuery })
-  }, [query, featureIds, onViewportUpdate, router])
+  }, [query, featureIds, onViewportUpdate, router, initialViewport])
 
   const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
-    updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom });
+    updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom })
   }, [updateViewportQuery])
 
   const onMouseClick = useCallback((evt: MapLayerMouseEvent | MapLayerTouchEvent) => {
-    const features = evt.features ?? [];
-    if(features.length <= 0) {
+    const features = evt.features ?? []
+    if (features.length <= 0) {
       updateViewportQuery({
-        latitude: evt.lngLat.lat, longitude: evt.lngLat.lng, zoom: initialViewport.zoom
+        latitude: evt.lngLat.lat, longitude: evt.lngLat.lng, zoom: initialViewport.zoom,
       })
-      return;
+      return
     }
-    const { latitude, longitude, zoom} = uriFriendlyPosition({
+    const { latitude, longitude, zoom } = uriFriendlyPosition({
       latitude: evt.lngLat.lat,
       longitude: evt.lngLat.lng,
-      zoom: initialViewport.zoom
-    }) 
+      zoom: initialViewport.zoom,
+    })
 
     if (features.length === 1) {
       const feature = features[0]
       router.push(
-          `/${feature.source}/${feature.properties?.id?.replace('/', ':')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
-        )
+        `/${feature.source}/${feature.properties?.id?.replace('/', ':')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+      )
       return
     }
     router.push(
       `/composite/${uniq(features.map((f) => [f.source, f.properties?.id?.replace('/', ':')].join(':')))
         .join(',')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
     )
-  }, [router, updateViewportQuery])
+  }, [router, updateViewportQuery, initialViewport.zoom])
 
   const onLoadCallback = useCallback(() => {
     const mapInstance = map?.getMap?.()
-    if(!mapInstance) {
-      log.warn("Expected a map instance but got nothing");
-      return;
+    if (!mapInstance) {
+      log.warn('Expected a map instance but got nothing')
+      return
     }
     Object.keys(categoryIcons).forEach((iconName) => {
       const CategoryIconComponent = categoryIcons[iconName]
@@ -170,8 +173,8 @@ export default function MapView(props: IProps) {
         root.render(<CategoryIconComponent />)
       })
       const svgElement = div.querySelector('svg')
-      if(!svgElement) {
-        throw new Error("Expected an SVG element, but node creation apparently failed");
+      if (!svgElement) {
+        throw new Error('Expected an SVG element, but node creation apparently failed')
       }
       svgElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg')
       const graphicalElements = svgElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
@@ -239,15 +242,13 @@ export default function MapView(props: IProps) {
     () => mapStyle.data?.layers && filterLayers({
       layers: mapStyle.data?.layers, hasBuildings, hasPublicTransport, hasSurfaces,
     }),
-    [mapStyle, hasBuildings, hasPublicTransport],
+    [mapStyle, hasBuildings, hasPublicTransport, hasSurfaces],
   )
 
   const {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
     NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
   } = useEnvContext()
-
-
 
   return (
     <>
