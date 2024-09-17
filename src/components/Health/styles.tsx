@@ -288,6 +288,10 @@ export const StyledLoadingLabel = styled.label`
 export const StyledUL = styled.ul<{ $showBullets?: boolean }>`
   padding-inline-start: 0;
   list-style-type: ${({ $showBullets }) => ($showBullets ? "circle" : "none")};
+
+  li:first-child {
+    margin-top: .5rem;
+  }
 `;
 
 export const StyledLoadingSpinner = styled.div`

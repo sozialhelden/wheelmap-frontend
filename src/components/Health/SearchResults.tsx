@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import EnvContext from "../shared/EnvContext";
+import NonIdealState from "./NonIdealState";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
 import { AmenityListResponse, calculateDistance, generateAmenityListURL, getGoodName } from "./helpers";
 import { FullSizeFlexContainer, HugeText, StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
-function NonIdealContent() {
+function CTAContent() {
   return (
     <div style={{ marginTop: "10rem", textAlign: "center" }}>
       <HugeText>
@@ -84,7 +85,7 @@ function SearchResults() {
 
   const [headText, setHeadText] = useState("Find health sites");
   const text = React.useMemo(() => {
-    if (data?.features?.length === 0) return <T _str={`No results found – please try again with a different location or different settings.`} />;
+    if (data?.features?.length === 0) return <NonIdealState regionName={String(route.query.city)} />;
   }, [data]);
 
   return (
@@ -93,7 +94,7 @@ function SearchResults() {
         <title key="title">{sortedFeatures ? headText : <T _str={`${headText} | Find health sites`} />}</title>
       </Head>
       {!isLoading && text && (
-        <StyledH2 style={{ textAlign: "center" }} $fontBold>
+        <StyledH2>
           {text}
         </StyledH2>
       )}
@@ -104,7 +105,7 @@ function SearchResults() {
       )}
       <StyledSectionsContainer>
         {sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}
-        {!sortedFeatures && !isLoading && <NonIdealContent />}
+        {!sortedFeatures && !isLoading && <CTAContent />}
       </StyledSectionsContainer>
     </StyledMainContainerColumn>
   );
