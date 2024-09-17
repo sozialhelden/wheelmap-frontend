@@ -17,6 +17,7 @@
     "@sozialhelden/ietf-language-tags": "^5.4.2",
     "@transifex/native": "^7.1.0",
     "@transifex/react": "^7.1.0",
+    "@turf/bbox": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@wdio/browserstack-service": "^6.10.10",

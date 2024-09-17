@@ -10,8 +10,7 @@ export type FilterOptions = {};
 export const defaultFilterOptions: FilterOptions = {};
 
 export const transferCityToBbox = (city: string) => {
-  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de&layer=city&layer=county&layer=country&layer=state&layer=district&layer=locality`;
-  return `${baseurl}`;
+  return `https://osm-api.wheelmap.tech/api/v1/admin.json?t[name]=${city}&t[place]=city&t[boundary]=administrative&bbox=5.98865807458,47.3024876979,15.0169958839,54.983104153`
 };
 
 export type QueryParameters = {

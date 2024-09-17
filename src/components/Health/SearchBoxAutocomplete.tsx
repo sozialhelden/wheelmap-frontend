@@ -1,4 +1,5 @@
 import { T } from "@transifex/react";
+import { bbox } from "@turf/bbox";
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
@@ -26,7 +27,7 @@ export function SearchBoxAutocomplete() {
           pathname: router.pathname,
           query: {
             city: item.properties.name,
-            bbox: item.properties.extent,
+            bbox: bbox(item.geometry),
           },
         },
         undefined,
