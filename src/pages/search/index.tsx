@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import { ReactElement, useCallback, useMemo } from 'react'
-import useSWR from 'swr'
+import { ReactElement, useCallback } from 'react'
 import { t } from 'ttag'
 import MapLayout from '../../components/App/MapLayout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
@@ -8,31 +7,11 @@ import { useCurrentApp } from '../../lib/context/AppContext'
 
 import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
 import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
-import {
-  AnyFeature,
-  AnyFeatureCollection,
-  TypeTaggedSearchResultFeature,
-} from '../../lib/model/geo/AnyFeature'
-import { SearchResultFeature } from '../../lib/fetchers/ac/refactor-this/fetchPlaceSearchResults'
-import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
-
-function toTypeTaggedSearchResults(
-  col: SearchResultCollection,
-): AnyFeatureCollection {
-  // returns the col.features array with the type tag added to each feature
-  return {
-    features: col.features.map(
-      (feature: SearchResultFeature | AnyFeature) => ({
-        '@type': 'komoot:SearchResult',
-        ...feature,
-      } as TypeTaggedSearchResultFeature),
-    ),
-  }
-}
 
 export default function Page() {
   const router = useAppStateAwareRouter()
@@ -84,7 +63,7 @@ export default function Page() {
 
   const { clientSideConfiguration } = useCurrentApp()
 
-  let searchTitle
+  let searchTitle = ''
   if (searchQuery) {
     // translator: Search results window title
     searchTitle = t`Search results`
@@ -116,11 +95,7 @@ export default function Page() {
         minimalTopPosition={60}
         searchQuery={searchQuery}
         searchError={searchError}
-        searchResults={
-          searchResults
-            ? toTypeTaggedSearchResults(searchResults)
-            : searchResults
-        }
+        searchResults={searchResults}
         isSearching={isSearching}
       />
     </>

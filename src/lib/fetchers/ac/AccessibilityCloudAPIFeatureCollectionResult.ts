@@ -1,3 +1,12 @@
-import { Geometry, FeatureCollection } from "geojson";
+import { GeoJsonObject } from 'geojson'
 
-export type AccessibilityCloudAPIFeatureCollectionResult<G extends Geometry | null, D> = FeatureCollection<G, D>;
+type ExtraAPIResultFields = {
+  related: Record<string, Record<string, unknown>>;
+}
+
+export interface CustomFeatureCollection<F> extends GeoJsonObject {
+  type: 'FeatureCollection';
+  features: Array<F>;
+}
+
+export type AccessibilityCloudAPIFeatureCollectionResult<F> = CustomFeatureCollection<F> & ExtraAPIResultFields

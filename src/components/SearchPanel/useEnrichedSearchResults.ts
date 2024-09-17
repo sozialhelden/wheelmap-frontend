@@ -1,13 +1,19 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import fetchPlacesOnKomootPhoton, { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { PlaceInfo } from '@sozialhelden/a11yjson'
+import fetchPlacesOnKomootPhoton, {
+  KomootPhotonResultFeature,
+} from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
-import { AnyFeature } from "../../lib/model/geo/AnyFeature"
-import { PlaceInfo } from "@sozialhelden/a11yjson"
+import { AnyFeature, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
 
 const emptyArray: any[] = []
 
-export type EnrichedSearchResult = KomootPhotonResultFeature & {
+export type EnrichedSearchResult = {
+  '@type': 'wheelmap:EnrichedSearchResult',
+  komootPhotonResult: TypeTaggedSearchResultFeature
+  featureId?: string
   osmFeatureLoading: boolean
   osmFeature: AnyFeature | null
   placeInfoLoading: boolean
@@ -28,14 +34,27 @@ export function buildId(feature: KomootPhotonResultFeature) {
   return `amenities:${osmType}:${feature.properties.osm_id}`
 }
 
-export function useEnrichedSearchResults(searchQuery: string | undefined, lat: number | undefined, lon: number | undefined) {
-  const queryData = useMemo(() => ({
-    query: searchQuery?.trim(),
-    // additionalQueryParameters: {
-    //   lat: typeof lat === 'number' ? String(lat) : undefined,
-    //   lon:  typeof lat === 'number' ? String(lon) : undefined
-    // }
-  }), [searchQuery, lat, lon])
+export function buildOSMUri(feature: KomootPhotonResultFeature) {
+  const osmType = {
+    N: 'node',
+    W: 'way',
+    R: 'relation',
+  }[feature.properties.osm_type || 'N']
+  return `https://openstreetmap.org/${osmType}/${feature.properties.osm_id}`
+}
+
+export function useEnrichedSearchResults(searchQuery: string | undefined | null, lat?: number | null, lon?: number | null) {
+  const queryData = useMemo(
+    () => ({
+      query: searchQuery?.trim(),
+      additionalQueryParameters: {
+        lat: typeof lat === 'number' ? String(lat) : undefined,
+        lon: typeof lat === 'number' ? String(lon) : undefined,
+      },
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchQuery],
+  )
 
   const {
     data: searchResults,
@@ -49,26 +68,94 @@ export function useEnrichedSearchResults(searchQuery: string | undefined, lat: n
       keepPreviousData: false,
     },
   )
+  const isSearching = (isKomootPhotonLoading || isKomootPhotonValidating)
 
   const featureIds = searchResults?.features.map(buildId) || emptyArray
-  const { isLoading: isAcLoading, isValidating: isAcValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
+  const { isLoading: isOsmLoading, isValidating: isOsmValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
     featureIds.filter(Boolean),
     {
       errorRetryCount: 0,
+      keepPreviousData: false,
     },
   )
 
-  const isSearching = (isKomootPhotonLoading || isKomootPhotonValidating)
-  const isFetchingDetails = (isAcLoading || isAcValidating)
+  const isFetchingOsmDetails = (isOsmLoading || isOsmValidating)
 
-  // https://accessibility-cloud-v2.freetls.fastly.net/place-infos.json?appToken=27be4b5216aced82122d7cf8f69e4a07&includePlacesWithoutAccessibility=1&sameAs=https://openstreetmap.org/node/3864666405,https://openstreetmap.org/node/4351422254
+  const osmUris = searchResults?.features.map(buildOSMUri) || emptyArray
+  const { isLoading: isLoadingPlaceInfos, isValidating: isValidatingPlaceInfos, data: placeInfoResults } = useSameAsOSMIdPlaceInfos(
+    osmUris,
+    {
+      errorRetryCount: 0,
+      keepPreviousData: false,
+    },
+  )
 
-  // console.log('featureIds', { featureIds, osmFeatureResults })
+  const enrichedSearchResults = useMemo(() => {
+    if (!searchResults || !searchResults.features) {
+      return undefined
+    }
+
+    const extendedSearchResults = searchResults.features.map((feature) => ({
+      '@type': 'wheelmap:EnrichedSearchResult',
+      komootPhotonResult: {
+        '@type': 'komoot:SearchResult',
+        ...feature,
+      },
+      osmFeatureLoading: !!osmFeatureResults,
+      osmFeature: null,
+      placeInfoLoading: !!placeInfoResults,
+      placeInfo: null,
+    } as EnrichedSearchResult))
+
+    if (osmFeatureResults) {
+      let lastFoundIndex = -1
+
+      // merge searchResults with osmFeatureResults
+      for (const osmFeatureResult of osmFeatureResults) {
+        if (!osmFeatureResult || osmFeatureResult.status === 'rejected') {
+          continue
+        }
+        const osmFeature = osmFeatureResult.value
+        const featureId = `amenities:${osmFeature._id.replace('/', ':')}`
+        const index = featureIds.indexOf(featureId, lastFoundIndex + 1)
+        if (index !== -1) {
+          lastFoundIndex = index
+          extendedSearchResults[index].osmFeature = osmFeature
+          extendedSearchResults[index].featureId = featureId
+        }
+      }
+    }
+
+    if (placeInfoResults && placeInfoResults.features) {
+      // merge searchResults with placeInfoResults
+      for (const placeInfoResult of placeInfoResults.features) {
+        if (!placeInfoResult.properties.sameAs) {
+          continue
+        }
+
+        for (const uri of placeInfoResult.properties.sameAs) {
+          const index = osmUris.indexOf(uri)
+          if (index !== -1) {
+            extendedSearchResults[index].placeInfo = {
+              '@type': 'a11yjson:PlaceInfo',
+              ...placeInfoResult,
+            }
+            break
+          }
+        }
+      }
+    }
+
+    return extendedSearchResults
+  }, [searchResults, featureIds, osmFeatureResults, osmUris, placeInfoResults])
+
+  const isFetchingPlaceInfos = (isLoadingPlaceInfos || isValidatingPlaceInfos)
 
   return {
-    searchResults,
+    searchResults: enrichedSearchResults,
     isSearching,
     searchError,
-    isFetchingDetails,
+    isFetchingOsmDetails,
+    isFetchingPlaceInfos,
   }
 }

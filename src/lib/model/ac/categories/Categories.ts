@@ -3,7 +3,7 @@ import { AnyFeature } from '../../geo/AnyFeature'
 import { ACCategory } from './ACCategory'
 import { getRootCategoryTable } from './getRootCategoryTable'
 
-type SynonymCache = Map<string, ACCategory>;
+type SynonymCache = Map<string, ACCategory>
 
 export const unknownCategory: Readonly<ACCategory> = {
   _id: 'unknown',
@@ -18,7 +18,7 @@ export const unknownCategory: Readonly<ACCategory> = {
 export type CategoryLookupTables = {
   synonymCache: SynonymCache | undefined;
   categories: ACCategory[];
-};
+}
 
 export function getRootCategory(key: string) {
   return getRootCategoryTable()[key]
@@ -61,6 +61,7 @@ export function getCategoryForFeature(
   if (
     feature['@type'] === 'a11yjson:PlaceInfo'
     || feature['@type'] === 'a11yjson:EquipmentInfo'
+    || feature['@type'] === 'ac:PlaceInfo'
   ) {
     categoryId = feature.properties.category
   } else if (feature['@type'] === 'komoot:SearchResult') {

@@ -1,23 +1,22 @@
-import classNames from 'classnames'
 import { t } from 'ttag'
 
 import styled from 'styled-components'
-import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 
 import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
-import { TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import { AnyFeature } from '../../lib/model/geo/AnyFeature'
 import getAddressString from '../../lib/model/geo/getAddressString'
 import colors from '../../lib/util/colors'
 import Address from '../NodeToolbar/Address'
 import Icon from '../shared/Icon'
 import { PlaceNameHeader } from '../shared/PlaceName'
 import { AppStateLink } from '../App/AppStateLink'
-import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { EnrichedSearchResult } from './useEnrichedSearchResults'
+import { cx } from '../../lib/util/cx'
+import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
 
 type Props = {
   className?: string;
-  feature: KomootPhotonResultFeature;
-  categories: CategoryLookupTables;
+  feature: EnrichedSearchResult;
   hidden: boolean;
 }
 
@@ -95,10 +94,9 @@ const StyledListItem = styled.li`
     }
 `
 
-export default function SearchResult(props: Props) {
-  const { feature } = props
+export default function SearchResult({ feature, className, hidden }: Props) {
+  const { properties, geometry } = feature.komootPhotonResult
 
-  const properties = feature && feature.properties
   // translator: Place name shown in search results for places with unknown name / category.
   const placeName = properties ? properties.name : t`Unnamed`
   const address = properties
@@ -110,57 +108,49 @@ export default function SearchResult(props: Props) {
       city: properties.city,
     })
 
-  // TODO: Show category again
-  // const shownCategory = category || parentCategory;
-  // const shownCategoryId = shownCategory && getCategoryId(shownCategory);
-  // const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
-  // const accessibility =
-  //   wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
-
   const { category } = useCategory(
-    feature as TypeTaggedSearchResultFeature,
+    (feature.placeInfo || feature.osmFeature || feature.komootPhotonResult) as AnyFeature,
   )
-
-  let wheelmapFeatureProperties
   const shownCategoryId = category && category._id
-  let accessibility
+
+  const detailedFeature = (feature.placeInfo || feature.osmFeature) as AnyFeature | null
+  const accessibility = detailedFeature && isWheelchairAccessible(detailedFeature)
 
   const osmType = {
     N: 'node',
     W: 'way',
     R: 'relation',
-  }[feature.properties.osm_type || 'N']
+  }[properties.osm_type || 'N']
 
-  const href = feature.properties.osm_key === 'place'
+  const href = properties.osm_key === 'place'
     ? {
       query: {
-        extent: feature.properties.extent,
-        lat: feature.geometry.coordinates[1],
-        lon: feature.geometry.coordinates[0],
+        extent: properties.extent,
+        lat: geometry.coordinates[1],
+        lon: geometry.coordinates[0],
       },
     }
     : {
-      pathname: `/amenities/${osmType}:${feature.properties.osm_id}`,
+      pathname: `/amenities/${osmType}:${properties.osm_id}`,
       query: {
         q: null,
-        extent: feature.properties.extent,
-        lat: feature.geometry.coordinates[1],
-        lon: feature.geometry.coordinates[0],
+        extent: properties.extent,
+        lat: geometry.coordinates[1],
+        lon: geometry.coordinates[0],
       },
     }
 
-  const className = classNames(
-    props.className,
+  const classNames = cx(
+    className,
     'search-result',
-    // wheelmapFeatureProperties && 'is-on-wheelmap',
-    `osm-category-${feature.properties.osm_key || 'unknown'}-${feature
-      .properties.osm_value || 'unknown'}`,
+    feature.osmFeature && 'is-on-wheelmap',
+    `osm-category-${properties.osm_key || 'unknown'}-${properties.osm_value || 'unknown'}`,
   )
   return (
-    <StyledListItem className={className}>
-      <AppStateLink href={href} tabIndex={props.hidden ? -1 : 0}>
+    <StyledListItem className={classNames}>
+      <AppStateLink href={href} tabIndex={hidden ? -1 : 0}>
         <PlaceNameHeader
-          className={wheelmapFeatureProperties ? 'is-on-wheelmap' : undefined}
+          className={detailedFeature ? 'is-on-wheelmap' : undefined}
         >
           {shownCategoryId ? (
             <Icon

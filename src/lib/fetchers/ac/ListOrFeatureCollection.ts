@@ -1,13 +1,13 @@
-import { Geometry } from "geojson";
-import { AccessibilityCloudAPIFeatureCollectionResult } from "./AccessibilityCloudAPIFeatureCollectionResult";
-import { AccessibilityCloudAPIListResult } from "./AccessibilityCloudAPIListResult";
-import { CollectionResultType } from "./CollectionResultType";
+import { Geometry } from 'geojson'
+import { AccessibilityCloudAPIFeatureCollectionResult } from './AccessibilityCloudAPIFeatureCollectionResult'
+import { AccessibilityCloudAPIListResult } from './AccessibilityCloudAPIListResult'
+import { CollectionResultType } from './CollectionResultType'
 
 export type ListOrFeatureCollection<
   D,
   T extends CollectionResultType,
   G extends Geometry | null,
 > =
-  T extends CollectionResultType
+  T extends 'List'
     ? AccessibilityCloudAPIListResult<D>
-    : AccessibilityCloudAPIFeatureCollectionResult<G, D>;
+    : AccessibilityCloudAPIFeatureCollectionResult<G, D>

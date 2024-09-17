@@ -20,6 +20,7 @@ import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
 import { SearchResultCollection } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { EnrichedSearchResult } from './useEnrichedSearchResults'
 
 export type Props = PlaceFilter & {
   className?: string;
@@ -35,7 +36,7 @@ export type Props = PlaceFilter & {
   onClose?: () => void | null;
   onClick?: () => void;
   isExpanded?: boolean;
-  searchResults?: null | SearchResultCollection | AnyFeatureCollection;
+  searchResults?: null | EnrichedSearchResult[];
   isSearching?: boolean;
   searchError?: string;
   minimalTopPosition?: number;
