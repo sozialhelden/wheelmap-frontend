@@ -14,6 +14,7 @@ import GlobalStyle from './GlobalAppStyle'
 import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
+import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -62,21 +63,24 @@ export default function MapLayout({
       <HeadMetaTags />
       <GlobalStyle />
 
-      <MainMenu
-        onToggle={toggleMainMenu}
-        isOpen={isMenuOpen}
-        clientSideConfiguration={clientSideConfiguration}
-      />
+      <GlobalMapContextProvider>
 
-      <main
-        style={{ height: '100%' }}
-        ref={containerRef}
-      >
-        <LoadableMapView {...{ width, height }} />
-        <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-        <div style={{ zIndex: 2000 }}>{children}</div>
-        <StyledToastContainer position="bottom-center" stacked />
-      </main>
+        <MainMenu
+          onToggle={toggleMainMenu}
+          isOpen={isMenuOpen}
+          clientSideConfiguration={clientSideConfiguration}
+        />
+
+        <main
+          style={{ height: '100%' }}
+          ref={containerRef}
+        >
+          <LoadableMapView {...{ width, height }} />
+          <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+          <div style={{ zIndex: 2000 }}>{children}</div>
+          <StyledToastContainer position="bottom-center" stacked />
+        </main>
+      </GlobalMapContextProvider>
     </ErrorBoundary>
 
   )
