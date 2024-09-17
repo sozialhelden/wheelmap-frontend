@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import { PlaceInfo } from '@sozialhelden/a11yjson'
 import fetchPlacesOnKomootPhoton, {
   KomootPhotonResultFeature,
 } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
-import { AnyFeature, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import { AnyFeature, TypeTaggedPlaceInfo, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
 
 const emptyArray: any[] = []
@@ -17,7 +16,7 @@ export type EnrichedSearchResult = {
   osmFeatureLoading: boolean
   osmFeature: AnyFeature | null
   placeInfoLoading: boolean
-  placeInfo: PlaceInfo | null
+  placeInfo: TypeTaggedPlaceInfo | null
 }
 
 export function buildId(feature: KomootPhotonResultFeature) {
@@ -139,7 +138,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
             extendedSearchResults[index].placeInfo = {
               '@type': 'a11yjson:PlaceInfo',
               ...placeInfoResult,
-            }
+            } as TypeTaggedPlaceInfo
             break
           }
         }
