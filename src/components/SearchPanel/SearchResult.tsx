@@ -140,7 +140,7 @@ export default function SearchResult(props: Props) {
       },
     }
     : {
-      pathname: `/${osmType}/${feature.properties.osm_id}`,
+      pathname: `/amenities/${osmType}:${feature.properties.osm_id}`,
       query: {
         q: null,
         extent: feature.properties.extent,

@@ -18,17 +18,17 @@ export type KomootPhotonResultProperties = {
   housenumber?: string;
   street?: string;
   extent?: [number, number, number, number];
-};
+}
 
 export type KomootPhotonResultFeature = {
   geometry: Point;
   properties: KomootPhotonResultProperties;
-};
+}
 
 export type SearchResultCollection = {
   features: KomootPhotonResultFeature[],
   error?: any,
-};
+}
 
 export default async function fetchPlacesOnKomootPhoton({ query, additionalQueryParameters = {} }: {
   query: string,
@@ -50,7 +50,7 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
             return []
           }
           return (
-            typeof stringOrStringArray === "string"
+            typeof stringOrStringArray === 'string'
               ? [[key, stringOrStringArray]]
               : stringOrStringArray.map((value) => [key, value])
           )
@@ -64,17 +64,10 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
 
   const url = `https://photon.komoot.io/api?${queryParameters.toString()}`
 
-  // For now, no location bias anymore: It seems to sort irrelevant results to the top
-  // so you are not able to find New York anymore when entering 'New York', for example
-  // let locationBiasedUrl = url;
-  // if (typeof lat === 'number' && typeof lon === 'number') {
-  //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
-  // }
-
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error(t`Could not load search results.`)
   }
 
-  return response.json() as unknown as SearchResultCollection
+  return await response.json() as SearchResultCollection
 }

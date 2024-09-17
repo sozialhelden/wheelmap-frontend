@@ -8,6 +8,17 @@ export async function fetchOneOSMFeature([
   prefixedId,
 ]: [string, string | undefined]): Promise<OSMFeature | undefined> {
   const [collectionName, osmType, id] = prefixedId?.split(':') ?? []
+
+  if (!collectionName) {
+    throw new Error('Invalid OSM feature collection name')
+  }
+  if (!osmType) {
+    throw new Error('Invalid OSM feature type')
+  }
+  if (!id) {
+    throw new Error('Invalid OSM feature ID')
+  }
+
   const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson`
   const response = await fetch(url)
   if (!response.ok) {

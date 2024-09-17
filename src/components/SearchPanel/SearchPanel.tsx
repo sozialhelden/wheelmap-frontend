@@ -92,7 +92,6 @@ export default function SearchPanel({
       onChange={onChangeSearchQuery}
       onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
         blur()
-        console.log('onSubmit', event.currentTarget.value)
         onSubmit?.(event.currentTarget.value)
       }}
       ariaRole="searchbox"

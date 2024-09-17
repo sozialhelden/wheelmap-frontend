@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { ReactElement, useCallback, useMemo } from "react"
+import { ReactElement, useCallback, useMemo } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
 import MapLayout from '../../components/App/MapLayout'
@@ -18,6 +18,7 @@ import fetchPlacesOnKomootPhoton, { SearchResultCollection } from '../../lib/fet
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { CategoryLookupTables } from '../../lib/model/ac/categories/Categories'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
 
 function toTypeTaggedSearchResults(
   col: SearchResultCollection,
@@ -89,30 +90,7 @@ export default function Page() {
     searchTitle = t`Search results`
   }
 
-  const queryData = useMemo(() => {
-    return {
-      query: searchQuery?.trim(),
-      // additionalQueryParameters: {
-      //   lat: typeof lat === 'number' ? String(lat) : undefined,
-      //   lon:  typeof lat === 'number' ? String(lon) : undefined
-      // }
-    }
-  }, [searchQuery, lat, lon])
-
-  const {
-    data: searchResults,
-    isLoading,
-    isValidating,
-    error: searchError,
-  } = useSWR(
-    queryData,
-    fetchPlacesOnKomootPhoton,
-    {
-      keepPreviousData: false
-    }
-  )
-
-  const isSearching = (isLoading || isValidating)
+  const { searchResults, searchError, isSearching } = useEnrichedSearchResults(searchQuery, lat, lon)
 
   return (
     <>
