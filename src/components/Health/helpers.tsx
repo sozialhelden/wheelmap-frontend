@@ -10,7 +10,7 @@ export type FilterOptions = {};
 export const defaultFilterOptions: FilterOptions = {};
 
 export const transferCityToBbox = (city: string) => {
-  return `https://osm-api.wheelmap.tech/api/v1/admin.json?t[name]=${city}&t[place]=city&t[boundary]=administrative&bbox=5.98865807458,47.3024876979,15.0169958839,54.983104153`
+  return `https://osm-api.wheelmap.tech/api/v1/admin.json?t[name]=~${city}&t[place]=city&t[boundary]=administrative&bbox=5.98865807458,47.3024876979,15.0169958839,54.983104153`
 };
 
 export type QueryParameters = {
@@ -71,7 +71,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   const { bbox, name, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, ["blind:description"]: blindDescription, ["deaf:description"]: deafDescription, hasToiletInfo, tags } = options;
   if (bbox) {
     const tString = {
-      ...(name && { "t[name]": name }),
+      ...(name && { "t[name]": `~${name}` }),
       "t[healthcare]": healthcare || "*",
       ...(healthcareSpeciality && { "t[healthcare:speciality]": `~${healthcareSpeciality}` }),
       ...(blindDescription && { "t[blind:description]": "*" }),
