@@ -11,13 +11,16 @@ import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibili
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
+import { useMap } from '../../components/MapNew/useMap'
 
 export default function Page() {
   const router = useAppStateAwareRouter()
   const accessibilityFilter = getAccessibilityFilterFrom(router.searchParams.wheelchair)
   const toiletFilter = getAccessibilityFilterFrom(router.searchParams.toilet) as YesNoUnknown[]
   const {
-    category, q: searchQuery, lat, lon,
+    category, q: searchQuery,
+    lat: latFromUrl,
+    lon: lonFromUrl,
   } = router.searchParams
 
   const handleSearchQueryChange = useCallback(
@@ -50,6 +53,10 @@ export default function Page() {
     searchTitle = t`Search results`
   }
 
+  const { map } = useMap()
+
+  const lat = map?.getCenter().lat || latFromUrl
+  const lon = map?.getCenter().lng || lonFromUrl
   const { searchResults, searchError, isSearching } = useEnrichedSearchResults(searchQuery, lat, lon)
 
   return (
