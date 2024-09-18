@@ -1,10 +1,10 @@
 import pick from 'lodash/pick';
-import { globalFetchManager } from './FetchManager';
-import { getUserAgent } from './userAgent';
-import { getUUID, getJoinedMappingEventId } from './savedState';
-import { mappingEventsCache } from './cache/MappingEventsCache';
 import { App } from './App';
+import { mappingEventsCache } from './cache/MappingEventsCache';
 import env from './env';
+import { globalFetchManager } from './FetchManager';
+import { getJoinedMappingEventId, getUUID } from './savedState';
+import { getUserAgent } from './userAgent';
 
 export type Query = {
   [k: string]: string | Array<string> | null,
@@ -83,6 +83,7 @@ export default class TrackingEventBackend {
     const body = JSON.stringify({
       ...event,
       appId: app._id,
+      mappingEventId: joinedMappingEventId,
       mappingEvent:
         mappingEvent &&
         pick(mappingEvent, '_id', 'name', 'organizationId', 'appId', 'startTime', 'endTime'),
