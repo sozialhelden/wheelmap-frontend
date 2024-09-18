@@ -34,11 +34,17 @@ export function buildId(feature: KomootPhotonResultFeature) {
 }
 
 export function buildOSMUri(feature: KomootPhotonResultFeature) {
+  // do not resolve places, as these are regularly mistyped in AC
+  if (feature.properties.osm_key === 'place') {
+    return undefined
+  }
+
   const osmType = {
     N: 'node',
     W: 'way',
     R: 'relation',
   }[feature.properties.osm_type || 'N']
+
   return `https://openstreetmap.org/${osmType}/${feature.properties.osm_id}`
 }
 
@@ -80,7 +86,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
 
   const isFetchingOsmDetails = (isOsmLoading || isOsmValidating)
 
-  const osmUris = searchResults?.features.map(buildOSMUri) || emptyArray
+  const osmUris = searchResults?.features.map(buildOSMUri).filter(Boolean) || emptyArray
   const { isLoading: isLoadingPlaceInfos, isValidating: isValidatingPlaceInfos, data: placeInfoResults } = useSameAsOSMIdPlaceInfos(
     osmUris,
     {
