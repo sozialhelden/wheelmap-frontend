@@ -1,5 +1,4 @@
 import mapboxgl, { MapLayerMouseEvent, MapLayerTouchEvent } from 'mapbox-gl'
-import { useRouter } from 'next/router'
 import * as React from 'react'
 import {
   useCallback, useLayoutEffect, useState,
@@ -34,6 +33,7 @@ import { log } from '../../lib/util/logger'
 import { useMapViewInternals } from './useMapInternals'
 import { uriFriendlyPosition } from './utils'
 import { GeolocateButton } from './GeolocateButton'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -68,7 +68,7 @@ const MapboxExtraStyles = createGlobalStyle`
 `
 
 export default function MapView(props: IProps) {
-  const router = useRouter()
+  const router = useAppStateAwareRouter()
   const featureIds = getFeatureIdsFromLocation(router.pathname)
 
   const { width, height } = props
@@ -138,6 +138,7 @@ export default function MapView(props: IProps) {
       updateViewportQuery({
         latitude: evt.lngLat.lat, longitude: evt.lngLat.lng, zoom: initialViewport.zoom,
       })
+      router.replace('/')
       return
     }
     const { latitude, longitude, zoom } = uriFriendlyPosition({

@@ -25,25 +25,6 @@ function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSea
 
   const merged : AppStateSearchParams = structuredClone(updated)
 
-
-
-  const shouldPreserveExtent = previous.extent !== undefined && updated.extent === undefined
-
-  if (shouldPreserveExtent) {
-    merged.extent = previous.extent
-  }
-
-  const shouldPreserveLatLon = previous.lat !== undefined && previous.lon !== undefined && updated.lat === undefined && updated.lon === undefined
-  if (shouldPreserveLatLon) {
-    merged.lat = previous.lat
-    merged.lon = previous.lon
-  }
-
-  const shouldPreserveZoom = previous.zoom !== undefined && updated.zoom === undefined
-  if (shouldPreserveZoom) {
-    merged.zoom = previous.zoom
-  }
-
   const shouldPreserveSearch = updated.q === undefined && previous.q !== undefined
   if (shouldPreserveSearch) {
     merged.q = previous.q
@@ -112,7 +93,9 @@ const emptySearchParams: AppStateSearchParams = { }
 export function useAppStateAwareRouter() {
   const nextRouter = useRouter()
   const searchParams = useSearchParams()
-  const { push: nextPush, replace: nextReplace, pathname } = nextRouter
+  const {
+    push: nextPush, replace: nextReplace, pathname, query,
+  } = nextRouter
 
   const appStateSearchParams = searchParams ? parseSearchParams(searchParams) : emptySearchParams
   const appStateSearchParamsRef = useRef(appStateSearchParams)
@@ -139,6 +122,8 @@ export function useAppStateAwareRouter() {
 
   return {
     nextRouter,
+    pathname,
+    query,
     searchParams: appStateSearchParams,
     featureIds,
     accessibilityFilter,
