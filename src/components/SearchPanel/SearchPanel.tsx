@@ -18,6 +18,7 @@ import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
 import { EnrichedSearchResult } from './useEnrichedSearchResults'
+import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
 
 export type Props = PlaceFilter & {
   className?: string;
@@ -149,6 +150,8 @@ export default function SearchPanel({
     )
   }
 
+  const overlayRef = useMapOverlapRef()
+
   return (
     <StyledToolbar
       hidden={hidden}
@@ -158,6 +161,7 @@ export default function SearchPanel({
       enableTransitions={false}
       minimalTopPosition={minimalTopPosition}
       role="search"
+      ref={overlayRef}
       className={cx(className, isExpanded && 'isExpanded')}
     >
       <ErrorBoundary>

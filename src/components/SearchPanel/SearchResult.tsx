@@ -20,6 +20,7 @@ import { mapOsmCollection, mapOsmType } from './komootHelpers'
 import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 import { ACCategory } from '../../lib/model/ac/categories/ACCategory'
 import { getLocalizedCategoryName, unknownCategory } from '../../lib/model/ac/categories/Categories'
+import { calculateDefaultPadding } from '../MapNew/MapOverlapPadding'
 
 type Props = {
   className?: string;
@@ -119,7 +120,12 @@ function mapResultToUrlObject(result: EnrichedSearchResult) {
 
   // no osm place was resolved
   if (!result.featureId) {
-    return {}
+    return {
+      pathname: '/',
+      query: {
+        q: null,
+      },
+    }
   }
 
   const osmType = mapOsmType(result.komootPhotonResult)
@@ -183,20 +189,29 @@ export default function SearchResult({ feature, className, hidden }: Props) {
   const { push } = useAppStateAwareRouter()
   const { map } = useMap()
   const clickHandler = useCallback((evt: React.MouseEvent) => {
+    if (evt.ctrlKey) {
+      return
+    }
     evt.preventDefault()
 
     const { geometry, properties: { extent } } = feature.komootPhotonResult
     const urlObject = mapResultToUrlObject(feature)
 
     if (extent) {
-      map?.fitBounds([
-        [extent[0], extent[1]],
-        [extent[2], extent[3]],
-      ])
+      map?.fitBounds(
+        [
+          [extent[0], extent[1]],
+          [extent[2], extent[3]],
+        ],
+        {
+          padding: calculateDefaultPadding(),
+        },
+      )
     } else {
       map?.flyTo({
         center: [geometry.coordinates[0], geometry.coordinates[1]],
         zoom: 20,
+        padding: calculateDefaultPadding(),
       })
     }
 
