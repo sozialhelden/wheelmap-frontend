@@ -13,6 +13,9 @@
     "project": "tsconfig.json"
   },
   "rules": {
+    "no-continue": "off",
+    "no-plusplus": "off",
+    "no-restricted-syntax": "off",
     "no-underscore-dangle": "off",
     "no-console": "off",
     "react/destructuring-assignment": "off",
@@ -59,7 +62,6 @@
       "error",
       "as-needed"
     ],
-    "no-underscore-dangle": "off",
     "@stylistic/js/max-len": [
       "error",
       {
