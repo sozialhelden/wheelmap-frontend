@@ -18,9 +18,9 @@ export function placeNameFor(
 
   if (feature['@type'] === 'a11yjson:EquipmentInfo') {
     localizedString = getEquipmentInfoDescription(feature, 'shortDescription')
-  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
     localizedString = feature.properties.name
-  } else if (feature['@type'] === 'a11yjson:Entrance') {
+  } else if (feature['@type'] === 'a11yjson:Entrance' || feature['@type'] === 'ac:Entrance') {
     localizedString = feature.properties.name
   } else if (feature['@type'] === 'osm:Feature') {
     localizedString = getLocalizableStringForOSMKey(feature, 'name')

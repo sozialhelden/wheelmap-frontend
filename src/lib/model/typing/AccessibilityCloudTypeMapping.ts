@@ -9,6 +9,7 @@ import { memoizedPluralize } from '../ac/pluralize'
 export interface A11yJSONTypeMapping {
   'a11yjson:EquipmentInfo': EquipmentInfo;
   'a11yjson:PlaceInfo': PlaceInfo;
+  'a11yjson:Entrance': PlaceInfo;
 }
 
 export interface AccessibilityCloudTypeMapping {

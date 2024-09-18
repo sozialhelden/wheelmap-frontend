@@ -41,6 +41,9 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
     fetchPlacesOnKomootPhoton,
     {
       keepPreviousData: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     },
   )
   const isSearching = (isKomootPhotonLoading || isKomootPhotonValidating)
@@ -51,6 +54,9 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
     {
       errorRetryCount: 0,
       keepPreviousData: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     },
   )
 
@@ -62,6 +68,9 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
     {
       errorRetryCount: 0,
       keepPreviousData: false,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     },
   )
 

@@ -2,6 +2,9 @@ import { LocalizedString } from '../../../i18n/LocalizedString'
 import { AnyFeature } from '../../geo/AnyFeature'
 import { ACCategory } from './ACCategory'
 import { getRootCategoryTable } from './getRootCategoryTable'
+import {
+  getLocalizedStringTranslationWithMultipleLocales,
+} from '../../../i18n/getLocalizedStringTranslationWithMultipleLocales'
 
 type SynonymCache = Map<string, ACCategory>
 
@@ -101,4 +104,20 @@ export function getLocalizableCategoryName(
   category: ACCategory,
 ): LocalizedString | undefined {
   return category.translations?._id
+}
+
+export function getLocalizedCategoryName(category: ACCategory | undefined | null, requestedLanguageTags: string[]) {
+  if (!category) {
+    return undefined
+  }
+
+  const localizedString = getLocalizableCategoryName(category)
+  if (!localizedString) {
+    return undefined
+  }
+
+  return getLocalizedStringTranslationWithMultipleLocales(
+    localizedString,
+    requestedLanguageTags,
+  )
 }

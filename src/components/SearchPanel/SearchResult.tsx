@@ -17,6 +17,9 @@ import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelcha
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useMap } from '../MapNew/useMap'
 import { mapOsmCollection, mapOsmType } from './komootHelpers'
+import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
+import { ACCategory } from '../../lib/model/ac/categories/ACCategory'
+import { getLocalizedCategoryName, unknownCategory } from '../../lib/model/ac/categories/Categories'
 
 type Props = {
   className?: string;
@@ -64,6 +67,7 @@ const StyledListItem = styled.li`
           font-size: 16px !important;
           color: rgba(0, 0, 0, 0.6);
       }
+        
     }
 
     &.no-result {
@@ -132,11 +136,33 @@ function mapResultToUrlObject(result: EnrichedSearchResult) {
   }
 }
 
+const useFeatureCategoryLabel = (placeName: string, category: ACCategory | null | undefined) => {
+  const languageTags = useCurrentLanguageTagStrings()
+
+  if (!category || category === unknownCategory) {
+    return undefined
+  }
+
+  const categoryLabel = getLocalizedCategoryName(category, languageTags)
+
+  if (!categoryLabel) {
+    return undefined
+  }
+
+  const isCategoryLabelInPlaceName = placeName.toLocaleLowerCase(languageTags).includes(categoryLabel.toLocaleLowerCase(languageTags))
+
+  if (isCategoryLabelInPlaceName) {
+    return undefined
+  }
+
+  return categoryLabel
+}
+
 export default function SearchResult({ feature, className, hidden }: Props) {
   const { properties } = feature.komootPhotonResult
 
   // translator: Place name shown in search results for places with unknown name / category.
-  const placeName = properties ? properties.name : t`Unnamed`
+  const placeName = properties ? properties.name || t`Unnamed` : t`Unnamed`
   const address = properties
     && getAddressString({
       countryCode: properties.country,
@@ -147,6 +173,8 @@ export default function SearchResult({ feature, className, hidden }: Props) {
     })
 
   const { category } = useCategory(feature.placeInfo, feature.osmFeature, feature.komootPhotonResult)
+
+  const categoryLabel = useFeatureCategoryLabel(placeName, category)
   const shownCategoryId = category && category._id
 
   const detailedFeature = (feature.placeInfo || feature.osmFeature) as AnyFeature | null
@@ -200,6 +228,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
             />
           ) : null}
           {placeName}
+          {categoryLabel && <span className="category-label">{categoryLabel}</span>}
         </PlaceNameHeader>
         {address ? <Address role="none">{address}</Address> : null}
       </AppStateLink>
