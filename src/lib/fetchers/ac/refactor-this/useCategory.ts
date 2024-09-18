@@ -1,15 +1,28 @@
 import * as React from 'react'
-import { getCategoryForFeature } from '../../../model/ac/categories/Categories'
+import { getCategoryForFeature, unknownCategory } from '../../../model/ac/categories/Categories'
 import { AnyFeature } from '../../../model/geo/AnyFeature'
 import { useCategorySynonymCache } from './fetchAccessibilityCloudCategories'
 
-export default function useCategory(feature: AnyFeature) {
+export default function useCategory(...features: (AnyFeature | null | undefined)[]) {
   const categorySynonymCache = useCategorySynonymCache()
   const category = React.useMemo(
-    () => categorySynonymCache.data
-        && feature
-        && getCategoryForFeature(categorySynonymCache.data, feature),
-    [categorySynonymCache.data, feature],
+    () => {
+      if (!categorySynonymCache.data) {
+        return unknownCategory
+      }
+
+      for (const feature of features) {
+        if (!feature) {
+          continue
+        }
+
+        const result = getCategoryForFeature(categorySynonymCache.data, feature)
+        if (result && result !== unknownCategory) return result
+      }
+
+      return unknownCategory
+    },
+    [categorySynonymCache.data, features],
   )
 
   return { categorySynonymCache, category }

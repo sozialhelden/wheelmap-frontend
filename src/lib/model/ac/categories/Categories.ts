@@ -62,6 +62,7 @@ export function getCategoryForFeature(
     feature['@type'] === 'a11yjson:PlaceInfo'
     || feature['@type'] === 'a11yjson:EquipmentInfo'
     || feature['@type'] === 'ac:PlaceInfo'
+    || feature['@type'] === 'ac:EquipmentInfo'
   ) {
     categoryId = feature.properties.category
   } else if (feature['@type'] === 'komoot:SearchResult') {
