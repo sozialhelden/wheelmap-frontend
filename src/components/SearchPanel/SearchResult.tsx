@@ -2,7 +2,7 @@ import { t } from 'ttag'
 
 import styled from 'styled-components'
 
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
 import { AnyFeature } from '../../lib/model/geo/AnyFeature'
 import getAddressString from '../../lib/model/geo/getAddressString'
@@ -16,6 +16,7 @@ import { cx } from '../../lib/util/cx'
 import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useMap } from '../MapNew/useMap'
+import { mapOsmCollection, mapOsmType } from './komootHelpers'
 
 type Props = {
   className?: string;
@@ -24,41 +25,45 @@ type Props = {
 }
 
 const StyledListItem = styled.li`
-    display: block;
-    font-size: 16px;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    text-align: left;
-    overflow: hidden;
-    color: rgba(0, 0, 0, 0.8) !important;
-    width: 100%;
-
-    @media (hover), (-moz-touch-enabled: 0) {
-        &:hover {
-            background-color: ${colors.linkBackgroundColorTransparent};
-        }
-    }
-
-    &:focus&:not(.primary-button) {
-        background-color: ${colors.linkBackgroundColorTransparent};
-    }
-
-    &:disabled {
-        opacity: 0.15;
-    }
-
-    &:hover {
-        color: rgba(0, 0, 0, 0.8) !important;
-    }
-
-    address {
-        font-size: 16px !important;
-        color: rgba(0, 0, 0, 0.6);
+    padding: 0;
+    
+    > a {
+      display: block;
+      font-size: 16px;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      text-align: left;
+      overflow: hidden;
+      color: rgba(0, 0, 0, 0.8) !important;
+      width: 100%;
+  
+      @media (hover), (-moz-touch-enabled: 0) {
+          &:hover {
+              background-color: ${colors.linkBackgroundColorTransparent};
+          }
+      }
+  
+      &:focus&:not(.primary-button) {
+          background-color: ${colors.linkBackgroundColorTransparent};
+      }
+  
+      &:disabled {
+          opacity: 0.15;
+      }
+  
+      &:hover {
+          color: rgba(0, 0, 0, 0.8) !important;
+      }
+  
+      address {
+          font-size: 16px !important;
+          color: rgba(0, 0, 0, 0.6);
+      }
     }
 
     &.no-result {
@@ -101,25 +106,28 @@ function mapResultToUrlObject(result: EnrichedSearchResult) {
       pathname: `/nodes/${result.placeInfo.properties._id}`,
       query: {
         q: null,
+        extent: result.komootPhotonResult.properties.extent,
+        lat: result.komootPhotonResult.geometry.coordinates[1],
+        lon: result.komootPhotonResult.geometry.coordinates[0],
       },
     }
   }
 
   // no osm place was resolved
   if (!result.featureId) {
-    return undefined
+    return {}
   }
 
-  const osmType = {
-    N: 'node',
-    W: 'way',
-    R: 'relation',
-  }[properties.osm_type || 'N']
+  const osmType = mapOsmType(result.komootPhotonResult)
+  const collection = mapOsmCollection(result.komootPhotonResult)
 
   return {
-    pathname: `/amenities/${osmType}:${properties.osm_id}`,
+    pathname: `/${collection}/${osmType}:${properties.osm_id}`,
     query: {
       q: null,
+      extent: result.komootPhotonResult.properties.extent,
+      lat: result.komootPhotonResult.geometry.coordinates[1],
+      lon: result.komootPhotonResult.geometry.coordinates[0],
     },
   }
 }
@@ -148,7 +156,9 @@ export default function SearchResult({ feature, className, hidden }: Props) {
 
   const { push } = useAppStateAwareRouter()
   const { map } = useMap()
-  const clickHandler = useCallback(() => {
+  const clickHandler = useCallback((evt: React.MouseEvent) => {
+    evt.preventDefault()
+
     const { geometry, properties: { extent } } = feature.komootPhotonResult
     const urlObject = mapResultToUrlObject(feature)
 
@@ -164,7 +174,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
       })
     }
 
-    if (urlObject) {
+    if (urlObject && urlObject.pathname) {
       push(urlObject)
     }
   }, [push, feature, map])
@@ -172,26 +182,29 @@ export default function SearchResult({ feature, className, hidden }: Props) {
   const classNames = cx(
     className,
     'search-result',
+    hidden && 'hidden',
     feature.osmFeature && 'is-on-wheelmap',
     `osm-category-${properties.osm_key || 'unknown'}-${properties.osm_value || 'unknown'}`,
   )
   return (
-    <StyledListItem className={classNames} onClick={clickHandler}>
-      <PlaceNameHeader
-        className={detailedFeature ? 'is-on-wheelmap' : undefined}
-      >
-        {shownCategoryId ? (
-          <Icon
-            accessibility={accessibility || null}
-            category={shownCategoryId}
-            size="medium"
-            centered
-            ariaHidden
-          />
-        ) : null}
-        {placeName}
-      </PlaceNameHeader>
-      {address ? <Address role="none">{address}</Address> : null}
+    <StyledListItem className={classNames}>
+      <AppStateLink href={mapResultToUrlObject(feature)} onClick={clickHandler}>
+        <PlaceNameHeader
+          className={detailedFeature ? 'is-on-wheelmap' : undefined}
+        >
+          {shownCategoryId ? (
+            <Icon
+              accessibility={accessibility || null}
+              category={shownCategoryId}
+              size="medium"
+              centered
+              ariaHidden
+            />
+          ) : null}
+          {placeName}
+        </PlaceNameHeader>
+        {address ? <Address role="none">{address}</Address> : null}
+      </AppStateLink>
     </StyledListItem>
   )
 }

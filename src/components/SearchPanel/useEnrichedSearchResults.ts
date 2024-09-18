@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import fetchPlacesOnKomootPhoton, {
-  KomootPhotonResultFeature,
-} from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import fetchPlacesOnKomootPhoton from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
 import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
 import { AnyFeature, TypeTaggedPlaceInfo, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
+import { buildId, buildOSMUri } from './komootHelpers'
 
 const emptyArray: any[] = []
 
@@ -17,35 +16,6 @@ export type EnrichedSearchResult = {
   osmFeature: AnyFeature | null
   placeInfoLoading: boolean
   placeInfo: TypeTaggedPlaceInfo | null
-}
-
-export function buildId(feature: KomootPhotonResultFeature) {
-  const osmType = {
-    N: 'node',
-    W: 'way',
-    R: 'relation',
-  }[feature.properties.osm_type || 'N']
-
-  if (feature.properties.osm_key === 'place') {
-    return undefined
-  }
-
-  return `amenities:${osmType}:${feature.properties.osm_id}`
-}
-
-export function buildOSMUri(feature: KomootPhotonResultFeature) {
-  // do not resolve places, as these are regularly mistyped in AC
-  if (feature.properties.osm_key === 'place') {
-    return undefined
-  }
-
-  const osmType = {
-    N: 'node',
-    W: 'way',
-    R: 'relation',
-  }[feature.properties.osm_type || 'N']
-
-  return `https://openstreetmap.org/${osmType}/${feature.properties.osm_id}`
 }
 
 export function useEnrichedSearchResults(searchQuery: string | undefined | null, lat?: number | null, lon?: number | null) {
@@ -77,7 +47,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
 
   const featureIds = searchResults?.features.map(buildId) || emptyArray
   const { isLoading: isOsmLoading, isValidating: isOsmValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
-    featureIds.filter(Boolean),
+    featureIds,
     {
       errorRetryCount: 0,
       keepPreviousData: false,
@@ -86,9 +56,9 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
 
   const isFetchingOsmDetails = (isOsmLoading || isOsmValidating)
 
-  const osmUris = searchResults?.features.map(buildOSMUri).filter(Boolean) || emptyArray
+  const osmUris = searchResults?.features.map(buildOSMUri) || emptyArray
   const { isLoading: isLoadingPlaceInfos, isValidating: isValidatingPlaceInfos, data: placeInfoResults } = useSameAsOSMIdPlaceInfos(
-    osmUris,
+    osmUris.filter(Boolean),
     {
       errorRetryCount: 0,
       keepPreviousData: false,
@@ -113,20 +83,18 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
     } as EnrichedSearchResult))
 
     if (osmFeatureResults) {
-      let lastFoundIndex = -1
-
       // merge searchResults with osmFeatureResults
-      for (const osmFeatureResult of osmFeatureResults) {
+      for (let i = 0; i < osmFeatureResults.length; i++) {
+        const osmFeatureResult = osmFeatureResults[i]
+
         if (!osmFeatureResult || osmFeatureResult.status === 'rejected') {
           continue
         }
+
         const osmFeature = osmFeatureResult.value
-        const featureId = `amenities:${osmFeature._id.replace('/', ':')}`
-        const index = featureIds.indexOf(featureId, lastFoundIndex + 1)
-        if (index !== -1) {
-          lastFoundIndex = index
-          extendedSearchResults[index].osmFeature = osmFeature
-          extendedSearchResults[index].featureId = featureId
+        if (osmFeature) {
+          extendedSearchResults[i].osmFeature = osmFeature
+          extendedSearchResults[i].featureId = featureIds[i]
         }
       }
     }

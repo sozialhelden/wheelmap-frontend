@@ -15,13 +15,17 @@ export function mapMultipleFeaturePromises(
   appToken: string,
   baseUrl: string,
   idsAsString: string | undefined,
-): Promise<AnyFeature>[] {
+): Promise<AnyFeature | null>[] {
   const ids = idsAsString?.split(',') || []
   if (ids.length === 0) {
     return []
   }
 
   return ids.map((id) => {
+    if (!id) {
+      return Promise.resolve(null)
+    }
+
     if (id.startsWith('ac:')) {
       return fetchOnePlaceInfo([baseUrl, appToken, id.slice(3)]) as Promise<AnyFeature>
     }
