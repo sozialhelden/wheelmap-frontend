@@ -146,9 +146,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
       city: properties.city,
     })
 
-  const { category } = useCategory(
-    (feature.placeInfo || feature.osmFeature || feature.komootPhotonResult) as AnyFeature,
-  )
+  const { category } = useCategory(feature.placeInfo, feature.osmFeature, feature.komootPhotonResult)
   const shownCategoryId = category && category._id
 
   const detailedFeature = (feature.placeInfo || feature.osmFeature) as AnyFeature | null
