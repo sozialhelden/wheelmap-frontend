@@ -23,7 +23,8 @@ export function MultiFeatureToolbar({ featureIds } : { featureIds: string | stri
     },
   )
 
-  const filteredFeatures = data?.filter((f) => f && f.status === 'fulfilled').map((f) => f.value as AnyFeature)
+  const filteredFeatures = data?.filter((f) => !!(f && f.status === 'fulfilled' && f.value))
+    .map((f) => (f as PromiseFulfilledResult<AnyFeature>).value)
 
   const isBusy = isLoading || isValidating
 

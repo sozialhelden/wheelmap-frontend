@@ -262,10 +262,8 @@ export default function MapView(props: IProps) {
           initialViewState={initialViewport}
           mapboxAccessToken={mapboxAccessToken}
           onMoveEnd={onViewStateChange}
-          onTouchEnd={onMouseClick}
-          onMouseUp={onMouseClick}
-          onZoomEnd={onViewStateChange}
           onClick={onMouseClick}
+          onZoomEnd={onViewStateChange}
           interactive
           interactiveLayerIds={layers?.map((l) => l.id)}
           onLoad={onLoadCallback}
