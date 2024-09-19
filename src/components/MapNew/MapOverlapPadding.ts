@@ -103,9 +103,17 @@ export class MapOverlaps {
 
     const mapRect = map.getContainer().getBoundingClientRect()
 
+    if (!mapRect || mapRect.width === 0 || mapRect.height === 0) {
+      return additionalPadding
+    }
+
     let remainingRect: Rect | undefined = mapRect
     for (const element of this.overlapRegions.values()) {
       const rect = element.getBoundingClientRect()
+
+      if (!rect || rect.width === 0 || rect.height === 0) {
+        continue
+      }
 
       // degenerate case, ignore padding calculation
       if (!remainingRect) {
