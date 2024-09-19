@@ -66,6 +66,7 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
         hash: parsedUrl.hash,
       }
     } catch (error) {
+      console.error('preserveSearchParams failed to parse URL', { url, error })
       mergedSearchParams = previous
       return {
         path: url,

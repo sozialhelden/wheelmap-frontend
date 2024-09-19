@@ -95,6 +95,7 @@ function parseStringArrayParam<T extends string = string>(value: ParseValue): T[
 }
 
 export const parseQuery = (query: ParsedUrlQuery): AppStateSearchParams => ({
+  ...query,
   lat: parseNumberParam(query.lat),
   lon: parseNumberParam(query.lon),
   zoom: parseNumberParam(query.zoom),
@@ -106,6 +107,7 @@ export const parseQuery = (query: ParsedUrlQuery): AppStateSearchParams => ({
 })
 
 export const parseQueryInput = (query: ParsedUrlQueryInput): AppStateSearchParams => ({
+  ...query,
   lat: parseNumberParam(query.lat),
   lon: parseNumberParam(query.lon),
   zoom: parseNumberParam(query.zoom),

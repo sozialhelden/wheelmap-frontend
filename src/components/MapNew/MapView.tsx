@@ -113,7 +113,7 @@ export default function MapView(props: IProps) {
 
   const updateViewportQuery = useCallback(({ longitude: lon, latitude: lat, zoom: z }:
   { longitude: number, latitude: number, zoom: number }) => {
-    const newQuery = { ...query }
+    const newQuery: { lon?: string, lat?: string, zoom?: string } = { }
     const { zoom, latitude, longitude } = uriFriendlyPosition({
       latitude: lat,
       longitude: lon,
@@ -129,7 +129,7 @@ export default function MapView(props: IProps) {
       ...initialViewport, latitude: lat, longitude: lon, zoom: z,
     })
     router.replace({ query: newQuery })
-  }, [query, featureIds, onViewportUpdate, router, initialViewport])
+  }, [featureIds, onViewportUpdate, router, initialViewport])
 
   const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
     updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom })
