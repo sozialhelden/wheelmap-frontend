@@ -1,22 +1,19 @@
-import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import MapLayout from '../../components/App/MapLayout'
-import { useCurrentApp } from '../../lib/context/AppContext'
-import { exampleStreet } from '../../lib/fixtures/mocks/ways/exampleStreet'
-import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { MultiFeatureToolbar } from '../../components/CombinedFeaturePanel/MultiFeatureToolbar'
 
-function WayPage(props) {
-  const router = useRouter()
-  const { id } = router.query
-  const app = useCurrentApp()
+export default function WayFeaturePage() {
+  const { query: { id } } = useAppStateAwareRouter()
+
+  const rolledOutIds = rolloutOsmFeatureIds('way', id)
 
   return (
-    <MockedPOIDetails feature={exampleStreet} description={`Way: ${id}`} />
+    <MultiFeatureToolbar featureIds={rolledOutIds} />
   )
 }
 
-WayPage.getLayout = function getLayout(page: ReactElement) {
+WayFeaturePage.getLayout = function getLayout(page: ReactElement) {
   return <MapLayout>{page}</MapLayout>
 }
-
-export default WayPage

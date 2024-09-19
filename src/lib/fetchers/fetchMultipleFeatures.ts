@@ -50,7 +50,10 @@ export async function fetchMultipleFeatures(
   return Promise.all(mapMultipleFeaturePromises(osmBaseUrl, osmAppToken, acBaseUrl, acAppToken, idsAsString))
 }
 
-export function useMultipleFeatures(ids: string | string[], options?: SWRConfiguration<AnyFeature[]> & { cached?: boolean }) {
+export function useMultipleFeatures(
+  ids: string | string[],
+  options?: SWRConfiguration<AnyFeature[]> & { cached?: boolean },
+) {
   const { cached = false, ...remainingOptions } = options || { }
   const idsAsString = typeof ids === 'string' ? ids : ids.join(',')
 
@@ -72,7 +75,10 @@ export async function fetchMultipleFeaturesOptional({
   return Promise.allSettled(mapMultipleFeaturePromises(osmBaseUrl, osmAppToken, acBaseUrl, acAppToken, idsAsString))
 }
 
-export function useMultipleFeaturesOptional(ids: string | string[], options?: SWRConfiguration<PromiseSettledResult<AnyFeature>[]> & { cached?: boolean }) {
+export function useMultipleFeaturesOptional(
+  ids: string | string[],
+  options?: SWRConfiguration<PromiseSettledResult<AnyFeature>[]> & { cached?: boolean },
+) {
   const { cached = false, ...remainingOptions } = options || { }
   const idsAsString = typeof ids === 'string' ? ids : ids.join(',')
 

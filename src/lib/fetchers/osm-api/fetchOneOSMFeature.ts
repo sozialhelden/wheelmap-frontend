@@ -10,13 +10,13 @@ export async function fetchOneOSMFeature(
   const [collectionName, osmType, id] = prefixedId?.split(':') ?? []
 
   if (!collectionName) {
-    throw new Error('Invalid OSM feature collection name')
+    throw new Error(`Invalid OSM feature collection name, ${id} does not match collection:key:id pattern`)
   }
   if (!osmType) {
-    throw new Error('Invalid OSM feature type')
+    throw new Error(`Invalid OSM feature type, ${id} does not match collection:key:id pattern`)
   }
   if (!id) {
-    throw new Error('Invalid OSM feature ID')
+    throw new Error(`Invalid OSM feature ID, ${id} does not match collection:key:id pattern`)
   }
 
   const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`

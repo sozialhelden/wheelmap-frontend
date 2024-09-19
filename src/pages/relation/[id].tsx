@@ -1,25 +1,19 @@
-import React, { ReactElement } from 'react'
-import { useRouter } from 'next/router'
-import { useCurrentApp } from '../../lib/context/AppContext'
-import { BERLIN } from '../../lib/fixtures/mocks/relations/berlin'
+import { ReactElement } from 'react'
 import MapLayout from '../../components/App/MapLayout'
-import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { MultiFeatureToolbar } from '../../components/CombinedFeaturePanel/MultiFeatureToolbar'
 
-function RelationPage() {
-  const router = useRouter()
-  const { id } = router.query
-  const app = useCurrentApp()
+export default function RelationFeaturePage() {
+  const { query: { id } } = useAppStateAwareRouter()
+
+  const rolledOutIds = rolloutOsmFeatureIds('relation', id)
 
   return (
-    <>
-      <MockedPOIDetails relation={BERLIN} description={`Relation: ${id}`} />
-      ;
-    </>
+    <MultiFeatureToolbar featureIds={rolledOutIds} />
   )
 }
 
-RelationPage.getLayout = function getLayout(page: ReactElement) {
+RelationFeaturePage.getLayout = function getLayout(page: ReactElement) {
   return <MapLayout>{page}</MapLayout>
 }
-
-export default RelationPage
