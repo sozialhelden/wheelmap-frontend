@@ -1,5 +1,7 @@
 import { ParsedUrlQuery } from 'querystring'
-import { useCallback, useMemo, useState } from 'react'
+import {
+  useCallback, useMemo, useRef, useState,
+} from 'react'
 import { ViewState } from 'react-map-gl'
 import { useMap } from './useMap'
 
@@ -23,6 +25,7 @@ const getInitialMapLocation = (query: ParsedUrlQuery): MapLocation => {
   if (localStorageValue) {
     return JSON.parse(localStorageValue) as MapLocation
   }
+
   return {
     type: 'position',
     latitude: 52.5,
@@ -36,6 +39,7 @@ const saveMapLocation = (location: MapLocation) => {
 }
 
 type TrackedViewportState = Pick<ViewState, 'latitude' | 'longitude' | 'zoom'> & { width: number, height: number }
+
 export const useMapViewInternals = (query: ParsedUrlQuery) => {
   const { map, setMapRef } = useMap()
 
@@ -48,17 +52,20 @@ export const useMapViewInternals = (query: ParsedUrlQuery) => {
     zoom,
   })
 
-  const setViewport = useCallback((newViewPort: typeof viewport) => {
+  const lastViewPortRef = useRef<TrackedViewportState>(viewport)
+
+  const setViewport = useCallback((newViewPort: Partial<TrackedViewportState>) => {
     // store the new location in local storage
     saveMapLocation({
       type: 'position',
-      latitude: newViewPort.latitude ?? viewport.latitude,
-      longitude: newViewPort.longitude ?? viewport.longitude,
-      zoom: newViewPort.zoom ?? viewport.zoom,
+      latitude: newViewPort.latitude ?? lastViewPortRef.current.latitude,
+      longitude: newViewPort.longitude ?? lastViewPortRef.current.longitude,
+      zoom: newViewPort.zoom ?? lastViewPortRef.current.zoom,
     })
     // update the viewport infos
-    setViewportInternal({ ...viewport, ...newViewPort })
-  }, [setViewportInternal, viewport])
+    lastViewPortRef.current = { ...lastViewPortRef.current, ...newViewPort }
+    setViewportInternal(lastViewPortRef.current)
+  }, [setViewportInternal])
 
   return useMemo(() => ({
     map,

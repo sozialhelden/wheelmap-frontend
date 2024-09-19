@@ -11,10 +11,13 @@ export function useApplyMapPadding() {
         return
       }
 
-      map.easeTo({
-        padding: calculatePadding(map, mapOverlaps),
-        duration: 500,
-      })
+      const padding = calculatePadding(map, mapOverlaps)
+      if (!map.isEasing() && !map.isMoving()) {
+        map.easeTo({
+          padding,
+          duration: 500,
+        })
+      }
     }
     mapOverlaps.changeListeners.add(listener)
 

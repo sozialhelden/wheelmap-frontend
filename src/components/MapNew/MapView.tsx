@@ -126,12 +126,13 @@ export default function MapView(props: IProps) {
     }
     // update the initial viewport (and the local storage)
     onViewportUpdate({
-      ...initialViewport, latitude: lat, longitude: lon, zoom: z,
+      latitude: lat, longitude: lon, zoom: z,
     })
     router.replace({ query: newQuery })
-  }, [featureIds, onViewportUpdate, router, initialViewport])
+  }, [featureIds.length, onViewportUpdate, router])
 
   const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
+    console.log('onViewStateChange', evt)
     updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom })
   }, [updateViewportQuery])
 
