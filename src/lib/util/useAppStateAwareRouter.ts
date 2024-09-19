@@ -4,8 +4,9 @@ import {
 } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { omitBy } from 'lodash'
+import { ParsedUrlQuery } from 'querystring'
 import {
-  AppStateSearchParams,
+  AppStateSearchParams, parseQuery,
   parseQueryInput,
   parseSearchParams,
 } from './AppStateSearchParams'
@@ -48,8 +49,11 @@ function mergeSearchParams(updated: AppStateSearchParams, previous?: AppStateSea
   return omitBy(merged, testForEmptyValues) as AppStateSearchParams
 }
 
-export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) : Url {
-  let mergedSearchParams: AppStateSearchParams | undefined
+function combineSearchParams(searchParams: AppStateSearchParams) {
+  return new URLSearchParams(searchParams as Record<string, string>).toString()
+}
+
+export function preserveSearchParams(url: Url, previous?: AppStateSearchParams, query?: ParsedUrlQuery) : Url {
   if (typeof url === 'string') {
     if (url.includes('://')) {
       return url
@@ -58,48 +62,53 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams) 
     try {
       const parsedUrl = new URL(url, window.location.href)
       const updated = parseSearchParams(parsedUrl.searchParams)
-      mergedSearchParams = mergeSearchParams(updated, previous)
+      const mergedSearchParams = mergeSearchParams(updated, previous)
 
       return {
         pathname: parsedUrl.pathname,
-        query: mergedSearchParams,
+        search: combineSearchParams(mergedSearchParams),
         hash: parsedUrl.hash,
       }
     } catch (error) {
       console.error('preserveSearchParams failed to parse URL', { url, error })
-      mergedSearchParams = previous
       return {
         path: url,
-        query: mergedSearchParams,
+        search: previous ? combineSearchParams(previous) : undefined,
       }
     }
   }
 
+  const updatedUrl = { ...url }
+
   if (typeof url.query === 'object' && url.query) {
-    const updated = parseQueryInput(url.query)
-    mergedSearchParams = mergeSearchParams(updated, previous)
+    const mergedSearchParams = mergeSearchParams(parseQueryInput(url.query), previous)
+    // we need to ensure that the old query is preserved, as it might contain [id] or other dynamic parts
+    updatedUrl.query = {
+      ...query,
+      ...url.query,
+      ...mergedSearchParams,
+    }
   } else if (typeof url.query === 'string') {
-    const updated = parseSearchParams(new URLSearchParams(url.query))
-    mergedSearchParams = mergeSearchParams(updated, previous)
+    const mergedSearchParams = parseSearchParams(new URLSearchParams(url.query))
+    updatedUrl.search = combineSearchParams(mergeSearchParams(mergedSearchParams, previous))
   }
 
-  return {
-    ...url,
-    query: mergedSearchParams,
-  }
+  console.log('preserveSearchParams', { url, updatedUrl, previous })
+
+  return updatedUrl
 }
 
 const emptySearchParams: AppStateSearchParams = { }
 
 export function useAppStateAwareRouter() {
   const nextRouter = useRouter()
-  const searchParams = useSearchParams()
   const {
     push: nextPush, replace: nextReplace, pathname, query,
   } = nextRouter
 
-  const appStateSearchParams = searchParams ? parseSearchParams(searchParams) : emptySearchParams
+  const appStateSearchParams = query ? parseQuery(query) : emptySearchParams
   const appStateSearchParamsRef = useRef(appStateSearchParams)
+  const queryRef = useRef(query)
 
   // derive some values from the AppStateSearchParams
   const featureIds = useMemo(() => getFeatureIdsFromLocation(pathname), [pathname])
@@ -108,16 +117,17 @@ export function useAppStateAwareRouter() {
 
   // useEffect for the appStateSearchParams, to keep the push/replace functions stable
   useEffect(() => {
-    appStateSearchParamsRef.current = searchParams ? parseSearchParams(searchParams) : emptySearchParams
-  }, [searchParams])
+    queryRef.current = query
+    appStateSearchParamsRef.current = query ? parseQuery(query) : emptySearchParams
+  }, [query])
 
   const push = useCallback((url: Url, as?: Url, options?: TransitionOptions) => {
-    const preservedUrl = preserveSearchParams(url, appStateSearchParamsRef.current)
+    const preservedUrl = preserveSearchParams(url, appStateSearchParamsRef.current, queryRef.current)
     return nextPush(preservedUrl, as, options)
   }, [nextPush])
 
   const replace = useCallback((url: Url, as?: Url, options?: TransitionOptions) => {
-    const preservedUrl = preserveSearchParams(url, appStateSearchParamsRef.current)
+    const preservedUrl = preserveSearchParams(url, appStateSearchParamsRef.current, queryRef.current)
     return nextReplace(preservedUrl, as, options)
   }, [nextReplace])
 
