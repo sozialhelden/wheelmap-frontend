@@ -10,6 +10,7 @@ import { isOnSmallViewport } from '../../lib/util/ViewportSize'
 import colors, { alpha } from '../../lib/util/colors'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { log } from '../../lib/util/logger'
+import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
 
 type Props = {
   className?: string;
@@ -25,7 +26,7 @@ type Props = {
   isModal?: boolean;
   enableTransitions?: boolean;
   innerRef?: React.Ref<HTMLElement>;
-};
+}
 
 function mergeRefs(refs) {
   return (value) => {
@@ -67,8 +68,8 @@ function logStateValueChange(name: string, value: any) {
   }, [name, value])
 }
 
-type PositionSample = { pos: number; t: number };
-type FlickState = 'up' | 'down' | 'noFlick';
+type PositionSample = { pos: number; t: number }
+type FlickState = 'up' | 'down' | 'noFlick'
 
 function calculateFlickState(ySamples: PositionSample[]): FlickState {
   // log.log(ySamples);
@@ -325,8 +326,8 @@ const BaseToolbar = (
     innerRef,
   }: Props & {
     innerRef:
-      | { current: null | HTMLElement }
-      | ((elem: null | HTMLElement) => any);
+    | { current: null | HTMLElement }
+    | ((elem: null | HTMLElement) => any);
   },
 ) => {
   const scrollElementRef = React.useRef<HTMLElement | null>(null)
@@ -576,6 +577,8 @@ const BaseToolbar = (
   ]
   const filteredClassNames = classNames.filter(Boolean).join(' ')
 
+  const mapOverlayRef = useMapOverlapRef(!hidden)
+
   return (
     <StyledSection
       className={filteredClassNames}
@@ -595,7 +598,7 @@ const BaseToolbar = (
           isModal || false,
         ),
       }}
-      ref={mergeRefs([scrollElementRef, innerRef])}
+      ref={mergeRefs([scrollElementRef, innerRef, mapOverlayRef])}
       aria-hidden={inert || hidden}
       role={role}
       aria-label={ariaLabel}

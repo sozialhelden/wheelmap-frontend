@@ -150,7 +150,7 @@ export default function SearchPanel({
     )
   }
 
-  const overlayRef = useMapOverlapRef()
+  const overlayRef = useMapOverlapRef(!hidden)
 
   return (
     <StyledToolbar

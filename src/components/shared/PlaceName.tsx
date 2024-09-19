@@ -22,6 +22,7 @@ const placeNameCSS = css<{ isSmall: false }>`
   .category-label {
     font-weight: 300;
     opacity: 0.6;
+    flex-shrink: 0;
 
     &:before {
       content: "("

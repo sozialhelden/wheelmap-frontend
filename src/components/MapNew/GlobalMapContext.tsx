@@ -1,6 +1,6 @@
 import { MapRef } from 'react-map-gl'
 import React, {
-  useCallback, useId, useMemo, useState,
+  useCallback, useEffect, useId, useMemo, useRef, useState,
 } from 'react'
 import { calculatePadding, MapOverlaps } from './MapOverlapPadding'
 
@@ -8,17 +8,15 @@ const mapOverlaps = new MapOverlaps()
 
 export interface GlobalMapContextValue {
   map: MapRef | null,
+  mapOverlaps: MapOverlaps,
   setMapRef:(node: MapRef | null) => void
-  calculatePadding: () => (number | { top: number, bottom: number, left: number, right: number })
 }
 
 export const GlobalMapContext = React.createContext<GlobalMapContextValue>({
   map: null,
+  mapOverlaps,
   setMapRef: () => {
     throw new Error('setMapRef was not provided')
-  },
-  calculatePadding: () => {
-    throw new Error('calculatePadding was not provided')
   },
 })
 
@@ -28,8 +26,8 @@ export const GlobalMapContextProvider = ({ children }: { children?: React.ReactN
 
   const value = useMemo(() => ({
     map: mapRef,
+    mapOverlaps,
     setMapRef,
-    calculatePadding: () => calculatePadding(mapRef, mapOverlaps),
   }
   ), [mapRef, setMapRef])
 
@@ -42,13 +40,27 @@ export const GlobalMapContextProvider = ({ children }: { children?: React.ReactN
 
 export const useMapOverlapRef = (isActive: boolean = true) => {
   const key = useId()
+  const elementRef = useRef<HTMLElement | null>(null)
 
   const setRef = useCallback((element: HTMLElement | null) => {
+    elementRef.current = element
     if (element) {
       mapOverlaps.addOverlapRegion(key, element)
     } else {
       mapOverlaps.removeOverlapRegion(key)
     }
+  }, [key])
+
+  useEffect(() => {
+    if (isActive && elementRef.current) {
+      mapOverlaps.addOverlapRegion(key, elementRef.current)
+    } else {
+      mapOverlaps.removeOverlapRegion(key)
+    }
+  }, [isActive, key])
+
+  useEffect(() => () => {
+    mapOverlaps.removeOverlapRegion(key)
   }, [key])
 
   return isActive ? setRef : undefined

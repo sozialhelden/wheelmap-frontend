@@ -34,6 +34,7 @@ import { useMapViewInternals } from './useMapInternals'
 import { uriFriendlyPosition } from './utils'
 import { GeolocateButton } from './GeolocateButton'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { useApplyMapPadding } from './useApplyMapPadding'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -83,6 +84,8 @@ export default function MapView(props: IProps) {
     onViewportUpdate(newViewport)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height])
+
+  useApplyMapPadding()
 
   React.useEffect(() => {
     if (['unavailable', 'error'].includes(mapboxgl.getRTLTextPluginStatus())) {

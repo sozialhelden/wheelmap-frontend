@@ -1,4 +1,5 @@
 import { MapRef } from 'react-map-gl'
+import { debounce } from 'lodash'
 
 interface Rect {
   top: number,
@@ -69,20 +70,20 @@ export class MapOverlaps {
   public readonly changeListeners = new Set<() => void>()
 
   readonly addOverlapRegion = (key: string, element: HTMLElement) => {
-    this.overlapRegions.set(key, element)
-
-    for (const listener of this.changeListeners) {
-      try {
-        listener()
-      } catch (e) {
-        console.error('Error in change listener', e)
-      }
+    if (this.overlapRegions.get(key) === element) {
+      return
     }
+    this.overlapRegions.set(key, element)
+    this.notifyChange()
   }
 
   readonly removeOverlapRegion = (key: string) => {
-    this.overlapRegions.delete(key)
+    if (this.overlapRegions.delete(key)) {
+      this.notifyChange()
+    }
+  }
 
+  private readonly notifyChange = debounce(() => {
     for (const listener of this.changeListeners) {
       try {
         listener()
@@ -90,7 +91,7 @@ export class MapOverlaps {
         console.error('Error in change listener', e)
       }
     }
-  }
+  }, 100)
 
   readonly collectPaddings = (map: MapRef, additionalPadding: number) => {
     const padding = {
