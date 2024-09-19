@@ -13,7 +13,22 @@ export function useApplyMapPadding() {
 
       map.off('moveend', listener)
 
+      // we might be triggered in a loop, check that the padding actually changed
       const padding = calculatePadding(map, mapOverlaps)
+      const currentPadding = map.getPadding()
+      if (typeof padding === 'number'
+        ? padding === currentPadding.top
+        && padding === currentPadding.bottom
+        && padding === currentPadding.left
+        && padding === currentPadding.right
+        : padding.top === currentPadding.top
+        && padding.bottom === currentPadding.bottom
+        && padding.left === currentPadding.left
+        && padding.right === currentPadding.right
+      ) {
+        return
+      }
+
       if (map.isEasing() || map.isMoving()) {
         map.once('moveend', listener)
         return

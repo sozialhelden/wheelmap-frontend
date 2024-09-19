@@ -132,7 +132,6 @@ export default function MapView(props: IProps) {
   }, [featureIds.length, onViewportUpdate, router])
 
   const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
-    console.log('onViewStateChange', evt)
     updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom })
   }, [updateViewportQuery])
 

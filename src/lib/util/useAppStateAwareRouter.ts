@@ -93,8 +93,6 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams, 
     updatedUrl.search = combineSearchParams(mergeSearchParams(mergedSearchParams, previous))
   }
 
-  console.log('preserveSearchParams', { url, updatedUrl, previous })
-
   return updatedUrl
 }
 
