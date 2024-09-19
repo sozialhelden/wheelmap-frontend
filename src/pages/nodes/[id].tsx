@@ -1,10 +1,12 @@
-import { useRouter } from 'next/router'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import styled from 'styled-components'
-import CloseLink from '../../components/shared/CloseLink'
-
 import MapLayout from '../../components/App/MapLayout'
+import { CombinedFeaturePanel } from '../../components/CombinedFeaturePanel/CombinedFeaturePanel'
+import CloseLink from '../../components/shared/CloseLink'
 import Toolbar from '../../components/shared/Toolbar'
+import { useMultipleFeatures } from '../../lib/fetchers/fetchMultipleFeatures'
+import { AnyFeature } from '../../lib/model/geo/AnyFeature'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -13,41 +15,35 @@ const PositionedCloseLink = styled(CloseLink)`
 `
 PositionedCloseLink.displayName = 'PositionedCloseLink'
 
-export default function LegacyNodePage() {
-  const router = useRouter()
-  const { id } = router.query
-  const isOSMFeature = typeof id === 'string' && id.match(/-?\d+/)
+export default function LegacyNodeFeaturesPage() {
+  const { push, replace, query: { id } } = useAppStateAwareRouter()
 
-  // const { data: acFeature, error: acError } = useSWR(isOSMFeature ? null : [id], fetchOnePlaceInfo);
-  // const { data: osmFeature, error: osmError } = useSWR(isOSMFeature ? [id] : null, fetchOneOSMFeature);
+  useEffect(() => {
+    const isOSMFeatureId = typeof id === 'string' && id.length > 0 && /^-?\d+$/.test(id)
 
-  // if (error) {
-  //   return <pre>{String(error)}</pre>
-  // }
+    if (isOSMFeatureId) {
+      if (id.startsWith('-')) {
+        replace(`/way/${id}`)
+      } else {
+        replace(`/node/${id}`)
+      }
+    }
 
-  // return (
-  //   <>
-  //     {feature && (
-  //       <Toolbar>
-  //         <CombinedFeaturePanel features={[feature]} />
-  //       </Toolbar>
-  //     )}
-  //     <MockedPOIDetails
-  //       feature={feature}
-  //       description="PlaceOfInterestDetails page"
-  //     />
-  //   </>
-  // )
+    // todo maybe replace to ac:PlaceInfo uri
+  }, [replace, id])
+
+  const { data } = useMultipleFeatures(`ac:${id}`)
+
+  const filteredFeatures = data?.filter(Boolean) as AnyFeature[] | undefined
 
   return (
-    <MapLayout>
-      <Toolbar>
-        <div>TODO: Load place details from OSM / AC here or redirect</div>
-      </Toolbar>
-    </MapLayout>
+    <Toolbar>
+      <PositionedCloseLink onClick={() => push('/')} />
+      <CombinedFeaturePanel features={filteredFeatures || []} />
+    </Toolbar>
   )
 }
 
-LegacyNodePage.getLayout = function getLayout(page: ReactElement) {
+LegacyNodeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
   return <MapLayout>{page}</MapLayout>
 }

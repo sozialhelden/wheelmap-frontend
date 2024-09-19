@@ -1,30 +1,34 @@
-import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
+import styled from 'styled-components'
 import MapLayout from '../../components/App/MapLayout'
-import { useCurrentApp } from '../../lib/context/AppContext'
-import { RossmannNode } from '../../lib/fixtures/mocks/nodes/rossmann'
 import { CombinedFeaturePanel } from '../../components/CombinedFeaturePanel/CombinedFeaturePanel'
-
+import CloseLink from '../../components/shared/CloseLink'
 import Toolbar from '../../components/shared/Toolbar'
-import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
+import { useMultipleFeatures } from '../../lib/fetchers/fetchMultipleFeatures'
+import { AnyFeature } from '../../lib/model/geo/AnyFeature'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
-function NodePage(props) {
-  const router = useRouter()
-  const { id } = router.query
-  const app = useCurrentApp()
+const PositionedCloseLink = styled(CloseLink)`
+  align-self: flex-start;
+  margin-top: -8px;
+  margin-right: 1px;
+`
+PositionedCloseLink.displayName = 'PositionedCloseLink'
+
+export default function NodeFeaturePage() {
+  const { push, query: { placeType, id } } = useAppStateAwareRouter()
+  const { data } = useMultipleFeatures(`${placeType}:${id}`)
+
+  const filteredFeatures = data?.filter(Boolean) as AnyFeature[] | undefined
 
   return (
-    <>
-      <Toolbar>
-        <CombinedFeaturePanel features={[RossmannNode]} />
-      </Toolbar>
-      <MockedPOIDetails feature={RossmannNode} description={`Node: ${id}`} />
-    </>
+    <Toolbar>
+      <PositionedCloseLink onClick={() => push('/')} />
+      <CombinedFeaturePanel features={filteredFeatures || []} />
+    </Toolbar>
   )
 }
 
-NodePage.getLayout = function getLayout(page: ReactElement) {
+NodeFeaturePage.getLayout = function getLayout(page: ReactElement) {
   return <MapLayout>{page}</MapLayout>
 }
-
-export default NodePage

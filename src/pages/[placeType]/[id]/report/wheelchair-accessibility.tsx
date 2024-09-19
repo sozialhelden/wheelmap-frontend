@@ -3,7 +3,7 @@ import { ReactElement, useRef, useState } from 'react'
 import Link from 'next/link'
 import MapLayout from '../../../../components/App/MapLayout'
 import { AccessibilityView, StyledToolbar } from './send-report-to-ac'
-import FeatureNameHeader, { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
+import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
 import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
 import Icon from '../../../../components/shared/Icon'
@@ -15,8 +15,9 @@ import {
 } from '../../../../lib/model/ac/categories/Categories'
 import { ErrorToolBar, LoadingToolbar } from '.'
 import { cx } from '../../../../lib/util/cx'
+import { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/utils/useFeatureLabel'
 
-const View: FC<{ feature: AnyFeature}> = ({ feature }) => {
+const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const router = useRouter()
   const { placeType, id } = router.query
   const languageTags = useCurrentLanguageTagStrings()

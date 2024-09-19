@@ -1,7 +1,9 @@
-import { useHotkeys } from '@blueprintjs/core'
+import { Callout, useHotkeys } from '@blueprintjs/core'
 import { uniqBy } from 'lodash'
-import { StrictMode, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import styled from 'styled-components'
+import { t } from 'ttag'
+import Link from 'next/link'
 import {
   AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
@@ -14,12 +16,11 @@ import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
 
 type Props = {
   features: AnyFeature[];
-  options?: { handleOpenReportMode?: () => void };
-};
+}
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
   if (!isOSMFeature(feature)) {
-    return null
+    return <section>Feature type not supported</section>
   }
 
   if (feature.properties.building) {
@@ -32,6 +33,12 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
   ) {
     return <OSMSidewalkDetails feature={feature} />
   }
+
+  return (
+    <section>
+      <h2>Feature type not supported</h2>
+    </section>
+  )
 }
 
 const Panel = styled.section`
@@ -57,12 +64,18 @@ export function CombinedFeaturePanel(props: Props) {
     <ErrorBoundary>
       <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
         {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
-        {/* TODO: Report button goes here. */}
+
         {features
           && features.length > 1
           && features
             .slice(1)
             .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
+
+        {(!features || features.length === 0) && (
+          <Callout>
+            <h2>{t`No features found.`}</h2>
+          </Callout>
+        )}
 
         <p>
           {showDebugger && <FeaturesDebugJSON features={features} /> }

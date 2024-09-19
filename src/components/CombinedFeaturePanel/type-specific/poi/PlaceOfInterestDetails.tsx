@@ -16,7 +16,7 @@ import NextToiletDirections from '../../components/AccessibilitySection/NextToil
 
 type Props = {
   feature: AnyFeature;
-};
+}
 
 export default function PlaceOfInterestDetails(props: Props) {
   const { feature } = props
@@ -42,6 +42,8 @@ export default function PlaceOfInterestDetails(props: Props) {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
+
+      {/* TODO: Report button goes here. */}
 
       <FeatureAccessibility feature={feature}>
         <NextToiletDirections feature={feature} />

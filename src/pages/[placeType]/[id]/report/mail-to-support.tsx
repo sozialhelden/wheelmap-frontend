@@ -11,10 +11,11 @@ import Toolbar from '../../../../components/shared/Toolbar'
 import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
 import { ErrorToolBar, LoadingToolbar, StyledToolbar } from '.'
 import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
-import FeatureNameHeader, { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
+import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
 import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
 import useUserAgent from '../../../../lib/context/UserAgentContext'
+import { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/utils/useFeatureLabel'
 
 const reportSubject = (
   placeName: LocalizedString | string | undefined,
@@ -46,7 +47,7 @@ My browser:\n\n${userAgent}`
 const makeEmailUri = (mailAddress: `${string}@${string}`, subject: string, body: string) => `mailto:${mailAddress}`
 + `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
-const EmailView: FC<{ feature: AnyFeature}> = ({ feature }) => {
+const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const router = useRouter()
   const { placeType, id } = router.query
   const ref = useRef(null)

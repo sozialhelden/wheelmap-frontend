@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import styled from 'styled-components'
 import MapLayout from '../../../components/App/MapLayout'
@@ -6,6 +5,8 @@ import { CombinedFeaturePanel } from '../../../components/CombinedFeaturePanel/C
 import CloseLink from '../../../components/shared/CloseLink'
 import Toolbar from '../../../components/shared/Toolbar'
 import { useMultipleFeatures } from '../../../lib/fetchers/fetchMultipleFeatures'
+import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
+import { useAppStateAwareRouter } from '../../../lib/util/useAppStateAwareRouter'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -14,22 +15,20 @@ const PositionedCloseLink = styled(CloseLink)`
 `
 PositionedCloseLink.displayName = 'PositionedCloseLink'
 
-export default function CompositeFeaturesPage() {
-  const router = useRouter()
-  const { placeType, id } = router.query
-  const features = useMultipleFeatures(`${placeType}:${id}`)
+export default function PlaceFeaturePage() {
+  const { push, query: { placeType, id } } = useAppStateAwareRouter()
+  const { data } = useMultipleFeatures(`${placeType}:${id}`)
 
-  const options = {
-    handleOpenReportMode: () => router.push(`/${placeType}/${id}/report`),
-  }
+  const filteredFeatures = data?.filter(Boolean) as AnyFeature[] | undefined
 
   return (
     <Toolbar>
-      <CombinedFeaturePanel features={features.data || []} options={options} />
+      <PositionedCloseLink onClick={() => push('/')} />
+      <CombinedFeaturePanel features={filteredFeatures || []} />
     </Toolbar>
   )
 }
 
-CompositeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
+PlaceFeaturePage.getLayout = function getLayout(page: ReactElement) {
   return <MapLayout>{page}</MapLayout>
 }

@@ -3,10 +3,10 @@ import { t } from 'ttag'
 import OSMFeature from '../../model/osm/OSMFeature'
 import ResourceError from '../ResourceError'
 
-export async function fetchOneOSMFeature([
-  baseUrl,
-  prefixedId,
-]: [string, string | undefined]): Promise<OSMFeature | undefined> {
+export async function fetchOneOSMFeature(
+  { baseUrl, appToken, prefixedId }
+  : { baseUrl: string, appToken: string, prefixedId: string | undefined },
+): Promise<OSMFeature | undefined> {
   const [collectionName, osmType, id] = prefixedId?.split(':') ?? []
 
   if (!collectionName) {
@@ -19,7 +19,7 @@ export async function fetchOneOSMFeature([
     throw new Error('Invalid OSM feature ID')
   }
 
-  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson`
+  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`
   const response = await fetch(url)
   if (!response.ok) {
     const errorResponse = await response.json()
