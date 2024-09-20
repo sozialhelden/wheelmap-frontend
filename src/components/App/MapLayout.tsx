@@ -15,7 +15,7 @@ import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
-import { MapFilterContext } from '../MapNew/filter/MapFilterContext'
+import { MapFilterContext, MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 import { useFilterContextState } from '../MapNew/filter/useMapFilterContextValue'
 
 const BlurLayer = styled.div<{ active: boolean }>`
@@ -59,11 +59,10 @@ export default function MapLayout({
   React.useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
-  const filterContextValue = useFilterContextState()
 
   return (
     <ErrorBoundary>
-      <MapFilterContext.Provider value={filterContextValue}>
+      <MapFilterContextProvider>
         <HeadMetaTags />
         <GlobalStyle />
 
@@ -85,7 +84,7 @@ export default function MapLayout({
             <StyledToastContainer position="bottom-center" stacked />
           </main>
         </GlobalMapContextProvider>
-      </MapFilterContext.Provider>
+      </MapFilterContextProvider>
     </ErrorBoundary>
 
   )
