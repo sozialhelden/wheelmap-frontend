@@ -86,10 +86,10 @@ export const valueRenderFunctions: Record<
 > = {
   '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,
   '^opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)$': ({ value }) => <OpeningHoursValue value={String(value)} />,
-  '^step_height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
+  ':step_height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
   '^kerb:height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
   '^entrance_width$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↔</>} />,
-  ':?width$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" prefix={<>↔</>}/>,
+  ':?width$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" prefix={<>↔</>} />,
   ':?height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" prefix={<>↕</>} />,
   ':?depth$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" suffix={t`depth`} />,
   '^level$': (props) => <BuildingLevel {...props} />,
