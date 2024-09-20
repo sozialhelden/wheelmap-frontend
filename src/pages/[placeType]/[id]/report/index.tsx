@@ -42,6 +42,8 @@ export const StyledReportView = styled.div`
   gap: 12px;
   padding-bottom: 24px;
 
+  color: #000;
+
   ._view {
     display: contents;
   }
