@@ -4,6 +4,7 @@ import { FC } from 'react'
 import useUserAgent from '../../lib/context/UserAgentContext'
 import LocateIcon from '../icons/actions/LocateOff.svg'
 import LocateOnIcon from '../icons/actions/LocateOn.svg'
+import LocateUnavailableIcon from '../icons/actions/LocateUnavailable.svg'
 
 const MapboxLocationPinStyles = createGlobalStyle`
   .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active > .mapboxgl-ctrl-icon {
@@ -14,6 +15,12 @@ const MapboxLocationPinStyles = createGlobalStyle`
 
   .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate > .mapboxgl-ctrl-icon {
     background-image: url(${LocateIcon.src});
+    background-size: 65%;
+    background-position: center center;
+  }
+
+  .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate:disabled > .mapboxgl-ctrl-icon {
+    background-image: url(${LocateUnavailableIcon.src});
     background-size: 65%;
     background-position: center center;
   }
