@@ -29,7 +29,7 @@ const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
     languageTags,
   })
 
-  const cat = ((category !== unknownCategory && category?._id) ? category._id : categoryTagKeys[0]) || 'undefined'
+  const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [option, setOption] = useState<'fully' | 'partially' | 'not-at-all' | undefined>()
 
   return (

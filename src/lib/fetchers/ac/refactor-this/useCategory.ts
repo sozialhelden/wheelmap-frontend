@@ -17,12 +17,15 @@ export default function useCategory(...features: (AnyFeature | null | undefined)
         }
 
         const result = getCategoryForFeature(categorySynonymCache.data, feature)
-        if (result && result !== unknownCategory) return result
+        if (result && result !== unknownCategory) {
+          return result
+        }
       }
 
       return unknownCategory
     },
-    [categorySynonymCache.data, features],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [categorySynonymCache.data, ...features],
   )
 
   return { categorySynonymCache, category }

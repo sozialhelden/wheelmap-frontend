@@ -108,7 +108,7 @@ function mapResultToUrlObject(result: EnrichedSearchResult) {
 
   if (result.placeInfo) {
     return {
-      pathname: `/nodes/${result.placeInfo.properties._id}`,
+      pathname: `/ac:PlaceInfo/${result.placeInfo.properties._id}`,
       query: {
         q: null,
         extent: result.komootPhotonResult.properties.extent,

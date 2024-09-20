@@ -85,7 +85,7 @@ export default function FeatureNameHeader(props: Props) {
   const icon = (
     <Icon
       accessibility={isWheelchairAccessible(feature)}
-      category={(category !== unknownCategory) && category?._id ? categoryTagKeys[0] : 'undefined'}
+      category={((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'}
       size={props.size || 'medium'}
       ariaHidden
       centered

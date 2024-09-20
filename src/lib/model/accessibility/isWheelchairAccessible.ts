@@ -9,12 +9,12 @@ export function isWheelchairAccessible(
 ): YesNoLimitedUnknown {
   const featureType = feature['@type']
 
-  if (featureType === 'a11yjson:EquipmentInfo') {
+  if (featureType === 'a11yjson:EquipmentInfo' || featureType === 'ac:EquipmentInfo') {
     // See https://sozialhelden.github.io/a11yjson/3-interfaces/#EquipmentProperties
     return isEquipmentAccessible(feature.properties) || 'unknown'
   }
 
-  if (featureType === 'a11yjson:PlaceInfo') {
+  if (featureType === 'a11yjson:PlaceInfo' || featureType === 'ac:PlaceInfo') {
     // Hopefully we can replace this with something nicer soon.
     // See https://sozialhelden.github.io/a11yjson/3-interfaces/
     const { properties } = feature
@@ -46,14 +46,14 @@ export function isWheelchairAccessible(
     // See https://wiki.openstreetmap.org/wiki/Key:wheelchair
     const { wheelchair } = feature.properties
     if (includes(yesNoLimitedUnknownArray, wheelchair)) {
-      return wheelchair
+      return wheelchair as YesNoLimitedUnknown
     }
     if (wheelchair === 'designated') {
       return 'yes'
     }
 
     const wheelchairUserCapacity = feature.properties['capacity:disabled']
-    if (wheelchairUserCapacity && wheelchairUserCapacity > 0) {
+    if (typeof wheelchairUserCapacity === 'number' && wheelchairUserCapacity > 0) {
       return 'yes'
     }
 

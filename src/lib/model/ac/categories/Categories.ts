@@ -34,7 +34,7 @@ export function translatedRootCategoryName(key: string) {
 export function getCategory(
   synonymCache: SynonymCache,
   idOrSynonym: string | number,
-): ACCategory {
+): ACCategory | undefined {
   return synonymCache.get(String(idOrSynonym))
 }
 
@@ -43,7 +43,9 @@ export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
   categories.forEach((category) => {
     result.set(category._id, category)
     const { synonyms } = category
-    if (!(synonyms instanceof Array)) return
+    if (!Array.isArray(synonyms)) {
+      return
+    }
     synonyms.forEach((synonym) => {
       result.set(synonym, category)
     })
@@ -60,14 +62,14 @@ export function getCategoryForFeature(
     return unknownCategory
   }
 
-  let categoryId = null
+  let categoryId: string | undefined
   if (
     feature['@type'] === 'a11yjson:PlaceInfo'
     || feature['@type'] === 'a11yjson:EquipmentInfo'
     || feature['@type'] === 'ac:PlaceInfo'
     || feature['@type'] === 'ac:EquipmentInfo'
   ) {
-    categoryId = feature.properties.category
+    categoryId = feature.properties?.category
   } else if (feature['@type'] === 'komoot:SearchResult') {
     categoryId = feature.properties.osm_value || feature.properties.osm_key
   } else if (feature['@type'] === 'osm:Feature') {
@@ -77,7 +79,7 @@ export function getCategoryForFeature(
         return foundCategory
       }
     }
-    categoryId = feature.properties.amenity
+    categoryId = feature.properties.amenity as string | undefined
   }
 
   if (!categoryId) {
