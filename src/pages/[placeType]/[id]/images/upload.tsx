@@ -6,6 +6,8 @@ import MapLayout from '../../../../components/App/MapLayout'
 // import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
 import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import postImageUpload from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
+import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import CompositeFeaturesPage from '../[tag]/edit'
 
 export default function Page() {
   const router = useRouter()
@@ -64,6 +66,6 @@ export default function Page() {
   )
 }
 
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout blur>{page}</MapLayout>
+Page.getLayout = function getLayout(page) {
+  return <PlaceLayout>{page}</PlaceLayout>
 }

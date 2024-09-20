@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { ReactElement, useEffect } from 'react'
-import MapLayout from '../components/App/MapLayout'
+import React, { useEffect } from 'react'
 import { isFirstStart } from '../lib/util/savedState'
 import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'
 
@@ -16,8 +15,4 @@ export default function Page() {
   return (
     <SearchButtonOrInput />
   )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
 }

@@ -15,6 +15,8 @@ import { useMultipleFeatures } from '../../../../../lib/fetchers/fetchMultipleFe
 import { isOSMFeature } from '../../../../../lib/model/geo/AnyFeature'
 import { getOSMType } from '../../../../../lib/model/osm/generateOsmUrls'
 import { log } from '../../../../../lib/util/logger'
+import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import PlaceFeaturePage from '../index'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -25,7 +27,7 @@ PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 async function createChangeset({
   baseUrl, tagName, newValue, accessToken,
-}: { baseUrl: string; tagName: string; newValue: string; accessToken: string}): Promise<string> {
+}: { baseUrl: string; tagName: string; newValue: string; accessToken: string }): Promise<string> {
   const response = await fetch(`${baseUrl}/api/0.6/changeset/create`, {
     method: 'PUT',
     headers: {
@@ -39,7 +41,7 @@ async function createChangeset({
       </changeset>
     </osm>`,
   })
-  return await response.text()
+  return response.text()
 }
 
 async function createChange({
@@ -82,7 +84,7 @@ const fetcher = (type: string, id: number) => {
   ).then((res) => res.json()).then((data) => data.elements[0])
 }
 
-type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete';
+type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete'
 
 export default function CompositeFeaturesPage() {
   const router = useRouter()
@@ -180,6 +182,6 @@ export default function CompositeFeaturesPage() {
   )
 }
 
-CompositeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
+CompositeFeaturesPage.getLayout = function getLayout(page) {
+  return <PlaceLayout>{page}</PlaceLayout>
 }

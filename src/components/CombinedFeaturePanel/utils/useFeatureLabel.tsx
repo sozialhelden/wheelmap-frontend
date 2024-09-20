@@ -18,6 +18,16 @@ function getRoomNumberString(roomNumber: string) {
   return t`Room ${roomNumber}`
 }
 
+function getAcParentPlaceId(feature: AnyFeature) {
+  if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
+    return feature.properties.parentPlaceInfoId
+  }
+  if (feature['@type'] === 'a11yjson:EquipmentInfo' || feature['@type'] === 'ac:EquipmentInfo') {
+    return feature.properties.placeInfoId
+  }
+  return undefined
+}
+
 export function useFeatureLabel({
   feature,
   languageTags,
@@ -28,11 +38,7 @@ export function useFeatureLabel({
   let categoryTagKeys: string[] = []
   const { categorySynonymCache, category } = useCategory(feature)
 
-  const acParentPlaceInfoId = feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo'
-    ? feature.properties.parentPlaceInfoId
-    : feature['@type'] === 'a11yjson:EquipmentInfo' || feature['@type'] === 'ac:EquipmentInfo'
-      ? feature.properties.placeInfoId
-      : undefined
+  const acParentPlaceInfoId = getAcParentPlaceId(feature)
   const parentPlaceInfo = usePlaceInfo(acParentPlaceInfoId)
 
   const parentPlaceInfoCategory = React.useMemo(
@@ -46,11 +52,7 @@ export function useFeatureLabel({
   const osmFeature = feature['@type'] === 'osm:Feature' ? feature : null
   const parentPlaceName = parentPlaceInfo.data
     && placeNameFor(parentPlaceInfo.data, parentPlaceInfoCategory, languageTags)
-  acFeature
-  && getLocalizedStringTranslationWithMultipleLocales(
-    acFeature.properties.parentPlaceInfoName,
-    languageTags,
-  )
+
   const address = acFeature?.properties.address
   const addressObject = typeof address === 'object' ? address : undefined
   const levelName = addressObject
@@ -77,7 +79,6 @@ export function useFeatureLabel({
 
   const {
     map: attributesById,
-    isValidating,
   } = useAccessibilityAttributesIdMap(languageTags)
 
   if ((!category || category?._id === 'unknown') && feature['@type'] === 'osm:Feature') {
@@ -87,7 +88,7 @@ export function useFeatureLabel({
   }
 
   let placeName: string | undefined
-  let ariaLabel = compact([placeName, categoryName]).join(', ')
+  let ariaLabel: string | undefined
 
   if (feature['@type'] === 'a11yjson:EquipmentInfo') {
     placeName = getEquipmentInfoDescription(feature, 'shortDescription')
@@ -95,8 +96,10 @@ export function useFeatureLabel({
     ariaLabel = getEquipmentInfoDescription(feature, 'longDescription')
   } else if (acFeature) {
     placeName = placeNameFor(acFeature, category, languageTags) || roomName
+    ariaLabel = compact([placeName, categoryName]).join(', ')
   } else if (osmFeature) {
     placeName = placeNameFor(osmFeature, category, languageTags)
+    ariaLabel = compact([placeName, categoryName]).join(', ')
   }
   const wikidataEntityId = osmFeature?.properties?.wikidata
   const localizedNameFromWikidata = useWikidataName(!placeName && wikidataEntityId)
@@ -114,7 +117,7 @@ export function useFeatureLabel({
   const roomNameAndNumber = placeName === roomName
     ? roomNumberString
     : [roomName, roomNumberString && `(${roomNumberString})`].join(' ')
-  const hasLongName = placeName && placeName.length > 50
+  const hasLongName = placeName ? placeName.length > 50 : false
   return {
     parentPlaceName,
     levelName,

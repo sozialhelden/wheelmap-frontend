@@ -1,7 +1,6 @@
 import { ReactElement, useEffect } from 'react'
 import MapLayout from '../../components/App/MapLayout'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { MultiFeatureToolbar } from '../../components/CombinedFeaturePanel/MultiFeatureToolbar'
 
 export default function LegacyNodeFeaturesPage() {
   const { replace, query: { id } } = useAppStateAwareRouter()
@@ -17,14 +16,10 @@ export default function LegacyNodeFeaturesPage() {
       }
     }
 
+    replace(`/ac:PlaceInfo/${id}`)
+
     // todo maybe replace to ac:PlaceInfo uri
   }, [replace, id])
 
-  return (
-    <MultiFeatureToolbar featureIds={`ac:${id}`} />
-  )
-}
-
-LegacyNodeFeaturesPage.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
+  return null
 }

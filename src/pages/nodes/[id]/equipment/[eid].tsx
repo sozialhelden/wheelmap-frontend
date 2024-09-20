@@ -37,7 +37,7 @@ function EquipmentInfoPage() {
   const fallbackplaceResponse = useDocumentSWR({
     type: 'ac:PlaceInfo',
     _id: '222RZF9r2AAzqBQXh',
-  });
+  })
   React.useEffect(() => {
     log.log('rendered')
     const equipment = equipmentResponse.data
@@ -68,7 +68,3 @@ function EquipmentInfoPage() {
 }
 
 export default EquipmentInfoPage
-
-EquipmentInfoPage.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
-}

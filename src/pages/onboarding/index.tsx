@@ -15,7 +15,3 @@ export default function Page() {
 
   return <OnboardingDialog onClose={handleClose} />
 }
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
-}

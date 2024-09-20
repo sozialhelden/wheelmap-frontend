@@ -1,11 +1,11 @@
-import { expandedPreferredLocales } from '../../i18n/expandedPreferredLocales';
-import { localeFromString } from '../../i18n/localeFromString';
-import { normalizeLanguageCode } from '../../i18n/normalizeLanguageCode';
-import IAccessibilityAttribute from '../../model/ac/IAccessibilityAttribute';
-import useCollectionSWR from '../ac/useCollectionSWR'
 import { useMemo } from 'react'
+import { expandedPreferredLocales } from '../../i18n/expandedPreferredLocales'
+import { localeFromString } from '../../i18n/localeFromString'
+import { normalizeLanguageCode } from '../../i18n/normalizeLanguageCode'
+import IAccessibilityAttribute from '../../model/ac/IAccessibilityAttribute'
+import useCollectionSWR from './useCollectionSWR'
 
-export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
+export type AccessibilityAttributesMap = Map<string, Record<string, string>>
 
 export function generateSearchParams(
   languageTags: string[],
@@ -18,30 +18,28 @@ export function generateSearchParams(
   )
   const localizedFields = preferredLocales
     .map((l) => l.string.replace(/-/, '_'))
-    .flatMap((l) => [`label.${l}`, `shortLabel.${l}`, `summary.${l}`, `details.${l}`]);
+    .flatMap((l) => [`label.${l}`, `shortLabel.${l}`, `summary.${l}`, `details.${l}`])
 
   const params = {
     limit: '10000',
     surrogateKeys: 'false',
     include: `effects,${localizedFields.sort().join(',')}`,
-  };
+  }
 
-  return new URLSearchParams(params);
+  return new URLSearchParams(params)
 }
 
 export default function useAccessibilityAttributesIdMap(languageTags: string[]) {
-  const params = generateSearchParams(languageTags);
+  const params = generateSearchParams(languageTags)
   const response = useCollectionSWR({
     type: 'ac:AccessibilityAttribute',
     params,
-  });
+  })
 
-  const { data } = response;
+  const { data } = response
 
-  const map = useMemo(() => {
-    return data && new Map<string, IAccessibilityAttribute>(data?.results?.map((r) => [r._id, r]));
-  }, [data]);
+  const map = useMemo(() => data && new Map<string, IAccessibilityAttribute>(data?.results?.map((r) => [r._id, r])), [data])
 
-  const responseWithMap = useMemo(() => ({ ...response, map }), [response, map]);
-  return responseWithMap;
-};
+  const responseWithMap = useMemo(() => ({ ...response, map }), [response, map])
+  return responseWithMap
+}

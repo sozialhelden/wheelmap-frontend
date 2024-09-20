@@ -10,7 +10,3 @@ export default function Page() {
     </Toolbar>
   )
 }
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
-}

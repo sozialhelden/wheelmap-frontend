@@ -11,31 +11,34 @@ const NonBreakingSpan = styled.span`
 
 type Props = {
   feature: AnyFeature | null;
-};
+}
 
-export default function PlaceWebsiteLink(props: Props) {
-  const { feature } = props
-
+export default function PlaceWebsiteLink({ feature } : Props) {
   let placeWebsiteUrl = null
   if (feature['@type'] === 'osm:Feature') {
     placeWebsiteUrl = feature.properties['contact:website'] || feature.properties.website
-  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
     placeWebsiteUrl = feature.properties.placeWebsiteUrl
   }
 
-  if (!placeWebsiteUrl) return null
+  if (!placeWebsiteUrl) {
+    return null
+  }
+
+  if (typeof placeWebsiteUrl !== 'string') {
+    return null
+  }
+
   if (!placeWebsiteUrl.match(/^https?:\/\//i)) {
     return null
   }
 
   return (
-    typeof placeWebsiteUrl === 'string' && (
-      <li>
-        <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
-          <WorldIcon />
-          <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
-        </Link>
-      </li>
-    )
+    <li>
+      <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
+        <WorldIcon />
+        <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
+      </Link>
+    </li>
   )
 }

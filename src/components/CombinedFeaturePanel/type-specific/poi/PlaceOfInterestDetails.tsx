@@ -1,7 +1,8 @@
 import { Callout } from '@blueprintjs/core'
 import { t } from 'ttag'
 import Link from 'next/link'
-import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
+import React, { useContext } from 'react'
+import { AnyFeature, isPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
 import FeatureAccessibility from '../../components/AccessibilitySection/FeatureAccessibility'
 import FeatureContext from '../../components/FeatureContext'
 import FeatureNameHeader from '../../components/FeatureNameHeader'
@@ -13,20 +14,22 @@ import StyledIconButtonList from '../../components/IconButtonList/StyledIconButt
 import FeatureImage from '../../components/image/FeatureImage'
 import FeaturesDebugJSON from '../../components/FeaturesDebugJSON'
 import NextToiletDirections from '../../components/AccessibilitySection/NextToiletDirections'
+import { AppStateLink } from '../../../App/AppStateLink'
+import { FeaturePanelContext } from '../../FeaturePanelContext'
 
 type Props = {
   feature: AnyFeature;
 }
 
-export default function PlaceOfInterestDetails(props: Props) {
-  const { feature } = props
+export default function PlaceOfInterestDetails({ feature }: Props) {
+  const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
   if (!feature.properties) {
     return (
       <Callout>
         <h2>{t`This place has no known properties.`}</h2>
         <p>
-          <Link href={`https://openstreetmap.org/${feature?.id}`}>
+          <Link href={`https://openstreetmap.org/${feature._id}`}>
             {t`View on OpenStreetMap`}
           </Link>
         </p>
@@ -52,14 +55,18 @@ export default function PlaceOfInterestDetails(props: Props) {
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
-        <PhoneNumberLinks {...props} />
-        {feature['@type'] === 'a11yjson:PlaceInfo' && (
+        <PhoneNumberLinks feature={feature} />
+        {isPlaceInfo(feature) && (
           <ExternalInfoAndEditPageLinks feature={feature} />
         )}
         {/*
         <ShareButtons {...props} />
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
       </StyledIconButtonList>
+
+      <AppStateLink href={`${baseFeatureUrl}/report`}>
+        {t`Report`}
+      </AppStateLink>
     </FeatureContext.Provider>
   )
 }

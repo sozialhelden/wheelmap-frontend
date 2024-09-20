@@ -5,7 +5,3 @@ import MappingEventListPanel from '../../components/MappingEvents/MappingEventLi
 export default function Page() {
   return <MappingEventListPanel />
 }
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <MapLayout>{page}</MapLayout>
-}
