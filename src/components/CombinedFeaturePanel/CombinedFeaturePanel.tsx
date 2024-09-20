@@ -12,8 +12,9 @@ import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
 import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
-import { useMapFilter } from '../MapNew/useMapFilter'
-import { composeOrFilter, makeFilterByNode } from '../MapNew/filterOperators'
+import {
+  composeOrFilter, makeFilterByNode, useMapFilterContext, useMapHighlight,
+} from '../MapNew/filter'
 
 type Props = {
   features: AnyFeature[];
@@ -48,7 +49,7 @@ const Panel = styled.section`
 
 export function CombinedFeaturePanel(props: Props) {
   const features = uniqBy(props.features, (feature) => (isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id))
-  const { addFilter } = useMapFilter()
+  const { addFilter } = useMapFilterContext()
 
   const [showDebugger, setShowDebugger] = useState(false)
   const hotkeys = useMemo(() => [
@@ -62,6 +63,8 @@ export function CombinedFeaturePanel(props: Props) {
   ], [showDebugger])
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
   const surroundings = features && features.length > 1 && features.slice(1)
+  useMapHighlight(features[0])
+
   return (
     <React.StrictMode>
       <ErrorBoundary>
