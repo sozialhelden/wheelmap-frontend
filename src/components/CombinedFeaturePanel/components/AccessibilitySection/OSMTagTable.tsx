@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
 import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import { OSMTagTableRowOrListElement } from './OSMTagTableRowOrListElement'
@@ -8,12 +8,12 @@ import { tagsWithSemicolonSupport } from '../../../../lib/model/osm/tag-config/t
 import { getOSMTagProps } from '../../../../lib/model/osm/tag-config/getOSMTagProps'
 import { valueRenderFunctions } from './valueRenderFunctions'
 import useAccessibilityAttributesIdMap from '../../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
+import { FeaturePanelContext } from '../../FeaturePanelContext'
 
 export type TagOrTagGroup = {
   key: string;
   children: TagOrTagGroup[];
-};
-
+}
 
 function getTagValues(feature: TypeTaggedOSMFeature, key: string) {
   const originalOSMTagValue = feature.properties[key] ?? ''
@@ -26,15 +26,12 @@ function getTagValues(feature: TypeTaggedOSMFeature, key: string) {
   return tagValues
 }
 
-
-export default function OSMTagTable(props: {
+export default function OSMTagTable({ feature, isHorizontal, nestedTags }: {
   nestedTags: TagOrTagGroup[];
   feature: TypeTaggedOSMFeature;
   isHorizontal?: boolean;
 }) {
-  const router = useRouter()
-  const { ids } = router.query
-  const { feature, isHorizontal, nestedTags } = props
+  const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
   const languageTags = useCurrentLanguageTagStrings()
   const {
@@ -42,7 +39,7 @@ export default function OSMTagTable(props: {
   } = useAccessibilityAttributesIdMap(languageTags)
 
   const listItems = nestedTags.map(({ key, children }) => {
-    let tagValues = getTagValues(feature, key)
+    const tagValues = getTagValues(feature, key)
 
     return tagValues.map((singleValue) => {
       const matchedKey = Object.keys(valueRenderFunctions)
@@ -51,14 +48,13 @@ export default function OSMTagTable(props: {
         key,
         matchedKey,
         singleValue,
-        ids,
-        currentId: feature._id,
         languageTags,
         attributesById,
         feature,
+        baseFeatureUrl,
       })
 
-      const tagId = tagProps.valueAttribute?._id;
+      const tagId = tagProps.valueAttribute?._id
       if (!children || !children.length) {
         return <OSMTagTableRowOrListElement {...tagProps} key={tagId} isHorizontal={isHorizontal} />
       }
@@ -78,13 +74,12 @@ export default function OSMTagTable(props: {
           valueElement={nestedTable}
           isHorizontal={isHorizontal}
         />
-      );
+      )
     })
-  });
+  })
 
   if (isHorizontal) {
     return <StyledList>{listItems}</StyledList>
-  } else {
-    return <StyledTable>{listItems}</StyledTable>
   }
+  return <StyledTable>{listItems}</StyledTable>
 }

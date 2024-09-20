@@ -4,38 +4,24 @@ import React, {
 import { AccessibilityView } from './send-report-to-ac'
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
-import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
-import Icon from '../../../../components/shared/Icon'
 import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
 
-import {
-  unknownCategory,
-} from '../../../../lib/model/ac/categories/Categories'
 import { cx } from '../../../../lib/util/cx'
-import { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/utils/useFeatureLabel'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { StyledReportView } from './index'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
-import { YesNoLimitedUnknown } from '../../../../lib/model/ac/Feature'
-import { isWheelchairAccessible } from '../../../../lib/model/accessibility/isWheelchairAccessible'
+import { YesNoUnknown } from '../../../../lib/model/ac/Feature'
+import { isOrHasAccessibleToilet } from '../../../../lib/model/accessibility/isOrHasAccessibleToilet'
+
+import { ToiletStatusNotAccessible } from '../../../../components/icons/accessibility'
+import ToiletStatusAccessibleIcon from '../../../../components/icons/accessibility/ToiletStatusAccessible'
 
 const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
-  const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
-  const {
-    category,
-    categoryTagKeys,
-  } = useFeatureLabel({
-    feature,
-    languageTags,
-  })
-
-  const current = isWheelchairAccessible(feature)
-
-  const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
-  const [option, setOption] = useState<YesNoLimitedUnknown | undefined>(current)
+  const current = isOrHasAccessibleToilet(feature)
+  const [option, setOption] = useState<YesNoUnknown | undefined>(current)
 
   return (
     <StyledReportView className="_view">
@@ -44,27 +30,17 @@ const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <div className="_title">How wheelchair accessible is this place?</div>
+      <div className="_title">How wheelchair accessible is the toilet?</div>
       <form>
         <AccessibilityView
           onClick={() => { setOption('yes') }}
           className="_yes"
           inputLabel="accessibility-fully"
           selected={option === 'yes'}
-          icon={<Icon size="medium" accessibility="yes" category={cat} />}
-          valueName="Fully"
+          icon={<ToiletStatusAccessibleIcon />}
+          valueName="Yes"
         >
           Entrance has no steps, and all rooms are accessible without steps.
-        </AccessibilityView>
-        <AccessibilityView
-          onClick={() => { setOption('limited') }}
-          className="_okay"
-          inputLabel="accessibility-partially"
-          selected={option === 'limited'}
-          icon={<Icon size="medium" accessibility="limited" category={cat} />}
-          valueName="Partially"
-        >
-          Entrance has one step with max. 3 inches height, most rooms are without steps
         </AccessibilityView>
 
         <AccessibilityView
@@ -72,8 +48,8 @@ const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
           className="_no"
           inputLabel="accessibility-not-at-all"
           selected={option === 'no'}
-          icon={<Icon size="medium" accessibility="no" category={cat} />}
-          valueName="Not at all"
+          icon={<ToiletStatusNotAccessible />}
+          valueName="No"
         >
           Entrance has a high step or several steps, none of the rooms are accessible.
         </AccessibilityView>
@@ -87,15 +63,15 @@ const View: FC<{ feature: AnyFeature }> = ({ feature }) => {
   )
 }
 
-function WheelchairAccessibility() {
+function ToiletAccessibility() {
   const { features } = useContext(FeaturePanelContext)
 
   const feature = features[0]
   return <View feature={feature} />
 }
 
-WheelchairAccessibility.getLayout = function getLayout(page) {
+ToiletAccessibility.getLayout = function getLayout(page) {
   return <PlaceLayout>{page}</PlaceLayout>
 }
 
-export default WheelchairAccessibility
+export default ToiletAccessibility

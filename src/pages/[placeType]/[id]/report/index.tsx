@@ -16,7 +16,7 @@ const options = [
   } as const,
   {
     title: t`The accessibility to the toilet here is rated incorrectly or is missing.`,
-    redirect: './report/send-report-to-ac',
+    redirect: './report/toilet-accessibility',
   } as const,
   {
     title: t`I have more information about this place.`,

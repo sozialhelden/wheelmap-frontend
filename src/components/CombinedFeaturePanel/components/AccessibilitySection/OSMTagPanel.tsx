@@ -30,7 +30,7 @@ export interface ITreeNode {
 
 function generateTree(keys: string[]): ITreeNode {
   const result: ITreeNode = {}
-  const tested = []
+
   for (const key of keys) {
     for (const [bucketName, keyRegExp] of pathsToConsumedTagKeys) {
       const matches = key.match(keyRegExp)
@@ -40,9 +40,9 @@ function generateTree(keys: string[]): ITreeNode {
         const existingParent = get(result, parentPath)
         const newObject = typeof existingParent === 'string' ? existingParent : key
         set(result, path, newObject)
-        log.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
-        log.log(`Assigned`, path, '=', newObject);
-        log.log(`Result`, result);
+        // log.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
+        // log.log(`Assigned`, path, '=', newObject);
+        // log.log(`Result`, result);
         break
       }
     }
@@ -70,13 +70,13 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
     () => {
       const filteredKeys = Object.keys(feature.properties || {})
         .filter((key) => !omittedKeys.has(key))
-        .filter((key) => !omittedKeyPrefixes.find((prefix) => typeof prefix === 'string' ? key.startsWith(prefix) : key.match(prefix)))
+        .filter((key) => !omittedKeyPrefixes.find((prefix) => (typeof prefix === 'string' ? key.startsWith(prefix) : key.match(prefix))))
         .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)))
       const accessibilityRelevantKeys = filteredKeys.filter(
         isAccessibilityRelevantOSMKey,
       )
-      const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
 
+      // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
       // const remainingKeys = difference(
       //   filteredKeys,
       //   accessibilityRelevantKeys,

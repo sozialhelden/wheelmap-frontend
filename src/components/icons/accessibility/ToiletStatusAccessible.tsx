@@ -3,7 +3,7 @@ import colors from '../../../lib/util/colors'
 
 const color = colors.markers.background.yes
 
-export default function ToiletStatuAccessibleIcon(props: React.SVGAttributes<{}>) {
+export default function ToiletStatusAccessibleIcon(props: React.SVGAttributes<{}>) {
   return (
     <svg width="38px" height="24px" viewBox="0 0 38 24" version="1.1" {...props}>
       <g id="ToiletUnknown" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

@@ -33,17 +33,16 @@ function findAttribute(
 
 export function getOSMTagProps(
   {
-    key, matchedKey, singleValue, ids, currentId, attributesById, languageTags,
-    feature,
+    key, matchedKey, singleValue, attributesById, languageTags,
+    feature, baseFeatureUrl,
   }: {
     key: string;
     matchedKey: string;
     singleValue: string;
-    ids: string | string[];
-    currentId: string;
     attributesById: Map<string, IAccessibilityAttribute>;
     languageTags: string[];
     feature: AnyFeature;
+    baseFeatureUrl: string;
   },
 ): OSMTagProps {
   const keyWithoutLanguageTag = key.replace(/:\w\w(?:[_-]\w\w)?$/, '')
@@ -59,7 +58,9 @@ export function getOSMTagProps(
   if (valueRenderFn) {
     const osmFeature = isOSMFeature(feature) ? feature : null
     const accessibilityCloudFeature = isPlaceInfo(feature) ? feature : null
-    valueLabel = valueRenderFn({ value: singleValue, matches, languageTags, osmFeature, accessibilityCloudFeature })
+    valueLabel = valueRenderFn({
+      value: singleValue, matches, languageTags, osmFeature, accessibilityCloudFeature,
+    })
   } else {
     valueLabel = localize(valueAttribute?.label, languageTags)
     || localize(valueAttribute?.shortLabel, languageTags)
@@ -82,7 +83,7 @@ export function getOSMTagProps(
     )
 
   const isEditable = editableKeys.has(key)
-  const editURL = `/composite/${ids}/${currentId}/${key}/edit`
+  const editURL = `${baseFeatureUrl}/edit/${key}`
   const tagProps: OSMTagProps = {
     tagKey: key,
     hasDisplayedKey,

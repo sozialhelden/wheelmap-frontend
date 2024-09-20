@@ -3,7 +3,6 @@ import { uniqBy } from 'lodash'
 import { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
-import Link from 'next/link'
 import {
   AnyFeature, getKey, isOSMFeature, isSearchResultFeature,
 } from '../../lib/model/geo/AnyFeature'
@@ -59,17 +58,12 @@ export function CombinedFeaturePanel(props: Props) {
 
   ], [showDebugger])
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
-
+  const surroundings = features && features.length > 1 && features.slice(1)
   return (
     <ErrorBoundary>
       <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
         {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
-
-        {features
-          && features.length > 1
-          && features
-            .slice(1)
-            .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
+        {surroundings && surroundings.map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
 
         {(!features || features.length === 0) && (
           <Callout>

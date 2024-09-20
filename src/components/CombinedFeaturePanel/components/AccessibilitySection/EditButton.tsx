@@ -1,14 +1,17 @@
-import { AnchorButton } from '@blueprintjs/core'
-import { ROUND } from '@blueprintjs/core/lib/esm/common/classes';
 import React from 'react'
+import { Button } from '@blueprintjs/core'
 import { t } from 'ttag'
+import { AppStateLink } from '../../../App/AppStateLink'
 
 export function EditButton({ editURL }: { editURL: string; }) {
   return (
-    <AnchorButton
-      aria-label={t`Edit`}
-      icon="edit"
+    <AppStateLink
       href={editURL}
-    />
+    >
+      <Button
+        aria-label={t`Edit`}
+        icon="edit"
+      />
+    </AppStateLink>
   )
 }
