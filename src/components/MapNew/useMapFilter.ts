@@ -24,22 +24,24 @@ type FilterExpression = [FilterOperator, ...(FilterTail | FilterTail[])[]]
 
 type HighlightId = string & { __highlightBrand: never }
 
-type Filter = {
-  source: string,
+export type Filter = {
+  id: HighlightId,
   expression: FilterExpression,
   layer?: string
 }
 
-type FilterContext = {
+export type FilterAddition = Omit<Filter, 'id'> & { id?: string }
+
+export type FilterContext = {
   filter: Partial<Record<HighlightId, Filter>>,
-  addHighlight: (filter: Filter) => HighlightId,
-  remove: (sourceOrFilter: string | Filter) => void,
+  addFilter: (filter: FilterAddition) => Filter,
+  remove: (filter: Filter) => void,
   removeById: (id: HighlightId) => void
 }
 
 export const MapFilterContext = createContext<FilterContext>({
   filter: {},
-  addHighlight: () => '' as HighlightId,
+  addFilter: (filter) => ({ ...filter, id: (filter.id ?? crypto.randomUUID()) as HighlightId }),
   remove: () => { },
   removeById: () => { },
 })
@@ -51,18 +53,22 @@ export const useFilterContextState = (): FilterContext => {
 
   return {
     filter: state,
-    addHighlight: (filter) => {
-      const id = crypto.randomUUID() as HighlightId
-      setState({ ...state, [id]: filter })
-      return id
+    addFilter: (filter) => {
+      const entryId = (filter.id ?? crypto.randomUUID()) as HighlightId
+      if (state[entryId] !== undefined) {
+        throw new Error(`Cannot add filter with the same id of ${entryId}`)
+      }
+      const entry = { ...filter, id: entryId }
+      setState({ ...state, [entryId]: entry })
+      return entry
     },
-    remove: (sourceOrHighlight) => {
-      const source = typeof sourceOrHighlight === 'string' ? sourceOrHighlight : sourceOrHighlight.source
+    remove: (filter) => {
+      const { id } = filter
       const replacement = {} as Partial<Record<HighlightId, Filter>>
       const entries = Object.entries(state)
       for (let i = 0; i < entries.length; i += 1) {
         const [key, value] = entries[i]
-        if (value && value.source !== source) {
+        if (value && value.id !== id) {
           replacement[key] = value
         }
       }
@@ -92,8 +98,24 @@ export const filterForLayer = (id: string | undefined, filter: Partial<Record<Hi
     .filter((x) => x?.layer === undefined || x.layer === id)
     .map((x) => x?.expression)
     .filter((x) => !!x)
+
   if (filters.length > 1) {
-    return ['any', filters]
+    return filter[0]
+  }
+  if (filters.length === 1) {
+    return filters[0]
+  }
+  return undefined
+}
+
+export const filterForLayerFlat = (id: string | undefined, filter: Partial<Record<HighlightId, Filter>>) => {
+  const filters = Object
+    .values(filter)
+    .filter((x) => x?.layer === undefined || x.layer === id)
+    .map((x) => x?.expression)
+    .filter((x) => !!x)
+  if (filters.length > 1) {
+    return filters
   }
   if (filters.length === 1) {
     return filters[0]

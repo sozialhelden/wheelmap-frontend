@@ -15,5 +15,10 @@ export const MapLayer: FC<LayerProps> = ({ filter, ...props }) => {
     }
     return (<Layer {...props} />)
   }
-  return <Layer {...props} filter={filter} />
+
+  const builtFilters = filterForLayer(props.id, mapFilters)
+  // @ts-ignore ts(2322) - type coercion fails because of subtypes:
+  // - https://github.com/microsoft/TypeScript/issues/57013
+  // - https://github.com/microsoft/TypeScript/issues/59716
+  return <Layer {...props} filter={builtFilters ? ['all', builtFilters, filter] : filter} />
 }
