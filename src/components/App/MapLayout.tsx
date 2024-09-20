@@ -15,6 +15,8 @@ import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
+import { MapFilterContext, MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
+import { useFilterContextState } from '../MapNew/filter/useMapFilterContextValue'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -60,27 +62,29 @@ export default function MapLayout({
 
   return (
     <ErrorBoundary>
-      <HeadMetaTags />
-      <GlobalStyle />
+      <MapFilterContextProvider>
+        <HeadMetaTags />
+        <GlobalStyle />
 
-      <GlobalMapContextProvider>
+        <GlobalMapContextProvider>
 
-        <MainMenu
-          onToggle={toggleMainMenu}
-          isOpen={isMenuOpen}
-          clientSideConfiguration={clientSideConfiguration}
-        />
+          <MainMenu
+            onToggle={toggleMainMenu}
+            isOpen={isMenuOpen}
+            clientSideConfiguration={clientSideConfiguration}
+          />
 
-        <main
-          style={{ height: '100%' }}
-          ref={containerRef}
-        >
-          <LoadableMapView {...{ width, height }} />
-          <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-          <div style={{ zIndex: 2000 }}>{children}</div>
-          <StyledToastContainer position="bottom-center" stacked />
-        </main>
-      </GlobalMapContextProvider>
+          <main
+            style={{ height: '100%' }}
+            ref={containerRef}
+          >
+            <LoadableMapView {...{ width, height }} />
+            <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+            <div style={{ zIndex: 2000 }}>{children}</div>
+            <StyledToastContainer position="bottom-center" stacked />
+          </main>
+        </GlobalMapContextProvider>
+      </MapFilterContextProvider>
     </ErrorBoundary>
 
   )
