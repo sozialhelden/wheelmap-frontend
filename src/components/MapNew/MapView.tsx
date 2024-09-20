@@ -242,10 +242,15 @@ export default function MapView(props: IProps) {
   ], [hasBuildings, hasPublicTransport, hasSurfaces])
   useHotkeys(hotkeys)
 
-  const layers = React.useMemo(
-    () => mapStyle.data?.layers && filterLayers({
-      layers: mapStyle.data?.layers, hasBuildings, hasPublicTransport, hasSurfaces,
-    }),
+  const [layers, highlightLayers] = React.useMemo(
+    () => {
+      if (mapStyle.data?.layers) {
+        return filterLayers({
+          layers: mapStyle.data?.layers, hasBuildings, hasPublicTransport, hasSurfaces,
+        })
+      }
+      return [[], []]
+    },
     [mapStyle, hasBuildings, hasPublicTransport, hasSurfaces],
   )
 
@@ -283,21 +288,10 @@ export default function MapView(props: IProps) {
               key={name}
             />
           ))}
-          {layers?.map((layer) => (
-            <MapLayer
-              key={layer.id}
-              {...(layer as any)}
-            />
-          ))}
-          {/* {latitude && longitude && featureIds.length > 0 && (
-        <FeatureListPopup
-          featureIds={featureIds}
-          latitude={Number.parseFloat(latitude)}
-          longitude={Number.parseFloat(longitude)}
-          onClose={closePopup}
-        />
-      )} */}
-          {/* <ZoomToDataOnLoad /> */}
+
+          {layers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} />)}
+          {highlightLayers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} asFilterLayer />)}
+
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>
