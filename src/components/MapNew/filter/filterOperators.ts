@@ -1,4 +1,4 @@
-import { FilterAddition } from './useMapFilter'
+import { Filter, FilterAddition, HighlightId } from './types'
 
 export interface FilterProperties {
   id?: string
@@ -40,3 +40,19 @@ export const composeAndFilter = (...filters: FilterAddition[]): FilterAddition =
   layer: filters.length > 0 ? filters.every((x) => x.layer === filters[0].layer) ? filters[0].layer : undefined : undefined,
   expression: ['all', ...(filters.map((x) => x.expression)) as any[]],
 })
+
+export const filterForLayer = (id: string | undefined, filter: Partial<Record<HighlightId, Filter>>) => {
+  const filters = Object
+    .values(filter)
+    .filter((x) => x?.layer === undefined || x.layer === id)
+    .map((x) => x?.expression)
+    .filter((x) => !!x)
+
+  if (filters.length > 1) {
+    return filter[0]
+  }
+  if (filters.length === 1) {
+    return filters[0]
+  }
+  return undefined
+}
