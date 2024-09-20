@@ -11,6 +11,7 @@ export function EditButton({ editURL }: { editURL: string; }) {
       <Button
         aria-label={t`Edit`}
         icon="edit"
+        tabIndex={-1}
       />
     </AppStateLink>
   )

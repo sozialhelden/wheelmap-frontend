@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { log } from '../../../../lib/util/logger'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
-import { StyledReportView } from './index'
+import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
 function ReportExternalPage() {
   const router = useRouter()

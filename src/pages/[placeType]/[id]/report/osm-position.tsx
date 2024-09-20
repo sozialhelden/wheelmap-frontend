@@ -5,12 +5,12 @@ import { t } from 'ttag'
 import { center } from '@turf/turf'
 import { PointGeometry } from '@sozialhelden/a11yjson'
 import { MultiPolygon, Point, Polygon } from 'geojson'
-import { StyledReportView } from '.'
 import StyledMarkdown from '../../../../components/shared/StyledMarkdown'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
 const changeTitle = t`You can change this place's location on OpenStreetMap.`
 const note = t`Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.`

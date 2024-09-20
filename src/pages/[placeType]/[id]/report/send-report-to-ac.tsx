@@ -3,7 +3,6 @@ import React, {
   ReactNode, useContext, useState,
 } from 'react'
 import { t } from 'ttag'
-import { StyledReportView } from '.'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import ToiletStatusAccessible from '../../../../components/icons/accessibility/ToiletStatusAccessible'
@@ -14,6 +13,7 @@ import { cx } from '../../../../lib/util/cx'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
+import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
 export const AccessibilityView: FC<{
   onClick: () => unknown,
@@ -51,7 +51,7 @@ function ReportSendToAC() {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <div className="_title">Is the toilet here wheelchair accessible?</div>
+      <h2 className="_title">Is the toilet here wheelchair accessible?</h2>
       <form>
         <AccessibilityView
           onClick={() => { setOption('yes') }}

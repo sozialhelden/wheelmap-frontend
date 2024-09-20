@@ -1,34 +1,17 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
-import { t } from 'ttag'
-import WheelchairAccessibility from '../report/wheelchair-accessibility'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
-import { AppStateLink } from '../../../../components/App/AppStateLink'
-import ToiletAccessibility from '../report/toilet-accessibility'
+import { AutoEditor } from '../../../../components/CombinedFeaturePanel/editors/AutoEditor'
 
 export default function EditPage() {
   const { query: { tagKey } } = useRouter()
-  const { baseFeatureUrl } = useContext(FeaturePanelContext)
+  const { features } = useContext(FeaturePanelContext)
 
-  if (tagKey === 'wheelchair') {
-    return <WheelchairAccessibility />
-  }
+  const feature = features[0]
+  const key = Array.isArray(tagKey) ? tagKey[0] : tagKey
 
-  if (tagKey === 'toilets:wheelchair') {
-    return <ToiletAccessibility />
-  }
-
-  return (
-    <div>
-      <p>{t`No editor available for ${tagKey}`}</p>
-      <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">Back</div>
-        </AppStateLink>
-      </footer>
-    </div>
-  )
+  return <AutoEditor tagKey={key} feature={feature} />
 }
 
 EditPage.getLayout = function getLayout(page) {

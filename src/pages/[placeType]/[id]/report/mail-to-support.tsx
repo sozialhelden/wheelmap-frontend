@@ -1,7 +1,6 @@
 import React, { FC, useContext } from 'react'
 import { t } from 'ttag'
 import { LocalizedString } from '@sozialhelden/a11yjson'
-import { StyledReportView } from '.'
 import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
@@ -11,6 +10,7 @@ import { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/uti
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
+import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
 const reportSubject = (
   placeName: LocalizedString | string | undefined,
@@ -68,7 +68,6 @@ const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
         >
           Email Us
         </a>
-
       </footer>
     </StyledReportView>
   )
