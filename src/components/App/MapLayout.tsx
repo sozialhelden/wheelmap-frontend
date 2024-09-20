@@ -15,7 +15,8 @@ import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
-import { MapFilterContext, useFilterContextState } from '../MapNew/useMapFilter'
+import { MapFilterContext } from '../MapNew/filter/MapFilterContext'
+import { useFilterContextState } from '../MapNew/filter/useMapFilterContextValue'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
