@@ -1,3 +1,6 @@
+/* eslint-disable no-continue */
+import mapboxgl from 'mapbox-gl'
+
 export const databaseTableNames = [
   'admin',
   'places',
@@ -19,7 +22,7 @@ export const databaseTableNames = [
   'platforms',
   'stop_positions',
   'stations',
-]
+] as const
 
 const publicTransportLayerIds = new Set([
   'osm-master-routes',
@@ -49,6 +52,11 @@ const surfaceLayerIds = new Set([
   'osm-surface-fill',
 ])
 
+const isOsmLayer = (layer: mapboxgl.Layer) => layer.id.startsWith('osm-')
+const isPublicTransportLayer = (layer: mapboxgl.Layer) => publicTransportLayerIds.has(layer.id)
+const isBuildingLayer = (layer: mapboxgl.Layer) => buildingLayerIds.has(layer.id)
+const isSurfaceLayer = (layer: mapboxgl.Layer) => surfaceLayerIds.has(layer.id)
+
 /**
  * Filter layers from a mapbox-gl stylesheet.
  *
@@ -56,6 +64,8 @@ const surfaceLayerIds = new Set([
  * table names from our OSM database.
  *
  * @param layers The layers to filter
+ * @returns an array containing `[layers, highlightLayers]`, where `highlightLayers` is specifically
+ * for filters that include a specific place.
  */
 export function filterLayers(
   {
@@ -66,26 +76,34 @@ export function filterLayers(
     hasPublicTransport: boolean;
     hasSurfaces: boolean;
   },
-): mapboxgl.Layer[] {
-  return layers
-    .filter((layer) => layer.id?.startsWith('osm-'))
-    .filter((layer) => {
-      if (publicTransportLayerIds.has(layer.id) && !hasPublicTransport) return false
-      if (buildingLayerIds.has(layer.id) && !hasBuildings) return false
-      if (surfaceLayerIds.has(layer.id) && !hasSurfaces) return false
-      return true
-    })
-    .map((layer) => {
-      // In Mapbox Studio, layers have a source layer reference that uses a random string ID like
-      // 'entrances_or_exits_saarbrueck-0vxz2q'. We need to replace that with the actual table name,
-      // for example 'entrances_or_exits'.
-      const source = databaseTableNames.find((tableName) => layer['source-layer']?.startsWith(tableName))
+): [mapboxgl.Layer[], mapboxgl.Layer[]] {
+  const regularLayers: mapboxgl.Layer[] = []
+  const highlightLayers: mapboxgl.Layer[] = []
+  for (let i = 0; i < layers.length; i += 1) {
+    const layer = layers[i]
+    if (!isOsmLayer(layer)) {
+      continue
+    }
+    if (isPublicTransportLayer(layer) && !hasPublicTransport) {
+      continue
+    }
+    if (isBuildingLayer(layer) && !hasBuildings) {
+      continue
+    }
+    if (isSurfaceLayer(layer) && !hasSurfaces) {
+      continue
+    }
+    const source = databaseTableNames.find((tableName) => layer['source-layer']?.startsWith(tableName))
+    if (!source) {
+      continue
+    }
+    const enhancedLayer = { ...layer, source, 'source-layer': 'default' }
+    if (layer.id.startsWith('osm-selected')) {
+      highlightLayers.push(enhancedLayer)
+    } else {
+      regularLayers.push(enhancedLayer)
+    }
+  }
 
-      return {
-        ...layer,
-        source,
-        'source-layer': 'default',
-      }
-    })
-    .filter((layer) => layer.source)
+  return [regularLayers, highlightLayers]
 }
