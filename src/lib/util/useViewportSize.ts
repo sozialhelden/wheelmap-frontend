@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from 'react'
 
-const getBreakpointSize = (width: number) => width <= 512 ? "small" : "big"
+const getBreakpointSize = (width: number) => (width <= 512 ? 'small' : 'big')
 
 /**
  * Determine the viewport size depending on the inner sizing of the window, useful
@@ -10,14 +10,14 @@ export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
     width: window.innerHeight,
     height: window.innerHeight,
-    size: getBreakpointSize(window.innerWidth)
+    size: getBreakpointSize(window.innerWidth),
   } as const)
 
   const updateWindowSize = useCallback((windowWidth: number, windowHeight: number) => {
     setWindowSize({
       width: windowWidth,
       height: windowHeight,
-      size: getBreakpointSize(windowWidth)
+      size: getBreakpointSize(windowWidth),
     })
   }, [setWindowSize])
 
@@ -26,9 +26,9 @@ export const useWindowSize = () => {
       updateWindowSize(window.innerWidth, window.innerHeight)
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => { window.removeEventListener('resize', handleResize)}
-  }, [setWindowSize])
+    window.addEventListener('resize', handleResize)
+    return () => { window.removeEventListener('resize', handleResize) }
+  }, [setWindowSize, updateWindowSize])
 
-  return windowSize;
+  return windowSize
 }
