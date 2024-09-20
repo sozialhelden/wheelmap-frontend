@@ -18,6 +18,7 @@ import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { isFirstStart } from '../../lib/util/savedState'
 
 import Onboarding from '../Onboarding/OnboardingView'
+import { MapFilterContext, useFilterContextState } from '../MapNew/useMapFilter'
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -61,31 +62,34 @@ export default function MapLayout({
   React.useEffect(() => {
     setIsMenuOpen(false)
   }, [pathname])
+  const filterContextValue = useFilterContextState()
 
   return (
     <ErrorBoundary>
-      {firstStart && <Onboarding />}
-      <HeadMetaTags />
-      <GlobalStyle />
+      <MapFilterContext.Provider value={filterContextValue}>
+        {firstStart && <Onboarding />}
+        <HeadMetaTags />
+        <GlobalStyle />
 
-      <GlobalMapContextProvider>
+        <GlobalMapContextProvider>
 
-        <MainMenu
-          onToggle={toggleMainMenu}
-          isOpen={isMenuOpen}
-          clientSideConfiguration={clientSideConfiguration}
-        />
+          <MainMenu
+            onToggle={toggleMainMenu}
+            isOpen={isMenuOpen}
+            clientSideConfiguration={clientSideConfiguration}
+          />
 
-        <main
-          style={{ height: '100%' }}
-          ref={containerRef}
-        >
-          <LoadableMapView {...{ width, height }} />
-          <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-          <div style={{ zIndex: 2000 }}>{children}</div>
-          <StyledToastContainer position="bottom-center" stacked />
-        </main>
-      </GlobalMapContextProvider>
+          <main
+            style={{ height: '100%' }}
+            ref={containerRef}
+          >
+            <LoadableMapView {...{ width, height }} />
+            <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+            <div style={{ zIndex: 2000 }}>{children}</div>
+            <StyledToastContainer position="bottom-center" stacked />
+          </main>
+        </GlobalMapContextProvider>
+      </MapFilterContext.Provider>
     </ErrorBoundary>
 
   )

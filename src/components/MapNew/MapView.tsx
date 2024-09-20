@@ -6,7 +6,6 @@ import {
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import {
-  Layer,
   Map,
   MapProvider,
   NavigationControl,
@@ -33,6 +32,7 @@ import { log } from '../../lib/util/logger'
 import { useMapViewInternals } from './useMapInternals'
 import { uriFriendlyPosition } from './utils'
 import { GeolocateButton } from './GeolocateButton'
+import { MapLayer } from './MapLayer'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
 
@@ -284,7 +284,10 @@ export default function MapView(props: IProps) {
             />
           ))}
           {layers?.map((layer) => (
-            <Layer key={layer.id} {...(layer as any)} />
+            <MapLayer
+              key={layer.id}
+              {...(layer as any)}
+            />
           ))}
           {/* {latitude && longitude && featureIds.length > 0 && (
         <FeatureListPopup
