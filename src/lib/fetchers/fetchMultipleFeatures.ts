@@ -4,12 +4,9 @@ import { fetchDocumentWithTypeTag } from './ac/fetchDocument'
 import { fetchOneOSMFeature } from './osm-api/fetchOneOSMFeature'
 import useOSMAPI from './osm-api/useOSMAPI'
 import useAccessibilityCloudAPI from './ac/useAccessibilityCloudAPI'
-
-function fetchOnePlaceInfo(baseUrl:string, appToken: string, id: string) {
-  return fetchDocumentWithTypeTag({
-    baseUrl, type: 'ac:PlaceInfo', _id: id, paramsString: `appToken=${appToken}`,
-  })
-}
+import {
+  AccessibilityCloudRDFType,
+} from '../model/typing/AccessibilityCloudTypeMapping'
 
 export function mapMultipleFeaturePromises(
   osmBaseUrl: string,
@@ -29,7 +26,10 @@ export function mapMultipleFeaturePromises(
     }
 
     if (id.startsWith('ac:')) {
-      return await fetchOnePlaceInfo(acBaseUrl, acAppToken, id.slice(3)) as AnyFeature
+      const [acPrefix, acType, acId] = id?.split(':') ?? []
+      return await fetchDocumentWithTypeTag({
+        baseUrl: acBaseUrl, type: `${acPrefix}:${acType}` as AccessibilityCloudRDFType, _id: acId, paramsString: `appToken=${acAppToken}`,
+      }) as AnyFeature
     }
 
     const feature = await fetchOneOSMFeature({ baseUrl: osmBaseUrl, appToken: osmAppToken, prefixedId: id })

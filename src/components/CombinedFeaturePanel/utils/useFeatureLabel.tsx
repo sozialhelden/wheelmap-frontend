@@ -23,7 +23,7 @@ function getAcParentPlaceId(feature: AnyFeature) {
     return feature.properties.parentPlaceInfoId
   }
   if (feature['@type'] === 'a11yjson:EquipmentInfo' || feature['@type'] === 'ac:EquipmentInfo') {
-    return feature.properties.placeInfoId
+    return feature.properties?.placeInfoId
   }
   return undefined
 }
@@ -90,7 +90,7 @@ export function useFeatureLabel({
   let placeName: string | undefined
   let ariaLabel: string | undefined
 
-  if (feature['@type'] === 'a11yjson:EquipmentInfo') {
+  if (feature['@type'] === 'a11yjson:EquipmentInfo' || feature['@type'] === 'ac:EquipmentInfo') {
     placeName = getEquipmentInfoDescription(feature, 'shortDescription')
       || t`Unnamed facility`
     ariaLabel = getEquipmentInfoDescription(feature, 'longDescription')

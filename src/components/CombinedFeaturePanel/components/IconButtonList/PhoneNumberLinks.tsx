@@ -5,8 +5,8 @@ import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
 import PhoneIcon from '../../../icons/actions/Phone'
 
 type Props = {
-  feature: AnyFeature | null;
-};
+  feature: AnyFeature;
+}
 
 function SinglePhoneNumberLink({
   phoneNumber,
@@ -28,18 +28,18 @@ function SinglePhoneNumberLink({
   )
 }
 
-export default function PhoneNumberLinks(props: Props) {
-  const { feature } = props
+export default function PhoneNumberLinks({ feature }: Props) {
   let phoneNumber: string | undefined
   let mobilePhoneNumbers: string[] | undefined
+
   if (feature['@type'] === 'osm:Feature') {
-    phoneNumber = feature.properties['contact:phone'] || feature.properties.phone
+    phoneNumber = (feature.properties['contact:phone'] || feature.properties.phone) as string | undefined
     mobilePhoneNumbers = uniq(
       (
-        feature.properties['contact:mobile'] || feature.properties.mobile
+        (feature.properties['contact:mobile'] || feature.properties.mobile) as string | undefined
       )?.split(/[;,]\s*/) || [],
     )
-  } else if (feature['@type'] === 'a11yjson:PlaceInfo') {
+  } else if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
     phoneNumber = feature.properties.phoneNumber
   }
 
@@ -48,7 +48,7 @@ export default function PhoneNumberLinks(props: Props) {
   return (
     <>
       {phoneNumber && <SinglePhoneNumberLink phoneNumber={phoneNumber} />}
-      {mobilePhoneNumbers.map((mobilePhoneNumber) => (
+      {mobilePhoneNumbers?.map((mobilePhoneNumber) => (
         <SinglePhoneNumberLink
           key={mobilePhoneNumber}
           phoneNumber={mobilePhoneNumber}

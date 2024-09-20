@@ -119,7 +119,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
           const index = osmUris.indexOf(uri)
           if (index !== -1) {
             extendedSearchResults[index].placeInfo = {
-              '@type': 'a11yjson:PlaceInfo',
+              '@type': 'ac:PlaceInfo',
               ...placeInfoResult,
             } as TypeTaggedPlaceInfo
             break

@@ -1,12 +1,10 @@
 import React, {
-  FC, useContext, useRef,
+  useContext,
 } from 'react'
 import { t } from 'ttag'
 import styled from 'styled-components'
-import Toolbar from '../../../../components/shared/Toolbar'
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
-import Spinner from '../../../../components/ActivityIndicator/Spinner'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
@@ -177,12 +175,14 @@ function ReportPage() {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
+
       <p className="_title">{t`Is there a problem with this place?`}</p>
+
       {
-        options.map((x) => (
-          <div className="_option">
-            <AppStateLink href={x.redirect}>
-              {x.title}
+        options.map((o) => (
+          <div className="_option" key={o.redirect}>
+            <AppStateLink href={o.redirect}>
+              {o.title}
             </AppStateLink>
           </div>
         ))

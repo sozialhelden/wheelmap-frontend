@@ -10,13 +10,13 @@ const NonBreakingSpan = styled.span`
 `
 
 type Props = {
-  feature: AnyFeature | null;
+  feature: AnyFeature;
 }
 
 export default function PlaceWebsiteLink({ feature } : Props) {
-  let placeWebsiteUrl = null
+  let placeWebsiteUrl: string | null | undefined
   if (feature['@type'] === 'osm:Feature') {
-    placeWebsiteUrl = feature.properties['contact:website'] || feature.properties.website
+    placeWebsiteUrl = (feature.properties['contact:website'] || feature.properties.website) as string | undefined
   } else if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
     placeWebsiteUrl = feature.properties.placeWebsiteUrl
   }

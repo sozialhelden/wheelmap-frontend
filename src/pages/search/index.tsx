@@ -1,7 +1,6 @@
 import Head from 'next/head'
-import { ReactElement, useCallback } from 'react'
+import { useCallback } from 'react'
 import { t } from 'ttag'
-import MapLayout from '../../components/App/MapLayout'
 import SearchPanel from '../../components/SearchPanel/SearchPanel'
 import { useCurrentApp } from '../../lib/context/AppContext'
 

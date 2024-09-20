@@ -34,8 +34,6 @@ const allowedPlaceTypes = [
 ] as const
 
 function buildFeatureIds(placeType: string, ids: string[]) {
-  console.log('placeType', placeType, ids)
-
   if (!allowedPlaceTypes.includes(placeType as any)) {
     throw new Error(`Invalid or unknown placeType: ${placeType}`)
   }

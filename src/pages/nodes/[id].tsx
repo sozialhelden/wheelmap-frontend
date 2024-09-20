@@ -1,5 +1,4 @@
-import { ReactElement, useEffect } from 'react'
-import MapLayout from '../../components/App/MapLayout'
+import { useEffect } from 'react'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export default function LegacyNodeFeaturesPage() {
@@ -17,8 +16,6 @@ export default function LegacyNodeFeaturesPage() {
     }
 
     replace(`/ac:PlaceInfo/${id}`)
-
-    // todo maybe replace to ac:PlaceInfo uri
   }, [replace, id])
 
   return null
