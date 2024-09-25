@@ -96,7 +96,7 @@
     "unfetch": "^3.1.2",
     "uuid": "^8.3.1",
     "webdriverio": "^9.1.0",
-    "webpack": "^5.76.0",
+    "webpack": "^5.94.0",
     "webpack-log": "^3.0.1"
   },
   "devDependencies": {
