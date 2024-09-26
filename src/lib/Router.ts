@@ -1,4 +1,4 @@
-import pathToRegexp from 'path-to-regexp';
+import { compile } from 'path-to-regexp';
 import * as queryString from 'query-string';
 
 // todo: types
@@ -106,9 +106,14 @@ class Router {
       const keys = [];
       compiledRoute = {
         keys,
-        pattern: pathToRegexp(route.path || '', keys),
+        pattern: new RegExp(
+          route.path.replace(/:[a-zA-Z0-9]+/g, (match) => {
+            keys.push({ name: match.slice(1), repeat: false, delimiter: '/' });
+            return '([^/]+)';
+          })
+        ),
         keyNames: keys.map(key => key.name),
-        generate: pathToRegexp.compile(route.path),
+        generate: compile(route.path),
       };
 
       this.compiledRouteCache.set(route.path, compiledRoute);
