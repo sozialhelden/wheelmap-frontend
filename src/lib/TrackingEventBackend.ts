@@ -29,6 +29,9 @@ export type AttributeChangedTrackingEvent = BaseTrackingEvent & {
   placeInfoId?: string | number,
   organizationId?: string,
   appId?: string,
+  osmId?: number,
+  osmType?: string,
+  featureUrl?: string,
 };
 
 export type SurveyCompletedTrackingEvent = BaseTrackingEvent & {

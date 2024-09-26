@@ -1,22 +1,21 @@
-import { t } from 'ttag';
-import fetch from '../../../lib/fetch';
 import get from 'lodash/get';
-import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
+import { t } from 'ttag';
+import { AppContextData } from '../../../AppContext';
+import { trackEventExternally } from '../../../lib/Analytics';
+import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
+import Categories, { CategoryLookupTables, getCategoryId } from '../../../lib/Categories';
+import env from '../../../lib/env';
 import {
   Feature,
   YesNoLimitedUnknown,
   YesNoUnknown,
+  isWheelmapFeature,
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
-import { trackEventExternally } from '../../../lib/Analytics';
-import Categories, { getCategoryId } from '../../../lib/Categories';
-import { CategoryLookupTables } from '../../../lib/Categories';
-import { AppContextData } from '../../../AppContext';
-import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
-import { isWheelmapFeature } from '../../../lib/Feature';
-import env from '../../../lib/env';
+import fetch from '../../../lib/fetch';
+import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { saveEditInLocalStorage } from './LastEditsStorage';
 
 type ExternalSaveOptions<T> = {
@@ -43,6 +42,13 @@ function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {
 
   const categoryId = getCategoryId(category);
   const parentCategoryId = getCategoryId(parentCategory);
+  const osmFeature = isWheelmapFeature(feature) ? feature : undefined;
+  const acFeature = isWheelmapFeature(feature) ? undefined : feature;
+  const osmType = osmFeature && osmFeature.properties.osm_type;
+  const osmId = osmFeature && osmFeature.properties.id;
+  const osmFeatureUrl = osmFeature && `https://www.openstreetmap.org/${osmType}/${osmId}`;
+  const acFeatureUrl = acFeature && `https://accessibility.cloud/place-infos/${acFeature.properties._id}`;
+  const featureUrl = osmFeatureUrl || acFeatureUrl;
 
   Object.keys(propertyUpdates).forEach(propertyName => {
     trackingEventBackend.track(appContext.app, {
@@ -50,6 +56,9 @@ function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {
       category: categoryId ? categoryId : 'unknown',
       parentCategory: parentCategoryId ? parentCategoryId : undefined,
       placeInfoId: featureId,
+      osmId,
+      osmType,
+      featureUrl,
       attributePath: `properties.${propertyName}`,
       previousValue: get(feature, `properties.${propertyName}`),
       newValue: propertyUpdates[propertyName],
