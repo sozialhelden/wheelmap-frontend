@@ -139,6 +139,7 @@ status next to commits.
   us](mailto:support@accessibility.cloud)!
 - For reporting bugs or other issues, please create issues on our [GitHub issue
   tracker](https://github.com/sozialhelden/wheelmap-react-frontend/issues).
+  
 - If you have a concrete bugfix, you can create a pull request - please create an issue first so we
   can organize collaboration together.
 
