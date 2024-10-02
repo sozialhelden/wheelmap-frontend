@@ -1,12 +1,12 @@
-import env from '../lib/env';
 import { createEnvironmentJSResponseHandler } from '@sozialhelden/twelve-factor-dotenv';
+import compression from 'compression';
+import express from 'express';
+import cache from 'express-cache-headers';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import nextjs from 'next';
 import * as path from 'path';
-import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import cache from 'express-cache-headers';
-import compression from 'compression';
 import * as querystring from 'querystring';
+import env from '../lib/env';
 
 import router from '../app/router';
 import registerHealthChecks from './healthChecks';
@@ -15,7 +15,6 @@ console.log('Node version:', process.version);
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = nextjs({ dir: path.join(__dirname, '..'), dev });
-const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
@@ -71,6 +70,8 @@ app.prepare().then(() => {
       res.redirect(`/node/${id}`);
     }
   );
+  
+  registerHealthChecks(server);
 
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
@@ -78,6 +79,8 @@ app.prepare().then(() => {
     if (!match) {
       return next();
     }
+
+    console.log('Match!', match);
 
     app.render(req, res, '/main', { ...match.params, ...req.query, routeName: match.route.name });
   });
@@ -90,7 +93,7 @@ app.prepare().then(() => {
     })
   );
 
-  registerHealthChecks(server);
+  const handle = app.getRequestHandler();
 
   // Fallback for routes not found.
   server.get('*', (req, res) => {
