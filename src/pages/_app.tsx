@@ -1,50 +1,50 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import * as React from 'react';
+import { encode } from 'js-base64';
+import get from 'lodash/get';
 import BaseApp from 'next/app';
 import Head from 'next/head';
+import * as React from 'react';
+import 'regenerator-runtime/runtime';
 import { t } from 'ttag';
-import get from 'lodash/get';
-import AsyncNextHead from '../AsyncNextHead';
-import TwitterMeta from '../components/TwitterMeta';
-import FacebookMeta from '../components/FacebookMeta';
-import OpenGraph from '../components/OpenGraph';
-import NotFound from '../components/NotFound/NotFound';
 import { AppContextData, AppContextProvider } from '../AppContext';
-import { encode } from 'js-base64';
+import AsyncNextHead from '../AsyncNextHead';
+import FacebookMeta from '../components/FacebookMeta';
 import '../components/Map/leaflet-gesture-handling/leaflet-gesture-handling.css';
+import NotFound from '../components/NotFound/NotFound';
+import OpenGraph from '../components/OpenGraph';
+import TwitterMeta from '../components/TwitterMeta';
 
 import {
-  parseAcceptLanguageString,
-  localeFromString,
-  getBrowserLocaleStrings,
-  translatedStringFromObject,
-  addTranslationsToTTag,
-  Locale,
-  currentLocales,
-} from '../lib/i18n';
-import router from '../app/router';
-import {
-  getInitialRouteProps,
-  getInitialRenderContext,
   getAdditionalPageComponentProps,
+  getHead,
+  getInitialRenderContext,
+  getInitialRouteProps,
+  RenderContext,
   storeInitialRenderContext,
   storeInitialRouteProps,
-  getHead,
-  RenderContext,
 } from '../app/getInitialProps';
-import NextRouterHistory from '../lib/NextRouteHistory';
+import router from '../app/router';
 import Categories from '../lib/Categories';
+import {
+  addTranslationsToTTag,
+  currentLocales,
+  getBrowserLocaleStrings,
+  Locale,
+  localeFromString,
+  parseAcceptLanguageString,
+  translatedStringFromObject,
+} from '../lib/i18n';
+import NextRouterHistory from '../lib/NextRouteHistory';
 
-import allTranslations from '../lib/translations.json';
-import { trackPageView } from '../lib/Analytics';
-import { buildFullImageUrl } from '../lib/Image';
-import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
+import { trackPageView } from '../lib/Analytics';
 import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 import env from '../lib/env';
+import { buildFullImageUrl } from '../lib/Image';
+import isEmbedTokenValid from '../lib/isEmbedTokenValid';
+import allTranslations from '../lib/translations.json';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -125,7 +125,7 @@ export default class App extends BaseApp<any> {
         path = ctx.req.path;
       }
     } catch (error) {
-      console.log('Caught an error while getting initial props:', error);
+      console.log('Caught an error while getting initial props:', ctx, error);
 
       const statusCode = error.status || error.statusCode || 500;
 
