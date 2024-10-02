@@ -2,6 +2,10 @@ import Router from '../lib/Router';
 
 const routes = [
   {
+    name: 'equipment',
+    path: '/nodes/:id/equipment/:eid',
+  },
+  {
     name: 'placeDetail',
     path: '/nodes/:id',
   },
@@ -16,10 +20,6 @@ const routes = [
   {
     name: 'relation',
     path: '/relation/:id',
-  },
-  {
-    name: 'equipment',
-    path: '/nodes/:id/equipment/:eid',
   },
   {
     name: 'search',
@@ -42,16 +42,16 @@ const routes = [
     path: '/contribution-thanks',
   },
   {
-    name: 'mappingEvents',
-    path: '/events',
+    name: 'mappingEventJoin',
+    path: '/events/:id/join',
   },
   {
     name: 'mappingEventDetail',
     path: '/events/:id',
   },
   {
-    name: 'mappingEventJoin',
-    path: '/events/:id/join',
+    name: 'mappingEvents',
+    path: '/events',
   },
   {
     name: 'map',
