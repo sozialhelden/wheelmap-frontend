@@ -70,7 +70,7 @@
     "mapbox-gl-leaflet": "0.0.14",
     "marked": "^4.0.10",
     "mkdirp": "^0.5.5",
-    "next": "^12.1.0",
+    "next": "^14.2.10",
     "next-transpile-modules": "^5.0.0",
     "node-fetch": "^3.3.2",
     "path-to-regexp": "^8.0.0",
