@@ -1,8 +1,8 @@
 import { addLocale, useLocales } from "ttag";
-import { currentLocales } from "./i18n";
 import { Translations } from "./Translations";
 import { Locale } from "./Locale";
 import { localeFromString } from "./localeFromString";
+import {useCurrentLanguageTagStrings} from "../context/LanguageTagContext";
 
 export function addTranslationsToTTag(translations: Translations[]) {
   const localesToUse: Locale[] = [];
@@ -21,6 +21,9 @@ export function addTranslationsToTTag(translations: Translations[]) {
 
   // update active locales
   // we need to modify the actual array content, so that all imported references get the changes
+  const languageTags = useCurrentLanguageTagStrings();
+  const currentLocales = languageTags.map(localeFromString);
+
   currentLocales.splice(0, currentLocales.length);
   currentLocales.push(...localesToUse);
 }

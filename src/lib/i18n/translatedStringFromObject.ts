@@ -1,8 +1,9 @@
 import compact from "lodash/compact";
 import uniq from "lodash/uniq";
 import { normalizeLanguageCode } from "./normalizeLanguageCode";
-import { currentLocales } from "./i18n";
 import { LocalizedString } from "./LocalizedString";
+import {localeFromString} from "./localeFromString";
+import {useCurrentLanguageTagStrings} from "../context/LanguageTagContext";
 
 export function translatedStringFromObject(
   string: LocalizedString
@@ -15,6 +16,8 @@ export function translatedStringFromObject(
   if (typeof string === "object") {
     const firstAvailableLocale = Object.keys(string)[0];
 
+    const languageTags = useCurrentLanguageTagStrings();
+    const currentLocales = languageTags.map(localeFromString);
     const normalizedRequestedLanguageTags = currentLocales.map(
       (locale) => locale.transifexLanguageIdentifier
     );

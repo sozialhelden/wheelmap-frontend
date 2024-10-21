@@ -2,7 +2,8 @@ import { t } from "ttag";
 import { YesNoLimitedUnknown, YesNoUnknown } from "./Feature";
 import { EquipmentInfo, EquipmentProperties } from "@sozialhelden/a11yjson";
 import { FeatureCollection, Point } from "geojson";
-import { currentLocales } from "../../i18n/i18n";
+import {useCurrentLanguageTagStrings} from "../../context/LanguageTagContext";
+import {localeFromString} from "../../i18n/localeFromString";
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<
   Point,
@@ -69,6 +70,9 @@ export function lastUpdateString({
     // translator: An equipment or facility whose category we don't know. It might be an elevator, escalator, switch, sitemap, …
     undefined: t`Facility`,
   }[String(category)];
+
+  const languageTags = useCurrentLanguageTagStrings();
+  const currentLocales = languageTags.map(localeFromString);
 
   const now = new Date();
   const today = t`today`;

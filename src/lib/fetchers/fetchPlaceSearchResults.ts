@@ -1,8 +1,8 @@
 import includes from "lodash/includes";
 import { Point } from "geojson";
-
-import { currentLocales } from "../i18n/i18n";
 import debouncePromise from "./legacy/debouncePromise";
+import {useCurrentLanguageTagStrings} from "../context/LanguageTagContext";
+import {localeFromString} from "../i18n/localeFromString";
 
 export type SearchResultProperties = {
   city?: any;
@@ -88,6 +88,10 @@ export default function fetchPlaceSearchResults(
   if (!query) {
     return Promise.resolve(null);
   }
+
+  const languageTags = useCurrentLanguageTagStrings();
+  const currentLocales = languageTags.map(localeFromString);
+
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;
   const supportedLanguageCodes = ["en", "de", "fr", "it"]; // See Photon documentation
