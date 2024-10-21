@@ -43,9 +43,10 @@ const unitSets = {
 //    12123.12 becomes  12km
 export function formatDistance(
   distanceInMeters: number,
+  languageTags,
   precision: number = 2
 ): { unit: string | number; distance: string | number } {
-  const unitSet = shouldPreferImperialUnits() ? unitSets.imperialYard : unitSets.metric;
+  const unitSet = shouldPreferImperialUnits(languageTags) ? unitSets.imperialYard : unitSets.metric;
 
   // TODO: check types
   let distance: number | string = distanceInMeters;
