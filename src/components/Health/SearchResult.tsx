@@ -31,12 +31,12 @@ function SearchResult({ data }: any) {
     website: website ? website : "",
     phone: phone ? phone : "",
   };
+  const languageTags = useCurrentLanguageTagStrings();
 
-  const { unit: distanceUnit, distance: distanceValue } = formatDistance(distance);
+  const { unit: distanceUnit, distance: distanceValue } = formatDistance(distance, languageTags);
 
   const dataAsOSMFeature = React.useMemo(() => ({ ...data, "@type": "osm:Feature" }), [data]);
   const { category } = useCategory(dataAsOSMFeature);
-  const languageTags = useCurrentLanguageTagStrings();
   const synonymCache = useCategorySynonymCache();
 
   const healthcareName = React.useMemo(() => {
