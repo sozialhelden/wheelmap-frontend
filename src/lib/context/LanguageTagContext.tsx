@@ -37,7 +37,7 @@ export function useCurrentLanguageTagStrings(): string[] {
   return compact(ctx.languageTags.map((l) => l.langtag || l.language));
 }
 
-export function useCurrentLanguageTags(): string[] {
+export function useCurrentLanguageTags(): ILanguageSubtag[] {
   const ctx = React.useContext(LanguageTagContext);
   return compact(ctx.languageTags);
 }
