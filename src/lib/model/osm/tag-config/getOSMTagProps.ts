@@ -55,16 +55,23 @@ export function getOSMTagProps(
   const matches = matchedKey ? key.match(matchedKey) : undefined
 
   const valueRenderFn = valueRenderFunctions[matchedKey]
+  const defaultValueLabel = localize(valueAttribute?.label, languageTags)
+    || localize(valueAttribute?.shortLabel, languageTags)
+    || singleValue
+
   if (valueRenderFn) {
     const osmFeature = isOSMFeature(feature) ? feature : null
     const accessibilityCloudFeature = isPlaceInfo(feature) ? feature : null
     valueLabel = valueRenderFn({
-      value: singleValue, matches, languageTags, osmFeature, accessibilityCloudFeature,
+      value: singleValue,
+      matches,
+      languageTags,
+      osmFeature,
+      accessibilityCloudFeature,
+      defaultValueLabel,
     })
   } else {
-    valueLabel = localize(valueAttribute?.label, languageTags)
-    || localize(valueAttribute?.shortLabel, languageTags)
-    || singleValue
+    valueLabel = defaultValueLabel
   }
   const valueSummary = localize(valueAttribute?.summary, languageTags)
   const valueDetails = localize(valueAttribute?.details, languageTags) || (!valueLabel && valueSummary)

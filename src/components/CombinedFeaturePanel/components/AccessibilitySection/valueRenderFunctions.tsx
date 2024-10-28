@@ -1,14 +1,14 @@
 import React from 'react'
 import { t } from 'ttag'
-import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
-import DisplayedQuantity from './DisplayedQuantity'
-import { determineIfZerothLevelIsSkippedHere } from './determineIfZerothLevelIsSkippedHere';
 import Color from 'colorjs.io'
 import { compact, uniq } from 'lodash'
+import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
+import DisplayedQuantity from './DisplayedQuantity'
+import { determineIfZerothLevelIsSkippedHere } from './determineIfZerothLevelIsSkippedHere'
 import { useDarkMode } from '../../../shared/useDarkMode'
 import OpeningHoursValue from './OpeningHoursValue'
-import StyledMarkdown from '../../../shared/StyledMarkdown';
-import { classifyHSLColor } from '../../../../lib/util/classifyHSLColor';
+import StyledMarkdown from '../../../shared/StyledMarkdown'
+import { classifyHSLColor } from '../../../../lib/util/classifyHSLColor'
 
 export type ValueRenderProps = {
   key: string;
@@ -17,61 +17,64 @@ export type ValueRenderProps = {
   languageTags: string[];
   osmFeature: TypeTaggedOSMFeature | undefined;
   accessibilityCloudFeature: TypeTaggedPlaceInfo | undefined;
-};
+  defaultValueLabel: string | undefined;
+}
 
 function BuildingLevel({ value, osmFeature, languageTags }: ValueRenderProps) {
-  const featureProperties = osmFeature?.properties;
+  const featureProperties = osmFeature?.properties
   // https://wiki.openstreetmap.org/wiki/Key:level#Level_designations
-  if (featureProperties?.['level:ref'] || featureProperties?.['addr:floor'])  {
+  if (featureProperties?.['level:ref'] || featureProperties?.['addr:floor']) {
     // In case the level has a human-readable reference, we display it as a string so the UI matches signs in the real world.
-    return null;
+    return null
   }
 
-  const valueAsNumber = typeof value === 'number' ? value : parseFloat(value);
+  const valueAsNumber = typeof value === 'number' ? value : parseFloat(value)
 
-  const isUnderground = valueAsNumber < 0;
+  const isUnderground = valueAsNumber < 0
   if (isUnderground) {
     if (valueAsNumber === -1) {
-      return <>{t`Basement floor`}</>;
+      return <>{t`Basement floor`}</>
     }
-    return <>{t`Basement ${-1 * valueAsNumber}`}</>;
+    return <>{t`Basement ${-1 * valueAsNumber}`}</>
   }
 
-  const skipZerothLevel = determineIfZerothLevelIsSkippedHere(languageTags);
-  const localGroundFloorLevelDesignation = skipZerothLevel ? 1 : 0;
-  const isGroundFloor = valueAsNumber === localGroundFloorLevelDesignation;
+  const skipZerothLevel = determineIfZerothLevelIsSkippedHere(languageTags)
+  const localGroundFloorLevelDesignation = skipZerothLevel ? 1 : 0
+  const isGroundFloor = valueAsNumber === localGroundFloorLevelDesignation
   if (isGroundFloor) {
-    return <>{t`Ground floor`}</>;
+    return <>{t`Ground floor`}</>
   }
-  const displayedLevel = skipZerothLevel ? valueAsNumber + 1 : valueAsNumber;
+  const displayedLevel = skipZerothLevel ? valueAsNumber + 1 : valueAsNumber
 
-  return <span>{t`Floor ${displayedLevel}`}</span>;
+  return <span>{t`Floor ${displayedLevel}`}</span>
 }
 
 function DisplayedColor({ value }: { value: string }) {
-  const color = new Color(String(value));
-  const hslColor = color.to('hsl');
-  let classifiedColor = classifyHSLColor(hslColor)
-  const isDarkMode = useDarkMode();
-  const textColor = hslColor.mix(isDarkMode ? 'white' : 'black', .8, {space: "lch", outputSpace: "srgb"});
-  return <span style={{ display: 'flex', gap: '.25rem', alignItems: 'center' }}>
-    <span
-      lang="en"
-      aria-label={""}
-      style={{
-        backgroundColor: String(value),
-        borderRadius: '0.5rem',
-        boxShadow: 'inset 0 0 1px rgba(0,0,0,.5), inset 0 2px 4px rgba(255, 255, 255, .2), 0 1px 10px rgba(0,0,0,.1)',
-        width: '1.25rem',
-        height: '1.25rem',
-        lineHeight: '1rem',
-        display: 'inline-block',
-      }}
-    />
-    <span style={{ color: textColor.toString({precision: 3}) }}>
-      {String(classifiedColor)}
+  const color = new Color(String(value))
+  const hslColor = color.to('hsl')
+  const classifiedColor = classifyHSLColor(hslColor)
+  const isDarkMode = useDarkMode()
+  const textColor = hslColor.mix(isDarkMode ? 'white' : 'black', 0.8, { space: 'lch', outputSpace: 'srgb' })
+  return (
+    <span style={{ display: 'flex', gap: '.25rem', alignItems: 'center' }}>
+      <span
+        lang="en"
+        aria-label=""
+        style={{
+          backgroundColor: String(value),
+          borderRadius: '0.5rem',
+          boxShadow: 'inset 0 0 1px rgba(0,0,0,.5), inset 0 2px 4px rgba(255, 255, 255, .2), 0 1px 10px rgba(0,0,0,.1)',
+          width: '1.25rem',
+          height: '1.25rem',
+          lineHeight: '1rem',
+          display: 'inline-block',
+        }}
+      />
+      <span style={{ color: textColor.toString({ precision: 3 }) }}>
+        {String(classifiedColor)}
+      </span>
     </span>
-  </span>
+  )
 }
 /**
  * This file contains functions that render values of OSM tags in a human-readable way.
@@ -82,8 +85,15 @@ function DisplayedColor({ value }: { value: string }) {
  */
 
 export const valueRenderFunctions: Record<
-  string, (props: ValueRenderProps) => React.ReactNode
+string, (props: ValueRenderProps) => React.ReactNode
 > = {
+  '^wheelchair$': ({ osmFeature, defaultValueLabel }) => (
+    <div>
+      {defaultValueLabel}
+      <button>Test!</button>
+      <pre>{JSON.stringify(osmFeature)}</pre>
+    </div>
+  ),
   '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,
   '^opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)$': ({ value }) => <OpeningHoursValue value={String(value)} />,
   ':step_height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
@@ -109,13 +119,14 @@ export const valueRenderFunctions: Record<
     const targetGroup = matches[1]
     const lang = matches[2]
     const targetGroupMarker = {
-      'wheelchair': '🧑‍🦼‍➡️',
-      'hearing': '👂',
-      'blind': '👁️',
-    }[targetGroup];
-    return <StyledMarkdown lang={lang}>
-      {t`${targetGroupMarker} “${text}”`}
-    </StyledMarkdown>
+      wheelchair: '🧑‍🦼‍➡️',
+      hearing: '👂',
+      blind: '👁️',
+    }[targetGroup]
+    return (
+      <StyledMarkdown lang={lang}>
+        {t`${targetGroupMarker} “${text}”`}
+      </StyledMarkdown>
+    )
   },
 }
-
