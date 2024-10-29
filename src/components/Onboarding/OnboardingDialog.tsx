@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import * as React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
@@ -77,7 +78,8 @@ const StyledModalDialog = styled(ModalDialog)`
     padding: 15px;
     overflow: auto;
     border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.96);
+    background-color: ${colors.neutralBackgroundColor};
+    color: ${colors.textColor};
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.5s linear;
     width: 100%; /* Fix IE 11. @TODO Safe to be moved to ModalDialog component? */
@@ -264,11 +266,11 @@ type OnboardingState =
   | 'onboarding'
   | 'permission'
   | 'no-permission'
-  | 'failed-permission';
+  | 'failed-permission'
 
 type Props = {
   onClose: (location?: KomootPhotonResultFeature) => void;
-};
+}
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
   const [step, setStep] = useState<OnboardingState>('onboarding')
