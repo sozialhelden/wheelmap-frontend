@@ -5,7 +5,7 @@ import { currentLocales } from './i18n'
 import { LocalizedString } from './LocalizedString'
 
 export function translatedStringFromObject(
-  string: LocalizedString,
+  string: LocalizedString | null | undefined,
 ): string | null {
   if (typeof string === 'undefined' || string === null) {
     return null

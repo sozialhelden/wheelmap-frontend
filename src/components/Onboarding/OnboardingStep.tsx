@@ -19,7 +19,7 @@ import {
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose = () => { } }) => {
-  const { clientSideConfiguration } = React.useContext(AppContext)
+  const { clientSideConfiguration } = React.useContext(AppContext) ?? { }
   const headerMarkdownHTML = selectHeaderMarkdownHTML(clientSideConfiguration)
 
   const callToActionButton = React.createRef<HTMLButtonElement>()
@@ -40,7 +40,7 @@ export const OnboardingStep: React.FC<{
       <header>
         <VectorImage
           className="logo"
-          svg={clientSideConfiguration.branding?.vectorLogoSVG}
+          svg={clientSideConfiguration?.branding?.vectorLogoSVG}
           aria-label={selectProductName(clientSideConfiguration)}
           maxHeight="50px"
           maxWidth="200px"
