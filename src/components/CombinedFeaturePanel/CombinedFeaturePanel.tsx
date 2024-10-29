@@ -1,4 +1,4 @@
-import { Button, Callout, useHotkeys } from '@blueprintjs/core'
+import { Callout, useHotkeys } from '@blueprintjs/core'
 import { uniqBy } from 'lodash'
 import { useMemo, useState } from 'react'
 import styled from 'styled-components'
@@ -12,9 +12,7 @@ import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
 import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
-import {
-  composeOrFilter, makeFilterByNode, useMapFilterContext, useMapHighlight,
-} from '../MapNew/filter'
+import { useMapHighlight } from '../MapNew/filter'
 
 type Props = {
   features: AnyFeature[];
@@ -49,7 +47,6 @@ const Panel = styled.section`
 
 export function CombinedFeaturePanel(props: Props) {
   const features = uniqBy(props.features, (feature) => (isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id))
-  const { addFilter } = useMapFilterContext()
 
   const [showDebugger, setShowDebugger] = useState(false)
   const hotkeys = useMemo(() => [
@@ -79,20 +76,6 @@ export function CombinedFeaturePanel(props: Props) {
 
         <p>
           {showDebugger && <FeaturesDebugJSON features={features} /> }
-          {showDebugger && (
-            <Button onClick={() => {
-              addFilter(
-                composeOrFilter(
-                  makeFilterByNode('node/4487513227'),
-                  makeFilterByNode('node/5643775387'),
-                  makeFilterByNode('node/5063750226'),
-                ),
-              )
-            }}
-            >
-              Filter for three places in central Berlin
-            </Button>
-          )}
         </p>
       </Panel>
     </ErrorBoundary>

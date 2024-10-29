@@ -5,12 +5,20 @@ export interface FilterProperties {
   forLayer?: string
 }
 
+/**
+ * Create a filter that matches exactly the name of the object
+ * @param name ex: `Allianz Forum`
+ */
 export const makeFilterByExactName = (name: string, options?: FilterProperties): FilterAddition => ({
   id: options?.id,
   layer: options?.forLayer,
   expression: ['==', ['get', 'name'], name],
 })
 
+/**
+ * Create a filter where the string is part of the name of the object
+ * @param name ex: `Allianz` -> matches `Allianz Forum`, `Allianz`, `Allianz Tüdac Berlin`, ...
+ */
 export const makeFilterContainsName = (name: string, options?: FilterProperties): FilterAddition => ({
   id: options?.id,
   layer: options?.forLayer,
@@ -27,6 +35,9 @@ export const makeFilterByNode = (nodeId: string, options?: FilterProperties): Fi
   expression: ['==', ['get', 'id'], nodeId],
 })
 
+/**
+ * Composes multiple filters as boolean OR
+ */
 export const composeOrFilter = (...filters: FilterAddition[]): FilterAddition => ({
   id: filters.find((x) => x.id !== undefined)?.id,
   // eslint-disable-next-line no-nested-ternary
@@ -34,6 +45,9 @@ export const composeOrFilter = (...filters: FilterAddition[]): FilterAddition =>
   expression: ['any', ...(filters.map((x) => x.expression)) as any[]],
 })
 
+/**
+ * Composes multiple filter as boolean AND
+ */
 export const composeAndFilter = (...filters: FilterAddition[]): FilterAddition => ({
   id: filters.find((x) => x.id !== undefined)?.id,
   // eslint-disable-next-line no-nested-ternary
@@ -41,6 +55,9 @@ export const composeAndFilter = (...filters: FilterAddition[]): FilterAddition =
   expression: ['all', ...(filters.map((x) => x.expression)) as any[]],
 })
 
+/**
+ * Retrieves filters applicable for the name of the layer to be displayed
+ */
 export const filterForLayer = (id: string | undefined, filter: Partial<Record<HighlightId, Filter>>) => {
   const filters = Object
     .values(filter)
