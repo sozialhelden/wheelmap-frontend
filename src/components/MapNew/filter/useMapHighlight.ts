@@ -10,7 +10,7 @@ export const useMapHighlight = (feature: AnyFeature | undefined) => {
   useEffect(() => {
     const id = feature?._id
     let filterId: HighlightId | undefined
-    if (id && id.startsWith('node/')) {
+    if (id) {
       filterId = addFilter(makeFilterByNode(id)).id
     }
 
