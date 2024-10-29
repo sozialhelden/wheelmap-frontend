@@ -6,14 +6,14 @@ type ContainerProps = {
   maxWidth?: string,
   maxHeight?: string,
   hasShadow?: boolean,
-};
+}
 
 export const shadowCSS = css`
   filter: drop-shadow(0 2px 0px rgba(0, 0, 0, 0.06)) drop-shadow(0 5px 10px rgba(0, 0, 0, 0.06));
 `
 
 const Container = styled.span <
-  ContainerProps >`
+ContainerProps >`
 display: inline-block;
 vertical-align: middle;
 svg {
@@ -23,10 +23,11 @@ svg {
 }
 `
 
-type Props = ContainerProps &
-  React.HTMLAttributes<HTMLSpanElement> & {
-    svg: ISVGOResult,
-  };
+type Props =
+& ContainerProps
+& React.HTMLAttributes<HTMLSpanElement> & {
+  svg: ISVGOResult | undefined,
+}
 
 export default function VectorImage(props: Props) {
   const svgSource = props.svg?.data

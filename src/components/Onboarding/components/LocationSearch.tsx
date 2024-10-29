@@ -23,6 +23,7 @@ import { CallToActionButton } from '../../shared/Button'
 import { SearchConfirmText, SearchSkipText } from '../language'
 import CountryContext from '../../../lib/context/CountryContext'
 import fetchCountryGeometry from '../../../lib/fetchers/fetchCountryGeometry'
+import colors from '../../../lib/util/colors'
 
 export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
   const [{ value, origin, selection }, setValue] = useState({ value: '', origin: 'system', selection: '' })
@@ -34,17 +35,20 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResu
       return undefined
     }
 
-    const location = regionGeometry.features.find((x) => x.properties['ISO3166-1'] === region)
+    const location = regionGeometry.features.find((x) => x.properties?.['ISO3166-1'] === region)
 
-    let center: Point
-    if ('centroid' in location) {
-      center = location.centroid as Point
-    } else {
-      center = turfCenter(location).geometry
+    let center: Point | undefined
+    if (location) {
+      if ('centroid' in location) {
+        center = location.centroid as Point
+      } else {
+        center = turfCenter(location).geometry
+      }
     }
+
     const computedBias = {
-      lon: center.coordinates[0].toString(),
-      lat: center.coordinates[1].toString(),
+      lon: center?.coordinates[0].toString(),
+      lat: center?.coordinates[1].toString(),
       zoom: '5',
       location_bias_scale: '1.0',
     } as const
@@ -56,7 +60,7 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResu
     if (!data) {
       return []
     }
-    const bucket: ({key: string} & KomootPhotonResultFeature)[] = []
+    const bucket: ({ key: string } & KomootPhotonResultFeature)[] = []
     for (let i = 0; i < data.features.length; i += 1) {
       const entry = data.features[i]
       if (!entry.properties) {
@@ -155,7 +159,8 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResu
               style={{
                 ...floatingStyles,
                 overflowY: 'auto',
-                background: '#eee',
+                background: colors.neutralBackgroundColor,
+                color: colors.textColor,
                 minWidth: 100,
                 borderRadius: 8,
                 outline: 0,

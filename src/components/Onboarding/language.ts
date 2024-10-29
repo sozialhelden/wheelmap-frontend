@@ -10,20 +10,23 @@ import { ClientSideConfiguration } from '../../lib/model/ac/ClientSideConfigurat
 
 // select a white label product name
 export const selectProductName = (
-  clientSideConfiguration: ClientSideConfiguration,
+  clientSideConfiguration: ClientSideConfiguration | undefined,
 ) => translatedStringFromObject(
-  clientSideConfiguration.textContent?.product.name,
+  clientSideConfiguration?.textContent?.product?.name,
 ) || 'Wheelmap'
 
 // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
 export const selectHeaderMarkdownHTML = (
-  clientSideConfiguration: ClientSideConfiguration,
+  clientSideConfiguration: ClientSideConfiguration | undefined,
 ) => {
+  if (!clientSideConfiguration) {
+    return undefined
+  }
   const { headerMarkdown } = clientSideConfiguration.textContent
     ?.onboarding || {
     headerMarkdown: undefined,
   }
-  return headerMarkdown && parse(translatedStringFromObject(headerMarkdown))
+  return headerMarkdown && parse(translatedStringFromObject(headerMarkdown) ?? '')
 }
 
 // translator: Shown on the onboarding screen. To find it, click the logo at the top.

@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactElement } from 'react'
 import { isFirstStart } from '../lib/util/savedState'
 import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'
-import { ReactElement } from 'react'
-import Layout from '../components/App/Layout'
+import Layout from '../components/App/MapLayout'
 
 export default function Page() {
   const router = useRouter()
