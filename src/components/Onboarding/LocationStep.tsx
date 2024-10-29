@@ -76,7 +76,7 @@ const ReducedSecondaryButton = styled(SecondaryButton)`
   border-radius: 0.5rem;
 `
 
-type Stage = 'idle' | 'acquiring' | 'failed-not-exited';
+type Stage = 'idle' | 'acquiring' | 'failed-not-exited'
 
 // oeuf, there are many exit points that may be consolidated:
 // permission denied: ok, they denied
