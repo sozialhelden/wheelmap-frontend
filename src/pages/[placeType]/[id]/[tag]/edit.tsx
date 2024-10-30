@@ -88,21 +88,19 @@ export async function createChange({
 
 export async function makeChangeRequestToApi({
   baseUrl,
-  osmType,
   osmId,
   tagName,
   newTagValue,
   // currentTagsOnServer,
 }: {
   baseUrl: string;
-  osmType: string;
   osmId: string;
   tagName: string;
   newTagValue: string;
   // currentTagsOnServer: any;
 }) {
-  log.log('makeChangeRequestToApi', osmType, osmId, tagName, newTagValue)
-  return fetch(`${baseUrl}/api/v1/legacy/api/${osmType}/${osmId}/${tagName}`, {
+  log.log('makeChangeRequestToApi', osmId, tagName, newTagValue)
+  return fetch(`${baseUrl}/legacy/api/${osmId}/${tagName}`, {
     body: JSON.stringify({ value: newTagValue }),
     credentials: 'omit',
     headers: {

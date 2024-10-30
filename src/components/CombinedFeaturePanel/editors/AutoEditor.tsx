@@ -1,5 +1,6 @@
 import { t } from 'ttag'
 import React, { useContext } from 'react'
+import { mutate } from 'swr'
 import { BaseEditorProps } from './BaseEditor'
 import { WheelchairEditor } from './WheelchairEditor'
 import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
@@ -10,7 +11,7 @@ import FeatureImage from '../components/image/FeatureImage'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
 
-type AutoEditorProps = BaseEditorProps
+type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess'>
 
 const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
   wheelchair: WheelchairEditor,
@@ -20,10 +21,12 @@ const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
 
 export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
-
+  const onUrlMutationSuccess = React.useCallback((urls: string[]) => {
+    mutate((key: string) => urls.includes(key), undefined, { revalidate: true })
+  }, [])
   const Editor = EditorMapping[tagKey]
   if (Editor) {
-    return <Editor feature={feature} tagKey={tagKey} />
+    return <Editor feature={feature} tagKey={tagKey} onUrlMutationSuccess={onUrlMutationSuccess} />
   }
 
   return (

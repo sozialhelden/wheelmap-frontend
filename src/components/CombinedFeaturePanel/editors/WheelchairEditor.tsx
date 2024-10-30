@@ -28,7 +28,7 @@ import { isOSMFeature } from '../../../lib/model/geo/AnyFeature'
 import { getOSMType } from '../../../lib/model/osm/generateOsmUrls'
 import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
 
-export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
+export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -52,8 +52,10 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const { baseUrl } = useOSMAPI({ cached: false })
 
   const router = useRouter()
-  const { ids, id, tag } = router.query
-  const tagName = typeof tag === 'string' ? tag : tag[0]
+  const { ids, id, tagKey } = router.query
+  console.log('id: ', id)
+
+  const tagName = typeof tagKey === 'string' ? tagKey : tagKey[0]
   const osmFeature = isOSMFeature(feature) ? feature : undefined
   const osmType = getOSMType(osmFeature)
   const osmId = getFeatureId(osmFeature)
@@ -89,24 +91,26 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         setChangesetState('error')
         setError(err)
       })
-  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tag, tagName, id, osmType])
+  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tagKey, tagName, id, osmType])
 
   const onClickHandler = async () => {
     if (accessToken) {
       return submitNewValue()
     }
-    if (!currentTagsOnServer || !accessToken || !editedTagValue || !osmType || !osmId) {
+    if (!editedTagValue || !osmType || !osmId) {
+      // debugger
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
-    return makeChangeRequestToApi(
+    await makeChangeRequestToApi(
       {
         baseUrl,
         osmType,
         osmId,
-        tagName,
+        tagName
         newTagValue: editedTagValue,
       },
     )
+    onUrlMutationSuccess(['abc'])
   }
 
   return (
