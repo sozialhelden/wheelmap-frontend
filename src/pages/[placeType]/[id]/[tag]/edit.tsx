@@ -113,18 +113,6 @@ export async function makeChangeRequestToApi({
   })
 }
 
-export const fetcher = (type: string, id: number) => {
-  if (!type || !id) {
-    return null
-  }
-  return fetch(
-    `https://api.openstreetmap.org/api/0.6/${type}/${id}.json`,
-    {
-      headers: { Accept: 'application/json' },
-    },
-  ).then((res) => res.json()).then((data) => data.elements[0])
-}
-
 export type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete'
 
 export default function CompositeFeaturesPage() {
@@ -142,7 +130,7 @@ export default function CompositeFeaturesPage() {
   }, [router, ids])
   const [editedTagValue, setEditedTagValue] = React.useState<string | undefined>(feature?.properties[tagName])
   const osmType = getOSMType(osmFeature)
-  const currentOSMObjectOnServer = useSWR([osmType, osmFeature?._id], fetcher)
+  const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetcher)
   const currentTagsOnServer = currentOSMObjectOnServer.data?.tags
   const currentTagValueOnServer = currentOSMObjectOnServer.data?.tags[tagName]
   React.useEffect(() => {

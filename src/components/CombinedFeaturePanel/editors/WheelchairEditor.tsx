@@ -3,6 +3,8 @@ import { Button } from '@blueprintjs/core'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import { toast } from 'react-toastify'
+import { t } from 'ttag'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
@@ -20,13 +22,22 @@ import {
   ChangesetState,
   createChange,
   createChangeset,
-  fetcher,
   makeChangeRequestToApi,
 } from '../../../pages/[placeType]/[id]/[tag]/edit'
 import { log } from '../../../lib/util/logger'
 import { isOSMFeature } from '../../../lib/model/geo/AnyFeature'
 import { getOSMType } from '../../../lib/model/osm/generateOsmUrls'
 import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+
+const fetcher = (prefixedId: string) => {
+  debugger
+  return fetch(
+    `https://api.openstreetmap.org/api/0.6/${prefixedId}.json`,
+    {
+      headers: { Accept: 'application/json' },
+    },
+  ).then((res) => res.json()).then((data) => data.elements[0])
+}
 
 export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
@@ -59,7 +70,7 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
   const osmFeature = isOSMFeature(feature) ? feature : undefined
   const osmType = getOSMType(osmFeature)
   const osmId = getFeatureId(osmFeature)
-  const currentOSMObjectOnServer = useSWR([osmType, osmFeature?._id], fetcher)
+  const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetcher)
   const currentTagsOnServer = currentOSMObjectOnServer.data?.tags
 
   const [changesetState, setChangesetState] = React.useState<ChangesetState>()
@@ -67,6 +78,7 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
 
   const submitNewValue = React.useCallback(() => {
     if (!currentTagsOnServer || !accessToken || !editedTagValue || !osmType) {
+      debugger
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
 
@@ -91,26 +103,35 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
         setChangesetState('error')
         setError(err)
       })
-  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tagKey, tagName, id, osmType])
+  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tagName, id, osmType])
+
+  const handleSuccess = React.useCallback(() => {
+    toast.success(
+      t`Thank you for contributing. Your edit will be visible soon.`,
+    )
+    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
+    router.push(newPath)
+  }, [router, tagName])
 
   const onClickHandler = async () => {
     if (accessToken) {
-      return submitNewValue()
+      await submitNewValue()
+      handleSuccess()
+      return
     }
-    if (!editedTagValue || !osmType || !osmId) {
+    if (!editedTagValue || !osmId) {
       // debugger
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
     await makeChangeRequestToApi(
       {
         baseUrl,
-        osmType,
         osmId,
-        tagName
+        tagName,
         newTagValue: editedTagValue,
       },
     )
-    onUrlMutationSuccess(['abc'])
+    handleSuccess()
   }
 
   return (
