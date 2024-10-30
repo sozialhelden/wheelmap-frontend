@@ -58,7 +58,7 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AppStateLink href={baseFeatureUrl}>
           <div role="button" className="_option _back">Back</div>
         </AppStateLink>
-        <Button disabled>Send</Button>
+        <Button>Send</Button>
       </footer>
     </StyledReportView>
   )

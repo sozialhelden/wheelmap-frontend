@@ -24,7 +24,7 @@ const PositionedCloseLink = styled(CloseLink)`
 `
 PositionedCloseLink.displayName = 'PositionedCloseLink'
 
-async function createChangeset({
+export async function createChangeset({
   baseUrl, tagName, newValue, accessToken,
 }: { baseUrl: string; tagName: string; newValue: string; accessToken: string }): Promise<string> {
   const response = await fetch(`${baseUrl}/api/0.6/changeset/create`, {
@@ -43,7 +43,7 @@ async function createChangeset({
   return response.text()
 }
 
-async function createChange({
+export async function createChange({
   accessToken, baseUrl, osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer,
 }: { baseUrl: string; accessToken: string; osmType: string; osmId: string | string[]; changesetId: string; tagName: string; newTagValue: any; currentTagsOnServer: any; }) {
   log.log('createChange', osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer)
@@ -71,7 +71,51 @@ async function createChange({
   })
 }
 
-const fetcher = (type: string, id: number) => {
+/* fetch("https://osm-api.wheelmap.tech/api/v1/legacy/api/node/11226443397/wheelchair", {
+    "body": "{ \"value\": \"no\" }",
+    "cache": "default",
+    "credentials": "omit",
+    "headers": {
+      "Accept": "*!/!*",
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+    "mode": "cors",
+    "redirect": "follow",
+    "referrer": "https://wheelmap.org/",
+    "referrerPolicy": "strict-origin-when-cross-origin"
+  }) */
+
+export async function makeChangeRequestToApi({
+  baseUrl,
+  osmType,
+  osmId,
+  tagName,
+  newTagValue,
+  // currentTagsOnServer,
+}: {
+  baseUrl: string;
+  osmType: string;
+  osmId: string;
+  tagName: string;
+  newTagValue: string;
+  // currentTagsOnServer: any;
+}) {
+  log.log('makeChangeRequestToApi', osmType, osmId, tagName, newTagValue)
+  return fetch(`${baseUrl}/api/v1/legacy/api/${osmType}/${osmId}/${tagName}`, {
+    body: JSON.stringify({ value: newTagValue }),
+    credentials: 'omit',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    mode: 'cors',
+  }).then((res) => res.text()).then((data) => {
+    log.log(data)
+  })
+}
+
+export const fetcher = (type: string, id: number) => {
   if (!type || !id) {
     return null
   }
@@ -83,7 +127,7 @@ const fetcher = (type: string, id: number) => {
   ).then((res) => res.json()).then((data) => data.elements[0])
 }
 
-type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete'
+export type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete'
 
 export default function CompositeFeaturesPage() {
   const router = useRouter()
