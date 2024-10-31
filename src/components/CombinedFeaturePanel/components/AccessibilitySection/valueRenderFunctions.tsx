@@ -1,7 +1,6 @@
 import React from 'react'
 import { t } from 'ttag'
 import Color from 'colorjs.io'
-import { compact, uniq } from 'lodash'
 import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
 import DisplayedQuantity from './DisplayedQuantity'
 import { determineIfZerothLevelIsSkippedHere } from './determineIfZerothLevelIsSkippedHere'
@@ -90,8 +89,8 @@ string, (props: ValueRenderProps) => React.ReactNode
   '^wheelchair$': ({ osmFeature, defaultValueLabel }) => (
     <div>
       {defaultValueLabel}
-      <button>Test!</button>
-      <pre>{JSON.stringify(osmFeature)}</pre>
+      {/* // <button>Test!</button> */}
+      {/* <pre>{JSON.stringify(osmFeature)}</pre> */}
     </div>
   ),
   '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,

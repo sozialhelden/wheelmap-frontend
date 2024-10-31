@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Button } from '@blueprintjs/core'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
+import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { t } from 'ttag'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
@@ -10,7 +9,7 @@ import { FeaturePanelContext } from '../FeaturePanelContext'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
 import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
 import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
-import { getFeatureId, YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
+import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { AccessibilityView } from '../../../pages/[placeType]/[id]/report/send-report-to-ac'
@@ -18,28 +17,12 @@ import Icon from '../../shared/Icon'
 import { AppStateLink } from '../../App/AppStateLink'
 import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
-import {
-  ChangesetState,
-  createChange,
-  createChangeset,
-  makeChangeRequestToApi,
-} from '../../../pages/[placeType]/[id]/[tag]/edit'
-import { log } from '../../../lib/util/logger'
-import { isOSMFeature } from '../../../lib/model/geo/AnyFeature'
-import { getOSMType } from '../../../lib/model/osm/generateOsmUrls'
-import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
+import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
+import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
+import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
 
-const fetcher = (prefixedId: string) => {
-  debugger
-  return fetch(
-    `https://api.openstreetmap.org/api/0.6/${prefixedId}.json`,
-    {
-      headers: { Accept: 'application/json' },
-    },
-  ).then((res) => res.json()).then((data) => data.elements[0])
-}
-
-export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorProps) => {
+export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -56,54 +39,21 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
   const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
 
-  // move this to a separate context?
-  // TODO: add typing
+  // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken
-
-  const { baseUrl } = useOSMAPI({ cached: false })
-
   const router = useRouter()
-  const { ids, id, tagKey } = router.query
-  console.log('id: ', id)
 
-  const tagName = typeof tagKey === 'string' ? tagKey : tagKey[0]
-  const osmFeature = isOSMFeature(feature) ? feature : undefined
-  const osmType = getOSMType(osmFeature)
-  const osmId = getFeatureId(osmFeature)
-  const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetcher)
-  const currentTagsOnServer = currentOSMObjectOnServer.data?.tags
+  const {
+    baseUrl,
+    id,
+    tagName,
+    osmType,
+    osmId,
+    currentTagsOnServer,
+  } = retrieveOsmParametersFromFeature(feature)
 
   const [changesetState, setChangesetState] = React.useState<ChangesetState>()
   const [error, setError] = React.useState<Error>()
-
-  const submitNewValue = React.useCallback(() => {
-    if (!currentTagsOnServer || !accessToken || !editedTagValue || !osmType) {
-      debugger
-      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
-    }
-
-    createChangeset({
-      baseUrl, accessToken, tagName, newValue: editedTagValue,
-    })
-      .then((changesetId) => {
-        setChangesetState('creatingChange')
-        return createChange({
-          baseUrl,
-          accessToken,
-          osmType,
-          osmId: id,
-          changesetId,
-          tagName,
-          newTagValue: editedTagValue,
-          currentTagsOnServer,
-        }).then(() => setChangesetState('changesetComplete'))
-      })
-      .catch((err) => {
-        log.error(err)
-        setChangesetState('error')
-        setError(err)
-      })
-  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tagName, id, osmType])
 
   const handleSuccess = React.useCallback(() => {
     toast.success(
@@ -113,16 +63,24 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
     router.push(newPath)
   }, [router, tagName])
 
-  const onClickHandler = async () => {
+  const {
+    submitNewValue,
+    callbackChangesetState,
+    callbackError,
+  } = useSubmitNewValue(accessToken, baseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
+
+  const handleClick = async () => {
     if (accessToken) {
       await submitNewValue()
+      setChangesetState(callbackChangesetState)
+      setError(callbackError)
       handleSuccess()
       return
     }
     if (!editedTagValue || !osmId) {
-      // debugger
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
+
     await makeChangeRequestToApi(
       {
         baseUrl,
@@ -184,7 +142,7 @@ export const WheelchairEditor = ({ feature, onUrlMutationSuccess }: BaseEditorPr
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl}><div role="button" className="_option _back">Back</div></AppStateLink>
-        <Button onClick={onClickHandler}>Send</Button>
+        <Button onClick={handleClick}>Send</Button>
       </footer>
     </StyledReportView>
   )
