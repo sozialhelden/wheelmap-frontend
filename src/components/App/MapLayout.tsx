@@ -17,6 +17,7 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
+
 import Onboarding from '../Onboarding/OnboardingView'
 
 const BlurLayer = styled.div<{ active: boolean }>`
