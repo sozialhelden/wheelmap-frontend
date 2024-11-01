@@ -21,7 +21,7 @@ export function appIdForHostnameOrIPAddress(hostnameOrIPAddress: string) {
 export default function fetchApp({ baseUrl, appToken, hostname }: { baseUrl: string, appToken: string, hostname: string }) {
   return fetchDocumentWithTypeTag({
     baseUrl,
-    type: 'ac:App',
+    rdfType: 'ac:App',
     _id: appIdForHostnameOrIPAddress(hostname),
     paramsString: `appToken=${appToken}`,
   })

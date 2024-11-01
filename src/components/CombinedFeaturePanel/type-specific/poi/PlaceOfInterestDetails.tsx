@@ -16,6 +16,7 @@ import FeaturesDebugJSON from '../../components/FeaturesDebugJSON'
 import NextToiletDirections from '../../components/AccessibilitySection/NextToiletDirections'
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
+import { AccessibilityItems } from '../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems'
 
 type Props = {
   feature: AnyFeature;
@@ -53,6 +54,7 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
       </FeatureAccessibility>
 
       <StyledIconButtonList>
+        <AccessibilityItems feature={feature} />
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
         <PhoneNumberLinks feature={feature} />

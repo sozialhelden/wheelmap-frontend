@@ -14,7 +14,7 @@ export function mapMultipleFeaturePromises(
   acBaseUrl: string,
   acAppToken: string,
   idsAsString: string | undefined,
-): Promise<AnyFeature | null>[] {
+): Promise<AnyFeature | undefined>[] {
   const ids = idsAsString?.split(',') || []
   if (ids.length === 0) {
     return []
@@ -22,21 +22,18 @@ export function mapMultipleFeaturePromises(
 
   return ids.map(async (id) => {
     if (!id) {
-      return null
+      return undefined
     }
 
     if (id.startsWith('ac:')) {
       const [acPrefix, acType, acId] = id?.split(':') ?? []
       return await fetchDocumentWithTypeTag({
-        baseUrl: acBaseUrl, type: `${acPrefix}:${acType}` as AccessibilityCloudRDFType, _id: acId, paramsString: `appToken=${acAppToken}`,
+        baseUrl: acBaseUrl, rdfType: `${acPrefix}:${acType}` as AccessibilityCloudRDFType, _id: acId, paramsString: `appToken=${acAppToken}`,
       }) as AnyFeature
     }
 
     const feature = await fetchOneOSMFeature({ baseUrl: osmBaseUrl, appToken: osmAppToken, prefixedId: id })
-    return ({
-      '@type': 'osm:Feature',
-      ...(feature),
-    } as AnyFeature)
+    return feature
   })
 }
 
