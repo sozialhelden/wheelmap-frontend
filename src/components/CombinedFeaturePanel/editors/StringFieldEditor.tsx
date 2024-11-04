@@ -8,7 +8,9 @@ import { AppStateLink } from '../../App/AppStateLink'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
 
-export const StringFieldEditor = ({ feature, tagKey }: BaseEditorProps) => {
+export const StringFieldEditor = ({
+  feature, tagKey, setParentState, handleSubmitButtonClick,
+}: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
   const current = feature.properties?.[tagKey] || ''
   const [value, setValue] = React.useState(current)
@@ -29,6 +31,7 @@ export const StringFieldEditor = ({ feature, tagKey }: BaseEditorProps) => {
         autoFocus
         onChange={(evt) => {
           setValue(evt.target.value)
+          setParentState(evt.target.value)
         }}
       />
 
@@ -36,7 +39,7 @@ export const StringFieldEditor = ({ feature, tagKey }: BaseEditorProps) => {
         <AppStateLink href={baseFeatureUrl}>
           <div role="button" className="_option _back">Back</div>
         </AppStateLink>
-        <Button disabled={value === current}>Send</Button>
+        <Button onClick={handleSubmitButtonClick}>Send</Button>
       </footer>
     </StyledReportView>
   )

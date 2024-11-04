@@ -1,15 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Button } from '@blueprintjs/core'
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
-import { toast } from 'react-toastify'
-import { t } from 'ttag'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
 import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
 import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
-import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { AccessibilityView } from '../../../pages/[placeType]/[id]/report/send-report-to-ac'
@@ -17,14 +12,9 @@ import Icon from '../../shared/Icon'
 import { AppStateLink } from '../../App/AppStateLink'
 import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
-import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
-import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
-import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
-import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
-import { useEnvContext } from '../../../lib/context/EnvContext'
-import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 
-export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
+export const WheelchairEditor = ({ feature, setParentState, handleSubmitButtonClick }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -41,67 +31,9 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
 
-  // TODO: move all logic to auto editor
-  // TODO: add typing to session data
-  const accessToken = (useSession().data as any)?.accessToken
-  const router = useRouter()
-  const env = useEnvContext()
-  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
-  const { baseUrl } = useOSMAPI({ cached: false })
-
-  const {
-    id,
-    tagName,
-    osmType,
-    tagKey,
-    osmId,
-    currentTagsOnServer,
-  } = retrieveOsmParametersFromFeature(feature)
-  console.log('osmId: ', osmId)
-  console.log('id: ', id)
-  console.log('tagName: ', tagName)
-  console.log('tagKey: ', tagKey)
-  console.log('osmType: ', osmType)
-  console.log('base url: ', baseUrl)
-
-  const [changesetState, setChangesetState] = React.useState<ChangesetState>()
-  const [error, setError] = React.useState<Error>()
-
-  const handleSuccess = React.useCallback(() => {
-    toast.success(
-      t`Thank you for contributing. Your edit will be visible soon.`,
-    )
-    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    router.push(newPath)
-  }, [router, tagName])
-
-  const {
-    submitNewValue,
-    callbackChangesetState,
-    callbackError,
-  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentTagsOnServer)
-
-  const handleClick = async () => {
-    if (accessToken) {
-      await submitNewValue()
-      setChangesetState(callbackChangesetState)
-      setError(callbackError)
-      handleSuccess()
-      return
-    }
-    if (!editedTagValue || !osmId) {
-      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
-    }
-
-    await makeChangeRequestToApi(
-      {
-        baseUrl,
-        osmId,
-        tagName,
-        newTagValue: editedTagValue,
-      },
-    )
-    handleSuccess()
+  const handleClick = () => {
+    // setParentState(editedTagValue)
+    handleSubmitButtonClick()
   }
 
   return (
@@ -116,6 +48,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('yes')
+            setParentState('yes')
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -128,6 +61,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('limited')
+            setParentState('limited')
           }}
           className="_okay"
           inputLabel="accessibility-partially"
@@ -141,6 +75,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('no')
+            setParentState('no')
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
@@ -153,7 +88,9 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
       </form>
 
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}><div role="button" className="_option _back">Back</div></AppStateLink>
+        <AppStateLink href={baseFeatureUrl}>
+          <div role="button" className="_option _back">Back</div>
+        </AppStateLink>
         <Button onClick={handleClick}>Send</Button>
       </footer>
     </StyledReportView>
