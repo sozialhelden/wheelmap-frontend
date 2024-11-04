@@ -13,8 +13,9 @@ export default function retrieveOsmParametersFromFeature(feature) {
   const osmType = getOSMType(osmFeature)
   const osmId = getFeatureId(osmFeature)
   const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetchFeaturePrefixedId)
+  // console.log('current object on server: ', currentOSMObjectOnServer.data)
   const currentTagsOnServer = currentOSMObjectOnServer.data?.tags
   return {
-    id, tagKey, tagName, osmFeature, osmType, osmId, currentOSMObjectOnServer, currentTagsOnServer,
+    id, tagName, osmFeature, osmType, osmId, currentOSMObjectOnServer,
   }
 }
