@@ -19,6 +19,8 @@ import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestTo
 import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
 import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
 import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
+import { useEnvContext } from '../../../lib/context/EnvContext'
+import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
 
 export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
@@ -29,9 +31,11 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
   // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken
   const router = useRouter()
+  const env = useEnvContext()
+  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
+  const { baseUrl } = useOSMAPI({ cached: false })
 
   const {
-    baseUrl,
     id,
     tagName,
     osmType,
@@ -46,7 +50,7 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
     submitNewValue,
     callbackChangesetState,
     callbackError,
-  } = useSubmitNewValue(accessToken, baseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
+  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentTagsOnServer)
 
   const handleSuccess = React.useCallback(() => {
     toast.success(

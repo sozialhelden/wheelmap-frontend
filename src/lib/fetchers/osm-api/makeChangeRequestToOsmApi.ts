@@ -54,7 +54,7 @@ export async function createChange({
   const allTagsAsXML = Object.entries(newTags).map(([key, value]) => `<tag k="${key}" v="${value}" />`).join('\n')
 
   log.log('allTagsAsXML', allTagsAsXML)
-  return fetch(`${baseUrl}/api/0.6/${osmType}/${osmId}`, {
+  return fetch(`${baseUrl}/api/0.6/${osmId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'text/xml',

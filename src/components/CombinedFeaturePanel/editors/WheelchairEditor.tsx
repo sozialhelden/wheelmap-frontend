@@ -21,6 +21,8 @@ import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestT
 import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
 import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
 import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
+import { useEnvContext } from '../../../lib/context/EnvContext'
+import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
 
 export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
@@ -39,18 +41,28 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
 
+  // TODO: move all logic to auto editor
   // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken
   const router = useRouter()
+  const env = useEnvContext()
+  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
+  const { baseUrl } = useOSMAPI({ cached: false })
 
   const {
-    baseUrl,
     id,
     tagName,
     osmType,
+    tagKey,
     osmId,
     currentTagsOnServer,
   } = retrieveOsmParametersFromFeature(feature)
+  console.log('osmId: ', osmId)
+  console.log('id: ', id)
+  console.log('tagName: ', tagName)
+  console.log('tagKey: ', tagKey)
+  console.log('osmType: ', osmType)
+  console.log('base url: ', baseUrl)
 
   const [changesetState, setChangesetState] = React.useState<ChangesetState>()
   const [error, setError] = React.useState<Error>()
@@ -67,7 +79,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
     submitNewValue,
     callbackChangesetState,
     callbackError,
-  } = useSubmitNewValue(accessToken, baseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
+  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentTagsOnServer)
 
   const handleClick = async () => {
     if (accessToken) {
