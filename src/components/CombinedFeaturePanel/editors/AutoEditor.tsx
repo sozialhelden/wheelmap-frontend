@@ -1,6 +1,9 @@
 import { t } from 'ttag'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { mutate } from 'swr'
+import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { BaseEditorProps } from './BaseEditor'
 import { WheelchairEditor } from './WheelchairEditor'
 import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
@@ -10,8 +13,15 @@ import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
+import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
+import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
+import { useEnvContext } from '../../../lib/context/EnvContext'
+import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
+import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
+import { EditorTagValue } from './EditorTagValue'
 
-type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess'>
+type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'setParentState' | 'handleSubmitButtonClick'>
 
 const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
   wheelchair: WheelchairEditor,
@@ -19,14 +29,85 @@ const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
   'wheelchair:description': StringFieldEditor,
 }
 
-export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
+export const AutoEditor = ({
+  feature, tagKey,
+}: AutoEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
+  // TODO: add typing to session data
+  const accessToken = (useSession().data as any)?.accessToken
+  const router = useRouter()
+  const env = useEnvContext()
+  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
+  const { baseUrl } = useOSMAPI({ cached: false })
+  const {
+    id,
+    tagName,
+    osmType,
+    osmId,
+    currentOSMObjectOnServer,
+  } = retrieveOsmParametersFromFeature(feature)
+  /* console.log('osmId: ', osmId)
+  console.log('id: ', id)
+  console.log('tagName: ', tagName)
+  console.log('tagKey: ', tagKey)
+  console.log('osmType: ', osmType)
+  console.log('base url: ', baseUrl) */
+
+  const [changesetState, setChangesetState] = useState<ChangesetState>()
+  const [error, setError] = useState<Error>()
+  const [editedTagValue, setEditedTagValue] = useState<EditorTagValue>('')
+
+  const handleSuccess = React.useCallback(() => {
+    toast.success(
+      t`Thank you for contributing. Your edit will be visible soon.`,
+    )
+    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
+    router.push(newPath)
+  }, [router, tagName])
+
+  const {
+    submitNewValue,
+    callbackChangesetState,
+    callbackError,
+  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentOSMObjectOnServer)
+
+  const handleSubmitButtonClick = async () => {
+    if (accessToken) {
+      await submitNewValue()
+      setChangesetState(callbackChangesetState)
+      setError(callbackError)
+      handleSuccess()
+      return
+    }
+    if (!editedTagValue || !osmId) {
+      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
+    }
+    await makeChangeRequestToApi(
+      {
+        baseUrl,
+        osmId,
+        tagName,
+        newTagValue: editedTagValue,
+      },
+    )
+    handleSuccess()
+  }
+
   const onUrlMutationSuccess = React.useCallback((urls: string[]) => {
     mutate((key: string) => urls.includes(key), undefined, { revalidate: true })
   }, [])
+
   const Editor = EditorMapping[tagKey]
   if (Editor) {
-    return <Editor feature={feature} tagKey={tagKey} onUrlMutationSuccess={onUrlMutationSuccess} />
+    return (
+      <Editor
+        feature={feature}
+        tagKey={tagKey}
+        setParentState={setEditedTagValue}
+        onUrlMutationSuccess={onUrlMutationSuccess}
+        handleSubmitButtonClick={handleSubmitButtonClick}
+      />
+    )
   }
 
   return (
