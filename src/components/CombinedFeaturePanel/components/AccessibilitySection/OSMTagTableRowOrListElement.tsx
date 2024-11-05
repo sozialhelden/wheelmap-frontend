@@ -14,7 +14,7 @@ const StyledListElement = styled.li`
 const StyledTag = styled(Tag)`
   background-color: #a4bae530 !important;
   color: #0b2743 !important;
-`;
+`
 
 export function OSMTagTableRowOrListElement(
   {
@@ -30,8 +30,11 @@ export function OSMTagTableRowOrListElement(
   }: OSMTagProps,
 ) {
   // Baseline alignment for keys that display a list of horizontal tags
-  const keyStyle = horizontalKeys.has(tagKey) ? { paddingTop: '0.55rem' } : {};
+  const keyStyle = horizontalKeys.has(tagKey) ? { paddingTop: '0.55rem' } : {}
 
+  if (tagKey === 'add_wheelchair_description') {
+    keyLabel = 'Add a text description for wheelchair users.'
+  }
   const displayedKey = hasDisplayedKey && (
     <th rowSpan={keyDetails ? 1 : 2} style={keyStyle}>
       {keyLabel}
@@ -59,39 +62,49 @@ export function OSMTagTableRowOrListElement(
   )
 
   const valueIsString = typeof valueElement === 'string'
-  const editButton = isEditable && <EditButton editURL={editURL} />;
-  const displayedValueContent =
-    valueIsString
-    ? <span style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+  const editButton = isEditable && <EditButton editURL={editURL} />
+  const displayedValueContent = valueIsString
+    ? (
+      <span style={{
+        display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem',
+      }}
+      >
         <StyledMarkdown inline style={{ textDecoration: hasDetails ? 'underline dotted' : 'none' }}>{valueElement}</StyledMarkdown>
         {editButton}
       </span>
-    : <>{valueElement} {editButton}</>;
+    )
+    : (
+      <>
+        {valueElement}
+        {' '}
+        {editButton}
+      </>
+    )
   const displayedValueContentWithTooltip = hasDetails ? (
     <Tooltip content={detailElementsContained} lazy compact>
       {displayedValueContent}
     </Tooltip>
-  ) : displayedValueContent;
+  ) : displayedValueContent
 
-  const valueElementStyle = { paddingBottom: '0.25rem', cursor: hasDetails ? 'help' : 'auto' };
+  const valueElementStyle = { paddingBottom: '0.25rem', cursor: hasDetails ? 'help' : 'auto' }
   const displayedValue = isHorizontal
-  ? (
-    <StyledTag
-      minimal
-      large
-      round
-    >
-      {displayedValueContentWithTooltip}
-    </StyledTag>
-  )
-  : (
-    <td
-      colSpan={hasDisplayedKey ? 1 : 2}
-      style={valueElementStyle}
-    >
-      {displayedValueContentWithTooltip}
-    </td>
-  );
+    ? (
+      <StyledTag
+        minimal
+        large
+        round
+      >
+        {displayedValueContentWithTooltip}
+      </StyledTag>
+    )
+    : (
+      <td
+        colSpan={hasDisplayedKey ? 1 : 2}
+        style={valueElementStyle}
+      >
+        {displayedValueContentWithTooltip}
+      </td>
+    )
 
   const ListElementTag = isHorizontal ? StyledListElement : 'tbody'
   const RowTag = isHorizontal ? 'div' : 'tr'
