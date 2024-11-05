@@ -8,6 +8,7 @@ import { useDarkMode } from '../../../shared/useDarkMode'
 import OpeningHoursValue from './OpeningHoursValue'
 import StyledMarkdown from '../../../shared/StyledMarkdown'
 import { classifyHSLColor } from '../../../../lib/util/classifyHSLColor'
+import AddWheelchairDescription from './AddWheelchairDescription'
 
 export type ValueRenderProps = {
   key: string;
@@ -89,9 +90,10 @@ string, (props: ValueRenderProps) => React.ReactNode
   '^wheelchair$': ({ osmFeature, defaultValueLabel }) => (
     <div>
       {defaultValueLabel}
-      {/* // <button>Test!</button> */}
-      {/* <pre>{JSON.stringify(osmFeature)}</pre> */}
     </div>
+  ),
+  '^add_wheelchair_description$': () => (
+    <AddWheelchairDescription />
   ),
   '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,
   '^opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)$': ({ value }) => <OpeningHoursValue value={String(value)} />,
