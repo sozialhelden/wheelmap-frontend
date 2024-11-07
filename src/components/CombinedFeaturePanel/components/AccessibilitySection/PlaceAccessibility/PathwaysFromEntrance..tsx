@@ -15,7 +15,7 @@ export const PathwaysFromEntrance: FC<{ accessibility: Accessibility | undefined
 
   return (
     <li>
-      Pathway:
+      <h2>Pathway</h2>
       {YesNoUnknownText(pathwaysFromEntrance.isKerbstoneFree, { yes: 'with no kerbstones; ', no: 'with kerbstones; ' })}
       {pathwaysFromEntrance.width && `width: ${pathwaysFromEntrance.width}; `}
       {pathwaysFromEntrance.widthAtObstacles && `width at obstacles: ${pathwaysFromEntrance.widthAtObstacles}; `}

@@ -27,6 +27,7 @@ export const Interactions: FC<{ accessibility: Accessibility | undefined }> = ({
 
   return (
     <li>
+      <h2>Interactions</h2>
       Here you can:
       <ul>
         <li>

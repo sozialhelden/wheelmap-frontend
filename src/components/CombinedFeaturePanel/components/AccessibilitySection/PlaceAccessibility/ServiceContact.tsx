@@ -7,5 +7,10 @@ export const ServiceContact: FC<{ accessibility: Accessibility | undefined; }> =
   }
 
   const { serviceContact } = accessibility
-  return <li>{`${serviceContact}`}</li>
+  return (
+    <li>
+      <h2>Service Contact</h2>
+      <div>{`${serviceContact}`}</div>
+    </li>
+  )
 }

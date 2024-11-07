@@ -18,17 +18,11 @@ export const AccessibleWith: FC<{ accessibility: Accessibility | undefined }> = 
   if (properties.length <= 0) {
     return null
   }
-
-  if (properties.length === 1) {
-    const type = properties[0]
-    const isAccessible = accessibleWith[type] ?? false
-    return <AccessibleWithPersonalProfile isAccessible={isAccessible} type={type} />
-  }
-
   return (
     <li>
-      Accessible with:
-      <ul>{ properties.map((x) => <AccessibleWithPersonalProfile isAccessible={accessibleWith[x]} type={x} />)}</ul>
+      <h2>Accessibility</h2>
+      { /* eslint-disable-next-line react/no-array-index-key */ }
+      <ul>{ properties.map((x, i) => <AccessibleWithPersonalProfile key={i} isAccessible={accessibleWith[x]} type={x} />)}</ul>
     </li>
   )
 }

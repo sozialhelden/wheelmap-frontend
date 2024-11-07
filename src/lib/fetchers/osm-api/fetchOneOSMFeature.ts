@@ -20,7 +20,7 @@ export async function fetchOneOSMFeature(
     throw new Error(`Invalid OSM feature ID, ${id} does not match collection:key:id pattern`)
   }
 
-  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`
+  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`.replaceAll('//', '/')
   const response = await fetch(url)
   if (!response.ok) {
     const errorResponse = await response.json()

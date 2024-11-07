@@ -15,7 +15,7 @@ export const PathwaysInside: FC<{ accessibility: Accessibility | undefined; }> =
 
   return (
     <li>
-      Pathway:
+      <h2>Pathway (inside)</h2>
       {YesNoUnknownText(pathwaysInside.isKerbstoneFree, { yes: 'with no kerbstones; ', no: 'with kerbstones; ' })}
       {pathwaysInside.width && `width: ${pathwaysInside.width}; `}
       {pathwaysInside.widthAtObstacles && `width at obstacles: ${pathwaysInside.widthAtObstacles}; `}

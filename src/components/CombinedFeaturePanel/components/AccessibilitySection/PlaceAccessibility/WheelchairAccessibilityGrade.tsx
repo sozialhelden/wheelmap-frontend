@@ -11,11 +11,26 @@ export const WheelchairAccessibilityGrade: FC<{ accessibility: Accessibility | u
   const { wheelchairAccessibilityGrade } = accessibility
   switch (wheelchairAccessibilityGrade) {
     case 'fully':
-      return <li>Fully wheelchair accessible</li>
+      return (
+        <li>
+          <h2>Wheelchair Accessibility Grade</h2>
+          Fully wheelchair accessible
+        </li>
+      )
     case 'partially':
-      return <li>Partially wheelchair accessible</li>
+      return (
+        <li>
+          <h2>Wheelchair Accessibility Grade</h2>
+          Partially wheelchair accessible
+        </li>
+      )
     case 'not':
-      return <li>Not wheelchair accessible</li>
+      return (
+        <li>
+          <h2>Wheelchair Accessibility Grade</h2>
+          Not wheelchair accessible
+        </li>
+      )
     default:
       return null
   }

@@ -15,7 +15,7 @@ export const Staff: FC<{ accessibility: Accessibility | undefined; }> = ({ acces
 
   return (
     <li>
-      Staff:
+      <h2>Staff</h2>
       {YesNoUnknownText(staff.hasFreeAssistantForVisitors, { yes: 'free assistance for visitors; ', no: 'paid assistance for visitors; ' })}
       {YesNoUnknownText(staff.canSeeVisitorsFromInside, { yes: 'can see visitors from inside; ', no: 'cannot see visitors from inside; ' })}
       {staff.languages && `speaks ${staff.languages.join(', ')}`}

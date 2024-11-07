@@ -19,16 +19,11 @@ export const PartiallyAccessibleWith: FC<{ accessibility: Accessibility | undefi
     return null
   }
 
-  if (properties.length === 1) {
-    const type = properties[0]
-    const isAccessible = accessibleWith[type] ?? false
-    return <PartiallyAccessibleWithProfile isAccessible={isAccessible} type={type} />
-  }
-
   return (
     <li>
-      Accessible with:
-      <ul>{ properties.map((x) => <PartiallyAccessibleWithProfile isAccessible={accessibleWith[x]} type={x} />)}</ul>
+      <h2>Partially Accessible</h2>
+      { /* eslint-disable-next-line react/no-array-index-key */ }
+      <ul>{ properties.map((x, i) => <PartiallyAccessibleWithProfile key={i} isAccessible={accessibleWith[x]} type={x} />)}</ul>
     </li>
   )
 }

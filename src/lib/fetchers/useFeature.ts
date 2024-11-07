@@ -1,4 +1,4 @@
-import useSWR, { SWRConfiguration } from 'swr'
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
 import { AnyFeature, TypeTaggedPlaceInfo } from '../model/geo/AnyFeature'
 import useOSMAPI from './osm-api/useOSMAPI'
 import useAccessibilityCloudAPI from './ac/useAccessibilityCloudAPI'
@@ -32,6 +32,10 @@ const fetchACtoOSMRelation = async ({ acBaseUrl, acAppToken, sameAsURI }: { acBa
   return response
 }
 
+const someLoading = (...requests: SWRResponse<any, any, any>[]) => requests.some((x) => x.isLoading)
+const firstData = <X=any, Y=any, Z=any>(...requests: (SWRResponse<X, Y, Z> | null | undefined)[]) => requests
+  .find((x) => x?.data !== undefined)
+
 export function useFeature(
   id: string | undefined,
   options?: SWRConfiguration<AnyFeature> & { cached?: boolean },
@@ -61,16 +65,24 @@ export function useFeature(
   const firstSameAsURI = sameAsProperty?.[0]
   // either the original OSM feature ID or the sameAs info should exists eventually
   const osmURI = osmFeatureId ? `https://openstreetmap.org/${osmFeatureId}` : sameAsProperty?.[0]
-  const osmId = osmFeatureId || firstSameAsURI?.replace(/^https:\/\/openstreetmap.org\//, '')
-  const fetchOsmFeatureParams = osmId ? { osmBaseUrl, osmAppToken, id: `amenities:${osmId.replaceAll('/', ':')}` } : undefined
-  const osmFeature = useSWR(fetchOsmFeatureParams, fetchOSMFeature, remainingOptions)
+  const osmId = osmFeatureId || firstSameAsURI?.replace(/^https:\/\/openstreetmap.org\//, '').replaceAll('/', ':')
+
+  const fetchOsmFeatureAmenitiesParams = osmId ? { osmBaseUrl, osmAppToken, id: `amenities:${osmId}` } : undefined
+  const amenityOsmFeature = useSWR(fetchOsmFeatureAmenitiesParams, fetchOSMFeature, remainingOptions)
+
+  const fetchOsmFeatureBuildingParams = osmId ? { osmBaseUrl, osmAppToken, id: `buildings:${osmId}` } : undefined
+  const buildingOsmFeature = useSWR(fetchOsmFeatureBuildingParams, fetchOSMFeature, remainingOptions)
 
   const acFeatureViaSameAsURIParams = osmURI ? { acBaseUrl, acAppToken, sameAsURI: osmURI } : undefined
   const acFeatureViaSameAsURI = useSWR(acFeatureViaSameAsURIParams, fetchACtoOSMRelation)
 
   return {
-    accessibilityCloudFeature: acFeatureViaSameAsURI || acFeatureViaACID,
-    osmFeature,
+    /** Is there more data still in progress of loading */
+    isLoading: someLoading(amenityOsmFeature, buildingOsmFeature, acFeatureViaSameAsURI, acFeatureViaACID),
+    /** The feature result of AccessibilityCloud */
+    accessibilityCloudFeature: (acFeatureViaSameAsURI || acFeatureViaACID)?.data,
+    /** The first feature result of OSM, either via building or amenity */
+    osmFeature: firstData(amenityOsmFeature, buildingOsmFeature),
     // ... memoized enrichments
   }
 }

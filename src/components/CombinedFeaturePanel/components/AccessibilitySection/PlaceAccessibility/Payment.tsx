@@ -17,7 +17,7 @@ export const Payment: FC<{ accessibility: Accessibility | undefined; }> = ({ acc
 
   return (
     <li>
-      Payment:
+      <h2>Payment</h2>
       {YesNoUnknownText(payment.acceptsDebitCards, { yes: 'accepts debit cards; ', no: 'no debit cards; ' })}
       {YesNoUnknownText(payment.acceptsCreditCards, { yes: 'accepts credit cards; ', no: 'no credit cards; ' })}
       {YesNoUnknownText(payment.acceptsPaymentByMobilePhone, { yes: 'accepts pay by mobile phone; ', no: 'does not accept pay by mobile phone;' })}

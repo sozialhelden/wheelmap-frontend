@@ -15,7 +15,7 @@ export const Wifi: FC<{ accessibility: Accessibility | undefined; }> = ({ access
 
   return (
     <li>
-      Wifi Accessibility:
+      <h2>Wifi Accessibility</h2>
       {wifi.access && `${wifi.access}; `}
       {wifi.ssid && `ssid: ${wifi.ssid}; `}
       {wifi.password && `password: ${wifi.password} ; `}

@@ -43,20 +43,50 @@ import { Wifi } from './Wifi'
 import { useFeature } from '../../../../../lib/fetchers/useFeature'
 
 const SimpleList = styled.div`
-
   > ul > li {
     // just an indicator that this is a rendering part
     border-left: 10px ${colors.linkBackgroundColorTransparent} solid;
     // light segmentation
     margin-bottom: 4px;
     padding-left: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    align-items: flex-start;
+    justify-items: flex-start;
+    > * {
+      width: 100%;
+    }
+
+    > h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    > ul {
+      padding-left: 4px;
+    }
   }
 `
 
+const selectAcAccessibility = (feature: AnyFeature, featureResult: ReturnType<typeof useFeature>) => {
+  if (featureResult.accessibilityCloudFeature && featureResult.accessibilityCloudFeature.features.length > 0) {
+    const acFeature = featureResult.accessibilityCloudFeature.features[0]
+    if (acFeature.properties.accessibility) {
+      return acFeature.properties.accessibility
+    }
+  }
+
+  if (isPlaceInfo(feature)) {
+    return feature.properties.accessibility
+  }
+  return undefined
+}
+
 export const AccessibilityItems: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const result = useFeature(feature?._id)
-  const acAccessibility = result.accessibilityCloudFeature.data?.features[0]?.properties?.accessibility
-    ?? isPlaceInfo(feature) ? feature.properties?.accessibility : { } ?? { }
+  const acAccessibility = selectAcAccessibility(feature, result) ?? { }
 
   return (
     <SimpleList>

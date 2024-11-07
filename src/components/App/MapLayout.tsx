@@ -18,7 +18,6 @@ import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
-import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)

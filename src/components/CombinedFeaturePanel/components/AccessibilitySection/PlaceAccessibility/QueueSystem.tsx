@@ -17,7 +17,7 @@ export const QueueSystem: FC<{ accessibility: Accessibility | undefined; }> = ({
 
   return (
     <li>
-      Queue system:
+      <h2>Queue system</h2>
       {YesNoUnknownText(queueSystem.canSkipQueueWithDisability, { yes: 'can skip queue with disability; ', no: 'cannot skip queue with disability; ' })}
       {YesNoUnknownText(queueSystem.usesCattleBars, { yes: 'has cattle bars; ', no: 'has no cattle bars; ' })}
       {YesNoUnknownText(queueSystem.hasVisualAnnouncements, { yes: 'has visual announcement; ', no: 'does not have visual announcements; ' })}

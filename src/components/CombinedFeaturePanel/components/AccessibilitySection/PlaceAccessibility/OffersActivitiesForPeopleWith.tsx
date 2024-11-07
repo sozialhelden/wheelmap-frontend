@@ -27,7 +27,7 @@ export const OffersActivitiesForPeopleWith: FC<{ accessibility: Accessibility | 
 
   return (
     <li>
-      Activities:
+      <h2>Activities</h2>
       <ul>{ properties.map((x) => <AccessibleWithPersonalProfile isAccessible={offersActivitiesForPeopleWith[x]} type={x} />)}</ul>
     </li>
   )

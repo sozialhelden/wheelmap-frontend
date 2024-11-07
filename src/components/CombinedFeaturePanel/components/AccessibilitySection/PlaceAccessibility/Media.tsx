@@ -13,9 +13,12 @@ export const Media: FC<{ accessibility: Accessibility | undefined; }> = ({ acces
   }
   return (
     <>
-      {/* I'm a mere mortal, may the chores of hard labor fall unto you and may you implement this yourself */}
-      {/* eslint-disable-next-line react/no-array-index-key */}
-      {media.map((x, i) => (<li key={i}><pre>{JSON.stringify(x, undefined, 2)}</pre></li>))}
+      <h2>Media</h2>
+      <ul>
+        {/* I'm a mere mortal, may the chores of hard labor fall unto you and may you implement this yourself */}
+        {/* eslint-disable-next-line react/no-array-index-key */}
+        {media.map((x, i) => (<li key={i}><pre>{JSON.stringify(x, undefined, 2)}</pre></li>))}
+      </ul>
     </>
   )
 }
