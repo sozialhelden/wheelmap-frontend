@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import useMeasure from 'react-use-measure'
 import styled from 'styled-components'
+import dynamic from 'next/dynamic'
 import { AppContext } from '../../lib/context/AppContext'
 import LoadableMapView from '../MapNew/LoadableMapView'
 import GlobalStyle from './GlobalAppStyle'
@@ -16,9 +17,11 @@ import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
 import { isFirstStart } from '../../lib/util/savedState'
-
-import Onboarding from '../Onboarding/OnboardingView'
 import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
+
+// onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
+// these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
+const Onboarding = dynamic(() => import('../Onboarding/OnboardingView'), { ssr: false })
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
