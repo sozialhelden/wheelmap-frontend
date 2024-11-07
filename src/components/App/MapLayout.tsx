@@ -16,6 +16,7 @@ import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
+import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
 import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
 
