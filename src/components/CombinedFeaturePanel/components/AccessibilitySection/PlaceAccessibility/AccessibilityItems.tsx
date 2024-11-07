@@ -55,7 +55,8 @@ const SimpleList = styled.div`
 
 export const AccessibilityItems: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const result = useFeature(feature?._id)
-  const acAccessibility = result.accessibilityCloudFeature.data?.features[0]?.properties?.accessibility ?? isPlaceInfo(feature) ? feature.properties?.accessibility : { } ?? { }
+  const acAccessibility = result.accessibilityCloudFeature.data?.features[0]?.properties?.accessibility
+    ?? isPlaceInfo(feature) ? feature.properties?.accessibility : { } ?? { }
 
   return (
     <SimpleList>
