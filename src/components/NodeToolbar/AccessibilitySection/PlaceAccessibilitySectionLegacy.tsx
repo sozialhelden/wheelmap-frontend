@@ -6,7 +6,7 @@ import {
   PlaceProperties,
 } from '@sozialhelden/a11yjson'
 import StyledFrame from './StyledFrame'
-import AccessibilityDetailsTree from './AccessibilityDetailsTree'
+import AccessibilityDetailsTree from '../../CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityDetailsTree'
 import AccessibleDescription from './AccessibleDescription'
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer'
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility'
