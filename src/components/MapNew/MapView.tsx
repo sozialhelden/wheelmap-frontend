@@ -75,7 +75,7 @@ export default function MapView(props: IProps) {
   const { width, height } = props
   const { query } = router
   const {
-    setMapRef, initialViewport, onViewportUpdate, map,
+    setMapRef, initialViewport, onViewportUpdate, map, saveMapLocation,
   } = useMapViewInternals(query)
 
   // Reset viewport when map size changes
@@ -125,11 +125,11 @@ export default function MapView(props: IProps) {
       newQuery.lon = longitude
     }
     // update the initial viewport (and the local storage)
-    onViewportUpdate({
-      latitude: lat, longitude: lon, zoom: z,
+    saveMapLocation({
+      type: 'position', latitude: lat, longitude: lon, zoom: z,
     })
     router.replace({ query: newQuery })
-  }, [featureIds.length, onViewportUpdate, router])
+  }, [featureIds.length, saveMapLocation, router])
 
   const onViewStateChange = useCallback((evt: ViewStateChangeEvent) => {
     updateViewportQuery({ longitude: evt.viewState.longitude, latitude: evt.viewState.latitude, zoom: evt.viewState.zoom })

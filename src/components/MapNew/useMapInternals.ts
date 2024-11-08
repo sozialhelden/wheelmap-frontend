@@ -73,5 +73,6 @@ export const useMapViewInternals = (query: ParsedUrlQuery) => {
     // don't want to expose internals of viewport management to all other consumers of `useMap`
     initialViewport: viewport,
     onViewportUpdate: setViewport,
+    saveMapLocation,
   }), [map, setMapRef, viewport, setViewport])
 }
