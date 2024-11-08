@@ -36,4 +36,10 @@ export const StyledTable = styled.table`
       border: none;
     }
   }
+
+  pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
 `
