@@ -3,14 +3,19 @@ import React, {
 } from 'react'
 import { t } from 'ttag'
 import styled from 'styled-components'
-import { AnyFeature } from '../../lib/model/geo/AnyFeature'
-import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
+import { AnyFeature, TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
 import Spinner from '../ActivityIndicator/Spinner'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { collectExpandedFeaturesResult, useExpandedFeatures } from '../../lib/fetchers/useManyFeatures'
+import { AccessibilityCloudAPIFeatureCollectionResult } from '../../lib/fetchers/ac/AccessibilityCloudAPIFeatureCollectionResult'
 
 interface FeaturePanelContextType {
-  features: AnyFeature[]
+  features: {
+    id: string,
+    primaryFeature?: AnyFeature,
+    additionalData?: AccessibilityCloudAPIFeatureCollectionResult<TypeTaggedPlaceInfo>
+  }[]
   isLoading: boolean,
   error: unknown,
   baseFeatureUrl: string
@@ -66,46 +71,46 @@ const StyledLoadingDiv = styled.div`
 
 export function FeaturePanelContextProvider(
   { featureIds: passedFeatureIds, children }:
-  { featureIds?: string | string[], children: ReactNode },
+  { featureIds?: string[], children: ReactNode },
 ) {
   const { query: { placeType, id: idOrIds } } = useAppStateAwareRouter()
   const baseFeatureUrl = `/${placeType}/${idOrIds}`
 
-  const ids = Array.isArray(idOrIds) ? idOrIds : idOrIds?.split(',') || []
+  const ids = useMemo(() => (
+    Array.isArray(idOrIds) ? idOrIds : idOrIds?.split(',') ?? []
+  ), [idOrIds])
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
-  const {
-    data, isLoading, isValidating, error,
-  } = useMultipleFeaturesOptional(
-    featureIds,
-    {
-      shouldRetryOnError: false,
-    },
-  )
+  const expandedFeatures = useExpandedFeatures(featureIds, {
+    manyFeaturesSWRConfig: { shouldRetryOnError: false },
+    sameAsSWRConfig: { shouldRetryOnError: false },
+  })
+  const { isLoading, isValidating } = expandedFeatures
+  const anyData = (expandedFeatures.sameAs.data ?? expandedFeatures.manyFeatures.data)
 
-  const isBusy = (isLoading || isValidating) && !data
-  const filteredFeatures = data?.filter((f) => (f && f.status === 'fulfilled' && f.value))
-    .map((f) => (f as PromiseFulfilledResult<AnyFeature>).value)
-
-  const hasError = error || !filteredFeatures || filteredFeatures.length === 0
-
+  const resultSet = collectExpandedFeaturesResult(featureIds, expandedFeatures)
+  const isBusy = (isLoading || isValidating) && !anyData
   const contextValue = useMemo(() => ({
-    features: filteredFeatures || [],
+    features: featureIds.map((x) => ({
+      id: x,
+      primaryFeature: resultSet[x]?.original,
+      additionalData: resultSet[x]?.sameAs,
+    })),
     isLoading: isBusy,
-    error: hasError,
+    error: false,
     baseFeatureUrl,
-  }), [filteredFeatures, isBusy, hasError, baseFeatureUrl])
+  }), [featureIds, isBusy, baseFeatureUrl, resultSet])
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>
-      {(hasError && !isBusy) && <ErrorToolBar />}
+      {(false && !isBusy) && <ErrorToolBar />}
       {isBusy && (
         <StyledLoadingDiv className="_loading">
           <Spinner size={50} />
           <p className="_title">{t`Loading further details…`}</p>
         </StyledLoadingDiv>
       )}
-      {(!isBusy && !hasError) && children}
+      {(!isBusy && !false) && children}
     </FeaturePanelContext.Provider>
   )
 }

@@ -51,7 +51,7 @@ export function useFeature(
   const isAcFeature = !isOsmFeature
 
   const acFeatureId = isAcFeature ? id?.replace(/^ac:/, '') : undefined
-  const osmFeatureId = isOsmFeature ? id?.replace(/^osm:/, '') : undefined
+  const osmFeatureId = isOsmFeature ? id?.replace(/^osm:/, '').replace('/', ':') : undefined
 
   // if the feature is an AC PlaceInfo, load the place info from the AC API
   const fetchAcFeatureParams = acFeatureId ? {
