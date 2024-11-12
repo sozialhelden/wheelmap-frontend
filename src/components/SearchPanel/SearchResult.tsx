@@ -16,7 +16,7 @@ import { cx } from '../../lib/util/cx'
 import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useMap } from '../MapNew/useMap'
-import { mapOsmCollection, mapOsmType } from './komootHelpers'
+import { mapOsmCollection, mapOsmType } from './photonFeatureHelpers'
 import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 import { ACCategory } from '../../lib/model/ac/categories/ACCategory'
 import { getLocalizedCategoryName, unknownCategory } from '../../lib/model/ac/categories/Categories'
@@ -104,16 +104,16 @@ const StyledListItem = styled.li`
 `
 
 function mapResultToUrlObject(result: EnrichedSearchResult) {
-  const { properties } = result.komootPhotonResult
+  const { properties } = result.photonResult
 
   if (result.placeInfo) {
     return {
       pathname: `/ac:PlaceInfo/${result.placeInfo.properties._id}`,
       query: {
         q: null,
-        extent: result.komootPhotonResult.properties.extent,
-        lat: result.komootPhotonResult.geometry.coordinates[1],
-        lon: result.komootPhotonResult.geometry.coordinates[0],
+        extent: result.photonResult.properties.extent,
+        lat: result.photonResult.geometry.coordinates[1],
+        lon: result.photonResult.geometry.coordinates[0],
       },
     }
   }
@@ -128,16 +128,16 @@ function mapResultToUrlObject(result: EnrichedSearchResult) {
     }
   }
 
-  const osmType = mapOsmType(result.komootPhotonResult)
-  const collection = mapOsmCollection(result.komootPhotonResult)
+  const osmType = mapOsmType(result.photonResult)
+  const collection = mapOsmCollection(result.photonResult)
 
   return {
     pathname: `/${collection}/${osmType}:${properties.osm_id}`,
     query: {
       q: null,
-      extent: result.komootPhotonResult.properties.extent,
-      lat: result.komootPhotonResult.geometry.coordinates[1],
-      lon: result.komootPhotonResult.geometry.coordinates[0],
+      extent: result.photonResult.properties.extent,
+      lat: result.photonResult.geometry.coordinates[1],
+      lon: result.photonResult.geometry.coordinates[0],
     },
   }
 }
@@ -165,7 +165,7 @@ const useFeatureCategoryLabel = (placeName: string, category: ACCategory | null 
 }
 
 export default function SearchResult({ feature, className, hidden }: Props) {
-  const { properties } = feature.komootPhotonResult
+  const { properties } = feature.photonResult
 
   // translator: Place name shown in search results for places with unknown name / category.
   const placeName = properties ? properties.name || t`Unnamed` : t`Unnamed`
@@ -178,7 +178,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
       city: properties.city,
     })
 
-  const { category } = useCategory(feature.placeInfo, feature.osmFeature, feature.komootPhotonResult)
+  const { category } = useCategory(feature.placeInfo, feature.osmFeature, feature.photonResult)
 
   const categoryLabel = useFeatureCategoryLabel(placeName, category)
   const shownCategoryId = category && category._id
@@ -194,7 +194,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
     }
     evt.preventDefault()
 
-    const { geometry, properties: { extent } } = feature.komootPhotonResult
+    const { geometry, properties: { extent } } = feature.photonResult
     const urlObject = mapResultToUrlObject(feature)
 
     if (extent) {

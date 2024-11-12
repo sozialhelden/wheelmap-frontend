@@ -4,7 +4,7 @@ import { AppContext } from '../../lib/context/AppContext'
 import StyledMarkdown from '../shared/StyledMarkdown'
 import { LocationNoPermissionPrimaryText, selectProductName } from './language'
 import { LocationSearch } from './components/LocationSearch'
-import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { getLocationSettingsUrl } from '../../lib/goToLocationSettings'
 import { LocationContainer } from './components/LocationContainer'
 
@@ -18,7 +18,7 @@ const Container = styled(LocationContainer)`
 `
 
 export const LocationNoPermissionStep: FC<{
-  onSubmit: (location?: KomootPhotonResultFeature) => unknown;
+  onSubmit: (location?: PhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext) ?? { }
   const [url] = getLocationSettingsUrl()

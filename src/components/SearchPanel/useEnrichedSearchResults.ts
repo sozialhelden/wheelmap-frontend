@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import fetchPlacesOnKomootPhoton from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import fetchPhotonFeatures from '../../lib/fetchers/fetchPhotonFeatures'
 import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
-import { AnyFeature, TypeTaggedPlaceInfo, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import { AnyFeature, TypeTaggedPlaceInfo, TypeTaggedPhotonSearchResultFeature } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
-import { buildId, buildOSMUri } from './komootHelpers'
+import { buildId, buildOSMUri } from './photonFeatureHelpers'
 
 const emptyArray: any[] = []
 
 export type EnrichedSearchResult = {
   '@type': 'wheelmap:EnrichedSearchResult',
-  komootPhotonResult: TypeTaggedSearchResultFeature
+  photonResult: TypeTaggedPhotonSearchResultFeature
   featureId?: string
   osmFeatureLoading: boolean
   osmFeature: AnyFeature | null
@@ -33,12 +33,12 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
 
   const {
     data: searchResults,
-    isLoading: isKomootPhotonLoading,
-    isValidating: isKomootPhotonValidating,
+    isLoading: isPhotonLoading,
+    isValidating: isPhotonValidating,
     error: searchError,
   } = useSWR(
     queryData,
-    fetchPlacesOnKomootPhoton,
+    fetchPhotonFeatures,
     {
       keepPreviousData: false,
       revalidateIfStale: false,
@@ -46,7 +46,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       revalidateOnReconnect: false,
     },
   )
-  const isSearching = (isKomootPhotonLoading || isKomootPhotonValidating)
+  const isSearching = (isPhotonLoading || isPhotonValidating)
 
   const featureIds = searchResults?.features.map(buildId) || emptyArray
   const { isLoading: isOsmLoading, isValidating: isOsmValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
@@ -79,17 +79,17 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       return undefined
     }
 
-    const extendedSearchResults = searchResults.features.map((feature) => ({
+    const extendedSearchResults = searchResults.features.map((feature): EnrichedSearchResult => ({
       '@type': 'wheelmap:EnrichedSearchResult',
-      komootPhotonResult: {
-        '@type': 'komoot:SearchResult',
+      photonResult: {
+        '@type': 'photon:SearchResult',
         ...feature,
       },
       osmFeatureLoading: !!osmFeatureResults,
       osmFeature: null,
       placeInfoLoading: !!placeInfoResults,
       placeInfo: null,
-    } as EnrichedSearchResult))
+    }))
 
     if (osmFeatureResults) {
       // merge searchResults with osmFeatureResults

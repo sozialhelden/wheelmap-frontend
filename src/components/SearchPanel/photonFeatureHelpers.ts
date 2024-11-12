@@ -1,4 +1,4 @@
-import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 
 const typeMap = {
   N: 'node',
@@ -6,7 +6,7 @@ const typeMap = {
   R: 'relation',
 } as const
 
-export function mapOsmType(feature: KomootPhotonResultFeature) {
+export function mapOsmType(feature: PhotonResultFeature) {
   return typeMap[feature.properties.osm_type || 'N'] || 'node'
 }
 
@@ -20,14 +20,14 @@ const collectionMap = {
 // `${key}:${value}`
 // 'highway:elevator' -> 'elevators'
 
-export function mapOsmCollection(feature: KomootPhotonResultFeature) {
+export function mapOsmCollection(feature: PhotonResultFeature) {
   const combinedKey = `${feature.properties.osm_key}:${feature.properties.osm_value}`
   const secondaryKey = `${feature.properties.osm_key}`
 
   return collectionMap[combinedKey] || collectionMap[secondaryKey] || 'amenities'
 }
 
-export function buildId(feature: KomootPhotonResultFeature) {
+export function buildId(feature: PhotonResultFeature) {
   const osmType = mapOsmType(feature)
 
   if (feature.properties.osm_key === 'place' && feature.properties.osm_value !== 'house') {
@@ -38,7 +38,7 @@ export function buildId(feature: KomootPhotonResultFeature) {
   return `${collection}:${osmType}:${feature.properties.osm_id}`
 }
 
-export function buildOSMUri(feature: KomootPhotonResultFeature) {
+export function buildOSMUri(feature: PhotonResultFeature) {
   // do not resolve places, as these are regularly mistyped in AC
   if (feature.properties.osm_key === 'place') {
     return undefined

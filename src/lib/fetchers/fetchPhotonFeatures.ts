@@ -1,7 +1,7 @@
 import { Point } from 'geojson'
 import { t } from 'ttag'
 
-export type KomootPhotonResultProperties = {
+export type PhotonResultProperties = {
   city?: string;
   country?: string;
   name?: string;
@@ -20,20 +20,22 @@ export type KomootPhotonResultProperties = {
   extent?: [number, number, number, number];
 }
 
-export type KomootPhotonResultFeature = {
+export type PhotonResultFeature = {
   geometry: Point;
-  properties: KomootPhotonResultProperties;
+  properties: PhotonResultProperties;
 }
 
-export type SearchResultCollection = {
-  features: KomootPhotonResultFeature[],
+export type PhotonSearchResultCollection = {
+  features: PhotonResultFeature[],
   error?: any,
 }
 
-export default async function fetchPlacesOnKomootPhoton({ query, additionalQueryParameters = {} }: {
+const baseUrl = 'https://photon.komoot.io/api'
+
+export default async function fetchPhotonFeatures({ query, additionalQueryParameters = {} }: {
   query: string,
   additionalQueryParameters: Record<string, string | string[] | undefined> | {},
-}): Promise<SearchResultCollection | undefined> {
+}): Promise<PhotonSearchResultCollection | undefined> {
   if (!query || query.trim().length <= 0) {
     return undefined
   }
@@ -62,12 +64,12 @@ export default async function fetchPlacesOnKomootPhoton({ query, additionalQuery
     queryParameters.append('lang', languageCode)
   }
 
-  const url = `https://photon.komoot.io/api?${queryParameters.toString()}`
+  const url = `${baseUrl}?${queryParameters.toString()}`
 
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error(t`Could not load search results.`)
   }
 
-  return await response.json() as SearchResultCollection
+  return await response.json() as PhotonSearchResultCollection
 }

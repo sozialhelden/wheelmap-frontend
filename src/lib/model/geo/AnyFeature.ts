@@ -13,7 +13,7 @@ export type TypeTaggedPlaceInfo = (TypeTaggedWithId<'ac:PlaceInfo'> | TypeTagged
   };
 }
 
-export type TypeTaggedSearchResultFeature = TypeTaggedWithId<'komoot:SearchResult'>
+export type TypeTaggedPhotonSearchResultFeature = TypeTagged<'photon:SearchResult'>
 export type TypeTaggedOSMFeature = TypeTaggedWithId<'osm:Feature'>
 
 const isTypeTagged = <S extends keyof TypeMapping>(type: S) => (obj: unknown): obj is TypeTagged<S> => obj?.['@type'] === type
@@ -23,7 +23,7 @@ const isTypeTaggedWithId = <S extends keyof TypeMapping>(...types: S[]) => (obj:
 export const isPlaceInfo = isTypeTaggedWithId('ac:PlaceInfo', 'a11yjson:PlaceInfo')
 export const isEquipmentInfo = isTypeTaggedWithId('ac:EquipmentInfo', 'a11yjson:EquipmentInfo')
 export const isEntrance = isTypeTaggedWithId('ac:Entrance', 'a11yjson:Entrance')
-export const isSearchResultFeature = isTypeTagged('komoot:SearchResult')
+export const isSearchResultFeature = isTypeTagged('photon:SearchResult')
 export const isOSMFeature = isTypeTaggedWithId('osm:Feature')
 
 export type TypeTaggedOSMFeatureOrError =
@@ -34,7 +34,7 @@ export type AnyFeature =
   | TypeTaggedPlaceInfo
   | TypeTaggedEquipmentInfo
   | TypeTaggedEntrance
-  | TypeTaggedSearchResultFeature
+  | TypeTaggedPhotonSearchResultFeature
   | TypeTaggedOSMFeature
 
 export type AnyFeatureCollection = {

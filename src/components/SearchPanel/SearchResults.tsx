@@ -38,7 +38,7 @@ export default function SearchResults({
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
       {features?.map((feature) => {
-        const featureId = `${feature.komootPhotonResult.properties.osm_key}:${feature.komootPhotonResult.properties.osm_id}`
+        const featureId = `${feature.photonResult.properties.osm_key}:${feature.photonResult.properties.osm_id}`
 
         return (
           <SearchResult
