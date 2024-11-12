@@ -1,6 +1,9 @@
 import useSWRInfinite, { SWRInfiniteConfiguration } from 'swr/infinite'
 import assert from 'assert'
 import { t } from 'ttag'
+import {
+  BareFetcher, Key, SWRConfiguration, SWRHook, SWRResponse,
+} from 'swr'
 import { AnyFeature, TypeTaggedPlaceInfo } from '../model/geo/AnyFeature'
 import { getOSMAPI } from './osm-api/useOSMAPI'
 import { getAccessibilityCloudAPI } from './ac/useAccessibilityCloudAPI'
@@ -103,7 +106,7 @@ export const buildFetchOneFeature = (options : Partial<FetchOptions>) => async (
 
   const feature = (await request.json()) satisfies AnyFeature
   return {
-    feature, url, origin: featureId, kind,
+    feature: { '@type': kind === 'osm' ? 'osm:Feature' : 'ac:PlaceInfo', ...feature }, url, origin: featureId, kind,
   }
 }
 
@@ -164,6 +167,26 @@ export const useOsmSameAsFeatures = (
   return useSWRInfinite((idx) => featureIds?.[idx], fetcher, { parallel: true, ...options?.swr })
 }
 
+// eslint-disable-next-line max-len, @stylistic/js/max-len
+type MW<Data extends Promise<{ feature: AccessibilityCloudAPIFeatureCollectionResult<TypeTaggedPlaceInfo>; url: string; origin: string; }> = any, Error = any> = (useSWRNext: SWRHook) => (key: Key, fetcher: BareFetcher<Data> | null, config: SWRConfiguration<Data, Error, BareFetcher<Data>>) => SWRResponse<Data, Error>
+
+// eslint-disable-next-line max-len, @stylistic/js/max-len
+
+type RetType = Awaited<ReturnType<ReturnType<typeof buildSameAsFetcher>>>
+
+const buildMySwrMiddleWareWithCustomOrigin = (redirect: Record<string, string>) => {
+  const swrMiddleware: MW<RetType[]> = (useSWRNext) => (key, fetcher, config) => {
+    // ...
+    const swr = useSWRNext(key, fetcher, config)
+    if (swr.data) {
+      // const promise = swr.data.then((x) => ({ ...x, origin: redirect[x.origin] }))
+      return { ...swr, data: swr.data.map((x) => ({ ...x, origin: redirect[x.origin] })) }
+    }
+    return swr
+  }
+  return swrMiddleware
+}
+
 export const useExpandedFeatures = (
   featureIds: string[],
   options?: {
@@ -183,10 +206,18 @@ export const useExpandedFeatures = (
   // now it's easy to filter all OSM results, based on the assumptions the fetcher did which one is which
   const osmFeatures = manyFeaturesResultData?.filter((manyFeaturesResultEntry) => manyFeaturesResultEntry.kind === 'osm')
 
+  const lookupmap = osmFeatures?.reduce((curr, value) => ({ ...curr, [value.feature._id]: value.origin }), ({ })) ?? {}
+
+  const opts = {
+    swr: { ...options?.sameAsSWRConfig, use: [...(options?.sameAsSWRConfig?.use ?? []), buildMySwrMiddleWareWithCustomOrigin(lookupmap)] },
+    cache: options?.cache ?? false,
+  }
   // the osm features now need to be refetched by asking the AC API if it knows additional details on its side
   const sameAsResult = useOsmSameAsFeatures(
     osmFeatures?.map((x) => x.feature._id),
-    options ? { swr: options.sameAsSWRConfig, cache: options.cache } : undefined,
+    {
+      swr: { use: [buildMySwrMiddleWareWithCustomOrigin(lookupmap)] },
+    },
   )
 
   return {
