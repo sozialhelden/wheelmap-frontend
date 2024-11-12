@@ -3,18 +3,19 @@ import React, {
 } from 'react'
 import { t } from 'ttag'
 import styled from 'styled-components'
-import { AnyFeature, TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
 import Spinner from '../ActivityIndicator/Spinner'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
-import { collectExpandedFeaturesResult, useExpandedFeatures } from '../../lib/fetchers/useManyFeatures'
-import { AccessibilityCloudAPIFeatureCollectionResult } from '../../lib/fetchers/ac/AccessibilityCloudAPIFeatureCollectionResult'
+import { useExpandedFeatures } from '../../lib/fetchers/useFeatures'
+import { isOSMElementValue, isOSMId } from '../../lib/typing/discriminators/osmDiscriminator'
+import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
+import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
+import { CollectedFeature, collectExpandedFeaturesResult } from '../../lib/fetchers/useFeatures/collectExpandedFeatures'
 
 interface FeaturePanelContextType {
   features: {
     id: string,
-    primaryFeature?: AnyFeature,
-    additionalData?: AccessibilityCloudAPIFeatureCollectionResult<TypeTaggedPlaceInfo>
+    feature?: CollectedFeature
   }[]
   isLoading: boolean,
   error: unknown,
@@ -69,6 +70,21 @@ const StyledLoadingDiv = styled.div`
   padding: 24px;
 `
 
+const normalizeIds = (ids: string[]) => ids.flatMap((x) => {
+  if (isOSMId(x)) {
+    if (isOSMElementValue(x)) {
+      return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
+    }
+    return normalizeOSMId(x)
+  }
+
+  if (isAccessibilityCloudId(x)) {
+    return x
+  }
+  console.warn(`FeatureID could not be categorized, was: '${x}'`)
+  return undefined
+}).filter((x) => !!x)
+
 export function FeaturePanelContextProvider(
   { featureIds: passedFeatureIds, children }:
   { featureIds?: string[], children: ReactNode },
@@ -81,25 +97,26 @@ export function FeaturePanelContextProvider(
   ), [idOrIds])
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
-  const expandedFeatures = useExpandedFeatures(featureIds, {
-    manyFeaturesSWRConfig: { shouldRetryOnError: false },
-    sameAsSWRConfig: { shouldRetryOnError: false },
+  const normalizedIds = normalizeIds(featureIds)
+  const expandedFeatures = useExpandedFeatures(normalizedIds, {
+    useFeaturesSWRConfig: { shouldRetryOnError: false },
+    useOsmToAcSWRConfig: { shouldRetryOnError: false },
   })
   const { isLoading, isValidating } = expandedFeatures
-  const anyData = (expandedFeatures.sameAs.data ?? expandedFeatures.manyFeatures.data)
+  // eslint-disable-next-line max-len, @stylistic/js/max-len
+  const anyData = (expandedFeatures.requestedFeatures.data ?? expandedFeatures.additionalOsmFeatures.data ?? expandedFeatures.additionalAcFeatures.data)
 
-  const resultSet = collectExpandedFeaturesResult(featureIds, expandedFeatures)
+  const resultSet = collectExpandedFeaturesResult(normalizedIds, expandedFeatures)
   const isBusy = (isLoading || isValidating) && !anyData
   const contextValue = useMemo(() => ({
-    features: featureIds.map((x) => ({
-      id: x,
-      primaryFeature: resultSet[x]?.original,
-      additionalData: resultSet[x]?.sameAs,
+    features: resultSet.features.map((x, i) => ({
+      id: normalizeIds[i],
+      feature: x,
     })),
     isLoading: isBusy,
     error: false,
     baseFeatureUrl,
-  }), [featureIds, isBusy, baseFeatureUrl, resultSet])
+  }), [isBusy, baseFeatureUrl, resultSet])
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>
