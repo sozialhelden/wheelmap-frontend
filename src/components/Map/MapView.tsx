@@ -10,16 +10,13 @@ import {
   ViewStateChangeEvent,
 } from 'react-map-gl'
 
-import { useHotkeys } from '@blueprintjs/core'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
 import { uniq } from 'lodash'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { createGlobalStyle } from 'styled-components'
-import { t } from 'ttag'
 import getFeatureIdsFromLocation from '../../lib/model/geo/getFeatureIdsFromLocation'
 import { FixedHelpButton } from '../CombinedFeaturePanel/components/HelpButton'
-import { filterLayers } from './filterLayers'
-import useMapStyle from './useMapStyle'
+
 import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
 
@@ -27,11 +24,11 @@ import { log } from '../../lib/util/logger'
 import { useMapViewInternals } from './useMapInternals'
 import { uriFriendlyPosition } from './utils'
 import { GeolocateButton } from './GeolocateButton'
-import { MapLayer } from './MapLayer'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
 import { useMapIconLoader } from './useMapIconLoader'
+import { MapLayers } from './MapLayers'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -40,9 +37,6 @@ import { useMapIconLoader } from './useMapIconLoader'
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default
 
 interface IProps {
-  featureId?: string;
-  timestamp?: number;
-  visible?: boolean;
   width: number;
   height: number;
 }
@@ -160,47 +154,9 @@ export default function MapView(props: IProps) {
     )
   }, [router, updateViewportQuery, initialViewport.zoom])
 
-  const { onLoadCallback } = useMapIconLoader(map)
+  const { onLoadCallback } = useMapIconLoader()
 
-  const mapStyle = useMapStyle()
-
-  const [hasBuildings, setHasBuildings] = useState(true)
-  const [hasPublicTransport, setHasPublicTransport] = useState(false)
-  const [hasSurfaces, setHasSurfaces] = useState(true)
-
-  const hotkeys = React.useMemo(() => [
-    {
-      combo: '1',
-      global: true,
-      label: t`Toggle building focus`,
-      onKeyDown: () => setHasBuildings(!hasBuildings),
-    },
-    {
-      combo: '2',
-      global: true,
-      label: t`Toggle public transport focus`,
-      onKeyDown: () => setHasPublicTransport(!hasPublicTransport),
-    },
-    {
-      combo: '3',
-      global: true,
-      label: t`Toggle surfaces`,
-      onKeyDown: () => setHasSurfaces(!hasSurfaces),
-    },
-  ], [hasBuildings, hasPublicTransport, hasSurfaces])
-  useHotkeys(hotkeys)
-
-  const [layers, highlightLayers] = React.useMemo(
-    () => {
-      if (mapStyle.data?.layers) {
-        return filterLayers({
-          layers: mapStyle.data?.layers, hasBuildings, hasPublicTransport, hasSurfaces,
-        })
-      }
-      return [[], []]
-    },
-    [mapStyle, hasBuildings, hasPublicTransport, hasSurfaces],
-  )
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState<string[]>([])
 
   const {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
@@ -217,15 +173,13 @@ export default function MapView(props: IProps) {
           onClick={onMouseClick}
           onZoomEnd={onViewStateChange}
           interactive
-          interactiveLayerIds={layers?.map((l) => l.id)}
+          interactiveLayerIds={interactiveLayerIds}
           onLoad={onLoadCallback}
           mapStyle="mapbox://styles/mapbox/light-v11"
           ref={setMapRef}
         >
           <MapSources />
-
-          {layers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} />)}
-          {highlightLayers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} asFilterLayer />)}
+          <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
 
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />

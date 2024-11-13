@@ -5,7 +5,7 @@ import { filterForLayer, useMapFilterContext } from './filter'
 /**
  * If there are no filters passed as argument, a filter expression will be built from the map filter context
  */
-export const MapLayer: FC<LayerProps & { asFilterLayer: boolean }> = ({ asFilterLayer, ...props }) => {
+export const MapLayer: FC<LayerProps & { asFilterLayer?: boolean }> = ({ asFilterLayer, ...props }) => {
   const { filter: mapFilters } = useMapFilterContext()
 
   if (asFilterLayer) {

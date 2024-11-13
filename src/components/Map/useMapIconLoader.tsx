@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback } from 'react'
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
-import { MapRef } from 'react-map-gl'
+import { MapEvent, MapRef } from 'react-map-gl'
 import { Map } from 'mapbox-gl'
 import * as categoryIcons from '../icons/categories'
 import { log } from '../../lib/util/logger'
@@ -68,9 +68,9 @@ function loadIcon(map: Map, icons: IconMap, iconName: string, options: { fill?: 
   customIcon.src = dataUrl
 }
 
-export function useMapIconLoader(map: MapRef | null) {
-  const onLoadCallback = useCallback(() => {
-    const mapInstance = map?.getMap?.()
+export function useMapIconLoader() {
+  const onLoadCallback = useCallback((e: MapEvent) => {
+    const mapInstance = e.target
 
     if (!mapInstance) {
       log.warn('Expected a map instance but got nothing')
@@ -85,7 +85,7 @@ export function useMapIconLoader(map: MapRef | null) {
         {
           fill: 'white',
           addShadow: true,
-          suffix: '-white',
+          suffix: '-15-white',
         },
       )
     }
@@ -97,7 +97,7 @@ export function useMapIconLoader(map: MapRef | null) {
         iconName,
       )
     }
-  }, [map])
+  }, [])
 
   return {
     onLoadCallback,
