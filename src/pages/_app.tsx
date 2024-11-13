@@ -120,7 +120,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
             {composeContexts(
               contexts,
-              <MapLayout>
+              <MapLayout key="map">
                 {getLayout(<Component {...pageProps} />)}
               </MapLayout>,
             )}

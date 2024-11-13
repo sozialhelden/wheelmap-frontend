@@ -1,6 +1,8 @@
-import { createContext, FC, ReactNode } from 'react'
+import {
+  createContext, ReactNode,
+} from 'react'
 import { FilterContext, HighlightId } from './types'
-import { useFilterContextState } from './useMapFilterContextValue'
+import { useCreateMapFilterContextState } from './useCreateMapFilterContextState'
 
 export const MapFilterContext = createContext<FilterContext>({
   filter: {},
@@ -9,7 +11,8 @@ export const MapFilterContext = createContext<FilterContext>({
   removeById: () => { },
 })
 
-export const MapFilterContextProvider:FC<{ children?: ReactNode }> = ({ children }) => {
-  const filterContextValue = useFilterContextState()
+export const MapFilterContextProvider = ({ children }: { children?: ReactNode }) => {
+  const filterContextValue = useCreateMapFilterContextState()
+
   return (<MapFilterContext.Provider value={filterContextValue}>{children}</MapFilterContext.Provider>)
 }

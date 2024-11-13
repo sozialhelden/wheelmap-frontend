@@ -1,8 +1,9 @@
 import { MapRef } from 'react-map-gl'
 import React, {
+  memo, ReactNode,
   useCallback, useEffect, useId, useMemo, useRef, useState,
 } from 'react'
-import { calculatePadding, MapOverlaps } from './MapOverlapPadding'
+import { MapOverlaps } from './MapOverlapPadding'
 
 const mapOverlaps = new MapOverlaps()
 
@@ -24,12 +25,14 @@ export const GlobalMapContextProvider = ({ children }: { children?: React.ReactN
   // this will not change frequently, thus we need not to be afraid of re-rendering
   const [mapRef, setMapRef] = useState<MapRef | null>(null)
 
-  const value = useMemo(() => ({
-    map: mapRef,
-    mapOverlaps,
-    setMapRef,
-  }
-  ), [mapRef, setMapRef])
+  const value = useMemo(() => {
+    console.log('GlobalMapContextProvider value changed', mapRef)
+    return {
+      map: mapRef,
+      mapOverlaps,
+      setMapRef,
+    }
+  }, [mapRef, setMapRef])
 
   return (
     <GlobalMapContext.Provider value={value}>

@@ -29,7 +29,7 @@ export type Filter = {
 
 export type FilterAddition = Omit<Filter, 'id'> & { id?: string }
 
-export type FilterContext = {
+export interface FilterContext {
   filter: Partial<Record<HighlightId, Filter>>,
   addFilter: (filter: FilterAddition) => Filter,
   remove: (filter: Filter) => void,
