@@ -1,6 +1,4 @@
-import { PlaceProperties } from '@sozialhelden/a11yjson'
 import { t } from 'ttag'
-import { isOrHasAccessibleToilet } from '../../accessibility/isOrHasAccessibleToilet'
 import { RootCategoryEntry } from './RootCategoryEntry'
 
 // This must be a function - Results from t`` are dependent on the current context.
@@ -58,16 +56,9 @@ export function getRootCategoryTable(): { [key: string]: RootCategoryEntry } {
     toilets: {
       // translator: Meta category for any toilet or any place with an accessible toilet
       name: t`Toilets`,
-      isMetaCategory: true,
       isSubCategory: true,
-      filter: (properties: PlaceProperties | undefined) => {
-        if (!properties) {
-          return true
-        }
-        return (
-          properties.category === 'toilets'
-          || isOrHasAccessibleToilet(properties) === 'yes'
-        )
+      applyCustomSearchParams: (params) => {
+        params.set('hasToiletInfo', 'true')
       },
     },
   }

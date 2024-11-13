@@ -1,7 +1,7 @@
 import mapboxgl, { MapLayerMouseEvent, MapLayerTouchEvent } from 'mapbox-gl'
 import * as React from 'react'
 import {
-  useCallback, useLayoutEffect, useState,
+  useCallback, useLayoutEffect, useMemo, useState,
 } from 'react'
 import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
@@ -35,6 +35,7 @@ import { GeolocateButton } from './GeolocateButton'
 import { MapLayer } from './MapLayer'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
+import { MapSources } from './MapSources'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -256,7 +257,6 @@ export default function MapView(props: IProps) {
 
   const {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
-    NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl,
   } = useEnvContext()
 
   return (
@@ -275,19 +275,7 @@ export default function MapView(props: IProps) {
           mapStyle="mapbox://styles/mapbox/light-v11"
           ref={setMapRef}
         >
-          {databaseTableNames.map((name) => (
-            <Source
-              type="vector"
-              tiles={[0, 1, 2, 3].map(
-                (n) => `${tileBackendUrl?.replace(
-                  /{n}/,
-                  n.toString(),
-                )}/${name}.mvt?limit=10000&bbox={bbox-epsg-3857}&epsg=3857`,
-              )}
-              id={name}
-              key={name}
-            />
-          ))}
+          <MapSources />
 
           {layers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} />)}
           {highlightLayers?.map((layer) => <MapLayer key={layer.id} {...(layer as any)} asFilterLayer />)}
