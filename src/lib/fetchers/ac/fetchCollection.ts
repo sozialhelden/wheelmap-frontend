@@ -1,8 +1,8 @@
-import { Geometry, Point } from 'geojson';
-import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping';
-import ResourceError from '../ResourceError';
-import { CollectionResultType } from './CollectionResultType';
-import { ListOrFeatureCollection } from './ListOrFeatureCollection';
+import { Geometry, Point } from 'geojson'
+import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping'
+import ResourceError from '../ResourceError'
+import { CollectionResultType } from './CollectionResultType'
+import { ListOrFeatureCollection } from './ListOrFeatureCollection'
 
 type Params<RDFTypeName extends AccessibilityCloudRDFType> = {
   /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
@@ -28,7 +28,7 @@ export async function fetchCollectionWithTypeTags<
   type,
   paramsString,
 }: Params<RDFTypeName>): Promise<ListOrFeatureCollection<DataType, R, G>> {
-  const kebabPluralName = getAccessibilityCloudCollectionName(type);
+  const kebabPluralName = getAccessibilityCloudCollectionName(type)
   const url = `${baseUrl}/${kebabPluralName}.json${paramsString ? `?${paramsString}` : ''}`
   const response = await fetch(url)
   if (!response.ok) {

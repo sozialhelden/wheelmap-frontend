@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { t } from 'ttag'
 
 import SearchResult from './SearchResult'
-import { EnrichedSearchResult } from './useEnrichedSearchResults'
 import { cx } from '../../lib/util/cx'
+import { EnrichedSearchResult, makeFeatureId } from './EnrichedSearchResult'
 
 type Props = {
   searchResults?: EnrichedSearchResult[];
@@ -38,7 +38,7 @@ export default function SearchResults({
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
       {features?.map((feature) => {
-        const featureId = `${feature.photonResult.properties.osm_key}:${feature.photonResult.properties.osm_id}`
+        const featureId = makeFeatureId(feature)
 
         return (
           <SearchResult
