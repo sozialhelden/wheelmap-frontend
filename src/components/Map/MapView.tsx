@@ -1,19 +1,15 @@
 import mapboxgl, { MapLayerMouseEvent, MapLayerTouchEvent } from 'mapbox-gl'
 import * as React from 'react'
 import {
-  useCallback, useLayoutEffect, useMemo, useState,
+  useCallback, useLayoutEffect, useState,
 } from 'react'
-import { flushSync } from 'react-dom'
-import { createRoot } from 'react-dom/client'
 import {
   Map,
   MapProvider,
   NavigationControl,
-  Source,
   ViewStateChangeEvent,
 } from 'react-map-gl'
 
-// import FeatureListPopup from "../feature/FeatureListPopup";
 import { useHotkeys } from '@blueprintjs/core'
 import MapboxLanguage from '@mapbox/mapbox-gl-language'
 import { uniq } from 'lodash'
@@ -22,8 +18,7 @@ import { createGlobalStyle } from 'styled-components'
 import { t } from 'ttag'
 import getFeatureIdsFromLocation from '../../lib/model/geo/getFeatureIdsFromLocation'
 import { FixedHelpButton } from '../CombinedFeaturePanel/components/HelpButton'
-import * as categoryIcons from '../icons/categories'
-import { databaseTableNames, filterLayers } from './filterLayers'
+import { filterLayers } from './filterLayers'
 import useMapStyle from './useMapStyle'
 import { useEnvContext } from '../../lib/context/EnvContext'
 import { StyledLoadingIndicator } from './LoadingIndictor'
@@ -36,6 +31,7 @@ import { MapLayer } from './MapLayer'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
+import { useMapIconLoader } from './useMapIconLoader'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -164,56 +160,7 @@ export default function MapView(props: IProps) {
     )
   }, [router, updateViewportQuery, initialViewport.zoom])
 
-  const onLoadCallback = useCallback(() => {
-    const mapInstance = map?.getMap?.()
-    if (!mapInstance) {
-      log.warn('Expected a map instance but got nothing')
-      return
-    }
-    Object.keys(categoryIcons).forEach((iconName) => {
-      const CategoryIconComponent = categoryIcons[iconName]
-      const div = document.createElement('div')
-      const root = createRoot(div)
-      flushSync(() => {
-        root.render(<CategoryIconComponent />)
-      })
-      const svgElement = div.querySelector('svg')
-      if (!svgElement) {
-        throw new Error('Expected an SVG element, but node creation apparently failed')
-      }
-      svgElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg')
-      const graphicalElements = svgElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
-      // set fill to white for all elements
-      graphicalElements.forEach((e) => e.setAttribute('fill', 'white'))
-      // add a shadow to all elements
-      graphicalElements.forEach((e) => e.setAttribute('filter', 'url(#shadow)'))
-      // add the shadow filter
-      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
-      const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter')
-      filter.setAttribute('id', 'shadow')
-      const feDropShadow = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow')
-      feDropShadow.setAttribute('dx', '0')
-      feDropShadow.setAttribute('dy', '0')
-      feDropShadow.setAttribute('stdDeviation', '0.5')
-      feDropShadow.setAttribute('flood-color', 'black')
-      feDropShadow.setAttribute('flood-opacity', '0.9')
-      filter.appendChild(feDropShadow)
-      defs.appendChild(filter)
-      svgElement.appendChild(defs)
-
-      const svg = div.innerHTML
-      const dataUrl = `data:image/svg+xml;base64,${btoa(svg)}`
-      const customIcon = new Image(30, 30)
-      customIcon.onload = () => {
-        // log.debug('adding icon', `${iconName}-15-white`)
-        mapInstance.addImage(`${iconName}-15-white`, customIcon, { pixelRatio: 2 })
-      }
-      customIcon.onerror = () => {
-        log.warn('error loading icon', iconName, dataUrl)
-      }
-      customIcon.src = dataUrl
-    })
-  }, [map])
+  const { onLoadCallback } = useMapIconLoader(map)
 
   const mapStyle = useMapStyle()
 
