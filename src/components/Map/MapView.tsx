@@ -1,7 +1,7 @@
 import mapboxgl, { MapLayerMouseEvent, MapLayerTouchEvent } from 'mapbox-gl'
 import * as React from 'react'
 import {
-  useCallback, useLayoutEffect, useState,
+  useCallback, useEffect, useLayoutEffect, useState,
 } from 'react'
 import {
   Map,

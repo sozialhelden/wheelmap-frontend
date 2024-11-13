@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { log } from '../../../../lib/util/logger'
+import { getLayout } from '../../../../components/App/MapLayout'
 
 function UploadPhotoThanks() {
   const router = useRouter()
@@ -16,3 +17,5 @@ function UploadPhotoThanks() {
 }
 
 export default UploadPhotoThanks
+
+UploadPhotoThanks.getLayout = getLayout

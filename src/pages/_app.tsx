@@ -120,9 +120,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
             {composeContexts(
               contexts,
-              <MapLayout>
-                {getLayout(<Component {...pageProps} />)}
-              </MapLayout>,
+              getLayout(<Component {...pageProps} />),
             )}
           </SWRConfig>
         </SessionProvider>

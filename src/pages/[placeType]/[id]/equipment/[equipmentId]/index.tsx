@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { log } from '../../../../../lib/util/logger'
+import { getLayout } from '../../../../../components/App/MapLayout'
 
 function Equipment() {
   const router = useRouter()
@@ -17,3 +18,5 @@ function Equipment() {
 }
 
 export default Equipment
+
+Equipment.getLayout = getLayout

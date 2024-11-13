@@ -5,6 +5,7 @@ import { FeaturePanelContextProvider } from './FeaturePanelContext'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import CloseLink from '../shared/CloseLink'
+import { getLayout as getMapLayout } from '../App/MapLayout'
 
 const PositionedCloseLink = styled(() => {
   const { push } = useAppStateAwareRouter()
@@ -33,3 +34,5 @@ export default function PlaceLayout({
     </Toolbar>
   )
 }
+
+export const getLayout = (page: ReactNode) => getMapLayout(<PlaceLayout>{page}</PlaceLayout>)

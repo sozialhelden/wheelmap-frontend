@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
-import React, { ReactElement, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { t } from 'ttag'
 import { toast } from 'react-toastify'
-import MapLayout from '../../../../components/App/MapLayout'
-// import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
 import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import postImageUpload from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
-import CompositeFeaturesPage from '../[tag]/edit'
+
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 
 export default function Page() {
   const router = useRouter()
@@ -66,6 +64,4 @@ export default function Page() {
   )
 }
 
-Page.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+Page.getLayout = getLayout

@@ -19,6 +19,4 @@ function ReportExternalPage() {
 
 export default ReportExternalPage
 
-ReportExternalPage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ReportExternalPage.getLayout = getLayout

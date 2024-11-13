@@ -68,21 +68,21 @@ export default function MapLayout({
 
   return (
     <ErrorBoundary>
+      <HeadMetaTags />
+      <GlobalStyle />
       <MapFilterContextProvider>
-        {firstStart && <Onboarding />}
-        <HeadMetaTags />
-        <GlobalStyle />
         <GlobalMapContextProvider>
           <MainMenu
             onToggle={toggleMainMenu}
             isOpen={isMenuOpen}
             clientSideConfiguration={clientSideConfiguration}
           />
+          {firstStart && <Onboarding />}
           <main
             style={{ height: '100%' }}
             ref={containerRef}
           >
-            <LoadableMapView {...{ width, height }} />
+            <LoadableMapView width={width} height={height} key="map" />
             <BlurLayer active={blur} style={{ zIndex: 1000 }} />
             <div style={{ zIndex: 2000 }}>{children}</div>
             <StyledToastContainer position="bottom-center" stacked />
@@ -92,3 +92,5 @@ export default function MapLayout({
     </ErrorBoundary>
   )
 }
+
+export const getLayout = (page: React.ReactNode) => <MapLayout>{page}</MapLayout>

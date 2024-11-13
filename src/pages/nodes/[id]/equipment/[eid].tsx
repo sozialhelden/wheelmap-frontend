@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useAppStateAwareRouter } from '../../../../lib/util/useAppStateAwareRouter'
+import { getLayout } from '../../../../components/App/MapLayout'
 
 function EquipmentInfoPage() {
   const { replace, query: { id, eid } } = useAppStateAwareRouter()
@@ -11,3 +12,5 @@ function EquipmentInfoPage() {
 }
 
 export default EquipmentInfoPage
+
+EquipmentInfoPage.getLayout = getLayout
