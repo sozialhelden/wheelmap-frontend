@@ -10,7 +10,7 @@ import { isOnSmallViewport } from '../../lib/util/ViewportSize'
 import colors, { alpha } from '../../lib/util/colors'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { log } from '../../lib/util/logger'
-import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
+import { useMapOverlapRef } from '../Map/GlobalMapContext'
 
 type Props = {
   className?: string;

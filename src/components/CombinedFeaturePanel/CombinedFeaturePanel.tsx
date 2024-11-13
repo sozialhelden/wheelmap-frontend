@@ -12,7 +12,7 @@ import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
 import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
-import { useMapHighlight } from '../MapNew/filter'
+import { useMapHighlight } from '../Map/filter'
 
 type Props = {
   features: AnyFeature[];

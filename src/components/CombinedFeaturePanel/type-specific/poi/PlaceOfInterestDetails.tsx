@@ -16,7 +16,7 @@ import FeaturesDebugJSON from '../../components/FeaturesDebugJSON'
 import NextToiletDirections from '../../components/AccessibilitySection/NextToiletDirections'
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
-import { useMap } from '../../../MapNew/useMap'
+import { useMap } from '../../../Map/useMap'
 
 type Props = {
   feature: AnyFeature;

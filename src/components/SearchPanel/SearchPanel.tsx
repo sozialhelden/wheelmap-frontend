@@ -18,7 +18,7 @@ import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
 import { EnrichedSearchResult } from './useEnrichedSearchResults'
-import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
+import { useMapOverlapRef } from '../Map/GlobalMapContext'
 
 export type Props = PlaceFilter & {
   className?: string;

@@ -13,11 +13,11 @@ import { AppStateLink } from '../App/AppStateLink'
 import { cx } from '../../lib/util/cx'
 import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { useMap } from '../MapNew/useMap'
+import { useMap } from '../Map/useMap'
 import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 import { ACCategory } from '../../lib/model/ac/categories/ACCategory'
 import { getLocalizedCategoryName, unknownCategory } from '../../lib/model/ac/categories/Categories'
-import { calculateDefaultPadding } from '../MapNew/MapOverlapPadding'
+import { calculateDefaultPadding } from '../Map/MapOverlapPadding'
 import { EnrichedSearchResult, makeStyles, mapResultToUrlObject } from './EnrichedSearchResult'
 import {
   getLocalizedStringTranslationWithMultipleLocales,

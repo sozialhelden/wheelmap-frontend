@@ -10,7 +10,7 @@ import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibili
 import { YesNoUnknown } from '../../lib/model/ac/Feature'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
-import { useMap } from '../../components/MapNew/useMap'
+import { useMap } from '../../components/Map/useMap'
 
 export default function Page() {
   const router = useAppStateAwareRouter()
