@@ -19,13 +19,13 @@ function getAvailableFilters() {
     atLeastPartial: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially wheelchair accessible`,
-      accessibilityFilter: ['yes', 'limited'],
+      accessibilityFilter: ['limited', 'yes'],
       toiletFilter: [],
     },
     atLeastPartialWithWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially accessible with accessible WC`,
-      accessibilityFilter: ['yes', 'limited'],
+      accessibilityFilter: ['limited', 'yes'],
       isVisible: (category: string) => category !== 'toilets',
       toiletFilter: ['yes'],
     },
