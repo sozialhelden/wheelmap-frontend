@@ -24,24 +24,24 @@ export function normalizeOSMId(osmId: AnyOSMId, fallback?: FallbackKeyName): OSM
   }
 
   if (isOSMTableElementValue(osmId)) {
-    const [table, element, value] = osmId.split(':')
-    return `osm:${table}:${element}:${value}` as OSMId
+    const [table, element, value] = osmId.split(/[:/]/)
+    return `osm:${table}/${element}/${value}` as OSMId
   }
 
   if (isOSMElementValue(osmId)) {
     if (!fallback) {
       throw new Error('Missing key name to normalize OSM id')
     }
-    const [element, value] = osmId.split(':')
-    return `osm:${fallback}:${element}:${value}` as OSMId
+    const [element, value] = osmId.split(/[:/]/)
+    return `osm:${fallback}/${element}/${value}` as OSMId
   }
 
   if (isOSMElementValue_Legacy(osmId)) {
     if (!fallback) {
       throw new Error('Missing key name to normalize OSM id')
     }
-    const [element, value] = osmId.split('/')
-    return `osm:${fallback}:${element}:${value}` as OSMId
+    const [element, value] = osmId.split(/[:/]/)
+    return `osm:${fallback}/${element}/${value}` as OSMId
   }
   throw new Error(`Fallthrough while trying to normalize OSM id: could not discriminate which id kind was given, id was: ${osmId}`)
 }

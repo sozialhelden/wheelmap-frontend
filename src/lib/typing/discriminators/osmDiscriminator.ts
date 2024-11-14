@@ -3,6 +3,7 @@ import {
   OSMElement,
   OSMRDF,
   OSMTableElementValue,
+  LegacyOsmId,
 } from '../brands/osmIds'
 import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
 
@@ -10,11 +11,12 @@ const matchValue = '(?<value>\\d+)'
 const matchElement = '(?<element>node|way|relation)'
 const matchTable = '(?<table>[\\w\\d_-]+)'
 const matchRdf = '(?<rdf>osm(?:-inhouse)?)'
+const matchSeperator = '[:/]'
 
-const matchElementValueLegacy = new RegExp(`^${matchElement}/${matchValue}$`)
-const matchElementValue = new RegExp(`^${matchElement}:${matchValue}$`)
-const matchTableElementValue = new RegExp(`^${matchTable}:${matchElement}:${matchValue}$`)
-const matchRdfTableElementValue = new RegExp(`^${matchRdf}:${matchTable}:${matchElement}:${matchValue}$`)
+const matchElementValueLegacy = new RegExp(`^${matchElement}${matchSeperator}${matchValue}$`)
+const matchElementValue = new RegExp(`^${matchElement}${matchSeperator}${matchValue}$`)
+const matchTableElementValue = new RegExp(`^${matchTable}${matchSeperator}${matchElement}${matchSeperator}${matchValue}$`)
+const matchRdfTableElementValue = new RegExp(`^${matchRdf}:${matchTable}/${matchElement}/${matchValue}$`)
 
 export const isOSMElementValue = (x: string): x is OSMElementValue => matchElementValue.test(x)
 export const isOSMTableElementValue = (x: string): x is OSMTableElementValue => matchTableElementValue.test(x)
@@ -35,6 +37,7 @@ export const isOSMId = (x: string): x is AnyOSMId => {
     return true
   }
 
+  // keeping it right here, it's legacy, but not fully deprecated yet
   return isOSMElementValue_Legacy(x)
 }
 
@@ -53,4 +56,31 @@ export const getOSMRDFComponents = (osmId: OSMRDFTableElementValue) => {
       rdf, table, element, value,
     },
   }
+}
+
+const matchLegacyNodes = '(?<nodes>nodes)'
+const matchLegacyValue = '(?<positive>\\d+)|(?<negative>-\\d+)'
+const matchMongoDbValue = '(?<mongo_id>[a-zA-Z0-9]+)'
+
+const matchLegacyOsmNegativeValue = /^(?<negative>-\\d+)$/
+const matchLegacyOsmMongoDbValue = new RegExp(`^${matchLegacyNodes}/${matchMongoDbValue}$`)
+const matchLegacyOsmElementValue = new RegExp(`^${matchLegacyNodes}/${matchLegacyValue}$`)
+
+export const isLegacyOsmNegativeValue = (x: string): x is LegacyOsmId.NegativeOsmValue => matchLegacyOsmNegativeValue.test(x)
+export const isLegacyMongoDbValue = (x: string): x is LegacyOsmId.MongoDbOsmValue => matchLegacyOsmMongoDbValue.test(x)
+export const isLegacyOsmElementValue = (x: string): x is LegacyOsmId.LegacyOsmElementValue => matchLegacyOsmElementValue.test(x)
+export const isLegacyOsmId = (x: string): x is LegacyOsmId.AnyLegacyOsmId => {
+  if (isLegacyMongoDbValue(x)) {
+    return true
+  }
+
+  if (isLegacyOsmElementValue(x)) {
+    return true
+  }
+
+  if (isLegacyOsmNegativeValue(x)) {
+    return true
+  }
+
+  return false
 }

@@ -1,25 +1,20 @@
 import { t } from 'ttag'
 import { PlaceInfo } from '@sozialhelden/a11yjson'
-import { AnyFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
+import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
 import ResourceError from '../ResourceError'
 import { FeatureId } from './types'
 import { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import { AccessibilityCloudAPIFeatureCollectionResult } from '../ac/AccessibilityCloudAPIFeatureCollectionResult'
-
-export type FetchOneFeatureResult = {
-  feature: AnyFeature,
-  url: string,
-  origin: FeatureId
-}
+import OSMFeature from '../../model/osm/OSMFeature'
 
 export interface FetchOneFeatureProperties {
   url: string
-  kind: 'osm' | 'ac'
+  typeTag: TypeTaggedOSMFeature['@type'] | TypeTaggedPlaceInfo['@type']
   id: FeatureId
 }
 
-export interface FetchOneFeatureTransformedResult extends FetchOneFeatureProperties {
-  feature: AnyFeature
+export interface FetchOneFeatureResult extends FetchOneFeatureProperties {
+  feature: TypeTaggedOSMFeature | TypeTaggedPlaceInfo
 }
 
 /**
@@ -37,13 +32,17 @@ export const genericFetcher = async <Result = unknown>(fetchUri: string): Promis
   return feature
 }
 
+/**
+ * Composes a fetcher to fetch a feature, that will be tagged with origin url
+ */
 export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFeatureProperties>) => {
-  const featureFetcher = async (fetchUri: string): Promise<FetchOneFeatureTransformedResult> => {
-    const result = await genericFetcher<AnyFeature>(fetchUri)
-    const extraProperties = keyProperties[fetchUri]
+  const featureFetcher = async (fetchUri: string): Promise<FetchOneFeatureResult> => {
+    const result = await genericFetcher<OSMFeature | PlaceInfo>(fetchUri)
+    // the type tag will be injected into the data result
+    const { typeTag, ...extraProperties } = keyProperties[fetchUri]
     return ({
       // @ts-ignore 2473
-      feature: { '@type': extraProperties.kind === 'osm' ? 'osm:Feature' : 'ac:PlaceInfo', ...result }, ...extraProperties,
+      feature: { '@type': typeTag, ...result }, ...extraProperties,
     })
   }
   return featureFetcher
@@ -51,16 +50,15 @@ export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFea
 
 export interface FetchOsmToAcFeatureProperties {
   url: string
-  kind: 'ac'
   id: OSMRDFTableElementValue
 }
 
-export interface FetchOsmToAcFeatureTransformedResult extends FetchOsmToAcFeatureProperties {
+export interface FetchOsmToAcFeatureResult extends FetchOsmToAcFeatureProperties {
   feature?: PlaceInfo
 }
 
 export const composeOsmToAcFetcher = (keyProperties: Record<string, FetchOsmToAcFeatureProperties>) => {
-  const osmToAcFetcher = async (fetchUri: string): Promise<FetchOsmToAcFeatureTransformedResult> => {
+  const osmToAcFetcher = async (fetchUri: string): Promise<FetchOsmToAcFeatureResult> => {
     const result = await genericFetcher<AccessibilityCloudAPIFeatureCollectionResult<TypeTaggedPlaceInfo>>(fetchUri)
     const extraProperties = keyProperties[fetchUri]
     return {

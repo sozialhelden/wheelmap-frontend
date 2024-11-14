@@ -1,5 +1,5 @@
 import { SWRInfiniteConfiguration } from 'swr/infinite'
-import { FetchOneFeatureTransformedResult, FetchOsmToAcFeatureTransformedResult } from './fetchers'
+import { FetchOneFeatureResult, FetchOsmToAcFeatureResult } from './fetchers'
 import { useFeatures } from './useFeatures'
 import { useOsmToAcFeature } from './useOsmToAcFeature'
 import { isOSMRdfTableElementValue } from '../../typing/discriminators/osmDiscriminator'
@@ -16,8 +16,8 @@ const guesstimateRdfType = (osmUris: string[]) => osmUris.flatMap((osmUri) => {
 export const useExpandedFeatures = (
   features: FeatureId[],
   options?: {
-    useFeaturesSWRConfig: SWRInfiniteConfiguration<FetchOneFeatureTransformedResult>,
-    useOsmToAcSWRConfig: SWRInfiniteConfiguration<FetchOsmToAcFeatureTransformedResult>,
+    useFeaturesSWRConfig: SWRInfiniteConfiguration<FetchOneFeatureResult>,
+    useOsmToAcSWRConfig: SWRInfiniteConfiguration<FetchOsmToAcFeatureResult>,
     cache?: boolean
   },
 ) => {

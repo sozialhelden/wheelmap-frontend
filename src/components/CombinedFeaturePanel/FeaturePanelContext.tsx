@@ -7,7 +7,9 @@ import Spinner from '../ActivityIndicator/Spinner'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
 import { useExpandedFeatures } from '../../lib/fetchers/useFeatures'
-import { isOSMElementValue, isOSMId } from '../../lib/typing/discriminators/osmDiscriminator'
+import {
+  isOSMElementValue, isOSMElementValue_Legacy, isOSMId, isOSMRdfTableElementValue, isOSMTableElementValue,
+} from '../../lib/typing/discriminators/osmDiscriminator'
 import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
 import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
 import { CollectedFeature, collectExpandedFeaturesResult } from '../../lib/fetchers/useFeatures/collectExpandedFeatures'
@@ -16,16 +18,16 @@ interface FeaturePanelContextType {
   features: {
     id: string,
     feature?: CollectedFeature
-  }[]
-  isLoading: boolean,
-  error: unknown,
+  }[],
+  anyLoading: boolean,
+  firstError?: unknown
   baseFeatureUrl: string
 }
 
 export const FeaturePanelContext = createContext<FeaturePanelContextType>({
   features: [],
-  isLoading: false,
-  error: null,
+  anyLoading: false,
+  firstError: false,
   baseFeatureUrl: '',
 })
 
@@ -75,6 +77,15 @@ const normalizeIds = (ids: string[]) => ids.flatMap((x) => {
     if (isOSMElementValue(x)) {
       return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
     }
+    if (isOSMElementValue_Legacy(x)) {
+      return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
+    }
+    if (isOSMTableElementValue(x)) {
+      return normalizeOSMId(x)
+    }
+    if (isOSMRdfTableElementValue(x)) {
+      return normalizeOSMId(x)
+    }
     return normalizeOSMId(x)
   }
 
@@ -104,30 +115,32 @@ export function FeaturePanelContextProvider(
   })
   const { isLoading, isValidating } = expandedFeatures
   // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const anyData = (expandedFeatures.requestedFeatures.data ?? expandedFeatures.additionalOsmFeatures.data ?? expandedFeatures.additionalAcFeatures.data)
+  // const anyData = (expandedFeatures.requestedFeatures.data ?? expandedFeatures.additionalOsmFeatures.data ?? expandedFeatures.additionalAcFeatures.data)
 
   const resultSet = collectExpandedFeaturesResult(normalizedIds, expandedFeatures)
-  const isBusy = (isLoading || isValidating) && !anyData
+  const anyLoading = (isLoading || isValidating)
+  // eslint-disable-next-line max-len, @stylistic/js/max-len
+  const firstError = expandedFeatures.requestedFeatures.error ?? expandedFeatures.additionalAcFeatures.error ?? expandedFeatures.additionalOsmFeatures.error
   const contextValue = useMemo(() => ({
     features: resultSet.features.map((x, i) => ({
       id: normalizeIds[i],
       feature: x,
     })),
-    isLoading: isBusy,
-    error: false,
+    anyLoading,
+    firstError,
     baseFeatureUrl,
-  }), [isBusy, baseFeatureUrl, resultSet])
+  } satisfies FeaturePanelContextType), [firstError, anyLoading, baseFeatureUrl, resultSet.features])
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>
-      {(false && !isBusy) && <ErrorToolBar />}
-      {isBusy && (
+      {(false && !anyLoading) && <ErrorToolBar />}
+      {anyLoading && (
         <StyledLoadingDiv className="_loading">
           <Spinner size={50} />
           <p className="_title">{t`Loading further details…`}</p>
         </StyledLoadingDiv>
       )}
-      {(!isBusy && !false) && children}
+      {(!anyLoading && !false) && children}
     </FeaturePanelContext.Provider>
   )
 }

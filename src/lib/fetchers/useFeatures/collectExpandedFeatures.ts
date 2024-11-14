@@ -2,12 +2,12 @@ import { PlaceInfo } from '@sozialhelden/a11yjson'
 import { FeatureId } from './types'
 import { useExpandedFeatures } from './useExpandedFeatures'
 import OSMFeature from '../../model/osm/OSMFeature'
+import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
 
 export interface CollectedFeature {
   acFeature?: PlaceInfo,
   osmFeature?: OSMFeature,
   requestedFeature?: PlaceInfo | OSMFeature
-
 }
 
 export const collectExpandedFeaturesResult = (
@@ -22,11 +22,11 @@ export const collectExpandedFeaturesResult = (
     const additionalAcFeature = additionalAcFeatures.data?.find((x) => x.id === featureId)
     const additionalOsmFeature = additionalOsmFeatures.data?.find((x) => x.id === featureId)
 
-    if (requestedFeature?.kind === 'ac') {
+    if (requestedFeature?.['@type'] === 'ac:PlaceInfo') {
       const collected = {
-        acFeature: (requestedFeature.feature ?? additionalAcFeature) as PlaceInfo | undefined,
-        osmFeature: additionalOsmFeature?.feature as OSMFeature | undefined,
-        requestedFeature: requestedFeature.feature as (PlaceInfo | OSMFeature),
+        acFeature: (requestedFeature.feature ?? additionalAcFeature) as TypeTaggedPlaceInfo | undefined,
+        osmFeature: additionalOsmFeature?.feature as TypeTaggedOSMFeature | undefined,
+        requestedFeature: requestedFeature.feature as (TypeTaggedPlaceInfo | OSMFeature),
       } satisfies CollectedFeature
 
       featureMap[featureId] = collected
@@ -34,11 +34,11 @@ export const collectExpandedFeaturesResult = (
       return
     }
 
-    if (requestedFeature?.kind === 'osm') {
+    if (requestedFeature?.feature?.['@type'] === 'osm:Feature') {
       const collected = {
-        acFeature: additionalAcFeature?.feature as PlaceInfo | undefined,
-        osmFeature: (requestedFeature.feature ?? additionalOsmFeature) as OSMFeature | undefined,
-        requestedFeature: requestedFeature.feature as (PlaceInfo | undefined),
+        acFeature: additionalAcFeature?.feature as TypeTaggedPlaceInfo | undefined,
+        osmFeature: (requestedFeature.feature ?? additionalOsmFeature) as TypeTaggedOSMFeature | undefined,
+        requestedFeature: requestedFeature.feature as (TypeTaggedOSMFeature | undefined),
       }
 
       featureMap[featureId] = collected
