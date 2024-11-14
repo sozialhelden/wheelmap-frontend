@@ -1,6 +1,8 @@
 import React from 'react'
 import { log } from '../../util/logger'
 import { ChangesetState } from './ChangesetState'
+import { callBackendToUpdateInhouseDb } from '../callBackendToUpdateInhouseDb'
+import useOSMAPI from './useOSMAPI'
 
 export async function createChangeset({
   baseUrl, tagName, newValue, accessToken,
@@ -85,11 +87,6 @@ export async function createChange({
       'Content-Type': 'text/xml',
       Authorization: `Bearer ${accessToken}`,
     },
-    /* body: `<osm>
-      <${osmType} id="${numericId}" changeset="${changesetId}" lat="${lat}" lon="${lon}" version="${version}">
-        ${allTagsAsXML}
-      </${osmType}>
-    </osm>`, */
     body,
   }).then((res) => res.text()).then((data) => {
     log.log(data)
@@ -99,6 +96,7 @@ export async function createChange({
 export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, tagName, newTagValue, currentOsmObjectOnServer) {
   const [callbackChangesetState, setCallbackChangesetState] = React.useState<ChangesetState>()
   const [callbackError, setCallbackError] = React.useState<Error>()
+  const { baseUrl: inhouseBaseUrl } = useOSMAPI({ cached: false })
 
   const submitNewValue = React.useCallback(() => {
     if (!currentOsmObjectOnServer || !accessToken || !newTagValue || !osmType) {
@@ -120,14 +118,19 @@ export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, 
           tagName,
           newTagValue,
           currentOsmObjectOnServer,
-        }).then(() => setCallbackChangesetState('changesetComplete'))
+        }).then(() => {
+          setCallbackChangesetState('changesetComplete')
+          return callBackendToUpdateInhouseDb({
+            baseUrl: inhouseBaseUrl, osmType, osmId,
+          })
+        })
       })
       .catch((err) => {
         log.error(err)
         setCallbackChangesetState('error')
         setCallbackError(err)
       })
-  }, [baseUrl, currentOsmObjectOnServer, accessToken, newTagValue, tagName, osmId, osmType])
+  }, [inhouseBaseUrl, baseUrl, currentOsmObjectOnServer, accessToken, newTagValue, tagName, osmId, osmType])
 
   /* const handleSuccess = React.useCallback(() => {
             toast.success(
