@@ -69,7 +69,10 @@ const isSurfaceLayer = (layer: mapboxgl.Layer) => surfaceLayerIds.has(layer.id)
  */
 export function filterLayers(
   {
-    layers, hasBuildings, hasPublicTransport, hasSurfaces,
+    layers,
+    hasBuildings,
+    hasPublicTransport,
+    hasSurfaces,
   }: {
     layers: mapboxgl.Layer[];
     hasBuildings: boolean;

@@ -17,8 +17,8 @@ import { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
-import { EnrichedSearchResult } from './useEnrichedSearchResults'
-import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
+import { useMapOverlapRef } from '../Map/GlobalMapContext'
+import { EnrichedSearchResult } from './EnrichedSearchResult'
 
 export type Props = PlaceFilter & {
   className?: string;

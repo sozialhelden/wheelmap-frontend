@@ -9,7 +9,7 @@ import { LocationFailedStep } from './LocationFailedStep'
 import { LocationNoPermissionStep } from './LocationNoPermissionStep'
 import { LocationStep } from './LocationStep'
 import { OnboardingStep } from './OnboardingStep'
-import { KomootPhotonResultFeature } from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { log } from '../../lib/util/logger'
 
 const StyledModalDialog = styled(ModalDialog)`
@@ -269,7 +269,7 @@ type OnboardingState =
   | 'failed-permission'
 
 type Props = {
-  onClose: (location?: KomootPhotonResultFeature) => void;
+  onClose: (location?: PhotonResultFeature) => void;
 }
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
@@ -306,10 +306,10 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
           setStep('failed-permission')
         }
       },
-      onRejectionSubmit: (location?: KomootPhotonResultFeature) => {
+      onRejectionSubmit: (location?: PhotonResultFeature) => {
         onClose(location)
       },
-      onLocationFailureResolved: (location?: KomootPhotonResultFeature) => {
+      onLocationFailureResolved: (location?: PhotonResultFeature) => {
         onClose(location)
       },
     }),

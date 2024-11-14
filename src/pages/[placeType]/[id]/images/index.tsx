@@ -60,6 +60,8 @@
 //   background-color: rgba(0, 0, 0, 0.9);
 // }
 
+import { getLayout } from '../../../../components/App/MapLayout'
+
 function UploadPhoto() {
   return (
     <div>
@@ -69,3 +71,5 @@ function UploadPhoto() {
 }
 
 export default UploadPhoto
+
+UploadPhoto.getLayout = getLayout

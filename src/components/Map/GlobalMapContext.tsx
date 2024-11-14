@@ -1,8 +1,9 @@
 import { MapRef } from 'react-map-gl'
 import React, {
+  memo, ReactNode,
   useCallback, useEffect, useId, useMemo, useRef, useState,
 } from 'react'
-import { calculatePadding, MapOverlaps } from './MapOverlapPadding'
+import { MapOverlaps } from './MapOverlapPadding'
 
 const mapOverlaps = new MapOverlaps()
 
@@ -28,8 +29,7 @@ export const GlobalMapContextProvider = ({ children }: { children?: React.ReactN
     map: mapRef,
     mapOverlaps,
     setMapRef,
-  }
-  ), [mapRef, setMapRef])
+  }), [mapRef, setMapRef])
 
   return (
     <GlobalMapContext.Provider value={value}>

@@ -11,7 +11,8 @@ import RadioButtonOn from '../../../../components/icons/ui-elements/RadioButtonS
 import RadioButtonOff from '../../../../components/icons/ui-elements/RadioButtonUnselected'
 import { cx } from '../../../../lib/util/cx'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
@@ -89,8 +90,6 @@ function ReportSendToAC() {
   )
 }
 
-ReportSendToAC.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ReportSendToAC.getLayout = getLayout
 
 export default ReportSendToAC

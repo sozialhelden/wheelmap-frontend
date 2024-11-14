@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
 import { anyFeature } from '../../lib/fixtures/mocks/features/anyfeature'
 import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
+import { getLayout } from '../../components/App/MapLayout'
 
 function Cat() {
   const router = useRouter()
@@ -29,3 +30,5 @@ function Cat() {
 }
 
 export default Cat
+
+Cat.getLayout = getLayout

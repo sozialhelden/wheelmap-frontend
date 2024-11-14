@@ -27,6 +27,7 @@ const PlaceNameDetail = styled.div`
 type Props = {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
+  onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: 'small' | 'medium' | 'big';
 }
@@ -50,7 +51,9 @@ const StyledHeader = styled.header`
 `
 
 export default function FeatureNameHeader(props: Props) {
-  const { feature, children, onClickCurrentMarkerIcon } = props
+  const {
+    feature, children, onClickCurrentMarkerIcon, onHeaderClicked,
+  } = props
 
   const handleMarkerClick = React.useCallback(() => {
     if (feature && onClickCurrentMarkerIcon) {
@@ -117,7 +120,7 @@ export default function FeatureNameHeader(props: Props) {
   )
 
   return (
-    <StyledHeader>
+    <StyledHeader onClick={onHeaderClicked}>
       {placeNameElement}
       {children}
     </StyledHeader>

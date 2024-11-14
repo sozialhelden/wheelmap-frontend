@@ -3,7 +3,7 @@ import { CombinedFeaturePanel } from '../../../components/CombinedFeaturePanel/C
 import {
   FeaturePanelContext,
 } from '../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import PlaceLayout from '../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../components/CombinedFeaturePanel/PlaceLayout'
 
 export default function PlaceFeaturePage() {
   const { features } = useContext(FeaturePanelContext)
@@ -13,6 +13,4 @@ export default function PlaceFeaturePage() {
   )
 }
 
-PlaceFeaturePage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+PlaceFeaturePage.getLayout = getLayout

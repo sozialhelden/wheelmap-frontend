@@ -70,7 +70,7 @@ export function getCategoryForFeature(
     || feature['@type'] === 'ac:EquipmentInfo'
   ) {
     categoryId = feature.properties?.category
-  } else if (feature['@type'] === 'komoot:SearchResult') {
+  } else if (feature['@type'] === 'photon:SearchResult') {
     categoryId = feature.properties.osm_value || feature.properties.osm_key
   } else if (feature['@type'] === 'osm:Feature') {
     for (const [key, value] of Object.entries(feature.properties)) {

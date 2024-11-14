@@ -1,5 +1,4 @@
-import router from 'next/router'
-import StyledNotFound from '../components/NotFound/NotFound'
+import { getLayout } from '../components/App/MapLayout'
 
 export default function NotFound() {
   return (
@@ -16,3 +15,5 @@ export default function NotFound() {
     </>
   )
 }
+
+NotFound.getLayout = getLayout

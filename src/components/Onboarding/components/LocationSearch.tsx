@@ -18,14 +18,14 @@ import {
 import useSWR from 'swr'
 import { FeatureCollection, Point } from 'geojson'
 import { center as turfCenter } from '@turf/turf'
-import fetchPlacesOnKomootPhoton, { KomootPhotonResultFeature } from '../../../lib/fetchers/fetchPlacesOnKomootPhoton'
+import fetchPhotonFeatures, { PhotonResultFeature } from '../../../lib/fetchers/fetchPhotonFeatures'
 import { CallToActionButton } from '../../shared/Button'
 import { SearchConfirmText, SearchSkipText } from '../language'
 import CountryContext from '../../../lib/context/CountryContext'
 import fetchCountryGeometry from '../../../lib/fetchers/fetchCountryGeometry'
 import colors from '../../../lib/util/colors'
 
-export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
+export const LocationSearch: FC<{ onUserSelection: (selection?: PhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
   const [{ value, origin, selection }, setValue] = useState({ value: '', origin: 'system', selection: '' })
 
   const region = useContext(CountryContext)
@@ -55,12 +55,12 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: KomootPhotonResu
     return computedBias
   }, [regionGeometry, region])
 
-  const { data } = useSWR({ query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPlacesOnKomootPhoton)
+  const { data } = useSWR({ query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPhotonFeatures)
   const filteredData = useMemo(() => {
     if (!data) {
       return []
     }
-    const bucket: ({ key: string } & KomootPhotonResultFeature)[] = []
+    const bucket: ({ key: string } & PhotonResultFeature)[] = []
     for (let i = 0; i < data.features.length; i += 1) {
       const entry = data.features[i]
       if (!entry.properties) {

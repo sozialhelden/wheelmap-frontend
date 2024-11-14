@@ -10,13 +10,13 @@ import useMeasure from 'react-use-measure'
 import styled from 'styled-components'
 import dynamic from 'next/dynamic'
 import { AppContext } from '../../lib/context/AppContext'
-import LoadableMapView from '../MapNew/LoadableMapView'
+import LoadableMapView from '../Map/LoadableMapView'
 import GlobalStyle from './GlobalAppStyle'
 import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
-import { GlobalMapContextProvider } from '../MapNew/GlobalMapContext'
-import { MapFilterContextProvider } from '../MapNew/filter/MapFilterContext'
+import { GlobalMapContextProvider } from '../Map/GlobalMapContext'
+import { MapFilterContextProvider } from '../Map/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
@@ -68,21 +68,21 @@ export default function MapLayout({
 
   return (
     <ErrorBoundary>
+      <HeadMetaTags />
+      <GlobalStyle />
       <MapFilterContextProvider>
-        {firstStart && <Onboarding />}
-        <HeadMetaTags />
-        <GlobalStyle />
         <GlobalMapContextProvider>
           <MainMenu
             onToggle={toggleMainMenu}
             isOpen={isMenuOpen}
             clientSideConfiguration={clientSideConfiguration}
           />
+          {firstStart && <Onboarding />}
           <main
             style={{ height: '100%' }}
             ref={containerRef}
           >
-            <LoadableMapView {...{ width, height }} />
+            <LoadableMapView width={width} height={height} key="map" />
             <BlurLayer active={blur} style={{ zIndex: 1000 }} />
             <div style={{ zIndex: 2000 }}>{children}</div>
             <StyledToastContainer position="bottom-center" stacked />
@@ -92,3 +92,5 @@ export default function MapLayout({
     </ErrorBoundary>
   )
 }
+
+export const getLayout = (page: React.ReactNode) => <MapLayout>{page}</MapLayout>
