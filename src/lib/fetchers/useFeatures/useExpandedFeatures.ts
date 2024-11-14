@@ -21,7 +21,7 @@ const guesstimateRdfType = (osmUris: string[]): OSMRDFTableElementValue[] => osm
 })
 
 export const useExpandedFeatures = (
-  features: FeatureId[],
+  features: (FeatureId | undefined)[],
   options?: {
     useFeaturesSWRConfig: SWRInfiniteConfiguration<FetchOneFeatureResult>,
     useOsmToAcSWRConfig: SWRInfiniteConfiguration<FetchOsmToAcFeatureResult>,
@@ -31,7 +31,7 @@ export const useExpandedFeatures = (
   const initialFeaturesResult = useFeatures(features, options ? { swr: options.useFeaturesSWRConfig, cache: options.cache } : undefined)
   const { data: initialFeatures } = initialFeaturesResult
 
-  const osmFeatureIds = features.filter(isOSMRdfTableElementValue) ?? []
+  const osmFeatureIds = features.filter((x) => !!x && isOSMRdfTableElementValue(x)) ?? []
   // eslint-disable-next-line max-len, @stylistic/js/max-len
   const additionalAcFeatureResult = useOsmToAcFeature(osmFeatureIds, options ? { swr: options.useOsmToAcSWRConfig, cache: options.cache } : undefined)
 

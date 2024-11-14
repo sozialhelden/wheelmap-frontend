@@ -9,7 +9,7 @@ import { makeFetchUri } from './utils'
 import { composeFetchOneFeature, FetchOneFeatureProperties, FetchOneFeatureResult } from './fetchers'
 
 export const useFeatures = (
-  features: FeatureId[],
+  features: (FeatureId | undefined)[],
   options?: {
     swr?: SWRInfiniteConfiguration<FetchOneFeatureResult>,
     cache?: boolean
@@ -27,6 +27,9 @@ export const useFeatures = (
     const fetchUris: string[] = []
     for (let i = 0; i < features.length; i += 1) {
       const feature = features[i]
+      if (!feature) {
+        continue
+      }
       const url = makeFetchUri(feature, {
         acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
       })

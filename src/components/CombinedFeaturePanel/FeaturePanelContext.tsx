@@ -114,8 +114,6 @@ export function FeaturePanelContextProvider(
     useOsmToAcSWRConfig: { shouldRetryOnError: false },
   })
   const { isLoading, isValidating } = expandedFeatures
-  // eslint-disable-next-line max-len, @stylistic/js/max-len
-  // const anyData = (expandedFeatures.requestedFeatures.data ?? expandedFeatures.additionalOsmFeatures.data ?? expandedFeatures.additionalAcFeatures.data)
 
   const resultSet = collectExpandedFeaturesResult(normalizedIds, expandedFeatures)
   const anyLoading = (isLoading || isValidating)

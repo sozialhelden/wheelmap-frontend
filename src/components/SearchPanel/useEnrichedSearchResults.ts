@@ -2,7 +2,6 @@ import { useContext, useMemo } from 'react'
 import useSWR from 'swr'
 import { PlaceInfo } from '@sozialhelden/a11yjson'
 import fetchPhotonFeatures from '../../lib/fetchers/fetchPhotonFeatures'
-import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
 import { TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
 import { buildId, buildOSMUri } from './photonFeatureHelpers'
@@ -10,6 +9,7 @@ import useCollectionSWR from '../../lib/fetchers/ac/useCollectionSWR'
 import { AppContext } from '../../lib/context/AppContext'
 import { EnrichedSearchResult, makeDisplayDataFromPhotonResult } from './EnrichedSearchResult'
 import { getLocalizedAddressString } from '../../lib/model/geo/getAddressString'
+import { useFeatures } from '../../lib/fetchers/useFeatures'
 
 const emptyArray: any[] = []
 
@@ -63,7 +63,11 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
     })
   }, [searchQuery, clientSideConfiguration])
 
-  const { isLoading: isAcSearchLoading, isValidating: isAcSearchValidating, data: acSearchResults } = useCollectionSWR<'ac:PlaceInfo', PlaceInfo, 'FeatureCollection'>({
+  const {
+    isLoading: isAcSearchLoading,
+    isValidating: isAcSearchValidating,
+    data: acSearchResults,
+  } = useCollectionSWR<'ac:PlaceInfo', PlaceInfo, 'FeatureCollection'>({
     type: 'ac:PlaceInfo',
     params: placesUrlParams,
     shouldRun: !!placesUrlParams,
@@ -72,16 +76,20 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
   const isSearching = (isPhotonLoading || isPhotonValidating) || (isAcSearchLoading || isAcSearchValidating)
 
   const featureIds = searchResults?.features.map(buildId) || emptyArray
-  const { isLoading: isOsmLoading, isValidating: isOsmValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
-    featureIds,
-    {
+
+  const {
+    isLoading: isOsmLoading,
+    isValidating: isOsmValidating,
+    data: osmFeatureResults,
+  } = useFeatures(featureIds, {
+    swr: {
       errorRetryCount: 0,
       keepPreviousData: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     },
-  )
+  })
 
   const isFetchingOsmDetails = (isOsmLoading || isOsmValidating)
 
@@ -157,11 +165,11 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       for (let i = 0; i < osmFeatureResults.length; i++) {
         const osmFeatureResult = osmFeatureResults[i]
 
-        if (!osmFeatureResult || osmFeatureResult.status === 'rejected') {
+        if (!osmFeatureResult) {
           continue
         }
 
-        const osmFeature = osmFeatureResult.value
+        const osmFeature = osmFeatureResult.feature
         if (osmFeature) {
           extendedPhotonSearchResults[i].osmFeature = osmFeature
           extendedPhotonSearchResults[i].featureId = featureIds[i]
