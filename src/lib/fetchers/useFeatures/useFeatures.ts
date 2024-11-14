@@ -6,7 +6,6 @@ import { useCurrentAppToken } from '../../context/AppContext'
 import { getOSMAPI } from '../osm-api/useOSMAPI'
 import { getAccessibilityCloudAPI } from '../ac/useAccessibilityCloudAPI'
 import { makeFetchUri } from './utils'
-import { isOSMId } from '../../typing/discriminators/osmDiscriminator'
 import { composeFetchOneFeature, FetchOneFeatureProperties, FetchOneFeatureResult } from './fetchers'
 
 export const useFeatures = (
@@ -28,13 +27,11 @@ export const useFeatures = (
     const fetchUris: string[] = []
     for (let i = 0; i < features.length; i += 1) {
       const feature = features[i]
-      const isOsmFeature = isOSMId(feature)
       const url = makeFetchUri(feature, {
         acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
       })
 
-      const property = { typeTag: (isOsmFeature ? 'osm:Feature' : 'ac:PlaceInfo'), url, id: feature } satisfies FetchOneFeatureProperties
-      fetcherProperties[url] = property
+      fetcherProperties[url] = { url, id: feature }
       fetchUris.push(url)
     }
     return [fetcherProperties, fetchUris] as const

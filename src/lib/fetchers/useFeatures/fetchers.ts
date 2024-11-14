@@ -9,7 +9,6 @@ import OSMFeature from '../../model/osm/OSMFeature'
 
 export interface FetchOneFeatureProperties {
   url: string
-  typeTag: TypeTaggedOSMFeature['@type'] | TypeTaggedPlaceInfo['@type']
   id: FeatureId
 }
 
@@ -33,16 +32,33 @@ export const genericFetcher = async <Result = unknown>(fetchUri: string): Promis
 }
 
 /**
- * Composes a fetcher to fetch a feature, that will be tagged with origin url
+ * Composes a fetcher to fetch a feature, that will be tagged with the given properties
  */
 export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFeatureProperties>) => {
   const featureFetcher = async (fetchUri: string): Promise<FetchOneFeatureResult> => {
     const result = await genericFetcher<OSMFeature | PlaceInfo>(fetchUri)
     // the type tag will be injected into the data result
-    const { typeTag, ...extraProperties } = keyProperties[fetchUri]
+    const { ...extraProperties } = keyProperties[fetchUri]
+
+    if ('_id' in result) {
+      return ({
+        feature: { '@type': 'osm:Feature', ...result }, ...extraProperties,
+      })
+    }
+    // TypeTaggedPlaceInfo has some additional properties, that are now being injected
     return ({
-      // @ts-ignore 2473
-      feature: { '@type': typeTag, ...result }, ...extraProperties,
+      feature: {
+        '@type': 'ac:PlaceInfo',
+        // this is basically a misnomer, but it's better than nothing
+        _id: extraProperties.id,
+        ...result,
+        properties: {
+        // this is basically a misnomer, but it's better than nothing
+          _id: extraProperties.id,
+          ...result.properties,
+        },
+      } satisfies TypeTaggedPlaceInfo,
+      ...extraProperties,
     })
   }
   return featureFetcher
@@ -54,16 +70,31 @@ export interface FetchOsmToAcFeatureProperties {
 }
 
 export interface FetchOsmToAcFeatureResult extends FetchOsmToAcFeatureProperties {
-  feature?: PlaceInfo
+  feature?: TypeTaggedPlaceInfo
 }
 
+/**
+ * Composes a fetcher to fetch a place that exists in AccessibilityCloud by an OSM-URL, ex: https://openstreetmap.org/node/295892
+ * The URL has to be prepared before, to guarantee SWR cache consistency
+ */
 export const composeOsmToAcFetcher = (keyProperties: Record<string, FetchOsmToAcFeatureProperties>) => {
   const osmToAcFetcher = async (fetchUri: string): Promise<FetchOsmToAcFeatureResult> => {
-    const result = await genericFetcher<AccessibilityCloudAPIFeatureCollectionResult<TypeTaggedPlaceInfo>>(fetchUri)
+    const result = await genericFetcher<AccessibilityCloudAPIFeatureCollectionResult<PlaceInfo>>(fetchUri)
     const extraProperties = keyProperties[fetchUri]
+    const feature = result.features[0]
+    // TypeTaggedPlaceInfo has some additional properties, that are now being injected
     return {
-      // @ts-ignore 2473
-      feature: result.features[0] ? { '@type': 'ac:PlaceInfo', ...result.features[0] } : undefined,
+      feature: feature ? {
+        '@type': 'ac:PlaceInfo',
+        // this is basically a misnomer, but it's better than nothing
+        _id: extraProperties.id,
+        ...result.features[0],
+        properties: {
+          // this is basically a misnomer, but it's better than nothing
+          _id: extraProperties.id,
+          ...feature.properties,
+        },
+      } : undefined,
       ...extraProperties,
     }
   }

@@ -29,8 +29,7 @@ export const useOsmToAcFeature = (
       const osmUrl = `https://openstreetmap.org/${components.properties.element}/${components.properties.value}`
       const url = `${acBaseUrl}/place-infos.json?appToken=${acAppToken}&includePlacesWithoutAccessibility=1&sameAs=${osmUrl}`
 
-      const property = { kind: 'ac' as const, url, id: feature }
-      fetcherProperties[url] = property
+      fetcherProperties[url] = { url, id: feature }
       fetchUris.push(url)
     }
     return [fetcherProperties, fetchUris] as const

@@ -1,3 +1,5 @@
+/* eslint-disable @stylistic/js/max-len */
+/* eslint-disable max-len */
 import { databaseTableNames } from '../../../components/MapNew/filterLayers'
 import { Brand } from './brand'
 
@@ -17,7 +19,6 @@ export type OSMElementValue = Brand<`${OSMElement}${OsmSeperator}${OSMValue}`, '
 export type OSMElementValue_Deprecated = Brand<`${OSMElement}${OsmSeperator}${OSMValue}`, '@brand_osm_element_value_legacy_id'>
 
 export type OSMKey = typeof databaseTableNames[number]
-// eslint-disable-next-line max-len, @stylistic/js/max-len
 export type OSMTableElementValue = Brand<`${OSMKey}${OsmSeperator}${OSMElement}${OsmSeperator}${OSMValue}`, '@brand_osm_key_element_value_id'>
 
 export type OSMRDF = 'osm' | 'osm-inhouse'
@@ -47,35 +48,3 @@ export namespace LegacyOsmId {
 
   export type AnyLegacyOsmId = NegativeOsmValue | MongoDbOsmValue | LegacyOsmElementValue
 }
-
-/*
-OSM IDs:
-
--123890123890
-
-// relates to AC place info
-nodes/gjgDFHjrbhne
-
-// way | relation (primär way)
-nodes/-123890123890
-// node
-nodes/123890123890
-
-(node|way|relation)/123890123890
-(typeof databaseTableNames[number])/(node|way|relation)/123890123890
-
-(typeof databaseTableNames[number]):(node|way|relation):123890123890
-
-// origin
-osm-ac:${OSMKey}:${OSMElement}:${OSMValue}
-osm:${OSMKey}:${OSMElement}:${OSMValue}
-
-// goal:
-// ex: osm-inhouse:toilets/way/1240981
-osm-inhouse:key/element/value
-// ex: osm:toilets/way/1240981
-osm:key/element/value
-
-ac:PlaceInfo/123094805
-
-*/

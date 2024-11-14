@@ -7,10 +7,17 @@ import { isPlaceInfo } from '../../model/geo/AnyFeature'
 import { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import { FeatureId } from './types'
 
-const guesstimateRdfType = (osmUris: string[]) => osmUris.flatMap((osmUri) => {
+/**
+ * Expands an OpenStreeMap URL to hopeful guesses what OSM RDF ID it may be
+ */
+const guesstimateRdfType = (osmUris: string[]): OSMRDFTableElementValue[] => osmUris.flatMap((osmUri) => {
   const tail = osmUri.replace('https://openstreetmap.org/', osmUri)
   const [element, value] = tail.split('/')
-  return [`osm:building:${element}:${value}`, `osm:amenities:${element}:${value}`] as OSMRDFTableElementValue[]
+  if (!element || !value) {
+    return []
+  }
+  // type casting instead of checking, just to satisfy the branding constraint
+  return [`osm:building/${element}/${value}`, `osm:amenities/${element}/${value}`] as OSMRDFTableElementValue[]
 })
 
 export const useExpandedFeatures = (

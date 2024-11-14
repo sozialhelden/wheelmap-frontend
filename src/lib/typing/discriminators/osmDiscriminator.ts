@@ -25,6 +25,15 @@ export const isOSMRdfTableElementValue = (x: string): x is OSMRDFTableElementVal
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const isOSMElementValue_Legacy = (x: string): x is OSMElementValue_Deprecated => matchElementValueLegacy.test(x)
 
+/**
+ * Checks if a string conforms the OSM address format of
+ * - {@link OSMElementValue}
+ * - {@link OSMTableElementValue}
+ * - {@link OSMRDFTableElementValue}
+ * - {@link OSMElementValue_Deprecated}
+ *
+ * additional checking for legacy formats can be done with {@link isLegacyOSMId}
+ */
 export const isOSMId = (x: string): x is AnyOSMId => {
   if (isOSMElementValue(x)) {
     return true
@@ -41,10 +50,11 @@ export const isOSMId = (x: string): x is AnyOSMId => {
   return isOSMElementValue_Legacy(x)
 }
 
+/**
+ * Extracts RDF components from an OSM id in an object format
+ */
 export const getOSMRDFComponents = (osmId: OSMRDFTableElementValue) => {
   const match = osmId.match(matchRdfTableElementValue)
-  // eslint-disable-next-line max-len, @stylistic/js/max-len
-  // assert(match?.groups, 'Could not parse OSM ID: The passed ID may not conform the parsing regex, no result returned. Please ensure the given OSM ID conforms to the format `osm:[tableName]:[node|way|relation]:[numeric ID]`.')
   // match has to exist, otherwise the entry type was wrong
   const {
     rdf, table, element, value,
@@ -69,7 +79,16 @@ const matchLegacyOsmElementValue = new RegExp(`^${matchLegacyNodes}/${matchLegac
 export const isLegacyOsmNegativeValue = (x: string): x is LegacyOsmId.NegativeOsmValue => matchLegacyOsmNegativeValue.test(x)
 export const isLegacyMongoDbValue = (x: string): x is LegacyOsmId.MongoDbOsmValue => matchLegacyOsmMongoDbValue.test(x)
 export const isLegacyOsmElementValue = (x: string): x is LegacyOsmId.LegacyOsmElementValue => matchLegacyOsmElementValue.test(x)
-export const isLegacyOsmId = (x: string): x is LegacyOsmId.AnyLegacyOsmId => {
+
+/**
+ * Checks if a string conforms the **legacy** OSM address format of
+ * - {@link LegacyOsmId.MongoDbOsmValue}
+ * - {@link LegacyOsmId.LegacyOsmElementValue}
+ * - {@link LegacyOsmId.NegativeOsmValue}
+ *
+ * additional checking for canonical formats can be done with {@link isOSMId}
+ */
+export const isLegacyOSMId = (x: string): x is LegacyOsmId.AnyLegacyOsmId => {
   if (isLegacyMongoDbValue(x)) {
     return true
   }
