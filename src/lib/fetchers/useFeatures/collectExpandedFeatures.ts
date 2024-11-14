@@ -1,16 +1,14 @@
-import { PlaceInfo } from '@sozialhelden/a11yjson'
 import { FeatureId } from './types'
 import { useExpandedFeatures } from './useExpandedFeatures'
-import OSMFeature from '../../model/osm/OSMFeature'
 import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
 
 export interface CollectedFeature {
   /** The AccessibilityCloud PlaceInfo, if it exists */
-  acFeature?: PlaceInfo,
+  acFeature?: TypeTaggedPlaceInfo,
   /** The OSM info, if it exists */
-  osmFeature?: OSMFeature,
+  osmFeature?: TypeTaggedOSMFeature,
   /** The originally requested feature, may it be either AccessibltyCloud PlaceInfo or OSM Feature */
-  requestedFeature?: PlaceInfo | OSMFeature
+  requestedFeature?: TypeTaggedPlaceInfo | TypeTaggedOSMFeature
   /** The feature id that was trying to load the features */
   origin: FeatureId
 }
@@ -37,7 +35,7 @@ export const collectExpandedFeaturesResult = (
         origin: featureId,
         acFeature: (requestedFeature.feature ?? additionalAcFeature) as TypeTaggedPlaceInfo | undefined,
         osmFeature: additionalOsmFeature?.feature as TypeTaggedOSMFeature | undefined,
-        requestedFeature: requestedFeature.feature as (TypeTaggedPlaceInfo | OSMFeature),
+        requestedFeature: requestedFeature.feature as (TypeTaggedPlaceInfo | TypeTaggedOSMFeature),
       } satisfies CollectedFeature
 
       featureMap[featureId] = collected
