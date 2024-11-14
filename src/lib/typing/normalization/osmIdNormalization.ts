@@ -1,4 +1,4 @@
-import { databaseTableNames } from '../../../components/MapNew/filterLayers'
+import { databaseTableNames } from '../../../components/Map/filterLayers'
 import {
   AnyOSMId, OSMElementValue, OSMElementValue_Deprecated, OSMId, OSMTableElementValue,
 } from '../brands/osmIds'

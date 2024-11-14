@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/js/max-len */
 /* eslint-disable max-len */
-import { databaseTableNames } from '../../../components/MapNew/filterLayers'
+import { databaseTableNames } from '../../../components/Map/filterLayers'
 import { Brand } from './brand'
 
 export type OSMFeatureNumericId = Brand<number, '@brand_osm_feature_numeric_id'>
