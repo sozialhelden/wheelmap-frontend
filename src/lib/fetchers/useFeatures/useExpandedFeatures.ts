@@ -3,7 +3,6 @@ import useSWRInfinite from 'swr/infinite'
 import { useCurrentAppToken } from '../../context/AppContext'
 import { useEnvContext } from '../../context/EnvContext'
 import { isPlaceInfo } from '../../model/geo/AnyFeature'
-import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
 import type { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import { isAccessibilityCloudId } from '../../typing/discriminators/isAccessibilityCloudId'
 import { isOSMRdfTableElementValue } from '../../typing/discriminators/osmDiscriminator'
@@ -56,7 +55,7 @@ export const useExpandedFeatures = (
   const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getOSMAPI(env, currentAppToken, options?.cache ?? false)
   const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(env, currentAppToken, options?.cache ?? false)
   // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const osmRelationProperties: { osmRdfs: OSMRDFTableElementValue[], requestProperties: Record<string, FetchOneFeatureProperties> } = { osmRdfs: [], requestProperties: { } }
+  const osmRelationProperties: { osmUris: string[], requestProperties: Record<string, FetchOneFeatureProperties> } = { osmUris: [], requestProperties: { } }
   for (const initialFeature of initialFeatures) {
     // @TODO: Typing here is somewhat poor, need to coerce both ID and Feature, when in reality one would suffice
     if (isAccessibilityCloudId(initialFeature.id) && isPlaceInfo(initialFeature.feature)) {
@@ -73,13 +72,13 @@ export const useExpandedFeatures = (
       for (const property of properties) {
         osmRelationProperties.requestProperties[property.url] = property
       }
-      osmRelationProperties.osmRdfs.push(...guesstimatedRdfTypes)
+      osmRelationProperties.osmUris.push(...(properties.map((x) => x.url)))
     }
   }
   const additionalOSMFeaturesFetcher = composeFetchOneFeature(osmRelationProperties.requestProperties)
 
   // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const additionalOSMFeaturesResult = useSWRInfinite((idx) => osmRelationProperties.osmRdfs[idx], additionalOSMFeaturesFetcher, options?.useFeaturesSWRConfig)
+  const additionalOSMFeaturesResult = useSWRInfinite((idx) => osmRelationProperties.osmUris[idx], additionalOSMFeaturesFetcher, options?.useFeaturesSWRConfig)
   return {
     requestedFeatures: initialFeaturesResult,
     additionalAcFeatures: additionalAcFeatureResult,

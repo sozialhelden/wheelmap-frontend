@@ -30,7 +30,7 @@ export const collectExpandedFeaturesResult = (
 
     // discering between the types makes minimal difference, but is more readable than inlining
     // depending on the requested feature type, additional data may have been loaded from the other endpoints
-    if (requestedFeature?.['@type'] === 'ac:PlaceInfo') {
+    if (requestedFeature?.feature?.['@type'] === 'ac:PlaceInfo') {
       const collected = {
         origin: featureId,
         acFeature: (requestedFeature.feature ?? additionalAcFeature) as TypeTaggedPlaceInfo | undefined,
