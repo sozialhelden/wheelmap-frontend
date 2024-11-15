@@ -39,11 +39,13 @@ export default function Page() {
 
   const handleSearchPanelClick = useCallback(() => {}, [])
 
+  const { map: canvasMap } = useMap()
   const closeSearchPanel = useCallback(() => {
     router.push({
       pathname: '/',
     }, undefined, { shallow: true })
-  }, [router])
+    canvasMap?.getCanvas().focus()
+  }, [canvasMap, router])
 
   const { clientSideConfiguration } = useCurrentApp()
 
