@@ -1,14 +1,15 @@
+import type { PlaceInfo } from '@sozialhelden/a11yjson'
 import { t } from 'ttag'
-import { PlaceInfo } from '@sozialhelden/a11yjson'
-import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
+import type { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
+import type OSMFeature from '../../model/osm/OSMFeature'
+import type { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import ResourceError from '../ResourceError'
-import { FeatureId } from './types'
-import { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
-import { AccessibilityCloudAPIFeatureCollectionResult } from '../ac/AccessibilityCloudAPIFeatureCollectionResult'
-import OSMFeature from '../../model/osm/OSMFeature'
+import type { AccessibilityCloudAPIFeatureCollectionResult } from '../ac/AccessibilityCloudAPIFeatureCollectionResult'
+import type { FeatureId } from './types'
 
 export interface FetchOneFeatureProperties {
   url: string
+  typeTag: TypeTaggedOSMFeature['@type'] | TypeTaggedPlaceInfo['@type']
   id: FeatureId
 }
 
@@ -38,27 +39,10 @@ export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFea
   const featureFetcher = async (fetchUri: string): Promise<FetchOneFeatureResult> => {
     const result = await genericFetcher<OSMFeature | PlaceInfo>(fetchUri)
     // the type tag will be injected into the data result
-    const { ...extraProperties } = keyProperties[fetchUri]
+    const { typeTag, ...extraProperties } = keyProperties[fetchUri]
 
-    if ('_id' in result) {
-      return ({
-        feature: { '@type': 'osm:Feature', ...result }, ...extraProperties,
-      })
-    }
-    // TypeTaggedPlaceInfo has some additional properties, that are now being injected
     return ({
-      feature: {
-        '@type': 'ac:PlaceInfo',
-        // this is basically a misnomer, but it's better than nothing
-        _id: extraProperties.id,
-        ...result,
-        properties: {
-        // this is basically a misnomer, but it's better than nothing
-          _id: extraProperties.id,
-          ...result.properties,
-        },
-      } satisfies TypeTaggedPlaceInfo,
-      ...extraProperties,
+      feature: { '@type': typeTag, ...result }, ...extraProperties,
     })
   }
   return featureFetcher

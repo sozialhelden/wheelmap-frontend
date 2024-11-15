@@ -1,12 +1,12 @@
-import useSWRInfinite, { SWRInfiniteConfiguration } from 'swr/infinite'
 import { useMemo } from 'react'
-import { FeatureId } from './types'
-import { useEnvContext } from '../../context/EnvContext'
+import useSWRInfinite, { type SWRInfiniteConfiguration } from 'swr/infinite'
 import { useCurrentAppToken } from '../../context/AppContext'
-import { getOSMAPI } from '../osm-api/useOSMAPI'
+import { useEnvContext } from '../../context/EnvContext'
 import { getAccessibilityCloudAPI } from '../ac/useAccessibilityCloudAPI'
-import { makeFetchUri } from './utils'
-import { composeFetchOneFeature, FetchOneFeatureProperties, FetchOneFeatureResult } from './fetchers'
+import { getOSMAPI } from '../osm-api/useOSMAPI'
+import { type FetchOneFeatureProperties, type FetchOneFeatureResult, composeFetchOneFeature } from './fetchers'
+import type { FeatureId } from './types'
+import { makeFetchProperties } from './utils'
 
 export const useFeatures = (
   features: (FeatureId | undefined)[],
@@ -30,12 +30,12 @@ export const useFeatures = (
       if (!feature) {
         continue
       }
-      const url = makeFetchUri(feature, {
+      const fetchProps = makeFetchProperties(feature, {
         acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
       })
 
-      fetcherProperties[url] = { url, id: feature }
-      fetchUris.push(url)
+      fetcherProperties[fetchProps.url] = fetchProps
+      fetchUris.push(fetchProps.url)
     }
     return [fetcherProperties, fetchUris] as const
   }, [acAppToken, acBaseUrl, features, osmAppToken, osmBaseUrl])

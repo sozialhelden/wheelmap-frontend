@@ -1,6 +1,6 @@
-import { FeatureId } from './types'
-import { useExpandedFeatures } from './useExpandedFeatures'
-import { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
+import type { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
+import type { FeatureId } from './types'
+import type { useExpandedFeatures } from './useExpandedFeatures'
 
 export interface CollectedFeature {
   /** The AccessibilityCloud PlaceInfo, if it exists */
