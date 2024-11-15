@@ -25,7 +25,7 @@ export const collectExpandedFeaturesResult = (
   featureIds.forEach((featureId) => {
     // pulling out the requests
     const requestedFeature = requestedFeatures.data?.find((x) => x.originId === featureId)
-    const additionalAcFeature = additionalAcFeatures.data?.find((x) => x.id === featureId)
+    const additionalAcFeature = additionalAcFeatures.data?.find((x) => x.originId === featureId)
     const additionalOsmFeature = additionalOsmFeatures.data?.find((x) => x.originId === featureId)
 
     // discering between the types makes minimal difference, but is more readable than inlining

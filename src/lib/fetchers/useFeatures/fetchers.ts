@@ -85,7 +85,12 @@ export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFea
 
 export interface FetchOsmToAcFeatureProperties {
   url: string
-  id: OSMRDFTableElementValue
+  /**
+   * The ID from which the feature originally was requested.
+   * That means, if an AC feature refers to an OSM feature, then the `originId` will be of the AC feature,
+   * such that the origins can be correlated with each other
+   */
+  originId: OSMRDFTableElementValue
 }
 
 export interface FetchOsmToAcFeatureResult extends FetchOsmToAcFeatureProperties {
@@ -106,11 +111,11 @@ export const composeOsmToAcFetcher = (keyProperties: Record<string, FetchOsmToAc
       feature: feature ? {
         '@type': 'ac:PlaceInfo',
         // this is basically a misnomer, but it's better than nothing
-        _id: extraProperties.id,
+        _id: extraProperties.originId,
         ...result.features[0],
         properties: {
           // this is basically a misnomer, but it's better than nothing
-          _id: extraProperties.id,
+          _id: extraProperties.originId,
           ...feature.properties,
         },
       } : undefined,
