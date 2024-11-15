@@ -1,18 +1,18 @@
 import React, {
-  createContext, FC, ReactNode, useMemo, useRef,
+  createContext, type FC, type ReactNode, useMemo, useRef,
 } from 'react'
-import { t } from 'ttag'
 import styled from 'styled-components'
-import Spinner from '../ActivityIndicator/Spinner'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { t } from 'ttag'
 import { useExpandedFeatures } from '../../lib/fetchers/useFeatures'
+import { type CollectedFeature, collectExpandedFeaturesResult } from '../../lib/fetchers/useFeatures/collectExpandedFeatures'
+import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
 import {
   isOSMElementValue, isOSMElementValue_Legacy, isOSMId, isOSMRdfTableElementValue, isOSMTableElementValue,
 } from '../../lib/typing/discriminators/osmDiscriminator'
 import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
-import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
-import { CollectedFeature, collectExpandedFeaturesResult } from '../../lib/fetchers/useFeatures/collectExpandedFeatures'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import Spinner from '../ActivityIndicator/Spinner'
 
 interface FeaturePanelContextType {
   features: {
@@ -54,7 +54,7 @@ function buildFeatureIds(placeType: string, ids: string[]) {
     return rolloutOsmFeatureIds(placeType, ids)
   }
 
-  return ids.map((id) => `${placeType}:${id}`)
+  return ids.map((id) => `${placeType}/${id}`)
 }
 
 export const ErrorToolBar: FC = () => {
