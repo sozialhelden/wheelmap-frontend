@@ -21,9 +21,10 @@ import { FeatureGallery } from '../../components/FeatureGallery'
 
 type Props = {
   feature: AnyFeature;
+  focusImage?: string;
 }
 
-export default function PlaceOfInterestDetails({ feature }: Props) {
+export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
   const map = useMap()
 
@@ -66,7 +67,7 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
         <NextToiletDirections feature={feature} />
       </FeatureAccessibility>
 
-      <FeatureGallery feature={feature} />
+      <FeatureGallery feature={feature} focusImage={focusImage} />
 
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />

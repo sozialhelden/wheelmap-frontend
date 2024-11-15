@@ -153,5 +153,5 @@ export default function Page() {
 }
 
 Page.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
+  return <PlaceLayout closeUrl="..">{page}</PlaceLayout>
 }

@@ -3,10 +3,11 @@
 /* eslint-disable @next/next/no-img-element */
 import styled from 'styled-components'
 import {
-  FC, useContext, useState,
+  FC, useContext, useEffect, useMemo, useState,
 } from 'react'
 import useSWR from 'swr'
 import { t } from 'ttag'
+import { useRouter } from 'next/router'
 import { AccessibilityCloudImage } from '../../../lib/model/ac/Feature'
 import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
 import colors from '../../../lib/util/colors'
@@ -19,6 +20,7 @@ import {
   makeImageIds, makeImageLocation, makeSrcSet, makeSrcSetLocation, thumbnailSizes,
 } from './Gallery/util'
 import { GalleryOverlay } from './Gallery/GalleryOverlay'
+import { GalleryCallToAction } from './Gallery/GalleryCallToAction'
 
 const fetcher = (urls: string[]) => {
   const f = (u) => fetch(u).then((r) => {
@@ -61,28 +63,48 @@ const AddImageRow = styled.button`
   }
 `
 
-export const FeatureGallery: FC<{ feature: AnyFeature }> = ({ feature }) => {
+export const FeatureGallery: FC<{ feature: AnyFeature, focusImage?: string }> = ({ feature, focusImage }) => {
   const ids = makeImageIds(feature)
+  const router = useRouter()
   const { data } = useSWR(ids.map((x) => makeImageLocation(x.context, x.id)), fetcher)
-  const images = data?.flatMap((x) => x.images) ?? []
+  const images = useMemo(() => data?.flatMap((x) => x.images) ?? [], [data])
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
   const [open, setOpen] = useState(false)
   const [galleryIndex, setGalleryIndex] = useState(-1)
 
+  useEffect(() => {
+    if (focusImage === undefined) {
+      return
+    }
+    const idx = images.findIndex((x) => x._id === focusImage)
+    setGalleryIndex(idx)
+  }, [focusImage, images])
+
   return (
     <>
-      <GalleryOverlay images={images ?? []} openIndex={galleryIndex} setGalleryIndex={(number) => setGalleryIndex(number)} />
+      <GalleryOverlay
+        images={images ?? []}
+        openIndex={galleryIndex}
+        setGalleryIndex={(number) => {
+          if (number < 0) {
+            router.push(`/${feature._id}`)
+            return
+          }
+          const image = images[number]
+          router.push(`/${feature._id}/images/${image._id}`, undefined, { shallow: true })
+        }}
+      />
       <StyledGallery className={cx(open && 'open')}>
         <div className="images">
-          {images.map((x, i) => (
-            <img
-              key={x._id}
-              className="image"
-              srcSet={makeSrcSetLocation(makeSrcSet(thumbnailSizes, x))}
-              onClick={() => setGalleryIndex(i)}
-              onKeyDown={() => setGalleryIndex(i)}
-            />
+          {images.map((x) => (
+            <AppStateLink href={`/${feature._id}/images/${x._id}`}>
+              <img
+                key={x._id}
+                className="image"
+                srcSet={makeSrcSetLocation(makeSrcSet(thumbnailSizes, x))}
+              />
+            </AppStateLink>
           ))}
         </div>
         {
@@ -98,6 +120,7 @@ export const FeatureGallery: FC<{ feature: AnyFeature }> = ({ feature }) => {
         <AddImageRow>
           <Camera />
           {t`Add Image`}
+          <GalleryCallToAction />
         </AddImageRow>
       </AppStateLink>
     </>

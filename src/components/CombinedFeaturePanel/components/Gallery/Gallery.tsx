@@ -8,7 +8,7 @@ export const StyledGallery = styled.div`
   position: relative;
   isolation: isolate;
 
-  > .images {
+  >  .images {
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -16,11 +16,12 @@ export const StyledGallery = styled.div`
     max-height: 300px;
     overflow: hidden;
     transition: 0.5s max-height ease;
-    > .image {
+    > * > .image {
       cursor: pointer;
       border-radius: 10px;
-      width: 100%;
-      height: auto;
+      width: auto;
+      max-width: 100%;
+      height: 100%;
       max-height: 200px;
       object-fit: cover;
       object-position: center bottom;
