@@ -8,9 +8,9 @@
   // Custom formatting rules
   "editor.wordWrapColumn": 100,
   "javascript.validate.enable": false,
-  "eslint.enable": true,
-  "javascript.format.enable": false,
-  "typescript.format.enable": false,
+  "eslint.enable": false,
+  "javascript.format.enable": true,
+  "typescript.format.enable": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.validate": [
     "javascript",
@@ -21,10 +21,19 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "prettier.enable": false,
   "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }
