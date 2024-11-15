@@ -17,12 +17,14 @@ import NextToiletDirections from '../../components/AccessibilitySection/NextToil
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
 import { useMap } from '../../../Map/useMap'
+import { FeatureGallery } from '../../components/FeatureGallery'
 
 type Props = {
   feature: AnyFeature;
+  focusImage?: string;
 }
 
-export default function PlaceOfInterestDetails({ feature }: Props) {
+export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
   const map = useMap()
 
@@ -64,6 +66,8 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
       <FeatureAccessibility feature={feature}>
         <NextToiletDirections feature={feature} />
       </FeatureAccessibility>
+
+      <FeatureGallery feature={feature} focusImage={focusImage} />
 
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />
