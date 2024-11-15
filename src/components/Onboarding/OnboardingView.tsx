@@ -4,7 +4,7 @@ import OnboardingDialog from './OnboardingDialog'
 import { saveState } from '../../lib/util/savedState'
 import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 
-export default function Page() {
+export default function OnboardingView() {
   const router = useRouter()
   const handleClose = React.useCallback((location?: PhotonResultFeature) => {
     saveState({ onboardingCompleted: 'true' })
