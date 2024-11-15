@@ -1,14 +1,24 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable @next/next/no-img-element */
 import styled from 'styled-components'
-import { FC } from 'react'
+import {
+  FC, useContext, useState,
+} from 'react'
 import useSWR from 'swr'
-import { compact } from 'lodash'
+import { t } from 'ttag'
 import { AccessibilityCloudImage } from '../../../lib/model/ac/Feature'
-import { AnyFeature, isOSMFeature, isPlaceInfo } from '../../../lib/model/geo/AnyFeature'
-import { accessibilityCloudFeatureCache } from '../../../lib/legacy-caches/AccessibilityCloudFeatureCache'
-
-const cacheLocation = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL ?? process.env.NEXT_PUBLIC_ACCESIBILITY_CLOUD_UNCACHED_BASE_URL
-const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
-const context = ['osmGeometry', 'place', 'surveyResult'] as const
+import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
+import colors from '../../../lib/util/colors'
+import { Camera } from '../../icons/actions'
+import { AppStateLink } from '../../App/AppStateLink'
+import { FeaturePanelContext } from '../FeaturePanelContext'
+import { cx } from '../../../lib/util/cx'
+import { StyledGallery } from './Gallery/Gallery'
+import {
+  makeImageIds, makeImageLocation, makeSrcSet, makeSrcSetLocation, thumbnailSizes,
+} from './Gallery/util'
+import { GalleryOverlay } from './Gallery/GalleryOverlay'
 
 const fetcher = (urls: string[]) => {
   const f = (u) => fetch(u).then((r) => {
@@ -26,93 +36,70 @@ interface ImageResponse {
   images: AccessibilityCloudImage[]
 }
 
-const calculateDimensionsToFit = (acPhoto: AccessibilityCloudImage, maxSize: number) => {
-  if (!acPhoto.dimensions) {
-    return { width: maxSize, height: maxSize }
+const AddImageRow = styled.button`
+  width: 100%;
+  padding: 1em 0.5em;
+  margin-top: 0.5em;
+  background-color: ${colors.coldBackgroundColor};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  color: ${colors.linkColor};
+  font-size: 16px;
+  border: none;
+
+  &:hover {
+    background-color: ${colors.linkBackgroundColor}
   }
 
-  const { width, height } = acPhoto.dimensions
-  const ratio = width / height
-  if (width > height) {
-    return {
-      width: maxSize,
-      height: Math.round(maxSize / ratio),
-    }
-  }
-  return {
-    width: Math.round(maxSize * ratio),
-    height: maxSize,
-  }
-}
+  > svg {
+    width: 2em;
+    height: 2em;
+    margin-right: 0.5em;
 
-const makeSrcLocation = (image: AccessibilityCloudImage, size: number) => {
-  const { width, height } = calculateDimensionsToFit(image, size)
-  const angleFragment = image.angle ? `&angle=${((image.angle % 360) + 360) % 360}` : ''
-  return `${cacheLocation}/images/scale/${image.imagePath}?fit=inside&fitw=${width}&fith=${height}${angleFragment}`
-}
-
-const makeCachedImageSrcSetEntry = (acPhoto: AccessibilityCloudImage, size: number) => ({
-  src: makeSrcLocation(acPhoto, size),
-  width: size,
-  height: size,
-})
-
-const thumbnailSizes = [96, 192, 384]
-
-// const fullScreenSizes = [480, 960, 1500]
-// const fullScreenMediaSelector = [
-//   '(min-width: 480px) 480px',
-//   '(min-width: 960px) 960px',
-//   '(min-width: 1500px) 1500px',
-//   '960px',
-// ]
-
-const makeSrcSet = (sizes: number[], acPhoto: AccessibilityCloudImage) => sizes.map((s) => makeCachedImageSrcSetEntry(acPhoto, s))
-const makeSrcSetLocation = (srcSet: ReturnType<typeof makeSrcSet>) => srcSet.map((x) => `${x.src} ${x.width}w`).join(',')
-
-const makeImageLocation = (ctx: typeof context[number], id: string) => `${
-  cacheLocation
-}/images.json?context=${ctx}&objectId=${id}&appToken=${appToken}`
-
-const Gallery = styled.div`
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 100%;  
-  gap: 4px;
-
-  > .image {
-    border-radius: 10px;
-    width: 100%;
   }
 `
-
-const makeImageIds = (feature: AnyFeature): { context: typeof context[number], id: string }[] => {
-  const combinations = compact([
-    isOSMFeature(feature) && { context: 'place', id: feature._id.replace(/^way\//, '-').replace(/^node\//, '') } as const,
-    isPlaceInfo(feature) && { context: 'place', id: feature._id } as const,
-    isOSMFeature(feature) && { context: 'osmGeometry', id: `osm:${feature._id}` } as const,
-    isPlaceInfo(feature)
-      && feature.properties?.surveyResultId && { context: 'surveyResult', id: feature.properties.surveyResultId } as const,
-  ] as const)
-  return combinations
-}
 
 export const FeatureGallery: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const ids = makeImageIds(feature)
   const { data } = useSWR(ids.map((x) => makeImageLocation(x.context, x.id)), fetcher)
-  const images = data?.flatMap((x) => x.images)
+  const images = data?.flatMap((x) => x.images) ?? []
+  const { baseFeatureUrl } = useContext(FeaturePanelContext)
+
+  const [open, setOpen] = useState(false)
+  const [galleryIndex, setGalleryIndex] = useState(-1)
+
   return (
-    <Gallery>
-      {images?.map((x) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={x._id}
-          className="image"
-          alt="A place"
-          srcSet={makeSrcSetLocation(makeSrcSet(thumbnailSizes, x))}
-        />
-      ))}
-    </Gallery>
+    <>
+      <GalleryOverlay images={images ?? []} openIndex={galleryIndex} setGalleryIndex={(number) => setGalleryIndex(number)} />
+      <StyledGallery className={cx(open && 'open')}>
+        <div className="images">
+          {images.map((x, i) => (
+            <img
+              key={x._id}
+              className="image"
+              srcSet={makeSrcSetLocation(makeSrcSet(thumbnailSizes, x))}
+              onClick={() => setGalleryIndex(i)}
+              onKeyDown={() => setGalleryIndex(i)}
+            />
+          ))}
+        </div>
+        {
+          images.length > 2 && (
+            <div className="wrapper">
+              <button type="button" className="foldout" onClick={() => setOpen(!open)}>{ open ? t`Less` : t`More` }</button>
+            </div>
+          )
+        }
+      </StyledGallery>
+
+      <AppStateLink href={`${baseFeatureUrl}/images/upload`}>
+        <AddImageRow>
+          <Camera />
+          {t`Add Image`}
+        </AddImageRow>
+      </AppStateLink>
+    </>
   )
 }
