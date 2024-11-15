@@ -6,13 +6,13 @@ import React, {
 } from 'react'
 import { Button } from '@blueprintjs/core'
 import { t } from 'ttag'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { StyledPhotoUploadView } from '../../../../components/CombinedFeaturePanel/PhotoUploadView'
 import { CheckmarkIcon } from '../../../../components/icons/actions'
 import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import uploadPhotoForFeature from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
+import { getLayout } from '../../../../components/App/MapLayout'
 
 const uncachedUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''
 
@@ -152,6 +152,4 @@ export default function Page() {
   }
 }
 
-Page.getLayout = function getLayout(page) {
-  return <PlaceLayout closeUrl="..">{page}</PlaceLayout>
-}
+Page.getLayout = getLayout

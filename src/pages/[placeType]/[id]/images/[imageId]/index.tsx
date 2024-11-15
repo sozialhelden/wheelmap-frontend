@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { CombinedFeaturePanel } from '../../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
-import PlaceLayout from '../../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { FeaturePanelContext } from '../../../../../components/CombinedFeaturePanel/FeaturePanelContext'
+import { getLayout } from '../../../../../components/App/MapLayout'
 
 export default function ShowImagePage() {
   const { features } = useContext(FeaturePanelContext)
@@ -14,6 +14,4 @@ export default function ShowImagePage() {
   )
 }
 
-ShowImagePage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ShowImagePage.getLayout = getLayout
