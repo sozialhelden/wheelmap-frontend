@@ -24,9 +24,9 @@ export const collectExpandedFeaturesResult = (
   // 14-11-2024: .forEach, because `for ... of` broke name aliasing with webpack
   featureIds.forEach((featureId) => {
     // pulling out the requests
-    const requestedFeature = requestedFeatures.data?.find((x) => x.id === featureId)
+    const requestedFeature = requestedFeatures.data?.find((x) => x.originId === featureId)
     const additionalAcFeature = additionalAcFeatures.data?.find((x) => x.id === featureId)
-    const additionalOsmFeature = additionalOsmFeatures.data?.find((x) => x.id === featureId)
+    const additionalOsmFeature = additionalOsmFeatures.data?.find((x) => x.originId === featureId)
 
     // discering between the types makes minimal difference, but is more readable than inlining
     // depending on the requested feature type, additional data may have been loaded from the other endpoints

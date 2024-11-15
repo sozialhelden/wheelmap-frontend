@@ -26,7 +26,7 @@ export const makeFetchProperties = (featureId: FeatureId, {
     return {
       url: `${osmBaseUrl}/${table}/${element}/${value}.geojson?appToken=${osmAppToken || ''}`.replaceAll('//', '/'),
       typeTag: 'osm:Feature',
-      id: featureId,
+      originId: featureId,
     }
   }
   if (isAccessibilityCloudId(featureId)) {
@@ -40,7 +40,7 @@ export const makeFetchProperties = (featureId: FeatureId, {
     return {
       url: `${acBaseUrl}/place-infos/${id}.json?appToken=${acAppToken}`,
       typeTag: 'ac:PlaceInfo',
-      id: featureId,
+      originId: featureId,
     }
   }
   throw new Error(t`The featureId '${featureId}' is of unknown format`)

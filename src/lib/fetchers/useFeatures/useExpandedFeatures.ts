@@ -1,34 +1,14 @@
 import type { SWRInfiniteConfiguration } from 'swr/infinite'
-import useSWRInfinite from 'swr/infinite'
-import { useCurrentAppToken } from '../../context/AppContext'
-import { useEnvContext } from '../../context/EnvContext'
-import { isPlaceInfo } from '../../model/geo/AnyFeature'
-import type { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import { isAccessibilityCloudId } from '../../typing/discriminators/isAccessibilityCloudId'
 import { isOSMRdfTableElementValue } from '../../typing/discriminators/osmDiscriminator'
-import { getAccessibilityCloudAPI } from '../ac/useAccessibilityCloudAPI'
-import { getOSMAPI } from '../osm-api/useOSMAPI'
 import {
-  type FetchOneFeatureProperties, type FetchOneFeatureResult, type FetchOsmToAcFeatureResult,
-  composeFetchOneFeature,
+  type FetchOneFeatureResult, FetchOnePlaceInfoResult, type FetchOsmToAcFeatureResult,
 } from './fetchers'
 import type { FeatureId } from './types'
 import { useFeatures } from './useFeatures'
 import { useOsmToAcFeature } from './useOsmToAcFeature'
-import { makeFetchProperties } from './utils'
-
-/**
- * Expands an OpenStreeMap URL to hopeful guesses what OSM RDF ID it may be
- */
-const guesstimateRdfType = (osmUris: string[]): OSMRDFTableElementValue[] => osmUris.flatMap((osmUri) => {
-  const tail = osmUri.replace('https://openstreetmap.org/', '')
-  const [element, value] = tail.split('/')
-  if (!element || !value) {
-    return []
-  }
-  // type casting instead of checking, just to satisfy the branding constraint
-  return [`osm:amenities/${element}/${value}`, `osm:buildings/${element}/${value}`] as OSMRDFTableElementValue[]
-})
+import { useAcToOsmFeatures } from './useAcToOsmFeatures'
+import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
 
 export const useExpandedFeatures = (
   features: (FeatureId | undefined)[],
@@ -45,40 +25,12 @@ export const useExpandedFeatures = (
   // eslint-disable-next-line max-len, @stylistic/js/max-len
   const additionalAcFeatureResult = useOsmToAcFeature(osmFeatureIds, options ? { swr: options.useOsmToAcSWRConfig, cache: options.cache } : undefined)
 
-  // eslint-disable-next-line max-len, @stylistic/js/max-len
-  // const sameAsFeatureIds = initialFeatures?.flatMap((x) => (isPlaceInfo(x.feature) ? guesstimateRdfType(x.feature.properties.sameAs ?? []) : undefined))
-  // .filter((y): y is OSMRDFTableElementValue => typeof y === 'string') ?? []
+  const feats = initialFeatures
+    // eslint-disable-next-line max-len, @stylistic/js/max-len
+    .filter((x): x is Omit<FetchOnePlaceInfoResult, 'originId'> & { originId: AccessibilityCloudRDFId } => isAccessibilityCloudId(x.originId) && !!x.feature)
+    .map((x) => ({ feature: x.feature, originId: x.originId }))
+  const additionalOSMFeaturesResult = useAcToOsmFeatures(feats, { swr: options?.useFeaturesSWRConfig, cache: options?.cache ?? false })
 
-  const env = useEnvContext()
-  const currentAppToken = useCurrentAppToken()
-
-  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getOSMAPI(env, currentAppToken, options?.cache ?? false)
-  const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(env, currentAppToken, options?.cache ?? false)
-  // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const osmRelationProperties: { osmUris: string[], requestProperties: Record<string, FetchOneFeatureProperties> } = { osmUris: [], requestProperties: { } }
-  for (const initialFeature of initialFeatures) {
-    // @TODO: Typing here is somewhat poor, need to coerce both ID and Feature, when in reality one would suffice
-    if (isAccessibilityCloudId(initialFeature.id) && isPlaceInfo(initialFeature.feature)) {
-      const guesstimatedRdfTypes = guesstimateRdfType(initialFeature.feature.properties.sameAs ?? [])
-      if (guesstimateRdfType.length <= 0) {
-        continue
-      }
-      const properties = guesstimatedRdfTypes.map((x) => ({
-        ...makeFetchProperties(x, {
-          acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
-        }),
-        id: initialFeature.id,
-      }))
-      for (const property of properties) {
-        osmRelationProperties.requestProperties[property.url] = property
-      }
-      osmRelationProperties.osmUris.push(...(properties.map((x) => x.url)))
-    }
-  }
-  const additionalOSMFeaturesFetcher = composeFetchOneFeature(osmRelationProperties.requestProperties)
-
-  // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const additionalOSMFeaturesResult = useSWRInfinite((idx) => osmRelationProperties.osmUris[idx], additionalOSMFeaturesFetcher, options?.useFeaturesSWRConfig)
   return {
     requestedFeatures: initialFeaturesResult,
     additionalAcFeatures: additionalAcFeatureResult,

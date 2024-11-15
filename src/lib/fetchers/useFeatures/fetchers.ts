@@ -5,17 +5,36 @@ import type OSMFeature from '../../model/osm/OSMFeature'
 import type { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
 import ResourceError from '../ResourceError'
 import type { AccessibilityCloudAPIFeatureCollectionResult } from '../ac/AccessibilityCloudAPIFeatureCollectionResult'
-import type { FeatureId } from './types'
+import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
 
-export interface FetchOneFeatureProperties {
+interface FetchOneFeaturePropertiesInternal<Feature extends TypeTaggedOSMFeature | TypeTaggedPlaceInfo> {
+  /** The URL that had been used to request this data entry */
   url: string
-  typeTag: TypeTaggedOSMFeature['@type'] | TypeTaggedPlaceInfo['@type']
-  id: FeatureId
+  typeTag: Exclude<Feature['@type'], 'a11yjson:PlaceInfo'>
+  /**
+   * The ID from which the feature originally was requested.
+   * That means, if an AC feature refers to an OSM feature, then the `originId` will be of the AC feature,
+   * such that the origins can be correlated with each other
+   */
+  originId: OSMRDFTableElementValue | AccessibilityCloudRDFId
 }
 
-export interface FetchOneFeatureResult extends FetchOneFeatureProperties {
-  feature: TypeTaggedOSMFeature | TypeTaggedPlaceInfo
+interface FetchOneFeatureResultInternal<Feature extends TypeTaggedOSMFeature | TypeTaggedPlaceInfo>
+  extends Omit<FetchOneFeaturePropertiesInternal<Feature>, 'typeTag'> {
+  feature: Feature
 }
+
+export type FetchOneOsmFeatureProperties = FetchOneFeaturePropertiesInternal<TypeTaggedOSMFeature>
+export type FetchOnePlaceInfoProperties = FetchOneFeaturePropertiesInternal<TypeTaggedPlaceInfo>
+export type FetchOneFeatureProperties =
+  | FetchOneOsmFeatureProperties
+  | FetchOnePlaceInfoProperties
+
+export type FetchOneOsmFeatureResult = FetchOneFeatureResultInternal<TypeTaggedOSMFeature>
+export type FetchOnePlaceInfoResult = FetchOneFeatureResultInternal<TypeTaggedPlaceInfo>
+export type FetchOneFeatureResult =
+ | FetchOneOsmFeatureResult
+ | FetchOnePlaceInfoResult
 
 /**
  * Fetches a resource from an URI and blindly assumes the result being of the generic type
@@ -41,9 +60,25 @@ export const composeFetchOneFeature = (keyProperties: Record<string, FetchOneFea
     // the type tag will be injected into the data result
     const { typeTag, ...extraProperties } = keyProperties[fetchUri]
 
+    if (typeTag === 'osm:Feature') {
+      return ({
+        feature: { '@type': typeTag, ...(result as OSMFeature) }, ...extraProperties,
+      })
+    }
+    // @TODO: PlaceInfo and TypeTaggedPlaceInfo have different structural layouts, faking it in here
+    const placeInfo = (result as PlaceInfo)
     return ({
-      feature: { '@type': typeTag, ...result }, ...extraProperties,
-    })
+      feature: {
+        _id: extraProperties.originId,
+        '@type': typeTag,
+        ...placeInfo,
+        properties: {
+          _id: extraProperties.originId,
+          ...placeInfo.properties,
+        },
+      },
+      ...extraProperties,
+    } satisfies FetchOneFeatureResultInternal<TypeTaggedPlaceInfo>)
   }
   return featureFetcher
 }
@@ -66,7 +101,7 @@ export const composeOsmToAcFetcher = (keyProperties: Record<string, FetchOsmToAc
     const result = await genericFetcher<AccessibilityCloudAPIFeatureCollectionResult<PlaceInfo>>(fetchUri)
     const extraProperties = keyProperties[fetchUri]
     const feature = result.features[0]
-    // TypeTaggedPlaceInfo has some additional properties, that are now being injected
+    // @TODO: TypeTaggedPlaceInfo has some additional properties, that are now being injected
     return {
       feature: feature ? {
         '@type': 'ac:PlaceInfo',
