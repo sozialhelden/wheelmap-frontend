@@ -17,6 +17,7 @@ import NextToiletDirections from '../../components/AccessibilitySection/NextToil
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
 import { useMap } from '../../../Map/useMap'
+import { FeatureGallery } from '../../components/FeatureGallery'
 
 type Props = {
   feature: AnyFeature;
@@ -64,6 +65,8 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
       <FeatureAccessibility feature={feature}>
         <NextToiletDirections feature={feature} />
       </FeatureAccessibility>
+
+      <FeatureGallery feature={feature} />
 
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />
