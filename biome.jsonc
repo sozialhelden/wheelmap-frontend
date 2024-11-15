@@ -31,7 +31,8 @@
   },
   "overrides": [
     {
-      "include": ["*.ts", "*.tsx"]
+      "include": ["*.ts", "*.tsx"],
+      "ignore": ["src/lib/translations.json"]
     }
   ]
 }
