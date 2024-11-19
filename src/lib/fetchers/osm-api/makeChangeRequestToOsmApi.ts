@@ -61,7 +61,19 @@ export async function createChange({
     ...currentTagsOnServer,
     [tagName]: newTagValue,
   }
-  const allTagsAsXML = Object.entries(newTags).map(([key, value]) => `<tag k="${key}" v="${value}" />`).join('\n')
+
+  function escapeXML(value) {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  }
+
+  const allTagsAsXML = Object.entries(newTags)
+    .map(([key, value]) => `<tag k="${escapeXML(key)}" v="${escapeXML(value)}" />`)
+    .join('\n')
 
   log.log('allTagsAsXML', allTagsAsXML)
 
