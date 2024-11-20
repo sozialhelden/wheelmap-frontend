@@ -11,6 +11,7 @@ export type TypeTaggedPlaceInfo = (TypeTaggedWithId<'ac:PlaceInfo'> | TypeTagged
     parentPlaceInfoName?: string | LocalizedString;
     _id: string;
     sameAs?: string[];
+    surveyResultId?: string;
   };
 }
 

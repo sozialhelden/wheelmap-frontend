@@ -32,43 +32,49 @@ type Props = {
 const StyledListItem = styled.li`
     padding: 0;
     
+    &:focus-within {
+        background: ${colors.linkBackgroundColor};
+        border: 2px solid ${colors.linkColor};
+        border-radius: 5px;
+    }
+    
     > a {
-      display: block;
-      font-size: 16px;
-      padding: 10px;
-      text-decoration: none;
-      border-radius: 4px;
-      cursor: pointer;
-      background-color: transparent;
-      border: none;
-      outline: none;
-      text-align: left;
-      overflow: hidden;
-      color: rgba(0, 0, 0, 0.8) !important;
-      width: 100%;
-  
-      @media (hover), (-moz-touch-enabled: 0) {
-          &:hover {
-              background-color: ${colors.linkBackgroundColorTransparent};
-          }
-      }
-  
-      &:focus&:not(.primary-button) {
-          background-color: ${colors.linkBackgroundColorTransparent};
-      }
-  
-      &:disabled {
-          opacity: 0.15;
-      }
-  
-      &:hover {
-          color: rgba(0, 0, 0, 0.8) !important;
-      }
-  
-      address {
-          font-size: 16px !important;
-          color: rgba(0, 0, 0, 0.6);
-      }
+        display: block;
+        font-size: 16px;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        text-align: left;
+        overflow: hidden;
+        color: rgba(0, 0, 0, 0.8) !important;
+        width: 100%;
+    
+        @media (hover), (-moz-touch-enabled: 0) {
+            &:hover {
+                background-color: ${colors.linkBackgroundColorTransparent};
+            }
+        }
+    
+        &:focus&:not(.primary-button) {
+            background-color: ${colors.linkBackgroundColorTransparent};
+        }
+    
+        &:disabled {
+            opacity: 0.15;
+        }
+    
+        &:hover {
+            color: rgba(0, 0, 0, 0.8) !important;
+        }
+    
+        address {
+            font-size: 16px !important;
+            color: rgba(0, 0, 0, 0.6);
+        }
         
     }
 

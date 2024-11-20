@@ -16,6 +16,7 @@ import { useMapHighlight } from '../Map/filter'
 
 type Props = {
   features: AnyFeature[];
+  focusImage?: string
 }
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
@@ -66,7 +67,7 @@ export function CombinedFeaturePanel(props: Props) {
     <React.StrictMode>
       <ErrorBoundary>
         <Panel onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
-          {features && features[0] && <PlaceOfInterestDetails feature={features[0]} />}
+          {features && features[0] && <PlaceOfInterestDetails feature={features[0]} focusImage={props.focusImage} />}
           {surroundings && surroundings.map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
 
           {(!features || features.length === 0) && (

@@ -90,8 +90,6 @@ string, (props: ValueRenderProps) => React.ReactNode
   '^wheelchair$': ({ osmFeature, defaultValueLabel }) => (
     <div>
       {defaultValueLabel}
-      <button>Test!</button>
-      <pre>{JSON.stringify(osmFeature)}</pre>
     </div>
   ),
   '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,
