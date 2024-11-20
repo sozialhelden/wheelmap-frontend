@@ -34,7 +34,7 @@ export const FeaturePanelContext = createContext<FeaturePanelContextType>({
 const allowedPlaceTypes = [
   // outdated
   'composite',
-  'entrances_or_exits', 'buildings', 'amenities',
+  'entrances_or_exits', 'buildings', 'amenities', 'pedestrian_highways',
   // osm-style
   'node', 'way', 'relation',
   // rdf style
