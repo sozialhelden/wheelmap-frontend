@@ -17,6 +17,7 @@ import NextToiletDirections from '../../components/AccessibilitySection/NextToil
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
 import { useMap } from '../../../Map/useMap'
+import { AccessibilityItems } from '../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems'
 import { FeatureGallery } from '../../components/FeatureGallery'
 
 type Props = {
@@ -70,6 +71,7 @@ export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
       <FeatureGallery feature={feature} focusImage={focusImage} />
 
       <StyledIconButtonList>
+        <AccessibilityItems feature={feature} />
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
         <PhoneNumberLinks feature={feature} />

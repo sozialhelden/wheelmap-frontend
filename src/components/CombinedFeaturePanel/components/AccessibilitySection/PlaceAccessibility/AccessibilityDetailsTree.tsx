@@ -3,24 +3,28 @@ import isPlainObject from 'lodash/isPlainObject'
 import * as React from 'react'
 import styled from 'styled-components'
 import { t } from 'ttag'
-import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes'
-import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
+import { FC, Fragment } from 'react'
+import { Accessibility } from '@sozialhelden/a11yjson'
+import { translatedStringFromObject } from '../../../../../lib/i18n/translatedStringFromObject'
+import IAccessibilityAttribute from '../../../../../lib/model/ac/IAccessibilityAttribute'
+import { cx } from '../../../../../lib/util/cx'
 
-function humanizeCamelCase(string: string) {
-  return string.replace(/([a-z])([A-Z])/g, (substring, array) => `${substring[0]} ${substring[1].toLowerCase()}`)
-}
+type AccessibilityAttributesMap = Map<string, IAccessibilityAttribute | undefined>
 
-function formatName(
+const humanizeCamelCase = (string: string) => string
+  .replace(/([a-z])([A-Z])/g, (substring) => `${substring[0]} ${substring[1].toLowerCase()}`)
+
+const formatName = (
   name: string,
-  accessibilityAttributes: Map<string, Record<string, string>>,
-): string {
+  accessibilityAttributes: AccessibilityAttributesMap,
+): string => {
   const string = (accessibilityAttributes
-      && translatedStringFromObject(accessibilityAttributes.get(name)))
+      && translatedStringFromObject(accessibilityAttributes.get(name)?.label))
     || humanizeString(name)
   return string.replace(/^Rating /, '')
 }
 
-function formatValue(value: any): string {
+const formatValue = (value: any): string => {
   if (
     value === true
     || (typeof value === 'string'
@@ -43,162 +47,137 @@ function formatValue(value: any): string {
   return humanizeCamelCase(String(value))
 }
 
-function FormatRating({ rating }: { rating: number }) {
+const Rating: FC<{ capitalizedName: string, rating: number, keyName: string, }> = ({ capitalizedName, keyName, rating }) => {
   const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5)
   const stars = '★★★★★'.slice(5 - between1and5)
   return (
-    <span aria-label={`${between1and5} stars`}>
-      <span className="stars" aria-hidden="true">
-        {stars}
-      </span>
-      <span className="numeric" aria-hidden="true">
-        {between1and5}
-        /5
-      </span>
-    </span>
+    <>
+      <dt key={`${keyName}-name`} className="ac-rating">
+        {capitalizedName}
+        :
+      </dt>
+      <dd key={`${keyName}-rating`}>
+        <span aria-label={`${between1and5} stars`}>
+          <span className="stars" aria-hidden="true">
+            {stars}
+          </span>
+          <span className="numeric" aria-hidden="true">
+            {between1and5}
+            /5
+          </span>
+        </span>
+      </dd>
+    </>
   )
 }
 
-function DetailsArray({
-  className,
-  array,
-  accessibilityAttributes,
-}: {
-  className: string | null;
-  array: any[];
-  accessibilityAttributes: AccessibilityAttributesMap;
-}) {
-  // eslint-disable-next-line react/no-array-index-key
-  const items = array.map((e, i) => (
-    <li key={i}>
-      <AccessibilityDetailsTree
-        isNested
-        details={e}
-        accessibilityAttributes={accessibilityAttributes}
-      />
-    </li>
-  ))
-  return <ul className={`ac-list ${className || ''}`}>{items}</ul>
-}
+const Value: FC<{ className: string, title: string, value: string }> = ({ className, title, value }) => (
+  <>
+    <dt className={className}>
+      {title}
+      :
+    </dt>
+    <dd className={className} aria-label={`${value}!`}>
+      <em>{value}</em>
+    </dd>
 
-function capitalizeFirstLetter(string): string {
-  return string.charAt(0).toLocaleUpperCase() + string.slice(1)
-}
+  </>
+)
 
-function DetailsObject(props: {
-  className: string | null;
-  object: {};
-  isNested?: boolean;
-  accessibilityAttributes: AccessibilityAttributesMap;
-}) {
-  const { className, object, isNested } = props
-  const properties = Object.keys(object)
-    .map((key) => {
-      if (key.match(/Localized/)) {
-        return null
-      }
+const capitalizeFirstLetter = (string: string): string => string.charAt(0).toLocaleUpperCase() + string.slice(1)
 
-      const value = object[key]
-      const name = formatName(key, props.accessibilityAttributes)
+const isCategory = (value: any) => value && (value instanceof Array || (isPlainObject(value) && !value.unit))
 
-      // Screen readers work better when the first letter is capitalized.
-      // If the attribute starts with a lowercase letter, there is no spoken pause
-      // between the previous attribute value and the attribute name.
-      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name))
+const AccessibilityDetailsTree: FC<{
+  className?: string,
+  details: Accessibility,
+  isNested?: boolean,
+  accessibilityAttributes: AccessibilityAttributesMap,
+}> = ({
+  className, details, isNested, accessibilityAttributes,
+}) => {
+  // null/undefined do not get rendered
+  if (details === undefined || details === null) {
+    return null
+  }
+  // simple values just get emitted as is
+  if (typeof details === 'string' || typeof details === 'number' || typeof details === 'bigint' || typeof details === 'boolean') {
+    return details
+  }
 
-      if (
-        value
-        && (value instanceof Array || (isPlainObject(value) && !value.unit))
-      ) {
-        return [
-          <dt key={`${key}-name`} data-key={key}>
-            {capitalizedName}
-          </dt>,
-          <dd key={`${key}-tree`}>
-            <AccessibilityDetailsTree
-              isNested
-              details={value}
-              accessibilityAttributes={props.accessibilityAttributes}
-            />
-          </dd>,
-        ]
-      }
-      if (key.startsWith('rating')) {
-        return [
-          <dt key={`${key}-name`} className="ac-rating">
-            {capitalizedName}
-            :
-          </dt>,
-          <dd key={`${key}-rating`}>
-            <FormatRating rating={parseFloat(String(value))} />
-          </dd>,
-        ]
-      }
-      const generatedClassName = `ac-${typeof value}`
-      const formattedValue = formatValue(value)
-      return [
-        <dt key={`${key}-name`} className={generatedClassName}>
-          {capitalizedName}
-          :
-        </dt>,
-        <dd
-          key={`${key}-value`}
-          className={generatedClassName}
-          aria-label={`${formattedValue}!`}
-        >
-          <em>{formattedValue}</em>
-        </dd>,
-      ]
-    })
-    .filter(Boolean)
+  if (Array.isArray(details)) {
+    // arrays with no entries do not get rendered
+    if (details.length === 0) {
+      return null
+    }
+    // arrays with only one entry get directly inlined
+    if (details.length === 1) {
+      return <AccessibilityDetailsTree isNested details={details[0]} accessibilityAttributes={accessibilityAttributes} />
+    }
+    // otherwise arrays are treated as lists
+    return (
+      <ul className={cx('ac-list', className)}>
+        {
+          details.map((e, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+            <li key={i}><AccessibilityDetailsTree isNested details={e} accessibilityAttributes={accessibilityAttributes} /></li>
+          ))
+        }
+      </ul>
+    )
+  }
 
-  if (properties.length === 0) {
+  const keys = Object.keys(details).filter((key) => key && !key.match(/Localized/))
+  // objects with no relevant keys do not get rendered
+  if (keys.length <= 0) {
     return null
   }
 
   return (
     <dl
       className={`ac-group ${className || ''}`}
-      role={isNested ? null : 'text'}
+      role={isNested ? undefined : 'text'}
     >
-      {properties}
+
+      {
+        keys.map((key) => {
+          const value = details[key]
+          const name = formatName(key, accessibilityAttributes)
+
+          // Screen readers work better when the first letter is capitalized.
+          // If the attribute starts with a lowercase letter, there is no spoken pause
+          // between the previous attribute value and the attribute name.
+          const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name))
+
+          if (isCategory(value)) {
+            return (
+              <Fragment key={key}>
+                <dt data-key={key}>
+                  {capitalizedName}
+                </dt>
+                <dd>
+                  <AccessibilityDetailsTree
+                    isNested
+                    details={value}
+                    accessibilityAttributes={accessibilityAttributes}
+                  />
+                </dd>
+              </Fragment>
+            )
+          }
+
+          if (key.startsWith('rating')) {
+            return <Rating keyName={key} key={key} rating={parseFloat(`${value}`)} capitalizedName={capitalizedName} />
+          }
+          const generatedClassName = `ac-${typeof value}`
+          const formattedValue = formatValue(value)
+          return <Value className={generatedClassName} title={capitalizedName} value={formattedValue} />
+        })
+      }
+
     </dl>
   )
 }
-
-type Props = {
-  details: any;
-  locale?: string | null;
-  isNested?: boolean;
-  className?: string | null;
-  accessibilityAttributes: AccessibilityAttributesMap;
-};
-
-function AccessibilityDetailsTree(props: Props) {
-  const { details } = props
-  if (details instanceof Array) {
-    return (
-      <DetailsArray
-        className={props.className}
-        array={details}
-        accessibilityAttributes={props.accessibilityAttributes}
-      />
-    )
-  }
-  if (isPlainObject(details)) {
-    return (
-      <DetailsObject
-        className={props.className}
-        object={details}
-        isNested={props.isNested}
-        accessibilityAttributes={props.accessibilityAttributes}
-      />
-    )
-  }
-  return <div className={props.className}>{details}</div>
-}
-
-AccessibilityDetailsTree.defaultProps = { className: null, locale: null }
 
 const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   box-sizing: border-box;
@@ -220,6 +199,10 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     font-weight: 300;
     color: #444;
     line-height: 1.3;
+
+    > li {
+      width: 100%;
+    }
   }
 
   .ac-result-list a:hover {
@@ -382,7 +365,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     display: none;
   }
 
-  @keyframes ac-fadein {
+  @keyframes ac-fade-in {
     0% {
       opacity: 0;
       max-height: 0;
@@ -395,7 +378,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
 
   .ac-result[aria-expanded="true"] .ac-details {
     display: block;
-    animation: ac-fadein 0.5s ease-out;
+    animation: ac-fade-in 0.5s ease-out;
   }
 
   .ac-result[aria-expanded="true"] .ac-info-icon {

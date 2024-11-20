@@ -9,7 +9,7 @@ export default function PlaceFeaturePage() {
   const { features } = useContext(FeaturePanelContext)
 
   return (
-    <CombinedFeaturePanel features={features} />
+    <CombinedFeaturePanel features={features.map((x) => x.feature?.requestedFeature).filter((x) => !!x)} />
   )
 }
 

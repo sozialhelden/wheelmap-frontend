@@ -13,9 +13,12 @@ import CloseLink from '../../../../components/shared/CloseLink'
 import { useEnvContext } from '../../../../lib/context/EnvContext'
 import { getOSMType } from '../../../../lib/model/osm/generateOsmUrls'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
-import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
 import Toolbar from '../../../../components/shared/Toolbar'
 import { log } from '../../../../lib/util/logger'
+import { useFeatures } from '../../../../lib/fetchers/useFeatures'
+import { isOSMId } from '../../../../lib/typing/discriminators/osmDiscriminator'
+import { isAccessibilityCloudId } from '../../../../lib/typing/discriminators/isAccessibilityCloudId'
+import { normalizeOSMId } from '../../../../lib/typing/normalization/osmIdNormalization'
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -45,7 +48,16 @@ export async function createChangeset({
 
 export async function createChange({
   accessToken, baseUrl, osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer,
-}: { baseUrl: string; accessToken: string; osmType: string; osmId: string | string[]; changesetId: string; tagName: string; newTagValue: any; currentTagsOnServer: any; }) {
+}: {
+  baseUrl: string;
+  accessToken: string;
+  osmType: string;
+  osmId: string | string[];
+  changesetId: string;
+  tagName: string;
+  newTagValue: any;
+  currentTagsOnServer: any;
+}) {
   log.log('createChange', osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer)
   debugger
   const newTags = {
@@ -136,7 +148,17 @@ export default function CompositeFeaturesPage() {
   const { ids, id, tag } = router.query
   const tagName = typeof tag === 'string' ? tag : tag[0]
   const accessToken = (useSession().data as any)?.accessToken
-  const features = useMultipleFeatures(ids)
+  const featureStringIds = typeof ids === 'string' ? [ids] : ids
+  const featureIds = featureStringIds.map((x) => {
+    if (isOSMId(x)) {
+      return normalizeOSMId(x)
+    }
+    if (isAccessibilityCloudId(x)) {
+      return x
+    }
+    return undefined
+  })
+  const features = useFeatures(featureIds)
   const feature = features.data?.find((f) => isOSMFeature(f) && f._id === id)
   const osmFeature = isOSMFeature(feature) ? feature : null
   const closeEditor = React.useCallback(() => {

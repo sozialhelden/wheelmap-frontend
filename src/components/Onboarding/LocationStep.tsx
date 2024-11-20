@@ -118,6 +118,8 @@ export const LocationStep: FC<{
         if (stage.retries >= maxRetries) {
           onFailed()
           return
+          onFailed()
+          return
         }
         setStage({ stage: 'failed-not-exited', retries: stage.retries + 1 })
         return
@@ -152,5 +154,5 @@ export const LocationStep: FC<{
         </CallToActionButton>
       </footer>
     </Container>
-  )
-}
+  );
+};

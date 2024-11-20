@@ -33,12 +33,6 @@ type Props = {
 }
 
 const StyledHeader = styled.header`
-  /**
-    This is necessary to make the sticky header get a shadow that extends from the whole panel's
-    margin.
-  */
-  margin: -.5rem -1rem 1rem -1rem;
-  padding: .5rem 1rem;
   line-height: 1;
   display: flex;
   gap: 1rem;
@@ -47,6 +41,9 @@ const StyledHeader = styled.header`
   top: 0;
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
+  background-color:  ${colors.colorizedBackgroundColor};
+  width: 100%;
+  padding: 0 0 10px 0;
 
   ${PlaceNameH1} {
     flex-grow: 2;

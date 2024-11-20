@@ -1,9 +1,14 @@
 import { useCurrentAppToken } from '../../context/AppContext'
-import { useEnvContext } from '../../context/EnvContext'
+import { EnvironmentVariables, useEnvContext } from '../../context/EnvContext'
+
+export function getAccessibilityCloudAPI(env: EnvironmentVariables, currentAppToken: string, cached: boolean) {
+  const appToken = currentAppToken || env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
+  const baseUrl = cached ? env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL : env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
+  return { baseUrl, appToken }
+}
 
 export default function useAccessibilityCloudAPI({ cached = true }: { cached: boolean }) {
   const env = useEnvContext()
-  const appToken = useCurrentAppToken() || env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
-  const baseUrl = cached ? env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL : env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL
-  return { baseUrl, appToken }
+  const currentAppToken = useCurrentAppToken()
+  return getAccessibilityCloudAPI(env, currentAppToken, cached)
 }

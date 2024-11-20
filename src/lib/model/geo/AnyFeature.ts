@@ -10,6 +10,7 @@ export type TypeTaggedPlaceInfo = (TypeTaggedWithId<'ac:PlaceInfo'> | TypeTagged
   properties: PlaceProperties & {
     parentPlaceInfoName?: string | LocalizedString;
     _id: string;
+    sameAs?: string[];
     surveyResultId?: string;
   };
 }

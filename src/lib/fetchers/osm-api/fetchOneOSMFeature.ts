@@ -2,11 +2,12 @@ import { singularize } from 'inflection'
 import { t } from 'ttag'
 import OSMFeature from '../../model/osm/OSMFeature'
 import ResourceError from '../ResourceError'
+import { TypeTaggedOSMFeature } from '../../model/geo/AnyFeature'
 
 export async function fetchOneOSMFeature(
   { baseUrl, appToken, prefixedId }
   : { baseUrl: string, appToken: string, prefixedId: string | undefined },
-): Promise<OSMFeature | undefined> {
+): Promise<TypeTaggedOSMFeature | undefined> {
   const [collectionName, osmType, id] = prefixedId?.split(':') ?? []
 
   if (!collectionName) {
@@ -19,7 +20,7 @@ export async function fetchOneOSMFeature(
     throw new Error(`Invalid OSM feature ID, ${id} does not match collection:key:id pattern`)
   }
 
-  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`
+  const url = `${baseUrl}/${collectionName}/${osmType}/${id}.geojson?appToken=${appToken || ''}`.replaceAll('//', '/')
   const response = await fetch(url)
   if (!response.ok) {
     const errorResponse = await response.json()
@@ -28,5 +29,6 @@ export async function fetchOneOSMFeature(
 
     throw new ResourceError(errorResponse.reason || defaultReason, errorResponse.details, response.status, response.statusText)
   }
-  return response.json()
+  const feature = await response.json() satisfies OSMFeature
+  return ({ ...feature, '@type': 'osm:Feature' } satisfies TypeTaggedOSMFeature)
 }
