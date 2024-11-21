@@ -1,4 +1,5 @@
 import React from 'react'
+import { SWRResponse } from 'swr'
 import { log } from '../../util/logger'
 import { ChangesetState } from './ChangesetState'
 import { callBackendToUpdateInhouseDb } from '../callBackendToUpdateInhouseDb'
@@ -105,17 +106,31 @@ export async function createChange({
   })
 }
 
-export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, tagName, newTagValue, currentOsmObjectOnServer) {
-  const [callbackChangesetState, setCallbackChangesetState] = React.useState<ChangesetState>('none')
-  const [callbackError, setCallbackError] = React.useState<Error>()
+export default function useSubmitNewValueCallback({
+  accessToken, baseUrl, osmType, osmId, tagName, newTagValue, currentOSMObjectOnServer,
+  handleSuccess,
+  handleOSMSuccessDBError,
+  handleError,
+}: {
+  accessToken: string;
+  baseUrl: string;
+  osmType: string;
+  osmId: number;
+  tagName: string;
+  newTagValue: string;
+  currentOSMObjectOnServer: SWRResponse<any, any, any>;
+  handleSuccess: () => void;
+  handleOSMSuccessDBError: (error: Error) => void;
+  handleError: (error: Error) => void;
+}) {
   const { baseUrl: inhouseBaseUrl } = useOSMAPI({ cached: false })
 
-  const submitNewValue = React.useCallback(async () => {
-    if (!currentOsmObjectOnServer || !accessToken || !newTagValue || !osmType) {
+  return React.useCallback(async () => {
+    if (!currentOSMObjectOnServer || !accessToken || !newTagValue || !osmType) {
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
 
-    setCallbackChangesetState('creatingChange')
+    let changesetComplete: boolean = false
 
     try {
       const changesetId = await createChangeset({
@@ -132,23 +147,34 @@ export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, 
         changesetId,
         tagName,
         newTagValue,
-        currentOsmObjectOnServer,
+        currentOsmObjectOnServer: currentOSMObjectOnServer,
       })
 
-      setCallbackChangesetState('changesetComplete')
-      console.log("state after changeset: ", callbackChangesetState)
+      changesetComplete = true
+
       await callBackendToUpdateInhouseDb({
         baseUrl: inhouseBaseUrl, osmType, osmId,
       })
-      setCallbackChangesetState('inhouseDBSynced')
-    } catch (error) {
-      log.error(error)
-      setCallbackChangesetState({ error, lastState: callbackChangesetState })
-      setCallbackError(error)
-    }
-  }, [inhouseBaseUrl, baseUrl, currentOsmObjectOnServer, accessToken, newTagValue, tagName, osmId, osmType])
 
-  return {
-    submitNewValue, callbackChangesetState, callbackError,
-  }
+      handleSuccess()
+    } catch (error) {
+      if (changesetComplete) {
+        handleOSMSuccessDBError(error)
+      } else {
+        handleError(error)
+      }
+    }
+  }, [
+    inhouseBaseUrl,
+    baseUrl,
+    currentOSMObjectOnServer,
+    accessToken,
+    newTagValue,
+    tagName,
+    osmId,
+    osmType,
+    handleError,
+    handleOSMSuccessDBError,
+    handleSuccess,
+  ])
 }

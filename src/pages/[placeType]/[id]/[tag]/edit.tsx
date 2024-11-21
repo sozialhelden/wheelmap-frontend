@@ -16,7 +16,7 @@ import { getOSMType } from '../../../../lib/model/osm/generateOsmUrls'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
 import Toolbar from '../../../../components/shared/Toolbar'
-import useSubmitNewValue from '../../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
+import useSubmitNewValueCallback from '../../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
 import { fetchFeatureSplitId } from '../../../../lib/fetchers/osm-api/fetchFeatureSplitId'
 import { ChangesetState } from '../../../../lib/fetchers/osm-api/ChangesetState'
 
@@ -61,7 +61,9 @@ export default function CompositeFeaturesPage() {
     callbackChangesetState,
     callbackError,
     submitNewValue,
-  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
+  } = useSubmitNewValueCallback({
+    accessToken, baseUrl: officialOSMAPIBaseUrl, osmType, osmId: id, tagName, newTagValue: editedTagValue, currentOSMObjectOnServer: currentTagsOnServer,
+  })
 
   useEffect(() => {
     if (callbackError) {

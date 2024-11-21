@@ -19,6 +19,7 @@ export async function callBackendToUpdateInhouseDb({
     method: 'POST',
     mode: 'cors',
   })
+
   if (!response.ok) {
     throw new Error('Could not update inhouse DB')
   }

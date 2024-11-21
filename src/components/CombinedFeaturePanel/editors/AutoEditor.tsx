@@ -1,9 +1,9 @@
 import { t } from 'ttag'
 import React, { useContext, useEffect, useState } from 'react'
 import { mutate } from 'swr'
-import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import { BaseEditorProps } from './BaseEditor'
 import { WheelchairEditor } from './WheelchairEditor'
 import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
@@ -14,9 +14,9 @@ import FeatureImage from '../components/image/FeatureImage'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
 import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
-import useSubmitNewValue from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
+import useSubmitNewValueCallback from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
 import { useEnvContext } from '../../../lib/context/EnvContext'
-import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+import useInhouseOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
 import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
 import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
 import { EditorTagValue } from './EditorTagValue'
@@ -37,8 +37,8 @@ export const AutoEditor = ({
   const accessToken = (useSession().data as any)?.accessToken
   const router = useRouter()
   const env = useEnvContext()
-  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
-  const { baseUrl } = useOSMAPI({ cached: false })
+  const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
+  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false })
   const {
     id,
     tagName,
@@ -46,20 +46,8 @@ export const AutoEditor = ({
     osmId,
     currentOSMObjectOnServer,
   } = retrieveOsmParametersFromFeature(feature)
-  /* console.log('osmId: ', osmId)
-  console.log('id: ', id)
-  console.log('tagName: ', tagName)
-  console.log('tagKey: ', tagKey)
-  console.log('osmType: ', osmType)
-  console.log('base url: ', baseUrl) */
 
-  const [editedTagValue, setEditedTagValue] = useState<EditorTagValue>('')
-
-  const {
-    submitNewValue,
-    callbackChangesetState,
-    callbackError,
-  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentOSMObjectOnServer)
+  const [newTagValue, setEditedTagValue] = useState<EditorTagValue>('')
 
   const handleSuccess = React.useCallback(() => {
     toast.success(
@@ -71,51 +59,51 @@ export const AutoEditor = ({
 
   const handleOSMSuccessDBError = React.useCallback(() => {
     const message = [t`Thank you for contributing.`,
-                     t` There was an error while trying to save your changes to our database.`,
-                     t` Your changes will still be visible on Open Street Map.`,
+      t` There was an error while trying to save your changes to our database.`,
+      t` Your changes will still be visible on Open Street Map.`,
     ]
-    toast.success(message)
-    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    router.push(newPath)
+    debugger
+    toast.warning(message)
+    // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
+    // router.push(newPath)
   }, [router, tagName])
 
-  const handleError = React.useCallback(() => {
+  const handleError = React.useCallback((error: Error) => {
     const message = [
       t`Your contribution could not be saved completely.`,
-      t`Please try again later or let us know if the error persists. Error: ${callbackError}`,
+      t`Please try again later or let us know if the error persists. Error: ${error}`,
     ].join(' ')
 
     toast.error(message)
-  }, [callbackError])
+  }, [])
 
-  useEffect(() => {
-    if (callbackChangesetState === 'inhouseDBSynced') {
-      handleSuccess();
-    } else if(callbackChangesetState === 'changesetComplete') {
-      handleOSMSuccessDBError();
-    } else if(callbackChangesetState === 'creatingChange' 
-      || callbackChangesetState === 'creatingChangeset' 
-      || callbackChangesetState === 'error' ){ 
-      console.log("state: ", callbackChangesetState)
-      handleError()
-    }
-  }, [callbackChangesetState, handleSuccess, handleOSMSuccessDBError, handleError])
+  const submitNewValue = useSubmitNewValueCallback({
+    handleSuccess,
+    handleOSMSuccessDBError,
+    handleError,
+    accessToken,
+    baseUrl: remoteOSMAPIBaseUrl,
+    osmType,
+    osmId,
+    tagName,
+    newTagValue,
+    currentOSMObjectOnServer,
+  })
 
   const handleSubmitButtonClick = async () => {
     if (accessToken) {
       await submitNewValue()
-      //handleSuccess()
       return
     }
-    if (!editedTagValue || !osmId) {
+    if (!newTagValue || !osmId) {
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
     await makeChangeRequestToApi(
       {
-        baseUrl,
+        baseUrl: inhouseOSMAPIBaseURL,
         osmId,
         tagName,
-        newTagValue: editedTagValue,
+        newTagValue,
       },
     )
     handleSuccess()
