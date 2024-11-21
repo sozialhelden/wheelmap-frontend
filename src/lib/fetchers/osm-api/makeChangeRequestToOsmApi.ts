@@ -136,6 +136,7 @@ export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, 
       })
 
       setCallbackChangesetState('changesetComplete')
+      console.log("state after changeset: ", callbackChangesetState)
       await callBackendToUpdateInhouseDb({
         baseUrl: inhouseBaseUrl, osmType, osmId,
       })

@@ -69,6 +69,16 @@ export const AutoEditor = ({
     router.push(newPath)
   }, [router, tagName])
 
+  const handleOSMSuccessDBError = React.useCallback(() => {
+    const message = [t`Thank you for contributing.`,
+                     t` There was an error while trying to save your changes to our database.`,
+                     t` Your changes will still be visible on Open Street Map.`,
+    ]
+    toast.success(message)
+    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
+    router.push(newPath)
+  }, [router, tagName])
+
   const handleError = React.useCallback(() => {
     const message = [
       t`Your contribution could not be saved completely.`,
@@ -81,20 +91,20 @@ export const AutoEditor = ({
   useEffect(() => {
     if (callbackChangesetState === 'inhouseDBSynced') {
       handleSuccess();
-    } else {
-      if callbackChangesetState
+    } else if(callbackChangesetState === 'changesetComplete') {
+      handleOSMSuccessDBError();
+    } else if(callbackChangesetState === 'creatingChange' 
+      || callbackChangesetState === 'creatingChangeset' 
+      || callbackChangesetState === 'error' ){ 
+      console.log("state: ", callbackChangesetState)
+      handleError()
     }
-    switch () {
-      case '': handleSuccess(); return
-      case 'error': handleError()
-      default:
-    }
-  }, [handleSuccess, callbackChangesetState, handleError])
+  }, [callbackChangesetState, handleSuccess, handleOSMSuccessDBError, handleError])
 
   const handleSubmitButtonClick = async () => {
     if (accessToken) {
       await submitNewValue()
-      handleSuccess()
+      //handleSuccess()
       return
     }
     if (!editedTagValue || !osmId) {
