@@ -1,15 +1,5 @@
-import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
+import { AccessibilityCloudRDFTypes } from '../../model/typing/AccessibilityCloudTypeMapping'
 import { AccessibilityCloudRDFId } from '../brands/accessibilityCloudIds'
-
-const AccessibilityCloudRDFTypes: AccessibilityCloudRDFType[] = [
-  'ac:EquipmentInfo',
-  'ac:Entrance',
-  'ac:PlaceInfo',
-  'ac:App',
-  'ac:MappingEvent',
-  'ac:Source',
-  'ac:AccessibilityAttribute',
-] as const
 
 export const isAccessibilityCloudId = (featureId: string): featureId is AccessibilityCloudRDFId => {
   const components = featureId.split('/')

@@ -6,10 +6,20 @@ import IAccessibilityAttribute from '../ac/IAccessibilityAttribute'
 import { memoizedKebabCase } from '../../util/strings/memoizedKebabCase'
 import { memoizedPluralize } from '../ac/pluralize'
 
+export const AccessibilityCloudRDFTypes: AccessibilityCloudRDFType[] = [
+  'ac:EquipmentInfo',
+  'ac:Entrance',
+  'ac:PlaceInfo',
+  'ac:App',
+  'ac:MappingEvent',
+  'ac:Source',
+  'ac:AccessibilityAttribute',
+] as const
+
 export interface A11yJSONTypeMapping {
   'a11yjson:EquipmentInfo': EquipmentInfo;
   'a11yjson:PlaceInfo': PlaceInfo;
-  'a11yjson:Entrance': PlaceInfo;
+  'a11yjson:Entrance': Entrance;
 }
 
 export interface AccessibilityCloudTypeMapping {

@@ -1,11 +1,11 @@
 import { databaseTableNames } from '../../../components/Map/filterLayers'
 import {
-  AnyOSMId, OSMElementValue, OSMElementValue_Deprecated, OSMId, OSMTableElementValue,
+  AnyOSMId, OSMTypedId, OSMTypedId_Deprecated, OSMId, OSMIdWithTypeAndTableName,
 } from '../brands/osmIds'
 import {
-  isOSMElementValue, isOSMElementValue_Legacy,
-  isOSMRdfTableElementValue,
-  isOSMTableElementValue,
+  isOSMTypedId, isOSMElementValue_Legacy,
+  isOSMIdWithTableAndContextName,
+  isOSMIdWithTypeAndTableName,
 } from '../discriminators/osmDiscriminator'
 
 type FallbackKeyName = (typeof databaseTableNames[number])
@@ -14,21 +14,21 @@ type FallbackKeyName = (typeof databaseTableNames[number])
  * Normalizes a given OSM id into an RDF specific type, that can be used universally
  * @param fallback Optional fallback when the `OSMKey` cannot be derived from the id
  */
-export function normalizeOSMId(osmId: OSMElementValue, key: FallbackKeyName): OSMId
-export function normalizeOSMId(osmId: OSMElementValue_Deprecated, key: FallbackKeyName): OSMId
-export function normalizeOSMId(osmId: OSMTableElementValue): OSMId
+export function normalizeOSMId(osmId: OSMTypedId, key: FallbackKeyName): OSMId
+export function normalizeOSMId(osmId: OSMTypedId_Deprecated, key: FallbackKeyName): OSMId
+export function normalizeOSMId(osmId: OSMIdWithTypeAndTableName): OSMId
 export function normalizeOSMId(osmId: OSMId): OSMId
 export function normalizeOSMId(osmId: AnyOSMId, fallback?: FallbackKeyName): OSMId {
-  if (isOSMRdfTableElementValue(osmId)) {
+  if (isOSMIdWithTableAndContextName(osmId)) {
     return osmId
   }
 
-  if (isOSMTableElementValue(osmId)) {
+  if (isOSMIdWithTypeAndTableName(osmId)) {
     const [table, element, value] = osmId.split(/[:/]/)
     return `osm:${table}/${element}/${value}` as OSMId
   }
 
-  if (isOSMElementValue(osmId)) {
+  if (isOSMTypedId(osmId)) {
     if (!fallback) {
       throw new Error('Missing key name to normalize OSM id')
     }
