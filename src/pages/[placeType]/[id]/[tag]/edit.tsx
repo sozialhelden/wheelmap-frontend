@@ -1,11 +1,12 @@
 import { Dialog, DialogBody, DialogFooter } from '@blueprintjs/core'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { t } from 'ttag'
 
+import { toast } from 'react-toastify'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import { OSMTagEditor } from '../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor'
@@ -56,18 +57,17 @@ export default function CompositeFeaturesPage() {
     },
   } : undefined
 
-  const [changesetState, setChangesetState] = React.useState<ChangesetState>()
-  const [error, setError] = React.useState<Error>()
+  const {
+    callbackChangesetState,
+    callbackError,
+    submitNewValue,
+  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
 
-  const handleSubmit = async () => {
-    const {
-      callbackChangesetState,
-      callbackError,
-    } = await useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, id, tagName, editedTagValue, currentTagsOnServer)
-    setChangesetState(callbackChangesetState)
-    setError(callbackError)
-    // handleSuccess()
-  }
+  useEffect(() => {
+    if (callbackError) {
+      toast.error(t`An error occurred while saving your changes. Please try again later. Error: ${callbackError}`)
+    }
+  }, [callbackError])
 
   return (
     <>
@@ -93,18 +93,18 @@ export default function CompositeFeaturesPage() {
                   feature={featureWithEditedTag}
                   tag={tagName}
                   onChange={setEditedTagValue}
-                  onSubmit={handleSubmit}
+                  onSubmit={submitNewValue}
                 />
               )}
           <p>
             State:
             {' '}
-            {changesetState}
+            {callbackChangesetState}
           </p>
           <p>
             Error:
             {' '}
-            {JSON.stringify(error)}
+            {JSON.stringify(callbackError)}
           </p>
           <p>
             currentTagsOnServer:

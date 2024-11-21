@@ -106,51 +106,46 @@ export async function createChange({
 }
 
 export default function useSubmitNewValue(accessToken, baseUrl, osmType, osmId, tagName, newTagValue, currentOsmObjectOnServer) {
-  const [callbackChangesetState, setCallbackChangesetState] = React.useState<ChangesetState>()
+  const [callbackChangesetState, setCallbackChangesetState] = React.useState<ChangesetState>('none')
   const [callbackError, setCallbackError] = React.useState<Error>()
   const { baseUrl: inhouseBaseUrl } = useOSMAPI({ cached: false })
 
-  const submitNewValue = React.useCallback(() => {
+  const submitNewValue = React.useCallback(async () => {
     if (!currentOsmObjectOnServer || !accessToken || !newTagValue || !osmType) {
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
 
-    createChangeset({
-      baseUrl, accessToken, tagName, newValue: newTagValue,
-    })
-      .then((changesetId) => {
-        console.log('changeset id: ', changesetId)
-        setCallbackChangesetState('creatingChange')
-        return createChange({
-          baseUrl,
-          accessToken,
-          osmType,
-          osmId,
-          changesetId,
-          tagName,
-          newTagValue,
-          currentOsmObjectOnServer,
-        }).then(() => {
-          setCallbackChangesetState('changesetComplete')
-          return callBackendToUpdateInhouseDb({
-            baseUrl: inhouseBaseUrl, osmType, osmId,
-          })
-        })
-      })
-      .catch((err) => {
-        log.error(err)
-        setCallbackChangesetState('error')
-        setCallbackError(err)
-      })
-  }, [inhouseBaseUrl, baseUrl, currentOsmObjectOnServer, accessToken, newTagValue, tagName, osmId, osmType])
+    setCallbackChangesetState('creatingChange')
 
-  /* const handleSuccess = React.useCallback(() => {
-            toast.success(
-              t`Thank you for contributing. Your edit will be visible soon.`,
-            )
-            const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-            router.push(newPath)
-          }, [router, tagName]) */
+    try {
+      const changesetId = await createChangeset({
+        baseUrl, accessToken, tagName, newValue: newTagValue,
+      })
+
+      console.log('changeset id: ', changesetId)
+
+      await createChange({
+        baseUrl,
+        accessToken,
+        osmType,
+        osmId,
+        changesetId,
+        tagName,
+        newTagValue,
+        currentOsmObjectOnServer,
+      })
+
+      setCallbackChangesetState('changesetComplete')
+      await callBackendToUpdateInhouseDb({
+        baseUrl: inhouseBaseUrl, osmType, osmId,
+      })
+      setCallbackChangesetState('inhouseDBSynced')
+    } catch (error) {
+      log.error(error)
+      setCallbackChangesetState({ error, lastState: callbackChangesetState })
+      setCallbackError(error)
+    }
+  }, [inhouseBaseUrl, baseUrl, currentOsmObjectOnServer, accessToken, newTagValue, tagName, osmId, osmType])
 
   return {
     submitNewValue, callbackChangesetState, callbackError,

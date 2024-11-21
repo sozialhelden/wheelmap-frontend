@@ -1,5 +1,5 @@
 import { t } from 'ttag'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { mutate } from 'swr'
 import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
@@ -53,9 +53,13 @@ export const AutoEditor = ({
   console.log('osmType: ', osmType)
   console.log('base url: ', baseUrl) */
 
-  const [changesetState, setChangesetState] = useState<ChangesetState>()
-  const [error, setError] = useState<Error>()
   const [editedTagValue, setEditedTagValue] = useState<EditorTagValue>('')
+
+  const {
+    submitNewValue,
+    callbackChangesetState,
+    callbackError,
+  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentOSMObjectOnServer)
 
   const handleSuccess = React.useCallback(() => {
     toast.success(
@@ -65,17 +69,31 @@ export const AutoEditor = ({
     router.push(newPath)
   }, [router, tagName])
 
-  const {
-    submitNewValue,
-    callbackChangesetState,
-    callbackError,
-  } = useSubmitNewValue(accessToken, officialOSMAPIBaseUrl, osmType, osmId, tagName, editedTagValue, currentOSMObjectOnServer)
+  const handleError = React.useCallback(() => {
+    const message = [
+      t`Your contribution could not be saved completely.`,
+      t`Please try again later or let us know if the error persists. Error: ${callbackError}`,
+    ].join(' ')
+
+    toast.error(message)
+  }, [callbackError])
+
+  useEffect(() => {
+    if (callbackChangesetState === 'inhouseDBSynced') {
+      handleSuccess();
+    } else {
+      if callbackChangesetState
+    }
+    switch () {
+      case '': handleSuccess(); return
+      case 'error': handleError()
+      default:
+    }
+  }, [handleSuccess, callbackChangesetState, handleError])
 
   const handleSubmitButtonClick = async () => {
     if (accessToken) {
       await submitNewValue()
-      setChangesetState(callbackChangesetState)
-      setError(callbackError)
       handleSuccess()
       return
     }

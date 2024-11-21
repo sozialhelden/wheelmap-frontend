@@ -1,1 +1,6 @@
-export type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'changesetComplete'
+export type ChangesetState = 'none'
+| 'creatingChangeset'
+| 'creatingChange'
+| 'changesetComplete'
+| 'inhouseDBSynced'
+| { error: Error, lastState: ChangesetState }
