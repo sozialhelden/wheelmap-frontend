@@ -2,7 +2,7 @@ import type { PlaceInfo } from '@sozialhelden/a11yjson'
 import { t } from 'ttag'
 import type { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../model/geo/AnyFeature'
 import type OSMFeature from '../../model/osm/OSMFeature'
-import type { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
+import type { OSMIdWithTableAndContextNames } from '../../typing/brands/osmIds'
 import ResourceError from '../ResourceError'
 import type { AccessibilityCloudAPIFeatureCollectionResult } from '../ac/AccessibilityCloudAPIFeatureCollectionResult'
 import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
@@ -16,7 +16,7 @@ interface FetchOneFeaturePropertiesInternal<Feature extends TypeTaggedOSMFeature
    * That means, if an AC feature refers to an OSM feature, then the `originId` will be of the AC feature,
    * such that the origins can be correlated with each other
    */
-  originId: OSMRDFTableElementValue | AccessibilityCloudRDFId
+  originId: OSMIdWithTableAndContextNames | AccessibilityCloudRDFId
 }
 
 interface FetchOneFeatureResultInternal<Feature extends TypeTaggedOSMFeature | TypeTaggedPlaceInfo>
@@ -90,7 +90,7 @@ export interface FetchOsmToAcFeatureProperties {
    * That means, if an AC feature refers to an OSM feature, then the `originId` will be of the AC feature,
    * such that the origins can be correlated with each other
    */
-  originId: OSMRDFTableElementValue
+  originId: OSMIdWithTableAndContextNames
 }
 
 export interface FetchOsmToAcFeatureResult extends FetchOsmToAcFeatureProperties {

@@ -1,48 +1,48 @@
 import {
-  AnyOSMId, OSMElementValue, OSMElementValue_Deprecated, OSMRDFTableElementValue,
-  OSMElement,
-  OSMRDF,
-  OSMTableElementValue,
+  AnyOSMId, OSMTypedId, OSMTypedId_Deprecated, OSMIdWithTableAndContextNames,
+  OSMElementType,
+  OSMRDFContextName,
+  OSMIdWithTypeAndTableName,
   LegacyOsmId,
 } from '../brands/osmIds'
 import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
 
-const matchValue = '(?<value>\\d+)'
-const matchElement = '(?<element>node|way|relation)'
-const matchTable = '(?<table>[\\w\\d_-]+)'
-const matchRdf = '(?<rdf>osm(?:-inhouse)?)'
+const matchNumber = '(?<value>\\d+)'
+const matchElementType = '(?<element>node|way|relation)'
+const matchTableName = '(?<table>[\\w\\d_-]+)'
+const matchRdfContext = '(?<rdf>osm(?:-inhouse)?)'
 const matchSeperator = '[:/]'
 
-const matchElementValueLegacy = new RegExp(`^${matchElement}${matchSeperator}${matchValue}$`)
-const matchElementValue = new RegExp(`^${matchElement}${matchSeperator}${matchValue}$`)
-const matchTableElementValue = new RegExp(`^${matchTable}${matchSeperator}${matchElement}${matchSeperator}${matchValue}$`)
-const matchRdfTableElementValue = new RegExp(`^${matchRdf}:${matchTable}/${matchElement}/${matchValue}$`)
+const matchElementValueLegacy = new RegExp(`^${matchElementType}${matchSeperator}${matchNumber}$`)
+const matchElementValue = new RegExp(`^${matchElementType}${matchSeperator}${matchNumber}$`)
+const matchTableElementValue = new RegExp(`^${matchTableName}${matchSeperator}${matchElementType}${matchSeperator}${matchNumber}$`)
+const matchRdfTableElementValue = new RegExp(`^${matchRdfContext}:${matchTableName}/${matchElementType}/${matchNumber}$`)
 
-export const isOSMElementValue = (x: string): x is OSMElementValue => matchElementValue.test(x)
-export const isOSMTableElementValue = (x: string): x is OSMTableElementValue => matchTableElementValue.test(x)
-export const isOSMRdfTableElementValue = (x: string): x is OSMRDFTableElementValue => matchRdfTableElementValue.test(x)
+export const isOSMTypedId = (x: string): x is OSMTypedId => matchElementValue.test(x)
+export const isOSMIdWithTypeAndTableName = (x: string): x is OSMIdWithTypeAndTableName => matchTableElementValue.test(x)
+export const isOSMIdWithTableAndContextName = (x: string): x is OSMIdWithTableAndContextNames => matchRdfTableElementValue.test(x)
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const isOSMElementValue_Legacy = (x: string): x is OSMElementValue_Deprecated => matchElementValueLegacy.test(x)
+export const isOSMElementValue_Legacy = (x: string): x is OSMTypedId_Deprecated => matchElementValueLegacy.test(x)
 
 /**
  * Checks if a string conforms the OSM address format of
- * - {@link OSMElementValue}
- * - {@link OSMTableElementValue}
- * - {@link OSMRDFTableElementValue}
- * - {@link OSMElementValue_Deprecated}
+ * - {@link OSMTypedId}
+ * - {@link OSMIdWithTypeAndTableName}
+ * - {@link OSMIdWithTableAndContextNames}
+ * - {@link OSMTypedId_Deprecated}
  *
  * additional checking for legacy formats can be done with {@link isLegacyOSMId}
  */
 export const isOSMId = (x: string): x is AnyOSMId => {
-  if (isOSMElementValue(x)) {
+  if (isOSMTypedId(x)) {
     return true
   }
 
-  if (isOSMTableElementValue(x)) {
+  if (isOSMIdWithTypeAndTableName(x)) {
     return true
   }
-  if (isOSMRdfTableElementValue(x)) {
+  if (isOSMIdWithTableAndContextName(x)) {
     return true
   }
 
@@ -53,12 +53,12 @@ export const isOSMId = (x: string): x is AnyOSMId => {
 /**
  * Extracts RDF components from an OSM id in an object format
  */
-export const getOSMRDFComponents = (osmId: OSMRDFTableElementValue) => {
+export const getOSMRDFComponents = (osmId: OSMIdWithTableAndContextNames) => {
   const match = osmId.match(matchRdfTableElementValue)
   // match has to exist, otherwise the entry type was wrong
   const {
     rdf, table, element, value,
-  } = match!.groups as { rdf: OSMRDF, table: AccessibilityCloudRDFType, element: OSMElement, value: string }
+  } = match!.groups as { rdf: OSMRDFContextName, table: AccessibilityCloudRDFType, element: OSMElementType, value: string }
   return {
     source: osmId,
     components: [rdf, table, element, value] as const,
@@ -80,6 +80,7 @@ const matchLegacyOsmElementValue = new RegExp(`^${matchLegacyNodes}/${matchLegac
 export const isLegacyOsmNegativeValue = (x: string): x is LegacyOsmId.NegativeOsmValue => matchLegacyOsmNegativeValue.test(x)
 /** @example  `nodes/123890123890` */
 export const isLegacyMongoDbValue = (x: string): x is LegacyOsmId.MongoDbOsmValue => matchLegacyOsmMongoDbValue.test(x)
+
 /** @example `nodes/-123890123890` || `nodes/123890123890` */
 export const isLegacyOsmElementValue = (x: string): x is LegacyOsmId.LegacyOsmElementValue => matchLegacyOsmElementValue.test(x)
 

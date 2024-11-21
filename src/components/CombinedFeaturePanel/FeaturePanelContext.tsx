@@ -8,7 +8,7 @@ import { type CollectedFeature, collectExpandedFeaturesResult } from '../../lib/
 import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
 import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
 import {
-  isOSMElementValue, isOSMElementValue_Legacy, isOSMId, isOSMRdfTableElementValue, isOSMTableElementValue,
+  isOSMTypedId, isOSMElementValue_Legacy, isOSMId, isOSMIdWithTableAndContextName, isOSMIdWithTypeAndTableName,
 } from '../../lib/typing/discriminators/osmDiscriminator'
 import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
@@ -74,16 +74,16 @@ const StyledLoadingDiv = styled.div`
 
 const normalizeIds = (ids: string[]) => ids.flatMap((x) => {
   if (isOSMId(x)) {
-    if (isOSMElementValue(x)) {
+    if (isOSMTypedId(x)) {
       return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
     }
     if (isOSMElementValue_Legacy(x)) {
       return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
     }
-    if (isOSMTableElementValue(x)) {
+    if (isOSMIdWithTypeAndTableName(x)) {
       return normalizeOSMId(x)
     }
-    if (isOSMRdfTableElementValue(x)) {
+    if (isOSMIdWithTableAndContextName(x)) {
       return normalizeOSMId(x)
     }
     return normalizeOSMId(x)

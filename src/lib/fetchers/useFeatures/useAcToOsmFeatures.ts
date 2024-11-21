@@ -7,19 +7,19 @@ import { getOSMAPI } from '../osm-api/useOSMAPI'
 import { FetchOneFeatureProperties, FetchOneFeatureResult, composeFetchOneFeature } from './fetchers'
 import { makeFetchProperties } from './utils'
 import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
-import { OSMRDFTableElementValue } from '../../typing/brands/osmIds'
+import { OSMIdWithTableAndContextNames } from '../../typing/brands/osmIds'
 
 /**
  * Expands an OpenStreeMap URL to hopeful guesses what OSM RDF ID it may be
  */
-const guesstimateRdfType = (osmUris: string[]): OSMRDFTableElementValue[] => osmUris.flatMap((osmUri) => {
+const guesstimateRdfType = (osmUris: string[]): OSMIdWithTableAndContextNames[] => osmUris.flatMap((osmUri) => {
   const tail = osmUri.replace('https://openstreetmap.org/', '')
   const [element, value] = tail.split('/')
   if (!element || !value) {
     return []
   }
   // type casting instead of checking, just to satisfy the branding constraint
-  return [`osm:amenities/${element}/${value}`, `osm:buildings/${element}/${value}`] as OSMRDFTableElementValue[]
+  return [`osm:amenities/${element}/${value}`, `osm:buildings/${element}/${value}`] as OSMIdWithTableAndContextNames[]
 })
 
 /**

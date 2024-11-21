@@ -1,6 +1,6 @@
 import { t } from 'ttag'
 import { isAccessibilityCloudId } from '../../typing/discriminators/isAccessibilityCloudId'
-import { getOSMRDFComponents, isOSMRdfTableElementValue } from '../../typing/discriminators/osmDiscriminator'
+import { getOSMRDFComponents, isOSMIdWithTableAndContextName } from '../../typing/discriminators/osmDiscriminator'
 import type { FetchOneFeatureProperties } from './fetchers'
 import type { FeatureId } from './types'
 
@@ -18,7 +18,7 @@ type FetchOptions = ACFetchOptions & OSMFetchOptions
 export const makeFetchProperties = (featureId: FeatureId, {
   acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
 }: Partial<FetchOptions>): FetchOneFeatureProperties => {
-  if (isOSMRdfTableElementValue(featureId)) {
+  if (isOSMIdWithTableAndContextName(featureId)) {
     if (!osmBaseUrl || !osmAppToken) {
       throw new Error(t`OSM API Configuration incomplete, baseUrl or appToken was missing`)
     }

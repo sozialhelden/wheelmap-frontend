@@ -1,5 +1,5 @@
 import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
-import { OSMRDFTableElementValue } from '../../lib/typing/brands/osmIds'
+import { OSMIdWithTableAndContextNames } from '../../lib/typing/brands/osmIds'
 
 const typeMap = {
   N: 'node',
@@ -36,7 +36,7 @@ export function buildId(feature: PhotonResultFeature) {
   }
 
   const collection = mapOsmCollection(feature)
-  return `osm:${collection}/${osmType}/${feature.properties.osm_id}` as OSMRDFTableElementValue
+  return `osm:${collection}/${osmType}/${feature.properties.osm_id}` as OSMIdWithTableAndContextNames
 }
 
 export function buildOSMUri(feature: PhotonResultFeature) {
