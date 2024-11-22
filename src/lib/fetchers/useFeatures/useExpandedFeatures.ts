@@ -10,6 +10,11 @@ import { useOsmToAcFeature } from './useOsmToAcFeature'
 import { useAcToOsmFeatures } from './useAcToOsmFeatures'
 import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
 
+/**
+ * `useExpandedFeatures` is a hook to load `ac:PlaceInfo` and `osm:Feature` IDs in the order passed of {@link features}.
+ * It expects an ordered list of RDF-IDs, loads their data and tries to resolve `osm:Feature`s for `ac:PlaceInfo`s, and
+ * `ac:PlaceInfos` for `osm:Feature`s, if any exist.
+ */
 export const useExpandedFeatures = (
   features: (FeatureId | undefined)[],
   options?: {
@@ -32,11 +37,16 @@ export const useExpandedFeatures = (
   const additionalOSMFeaturesResult = useAcToOsmFeatures(feats, { swr: options?.useFeaturesSWRConfig, cache: options?.cache ?? false })
 
   return {
+    /** List of the feature that had been requested */
     requestedFeatures: initialFeaturesResult,
+    /** List of AC features that were resolved from initially passed `osm:Feature` IDs */
     additionalAcFeatures: additionalAcFeatureResult,
+    /** List of OSM features that were resolved from initially passed `ac:PlaceInfo` IDs */
     additionalOsmFeatures: additionalOSMFeaturesResult,
 
+    /** Indicating that at least one more request is loading */
     isLoading: initialFeaturesResult.isLoading || additionalAcFeatureResult.isLoading || additionalOSMFeaturesResult.isLoading,
+    /** Indicating that at least one more request is validating */
     isValidating: initialFeaturesResult.isValidating || additionalAcFeatureResult.isValidating || additionalOSMFeaturesResult.isValidating,
   }
 }

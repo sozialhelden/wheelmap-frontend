@@ -7,6 +7,9 @@ import { getAccessibilityCloudAPI } from '../ac/useAccessibilityCloudAPI'
 import { composeOsmToAcFetcher, FetchOsmToAcFeatureProperties, FetchOsmToAcFeatureResult } from './fetchers'
 import { getOSMRDFComponents } from '../../typing/discriminators/osmDiscriminator'
 
+/**
+ * A hook to fetch `ac:PlaceInfo` data from multiple `osm:Feature`-RDF-ID entries.
+ */
 export const useOsmToAcFeature = (
   features: OSMRDFTableElementValue[],
   options?: {

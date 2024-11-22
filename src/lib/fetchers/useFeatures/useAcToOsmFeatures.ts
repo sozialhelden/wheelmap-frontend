@@ -22,6 +22,9 @@ const guesstimateRdfType = (osmUris: string[]): OSMRDFTableElementValue[] => osm
   return [`osm:amenities/${element}/${value}`, `osm:buildings/${element}/${value}`] as OSMRDFTableElementValue[]
 })
 
+/**
+ * A hook to fetch `osm:Feature` data from multiple `ac:PlaceInfo`-RDF-ID entries.
+ */
 export const useAcToOsmFeatures = (
   features: {
     feature: TypeTaggedPlaceInfo,

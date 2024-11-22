@@ -76,15 +76,18 @@ const matchLegacyOsmNegativeValue = /^(?<negative>-\\d+)$/
 const matchLegacyOsmMongoDbValue = new RegExp(`^${matchLegacyNodes}/${matchMongoDbValue}$`)
 const matchLegacyOsmElementValue = new RegExp(`^${matchLegacyNodes}/${matchLegacyValue}$`)
 
+/** @example `-123890123890` */
 export const isLegacyOsmNegativeValue = (x: string): x is LegacyOsmId.NegativeOsmValue => matchLegacyOsmNegativeValue.test(x)
+/** @example  `nodes/123890123890` */
 export const isLegacyMongoDbValue = (x: string): x is LegacyOsmId.MongoDbOsmValue => matchLegacyOsmMongoDbValue.test(x)
+/** @example `nodes/-123890123890` || `nodes/123890123890` */
 export const isLegacyOsmElementValue = (x: string): x is LegacyOsmId.LegacyOsmElementValue => matchLegacyOsmElementValue.test(x)
 
 /**
  * Checks if a string conforms the **legacy** OSM address format of
- * - {@link LegacyOsmId.MongoDbOsmValue}
- * - {@link LegacyOsmId.LegacyOsmElementValue}
- * - {@link LegacyOsmId.NegativeOsmValue}
+ * - {@link LegacyOsmId.MongoDbOsmValue} (ex: `nodes/2005281859/`)
+ * - {@link LegacyOsmId.LegacyOsmElementValue} (ex: `nodes/-123890123890'`, `nodes/123890123890`)
+ * - {@link LegacyOsmId.NegativeOsmValue} (ex: `-123890123890`)
  *
  * additional checking for canonical formats can be done with {@link isOSMId}
  */
