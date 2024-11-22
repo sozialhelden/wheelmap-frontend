@@ -21,6 +21,7 @@ import {
 } from './Gallery/util'
 import { GalleryOverlay } from './Gallery/GalleryOverlay'
 import { GalleryCallToAction } from './Gallery/GalleryCallToAction'
+import useAccessibilityCloudAPI from '../../../lib/fetchers/ac/useAccessibilityCloudAPI'
 
 const fetcher = (urls: string[]) => {
   const f = (u) => fetch(u).then((r) => {
@@ -66,7 +67,8 @@ const AddImageRow = styled.button`
 export const FeatureGallery: FC<{ feature: AnyFeature, focusImage?: string }> = ({ feature, focusImage }) => {
   const ids = makeImageIds(feature)
   const router = useRouter()
-  const { data } = useSWR(ids.map((x) => makeImageLocation(x.context, x.id)), fetcher)
+  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true })
+  const { data } = useSWR((baseUrl && appToken) ? ids.map((x) => makeImageLocation(baseUrl, appToken, x.context, x.id)) : null, fetcher)
   const images = useMemo(() => data?.flatMap((x) => x.images) ?? [], [data])
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -80,6 +82,10 @@ export const FeatureGallery: FC<{ feature: AnyFeature, focusImage?: string }> = 
     const idx = images.findIndex((x) => x._id === focusImage)
     setGalleryIndex(idx)
   }, [focusImage, images])
+
+  if (!baseUrl) {
+    return null
+  }
 
   return (
     <>
@@ -102,7 +108,7 @@ export const FeatureGallery: FC<{ feature: AnyFeature, focusImage?: string }> = 
               <img
                 key={x._id}
                 className="image"
-                srcSet={makeSrcSetLocation(makeSrcSet(thumbnailSizes, x))}
+                srcSet={makeSrcSetLocation(makeSrcSet(baseUrl, thumbnailSizes, x))}
               />
             </AppStateLink>
           ))}
