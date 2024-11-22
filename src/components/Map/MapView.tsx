@@ -29,6 +29,7 @@ import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
 import { useMapIconLoader } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
+import { useDarkMode } from '../shared/useDarkMode'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -162,6 +163,9 @@ export default function MapView(props: IProps) {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken,
   } = useEnvContext()
 
+  const darkMode = useDarkMode()
+  const mapStyle = darkMode ? 'mapbox://styles/sozialhelden/cm3t8pmmt00ad01s8baje5zjy' : 'mapbox://styles/sozialhelden/cm3t3zmix009j01r2eupc5jr7'
+
   return (
     <>
       <MapboxExtraStyles />
@@ -175,7 +179,7 @@ export default function MapView(props: IProps) {
           interactive
           interactiveLayerIds={interactiveLayerIds}
           onLoad={onLoadCallback}
-          mapStyle="mapbox://styles/sozialhelden/cm3t3zmix009j01r2eupc5jr7"
+          mapStyle={mapStyle}
           ref={setMapRef}
         >
           <MapSources />
