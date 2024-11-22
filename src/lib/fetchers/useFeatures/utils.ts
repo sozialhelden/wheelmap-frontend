@@ -24,7 +24,7 @@ export const makeFetchProperties = (featureId: FeatureId, {
     }
     const { properties: { table, element, value } } = getOSMRDFComponents(featureId)
     return {
-      url: `${osmBaseUrl}/${table}/${element}/${value}.geojson?appToken=${osmAppToken || ''}`.replaceAll('//', '/'),
+      url: `${osmBaseUrl}/${table}/${element}/${value}.geojson?appToken=${osmAppToken || ''}`,
       typeTag: 'osm:Feature',
       originId: featureId,
     }

@@ -13,6 +13,7 @@ import {
 import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import Spinner from '../ActivityIndicator/Spinner'
+import { useMapHighlight } from '../Map/filter'
 
 interface FeaturePanelContextType {
   features: {
@@ -109,6 +110,8 @@ export function FeaturePanelContextProvider(
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
   const normalizedIds = normalizeIds(featureIds)
+
+  useMapHighlight(normalizedIds?.[0])
   const expandedFeatures = useExpandedFeatures(normalizedIds, {
     useFeaturesSWRConfig: { shouldRetryOnError: false },
     useOsmToAcSWRConfig: { shouldRetryOnError: false },

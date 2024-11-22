@@ -12,7 +12,6 @@ import PlaceOfInterestDetails from './type-specific/poi/PlaceOfInterestDetails'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import OSMSidewalkDetails from './type-specific/surroundings/OSMSidewalkDetails'
 import OSMBuildingDetails from './type-specific/building/OSMBuildingDetails'
-import { useMapHighlight } from '../Map/filter'
 
 type Props = {
   features: AnyFeature[];
@@ -61,7 +60,6 @@ export function CombinedFeaturePanel(props: Props) {
   ], [showDebugger])
   const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
   const surroundings = features && features.length > 1 && features.slice(1)
-  useMapHighlight(features[0])
 
   return (
     <React.StrictMode>

@@ -30,6 +30,7 @@ export const useFeatures = (
       if (!feature) {
         continue
       }
+
       const fetchProps = makeFetchProperties(feature, {
         acBaseUrl, acAppToken, osmBaseUrl, osmAppToken,
       })

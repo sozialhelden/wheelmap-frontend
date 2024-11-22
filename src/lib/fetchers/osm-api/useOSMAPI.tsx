@@ -7,6 +7,7 @@ export function getOSMAPI(env: EnvironmentVariables, currentAppToken: string, ca
   if (!baseUrl) {
     throw new Error('OSM base url not set. Please set NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN and NEXT_PUBLIC_OSM_API_BACKEND_URL.')
   }
+
   return { baseUrl, appToken }
 }
 
