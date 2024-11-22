@@ -30,7 +30,6 @@ import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudI
  *   used internally
  */
 
->>>>>>> e230e89e (Add wording changes and doc comments)
 export const useExpandedFeatures = (
   featureIds: (FeatureId | undefined)[],
   options?: {
