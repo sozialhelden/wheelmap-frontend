@@ -86,8 +86,8 @@ export default function MapView(props: IProps) {
         true, // Lazy load the plugin
       )
     }
-    const language = new MapboxLanguage()
-    map?.getMap?.().addControl(language)
+    // const language = new MapboxLanguage()
+    // map?.getMap?.().addControl(language)
   }, [map])
 
   // const featureLayer = React.useMemo(() => {
@@ -175,7 +175,7 @@ export default function MapView(props: IProps) {
           interactive
           interactiveLayerIds={interactiveLayerIds}
           onLoad={onLoadCallback}
-          mapStyle="mapbox://styles/mapbox/light-v11"
+          mapStyle="mapbox://styles/sozialhelden/cm3t3zmix009j01r2eupc5jr7"
           ref={setMapRef}
         >
           <MapSources />
