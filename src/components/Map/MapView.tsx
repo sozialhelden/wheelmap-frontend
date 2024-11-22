@@ -29,6 +29,7 @@ import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
 import { useMapIconLoader } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
+import { AcPoiLayers } from './AcPoiLayers'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -180,6 +181,7 @@ export default function MapView(props: IProps) {
         >
           <MapSources />
           <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
+          <AcPoiLayers />
 
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
