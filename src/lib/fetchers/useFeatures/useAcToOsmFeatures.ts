@@ -64,8 +64,7 @@ export const useAcToOsmFeatures = (
   const additionalOSMFeaturesResult = useSWRInfinite(
     (idx) => osmRelationProperties.osmUris[idx],
     additionalOSMFeaturesFetcher,
-    options?.swr,
+    { initialSize: osmRelationProperties.osmUris.length, ...options?.swr },
   )
-
   return additionalOSMFeaturesResult
 }

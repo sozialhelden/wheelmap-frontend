@@ -42,6 +42,6 @@ export const useFeatures = (
   }, [acAppToken, acBaseUrl, features, osmAppToken, osmBaseUrl])
 
   const fetchOneFeature = useMemo(() => composeFetchOneFeature(properties), [properties])
-
-  return useSWRInfinite((index) => uris[index], fetchOneFeature, options?.swr)
+  const response = useSWRInfinite((index) => uris[index], fetchOneFeature, { initialSize: uris.length, ...options?.swr })
+  return response
 }

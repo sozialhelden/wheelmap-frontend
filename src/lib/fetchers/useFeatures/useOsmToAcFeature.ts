@@ -39,5 +39,7 @@ export const useOsmToAcFeature = (
   }, [acAppToken, acBaseUrl, features])
 
   const fetchOsmToAcFeature = composeOsmToAcFetcher(properties)
-  return useSWRInfinite((index) => uris[index], fetchOsmToAcFeature, options?.swr)
+
+  const response = useSWRInfinite((index) => uris[index], fetchOsmToAcFeature, { initialSize: uris.length, ...options?.swr })
+  return response
 }
