@@ -24,4 +24,5 @@ export const omittedKeyPrefixes: (string | RegExp)[] = [
   'building:roof',
   'building:levels:underground',
   'building:architecture',
+  'description:covid19', // Seems to contain non-maintained leftovers from the first wave of the pandemic.
 ]

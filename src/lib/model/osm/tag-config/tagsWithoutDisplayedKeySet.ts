@@ -71,4 +71,8 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'height',
   'building:material',
   'building:colour',
+  'internet_access:captive_portal',
+  'wheelchair:step_look',
+  'handrail:left',
+  'handrail:right',
 ])
