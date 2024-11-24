@@ -1,3 +1,4 @@
+import { useHotkeys } from '@blueprintjs/core'
 import * as React from 'react'
 
 function getDarkModeSetting(): boolean | undefined {
@@ -45,5 +46,17 @@ export function useDarkMode() {
     }
   }, [handleChange])
 
-  return isDarkMode
+  const [overriddenDarkMode, setOverriddenDarkMode] = React.useState<boolean | undefined>(undefined)
+  const hotkeys = React.useMemo(() => [
+    {
+      combo: 'd',
+      global: true,
+      label: 'Toggle Dark Mode',
+      onKeyDown: () => setOverriddenDarkMode(!overriddenDarkMode),
+    },
+
+  ], [overriddenDarkMode])
+  useHotkeys(hotkeys)
+
+  return overriddenDarkMode ?? isDarkMode
 }

@@ -109,8 +109,6 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  useDarkMode()
-
   return (
     <React.StrictMode>
       <Head />

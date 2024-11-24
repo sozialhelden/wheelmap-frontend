@@ -51,17 +51,17 @@ export default function AppLinks(props: {}) {
     related: { appLinks },
   } = app
 
-  const [toogle, setToogle] = useState(false)
+  const [toogle, setToggle] = useState(false)
   const hotkeys = useMemo(() => [
     {
       combo: 'l',
       global: true,
-      label: 'Toogle OSM Power User Mode',
-      onKeyDown: () => setToogle(!toogle),
+      label: 'Toggle OSM Power User Mode',
+      onKeyDown: () => setToggle(!toogle),
     },
 
   ], [toogle])
-  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
+  const { handleKeyDown } = useHotkeys(hotkeys)
 
   const links = Object.values(appLinks)
     .sort((a, b) => (a.order || 0) - (b.order || 0))

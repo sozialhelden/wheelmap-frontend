@@ -92,39 +92,25 @@ function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { f
   }
 }
 
-export function useMapIconLoader() {
-  const onLoadCallback = useCallback((e: MapEvent) => {
-    console.log('onLoadCallback was changed!')
-    const mapInstance = e.target
+export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
+  for (const iconName of Object.keys(categoryIcons)) {
+    loadIcon(
+      mapInstance,
+      categoryIcons,
+      iconName,
+      {
+        fill: 'white',
+        addShadow: true,
+        suffix: '-15-white',
+      },
+    )
+  }
 
-    if (!mapInstance) {
-      log.warn('Expected a map instance but got nothing')
-      return
-    }
-
-    for (const iconName of Object.keys(categoryIcons)) {
-      loadIcon(
-        mapInstance,
-        categoryIcons,
-        iconName,
-        {
-          fill: 'white',
-          addShadow: true,
-          suffix: '-15-white',
-        },
-      )
-    }
-
-    for (const iconName of Object.keys(markerIcons)) {
-      loadIcon(
-        mapInstance,
-        markerIcons,
-        iconName,
-      )
-    }
-  }, [])
-
-  return {
-    onLoadCallback,
+  for (const iconName of Object.keys(markerIcons)) {
+    loadIcon(
+      mapInstance,
+      markerIcons,
+      iconName,
+    )
   }
 }

@@ -11,7 +11,7 @@ function useMapStyle() {
 
   // const styleId = env.NEXT_PUBLIC_MAPBOX_STYLE_ID
 
-  const styleId = darkMode ? 'cm3t8woq4009b01sgh233ek8f' : 'cm3t8woq4009b01sgh233ek8f'
+  const styleId = darkMode ? 'cm3t8woq4009b01sgh233ek8f' : 'ckwdrjpmz4jox16o7libit9p4'
 
   const accessToken = env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN
   const accountId = env.NEXT_PUBLIC_MAPBOX_ACCOUNT_ID

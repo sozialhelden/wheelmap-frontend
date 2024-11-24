@@ -5,6 +5,7 @@ import {
 } from 'react'
 import {
   Map,
+  MapEvent,
   MapProvider,
   NavigationControl,
   ViewStateChangeEvent,
@@ -27,7 +28,7 @@ import { GeolocateButton } from './GeolocateButton'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
-import { useMapIconLoader } from './useMapIconLoader'
+import { loadIconsInMapInstance, useMapIconLoader } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
 import { useDarkMode } from '../shared/useDarkMode'
 
@@ -78,18 +79,6 @@ export default function MapView(props: IProps) {
   }, [width, height])
 
   useApplyMapPadding()
-
-  React.useEffect(() => {
-    if (['unavailable', 'error'].includes(mapboxgl.getRTLTextPluginStatus())) {
-      mapboxgl.setRTLTextPlugin(
-        'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
-        (error) => { log.error(error) },
-        true, // Lazy load the plugin
-      )
-    }
-    // const language = new MapboxLanguage()
-    // map?.getMap?.().addControl(language)
-  }, [map])
 
   // const featureLayer = React.useMemo(() => {
   //   return generateSelectedFeatureLayer(props.featureId);
@@ -155,7 +144,19 @@ export default function MapView(props: IProps) {
     )
   }, [router, updateViewportQuery, initialViewport.zoom])
 
-  const { onLoadCallback } = useMapIconLoader()
+  const [mapLoaded, setMapLoaded] = useState(false)
+  const onLoadCallback = useCallback((e: MapEvent) => {
+    const mapInstance = e.target
+
+    if (!mapInstance) {
+      log.warn('Expected a map instance but got nothing')
+      debugger
+      return
+    }
+
+    loadIconsInMapInstance(mapInstance)
+    setMapLoaded(true)
+  }, [])
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<string[]>([])
 
@@ -182,9 +183,8 @@ export default function MapView(props: IProps) {
           mapStyle={mapStyle}
           ref={setMapRef}
         >
-          <MapSources />
-          <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
-
+          {mapLoaded && (<MapSources />)}
+          {mapLoaded && <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>
