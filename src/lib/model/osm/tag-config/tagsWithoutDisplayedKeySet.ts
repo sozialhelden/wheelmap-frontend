@@ -75,4 +75,12 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'wheelchair:step_look',
   'handrail:left',
   'handrail:right',
+  'toilets:handwashing',
+  'toilets:paper_supplied',
+  'toilets:position',
+  'toilets:disposal',
+  'toilets:access',
+  'access',
+  'self_checkout',
+  'centralkey',
 ])

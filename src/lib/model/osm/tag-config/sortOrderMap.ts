@@ -24,6 +24,7 @@ export const sortOrderMap = new Map<string, number>([
   ['takeaway', 9.2],
   ['delivery', 9.3],
   ['payment', 9.4],
+  ['self_checkout', 9.41],
   ['internet_access', 9.7],
   ['internet_access:fee', 9.8],
   ['charging', 14],

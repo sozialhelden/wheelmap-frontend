@@ -9,4 +9,7 @@ export const horizontalKeys = new Set([
   'look',
   'access',
   'handrail',
+  'restrooms',
+  'access',
+  'internet',
 ])
