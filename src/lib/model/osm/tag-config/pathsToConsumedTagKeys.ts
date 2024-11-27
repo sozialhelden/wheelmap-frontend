@@ -16,6 +16,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['diet.cuisine', /^cuisine$/],
   ['stay.$1', /^(.*)_?seating$/],
   ['stay.takeaway', /^takeaway$/],
+  ['stay.reservation', /^reservation$/],
   ['stay.delivery', /^delivery$/],
   ['stay.offered', /^delivery$/],
   ['stay.partner', /^delivery:partner$/],
@@ -68,5 +69,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['location.indoor', /^indoor$/],
   ['location.level', /^level$/],
   ['location.level_ref', /^level:ref$/],
-  ['$1', /(.*)/],
+  ['means_of_transport.$1', /^(train|tram|subway|coach|ferry|subway|bus|taxi|share_taxi|minibus|light_rail|tourist_bus|trolleybus|monorail)$/],
+  ['amenities.$1', /^(bin|shelter|lit|bench|tactile_paving|compressed_air)$/],
+  ['$1', /(.*)/], // Should be last
 ]

@@ -112,6 +112,24 @@ export const accessibilityPrefixes = new Set([
   'healthcare', // https://wiki.openstreetmap.org/wiki/Key:healthcare
   'healthcare:speciality', // https://wiki.openstreetmap.org/wiki/Key:healthcare:speciality
   'self_checkout', // https://wiki.openstreetmap.org/wiki/Key:self_checkout
+  'bus', // https://wiki.openstreetmap.org/wiki/Key:bus
+  'tram', // https://wiki.openstreetmap.org/wiki/Key:tram
+  'train', // https://wiki.openstreetmap.org/wiki/Key:train
+  'subway', // https://wiki.openstreetmap.org/wiki/Key:subway
+  'ferry', // https://wiki.openstreetmap.org/wiki/Key:ferry
+  'taxi', // https://wiki.openstreetmap.org/wiki/Key:taxi
+  'share_taxi', // https://wiki.openstreetmap.org/wiki/Key:share_taxi
+  'minibus', // https://wiki.openstreetmap.org/wiki/Key:minibus
+  'light_rail', // https://wiki.openstreetmap.org/wiki/Key:light_rail
+  'tourist_bus', // https://wiki.openstreetmap.org/wiki/Key:tourist_bus
+  'trolleybus', // https://wiki.openstreetmap.org/wiki/Key:trolleybus
+  'monorail', // https://wiki.openstreetmap.org/wiki/Key:monorail
+  'light_rail', // https://wiki.openstreetmap.org/wiki/Key:light_rail
+  'tourist_bus', // https://wiki.openstreetmap.org/wiki/Key:tourist_bus
+  'bin', // https://wiki.openstreetmap.org/wiki/Key:bin
+  'bench', // https://wiki.openstreetmap.org/wiki/Key:bench
+  'shelter', // https://wiki.openstreetmap.org/wiki/Key:shelter
+  'tactile_paving', // https://wiki.openstreetmap.org/wiki/Key:tactile_paving
 ])
 
 export default function isAccessibilityRelevantOSMKey(osmKey: string): boolean {

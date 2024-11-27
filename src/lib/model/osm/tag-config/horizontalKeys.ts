@@ -12,4 +12,6 @@ export const horizontalKeys = new Set([
   'restrooms',
   'access',
   'internet',
+  'means_of_transport',
+  'amenities',
 ])

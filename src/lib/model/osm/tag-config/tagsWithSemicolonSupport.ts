@@ -22,4 +22,6 @@ export const tagsWithSemicolonSupport = [
   'social_facility',
   'social_facility:for',
   'charge',
+  'material',
+  'building:material',
 ]
