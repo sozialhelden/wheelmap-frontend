@@ -31,6 +31,7 @@ import { MapSources } from './MapSources'
 import { loadIconsInMapInstance, useMapIconLoader } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
 import { useDarkMode } from '../shared/useDarkMode'
+import { AcPoiLayers } from './AcPoiLayers'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -185,6 +186,7 @@ export default function MapView(props: IProps) {
         >
           {mapLoaded && (<MapSources />)}
           {mapLoaded && <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />}
+          <AcPoiLayers />
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>
