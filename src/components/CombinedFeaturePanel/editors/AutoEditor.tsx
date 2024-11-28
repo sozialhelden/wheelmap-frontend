@@ -1,13 +1,10 @@
 import { t } from 'ttag'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { mutate } from 'swr'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import { BaseEditorProps } from './BaseEditor'
-import { WheelchairEditor } from './WheelchairEditor'
-import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
-import { StringFieldEditor } from './StringFieldEditor'
 import { AppStateLink } from '../../App/AppStateLink'
 import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
@@ -18,17 +15,33 @@ import useSubmitNewValueCallback from '../../../lib/fetchers/osm-api/makeChangeR
 import { useEnvContext } from '../../../lib/context/EnvContext'
 import useInhouseOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
 import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
-import { ChangesetState } from '../../../lib/fetchers/osm-api/ChangesetState'
 import { EditorTagValue } from './EditorTagValue'
+import { StringFieldEditor } from './StringFieldEditor'
+import { WheelchairEditor } from './WheelchairEditor'
+import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
 
 type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'setParentState' | 'handleSubmitButtonClick'>
 
-const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
+/* const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
   wheelchair: WheelchairEditor,
   'toilets:wheelchair': ToiletsWheelchairEditor,
   'wheelchair:description': StringFieldEditor,
-}
+} */
+function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
+  switch (true) {
+    case key.startsWith('wheelchair:description'):
+      return StringFieldEditor
 
+    case key === 'wheelchair':
+      return WheelchairEditor
+
+    case key === 'toilets:wheelchair':
+      return ToiletsWheelchairEditor
+
+    default:
+      return undefined
+  }
+}
 export const AutoEditor = ({
   feature, tagKey,
 }: AutoEditorProps) => {
@@ -62,7 +75,7 @@ export const AutoEditor = ({
       t` There was an error while trying to save your changes to our database.`,
       t` Your changes will still be visible on Open Street Map.`,
     ]
-    debugger
+    // debugger
     toast.warning(message)
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
     // router.push(newPath)
@@ -113,7 +126,7 @@ export const AutoEditor = ({
     mutate((key: string) => urls.includes(key), undefined, { revalidate: true })
   }, [])
 
-  const Editor = EditorMapping[tagKey]
+  const Editor = getEditorForKey(tagKey)
   if (Editor) {
     return (
       <Editor
