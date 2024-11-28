@@ -22,11 +22,6 @@ import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
 
 type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'setParentState' | 'handleSubmitButtonClick'>
 
-/* const EditorMapping: Record<string, React.FC<BaseEditorProps> | undefined> = {
-  wheelchair: WheelchairEditor,
-  'toilets:wheelchair': ToiletsWheelchairEditor,
-  'wheelchair:description': StringFieldEditor,
-} */
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
     case key.startsWith('wheelchair:description'):
