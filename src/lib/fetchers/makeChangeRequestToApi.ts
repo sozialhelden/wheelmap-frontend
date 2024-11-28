@@ -14,7 +14,7 @@ export async function makeChangeRequestToApi({
   // currentTagsOnServer: any;
 }) {
   log.log('makeChangeRequestToApi', osmId, tagName, newTagValue)
-  return fetch(`${baseUrl}/legacy/api/${osmId}/${tagName}`, {
+  const response = await fetch(`${baseUrl}/legacy/api/${osmId}/${tagName}`, {
     body: JSON.stringify({ value: newTagValue }),
     credentials: 'omit',
     headers: {
@@ -22,7 +22,11 @@ export async function makeChangeRequestToApi({
     },
     method: 'POST',
     mode: 'cors',
-  }).then((res) => res.text()).then((data) => {
-    log.log(data)
   })
+
+  if (!response.ok) {
+    throw new Error('Could not update')
+  }
+  const text = response.text()
+  return text
 }
