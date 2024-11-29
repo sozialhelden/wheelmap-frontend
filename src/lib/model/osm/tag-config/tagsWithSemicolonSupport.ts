@@ -24,4 +24,5 @@ export const tagsWithSemicolonSupport = [
   'charge',
   'material',
   'building:material',
+  'emergency',
 ]
