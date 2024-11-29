@@ -15,7 +15,7 @@ type IconMap = {
 const renderCache = new Map<string, string>()
 const imageCache = new Map<string, HTMLImageElement>()
 
-function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { fill?: string; addShadow?: boolean, suffix?: string } = {}): void {
+function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { fill?: string; addShadow?: boolean, suffix?: string, iconSize?: number } = {}): void {
   const finalIconName = `${iconName}${options?.suffix ?? ''}`
 
   if (map.hasImage(finalIconName)) {
@@ -49,6 +49,9 @@ function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { f
     const iconElement = svgElement.querySelector('svg > svg')
     iconElement?.setAttribute('x', '4.5')
     iconElement?.setAttribute('y', '4.5')
+    if (options?.iconSize) {
+      iconElement?.setAttribute('transform', `scale(${options.iconSize}, ${options.iconSize})`)
+    }
     if (options?.fill) {
       const filledElements = iconElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
       for (const e of filledElements) {
@@ -105,7 +108,7 @@ function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { f
 
 export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
   for (const iconName of Object.keys(categoryIcons)) {
-    for (const accessibilityGrade of ['yes', 'no', 'limited', 'unknown']) {
+    for (const accessibilityGrade of ['yes', 'no', 'limited']) {
       loadIcon(
         mapInstance,
         categoryIcons,
@@ -117,6 +120,17 @@ export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
         },
       )
     }
+    loadIcon(
+      mapInstance,
+      categoryIcons,
+      iconName,
+      {
+        fill: '#666',
+        addShadow: true,
+        suffix: '-unknown',
+        iconSize: 0.8,
+      },
+    )
   }
 
   // for (const iconName of Object.keys(markerIcons)) {
