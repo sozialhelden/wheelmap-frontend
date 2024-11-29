@@ -49,32 +49,43 @@ function BuildingLevel({ value, osmFeature, languageTags }: ValueRenderProps) {
   return <span>{t`Floor ${displayedLevel}`}</span>
 }
 
-function DisplayedColor({ value }: { value: string }) {
-  const color = new Color(String(value))
-  const hslColor = color.to('hsl')
-  const classifiedColor = classifyHSLColor(hslColor)
-  const isDarkMode = useDarkMode()
-  const textColor = hslColor.mix(isDarkMode ? 'white' : 'black', 0.8, { space: 'lch', outputSpace: 'srgb' })
+function ColorContainer({ children, backgroundColor, textColor }: { children: React.ReactNode, backgroundColor: string, textColor: string }) {
   return (
     <span style={{ display: 'flex', gap: '.25rem', alignItems: 'center' }}>
       <span
         lang="en"
         aria-label=""
         style={{
-          backgroundColor: String(value),
+          backgroundColor,
           borderRadius: '0.5rem',
-          boxShadow: 'inset 0 0 1px rgba(0,0,0,.5), inset 0 2px 4px rgba(255, 255, 255, .2), 0 1px 10px rgba(0,0,0,.1)',
+          boxShadow: 'inset 0 0 1px rgba(196, 196, 196, 0.5), inset 0 2px 4px rgba(255, 255, 255, .2), 0 1px 10px rgba(0,0,0,.1)',
           width: '1.25rem',
           height: '1.25rem',
           lineHeight: '1rem',
           display: 'inline-block',
         }}
       />
-      <span style={{ color: textColor.toString({ precision: 3 }) }}>
-        {String(classifiedColor)}
+      <span style={{ color: textColor }}>
+        {children}
       </span>
     </span>
   )
+}
+function DisplayedColor({ value }: { value: string }) {
+  const isDarkMode = useDarkMode()
+  try {
+    const color = new Color(String(value))
+    const hslColor = color.to('hsl')
+    const classifiedColor = classifyHSLColor(hslColor)
+    const textColor = hslColor.mix(isDarkMode ? 'white' : 'black', 0.8, { space: 'lch', outputSpace: 'srgb' })
+    return (
+      <ColorContainer backgroundColor={String(value)} textColor={textColor.toString({ precision: 3 })}>
+        {String(classifiedColor)}
+      </ColorContainer>
+    )
+  } catch (error) {
+    return value
+  }
 }
 /**
  * This file contains functions that render values of OSM tags in a human-readable way.
