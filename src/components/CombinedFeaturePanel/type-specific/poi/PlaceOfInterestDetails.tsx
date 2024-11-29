@@ -53,7 +53,7 @@ export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
           if (!coordinates) {
             return
           }
-          map?.map?.flyTo({ center: { lat: coordinates[1], lon: coordinates[0] } })
+          map?.map?.flyTo({ center: { lat: coordinates[1], lon: coordinates[0] }, zoom: 17 })
           // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
         }}
       >

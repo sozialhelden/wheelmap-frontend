@@ -6,6 +6,7 @@ import { Map as MapBoxMap } from 'mapbox-gl'
 import * as categoryIcons from '../icons/categories'
 import { log } from '../../lib/util/logger'
 import * as markerIcons from '../icons/markers'
+import ColoredIconMarker from './ColoredIconMarker'
 
 type IconMap = {
   [name: string]: FunctionComponent;
@@ -24,23 +25,33 @@ function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { f
   let dataUrl = renderCache.get(finalIconName)
   const wasInCache = !!dataUrl
   if (!dataUrl) {
-    const IconComponent = icons[iconName]
     const div = document.createElement('div')
     const root = createRoot(div)
     flushSync(() => {
-      root.render(<IconComponent />)
+      const [categoryIconName, accessibilityGrade] = finalIconName.split('-')
+      const IconComponent = (categoryIconName && accessibilityGrade) ? icons[categoryIconName] : icons[iconName]
+      const element = accessibilityGrade ? (
+        <ColoredIconMarker accessibilityGrade={accessibilityGrade}>
+          <IconComponent />
+        </ColoredIconMarker>
+      ) : <IconComponent />
+      root.render(element)
     })
     const svgElement = div.querySelector('svg')
     if (!svgElement) {
-      console.warn('Could not find svg element in icon', iconName)
+      console.warn('Could not find svg element in icon', finalIconName)
       return
     }
 
     svgElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg')
     const graphicalElements = svgElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
     // set fill to e.g. white for all elements
+    const iconElement = svgElement.querySelector('svg > svg')
+    iconElement?.setAttribute('x', '4.5')
+    iconElement?.setAttribute('y', '4.5')
     if (options?.fill) {
-      for (const e of graphicalElements) {
+      const filledElements = iconElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon')
+      for (const e of filledElements) {
         e.setAttribute('fill', options.fill)
       }
     }
@@ -94,23 +105,25 @@ function loadIcon(map: MapBoxMap, icons: IconMap, iconName: string, options: { f
 
 export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
   for (const iconName of Object.keys(categoryIcons)) {
-    loadIcon(
-      mapInstance,
-      categoryIcons,
-      iconName,
-      {
-        fill: 'white',
-        addShadow: true,
-        suffix: '-15-white',
-      },
-    )
+    for (const accessibilityGrade of ['yes', 'no', 'limited', 'unknown']) {
+      loadIcon(
+        mapInstance,
+        categoryIcons,
+        iconName,
+        {
+          fill: 'white',
+          addShadow: true,
+          suffix: `-${accessibilityGrade}`,
+        },
+      )
+    }
   }
 
-  for (const iconName of Object.keys(markerIcons)) {
-    loadIcon(
-      mapInstance,
-      markerIcons,
-      iconName,
-    )
-  }
+  // for (const iconName of Object.keys(markerIcons)) {
+  //   loadIcon(
+  //     mapInstance,
+  //     markerIcons,
+  //     iconName,
+  //   )
+  // }
 }

@@ -28,7 +28,7 @@ import { GeolocateButton } from './GeolocateButton'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { useApplyMapPadding } from './useApplyMapPadding'
 import { MapSources } from './MapSources'
-import { loadIconsInMapInstance, useMapIconLoader } from './useMapIconLoader'
+import { loadIconsInMapInstance } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
 import { useDarkMode } from '../shared/useDarkMode'
 import { AcPoiLayers } from './AcPoiLayers'
@@ -186,7 +186,7 @@ export default function MapView(props: IProps) {
         >
           {mapLoaded && (<MapSources />)}
           {mapLoaded && <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />}
-          <AcPoiLayers />
+          {/* <AcPoiLayers /> */}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>
