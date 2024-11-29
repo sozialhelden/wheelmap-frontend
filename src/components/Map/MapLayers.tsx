@@ -12,7 +12,7 @@ export const MapLayers = ({ onInteractiveLayersChange } : { onInteractiveLayersC
 
   const [hasBuildings, setHasBuildings] = useState(true)
   const [hasPublicTransport, setHasPublicTransport] = useState(false)
-  const [hasSurfaces, setHasSurfaces] = useState(true)
+  const [hasSurfaces, setHasSurfaces] = useState(false)
 
   const hotkeys = React.useMemo(() => [
     {
