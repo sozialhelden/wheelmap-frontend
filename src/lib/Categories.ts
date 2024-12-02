@@ -1,23 +1,23 @@
-import { t } from 'ttag';
+import { t } from "ttag";
 
-import config from './config';
-import env from './env';
-import { globalFetchManager } from './FetchManager';
-import { translatedStringFromObject } from './i18n';
-import ResponseError from './ResponseError';
+import { globalFetchManager } from "./FetchManager";
+import ResponseError from "./ResponseError";
+import config from "./config";
+import env from "./env";
+import { translatedStringFromObject } from "./i18n";
 
-import { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
+import type { EquipmentInfo, EquipmentInfoProperties } from "./EquipmentInfo";
 import {
-  AccessibilityCloudProperties,
-  Feature,
-  NodeProperties,
-  WheelmapCategoryOrNodeType,
-  WheelmapProperties,
+  type AccessibilityCloudProperties,
+  type Feature,
+  type NodeProperties,
+  type WheelmapCategoryOrNodeType,
+  type WheelmapProperties,
   hasAccessibleToilet,
   isWheelmapProperties,
-} from './Feature';
-import { LocalizedString } from './i18n';
-import { SearchResultFeature } from './searchPlaces';
+} from "./Feature";
+import type { LocalizedString } from "./i18n";
+import type { SearchResultFeature } from "./searchPlaces";
 
 /*
   Using the | characters around the type definitions of `ACCategory` and
@@ -33,55 +33,55 @@ import { SearchResultFeature } from './searchPlaces';
   https://flow.org/en/docs/lang/width-subtyping/
 */
 export type ACCategory = {
-  _tag: 'ACCategory',
-  _id: string,
-  translations: {
-    _id: LocalizedString,
-  },
-  synonyms: string[],
-  icon: string,
-  parentIds: string[],
+	_tag: "ACCategory";
+	_id: string;
+	translations: {
+		_id: LocalizedString;
+	};
+	synonyms: string[];
+	icon: string;
+	parentIds: string[];
 };
 
 export type WheelmapCategory = {
-  _tag: 'WheelmapCategory'
-  id: number,
-  identifier: string,
-  category_id: number,
-  category: {
-    id: number,
-    identifier: string,
-  },
-  localized_name: string,
-  icon: string,
+	_tag: "WheelmapCategory";
+	id: number;
+	identifier: string;
+	category_id: number;
+	category: {
+		id: number;
+		identifier: string;
+	};
+	localized_name: string;
+	icon: string;
 };
 
 export type Category = WheelmapCategory | ACCategory;
 
 type SynonymCache = {
-  [key: string]: ACCategory,
+	[key: string]: ACCategory;
 };
 
 // Contains data as supplied by the server
 export type RawCategoryLists = {
-  accessibilityCloud: ACCategory[],
-  wheelmapCategories: WheelmapCategory[],
-  wheelmapNodeTypes: WheelmapCategory[],
+	accessibilityCloud: ACCategory[];
+	wheelmapCategories: WheelmapCategory[];
+	wheelmapNodeTypes: WheelmapCategory[];
 };
 
 export type CategoryLookupTables = {
-  synonymCache: SynonymCache | undefined,
-  idsToWheelmapCategories: { [idx: number]: WheelmapCategory },
-  wheelmapCategoryNamesToCategories: { [key: string]: WheelmapCategory },
-  wheelmapRootCategoryNamesToCategories: { [key: string]: WheelmapCategory },
-  categoryTree: ACCategory[],
+	synonymCache: SynonymCache | undefined;
+	idsToWheelmapCategories: { [idx: number]: WheelmapCategory };
+	wheelmapCategoryNamesToCategories: { [key: string]: WheelmapCategory };
+	wheelmapRootCategoryNamesToCategories: { [key: string]: WheelmapCategory };
+	categoryTree: ACCategory[];
 };
 
 export type RootCategoryEntry = {
-  name: string,
-  isSubCategory?: boolean,
-  isMetaCategory?: boolean,
-  filter?: (properties: NodeProperties | undefined) => boolean,
+	name: string;
+	isSubCategory?: boolean;
+	isMetaCategory?: boolean;
+	filter?: (properties: NodeProperties | undefined) => boolean;
 };
 
 // This must be a function - Results from t`` are dependent on the current context.
@@ -90,285 +90,325 @@ export type RootCategoryEntry = {
 // Using it inside a function while rendering ensures the runtime-loaded translations
 // are correctly returned.
 const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
-  shopping: {
-    // translator: Root category
-    name: t`Shopping`,
-  },
-  food: {
-    // translator: Root category
-    name: t`Food & Drinks`,
-  },
-  public_transfer: {
-    // translator: Root category
-    name: t`Transport`,
-  },
-  leisure: {
-    // translator: Root category
-    name: t`Leisure`,
-  },
-  culture: {
-    // translator: Root category
-    name: t`Culture`,
-  },
-  accommodation: {
-    // translator: Root category
-    name: t`Hotels`,
-  },
-  tourism: {
-    // translator: Root category
-    name: t`Tourism`,
-  },
-  education: {
-    // translator: Root category
-    name: t`Education`,
-  },
-  government: {
-    // translator: Root category
-    name: t`Authorities`,
-  },
-  health: {
-    // translator: Root category
-    name: t`Health`,
-  },
-  money_post: {
-    // translator: Root category
-    name: t`Money`,
-  },
-  sport: {
-    // translator: Root category
-    name: t`Sports`,
-  },
-  // This returns all places that either ARE a toilet, or HAVE an accessible toilet
-  toilets: {
-    // translator: Meta category for any toilet or any place with an accessible toilet
-    name: t`Toilets`,
-    isMetaCategory: true,
-    isSubCategory: true,
-    filter: (properties: NodeProperties | undefined) => {
-      if (!properties) {
-        return true;
-      }
+	shopping: {
+		// translator: Root category
+		name: t`Shopping`,
+	},
+	food: {
+		// translator: Root category
+		name: t`Food & Drinks`,
+	},
+	public_transfer: {
+		// translator: Root category
+		name: t`Transport`,
+	},
+	leisure: {
+		// translator: Root category
+		name: t`Leisure`,
+	},
+	culture: {
+		// translator: Root category
+		name: t`Culture`,
+	},
+	accommodation: {
+		// translator: Root category
+		name: t`Hotels`,
+	},
+	tourism: {
+		// translator: Root category
+		name: t`Tourism`,
+	},
+	education: {
+		// translator: Root category
+		name: t`Education`,
+	},
+	government: {
+		// translator: Root category
+		name: t`Authorities`,
+	},
+	health: {
+		// translator: Root category
+		name: t`Health`,
+	},
+	money_post: {
+		// translator: Root category
+		name: t`Money`,
+	},
+	sport: {
+		// translator: Root category
+		name: t`Sports`,
+	},
+	// This returns all places that either ARE a toilet, or HAVE an accessible toilet
+	toilets: {
+		// translator: Meta category for any toilet or any place with an accessible toilet
+		name: t`Toilets`,
+		isMetaCategory: true,
+		isSubCategory: true,
+		filter: (properties: NodeProperties | undefined) => {
+			if (!properties) {
+				return true;
+			}
 
-      const isPlaceWithToiletCategory = getCategoryIdFromProperties(properties) === 'toilets'
-      return isPlaceWithToiletCategory || hasAccessibleToilet(properties) === 'yes';
-    },
-  },
+			const isPlaceWithToiletCategory =
+				getCategoryIdFromProperties(properties) === "toilets";
+			return (
+				isPlaceWithToiletCategory || hasAccessibleToilet(properties) === "yes"
+			);
+		},
+	},
 });
 
 export default class Categories {
-  static getRootCategories() {
-    return getRootCategoryTable();
-  }
+	static getRootCategories() {
+		return getRootCategoryTable();
+	}
 
-  static getRootCategory(key: string) {
-    return getRootCategoryTable()[key];
-  }
+	static getRootCategory(key: string) {
+		return getRootCategoryTable()[key];
+	}
 
-  static translatedRootCategoryName(key: string) {
-    return getRootCategoryTable()[key].name;
-  }
+	static translatedRootCategoryName(key: string) {
+		return getRootCategoryTable()[key].name;
+	}
 
-  static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
-    const synonymCache = lookupTable.synonymCache;
+	static getCategory(
+		lookupTable: CategoryLookupTables,
+		idOrSynonym: string | number,
+	): ACCategory {
+		const synonymCache = lookupTable.synonymCache;
 
-    if (!synonymCache) {
-      throw new Error('Empty synonym cache.');
-    }
+		if (!synonymCache) {
+			throw new Error("Empty synonym cache.");
+		}
 
-    return synonymCache[String(idOrSynonym)];
-  }
+		return synonymCache[String(idOrSynonym)];
+	}
 
-  static generateSynonymCache(
-    lookupTable: CategoryLookupTables,
-    categories: ACCategory[]
-  ): SynonymCache {
-    const result: SynonymCache = {};
-    categories.forEach(category => {
-      result[category._id] = category;
-      category._tag = "ACCategory";
-      const synonyms = category.synonyms;
-      if (!(synonyms instanceof Array)) return;
-      synonyms.forEach(synonym => {
-        result[synonym] = category;
-      });
-    });
-    lookupTable.synonymCache = result;
-    return result;
-  }
+	static generateSynonymCache(
+		lookupTable: CategoryLookupTables,
+		categories: ACCategory[],
+	): SynonymCache {
+		const result: SynonymCache = {};
+		categories.forEach((category) => {
+			result[category._id] = category;
+			category._tag = "ACCategory";
+			const synonyms = category.synonyms;
+			if (!(synonyms instanceof Array)) return;
+			synonyms.forEach((synonym) => {
+				result[synonym] = category;
+			});
+		});
+		lookupTable.synonymCache = result;
+		return result;
+	}
 
-  static getCategoriesForFeature(
-    categoryLookupTables: CategoryLookupTables,
-    feature: Feature | EquipmentInfo | SearchResultFeature | null
-  ): { category: Category | null, parentCategory: Category | null } {
-    if (!feature) {
-      return { category: null, parentCategory: null };
-    }
+	static getCategoriesForFeature(
+		categoryLookupTables: CategoryLookupTables,
+		feature: Feature | EquipmentInfo | SearchResultFeature | null,
+	): { category: Category | null; parentCategory: Category | null } {
+		if (!feature) {
+			return { category: null, parentCategory: null };
+		}
 
-    const properties = feature.properties;
-    if (!properties) {
-      return { category: null, parentCategory: null };
-    }
+		const properties = feature.properties;
+		if (!properties) {
+			return { category: null, parentCategory: null };
+		}
 
-    let categoryId = null;
+		let categoryId = null;
 
-    if (typeof properties['node_type']?.identifier === 'string') {
-      // wheelmap classic node
-      categoryId = properties['node_type'].identifier;
-    } else if (properties['category']) {
-      // ac node
-      categoryId = properties['category'];
-    } else if (properties['osm_key']) {
-      // search result node from komoot
-      categoryId = properties['osm_value'] || properties['osm_key'];
-    }
+		if (typeof properties["node_type"]?.identifier === "string") {
+			// wheelmap classic node
+			categoryId = properties["node_type"].identifier;
+		} else if (properties["category"]) {
+			// ac node
+			categoryId = properties["category"];
+		} else if (properties["osm_key"]) {
+			// search result node from komoot
+			categoryId = properties["osm_value"] || properties["osm_key"];
+		}
 
-    if (!categoryId) {
-      return { category: null, parentCategory: null };
-    }
+		if (!categoryId) {
+			return { category: null, parentCategory: null };
+		}
 
-    const category = Categories.getCategory(categoryLookupTables, String(categoryId));
-    const parentCategory =
-      category && Categories.getCategory(categoryLookupTables, category.parentIds[0]);
+		const category = Categories.getCategory(
+			categoryLookupTables,
+			String(categoryId),
+		);
+		const parentCategory =
+			category &&
+			Categories.getCategory(categoryLookupTables, category.parentIds[0]);
 
-    return { category, parentCategory };
-  }
+		return { category, parentCategory };
+	}
 
-  static fillCategoryLookupTable(
-    lookupTable: CategoryLookupTables,
-    categories: WheelmapCategory[]
-  ) {
-    categories.forEach(category => {
-      lookupTable.idsToWheelmapCategories[category.id] = category;
-      lookupTable.wheelmapCategoryNamesToCategories[category.identifier] = category;
-      if (!category.category_id) {
-        lookupTable.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
-      }
-    });
-  }
+	static fillCategoryLookupTable(
+		lookupTable: CategoryLookupTables,
+		categories: WheelmapCategory[],
+	) {
+		categories.forEach((category) => {
+			lookupTable.idsToWheelmapCategories[category.id] = category;
+			lookupTable.wheelmapCategoryNamesToCategories[category.identifier] =
+				category;
+			if (!category.category_id) {
+				lookupTable.wheelmapRootCategoryNamesToCategories[category.identifier] =
+					category;
+			}
+		});
+	}
 
-  static wheelmapCategoryWithName(lookupTable: CategoryLookupTables, name: string) {
-    return lookupTable.wheelmapCategoryNamesToCategories[name];
-  }
+	static wheelmapCategoryWithName(
+		lookupTable: CategoryLookupTables,
+		name: string,
+	) {
+		return lookupTable.wheelmapCategoryNamesToCategories[name];
+	}
 
-  static wheelmapRootCategoryWithName(lookupTable: CategoryLookupTables, name: string) {
-    return lookupTable.wheelmapRootCategoryNamesToCategories[name];
-  }
+	static wheelmapRootCategoryWithName(
+		lookupTable: CategoryLookupTables,
+		name: string,
+	) {
+		return lookupTable.wheelmapRootCategoryNamesToCategories[name];
+	}
 
-  static async fetchCategoryData(options: {
-    locale: string,
-    disableWheelmapSource?: boolean,
-    appToken: string,
-  }): Promise<RawCategoryLists> {
-    const hasAccessibilityCloudCredentials = Boolean(options.appToken);
-    const hasWheelmapCredentials =
-      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
-    const useWheelmapSource = hasWheelmapCredentials && !options.disableWheelmapSource;
+	static async fetchCategoryData(options: {
+		locale: string;
+		disableWheelmapSource?: boolean;
+		appToken: string;
+	}): Promise<RawCategoryLists> {
+		const hasAccessibilityCloudCredentials = Boolean(options.appToken);
+		const hasWheelmapCredentials =
+			config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === "string";
+		const useWheelmapSource =
+			hasWheelmapCredentials && !options.disableWheelmapSource;
 
-    const languageCode = options.locale.substr(0, 2);
-    const responseHandler = response => {
-      if (!response.ok) {
-        // translator: Shown when there was an error while loading category data from the backend.
-        const errorText = t`Error while loading place categories.`;
-        throw new ResponseError(errorText, response);
-      }
-      return response.json();
-    };
+		const languageCode = options.locale.substr(0, 2);
+		const responseHandler = (response) => {
+			if (!response.ok) {
+				// translator: Shown when there was an error while loading category data from the backend.
+				const errorText = t`Error while loading place categories.`;
+				throw new ResponseError(errorText, response);
+			}
+			return response.json();
+		};
 
-    function acCategoriesFetch() {
-      const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-      const url = `${baseUrl}/categories.json?appToken=${options.appToken}`;
-      return globalFetchManager
-        .fetch(url)
-        .then(responseHandler)
-        .then((json): ACCategory[] => json.results || []);
-    }
+		function acCategoriesFetch() {
+			const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
+			const url = `${baseUrl}/categories.json?appToken=${options.appToken}`;
+			return globalFetchManager
+				.fetch(url)
+				.then(responseHandler)
+				.then((json): ACCategory[] => json.results || []);
+		}
 
-    function wheelmapCategoriesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
-      console.log("url:", url);
-      return globalFetchManager
-        .fetch(url, { mode: 'no-cors' })
-        .then(responseHandler)
-        .then((json): WheelmapCategory[] => json.categories || []);
-    }
+		function wheelmapCategoriesFetch() {
+			const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
+			console.log("url:", url);
+			return globalFetchManager
+				.fetch(url)
+				.then(responseHandler)
+				.then((json): WheelmapCategory[] => json.categories || []);
+		}
 
-    function wheelmapNodeTypesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
-      console.log("url:", url);
-      return globalFetchManager
-        .fetch(url, { mode: 'no-cors' })
-        .then(responseHandler)
-        .then((json): WheelmapCategory[] => json.node_types || []);
-    }
+		function wheelmapNodeTypesFetch() {
+			const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
+			console.log("url:", url);
+			return globalFetchManager
+				.fetch(url)
+				.then(responseHandler)
+				.then((json): WheelmapCategory[] => json.node_types || []);
+		}
 
-    const [accessibilityCloud, wheelmapCategories, wheelmapNodeTypes] = await Promise.all([
-      hasAccessibilityCloudCredentials ? acCategoriesFetch() : Promise.resolve([]),
-      useWheelmapSource ? wheelmapCategoriesFetch() : Promise.resolve([]),
-      useWheelmapSource ? wheelmapNodeTypesFetch() : Promise.resolve([]),
-    ]);
+		const [accessibilityCloud, wheelmapCategories, wheelmapNodeTypes] =
+			await Promise.all([
+				hasAccessibilityCloudCredentials
+					? acCategoriesFetch()
+					: Promise.resolve([]),
+				useWheelmapSource ? wheelmapCategoriesFetch() : Promise.resolve([]),
+				useWheelmapSource ? wheelmapNodeTypesFetch() : Promise.resolve([]),
+			]);
 
-    return { accessibilityCloud, wheelmapCategories, wheelmapNodeTypes };
-  }
+		return { accessibilityCloud, wheelmapCategories, wheelmapNodeTypes };
+	}
 
-  static generateLookupTables(prefetchedData: RawCategoryLists) {
-    const lookupTable: CategoryLookupTables = {
-      synonymCache: null,
-      idsToWheelmapCategories: {},
-      wheelmapCategoryNamesToCategories: {},
-      wheelmapRootCategoryNamesToCategories: {},
-      categoryTree: prefetchedData.accessibilityCloud,
-    };
+	static generateLookupTables(prefetchedData: RawCategoryLists) {
+		const lookupTable: CategoryLookupTables = {
+			synonymCache: null,
+			idsToWheelmapCategories: {},
+			wheelmapCategoryNamesToCategories: {},
+			wheelmapRootCategoryNamesToCategories: {},
+			categoryTree: prefetchedData.accessibilityCloud,
+		};
 
-    Categories.generateSynonymCache(lookupTable, prefetchedData.accessibilityCloud);
-    Categories.fillCategoryLookupTable(lookupTable, prefetchedData.wheelmapCategories);
-    Categories.fillCategoryLookupTable(lookupTable, prefetchedData.wheelmapNodeTypes);
+		Categories.generateSynonymCache(
+			lookupTable,
+			prefetchedData.accessibilityCloud,
+		);
+		Categories.fillCategoryLookupTable(
+			lookupTable,
+			prefetchedData.wheelmapCategories,
+		);
+		Categories.fillCategoryLookupTable(
+			lookupTable,
+			prefetchedData.wheelmapNodeTypes,
+		);
 
-    return lookupTable;
-  }
+		return lookupTable;
+	}
 }
 
 export function categoryNameFor(category: Category): string | null {
-  if (!category) return;
-  let idObject = null;
+	if (!category) return;
+	let idObject = null;
 
-  if (category._tag === 'ACCategory') {
-    idObject = category.translations._id;
-  }
+	if (category._tag === "ACCategory") {
+		idObject = category.translations._id;
+	}
 
-  return translatedStringFromObject(idObject);
+	return translatedStringFromObject(idObject);
 }
 
-export function getCategoryId(category?: Category | string | WheelmapCategoryOrNodeType | undefined): string | undefined {
-  if (!category) {
-    return;
-  }
-  // ac
-  if (typeof category === 'string') {
-    return category;
-  }
+export function getCategoryId(
+	category?: Category | string | WheelmapCategoryOrNodeType | undefined,
+): string | undefined {
+	if (!category) {
+		return;
+	}
+	// ac
+	if (typeof category === "string") {
+		return category;
+	}
 
-  if (typeof category === 'object' && category) {
-    // wheelmap node_type or category
-    if (typeof category['identifier'] === 'string') {
-      return category['identifier'];
-    }
-    // ac server category object
-    if (typeof category['_id'] === 'string') {
-      return category['_id'];
-    }
-  }
+	if (typeof category === "object" && category) {
+		// wheelmap node_type or category
+		if (typeof category["identifier"] === "string") {
+			return category["identifier"];
+		}
+		// ac server category object
+		if (typeof category["_id"] === "string") {
+			return category["_id"];
+		}
+	}
 }
 
 export function getCategoryIdFromProperties(
-  props: AccessibilityCloudProperties | WheelmapProperties | EquipmentInfoProperties
+	props:
+		| AccessibilityCloudProperties
+		| WheelmapProperties
+		| EquipmentInfoProperties,
 ): string | undefined {
-  if (!props) {
-    return;
-  }
+	if (!props) {
+		return;
+	}
 
-  if (isWheelmapProperties(props) && props.node_type && typeof props.node_type.identifier === 'string') {
-    return getCategoryId(props.node_type.identifier);
-  }
+	if (
+		isWheelmapProperties(props) &&
+		props.node_type &&
+		typeof props.node_type.identifier === "string"
+	) {
+		return getCategoryId(props.node_type.identifier);
+	}
 
-  return getCategoryId(props.category);
+	return getCategoryId(props.category);
 }
