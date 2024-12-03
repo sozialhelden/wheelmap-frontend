@@ -18,7 +18,7 @@ export default function fetchNearbyFeatures([
   return fetchOSMFeatureCollection([
     baseUrl,
     type,
-    `next=${next}&lon=${lon}&lat=${lat}${urlParams ? `&${urlParams}` : ''}`,
+    `nearest=${next}&lon=${lon}&lat=${lat}${urlParams ? `&${urlParams}` : ''}`,
   ])
 }
 
@@ -32,7 +32,7 @@ export function useNearbyFeatures(
 
   const { baseUrl } = useOSMAPI({ cached: true })
   const { coordinates: [longitude, latitude] } = osmFeature?.centroid || acFeature?.geometry || { coordinates: [undefined, undefined] }
-  const urlParams = tagFilter ? Object.entries(tagFilter).map(([key, value]) => `next_t[${key}]=${value}`).join('&') : ''
+  const urlParams = tagFilter ? Object.entries(tagFilter).map(([key, value]) => `nearest_t[${key}]=${value}`).join('&') : ''
   const response = useSWR(
     feature && baseUrl && latitude && longitude
     && [baseUrl, 'buildings', nearbyFeatureCollectionName, longitude, latitude, urlParams],
@@ -40,8 +40,8 @@ export function useNearbyFeatures(
   )
   const nearbyFeatures = response.data?.features?.map((f) => ({
     properties: {
-      _id: f.properties[`next:${nearbyFeatureCollectionName}:id`],
-      distance: f.properties[`next:${nearbyFeatureCollectionName}:distance`],
+      _id: f.properties[`nearest:${nearbyFeatureCollectionName}:id`],
+      distance: f.properties[`nearest:${nearbyFeatureCollectionName}:distance`],
     },
   }))
 
