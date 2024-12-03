@@ -37,7 +37,9 @@ export default function NextToiletDirections({ feature }: { feature: AnyFeature 
   )
 
   return (
-    <Link href={`/${nextToilet.properties._id}`}>
+    // TODO this is not a very good solution. In the future, we should take a look
+    // at routing and make sure that something like '/amenities/way/1234" also works
+    <Link href={`/amenities/${nextToilet.properties._id.replace('/', ':')}`}>
       {caption}
       {distanceElement}
     </Link>
