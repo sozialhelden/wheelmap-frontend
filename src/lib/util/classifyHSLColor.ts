@@ -1,6 +1,6 @@
-import Color from "colorjs.io"
-import { compact, uniq } from "lodash"
-import { t } from "ttag"
+import Color from 'colorjs.io'
+import { compact, uniq } from 'lodash'
+import { t } from 'ttag'
 
 function classifyHue(hslColor: Color) {
   if (hslColor.s < 10) return t`gray`
@@ -21,17 +21,17 @@ function classifySaturation(hslColor: Color) {
 }
 
 function classifyLightness(hslColor: Color) {
-  if (hslColor.l < 10) return t`black`
+  if (hslColor.l < 10) return t`very dark`
   if (hslColor.l < 40) return t`dark`
   if (hslColor.l < 80) return t`light`
-  if (hslColor.l > 90) return t`white`
-  return null;
+  if (hslColor.l > 90) return t`very bright`
+  return null
 }
 
 export function classifyHSLColor(hslColor: Color) {
-  const hue = classifyHue(hslColor);
-  const lightness = classifyLightness(hslColor);
-  const saturation = classifySaturation(hslColor);
-  const strings = uniq(compact([saturation, lightness, hue])).join(' ')
-  return strings;
+  const hue = classifyHue(hslColor)
+  const lightness = classifyLightness(hslColor)
+  const saturation = classifySaturation(hslColor)
+  const strings = uniq(compact([lightness, saturation, hue])).join(' ')
+  return strings
 }
