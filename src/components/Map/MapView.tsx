@@ -194,7 +194,7 @@ export default function MapView(props: IProps) {
         >
           {mapLoaded && (<MapSources />)}
           {mapLoaded && <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />}
-          <AcPoiLayers />
+          {mapLoaded && <AcPoiLayers />}
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>

@@ -1,5 +1,5 @@
 /* eslint-disable no-continue */
-import { isEqual } from 'lodash'
+import { isEqual, omit } from 'lodash'
 import mapboxgl from 'mapbox-gl'
 
 export const databaseTableNames = [
@@ -115,25 +115,41 @@ export function filterLayers(
           `
             [
               "let",
-              "primary_name",
+
+              "user_language_name", [ "coalesce", ["get", "name:${primaryLanguage}"], ["get", "name:${secondaryLanguage}"]],
+              "local_name", ["coalesce", ["get", "loc_name"], ["get", "name"]],
+              "default_fallback_language_name", ["get", "name:en"],
+
               [
-                "coalesce",
-                ["get", "name:${primaryLanguage}"],
-                ["get", "name:${secondaryLanguage}"],
-                ["get", "name"],
-                ["get", "loc_name"]
-              ],
-              "local_name",
-              ["coalesce", ["get", "name"], ["get", "loc_name"], ""],
-              [
-                "case",
-                ["==", ["var", "local_name"], ["var", "primary_name"]],
-                ["var", "primary_name"],
+                "let",
+                "prio0", ["coalesce", ["var", "user_language_name"], ["var", "local_name"], ["var", "default_fallback_language_name"]],
+                "prio1", ["coalesce", ["var", "local_name"], ["var", "default_fallback_language_name"]],
+                "prio2", ["coalesce", ["var", "default_fallback_language_name"]],
                 [
                   "format",
-                  ["var", "primary_name"], {},
-                  "\\n", {},
-                  ["var", "local_name"], {"font-scale": 0.9, "text-color": "rgba(0,0,0,0.7)"}
+                  ["coalesce", ["var", "prio0"], ["var", "prio1"], ["var", "prio2"], ""],
+                  {},
+                  "\\n",
+                  {},
+                  ["case",
+                    ["!=",
+                      ["coalesce", ["var", "prio0"], ["var", "prio1"], ["var", "prio2"]],
+                      ["coalesce", ["var", "prio1"], ["var", "prio2"]]
+                    ],
+                    ["coalesce", ["var", "prio1"], ["var", "prio2"], ""],
+                    ["!=",
+                      ["coalesce", ["var", "prio1"], ["var", "prio2"]],
+                      ["var", "prio1"]
+                    ],
+                    ["var", "prio1"],
+                    ["!=",
+                      ["coalesce", ["var", "prio1"], ["var", "prio2"]],
+                      ["var", "prio2"]
+                    ],
+                    ["var", "prio2"],
+                    ""
+                  ],
+                  {"font-scale": 0.9, "text-color": "rgba(0,0,0,0.7)"}
                 ]
               ]
             ]
@@ -141,14 +157,21 @@ export function filterLayers(
         ),
     )
 
-    const enhancedLayer = { ...localizedLayer, source, 'source-layer': 'default' }
+    const enhancedLayer = {
+      ...localizedLayer,
+      source,
+      'source-layer': 'default',
+      layout: omit(localizedLayer.layout, 'line-z-offset'),
+      paint: omit(localizedLayer.paint, 'line-occlusion-opacity'),
+    }
+    console.log(enhancedLayer)
     const accessibilityCloudLayer = { ...enhancedLayer, id: enhancedLayer.id + '-ac', source: 'ac:PlaceInfo', 'source-layer': 'place-infos' };
 
     if (layer.id.startsWith('osm-selected')) {
       highlightLayers.push(enhancedLayer)
       highlightLayers.push(accessibilityCloudLayer)
     } else {
-      // regularLayers.push(enhancedLayer)
+      regularLayers.push(enhancedLayer)
       if (layer.id.match(/osm-wheelchair-\w+-label/)) {
         regularLayers.push(accessibilityCloudLayer)
       }
