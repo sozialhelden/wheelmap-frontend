@@ -25,4 +25,6 @@ export const tagsWithSemicolonSupport = [
   'material',
   'building:material',
   'emergency',
+  'playground',
+  'playground:theme',
 ]

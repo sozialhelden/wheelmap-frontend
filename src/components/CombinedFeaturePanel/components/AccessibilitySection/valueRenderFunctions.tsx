@@ -71,16 +71,20 @@ function ColorContainer({ children, backgroundColor, textColor }: { children: Re
     </span>
   )
 }
-function DisplayedColor({ value }: { value: string }) {
+function DisplayedColor({ type, value }: { type: string, value: string }) {
   const isDarkMode = useDarkMode()
   try {
-    const color = new Color(String(value))
+    const valueString = String(value)
+    const color = new Color(valueString)
     const hslColor = color.to('hsl')
-    const classifiedColor = classifyHSLColor(hslColor)
+    const classifiedColor = valueString.match(/^\w+$/) ? valueString : classifyHSLColor(hslColor)
     const textColor = hslColor.mix(isDarkMode ? 'white' : 'black', 0.8, { space: 'lch', outputSpace: 'srgb' })
+    const backgroundColor = hslColor.mix(isDarkMode ? 'black' : 'white', 0.8, { space: 'lch', outputSpace: 'srgb' })
     return (
-      <ColorContainer backgroundColor={String(value)} textColor={textColor.toString({ precision: 3 })}>
+      <ColorContainer backgroundColor={backgroundColor} textColor={textColor.toString({ precision: 3 })}>
         {String(classifiedColor)}
+        {' '}
+        {type}
       </ColorContainer>
     )
   } catch (error) {
@@ -98,13 +102,15 @@ function DisplayedColor({ value }: { value: string }) {
 export const valueRenderFunctions: Record<
 string, (props: ValueRenderProps) => React.ReactNode
 > = {
-  '^wheelchair$': ({ osmFeature, defaultValueLabel }) => (
+  '^wheelchair$': ({ defaultValueLabel }) => (
     <div>
       {defaultValueLabel}
     </div>
   ),
-  '^opening_hours$': ({ value }) => <OpeningHoursValue value={String(value)} />,
-  '^opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)$': ({ value }) => <OpeningHoursValue value={String(value)} />,
+  '^opening_hours$': ({ key, value, osmFeature }) => <OpeningHoursValue value={String(value)} osmFeature={osmFeature} tagKey={key} />,
+  '^opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop|checkin|checkout)$':
+    ({ key, value }) => <OpeningHoursValue value={String(value)} tagKey={key} />,
+  '^service_times:?\\w*$': ({ key, value, osmFeature }) => <OpeningHoursValue value={String(value)} osmFeature={osmFeature} tagKey={key} />,
   ':step_height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
   '^kerb:height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↕</>} />,
   '^entrance_width$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="cm" prefix={<>↔</>} />,
@@ -112,18 +118,18 @@ string, (props: ValueRenderProps) => React.ReactNode
   ':?height$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" prefix={<>↕</>} />,
   ':?depth$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="m" suffix={t`depth`} />,
   '^level$': (props) => <BuildingLevel {...props} />,
-  ':colour$': ({ value }) => <DisplayedColor value={String(value)} />,
+  '([\\w_]+):colour$': ({ matches, value }) => <DisplayedColor type={matches[1]} value={String(value)} />,
   '^power_supply:voltage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="V" />,
   '^power_supply:current$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
   '^power_supply:maxcurrent$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
   '^power_supply:frequency$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="Hz" />,
-  '^socket:([\w_]+)$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="×" />,
-  '^(?:socket:([\w_]+):)?amperage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
-  '^(?:socket:([\w_]+):)?current$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
-  '^(?:socket:([\w_]+):)?maxamperage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
-  '^(?:socket:([\w_]+):)?voltage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="V" />,
-  '^(?:socket:([\w_]+):)?output$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="W" />,
-  '^(?:([\w_]+):)?description(?:(\w\w))?$': ({ value, matches }) => {
+  '^socket:([\\w_]+)$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="×" />,
+  '^(?:socket:([\\w_]+):)?amperage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
+  '^(?:socket:([\\w_]+):)?current$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
+  '^(?:socket:([\\w_]+):)?maxamperage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="A" />,
+  '^(?:socket:([\\w_]+):)?voltage$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="V" />,
+  '^(?:socket:([\\w_]+):)?output$': ({ value }) => <DisplayedQuantity value={value} defaultUnit="W" />,
+  '^(?:([\\w_]+):)?description(?:(\\w\\w))?$': ({ value, matches }) => {
     const text = value
     const targetGroup = matches[1]
     const lang = matches[2]

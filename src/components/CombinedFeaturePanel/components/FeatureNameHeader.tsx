@@ -71,8 +71,12 @@ export default function FeatureNameHeader(props: Props) {
     hasLongName,
     ariaLabel,
     categoryName,
+    buildingName,
+    buildingNumber,
     category,
     categoryTagKeys,
+    ref,
+    localRef,
   } = useFeatureLabel({
     feature,
     languageTags,
@@ -103,16 +107,29 @@ export default function FeatureNameHeader(props: Props) {
     <StyledChevronRight />,
   )
 
+  const refNames = uniq(compact([
+    !placeName?.match(String(buildingName)) && buildingName?.trim(),
+    !buildingName?.match(String(buildingNumber)) && buildingNumber?.trim(),
+    ref?.trim().replace(/;/, ' / '),
+    localRef?.trim().replace(/;/, ' / '),
+  ]))
+
   const HeaderElement = props.size === 'small' ? PlaceNameH2 : PlaceNameH1
   const detailFontSize = (props.size === 'small' || lastNameElement) ? '0.9em' : '1em'
-  const categoryElement = !lastNameElement?.toLocaleLowerCase().startsWith(categoryName?.toLocaleLowerCase())
-    && !lastNameElement?.toLocaleLowerCase().endsWith(categoryName?.toLocaleLowerCase())
-    && (<PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>)
+  const categoryElement = categoryName
+    && !lastNameElement?.toLocaleLowerCase().match(categoryName?.toLocaleLowerCase())
+    && (
+      <PlaceNameDetail style={{ fontSize: detailFontSize }}>
+        {categoryName}
+        {' '}
+        {refNames.join(' / ')}
+      </PlaceNameDetail>
+    )
   const placeNameElement = (
     <HeaderElement isSmall={hasLongName} aria-label={ariaLabel}>
       {icon}
       <div>
-        {lastNameElement && <div>{lastNameElement}</div>}
+        {lastNameElement && <div>{intersperse(lastNameElement.split(/;/), <br />)}</div>}
         {categoryElement}
         {nameElements.length > 1 && <PlaceNameDetail style={{ fontSize: detailFontSize }}>{parentElements}</PlaceNameDetail>}
       </div>
