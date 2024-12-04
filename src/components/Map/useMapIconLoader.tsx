@@ -133,11 +133,11 @@ export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
     )
   }
 
-  // for (const iconName of Object.keys(markerIcons)) {
-  //   loadIcon(
-  //     mapInstance,
-  //     markerIcons,
-  //     iconName,
-  //   )
-  // }
+  for (const iconName of Object.keys(markerIcons)) {
+    loadIcon(
+      mapInstance,
+      markerIcons,
+      iconName,
+    )
+  }
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-continue */
+import { isEqual } from 'lodash'
 import mapboxgl from 'mapbox-gl'
 
 export const databaseTableNames = [
@@ -73,11 +74,15 @@ export function filterLayers(
     hasBuildings,
     hasPublicTransport,
     hasSurfaces,
+    primaryLanguage,
+    secondaryLanguage,
   }: {
     layers: mapboxgl.Layer[];
     hasBuildings: boolean;
     hasPublicTransport: boolean;
     hasSurfaces: boolean;
+    primaryLanguage: string;
+    secondaryLanguage: string | undefined;
   },
 ): [mapboxgl.Layer[], mapboxgl.Layer[]] {
   const regularLayers: mapboxgl.Layer[] = []
@@ -100,11 +105,53 @@ export function filterLayers(
     if (!source) {
       continue
     }
-    const enhancedLayer = { ...layer, source, 'source-layer': 'default' }
+
+    // Replace the name property with a localized, formatted version (with a potential line break)
+    const localizedLayer = JSON.parse(
+      JSON
+        .stringify(layer)
+        .replace(
+          '["get","name"]',
+          `
+            [
+              "let",
+              "primary_name",
+              [
+                "coalesce",
+                ["get", "name:${primaryLanguage}"],
+                ["get", "name:${secondaryLanguage}"],
+                ["get", "name"],
+                ["get", "loc_name"]
+              ],
+              "local_name",
+              ["coalesce", ["get", "name"], ["get", "loc_name"], ""],
+              [
+                "case",
+                ["==", ["var", "local_name"], ["var", "primary_name"]],
+                ["var", "primary_name"],
+                [
+                  "format",
+                  ["var", "primary_name"], {},
+                  "\\n", {},
+                  ["var", "local_name"], {"font-scale": 0.9, "text-color": "rgba(0,0,0,0.7)"}
+                ]
+              ]
+            ]
+          `
+        ),
+    )
+
+    const enhancedLayer = { ...localizedLayer, source, 'source-layer': 'default' }
+    const accessibilityCloudLayer = { ...enhancedLayer, id: enhancedLayer.id + '-ac', source: 'ac:PlaceInfo', 'source-layer': 'place-infos' };
+
     if (layer.id.startsWith('osm-selected')) {
       highlightLayers.push(enhancedLayer)
+      highlightLayers.push(accessibilityCloudLayer)
     } else {
-      regularLayers.push(enhancedLayer)
+      // regularLayers.push(enhancedLayer)
+      if (layer.id.match(/osm-wheelchair-\w+-label/)) {
+        regularLayers.push(accessibilityCloudLayer)
+      }
     }
   }
 

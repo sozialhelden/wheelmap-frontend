@@ -29,7 +29,7 @@ export const GlobalMapContextProvider = ({ children }: { children?: React.ReactN
     map: mapRef,
     mapOverlaps,
     setMapRef,
-  }), [mapRef, setMapRef])
+  }), [mapRef])
 
   return (
     <GlobalMapContext.Provider value={value}>

@@ -132,9 +132,9 @@ export const AcPoiLayers = () => {
 
   const tiles = useMemo(() => {
     const wheelmapSourceId = 'LiBTS67TjmBcXdEmX'
-    const excludedSourceIds = clientSideConfiguration.excludeSourceIds || []
-    excludedSourceIds.push(wheelmapSourceId)
-    const includedSourceIds = clientSideConfiguration.includeSourceIds || []
+    const excludeSourceIds = clientSideConfiguration.excludeSourceIds || []
+    excludeSourceIds.push(wheelmapSourceId)
+    const includeSourceIds = clientSideConfiguration.includeSourceIds || []
 
     const urlParams = new URLSearchParams({
       includePlacesWithoutAccessibility: '1',
@@ -142,11 +142,11 @@ export const AcPoiLayers = () => {
     if (acAppToken) {
       urlParams.set('appToken', acAppToken)
     }
-    if (excludedSourceIds.length > 0) {
-      urlParams.set('excludedSourceIds', excludedSourceIds.join(','))
+    if (excludeSourceIds.length > 0) {
+      urlParams.set('excludeSourceIds', excludeSourceIds.join(','))
     }
-    if (includedSourceIds.length > 0) {
-      urlParams.set('includedSourceIds', includedSourceIds.join(','))
+    if (includeSourceIds.length > 0) {
+      urlParams.set('includeSourceIds', includeSourceIds.join(','))
     }
     return [`${acBaseUrl}/place-infos.mvt?${urlParams.toString()}&x={x}&y={y}&z={z}`]
   }, [
@@ -157,19 +157,7 @@ export const AcPoiLayers = () => {
 
   return (
     <>
-      <Source type="vector" tiles={tiles} id="ac-place-infos" scheme="xyz" minzoom={8} />
-
-      <MarkerBackgroundLayer sourceLayer="place-infos" source="ac-place-infos" wheelchairTag="unknown" />
-      <MarkerBackgroundLayer sourceLayer="place-infos" source="ac-place-infos" wheelchairTag="no" />
-      <MarkerBackgroundLayer sourceLayer="place-infos" source="ac-place-infos" wheelchairTag="limited" />
-      <MarkerBackgroundLayer sourceLayer="place-infos" source="ac-place-infos" wheelchairTag="yes" />
-
-      {/* TODO combine layers into one to have better z-ordering of container + icon */}
-      <MarkerIconLayer
-        source="ac-place-infos"
-        // this matches the layer name in the mvt file
-        sourceLayer="place-infos"
-      />
+      <Source type="vector" tiles={tiles} id="ac:PlaceInfo" scheme="xyz" minzoom={8} />
     </>
   )
 }

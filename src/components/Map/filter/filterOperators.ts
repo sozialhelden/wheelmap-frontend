@@ -29,7 +29,7 @@ export const makeFilterContainsName = (name: string, options?: FilterProperties)
  * Create a filter that includes the feature with the given node id
  * @param nodeId Often like `way/129857` or `node/12985481`
  */
-export const makeFilterByNode = (nodeId: string, options?: FilterProperties): FilterAddition => ({
+export const makeFilterById = (nodeId: string, options?: FilterProperties): FilterAddition => ({
   id: options?.id,
   layer: options?.forLayer,
   expression: ['==', ['get', 'id'], nodeId],

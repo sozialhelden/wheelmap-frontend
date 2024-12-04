@@ -6,6 +6,7 @@ import { LayerProps } from 'react-map-gl'
 import useMapStyle from './useMapStyle'
 import { filterLayers } from './filterLayers'
 import { MapLayer } from './MapLayer'
+import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 
 export const MapLayers = ({ onInteractiveLayersChange } : { onInteractiveLayersChange: (layerIds: string[]) => void }) => {
   const mapStyle = useMapStyle()
@@ -34,13 +35,23 @@ export const MapLayers = ({ onInteractiveLayersChange } : { onInteractiveLayersC
       onKeyDown: () => setHasSurfaces(!hasSurfaces),
     },
   ], [hasBuildings, hasPublicTransport, hasSurfaces])
+
   useHotkeys(hotkeys)
+
+  const languageTags = useCurrentLanguageTagStrings()
+  const primaryLanguage = languageTags[0]
+  const secondaryLanguage = languageTags[1] ?? 'en'
 
   const [layers, highlightLayers] = React.useMemo(
     () => {
       if (mapStyle.data?.layers) {
         return filterLayers({
-          layers: mapStyle.data.layers, hasBuildings, hasPublicTransport, hasSurfaces,
+          layers: mapStyle.data.layers,
+          hasBuildings,
+          hasPublicTransport,
+          hasSurfaces,
+          primaryLanguage,
+          secondaryLanguage,
         })
       }
       return [[], []]

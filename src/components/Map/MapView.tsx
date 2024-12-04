@@ -32,6 +32,7 @@ import { loadIconsInMapInstance } from './useMapIconLoader'
 import { MapLayers } from './MapLayers'
 import { useDarkMode } from '../shared/useDarkMode'
 import { AcPoiLayers } from './AcPoiLayers'
+import { getFeatureId } from '../../lib/model/ac/Feature'
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -134,13 +135,14 @@ export default function MapView(props: IProps) {
 
     if (features.length === 1) {
       const feature = features[0]
+      const id = getFeatureId(feature);
       router.push(
-        `/${feature.source}/${feature.properties?.id?.replace('/', ':')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+        `/${feature.source}/${id?.replace('/', ':')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
       )
       return
     }
     router.push(
-      `/composite/${uniq(features.map((f) => [f.source, f.properties?.id?.replace('/', ':')].join(':')))
+      `/composite/${uniq(features.map((f) => [f.source, getFeatureId(f)?.replace('/', ':')].join(':')))
         .join(',')}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
     )
   }, [router, updateViewportQuery, initialViewport.zoom])
@@ -167,6 +169,9 @@ export default function MapView(props: IProps) {
 
   const darkMode = useDarkMode()
   const mapStyle = darkMode ? 'mapbox://styles/sozialhelden/cm3t8pmmt00ad01s8baje5zjy' : 'mapbox://styles/sozialhelden/cm3t3zmix009j01r2eupc5jr7'
+  const [cursor, setCursor] = useState<string>('auto')
+  const onMouseEnter = React.useCallback(() => setCursor('pointer'), [])
+  const onMouseLeave = React.useCallback(() => setCursor('auto'), [])
 
   return (
     <>
@@ -176,6 +181,8 @@ export default function MapView(props: IProps) {
           initialViewState={initialViewport}
           mapboxAccessToken={mapboxAccessToken}
           onMoveEnd={onViewStateChange}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           onClick={onMouseClick}
           onZoomEnd={onViewStateChange}
           interactive
@@ -183,10 +190,11 @@ export default function MapView(props: IProps) {
           onLoad={onLoadCallback}
           mapStyle={mapStyle}
           ref={setMapRef}
+          cursor={cursor}
         >
           {mapLoaded && (<MapSources />)}
           {mapLoaded && <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />}
-          {/* <AcPoiLayers /> */}
+          <AcPoiLayers />
           <NavigationControl style={{ right: '1rem', top: '1rem' }} />
           <GeolocateButton />
         </Map>
