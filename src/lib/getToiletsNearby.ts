@@ -36,7 +36,7 @@ function calculateBoundingBox(lat: number, lon: number, radius: number) {
 
 function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Promise<Feature[]> {
   const bbox = calculateBoundingBox(lat, lon, radius);
-  const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${config.wheelmapApiKey}`;
+  const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&limit=20&hasAccessibleToilet=yes&api_key=${config.wheelmapApiKey}`;
 
   return globalFetchManager
     .fetch(url)
