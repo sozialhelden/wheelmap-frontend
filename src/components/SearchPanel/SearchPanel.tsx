@@ -150,7 +150,7 @@ export default function SearchPanel({
     )
   }
 
-  const overlayRef = useMapOverlapRef(!hidden)
+  const overlayRef = useMapOverlapRef(false)
 
   return (
     <StyledToolbar
@@ -160,7 +160,6 @@ export default function SearchPanel({
       isSwipeable={false}
       enableTransitions={false}
       minimalTopPosition={minimalTopPosition}
-      role="search"
       ref={overlayRef}
       className={cx(className, isExpanded && 'isExpanded')}
     >
