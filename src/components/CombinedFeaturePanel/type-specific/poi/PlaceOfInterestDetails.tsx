@@ -19,6 +19,7 @@ import { FeaturePanelContext } from '../../FeaturePanelContext'
 import { useMap } from '../../../Map/useMap'
 import { AccessibilityItems } from '../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems'
 import { FeatureGallery } from '../../components/FeatureGallery'
+import { bbox } from '@turf/turf'
 
 type Props = {
   feature: AnyFeature;
@@ -53,7 +54,11 @@ export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
           if (!coordinates) {
             return
           }
-          map?.map?.flyTo({ center: { lat: coordinates[1], lon: coordinates[0] }, zoom: 17 })
+
+          const cameraOptions = map?.map?.cameraForBounds(bbox(feature), { maxZoom: 19 });
+          if (cameraOptions) {
+            map?.map?.flyTo({ ...cameraOptions, duration: 1000, padding: 100 })
+          }
           // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
         }}
       >

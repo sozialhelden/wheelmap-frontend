@@ -11,6 +11,7 @@ export function useApplyMapPadding() {
         return
       }
 
+      map.stop()
       map.off('moveend', listener)
 
       // we might be triggered in a loop, check that the padding actually changed
@@ -31,14 +32,18 @@ export function useApplyMapPadding() {
 
       if (map.isEasing() || map.isMoving()) {
         map.once('moveend', listener)
-        return
       }
 
-      map.easeTo({
-        padding,
-        duration: 500,
-      })
+      // TODO: Fix this
+      // if (typeof padding === 'number') {
+      //   map.setPadding({
+      //     left: padding, top: padding, right: padding, bottom: padding,
+      //   })
+      // } else {
+      //   map.setPadding(padding)
+      // }
     }
+
     mapOverlaps.changeListeners.add(listener)
 
     return () => {
