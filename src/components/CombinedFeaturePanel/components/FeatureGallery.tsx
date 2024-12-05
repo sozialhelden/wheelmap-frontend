@@ -94,17 +94,17 @@ export const FeatureGallery: FC<{ feature: AnyFeature, focusImage?: string }> = 
         openIndex={galleryIndex}
         setGalleryIndex={(number) => {
           if (number < 0) {
-            router.push(`/${feature._id}`)
+            router.push(baseFeatureUrl)
             return
           }
           const image = images[number]
-          router.push(`/${feature._id}/images/${image._id}`, undefined, { shallow: true })
+          router.push(`${baseFeatureUrl}/images/${image._id}`, undefined, { shallow: true })
         }}
       />
       <StyledGallery className={cx(open && 'open')}>
         <div className="images">
           {images.map((x) => (
-            <AppStateLink href={`/${feature._id}/images/${x._id}`}>
+            <AppStateLink href={`${baseFeatureUrl}/images/${x._id}`}>
               <img
                 key={x._id}
                 className="image"
