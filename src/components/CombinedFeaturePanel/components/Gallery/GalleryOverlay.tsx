@@ -14,12 +14,13 @@ import { fullScreenSizes, makeSrcSet, makeSrcSetLocation } from './util'
 import useAccessibilityCloudAPI from '../../../../lib/fetchers/ac/useAccessibilityCloudAPI'
 
 const StyledFloatingOverlay = styled(FloatingOverlay)`
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px) brightness(40%);
   color: ${colors.textColor};
   isolation: isolate;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 
   > div {
     > .image {
@@ -37,14 +38,19 @@ const StyledFloatingOverlay = styled(FloatingOverlay)`
       bottom: 0;
       margin: auto;
       display: flex;
-      gap: 4px;
-      display: flex;
+      width: 100%;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
+      color: #ffffff;
 
-      > button {
-        padding: 4px 8px;
+      > .legend {
+        display: flex;
+        gap: 8px;
+        > button {
+          padding: 4px 8px;
+        }
       }
     }
 
@@ -135,15 +141,18 @@ export const GalleryOverlay: FC<{
               />
             </div>
             <div className="controls">
-              <button type="button" disabled={openIndex <= 0} onClick={() => setGalleryIndex(openIndex - 1)}>&lt;-</button>
+              <div className="legend">
+                <button type="button" onClick={closeGallery}>esc</button>
+                <button type="button" disabled={openIndex <= 0} onClick={() => setGalleryIndex(openIndex - 1)}>&lt;-</button>
+                <button
+                  type="button"
+                  disabled={openIndex >= (images.length - 1)}
+                  onClick={(evt) => { evt.stopPropagation(); evt.preventDefault(); setGalleryIndex(openIndex + 1) }}
+                >
+                  -&gt;
+                </button>
+              </div>
               <div>{t`Image ${openIndex + 1} / ${images.length}`}</div>
-              <button
-                type="button"
-                disabled={openIndex >= (images.length - 1)}
-                onClick={(evt) => { evt.stopPropagation(); evt.preventDefault(); setGalleryIndex(openIndex + 1) }}
-              >
-                -&gt;
-              </button>
             </div>
           </>
         </FloatingFocusManager>
