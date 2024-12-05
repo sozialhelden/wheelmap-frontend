@@ -12,7 +12,7 @@ import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import uploadPhotoForFeature from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
-import { getLayout } from '../../../../components/App/MapLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 
 const uncachedUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''
 
