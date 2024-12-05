@@ -16,14 +16,15 @@ import {
   FloatingPortal,
 } from '@floating-ui/react'
 import useSWR from 'swr'
-import { FeatureCollection, Point } from 'geojson'
+import type { FeatureCollection, Point } from 'geojson'
 import { center as turfCenter } from '@turf/turf'
-import fetchPhotonFeatures, { PhotonResultFeature } from '../../../lib/fetchers/fetchPhotonFeatures'
+import fetchPhotonFeatures, { type PhotonResultFeature } from '../../../lib/fetchers/fetchPhotonFeatures'
 import { CallToActionButton } from '../../shared/Button'
 import { SearchConfirmText, SearchSkipText } from '../language'
 import CountryContext from '../../../lib/context/CountryContext'
 import fetchCountryGeometry from '../../../lib/fetchers/fetchCountryGeometry'
 import colors from '../../../lib/util/colors'
+import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 
 export const LocationSearch: FC<{ onUserSelection: (selection?: PhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
   const [{ value, origin, selection }, setValue] = useState({ value: '', origin: 'system', selection: '' })
@@ -55,7 +56,8 @@ export const LocationSearch: FC<{ onUserSelection: (selection?: PhotonResultFeat
     return computedBias
   }, [regionGeometry, region])
 
-  const { data } = useSWR({ query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPhotonFeatures)
+  const languageTag = useCurrentLanguageTagStrings()?.[0] || 'en';
+  const { data } = useSWR({ languageTag, query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPhotonFeatures)
   const filteredData = useMemo(() => {
     if (!data) {
       return []

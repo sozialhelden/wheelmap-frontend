@@ -4,7 +4,7 @@ import { AppContext } from '../../lib/context/AppContext'
 import StyledMarkdown from '../shared/StyledMarkdown'
 import { LocationFailedStepPrimaryText, selectProductName } from './language'
 import { LocationSearch } from './components/LocationSearch'
-import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
+import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { LocationContainer } from './components/LocationContainer'
 
 const Container = styled(LocationContainer)`

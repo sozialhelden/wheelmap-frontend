@@ -171,10 +171,10 @@ export function filterLayers(
       highlightLayers.push(enhancedLayer)
       highlightLayers.push(accessibilityCloudLayer)
     } else {
-      regularLayers.push(enhancedLayer)
       if (layer.id.match(/osm-wheelchair-\w+-label/)) {
         regularLayers.push(accessibilityCloudLayer)
       }
+      regularLayers.push(enhancedLayer)
     }
   }
 
