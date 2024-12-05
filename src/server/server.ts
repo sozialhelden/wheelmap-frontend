@@ -17,7 +17,8 @@ app.prepare().then(() => {
   const server = createServer(async (req, res) => {
     try {
       const url = new URL(req.url)
-      const hostname = req ? req.headers.host : window.location.hostname
+      // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+      const hostname = req && global['window'] ? req.headers.host : global['window'].location.hostname
       const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
       const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
       const customizedApp = await fetchApp({ baseUrl, appToken, hostname })
