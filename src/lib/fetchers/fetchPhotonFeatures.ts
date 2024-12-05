@@ -32,14 +32,14 @@ export type PhotonSearchResultCollection = {
 
 const baseUrl = 'https://photon.komoot.io/api'
 
-export default async function fetchPhotonFeatures({ query, additionalQueryParameters = {} }: {
+export default async function fetchPhotonFeatures({ languageCode, query, additionalQueryParameters = {} }: {
   query: string,
   additionalQueryParameters: Record<string, string | string[] | undefined> | {},
+  languageCode: string,
 }): Promise<PhotonSearchResultCollection | undefined> {
   if (!query || query.trim().length <= 0) {
     return undefined
   }
-  const languageCode = window.navigator.language.slice(0, 2)
   const supportedLanguageCodes = ['en', 'de', 'fr', 'it'] // See Photon documentation
 
   const queryParameters = new URLSearchParams([

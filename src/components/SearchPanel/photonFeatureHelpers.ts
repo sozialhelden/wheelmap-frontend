@@ -1,5 +1,5 @@
-import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
-import { OSMIdWithTableAndContextNames } from '../../lib/typing/brands/osmIds'
+import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
+import type { OSMIdWithTableAndContextNames } from '../../lib/typing/brands/osmIds'
 
 const typeMap = {
   N: 'node',

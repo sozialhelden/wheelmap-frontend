@@ -1,23 +1,26 @@
 import { useContext, useMemo } from 'react'
 import useSWR from 'swr'
-import { PlaceInfo } from '@sozialhelden/a11yjson'
+import type { PlaceInfo } from '@sozialhelden/a11yjson'
 import fetchPhotonFeatures from '../../lib/fetchers/fetchPhotonFeatures'
-import { TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
+import type { TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
 import { buildId, buildOSMUri } from './photonFeatureHelpers'
 import useCollectionSWR from '../../lib/fetchers/ac/useCollectionSWR'
 import { AppContext } from '../../lib/context/AppContext'
-import { EnrichedSearchResult, makeDisplayDataFromPhotonResult } from './EnrichedSearchResult'
+import { type EnrichedSearchResult, makeDisplayDataFromPhotonResult } from './EnrichedSearchResult'
 import { getLocalizedAddressString } from '../../lib/model/geo/getAddressString'
 import { useFeatures } from '../../lib/fetchers/useFeatures'
+import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 
 const emptyArray: any[] = []
 
 export function useEnrichedSearchResults(searchQuery: string | undefined | null, lat?: number | null, lon?: number | null) {
   const { clientSideConfiguration } = useContext(AppContext) ?? { clientSideConfiguration: undefined }
+  const languageTag = useCurrentLanguageTagStrings()?.[0] || 'en';
 
   const photonQuery = useMemo(
     () => ({
+      languageTag,
       query: searchQuery?.trim(),
       additionalQueryParameters: {
         lat: typeof lat === 'number' ? String(lat) : undefined,
@@ -25,7 +28,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchQuery],
+    [searchQuery, languageTag, lat, lon],
   )
 
   const {
@@ -177,7 +180,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       }
     }
 
-    if (placeInfoResults && placeInfoResults.features) {
+    if (placeInfoResults?.features) {
       // merge searchResults with placeInfoResults
       for (const placeInfoResult of placeInfoResults.features) {
         if (!placeInfoResult.properties.sameAs) {

@@ -4,7 +4,7 @@ import { AppContext } from '../../lib/context/AppContext'
 import StyledMarkdown from '../shared/StyledMarkdown'
 import { LocationNoPermissionPrimaryText, selectProductName } from './language'
 import { LocationSearch } from './components/LocationSearch'
-import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
+import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { getLocationSettingsUrl } from '../../lib/goToLocationSettings'
 import { LocationContainer } from './components/LocationContainer'
 

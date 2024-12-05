@@ -6,7 +6,7 @@ import {
 } from '../../lib/model/geo/AnyFeature'
 import { mapOsmCollection, mapOsmType } from './photonFeatureHelpers'
 import getAddressString from '../../lib/model/geo/getAddressString'
-import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
+import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 
 export interface EnrichedSearchResultDisplayData {
   title?: string | LocalizedString

@@ -9,7 +9,7 @@ import { LocationFailedStep } from './LocationFailedStep'
 import { LocationNoPermissionStep } from './LocationNoPermissionStep'
 import { LocationStep } from './LocationStep'
 import { OnboardingStep } from './OnboardingStep'
-import { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
+import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { log } from '../../lib/util/logger'
 
 const StyledModalDialog = styled(ModalDialog)`
