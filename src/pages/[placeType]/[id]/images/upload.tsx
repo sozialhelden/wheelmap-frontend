@@ -23,7 +23,7 @@ const ExplanationContent : FC<{ onStateChanged: (state: 'uploading' | 'done' | '
   const appToken = useCurrentAppToken()
 
   const { features } = useContext(FeaturePanelContext)
-  const feature = features[0]
+  const feature = features[0].feature.requestedFeature
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     (async () => {
