@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { FC, KeyboardEventHandler, useMemo } from 'react'
+import {
+  FC, KeyboardEventHandler, useContext, useMemo,
+} from 'react'
 import {
   FloatingOverlay, useFloating, useDismiss, useRole, useInteractions, FloatingPortal, FloatingFocusManager,
 } from '@floating-ui/react'
@@ -12,6 +14,8 @@ import colors from '../../../../lib/util/colors'
 
 import { fullScreenSizes, makeSrcSet, makeSrcSetLocation } from './util'
 import useAccessibilityCloudAPI from '../../../../lib/fetchers/ac/useAccessibilityCloudAPI'
+import { AppStateLink } from '../../../App/AppStateLink'
+import { FeaturePanelContext } from '../../FeaturePanelContext'
 
 const StyledFloatingOverlay = styled(FloatingOverlay)`
   backdrop-filter: blur(5px) brightness(40%);
@@ -48,7 +52,7 @@ const StyledFloatingOverlay = styled(FloatingOverlay)`
       > .legend {
         display: flex;
         gap: 8px;
-        > button {
+        > button, > a {
           padding: 4px 8px;
         }
       }
@@ -62,7 +66,7 @@ export const GalleryOverlay: FC<{
   setGalleryIndex: (index: number) => unknown
 }> = ({ openIndex, images, setGalleryIndex }) => {
   const open = openIndex > -1
-
+  const { baseFeatureUrl } = useContext(FeaturePanelContext)
   const { baseUrl } = useAccessibilityCloudAPI({ cached: true })
 
   const { closeGallery, next, previous } = useMemo(() => ({
@@ -151,6 +155,7 @@ export const GalleryOverlay: FC<{
                 >
                   -&gt;
                 </button>
+                <AppStateLink href={`${baseFeatureUrl}/images/${image._id}/report`}>{t`Report image`}</AppStateLink>
               </div>
               <div>{t`Image ${openIndex + 1} / ${images.length}`}</div>
             </div>
