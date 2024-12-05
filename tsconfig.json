@@ -15,10 +15,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": [
-      "dom",
+      "DOM",
       "dom.iterable",
       "es2019",
-      "esnext"
+      "esNext"
     ],
     "downlevelIteration": true,
     "plugins": [
