@@ -152,6 +152,7 @@ export const accessibilityPrefixes = new Set([
   'shelter', // https://wiki.openstreetmap.org/wiki/Key:shelter
   'departures_board', // https://wiki.openstreetmap.org/wiki/Key:departures_board
   'sanitary_dump_station', // https://wiki.openstreetmap.org/wiki/Key:sanitary_dump_station
+  'xmas:feature', // https://wiki.openstreetmap.org/wiki/Key:xmas:feature
 ])
 
 export default function isAccessibilityRelevantOSMKey(osmKey: string): boolean {

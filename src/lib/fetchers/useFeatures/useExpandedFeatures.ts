@@ -1,14 +1,14 @@
 import type { SWRInfiniteConfiguration } from 'swr/infinite'
 import { isAccessibilityCloudId } from '../../typing/discriminators/isAccessibilityCloudId'
 import { isOSMIdWithTableAndContextName } from '../../typing/discriminators/osmDiscriminator'
-import {
-  type FetchOneFeatureResult, FetchOnePlaceInfoResult, type FetchOsmToAcFeatureResult,
+import type {
+  FetchOneFeatureResult, FetchOnePlaceInfoResult, FetchOsmToAcFeatureResult,
 } from './fetchers'
 import type { FeatureId } from './types'
 import { useFeatures } from './useFeatures'
 import { useOsmToAcFeature } from './useOsmToAcFeature'
 import { useAcToOsmFeatures } from './useAcToOsmFeatures'
-import { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
+import type { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
 
 /**
  * `useExpandedFeatures` is a hook to load `ac:PlaceInfo` and `osm:Feature` IDs in the order passed of {@link features}.

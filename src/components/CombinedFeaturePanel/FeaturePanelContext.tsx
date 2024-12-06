@@ -14,6 +14,7 @@ import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalizatio
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import Spinner from '../ActivityIndicator/Spinner'
 import { useMapHighlight } from '../Map/filter'
+import { normalizeAccessibilityCloudId } from '../../lib/typing/normalization/accessibilityCloudIdNormalization'
 
 interface FeaturePanelContextType {
   features: {
@@ -91,7 +92,7 @@ const normalizeIds = (ids: string[]) => ids.flatMap((x) => {
   }
 
   if (isAccessibilityCloudId(x)) {
-    return x
+    return normalizeAccessibilityCloudId(x)
   }
   console.warn(`FeatureID could not be categorized, was: '${x}'`)
   return undefined
@@ -110,7 +111,7 @@ export function FeaturePanelContextProvider(
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
   const normalizedIds = normalizeIds(featureIds)
-
+  debugger
   useMapHighlight(normalizedIds?.[0])
   const expandedFeatures = useExpandedFeatures(normalizedIds, {
     useFeaturesSWRConfig: { shouldRetryOnError: false },
