@@ -168,10 +168,11 @@ export default function SearchResult({ feature, className, hidden }: Props) {
         ],
         {
           padding: calculateDefaultPadding(),
+          maxDuration: 0,
         },
       )
     } else {
-      map?.flyTo({
+      map?.jumpTo({
         center: [lon, lat],
         zoom: 20,
         padding: calculateDefaultPadding(),

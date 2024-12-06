@@ -123,4 +123,6 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'changing_table:location',
   'emergency',
   'building:levels',
+  'building:part',
+  'baby'
 ])

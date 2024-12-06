@@ -6,6 +6,8 @@ export const languageTaggedKeys = new Set([
   'description',
   'wheelchair:description',
   'blind:description',
+  'blind:website',
   'deaf:description',
+  'deaf:website',
   'toilets:wheelchair:description',
 ])
