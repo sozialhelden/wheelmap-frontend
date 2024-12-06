@@ -24,7 +24,7 @@ export type ValueRenderProps = {
 	defaultValueLabel: string | undefined;
 };
 
-function BuildingLevel({ value, osmFeature, languageTags }: ValueRenderProps) {
+function BuildingLevel({ defaultValueLabel, value, osmFeature, languageTags }: ValueRenderProps) {
 	const featureProperties = osmFeature?.properties;
 	// https://wiki.openstreetmap.org/wiki/Key:level#Level_designations
 	if (featureProperties?.["level:ref"] || featureProperties?.["addr:floor"]) {
@@ -33,7 +33,7 @@ function BuildingLevel({ value, osmFeature, languageTags }: ValueRenderProps) {
 		return null;
 	}
 
-	const valueAsNumber = typeof value === "number" ? value : parseFloat(value);
+	const valueAsNumber = typeof value === "number" ? value : Number.parseFloat(value);
 
 	const isUnderground = valueAsNumber < 0;
 	if (isUnderground) {
@@ -51,7 +51,7 @@ function BuildingLevel({ value, osmFeature, languageTags }: ValueRenderProps) {
 	}
 	const displayedLevel = skipZerothLevel ? valueAsNumber + 1 : valueAsNumber;
 
-	return <span>{t`Floor ${displayedLevel}`}</span>;
+	return <span>{defaultValueLabel} {displayedLevel}</span>;
 }
 
 function ColorContainer({

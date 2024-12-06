@@ -1,4 +1,9 @@
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
+  ['location.indoor', /^indoor$/],
+  ['location.level', /^level$/],
+  ['location.level_ref', /^level:ref$/],
+  ['location.room', /^room$/],
+  ['location.building_part', /^building:part$/],
   ['building_object.type', /^building$/],
   ['look.$1_$1', /^(building|roof):(colour|material|levels)|height$/],
   ['building_object.$1', /^building:([\w_]+)$/],
@@ -47,7 +52,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['capacities.capacity:total', /^capacity$/],
   [
     'audience.$1',
-    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer|community_centre:for)$/,
+    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer|community_centre:for|baby)$/,
   ],
   [
     'audience.$1.$2',
@@ -72,9 +77,6 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ['crossing.1', /^crossing$/],
   ['crossing.$1', /^crossing:([\w_]+)$/],
   ['description.$1', /^description:([\w_]+)$/],
-  ['location.indoor', /^indoor$/],
-  ['location.level', /^level$/],
-  ['location.level_ref', /^level:ref$/],
   ['means_of_transport.$1', /^(train|tram|subway|coach|ferry|subway|bus|taxi|share_taxi|minibus|light_rail|tourist_bus|trolleybus|monorail)$/],
   ['amenities.$1', /^(bin|shelter|lit|bench|tactile_paving|compressed_air|power_supply|sanitary_dump_station)$/],
   ['service.bike_$1', /^service:bicycle:([\w_]+)$/],

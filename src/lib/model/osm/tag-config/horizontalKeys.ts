@@ -21,4 +21,5 @@ export const horizontalKeys = new Set([
   'both',
   'passenger_information',
   'ground',
+  'capacities',
 ])

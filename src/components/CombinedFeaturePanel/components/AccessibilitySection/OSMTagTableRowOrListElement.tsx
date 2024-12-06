@@ -64,6 +64,7 @@ export function OSMTagTableRowOrListElement({
 	);
 
 	const valueIsString = typeof valueElement === "string";
+	const valueIsNumber = typeof valueElement === "number";
 	const editButton = isEditable && <EditButton editURL={editURL} />;
 
 	const displayedValueContent = valueIsString ? (
@@ -75,17 +76,19 @@ export function OSMTagTableRowOrListElement({
 				gap: ".5rem",
 			}}
 		>
-			<StyledMarkdown
+			{valueIsNumber ? String(valueElement) : null}
+			{valueIsString ? <StyledMarkdown
 				inline
 				style={{ textDecoration: hasDetails ? "underline dotted" : "none" }}
 			>
 				{valueElement}
-			</StyledMarkdown>
+			</StyledMarkdown> : null}
+			{!valueIsNumber && !valueIsString && valueElement}
 			{editButton}
 		</span>
 	) : (
 		<>
-			{valueElement} {editButton}
+			<span>{valueElement}</span> {editButton}
 		</>
 	);
 
