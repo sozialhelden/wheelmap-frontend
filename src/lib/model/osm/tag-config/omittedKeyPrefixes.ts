@@ -23,4 +23,5 @@ export const omittedKeyPrefixes: (string | RegExp)[] = [
   'building:name',
   'building:number',
   'opening_hours:url',
+  'building:prefabricated',
 ]

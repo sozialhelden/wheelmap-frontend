@@ -122,4 +122,5 @@ export const tagsWithoutDisplayedKeySet = new Set([
   'sanitary_dump_station',
   'changing_table:location',
   'emergency',
+  'building:levels',
 ])
