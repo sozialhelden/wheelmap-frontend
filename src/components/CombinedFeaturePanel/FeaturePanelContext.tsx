@@ -111,7 +111,7 @@ export function FeaturePanelContextProvider(
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
   const normalizedIds = normalizeIds(featureIds)
-  debugger
+
   useMapHighlight(normalizedIds?.[0])
   const expandedFeatures = useExpandedFeatures(normalizedIds, {
     useFeaturesSWRConfig: { shouldRetryOnError: false },
