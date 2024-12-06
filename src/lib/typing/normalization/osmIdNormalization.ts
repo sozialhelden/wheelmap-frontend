@@ -1,5 +1,5 @@
-import { databaseTableNames } from '../../../components/Map/filterLayers'
-import {
+import type { databaseTableNames } from '../../../components/Map/filterLayers'
+import type {
   AnyOSMId, OSMTypedId, OSMTypedId_Deprecated, OSMId, OSMIdWithTypeAndTableName,
 } from '../brands/osmIds'
 import {

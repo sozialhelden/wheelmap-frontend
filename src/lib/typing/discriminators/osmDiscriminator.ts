@@ -1,11 +1,11 @@
-import {
+import type {
   AnyOSMId, OSMTypedId, OSMTypedId_Deprecated, OSMIdWithTableAndContextNames,
   OSMElementType,
   OSMRDFContextName,
   OSMIdWithTypeAndTableName,
   LegacyOsmId,
 } from '../brands/osmIds'
-import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
+import type { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
 
 const matchNumber = '(?<value>\\d+)'
 const matchElementType = '(?<element>node|way|relation)'

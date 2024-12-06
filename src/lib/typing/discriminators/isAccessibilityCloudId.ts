@@ -1,15 +1,8 @@
 import { AccessibilityCloudRDFTypes } from '../../model/typing/AccessibilityCloudTypeMapping'
-import { AccessibilityCloudRDFId } from '../brands/accessibilityCloudIds'
+import type { AccessibilityCloudRDFId, AccessibilityCloudURIParameterId } from '../brands/accessibilityCloudIds'
 
-export const isAccessibilityCloudId = (featureId: string): featureId is AccessibilityCloudRDFId => {
-  const components = featureId.split('/')
-  if (components.length < 2) {
-    return false
-  }
+export const accessibilityCloudIdRegExp = new RegExp(`^(${AccessibilityCloudRDFTypes.join('|')})[/:]([0-9a-zA-Z]+)$`)
 
-  const [rdfType] = components
-  if (AccessibilityCloudRDFTypes.find((x) => x === rdfType)) {
-    return true
-  }
-  return false
+export const isAccessibilityCloudId = (featureId: string): featureId is AccessibilityCloudRDFId | AccessibilityCloudURIParameterId => {
+  return !!featureId.match(accessibilityCloudIdRegExp);
 }
