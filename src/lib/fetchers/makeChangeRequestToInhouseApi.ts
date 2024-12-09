@@ -1,6 +1,6 @@
 import { log } from '../util/logger'
 
-export async function makeChangeRequestToApi({
+export async function makeChangeRequestToInhouseApi({
   baseUrl,
   osmId,
   tagName,
