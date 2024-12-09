@@ -1,31 +1,29 @@
-import { Button } from '@blueprintjs/core'
-import { Popover2 } from '@blueprintjs/popover2'
-import { omit } from 'lodash'
-import styled from 'styled-components'
-import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
-
-const Pre = styled.pre`
-  margin: 0;
-  padding: 1rem;
-`
+import { omit } from "lodash";
+import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
+import { Button, Code, Popover, Text } from "@radix-ui/themes";
 
 export default function FeaturesDebugJSON(props: { features: AnyFeature[] }) {
-  const json = (
-    <Pre style={{
-      maxHeight: '300px', maxWidth: '500px', overflow: 'auto', fontSize: '10px',
-    }}
-    >
-      {JSON.stringify(
-        props.features.map((f) => omit(f, 'geometry.coordinates', 'centroid', 'type')),
-        null,
-        2,
-      )}
-    </Pre>
-  )
-
-  return (
-    <Popover2 content={json} lazy minimal>
-      <Button intent="none" text="JSON" />
-    </Popover2>
-  )
+	return (
+		<Popover.Root>
+			<Popover.Trigger>
+				<Button variant="soft" highContrast>Show JSON</Button>
+			</Popover.Trigger>
+			<Popover.Content size="1" maxWidth="300px">
+				<Text asChild={true} size="1">
+          <pre>
+					{JSON.stringify(
+						props.features.map((f) =>
+							omit(f, "geometry.coordinates", "centroid", "type"),
+						),
+						null,
+						2,
+					)}
+          </pre>
+				</Text>
+				<Popover.Close>
+					<Button size="1">Close</Button>
+				</Popover.Close>
+			</Popover.Content>
+		</Popover.Root>
+	);
 }

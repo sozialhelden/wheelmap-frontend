@@ -5,12 +5,12 @@ import styled from 'styled-components'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
 import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
-import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
-import colors from '../../../lib/util/colors'
+import type { AnyFeature } from '../../../lib/model/geo/AnyFeature'
 import ChevronRight from '../../shared/ChevronRight'
 import Icon from '../../shared/Icon'
 import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
+import { Box } from '@radix-ui/themes'
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -21,7 +21,6 @@ const PlaceNameDetail = styled.div`
   &:not(:first-child) {
     margin-top: 0.5rem;
   }
-  color: ${colors.textMuted};
 `
 
 type Props = {
@@ -40,8 +39,6 @@ const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1;
-  color: rgba(0, 0, 0, 0.8);
-  background-color:  ${colors.colorizedBackgroundColor};
   width: 100%;
   padding: 0 0 10px 0;
 
@@ -137,9 +134,9 @@ export default function FeatureNameHeader(props: Props) {
   )
 
   return (
-    <StyledHeader onClick={onHeaderClicked}>
+    <Box onClick={onHeaderClicked}>
       {placeNameElement}
       {children}
-    </StyledHeader>
+    </Box>
   )
 }

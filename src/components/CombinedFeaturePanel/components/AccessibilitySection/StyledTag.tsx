@@ -2,7 +2,6 @@ import { Tag } from '@blueprintjs/core';
 import styled from 'styled-components';
 
 const StyledTag = styled.div`
-  color: #0b2743 !important;
   border-radius: 1rem;
   font-size: 0.9em;
 

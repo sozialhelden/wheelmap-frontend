@@ -1,0 +1,22 @@
+/* This adapts MapboxGL controls to dark mode when enabled. */
+
+@media (prefers-color-scheme: dark) {
+  .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
+    z-index: auto !important;
+  }
+
+  .mapboxgl-ctrl-icon {
+    filter: invert(80%) brightness(200%);
+    opacity: 0.8;
+  }
+
+  .mapboxgl-ctrl-group {
+    background: #33333344 !important;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 2px #00000044 !important;
+  }
+
+  .mapboxgl-ctrl-group button {
+    border-color: #00000044 !important;
+  }
+}

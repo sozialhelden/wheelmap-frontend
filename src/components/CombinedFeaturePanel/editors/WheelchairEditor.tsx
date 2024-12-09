@@ -1,14 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Button } from '@blueprintjs/core'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import useSWR from 'swr'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
 import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
 import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
-import { getFeatureId, YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { AccessibilityView } from '../../../pages/[placeType]/[id]/report/send-report-to-ac'
@@ -16,19 +12,9 @@ import Icon from '../../shared/Icon'
 import { AppStateLink } from '../../App/AppStateLink'
 import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
-import {
-  ChangesetState,
-  createChange,
-  createChangeset,
-  fetcher,
-  makeChangeRequestToApi,
-} from '../../../pages/[placeType]/[id]/[tag]/edit'
-import { log } from '../../../lib/util/logger'
-import { isOSMFeature } from '../../../lib/model/geo/AnyFeature'
-import { getOSMType } from '../../../lib/model/osm/generateOsmUrls'
-import useOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
+import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 
-export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
+export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -45,70 +31,6 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
   const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
 
-  // move this to a separate context?
-  // TODO: add typing
-  const accessToken = (useSession().data as any)?.accessToken
-
-  const { baseUrl } = useOSMAPI({ cached: false })
-
-  const router = useRouter()
-  const { ids, id, tag } = router.query
-  const tagName = typeof tag === 'string' ? tag : tag[0]
-  const osmFeature = isOSMFeature(feature) ? feature : undefined
-  const osmType = getOSMType(osmFeature)
-  const osmId = getFeatureId(osmFeature)
-  const currentOSMObjectOnServer = useSWR([osmType, osmFeature?._id], fetcher)
-  const currentTagsOnServer = currentOSMObjectOnServer.data?.tags
-
-  const [changesetState, setChangesetState] = React.useState<ChangesetState>()
-  const [error, setError] = React.useState<Error>()
-
-  const submitNewValue = React.useCallback(() => {
-    if (!currentTagsOnServer || !accessToken || !editedTagValue || !osmType) {
-      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
-    }
-
-    createChangeset({
-      baseUrl, accessToken, tagName, newValue: editedTagValue,
-    })
-      .then((changesetId) => {
-        setChangesetState('creatingChange')
-        return createChange({
-          baseUrl,
-          accessToken,
-          osmType,
-          osmId: id,
-          changesetId,
-          tagName,
-          newTagValue: editedTagValue,
-          currentTagsOnServer,
-        }).then(() => setChangesetState('changesetComplete'))
-      })
-      .catch((err) => {
-        log.error(err)
-        setChangesetState('error')
-        setError(err)
-      })
-  }, [baseUrl, currentTagsOnServer, accessToken, editedTagValue, tag, tagName, id, osmType])
-
-  const onClickHandler = async () => {
-    if (accessToken) {
-      return submitNewValue()
-    }
-    if (!currentTagsOnServer || !accessToken || !editedTagValue || !osmType || !osmId) {
-      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
-    }
-    return makeChangeRequestToApi(
-      {
-        baseUrl,
-        osmType,
-        osmId,
-        tagName,
-        newTagValue: editedTagValue,
-      },
-    )
-  }
-
   return (
     <StyledReportView className="_view">
       <FeatureNameHeader feature={feature}>
@@ -121,6 +43,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('yes')
+            onChange('yes')
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -133,6 +56,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('limited')
+            onChange('limited')
           }}
           className="_okay"
           inputLabel="accessibility-partially"
@@ -146,6 +70,7 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('no')
+            onChange('no')
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
@@ -158,8 +83,10 @@ export const WheelchairEditor = ({ feature }: BaseEditorProps) => {
       </form>
 
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}><div role="button" className="_option _back">Back</div></AppStateLink>
-        <Button onClick={onClickHandler}>Send</Button>
+        <AppStateLink href={baseFeatureUrl}>
+          <div role="button" className="_option _back">Back</div>
+        </AppStateLink>
+        <Button onClick={handleSubmitButtonClick}>Send</Button>
       </footer>
     </StyledReportView>
   )

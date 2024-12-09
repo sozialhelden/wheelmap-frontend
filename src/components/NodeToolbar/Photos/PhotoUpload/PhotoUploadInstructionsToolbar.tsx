@@ -5,8 +5,8 @@ import { t } from 'ttag'
 import colors from '../../../../lib/util/colors'
 import Spinner from '../../../ActivityIndicator/Spinner'
 import { CheckmarkIcon } from '../../../icons/actions'
-import StyledCloseLink from '../../../shared/CloseLink'
 import Toolbar from '../../../shared/Toolbar'
+import CloseButton from '../../../shared/CloseButton'
 
 export type Props = {
   waitingForPhotoUpload: boolean;
@@ -233,7 +233,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<
           >
             <header>
               <h3>{captions.header}</h3>
-              <StyledCloseLink onClick={this.onClose} />
+              <CloseButton onClick={this.onClose} />
             </header>
             <section>
               <ul>

@@ -1,18 +1,14 @@
-import type React from "react";
-import { t } from "ttag";
-import Color from "colorjs.io";
-import { compact, uniq } from "lodash";
-import StyledTag from "./StyledTag";
-import type {
-	TypeTaggedOSMFeature,
-	TypeTaggedPlaceInfo,
-} from "../../../../lib/model/geo/AnyFeature";
-import DisplayedQuantity from "./DisplayedQuantity";
-import { determineIfZerothLevelIsSkippedHere } from "./determineIfZerothLevelIsSkippedHere";
-import { useDarkMode } from "../../../shared/useDarkMode";
-import OpeningHoursValue from "./OpeningHoursValue";
-import StyledMarkdown from "../../../shared/StyledMarkdown";
-import { classifyHSLColor } from "../../../../lib/util/classifyHSLColor";
+import Color from 'colorjs.io';
+import type React from 'react';
+import { t } from 'ttag';
+import type { TypeTaggedOSMFeature, TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature';
+import { classifyHSLColor } from '../../../../lib/util/classifyHSLColor';
+import StyledMarkdown from '../../../shared/StyledMarkdown';
+import { useDarkMode } from '../../../shared/useDarkMode';
+import AddWheelchairDescription from './AddWheelchairDescription';
+import DisplayedQuantity from './DisplayedQuantity';
+import OpeningHoursValue from './OpeningHoursValue';
+import { determineIfZerothLevelIsSkippedHere } from './determineIfZerothLevelIsSkippedHere';
 
 export type ValueRenderProps = {
 	key: string;
@@ -122,6 +118,9 @@ export const valueRenderFunctions: Record<
 	(props: ValueRenderProps) => React.ReactNode
 > = {
 	"^wheelchair$": ({ defaultValueLabel }) => <div>{defaultValueLabel}</div>,
+	'^add_wheelchair_description$': () => (
+    <AddWheelchairDescription />
+  ),
 	"^opening_hours$": ({ key, value, osmFeature }) => (
 		<OpeningHoursValue
 			value={String(value)}

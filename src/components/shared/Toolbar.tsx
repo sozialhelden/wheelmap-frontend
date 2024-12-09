@@ -1,4 +1,3 @@
-import { hsl } from 'd3-color'
 import includes from 'lodash/includes'
 import minBy from 'lodash/minBy'
 import uniq from 'lodash/uniq'
@@ -7,10 +6,10 @@ import ResizeObserverPolyfill from 'resize-observer-polyfill'
 import styled from 'styled-components'
 import { t } from 'ttag'
 import { isOnSmallViewport } from '../../lib/util/ViewportSize'
-import colors, { alpha } from '../../lib/util/colors'
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 import { log } from '../../lib/util/logger'
 import { useMapOverlapRef } from '../Map/GlobalMapContext'
+import { Card } from '@radix-ui/themes'
 
 type Props = {
   className?: string;
@@ -129,17 +128,7 @@ const StyledSection = styled.section`
         }
     }
 
-    margin: 0 10px 10px 10px;
-    padding: 0px 15px 5px 15px;
     outline: none;
-    border-top: ${colors.colorizedBackgroundColor} 8px solid;
-    padding-bottom: 8px;
-
-    font-size: 16px;
-    box-shadow: 0 5px 30px ${alpha(colors.darkLinkColor, 0.2)},
-    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
-    background-color: ${colors.colorizedBackgroundColor};
-
     overflow: auto;
     overflow-x: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -216,21 +205,6 @@ const StyledSection = styled.section`
         background-color: transparent;
         border: none;
         outline: none;
-        color: ${colors.linkColor};
-
-        @media (hover), (-moz-touch-enabled: 0) {
-            &:hover {
-                background-color: ${colors.linkBackgroundColorTransparent};
-            }
-        }
-
-        &:focus&:not(.primary-button) {
-            background-color: ${colors.linkBackgroundColorTransparent};
-        }
-
-        &:disabled {
-            opacity: 0.15;
-        }
     }
 
     button.link-button.full-width-button {
@@ -238,56 +212,9 @@ const StyledSection = styled.section`
     }
 
     .primary-button {
-        color: white;
-        background-color: ${colors.linkColor};
         min-width: 8em;
-
-        @media (hover), (-moz-touch-enabled: 0) {
-            &:hover {
-                background-color: ${hsl(colors.linkColor)
-    .brighter(0.2)
-    .formatRgb()};
-            }
-        }
-
-        &:active {
-            background-color: ${hsl(colors.linkColor)
-    .darker(0.2)
-    .formatRgb()};
-        }
-
-        &.focus-visible {
-            box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-            transition: box-shadow 0.2s;
-        }
-
         &[disabled] {
-            opacity: 0.8;
-            pointer-events: none;
-        }
-    }
-
-    .negative-button {
-        color: ${hsl(colors.negativeColor)
-    .darker(1)
-    .formatRgb()};
-        @media (hover), (-moz-touch-enabled: 0) {
-            &:hover,
-            &:focus {
-                background-color: ${colors.negativeBackgroundColorTransparent};
-            }
-        }
-
-        &:active {
-            background-color: ${hsl(colors.negativeBackgroundColorTransparent)
-    .darker(1)
-    .formatRgb()};
-        }
-
-        &[disabled] {
-            opacity: 0.8;
-            color: ${colors.neutralColor};
-            pointer-events: none;
+          pointer-events: none;
         }
     }
 
@@ -580,66 +507,68 @@ const BaseToolbar = (
   const mapOverlayRef = useMapOverlapRef(!hidden)
 
   return (
-    <StyledSection
-      className={filteredClassNames}
-      style={{
-        touchAction,
-        transition,
-        overflowY: topOffset > 0 ? 'hidden' : 'auto',
-        transform: `translate3d(0, ${transformY}px, 0)`,
-        top:
-          isModal || viewportHeight <= 512 || viewportWidth <= 512
-            ? undefined
-            : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
-        maxHeight: getMaxHeight(
-          minimalTopPosition,
-          viewportWidth,
-          viewportHeight,
-          isModal || false,
-        ),
-      }}
-      ref={mergeRefs([scrollElementRef, innerRef, mapOverlayRef])}
-      aria-hidden={inert || hidden}
-      role={role}
-      aria-label={ariaLabel}
-      aria-describedby={ariaDescribedBy}
-      data-minimal-top-position={minimalTopPosition}
-      data-top-offset={topOffset}
-      data-dimensions-viewport-height={viewportHeight}
-      data-dimensions-height={toolbarHeight}
-      data-stops={stops.toString()}
-      onTouchMoveCapture={handleTouchMove}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onScroll={onScroll}
-    >
-      <div
-        style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}
+    <Card asChild={true} size="1">
+      <StyledSection
+        className={filteredClassNames}
+        style={{
+          touchAction,
+          transition,
+          overflowY: topOffset > 0 ? 'hidden' : 'auto',
+          transform: `translate3d(0, ${transformY}px, 0)`,
+          top:
+            isModal || viewportHeight <= 512 || viewportWidth <= 512
+              ? undefined
+              : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
+          maxHeight: getMaxHeight(
+            minimalTopPosition,
+            viewportWidth,
+            viewportHeight,
+            isModal || false,
+          ),
+        }}
+        ref={mergeRefs([scrollElementRef, innerRef, mapOverlayRef])}
+        aria-hidden={inert || hidden}
+        role={role}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        data-minimal-top-position={minimalTopPosition}
+        data-top-offset={topOffset}
+        data-dimensions-viewport-height={viewportHeight}
+        data-dimensions-height={toolbarHeight}
+        data-stops={stops.toString()}
+        onTouchMoveCapture={handleTouchMove}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onScroll={onScroll}
       >
-        {isSwipeable && !isModal ? (
-          <button
-            style={{ transform: 'translate3d(-50%, 0px, 0)' }}
-            className="grab-handle"
-            aria-label={
-              isAtTopmostPosition ? t`Collapse details` : t`Expand details`
-            }
-            onClick={() => {
-              if (isAtTopmostPosition) {
-                const offset = stops[stops.length - 1]
-                // reset scroll position
-                if (scrollElementRef.current) {
-                  scrollElementRef.current.scrollTop = 0
-                }
-                setTopOffset(offset)
-              } else {
-                ensureFullVisibility()
+        <div
+          style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}
+        >
+          {isSwipeable && !isModal ? (
+            <button
+              style={{ transform: 'translate3d(-50%, 0px, 0)' }}
+              className="grab-handle"
+              aria-label={
+                isAtTopmostPosition ? t`Collapse details` : t`Expand details`
               }
-            }}
-          />
-        ) : null}
-        {children}
-      </div>
-    </StyledSection>
+              onClick={() => {
+                if (isAtTopmostPosition) {
+                  const offset = stops[stops.length - 1]
+                  // reset scroll position
+                  if (scrollElementRef.current) {
+                    scrollElementRef.current.scrollTop = 0
+                  }
+                  setTopOffset(offset)
+                } else {
+                  ensureFullVisibility()
+                }
+              }}
+            />
+          ) : null}
+          {children}
+        </div>
+      </StyledSection>
+    </Card>
   )
 }
 

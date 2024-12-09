@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, {useCallback, useContext, useState} from 'react'
 import { Button } from '@blueprintjs/core'
+import { YesNoUnknown } from '../../../lib/model/ac/Feature'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { isOrHasAccessibleToilet } from '../../../lib/model/accessibility/isOrHasAccessibleToilet'
-import { YesNoUnknown } from '../../../lib/model/ac/Feature'
 import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { AccessibilityView } from '../../../pages/[placeType]/[id]/report/send-report-to-ac'
@@ -12,11 +12,11 @@ import { AppStateLink } from '../../App/AppStateLink'
 import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
 
-export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
+export const ToiletsWheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
   const current = isOrHasAccessibleToilet(feature)
-  const [option, setOption] = useState<YesNoUnknown | undefined>(current)
+  const [editedTagValue, setEditedTagValue] = useState<YesNoUnknown | undefined>(current)
 
   return (
     <StyledReportView className="_view">
@@ -29,11 +29,12 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
       <form>
         <AccessibilityView
           onClick={() => {
-            setOption('yes')
+            setEditedTagValue('yes')
+            onChange('yes')
           }}
           className="_yes"
           inputLabel="accessibility-fully"
-          selected={option === 'yes'}
+          selected={editedTagValue === 'yes'}
           icon={<ToiletStatusAccessibleIcon />}
           valueName="Yes"
         >
@@ -42,11 +43,12 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
 
         <AccessibilityView
           onClick={() => {
-            setOption('no')
+            setEditedTagValue('no')
+            onChange('no')
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
-          selected={option === 'no'}
+          selected={editedTagValue === 'no'}
           icon={<ToiletStatusNotAccessible />}
           valueName="No"
         >
@@ -58,7 +60,7 @@ export const ToiletsWheelchairEditor = ({ feature }: BaseEditorProps) => {
         <AppStateLink href={baseFeatureUrl}>
           <div role="button" className="_option _back">Back</div>
         </AppStateLink>
-        <Button>Send</Button>
+        <Button onClick={handleSubmitButtonClick}>Send</Button>
       </footer>
     </StyledReportView>
   )
