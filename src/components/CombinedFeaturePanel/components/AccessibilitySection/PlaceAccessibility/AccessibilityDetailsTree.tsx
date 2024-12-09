@@ -183,7 +183,6 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   box-sizing: border-box;
   line-height: 1.3;
   font-weight: 300;
-  color: #444;
   margin: 0 -10px !important;
   padding: 10px !important;
 
@@ -197,7 +196,6 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     margin: 0;
     padding: 0;
     font-weight: 300;
-    color: #444;
     line-height: 1.3;
 
     > li {

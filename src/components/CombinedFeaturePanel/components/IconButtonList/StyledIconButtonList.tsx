@@ -27,7 +27,6 @@ const StyledIconButtonList = styled.ul`
       min-height: 2.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: ${colors.darkLinkColor};
       font-weight: 500;
       text-decoration: none;
     }

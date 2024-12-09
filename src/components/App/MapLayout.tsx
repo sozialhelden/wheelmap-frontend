@@ -1,6 +1,3 @@
-import '@blueprintjs/core/lib/css/blueprint.css'
-import '@blueprintjs/icons/lib/css/blueprint-icons.css'
-import '@blueprintjs/popover2/lib/css/blueprint-popover2.css'
 import { useRouter } from 'next/router'
 import 'normalize.css'
 import React from 'react'
@@ -11,13 +8,14 @@ import styled from 'styled-components'
 import dynamic from 'next/dynamic'
 import { AppContext } from '../../lib/context/AppContext'
 import LoadableMapView from '../Map/LoadableMapView'
-import GlobalStyle from './GlobalAppStyle'
 import HeadMetaTags from './HeadMetaTags'
 import MainMenu from './MainMenu/MainMenu'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../Map/GlobalMapContext'
 import { MapFilterContextProvider } from '../Map/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
+import { Theme, ThemePanel } from '@radix-ui/themes'
+import { ThemeProvider } from 'next-themes'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -67,29 +65,33 @@ export default function MapLayout({
   }, [pathname])
 
   return (
-    <ErrorBoundary>
-      <HeadMetaTags />
-      <GlobalStyle />
-      <MapFilterContextProvider>
-        <GlobalMapContextProvider>
-          <MainMenu
-            onToggle={toggleMainMenu}
-            isOpen={isMenuOpen}
-            clientSideConfiguration={clientSideConfiguration}
-          />
-          {firstStart && <Onboarding />}
-          <main
-            style={{ height: '100%' }}
-            ref={containerRef}
-          >
-            <LoadableMapView width={width} height={height} key="map" />
-            <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-            <div style={{ zIndex: 2000 }}>{children}</div>
-            <StyledToastContainer position="bottom-center" stacked />
-          </main>
-        </GlobalMapContextProvider>
-      </MapFilterContextProvider>
-    </ErrorBoundary>
+    <ThemeProvider attribute="class">
+      <Theme accentColor="blue" grayColor="sand" radius="full" scaling="100%">
+        <ThemePanel />
+        <ErrorBoundary>
+          <HeadMetaTags />
+          <MapFilterContextProvider>
+            <GlobalMapContextProvider>
+              <MainMenu
+                onToggle={toggleMainMenu}
+                isOpen={isMenuOpen}
+                clientSideConfiguration={clientSideConfiguration}
+              />
+              {firstStart && <Onboarding />}
+              <main
+                style={{ height: '100%' }}
+                ref={containerRef}
+              >
+                <LoadableMapView width={width} height={height} key="map" />
+                <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+                <div style={{ zIndex: 2000 }}>{children}</div>
+                <StyledToastContainer position="bottom-center" stacked />
+              </main>
+            </GlobalMapContextProvider>
+          </MapFilterContextProvider>
+        </ErrorBoundary>
+      </Theme>
+    </ThemeProvider>
   )
 }
 
