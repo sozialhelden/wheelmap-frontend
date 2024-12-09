@@ -20,7 +20,7 @@ import { StringFieldEditor } from './StringFieldEditor'
 import { WheelchairEditor } from './WheelchairEditor'
 import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
 
-type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'setParentState' | 'handleSubmitButtonClick'>
+type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'onChange' | 'handleSubmitButtonClick'>
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -127,7 +127,7 @@ export const AutoEditor = ({
       <Editor
         feature={feature}
         tagKey={tagKey}
-        setParentState={setEditedTagValue}
+        onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
         handleSubmitButtonClick={handleSubmitButtonClick}
       />
