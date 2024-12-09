@@ -1,5 +1,5 @@
 import React from 'react'
-import { IApp } from '../model/ac/App'
+import type { IApp } from '../model/ac/App'
 
 export const AppContext = React.createContext<IApp | undefined>(undefined)
 AppContext.displayName = 'AppContext'

@@ -2,7 +2,7 @@ import { Classes, Tag, Tooltip } from "@blueprintjs/core";
 import styled from "styled-components";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { EditButton } from "./EditButton";
-import { OSMTagProps } from "./OSMTagProps";
+import type { OSMTagProps } from "./OSMTagProps";
 import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
 import StyledTag from "./StyledTag";
 
