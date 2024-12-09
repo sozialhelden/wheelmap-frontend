@@ -31,11 +31,6 @@ export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }:
   const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
   const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
 
-  const handleClick = () => {
-    // setParentState(editedTagValue)
-    handleSubmitButtonClick()
-  }
-
   return (
     <StyledReportView className="_view">
       <FeatureNameHeader feature={feature}>
@@ -91,7 +86,7 @@ export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }:
         <AppStateLink href={baseFeatureUrl}>
           <div role="button" className="_option _back">Back</div>
         </AppStateLink>
-        <Button onClick={handleClick}>Send</Button>
+        <Button onClick={handleSubmitButtonClick}>Send</Button>
       </footer>
     </StyledReportView>
   )

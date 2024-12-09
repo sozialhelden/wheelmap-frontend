@@ -18,9 +18,6 @@ export const ToiletsWheelchairEditor = ({ feature, onChange, handleSubmitButtonC
   const current = isOrHasAccessibleToilet(feature)
   const [editedTagValue, setEditedTagValue] = useState<YesNoUnknown | undefined>(current)
 
-  const handleClick = () => {
-    handleSubmitButtonClick()
-  }
   return (
     <StyledReportView className="_view">
       <FeatureNameHeader feature={feature}>
@@ -63,7 +60,7 @@ export const ToiletsWheelchairEditor = ({ feature, onChange, handleSubmitButtonC
         <AppStateLink href={baseFeatureUrl}>
           <div role="button" className="_option _back">Back</div>
         </AppStateLink>
-        <Button onClick={handleClick}>Send</Button>
+        <Button onClick={handleSubmitButtonClick}>Send</Button>
       </footer>
     </StyledReportView>
   )
