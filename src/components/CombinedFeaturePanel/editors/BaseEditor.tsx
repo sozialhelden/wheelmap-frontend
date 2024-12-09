@@ -6,7 +6,7 @@ export type BaseEditorProps = {
   tagKey: string
   feature: AnyFeature
   onUrlMutationSuccess: (urls: string[]) => void
-  setParentState: (tagValue: EditorTagValue) => void
+  onChange: (tagValue: EditorTagValue) => void
   handleSubmitButtonClick: () => void
 }
 
