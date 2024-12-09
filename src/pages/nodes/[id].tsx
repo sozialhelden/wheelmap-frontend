@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { getLayout } from '../../components/App/MapLayout'
 
 export default function LegacyNodeFeaturesPage() {
   const { replace, query: { id } } = useAppStateAwareRouter()
@@ -20,3 +21,5 @@ export default function LegacyNodeFeaturesPage() {
 
   return null
 }
+
+LegacyNodeFeaturesPage.getLayout = getLayout

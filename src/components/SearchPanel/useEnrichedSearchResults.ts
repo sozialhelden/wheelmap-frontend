@@ -1,26 +1,26 @@
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import useSWR from 'swr'
-import fetchPlacesOnKomootPhoton from '../../lib/fetchers/fetchPlacesOnKomootPhoton'
-import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
-import { AnyFeature, TypeTaggedPlaceInfo, TypeTaggedSearchResultFeature } from '../../lib/model/geo/AnyFeature'
+import type { PlaceInfo } from '@sozialhelden/a11yjson'
+import fetchPhotonFeatures from '../../lib/fetchers/fetchPhotonFeatures'
+import type { TypeTaggedPlaceInfo } from '../../lib/model/geo/AnyFeature'
 import { useSameAsOSMIdPlaceInfos } from '../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos'
-import { buildId, buildOSMUri } from './komootHelpers'
+import { buildId, buildOSMUri } from './photonFeatureHelpers'
+import useCollectionSWR from '../../lib/fetchers/ac/useCollectionSWR'
+import { AppContext } from '../../lib/context/AppContext'
+import { type EnrichedSearchResult, makeDisplayDataFromPhotonResult } from './EnrichedSearchResult'
+import { getLocalizedAddressString } from '../../lib/model/geo/getAddressString'
+import { useFeatures } from '../../lib/fetchers/useFeatures'
+import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
 
 const emptyArray: any[] = []
 
-export type EnrichedSearchResult = {
-  '@type': 'wheelmap:EnrichedSearchResult',
-  komootPhotonResult: TypeTaggedSearchResultFeature
-  featureId?: string
-  osmFeatureLoading: boolean
-  osmFeature: AnyFeature | null
-  placeInfoLoading: boolean
-  placeInfo: TypeTaggedPlaceInfo | null
-}
-
 export function useEnrichedSearchResults(searchQuery: string | undefined | null, lat?: number | null, lon?: number | null) {
-  const queryData = useMemo(
+  const { clientSideConfiguration } = useContext(AppContext) ?? { clientSideConfiguration: undefined }
+  const languageTag = useCurrentLanguageTagStrings()?.[0] || 'en';
+
+  const photonQuery = useMemo(
     () => ({
+      languageTag,
       query: searchQuery?.trim(),
       additionalQueryParameters: {
         lat: typeof lat === 'number' ? String(lat) : undefined,
@@ -28,17 +28,17 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchQuery],
+    [searchQuery, languageTag, lat, lon],
   )
 
   const {
     data: searchResults,
-    isLoading: isKomootPhotonLoading,
-    isValidating: isKomootPhotonValidating,
+    isLoading: isPhotonLoading,
+    isValidating: isPhotonValidating,
     error: searchError,
   } = useSWR(
-    queryData,
-    fetchPlacesOnKomootPhoton,
+    photonQuery,
+    fetchPhotonFeatures,
     {
       keepPreviousData: false,
       revalidateIfStale: false,
@@ -46,19 +46,53 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       revalidateOnReconnect: false,
     },
   )
-  const isSearching = (isKomootPhotonLoading || isKomootPhotonValidating)
+
+  const placesUrlParams = useMemo(() => {
+    if (!searchQuery || searchQuery.trim().length <= 2 || !clientSideConfiguration) {
+      return undefined
+    }
+
+    const wheelmapSourceId = 'LiBTS67TjmBcXdEmX'
+    const excludedSourceIds = clientSideConfiguration.excludeSourceIds || []
+    excludedSourceIds.push(wheelmapSourceId)
+    const includedSourceIds = clientSideConfiguration.includeSourceIds || []
+
+    return new URLSearchParams({
+      q: searchQuery,
+      includePlacesWithoutAccessibility: '1',
+      ...(includedSourceIds.length > 0 ? { includeSourceIds: includedSourceIds.join(',') } : undefined),
+      ...(excludedSourceIds.length > 0 ? { excludeSourceIds: excludedSourceIds.join(',') } : undefined),
+      // search with text & geoNear is not supported by the API
+    })
+  }, [searchQuery, clientSideConfiguration])
+
+  const {
+    isLoading: isAcSearchLoading,
+    isValidating: isAcSearchValidating,
+    data: acSearchResults,
+  } = useCollectionSWR<'ac:PlaceInfo', PlaceInfo, 'FeatureCollection'>({
+    type: 'ac:PlaceInfo',
+    params: placesUrlParams,
+    shouldRun: !!placesUrlParams,
+  })
+
+  const isSearching = (isPhotonLoading || isPhotonValidating) || (isAcSearchLoading || isAcSearchValidating)
 
   const featureIds = searchResults?.features.map(buildId) || emptyArray
-  const { isLoading: isOsmLoading, isValidating: isOsmValidating, data: osmFeatureResults } = useMultipleFeaturesOptional(
-    featureIds,
-    {
+
+  const {
+    isLoading: isOsmLoading,
+    isValidating: isOsmValidating,
+    data: osmFeatureResults,
+  } = useFeatures(featureIds, {
+    swr: {
       errorRetryCount: 0,
       keepPreviousData: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     },
-  )
+  })
 
   const isFetchingOsmDetails = (isOsmLoading || isOsmValidating)
 
@@ -79,36 +113,74 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       return undefined
     }
 
-    const extendedSearchResults = searchResults.features.map((feature) => ({
+    const allOsmUrls = new Set(searchResults.features.map((f) => buildOSMUri(f)))
+    // remove all osm features that are already in the search results
+    const filteredAcSearchResults = acSearchResults?.features.filter((f: PlaceInfo) => {
+      if (!f.properties || !f.geometry?.coordinates) {
+        return false
+      }
+
+      if (!f.properties.sameAs) {
+        return true
+      }
+
+      for (const url of f.properties.sameAs) {
+        if (allOsmUrls.has(url)) {
+          return false
+        }
+      }
+      return true
+    }) || []
+
+    const extendedAcSearchResults: EnrichedSearchResult[] = filteredAcSearchResults.map((feature: PlaceInfo): EnrichedSearchResult => ({
       '@type': 'wheelmap:EnrichedSearchResult',
-      komootPhotonResult: {
-        '@type': 'komoot:SearchResult',
+      displayData: {
+        title: feature.properties.name,
+        address: feature.properties.address ? getLocalizedAddressString(feature.properties.address) : undefined,
+        lat: feature.geometry.coordinates[1],
+        lon: feature.geometry.coordinates[0],
+      },
+      photonResult: null,
+      osmFeatureLoading: false,
+      osmFeature: null,
+      placeInfoLoading: false,
+      placeInfo: {
+        '@type': 'ac:PlaceInfo',
+        ...feature,
+      } as TypeTaggedPlaceInfo,
+    }))
+
+    const extendedPhotonSearchResults = searchResults.features.map((feature): EnrichedSearchResult => ({
+      '@type': 'wheelmap:EnrichedSearchResult',
+      displayData: makeDisplayDataFromPhotonResult(feature),
+      photonResult: {
+        '@type': 'photon:SearchResult',
         ...feature,
       },
       osmFeatureLoading: !!osmFeatureResults,
       osmFeature: null,
       placeInfoLoading: !!placeInfoResults,
       placeInfo: null,
-    } as EnrichedSearchResult))
+    }))
 
     if (osmFeatureResults) {
       // merge searchResults with osmFeatureResults
       for (let i = 0; i < osmFeatureResults.length; i++) {
         const osmFeatureResult = osmFeatureResults[i]
 
-        if (!osmFeatureResult || osmFeatureResult.status === 'rejected') {
+        if (!osmFeatureResult) {
           continue
         }
 
-        const osmFeature = osmFeatureResult.value
+        const osmFeature = osmFeatureResult.feature
         if (osmFeature) {
-          extendedSearchResults[i].osmFeature = osmFeature
-          extendedSearchResults[i].featureId = featureIds[i]
+          extendedPhotonSearchResults[i].osmFeature = osmFeature
+          extendedPhotonSearchResults[i].featureId = featureIds[i]
         }
       }
     }
 
-    if (placeInfoResults && placeInfoResults.features) {
+    if (placeInfoResults?.features) {
       // merge searchResults with placeInfoResults
       for (const placeInfoResult of placeInfoResults.features) {
         if (!placeInfoResult.properties.sameAs) {
@@ -118,7 +190,7 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
         for (const uri of placeInfoResult.properties.sameAs) {
           const index = osmUris.indexOf(uri)
           if (index !== -1) {
-            extendedSearchResults[index].placeInfo = {
+            extendedPhotonSearchResults[index].placeInfo = {
               '@type': 'ac:PlaceInfo',
               ...placeInfoResult,
             } as TypeTaggedPlaceInfo
@@ -128,8 +200,8 @@ export function useEnrichedSearchResults(searchQuery: string | undefined | null,
       }
     }
 
-    return extendedSearchResults
-  }, [searchResults, featureIds, osmFeatureResults, osmUris, placeInfoResults])
+    return [...extendedPhotonSearchResults, ...extendedAcSearchResults]
+  }, [searchResults, featureIds, osmFeatureResults, osmUris, placeInfoResults, acSearchResults])
 
   const isFetchingPlaceInfos = (isLoadingPlaceInfos || isValidatingPlaceInfos)
 

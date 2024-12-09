@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { getLayout } from '../../components/App/MapLayout'
 
 function Category() {
   const router = useRouter()
@@ -46,3 +47,5 @@ export default Category
 // }
 
 // export default Categories;
+
+Category.getLayout = getLayout

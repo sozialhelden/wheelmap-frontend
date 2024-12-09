@@ -5,16 +5,15 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { t } from 'ttag'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 
 import { toast } from 'react-toastify'
 import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import { OSMTagEditor } from '../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor'
-import CloseLink from '../../../../components/shared/CloseLink'
 import { useEnvContext } from '../../../../lib/context/EnvContext'
 import { getOSMType } from '../../../../lib/model/osm/generateOsmUrls'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
-import { useMultipleFeatures } from '../../../../lib/fetchers/fetchMultipleFeatures'
 import Toolbar from '../../../../components/shared/Toolbar'
 import useSubmitNewValueCallback from '../../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
 import { fetchFeatureSplitId } from '../../../../lib/fetchers/osm-api/fetchFeatureSplitId'
@@ -34,11 +33,21 @@ export default function CompositeFeaturesPage() {
   const { ids, id, tag } = router.query
   const tagName = typeof tag === 'string' ? tag : tag[0]
   const accessToken = (useSession().data as any)?.accessToken
-  const features = useMultipleFeatures(ids)
+  const featureStringIds = typeof ids === 'string' ? [ids] : ids
+  const featureIds = featureStringIds.map((x) => {
+    if (isOSMId(x)) {
+      return normalizeOSMId(x)
+    }
+    if (isAccessibilityCloudId(x)) {
+      return x
+    }
+    return undefined
+  })
+  const features = useFeatures(featureIds)
   const feature = features.data?.find((f) => isOSMFeature(f) && f._id === id)
   const osmFeature = isOSMFeature(feature) ? feature : null
   const closeEditor = React.useCallback(() => {
-    router.push(`/composite/${ids}`)
+    router.push(`/composite/${ids}`, undefined, { shallow: true })
   }, [router, ids])
   const [editedTagValue, setEditedTagValue] = React.useState<string | undefined>(feature?.properties[tagName])
   const osmType = getOSMType(osmFeature)
@@ -120,6 +129,4 @@ export default function CompositeFeaturesPage() {
   )
 }
 
-CompositeFeaturesPage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+CompositeFeaturesPage.getLayout = getLayout

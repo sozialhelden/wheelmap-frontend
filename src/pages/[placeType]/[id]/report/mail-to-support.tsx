@@ -7,7 +7,7 @@ import FeatureImage from '../../../../components/CombinedFeaturePanel/components
 import { useCurrentLanguageTagStrings } from '../../../../lib/context/LanguageTagContext'
 import useUserAgent from '../../../../lib/context/UserAgentContext'
 import { useFeatureLabel } from '../../../../components/CombinedFeaturePanel/utils/useFeatureLabel'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
@@ -81,8 +81,6 @@ function ReportSupportMail() {
   return <EmailView feature={feature} />
 }
 
-ReportSupportMail.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ReportSupportMail.getLayout = getLayout
 
 export default ReportSupportMail

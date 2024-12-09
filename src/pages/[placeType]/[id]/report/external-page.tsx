@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { log } from '../../../../lib/util/logger'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 
 function ReportExternalPage() {
   const router = useRouter()
@@ -19,6 +19,4 @@ function ReportExternalPage() {
 
 export default ReportExternalPage
 
-ReportExternalPage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ReportExternalPage.getLayout = getLayout

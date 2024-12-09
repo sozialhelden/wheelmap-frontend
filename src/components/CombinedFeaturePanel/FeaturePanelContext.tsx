@@ -1,32 +1,42 @@
 import React, {
-  createContext, FC, ReactNode, useMemo, useRef,
+  createContext, type FC, type ReactNode, useMemo, useRef,
 } from 'react'
-import { t } from 'ttag'
 import styled from 'styled-components'
-import { AnyFeature } from '../../lib/model/geo/AnyFeature'
-import { useMultipleFeaturesOptional } from '../../lib/fetchers/fetchMultipleFeatures'
-import Spinner from '../ActivityIndicator/Spinner'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import { t } from 'ttag'
+import { useExpandedFeatures } from '../../lib/fetchers/useFeatures'
+import { type CollectedFeature, collectExpandedFeaturesResult } from '../../lib/fetchers/useFeatures/collectExpandedFeatures'
 import { rolloutOsmFeatureIds } from '../../lib/model/osm/rolloutOsmFeatureIds'
+import { isAccessibilityCloudId } from '../../lib/typing/discriminators/isAccessibilityCloudId'
+import {
+  isOSMTypedId, isOSMElementValue_Legacy, isOSMId, isOSMIdWithTableAndContextName, isOSMIdWithTypeAndTableName,
+} from '../../lib/typing/discriminators/osmDiscriminator'
+import { normalizeOSMId } from '../../lib/typing/normalization/osmIdNormalization'
+import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
+import Spinner from '../ActivityIndicator/Spinner'
+import { useMapHighlight } from '../Map/filter'
+import { normalizeAccessibilityCloudId } from '../../lib/typing/normalization/accessibilityCloudIdNormalization'
 
 interface FeaturePanelContextType {
-  features: AnyFeature[]
-  isLoading: boolean,
-  error: unknown,
+  features: {
+    id: string,
+    feature?: CollectedFeature
+  }[],
+  anyLoading: boolean,
+  firstError?: unknown
   baseFeatureUrl: string
 }
 
 export const FeaturePanelContext = createContext<FeaturePanelContextType>({
   features: [],
-  isLoading: false,
-  error: null,
+  anyLoading: false,
+  firstError: false,
   baseFeatureUrl: '',
 })
 
 const allowedPlaceTypes = [
   // outdated
   'composite',
-  'entrances_or_exits', 'buildings', 'amenities',
+  'entrances_or_exits', 'buildings', 'amenities', 'pedestrian_highways',
   // osm-style
   'node', 'way', 'relation',
   // rdf style
@@ -46,7 +56,7 @@ function buildFeatureIds(placeType: string, ids: string[]) {
     return rolloutOsmFeatureIds(placeType, ids)
   }
 
-  return ids.map((id) => `${placeType}:${id}`)
+  return ids.map((id) => `${placeType}/${id}`)
 }
 
 export const ErrorToolBar: FC = () => {
@@ -64,48 +74,75 @@ const StyledLoadingDiv = styled.div`
   padding: 24px;
 `
 
+const normalizeIds = (ids: string[]) => ids.flatMap((x) => {
+  if (isOSMId(x)) {
+    if (isOSMTypedId(x)) {
+      return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
+    }
+    if (isOSMElementValue_Legacy(x)) {
+      return [normalizeOSMId(x, 'amenities'), normalizeOSMId(x, 'buildings')]
+    }
+    if (isOSMIdWithTypeAndTableName(x)) {
+      return normalizeOSMId(x)
+    }
+    if (isOSMIdWithTableAndContextName(x)) {
+      return normalizeOSMId(x)
+    }
+    return normalizeOSMId(x)
+  }
+
+  if (isAccessibilityCloudId(x)) {
+    return normalizeAccessibilityCloudId(x)
+  }
+  console.warn(`FeatureID could not be categorized, was: '${x}'`)
+  return undefined
+}).filter((x) => !!x)
+
 export function FeaturePanelContextProvider(
   { featureIds: passedFeatureIds, children }:
-  { featureIds?: string | string[], children: ReactNode },
+  { featureIds?: string[], children: ReactNode },
 ) {
   const { query: { placeType, id: idOrIds } } = useAppStateAwareRouter()
   const baseFeatureUrl = `/${placeType}/${idOrIds}`
 
-  const ids = Array.isArray(idOrIds) ? idOrIds : idOrIds?.split(',') || []
+  const ids = useMemo(() => (
+    Array.isArray(idOrIds) ? idOrIds : idOrIds?.split(',') ?? []
+  ), [idOrIds])
   const featureIds = passedFeatureIds ?? buildFeatureIds(String(placeType), ids)
 
-  const {
-    data, isLoading, isValidating, error,
-  } = useMultipleFeaturesOptional(
-    featureIds,
-    {
-      shouldRetryOnError: false,
-    },
-  )
+  const normalizedIds = normalizeIds(featureIds)
 
-  const isBusy = (isLoading || isValidating) && !data
-  const filteredFeatures = data?.filter((f) => (f && f.status === 'fulfilled' && f.value))
-    .map((f) => (f as PromiseFulfilledResult<AnyFeature>).value)
+  useMapHighlight(normalizedIds?.[0])
+  const expandedFeatures = useExpandedFeatures(normalizedIds, {
+    useFeaturesSWRConfig: { shouldRetryOnError: false },
+    useOsmToAcSWRConfig: { shouldRetryOnError: false },
+  })
+  const { isLoading, isValidating } = expandedFeatures
 
-  const hasError = error || !filteredFeatures || filteredFeatures.length === 0
-
+  const resultSet = collectExpandedFeaturesResult(normalizedIds, expandedFeatures)
+  const anyLoading = (isLoading || isValidating)
+  // eslint-disable-next-line max-len, @stylistic/js/max-len
+  const firstError = expandedFeatures.requestedFeatures.error ?? expandedFeatures.additionalAcFeatures.error ?? expandedFeatures.additionalOsmFeatures.error
   const contextValue = useMemo(() => ({
-    features: filteredFeatures || [],
-    isLoading: isBusy,
-    error: hasError,
+    features: resultSet.features.map((x, i) => ({
+      id: normalizeIds[i],
+      feature: x,
+    })),
+    anyLoading,
+    firstError,
     baseFeatureUrl,
-  }), [filteredFeatures, isBusy, hasError, baseFeatureUrl])
+  } satisfies FeaturePanelContextType), [firstError, anyLoading, baseFeatureUrl, resultSet.features])
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>
-      {(hasError && !isBusy) && <ErrorToolBar />}
-      {isBusy && (
+      {(false && !anyLoading) && <ErrorToolBar />}
+      {anyLoading && (
         <StyledLoadingDiv className="_loading">
           <Spinner size={50} />
           <p className="_title">{t`Loading further details…`}</p>
         </StyledLoadingDiv>
       )}
-      {(!isBusy && !hasError) && children}
+      {(!anyLoading && !false) && children}
     </FeaturePanelContext.Provider>
   )
 }

@@ -7,17 +7,14 @@ import { useCurrentMappingEvent } from '../../../lib/context/useCurrentMappingEv
 import { useUniqueSurveyId } from '../../../lib/context/useUniqueSurveyId'
 import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
 import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl'
-import colors from '../../../lib/util/colors'
 import Spinner from '../../ActivityIndicator/Spinner'
 import SessionLink from '../../Session/SessionLink'
 
 const Badge = styled.span`
-  background-color: ${colors.warningColor};
   border-radius: 0.5rlh;
   padding: 0.2rem 0.3rem;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: white;
   margin: 0.1rem;
 `
 
@@ -51,17 +48,17 @@ export default function AppLinks(props: {}) {
     related: { appLinks },
   } = app
 
-  const [toogle, setToogle] = useState(false)
+  const [toogle, setToggle] = useState(false)
   const hotkeys = useMemo(() => [
     {
       combo: 'l',
       global: true,
-      label: 'Toogle OSM Power User Mode',
-      onKeyDown: () => setToogle(!toogle),
+      label: 'Toggle OSM Power User Mode',
+      onKeyDown: () => setToggle(!toogle),
     },
 
   ], [toogle])
-  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys)
+  const { handleKeyDown } = useHotkeys(hotkeys)
 
   const links = Object.values(appLinks)
     .sort((a, b) => (a.order || 0) - (b.order || 0))

@@ -9,8 +9,11 @@ export default function getFeatureDisplayName(feature: OSMFeature) {
     || properties.loc_name
     || properties.description
     || properties.ref
+    || properties['building:name']
+    || properties['building:number']
 
   if (ownName) {
     return ownName
   }
+  return undefined
 }

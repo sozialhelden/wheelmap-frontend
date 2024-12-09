@@ -4,6 +4,7 @@
 
 export const accessibilityPrefixes = new Set([
   'access', // https://wiki.openstreetmap.org/wiki/Key:access
+  'locked', // https://wiki.openstreetmap.org/wiki/Key:locked
   'acoustic', // https://wiki.openstreetmap.org/wiki/Key:acoustic (for traffic_signals)
   'air_conditioning', // https://wiki.openstreetmap.org/wiki/Key:air_conditioning
   'amperage', // https://wiki.openstreetmap.org/wiki/Key:amperage
@@ -16,6 +17,7 @@ export const accessibilityPrefixes = new Set([
   'building', // https://wiki.openstreetmap.org/wiki/Key:building
   'building:part',
   'building:colour',
+  'roof:colour',
   'building:max_level',
   'building:min_level',
   'max_level',
@@ -70,9 +72,21 @@ export const accessibilityPrefixes = new Set([
   'material', // https://wiki.openstreetmap.org/wiki/Key:material
   'max_age', // https://wiki.openstreetmap.org/wiki/Key:max_age
   'min_age', // https://wiki.openstreetmap.org/wiki/Key:min_age
+  'provided_for:toddler', // https://wiki.openstreetmap.org/wiki/Key:provided_for
+  'provided_for:infant', // https://wiki.openstreetmap.org/wiki/Key:provided_for
+  'blind', // https://wiki.openstreetmap.org/wiki/Key:blind
+  'baby', // https://wiki.openstreetmap.org/wiki/Key:baby
+  'sensory', // https://wiki.openstreetmap.org/wiki/Key:sensory
+  'walking_disability', // https://wiki.openstreetmap.org/wiki/Key:walking_disability
+  'sitting_disability', // https://wiki.openstreetmap.org/wiki/Key:sitting_disability
+  'playground', // https://wiki.openstreetmap.org/wiki/Key:playground
+  'playground:theme', // https://wiki.openstreetmap.org/wiki/Key:playground:theme
   'opening_hours', // https://wiki.openstreetmap.org/wiki/Key:opening_hours
+  'service_times', // https://wiki.openstreetmap.org/wiki/Key:service_times
+  'platform_lift', // https://wiki.openstreetmap.org/wiki/Key:platform_lift
   'outdoor_seating', // https://wiki.openstreetmap.org/wiki/Key:outdoor_seating
   'operator', // https://wiki.openstreetmap.org/wiki/Key:operator
+  'operator:type', // https://wiki.openstreetmap.org/wiki/Key:operator:type
   'indoor_seating', // https://wiki.openstreetmap.org/wiki/Key:indoor_seating
   'parking', // https://wiki.openstreetmap.org/wiki/Key:parking
   'payment', // https://wiki.openstreetmap.org/wiki/Key:payment
@@ -95,8 +109,15 @@ export const accessibilityPrefixes = new Set([
   'surface', // https://wiki.openstreetmap.org/wiki/Key:surface
   'supervised', // https://wiki.openstreetmap.org/wiki/Key:supervised
   'service:bicycle:pump', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:pump
+  'service:bicycle:rental', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:rental
+  'service:bicycle:repair', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:repair
+  'service:bicycle:retail', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:retail
+  'service:bicycle:cleaning', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:cleaning
+  'service:bicycle:second_hand', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:second_hand
+  'service:bicycle:diy', // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:diy
   // "surveillance",
   'tactile_paving', // https://wiki.openstreetmap.org/wiki/Key:tactile_paving
+  'passenger_information_display', // https://wiki.openstreetmap.org/wiki/Key:passenger_information_display
   'tactile_writing', // https://wiki.openstreetmap.org/wiki/Key:tactile_writing
   'takeaway', // https://wiki.openstreetmap.org/wiki/Key:takeaway
   'toilet', // https://wiki.openstreetmap.org/wiki/Key:toilet
@@ -111,6 +132,28 @@ export const accessibilityPrefixes = new Set([
   'winter_service', // https://wiki.openstreetmap.org/wiki/Key:winter_service
   'healthcare', // https://wiki.openstreetmap.org/wiki/Key:healthcare
   'healthcare:speciality', // https://wiki.openstreetmap.org/wiki/Key:healthcare:speciality
+  'self_checkout', // https://wiki.openstreetmap.org/wiki/Key:self_checkout
+  'bus', // https://wiki.openstreetmap.org/wiki/Key:bus
+  'tram', // https://wiki.openstreetmap.org/wiki/Key:tram
+  'train', // https://wiki.openstreetmap.org/wiki/Key:train
+  'subway', // https://wiki.openstreetmap.org/wiki/Key:subway
+  'ferry', // https://wiki.openstreetmap.org/wiki/Key:ferry
+  'taxi', // https://wiki.openstreetmap.org/wiki/Key:taxi
+  'share_taxi', // https://wiki.openstreetmap.org/wiki/Key:share_taxi
+  'minibus', // https://wiki.openstreetmap.org/wiki/Key:minibus
+  'light_rail', // https://wiki.openstreetmap.org/wiki/Key:light_rail
+  'tourist_bus', // https://wiki.openstreetmap.org/wiki/Key:tourist_bus
+  'trolleybus', // https://wiki.openstreetmap.org/wiki/Key:trolleybus
+  'monorail', // https://wiki.openstreetmap.org/wiki/Key:monorail
+  'light_rail', // https://wiki.openstreetmap.org/wiki/Key:light_rail
+  'tourist_bus', // https://wiki.openstreetmap.org/wiki/Key:tourist_bus
+  'bin', // https://wiki.openstreetmap.org/wiki/Key:bin
+  'bench', // https://wiki.openstreetmap.org/wiki/Key:bench
+  'shelter', // https://wiki.openstreetmap.org/wiki/Key:shelter
+  'departures_board', // https://wiki.openstreetmap.org/wiki/Key:departures_board
+  'sanitary_dump_station', // https://wiki.openstreetmap.org/wiki/Key:sanitary_dump_station
+  'xmas:feature', // https://wiki.openstreetmap.org/wiki/Key:xmas:feature
+  'sport', // https://wiki.openstreetmap.org/wiki/Key:sport
 ])
 
 export default function isAccessibilityRelevantOSMKey(osmKey: string): boolean {

@@ -27,6 +27,10 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
         prefix: 'operator',
         verb: 'P154',
       },
+      {
+        prefix: 'network',
+        verb: 'P154',
+      },
     ],
     (link) => getWikipediaLemma(feature, link.prefix),
   ), [feature])

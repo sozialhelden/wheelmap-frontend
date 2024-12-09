@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const LocationContainer = styled.div`
   display: flex;
@@ -27,4 +27,4 @@ export const LocationContainer = styled.div`
     align-self: center;
     gap: 24px;
   }
-`;
+`

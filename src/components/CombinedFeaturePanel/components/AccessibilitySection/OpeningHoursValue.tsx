@@ -6,8 +6,7 @@ import { t } from 'ttag'
 import { useAdminAreas } from '../../../../lib/fetchers/osm-api/fetchAdminAreas'
 import StyledMarkdown from '../../../shared/StyledMarkdown'
 import FeatureContext from '../FeatureContext'
-import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
-import { features } from 'process'
+import { isOSMFeature, type TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import { log } from '../../../../lib/util/logger'
 
 // helper function
@@ -28,19 +27,20 @@ function getReadableState(oh: opening_hours) {
   return outputs
 }
 
-export default function OpeningHoursValue(props: { value: string }) {
+export default function OpeningHoursValue(props: { value: string, tagKey: string, osmFeature?: TypeTaggedOSMFeature }) {
   // https://openingh.ypid.de/evaluation_tool/?lng=en
   // https://github.com/opening-hours/opening_hours.js
-  const { value } = props
+  const { value, osmFeature, tagKey } = props
   const feature = React.useContext(FeatureContext)
 
-  let lat; let lon; let country; let
-    state
+  let lat: number | undefined
+  let lon: number | undefined
+  let country: string | undefined
+  let state: string | undefined
   if (isOSMFeature(feature)) {
-    lat = feature.geometry.coordinates[1]
-    lon = feature.geometry.coordinates[0]
-    country = feature.properties['addr:country']
-    state = feature.properties['addr:state']
+    [lon, lat] = feature.geometry.coordinates
+    country = feature.properties['addr:country'] ? String(feature.properties['addr:country']) : undefined
+    state = feature.properties['addr:state'] ? String(feature.properties['addr:state']) : undefined
   }
   const adminAreas = useAdminAreas({ longitude: lon, latitude: lat })
   const { featuresByType } = adminAreas
@@ -49,7 +49,19 @@ export default function OpeningHoursValue(props: { value: string }) {
 
   const { outputs, oh, niceString } = React.useMemo(() => {
     try {
-      const oh = new opening_hours(value, { lat, lon, address: { country_code: country, state } }, { locale: navigator.language.slice(0, 2), tag_key: 'opening_hours', map_value: true })
+      const oh = new opening_hours(
+        value,
+        {
+          lat,
+          lon,
+          address: { country_code: country, state },
+        },
+        {
+          locale: navigator.language.slice(0, 2),
+          tag_key: tagKey,
+          map_value: true,
+        },
+      )
       const isOpen = oh.getState() // for current date
       const nextChangeDate = oh.getNextChange()
       const outputs = getReadableState(oh)
@@ -86,10 +98,25 @@ export default function OpeningHoursValue(props: { value: string }) {
     .replace(/\bFr\b/g, t`Friday`)
     .replace(/\bSa\b/g, t`Saturday`)
     .replace(/\bSu\b/g, t`Sunday`)
+
+    .replace(/\bJan\b/g, t`January`)
+    .replace(/\bFeb\b/g, t`February`)
+    .replace(/\bMar\b/g, t`March`)
+    .replace(/\bApr\b/g, t`April`)
+    .replace(/\bMay\b/g, t`May`)
+    .replace(/\bJun\b/g, t`June`)
+    .replace(/\bJul\b/g, t`July`)
+    .replace(/\bAug\b/g, t`August`)
+    .replace(/\bSep\b/g, t`September`)
+    .replace(/\bOct\b/g, t`October`)
+    .replace(/\bNov\b/g, t`November`)
+    .replace(/\bDec\b/g, t`December`)
+
     .replace(/\bPH\b/g, t`public holiday`)
     .replace(/\boff\b/g, t`closed`)
     .replace(/\bSH\b/g, t`school holiday`)
     .replace(/,/g, ', ')
+
   const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />)
 
   if (!outputs.length) {
@@ -106,12 +133,22 @@ export default function OpeningHoursValue(props: { value: string }) {
 
       {outputs.length > 1 && (
         <>
-      &nbsp;
+          &nbsp;
           <StyledMarkdown inline element="span">
             {outputs.slice(1).join(' ')}
           </StyledMarkdown>
         </>
       )}
+
+      &nbsp;
+
+      {osmFeature?.properties['opening_hours:url']
+        && (
+          <a href={osmFeature.properties['opening_hours:url']}>
+            {t`See website`}
+            .
+          </a>
+        )}
 
       <div style={{ marginTop: '0.5rem', opacity: 0.8 }}>
         {shownElements}

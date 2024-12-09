@@ -10,7 +10,7 @@ import colors from '../../../lib/util/colors'
 
 import AppContext from '../../../AppContext'
 import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes'
-import AccessibilityDetailsTree from './AccessibilityDetailsTree'
+import AccessibilityDetailsTree from '../../CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityDetailsTree'
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1)

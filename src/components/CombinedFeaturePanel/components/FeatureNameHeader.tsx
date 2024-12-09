@@ -5,12 +5,12 @@ import styled from 'styled-components'
 import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
 import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
 import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
-import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
-import colors from '../../../lib/util/colors'
+import type { AnyFeature } from '../../../lib/model/geo/AnyFeature'
 import ChevronRight from '../../shared/ChevronRight'
 import Icon from '../../shared/Icon'
 import { PlaceNameH1, PlaceNameH2 } from '../../shared/PlaceName'
 import { useFeatureLabel } from '../utils/useFeatureLabel'
+import { Box } from '@radix-ui/themes'
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -21,23 +21,17 @@ const PlaceNameDetail = styled.div`
   &:not(:first-child) {
     margin-top: 0.5rem;
   }
-  color: ${colors.textMuted};
 `
 
 type Props = {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
+  onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: 'small' | 'medium' | 'big';
 }
 
 const StyledHeader = styled.header`
-  /**
-    This is necessary to make the sticky header get a shadow that extends from the whole panel's
-    margin.
-  */
-  margin: -.5rem -1rem 1rem -1rem;
-  padding: .5rem 1rem;
   line-height: 1;
   display: flex;
   gap: 1rem;
@@ -45,7 +39,8 @@ const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   z-index: 1;
-  color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  padding: 0 0 10px 0;
 
   ${PlaceNameH1} {
     flex-grow: 2;
@@ -53,7 +48,9 @@ const StyledHeader = styled.header`
 `
 
 export default function FeatureNameHeader(props: Props) {
-  const { feature, children, onClickCurrentMarkerIcon } = props
+  const {
+    feature, children, onClickCurrentMarkerIcon, onHeaderClicked,
+  } = props
 
   const handleMarkerClick = React.useCallback(() => {
     if (feature && onClickCurrentMarkerIcon) {
@@ -71,8 +68,12 @@ export default function FeatureNameHeader(props: Props) {
     hasLongName,
     ariaLabel,
     categoryName,
+    buildingName,
+    buildingNumber,
     category,
     categoryTagKeys,
+    ref,
+    localRef,
   } = useFeatureLabel({
     feature,
     languageTags,
@@ -103,16 +104,29 @@ export default function FeatureNameHeader(props: Props) {
     <StyledChevronRight />,
   )
 
+  const refNames = uniq(compact([
+    !placeName?.match(String(buildingName)) && buildingName?.trim(),
+    !buildingName?.match(String(buildingNumber)) && buildingNumber?.trim(),
+    ref?.trim().replace(/;/, ' / '),
+    localRef?.trim().replace(/;/, ' / '),
+  ]))
+
   const HeaderElement = props.size === 'small' ? PlaceNameH2 : PlaceNameH1
   const detailFontSize = (props.size === 'small' || lastNameElement) ? '0.9em' : '1em'
-  const categoryElement = !lastNameElement?.toLocaleLowerCase().startsWith(categoryName?.toLocaleLowerCase())
-    && !lastNameElement?.toLocaleLowerCase().endsWith(categoryName?.toLocaleLowerCase())
-    && (<PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>)
+  const categoryElement = categoryName
+    && !lastNameElement?.toLocaleLowerCase().match(categoryName?.toLocaleLowerCase())
+    && (
+      <PlaceNameDetail style={{ fontSize: detailFontSize }}>
+        {categoryName}
+        {' '}
+        {refNames.join(' / ')}
+      </PlaceNameDetail>
+    )
   const placeNameElement = (
     <HeaderElement isSmall={hasLongName} aria-label={ariaLabel}>
       {icon}
       <div>
-        {lastNameElement && <div>{lastNameElement}</div>}
+        {lastNameElement && <div>{intersperse(lastNameElement.split(/;/), <br />)}</div>}
         {categoryElement}
         {nameElements.length > 1 && <PlaceNameDetail style={{ fontSize: detailFontSize }}>{parentElements}</PlaceNameDetail>}
       </div>
@@ -120,9 +134,9 @@ export default function FeatureNameHeader(props: Props) {
   )
 
   return (
-    <StyledHeader>
+    <Box onClick={onHeaderClicked}>
       {placeNameElement}
       {children}
-    </StyledHeader>
+    </Box>
   )
 }

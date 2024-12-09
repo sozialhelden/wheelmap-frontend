@@ -1,18 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { CombinedFeaturePanel } from '../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import {
   FeaturePanelContext,
 } from '../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import PlaceLayout from '../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../components/CombinedFeaturePanel/PlaceLayout'
 
 export default function PlaceFeaturePage() {
   const { features } = useContext(FeaturePanelContext)
+  const resolvedFeatures = useMemo(() => features.map((x) => x.feature?.requestedFeature).filter((x) => !!x), [features])
 
   return (
-    <CombinedFeaturePanel features={features} />
+    <CombinedFeaturePanel features={resolvedFeatures} />
   )
 }
 
-PlaceFeaturePage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+PlaceFeaturePage.getLayout = getLayout

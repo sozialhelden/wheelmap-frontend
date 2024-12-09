@@ -1,11 +1,11 @@
-import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping';
-import ResourceError from '../ResourceError';
+import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping, getAccessibilityCloudCollectionName } from '../../model/typing/AccessibilityCloudTypeMapping'
+import ResourceError from '../ResourceError'
 
 type Params<RDFTypeName extends AccessibilityCloudRDFType> = {
   /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
   baseUrl: string,
   /** The accessibility.cloud collection to fetch the document from. */
-  type: RDFTypeName,
+  rdfType: RDFTypeName,
   /** Alphanumeric ID of the document to fetch. */
   _id: string,
   /**
@@ -17,11 +17,11 @@ type Params<RDFTypeName extends AccessibilityCloudRDFType> = {
 /**
  * Fetch a single document from the accessibility.cloud API.
  */
-export async function fetchDocumentWithTypeTag<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName],>({
+export async function fetchDocumentWithTypeTag<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName]>({
   /** The accessibility.cloud API base URL. There are different endpoints with different caching / CDN configs. */
   baseUrl,
   /** The accessibility.cloud collection to fetch the document from. */
-  type,
+  rdfType,
   /** Alphanumeric ID of the document to fetch. */
   _id,
   /**
@@ -30,16 +30,16 @@ export async function fetchDocumentWithTypeTag<RDFTypeName extends Accessibility
    */
   paramsString,
 }: Params<RDFTypeName>): Promise<DataType> {
-  const kebabPluralName = getAccessibilityCloudCollectionName(type);
+  const kebabPluralName = getAccessibilityCloudCollectionName(rdfType)
   const url = `${baseUrl}/${kebabPluralName}/${_id}.json${paramsString ? `?${paramsString}` : ''}`
   const response = await fetch(url)
   if (!response.ok) {
     const errorResponse = await response.json()
-    const defaultReason = `Failed to fetch \`${type}\` with ID \`${_id}\` from \`${url}\`.`
+    const defaultReason = `Failed to fetch \`${rdfType}\` with ID \`${_id}\` from \`${url}\`.`
     throw new ResourceError(errorResponse.reason || defaultReason, errorResponse.details, response.status, response.statusText)
   }
   return {
-    '@type': type,
+    '@type': rdfType,
     ...await response.json(),
   }
 }

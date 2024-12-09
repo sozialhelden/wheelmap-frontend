@@ -2,11 +2,10 @@ import React, {
   useContext,
 } from 'react'
 import { t } from 'ttag'
-import styled from 'styled-components'
 import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
 import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
 
@@ -68,8 +67,6 @@ function ReportPage() {
   )
 }
 
-ReportPage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ReportPage.getLayout = getLayout
 
 export default ReportPage

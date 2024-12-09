@@ -1,10 +1,10 @@
-import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson'
+import type { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson'
 import flatten from 'lodash/flatten'
 import includes from 'lodash/includes'
 import uniq from 'lodash/uniq'
 import { isOSMFeature } from '../geo/AnyFeature'
-import OSMFeature from '../osm/OSMFeature'
-import { KomootPhotonResultFeature } from '../../fetchers/fetchPlacesOnKomootPhoton'
+import type OSMFeature from '../osm/OSMFeature'
+import type { PhotonResultFeature } from '../../fetchers/fetchPhotonFeatures'
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown'
 export type YesNoUnknown = 'yes' | 'no' | 'unknown'
@@ -18,7 +18,7 @@ Object.freeze(yesNoLimitedUnknownArray)
 export const yesNoUnknownArray: readonly YesNoUnknown[] = ['yes', 'no', 'unknown']
 Object.freeze(yesNoUnknownArray)
 
-export type MappingEventFeature = KomootPhotonResultFeature
+export type MappingEventFeature = PhotonResultFeature
 
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',

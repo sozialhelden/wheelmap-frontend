@@ -88,6 +88,10 @@ export function useFeatureLabel({
   }
 
   let placeName: string | undefined
+  let ref: string | undefined
+  let localRef: string | undefined
+  let buildingName: string | undefined
+  let buildingNumber: string | undefined
   let ariaLabel: string | undefined
 
   if (feature['@type'] === 'a11yjson:EquipmentInfo' || feature['@type'] === 'ac:EquipmentInfo') {
@@ -99,6 +103,10 @@ export function useFeatureLabel({
     ariaLabel = compact([placeName, categoryName]).join(', ')
   } else if (osmFeature) {
     placeName = placeNameFor(osmFeature, category, languageTags)
+    buildingNumber = osmFeature?.properties?.['building:number'] ? String(osmFeature?.properties?.['building:number']) : undefined
+    buildingName = osmFeature?.properties?.['building:name'] ? String(osmFeature?.properties?.['building:name']) : undefined
+    ref = osmFeature?.properties?.ref ? String(osmFeature?.properties?.ref) : undefined
+    localRef = osmFeature?.properties?.local_ref ? String(osmFeature?.properties?.local_ref) : undefined
     ariaLabel = compact([placeName, categoryName]).join(', ')
   }
   const wikidataEntityId = osmFeature?.properties?.wikidata
@@ -123,6 +131,10 @@ export function useFeatureLabel({
     levelName,
     roomNameAndNumber,
     placeName,
+    ref,
+    localRef,
+    buildingNumber,
+    buildingName,
     hasLongName,
     ariaLabel,
     categoryName,

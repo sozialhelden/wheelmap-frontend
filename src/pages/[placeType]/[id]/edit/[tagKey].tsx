@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { AutoEditor } from '../../../../components/CombinedFeaturePanel/editors/AutoEditor'
 
 export default function EditPage() {
@@ -14,6 +14,4 @@ export default function EditPage() {
   return <AutoEditor tagKey={key} feature={feature} />
 }
 
-EditPage.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+EditPage.getLayout = getLayout

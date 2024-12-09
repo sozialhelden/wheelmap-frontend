@@ -29,8 +29,10 @@ import { patchFetcher } from '../lib/util/patchClientFetch'
 import { ErrorMessage } from '../components/SWRError/ErrorMessage'
 import { addToEnvironment, getEnvironment } from '../lib/util/globalEnvironment'
 import { log } from '../lib/util/logger'
-import { useDarkMode } from '../components/shared/useDarkMode'
-import MapLayout from '../components/App/MapLayout'
+import "@radix-ui/themes/styles.css";
+import StyledComponentsRegistry from '../lib/context/Registry'
+import '../app/app.css'
+import '../app/inter.css'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -109,24 +111,21 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  useDarkMode()
-
   return (
     <React.StrictMode>
       <Head />
-      <HotkeysProvider>
-        <SessionProvider session={session}>
-          <SWRConfig value={globalSWRConfig}>
-
-            {composeContexts(
-              contexts,
-              <MapLayout>
-                {getLayout(<Component {...pageProps} />)}
-              </MapLayout>,
-            )}
-          </SWRConfig>
-        </SessionProvider>
-      </HotkeysProvider>
+      <StyledComponentsRegistry>
+        <HotkeysProvider>
+          <SessionProvider session={session}>
+            <SWRConfig value={globalSWRConfig}>
+              {composeContexts(
+                contexts,
+                getLayout(<Component {...pageProps} />),
+              )}
+            </SWRConfig>
+          </SessionProvider>
+        </HotkeysProvider>
+      </StyledComponentsRegistry>
     </React.StrictMode>
   )
 }

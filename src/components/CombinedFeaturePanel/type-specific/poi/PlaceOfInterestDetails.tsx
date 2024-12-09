@@ -16,13 +16,19 @@ import FeaturesDebugJSON from '../../components/FeaturesDebugJSON'
 import NextToiletDirections from '../../components/AccessibilitySection/NextToiletDirections'
 import { AppStateLink } from '../../../App/AppStateLink'
 import { FeaturePanelContext } from '../../FeaturePanelContext'
+import { useMap } from '../../../Map/useMap'
+import { AccessibilityItems } from '../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems'
+import { FeatureGallery } from '../../components/FeatureGallery'
+import { bbox } from '@turf/turf'
 
 type Props = {
   feature: AnyFeature;
+  focusImage?: string;
 }
 
-export default function PlaceOfInterestDetails({ feature }: Props) {
+export default function PlaceOfInterestDetails({ feature, focusImage }: Props) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
+  const map = useMap()
 
   if (!feature.properties) {
     return (
@@ -40,7 +46,22 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
 
   return (
     <FeatureContext.Provider value={feature}>
-      <FeatureNameHeader feature={feature}>
+      <FeatureNameHeader
+        feature={feature}
+        onHeaderClicked={() => {
+          console.log(feature.geometry?.coordinates)
+          const coordinates = feature.geometry?.coordinates
+          if (!coordinates) {
+            return
+          }
+
+          const cameraOptions = map?.map?.cameraForBounds(bbox(feature), { maxZoom: 19 });
+          if (cameraOptions) {
+            map?.map?.flyTo({ ...cameraOptions, duration: 1000, padding: 100 })
+          }
+          // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
+        }}
+      >
         {feature['@type'] === 'osm:Feature' && (
           <FeatureImage feature={feature} />
         )}
@@ -52,7 +73,10 @@ export default function PlaceOfInterestDetails({ feature }: Props) {
         <NextToiletDirections feature={feature} />
       </FeatureAccessibility>
 
+      <FeatureGallery feature={feature} focusImage={focusImage} />
+
       <StyledIconButtonList>
+        <AccessibilityItems feature={feature} />
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
         <PhoneNumberLinks feature={feature} />

@@ -11,14 +11,15 @@ import {
   isAccessibilityFiltered,
 } from '../../lib/model/ac/filterAccessibility'
 import Spinner from '../ActivityIndicator/Spinner'
-import CloseLink from '../shared/CloseLink'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
-import { EnrichedSearchResult } from './useEnrichedSearchResults'
-import { useMapOverlapRef } from '../MapNew/GlobalMapContext'
+import { useMapOverlapRef } from '../Map/GlobalMapContext'
+import { EnrichedSearchResult } from './EnrichedSearchResult'
+import { IconButton } from '@radix-ui/themes'
+import { Cross1Icon } from '@radix-ui/react-icons'
 
 export type Props = PlaceFilter & {
   className?: string;
@@ -112,22 +113,24 @@ export default function SearchPanel({
   )
 
   const closeLink = (
-    <CloseLink
+    <IconButton variant="ghost"
       ariaLabel={t`Clear search`}
       onClick={() => {
         clearSearchAndFocusSearchField()
         if (onClose) onClose()
       }}
-    />
+    >
+      <Cross1Icon />
+    </IconButton>
   )
 
   let contentBelowSearchField: React.ReactElement | null
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
-        <span className="sr-only" aria-live="assertive">
+        <VisuallyHidden.Root aria-live="assertive">
           {t`Searching`}
-        </span>
+        </VisuallyHidden.Root>
         <Spinner size={20} />
       </div>
     )
@@ -150,7 +153,7 @@ export default function SearchPanel({
     )
   }
 
-  const overlayRef = useMapOverlapRef(!hidden)
+  const overlayRef = useMapOverlapRef(false)
 
   return (
     <StyledToolbar
@@ -160,7 +163,6 @@ export default function SearchPanel({
       isSwipeable={false}
       enableTransitions={false}
       minimalTopPosition={minimalTopPosition}
-      role="search"
       ref={overlayRef}
       className={cx(className, isExpanded && 'isExpanded')}
     >

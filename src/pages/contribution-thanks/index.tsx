@@ -1,3 +1,5 @@
+import { getLayout } from '../../components/App/MapLayout'
+
 function ContributionThanks() {
   return (
     <div>
@@ -7,3 +9,5 @@ function ContributionThanks() {
 }
 
 export default ContributionThanks
+
+ContributionThanks.getLayout = getLayout

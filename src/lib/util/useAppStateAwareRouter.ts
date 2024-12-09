@@ -59,6 +59,13 @@ export function preserveSearchParams(url: Url, previous?: AppStateSearchParams, 
       return url
     }
 
+    if (!global.window) {
+      return {
+        path: url,
+        search: previous ? combineSearchParams(previous) : undefined,
+      }
+    }
+
     try {
       const parsedUrl = new URL(url, window.location.href)
       const updated = parseSearchParams(parsedUrl.searchParams)

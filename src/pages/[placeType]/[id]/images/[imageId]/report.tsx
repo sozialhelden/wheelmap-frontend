@@ -19,6 +19,7 @@
 
 import { useRouter } from 'next/router'
 import { log } from '../../../../../lib/util/logger'
+import { getLayout } from '../../../../../components/App/MapLayout'
 
 function PlaceImageReportPage() {
   const router = useRouter()
@@ -45,3 +46,5 @@ function PlaceImageReportPage() {
 }
 
 export default PlaceImageReportPage
+
+PlaceImageReportPage.getLayout = getLayout

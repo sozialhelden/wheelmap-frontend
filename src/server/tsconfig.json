@@ -17,7 +17,8 @@
     "target": "ES2022",
     "module": "CommonJS",
     "lib": [
-      "esnext"
+      "esNext",
+      "DOM"
     ]
   },
   "exclude": [

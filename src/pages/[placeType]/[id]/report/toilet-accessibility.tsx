@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import PlaceLayout from '../../../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { ToiletsWheelchairEditor } from '../../../../components/CombinedFeaturePanel/editors/ToiletsWheelchairEditor'
 
 function ToiletAccessibility() {
@@ -10,8 +10,6 @@ function ToiletAccessibility() {
   return <ToiletsWheelchairEditor feature={feature} tagKey="toilets:wheelchair" />
 }
 
-ToiletAccessibility.getLayout = function getLayout(page) {
-  return <PlaceLayout>{page}</PlaceLayout>
-}
+ToiletAccessibility.getLayout = getLayout
 
 export default ToiletAccessibility
