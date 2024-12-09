@@ -18,7 +18,7 @@ import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
 import { useMapOverlapRef } from '../Map/GlobalMapContext'
 import { EnrichedSearchResult } from './EnrichedSearchResult'
-import { IconButton } from '@radix-ui/themes'
+import { IconButton, VisuallyHidden } from '@radix-ui/themes'
 import { Cross1Icon } from '@radix-ui/react-icons'
 
 export type Props = PlaceFilter & {
@@ -128,9 +128,9 @@ export default function SearchPanel({
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
-        <VisuallyHidden.Root aria-live="assertive">
+       {/* <VisuallyHidden.Root aria-live="assertive">
           {t`Searching`}
-        </VisuallyHidden.Root>
+        </VisuallyHidden.Root>*/}
         <Spinner size={20} />
       </div>
     )
