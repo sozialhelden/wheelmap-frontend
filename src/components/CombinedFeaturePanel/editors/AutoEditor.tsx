@@ -1,6 +1,6 @@
 import { t } from 'ttag'
 import React, { useContext, useState } from 'react'
-import { mutate } from 'swr'
+import useSWR, { mutate } from 'swr'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
@@ -10,15 +10,17 @@ import FeatureNameHeader from '../components/FeatureNameHeader'
 import FeatureImage from '../components/image/FeatureImage'
 import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
-import { makeChangeRequestToApi } from '../../../lib/fetchers/makeChangeRequestToApi'
+import { makeChangeRequestToInhouseApi } from '../../../lib/fetchers/makeChangeRequestToInhouseApi'
 import useSubmitNewValueCallback from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
 import { useEnvContext } from '../../../lib/context/EnvContext'
 import useInhouseOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
-import retrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/retrieveOsmParametersFromFeature'
+import useRetrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/useRetrieveOsmParametersFromFeature'
 import { EditorTagValue } from './EditorTagValue'
 import { StringFieldEditor } from './StringFieldEditor'
 import { WheelchairEditor } from './WheelchairEditor'
 import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
+import {isOSMFeature} from "../../../lib/model/geo/AnyFeature";
+import {fetchFeaturePrefixedId} from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
 
 type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'onChange' | 'handleSubmitButtonClick'>
 
@@ -47,16 +49,15 @@ export const AutoEditor = ({
   const env = useEnvContext()
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
   const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false })
+  const osmFeature = isOSMFeature(feature) ? feature : undefined
+  const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetchFeaturePrefixedId)
   const {
-    id,
     tagName,
     osmType,
     osmId,
-    currentOSMObjectOnServer,
-  } = retrieveOsmParametersFromFeature(feature)
+  } = useRetrieveOsmParametersFromFeature(osmFeature)
 
   const [newTagValue, setEditedTagValue] = useState<EditorTagValue>('')
-
   const handleSuccess = React.useCallback(() => {
     toast.success(
       t`Thank you for contributing. Your edit will be visible soon.`,
@@ -106,7 +107,7 @@ export const AutoEditor = ({
     if (!newTagValue || !osmId) {
       throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
     }
-    await makeChangeRequestToApi(
+    await makeChangeRequestToInhouseApi(
       {
         baseUrl: inhouseOSMAPIBaseURL,
         osmId,
