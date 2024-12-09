@@ -2,14 +2,12 @@ import { Dialog, DialogBody, DialogFooter } from '@blueprintjs/core'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React from 'react'
-import styled from 'styled-components'
 import useSWR from 'swr'
 import { t } from 'ttag'
 import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 
 import { CombinedFeaturePanel } from '../../../../components/CombinedFeaturePanel/CombinedFeaturePanel'
 import { OSMTagEditor } from '../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor'
-import CloseLink from '../../../../components/shared/CloseLink'
 import { useEnvContext } from '../../../../lib/context/EnvContext'
 import { getOSMType } from '../../../../lib/model/osm/generateOsmUrls'
 import { isOSMFeature } from '../../../../lib/model/geo/AnyFeature'
@@ -19,13 +17,6 @@ import { useFeatures } from '../../../../lib/fetchers/useFeatures'
 import { isOSMId } from '../../../../lib/typing/discriminators/osmDiscriminator'
 import { isAccessibilityCloudId } from '../../../../lib/typing/discriminators/isAccessibilityCloudId'
 import { normalizeOSMId } from '../../../../lib/typing/normalization/osmIdNormalization'
-
-const PositionedCloseLink = styled(CloseLink)`
-  align-self: flex-start;
-  margin-top: -8px;
-  margin-right: 1px;
-`
-PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 export async function createChangeset({
   baseUrl, tagName, newValue, accessToken,

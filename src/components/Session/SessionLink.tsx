@@ -1,15 +1,15 @@
-import { Spinner } from '@blueprintjs/core'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { t } from 'ttag'
 import { UserIcon } from '../icons/ui-elements'
+import { Spinner } from '@radix-ui/themes'
 
 export default function SessionLink({ label, className }: { label: string, className?: string }) {
   const { data: session, status } = useSession()
   const username = session?.user.name
 
   if (status === 'loading') {
-    return <Spinner size={20} />
+    return <Spinner />
   }
 
   if (status === 'authenticated') {

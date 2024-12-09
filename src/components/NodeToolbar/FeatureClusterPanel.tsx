@@ -10,7 +10,6 @@ import colors from '../../lib/util/colors'
 import { Cluster } from '../Map/Cluster'
 import StyledToolbar from './StyledToolbar'
 import * as markers from '../icons/markers'
-import StyledCloseLink from '../shared/CloseLink'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { StyledIconContainer } from '../shared/Icon'
 import { Circle } from '../shared/IconButton'
@@ -31,13 +30,6 @@ type Props = {
   className?: string,
   minimalTopPosition: number,
 };
-
-const PositionedCloseLink = styled(StyledCloseLink)`
-  align-self: flex-start;
-  margin-top: -8px;
-  margin-right: 1px;
-`
-PositionedCloseLink.displayName = 'PositionedCloseLink'
 
 const ClusterIcon = function ({ cluster, className, onSelectClusterIcon }: Partial<Props>) {
   const accessibility = cluster.accessibility || 'unknown'

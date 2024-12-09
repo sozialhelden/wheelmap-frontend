@@ -1,10 +1,10 @@
-import { Classes, Tag, Tooltip } from "@blueprintjs/core";
 import styled from "styled-components";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { EditButton } from "./EditButton";
 import type { OSMTagProps } from "./OSMTagProps";
 import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
 import StyledTag from "./StyledTag";
+import { Tooltip } from "@radix-ui/themes";
 
 const StyledListElement = styled.li`
   list-style: none;
@@ -93,7 +93,7 @@ export function OSMTagTableRowOrListElement({
 	);
 
 	const displayedValueContentWithTooltip = hasDetails ? (
-		<Tooltip content={detailElementsContained} lazy compact>
+		<Tooltip content={detailElementsContained}>
 			{displayedValueContent}
 		</Tooltip>
 	) : (
@@ -130,7 +130,7 @@ export function OSMTagTableRowOrListElement({
 		<RowTag className={tagKey}>{content}</RowTag>
 	);
 	return (
-		<ListElementTag key={tagKey} className={[Classes.LABEL, tagKey].join(" ")}>
+		<ListElementTag key={tagKey} className={tagKey}>
 			{maybeWrappedContent}
 		</ListElementTag>
 	);

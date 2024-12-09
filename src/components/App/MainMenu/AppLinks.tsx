@@ -7,17 +7,14 @@ import { useCurrentMappingEvent } from '../../../lib/context/useCurrentMappingEv
 import { useUniqueSurveyId } from '../../../lib/context/useUniqueSurveyId'
 import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
 import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl'
-import colors from '../../../lib/util/colors'
 import Spinner from '../../ActivityIndicator/Spinner'
 import SessionLink from '../../Session/SessionLink'
 
 const Badge = styled.span`
-  background-color: ${colors.warningColor};
   border-radius: 0.5rlh;
   padding: 0.2rem 0.3rem;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: white;
   margin: 0.1rem;
 `
 
