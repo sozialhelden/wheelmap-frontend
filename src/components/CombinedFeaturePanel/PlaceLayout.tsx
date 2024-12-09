@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
-import { Url } from 'next/dist/shared/lib/router/router'
+import type { Url } from 'next/dist/shared/lib/router/router'
 import Toolbar from '../shared/Toolbar'
 import { FeaturePanelContextProvider } from './FeaturePanelContext'
 import ErrorBoundary from '../shared/ErrorBoundary'
