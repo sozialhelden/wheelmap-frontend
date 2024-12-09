@@ -9,7 +9,7 @@ import { FeaturePanelContext } from '../FeaturePanelContext'
 import { StyledReportView } from '../ReportView'
 
 export const StringFieldEditor = ({
-  feature, tagKey, setParentState, handleSubmitButtonClick,
+  feature, tagKey, onChange, handleSubmitButtonClick,
 }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
   const current = feature.properties?.[tagKey] || ''
@@ -31,7 +31,7 @@ export const StringFieldEditor = ({
         autoFocus
         onChange={(evt) => {
           setValue(evt.target.value)
-          setParentState(evt.target.value)
+          onChange(evt.target.value)
         }}
       />
 

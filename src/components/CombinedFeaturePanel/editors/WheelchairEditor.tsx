@@ -14,7 +14,7 @@ import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
 import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
 
-export const WheelchairEditor = ({ feature, setParentState, handleSubmitButtonClick }: BaseEditorProps) => {
+export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings()
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
@@ -48,7 +48,7 @@ export const WheelchairEditor = ({ feature, setParentState, handleSubmitButtonCl
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('yes')
-            setParentState('yes')
+            onChange('yes')
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -61,7 +61,7 @@ export const WheelchairEditor = ({ feature, setParentState, handleSubmitButtonCl
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('limited')
-            setParentState('limited')
+            onChange('limited')
           }}
           className="_okay"
           inputLabel="accessibility-partially"
@@ -75,7 +75,7 @@ export const WheelchairEditor = ({ feature, setParentState, handleSubmitButtonCl
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('no')
-            setParentState('no')
+            onChange('no')
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"

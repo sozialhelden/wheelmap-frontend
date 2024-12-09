@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, {useCallback, useContext, useState} from 'react'
 import { Button } from '@blueprintjs/core'
 import { YesNoUnknown } from '../../../lib/model/ac/Feature'
 import { FeaturePanelContext } from '../FeaturePanelContext'
@@ -12,7 +12,7 @@ import { AppStateLink } from '../../App/AppStateLink'
 import { BaseEditorProps } from './BaseEditor'
 import { StyledReportView } from '../ReportView'
 
-export const ToiletsWheelchairEditor = ({ feature, setParentState, handleSubmitButtonClick }: BaseEditorProps) => {
+export const ToiletsWheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext)
 
   const current = isOrHasAccessibleToilet(feature)
@@ -33,7 +33,7 @@ export const ToiletsWheelchairEditor = ({ feature, setParentState, handleSubmitB
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('yes')
-            setParentState('yes')
+            onChange('yes')
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -47,7 +47,7 @@ export const ToiletsWheelchairEditor = ({ feature, setParentState, handleSubmitB
         <AccessibilityView
           onClick={() => {
             setEditedTagValue('no')
-            setParentState('no')
+            onChange('no')
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
