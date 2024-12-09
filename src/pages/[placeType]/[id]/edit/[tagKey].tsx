@@ -8,7 +8,7 @@ export default function EditPage() {
   const { query: { tagKey } } = useRouter()
   const { features } = useContext(FeaturePanelContext)
 
-  const feature = features[0]
+  const feature = features[0].feature?.requestedFeature
   const key = Array.isArray(tagKey) ? tagKey[0] : tagKey
 
   return <AutoEditor tagKey={key} feature={feature} />
