@@ -1,40 +1,50 @@
-import React, { useContext, useState } from 'react'
-import { Button } from '@blueprintjs/core'
-import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
-import { FeaturePanelContext } from '../FeaturePanelContext'
-import { useFeatureLabel } from '../utils/useFeatureLabel'
-import { isWheelchairAccessible } from '../../../lib/model/accessibility/isWheelchairAccessible'
-import { unknownCategory } from '../../../lib/model/ac/categories/Categories'
-import FeatureNameHeader from '../components/FeatureNameHeader'
-import FeatureImage from '../components/image/FeatureImage'
-import { AccessibilityView } from '../../../pages/[placeType]/[id]/report/send-report-to-ac'
-import Icon from '../../shared/Icon'
-import { AppStateLink } from '../../App/AppStateLink'
-import { BaseEditorProps } from './BaseEditor'
-import { StyledReportView } from '../ReportView'
-import { YesNoLimitedUnknown } from '../../../lib/model/ac/Feature'
+import { Button } from "@blueprintjs/core";
+import React, { useContext, useEffect, useState } from "react";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
+import { unknownCategory } from "../../../lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
+import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import { AppStateLink } from "../../App/AppStateLink";
+import Icon from "../../shared/Icon";
+import { FeaturePanelContext } from "../FeaturePanelContext";
+import { StyledReportView } from "../ReportView";
+import FeatureNameHeader from "../components/FeatureNameHeader";
+import FeatureImage from "../components/image/FeatureImage";
+import { useFeatureLabel } from "../utils/useFeatureLabel";
+import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }: BaseEditorProps) => {
-  const languageTags = useCurrentLanguageTagStrings()
-  const { baseFeatureUrl } = useContext(FeaturePanelContext)
+export const WheelchairEditor = ({
+  feature,
+  onChange,
+  handleSubmitButtonClick,
+}: BaseEditorProps) => {
+  const languageTags = useCurrentLanguageTagStrings();
+  const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  const {
-    category,
-    categoryTagKeys,
-  } = useFeatureLabel({
+  const { category, categoryTagKeys } = useFeatureLabel({
     feature,
     languageTags,
-  })
+  });
 
-  const current = isWheelchairAccessible(feature)
+  const current = isWheelchairAccessible(feature);
 
-  const cat = ((category && category !== unknownCategory) ? category._id : categoryTagKeys[0]) || 'undefined'
-  const [editedTagValue, setEditedTagValue] = useState<YesNoLimitedUnknown | undefined>(current)
+  const cat =
+    (category && category !== unknownCategory
+      ? category._id
+      : categoryTagKeys[0]) || "undefined";
+  const [editedTagValue, setEditedTagValue] = useState<
+    YesNoLimitedUnknown | undefined
+  >(current);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  useEffect(() => {
+    setIsButtonDisabled(current === editedTagValue);
+  }, [current, editedTagValue]);
 
   return (
     <StyledReportView className="_view">
       <FeatureNameHeader feature={feature}>
-        {feature['@type'] === 'osm:Feature' && (
+        {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
@@ -42,12 +52,12 @@ export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }:
       <form>
         <AccessibilityView
           onClick={() => {
-            setEditedTagValue('yes')
-            onChange('yes')
+            setEditedTagValue("yes");
+            onChange("yes");
           }}
           className="_yes"
           inputLabel="accessibility-fully"
-          selected={editedTagValue === 'yes'}
+          selected={editedTagValue === "yes"}
           icon={<Icon size="medium" accessibility="yes" category={cat} />}
           valueName="Fully"
         >
@@ -55,39 +65,45 @@ export const WheelchairEditor = ({ feature, onChange, handleSubmitButtonClick }:
         </AccessibilityView>
         <AccessibilityView
           onClick={() => {
-            setEditedTagValue('limited')
-            onChange('limited')
+            setEditedTagValue("limited");
+            onChange("limited");
           }}
           className="_okay"
           inputLabel="accessibility-partially"
-          selected={editedTagValue === 'limited'}
+          selected={editedTagValue === "limited"}
           icon={<Icon size="medium" accessibility="limited" category={cat} />}
           valueName="Partially"
         >
-          Entrance has one step with max. 3 inches height, most rooms are without steps
+          Entrance has one step with max. 3 inches height, most rooms are
+          without steps
         </AccessibilityView>
 
         <AccessibilityView
           onClick={() => {
-            setEditedTagValue('no')
-            onChange('no')
+            setEditedTagValue("no");
+            onChange("no");
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
-          selected={editedTagValue === 'no'}
+          selected={editedTagValue === "no"}
           icon={<Icon size="medium" accessibility="no" category={cat} />}
           valueName="Not at all"
         >
-          Entrance has a high step or several steps, none of the rooms are accessible.
+          Entrance has a high step or several steps, none of the rooms are
+          accessible.
         </AccessibilityView>
       </form>
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">Back</div>
+          <div role="button" className="_option _back">
+            Back
+          </div>
         </AppStateLink>
-        <Button onClick={handleSubmitButtonClick}>Send</Button>
+        <Button onClick={handleSubmitButtonClick} disabled={isButtonDisabled}>
+          Send
+        </Button>
       </footer>
     </StyledReportView>
-  )
-}
+  );
+};
