@@ -128,9 +128,9 @@ export default function SearchPanel({
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
-       {/* <VisuallyHidden.Root aria-live="assertive">
+        <VisuallyHidden aria-live="assertive">
           {t`Searching`}
-        </VisuallyHidden.Root>*/}
+        </VisuallyHidden>
         <Spinner size={20} />
       </div>
     )
