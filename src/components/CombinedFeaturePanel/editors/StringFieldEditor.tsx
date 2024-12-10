@@ -1,24 +1,31 @@
-import { t } from 'ttag'
-import React, { useContext } from 'react'
-import { Button, TextArea } from '@blueprintjs/core'
-import { BaseEditorProps } from './BaseEditor'
-import FeatureNameHeader from '../components/FeatureNameHeader'
-import FeatureImage from '../components/image/FeatureImage'
-import { AppStateLink } from '../../App/AppStateLink'
-import { FeaturePanelContext } from '../FeaturePanelContext'
-import { StyledReportView } from '../ReportView'
+import { Button, TextArea } from "@blueprintjs/core";
+import React, { useContext, useEffect, useState } from "react";
+import { t } from "ttag";
+import { AppStateLink } from "../../App/AppStateLink";
+import { FeaturePanelContext } from "../FeaturePanelContext";
+import { StyledReportView } from "../ReportView";
+import FeatureNameHeader from "../components/FeatureNameHeader";
+import FeatureImage from "../components/image/FeatureImage";
+import type { BaseEditorProps } from "./BaseEditor";
 
 export const StringFieldEditor = ({
-  feature, tagKey, onChange, handleSubmitButtonClick,
+  feature,
+  tagKey,
+  onChange,
+  handleSubmitButtonClick,
 }: BaseEditorProps) => {
-  const { baseFeatureUrl } = useContext(FeaturePanelContext)
-  const current = feature.properties?.[tagKey] || ''
-  const [value, setValue] = React.useState(current)
+  const { baseFeatureUrl } = useContext(FeaturePanelContext);
+  const current = feature.properties?.[tagKey] || "";
+  const [editedTagValue, setEditedTagValue] = React.useState(current);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  useEffect(() => {
+    setIsButtonDisabled(current === editedTagValue);
+  }, [current, editedTagValue]);
 
   return (
     <StyledReportView>
       <FeatureNameHeader feature={feature}>
-        {feature['@type'] === 'osm:Feature' && (
+        {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
@@ -27,20 +34,24 @@ export const StringFieldEditor = ({
       <TextArea
         className="_textarea"
         placeholder="Enter text here"
-        value={value}
+        value={editedTagValue}
         autoFocus
         onChange={(evt) => {
-          setValue(evt.target.value)
-          onChange(evt.target.value)
+          setEditedTagValue(evt.target.value);
+          onChange(evt.target.value);
         }}
       />
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">Back</div>
+          <div role="button" className="_option _back">
+            Back
+          </div>
         </AppStateLink>
-        <Button onClick={handleSubmitButtonClick}>Send</Button>
+        <Button onClick={handleSubmitButtonClick} disabled={isButtonDisabled}>
+          Send
+        </Button>
       </footer>
     </StyledReportView>
-  )
-}
+  );
+};
