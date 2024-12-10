@@ -1,8 +1,7 @@
-import React from 'react'
-import { t } from 'ttag'
-import { AppStateLink } from '../../../App/AppStateLink'
-import { Button, IconButton } from '@radix-ui/themes';
-import { MagnifyingGlassIcon, Pencil1Icon, Pencil2Icon } from '@radix-ui/react-icons';
+import { Pencil1Icon } from '@radix-ui/react-icons';
+import { IconButton } from '@radix-ui/themes';
+import { t } from 'ttag';
+import { AppStateLink } from '../../../App/AppStateLink';
 
 export function EditButton({ editURL }: { editURL: string; }) {
   return (

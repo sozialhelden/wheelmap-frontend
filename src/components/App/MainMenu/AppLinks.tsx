@@ -9,6 +9,7 @@ import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFr
 import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl'
 import Spinner from '../../ActivityIndicator/Spinner'
 import SessionLink from '../../Session/SessionLink'
+import { AppStateLink } from '../AppStateLink'
 
 const Badge = styled.span`
   border-radius: 0.5rlh;
@@ -32,9 +33,9 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
   const label = joinedMappingEvent ? joinedMappingEvent.name : props.label
 
   return (
-    <Link href={href} role="menuitem" className="nav-link">
+    <AppStateLink href={href} role="menuitem" className="nav-link">
       {label}
-    </Link>
+    </AppStateLink>
   )
 }
 
@@ -106,10 +107,10 @@ export default function AppLinks(props: {}) {
 
       if (typeof url === 'string') {
         return (
-          <Link key={url} href={url} className={className} role="menuitem">
+          <AppStateLink key={url} href={url} className={className} role="menuitem">
             {label}
             {badgeLabel && <Badge>{badgeLabel}</Badge>}
-          </Link>
+          </AppStateLink>
         )
       }
 

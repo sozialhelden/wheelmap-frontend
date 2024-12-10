@@ -6,9 +6,9 @@ import { FeaturePanelContextProvider } from './FeaturePanelContext'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { getLayout as getMapLayout } from '../App/MapLayout'
-import Link from 'next/link'
-import { Button, IconButton } from '@radix-ui/themes'
+import { IconButton } from '@radix-ui/themes'
 import { Cross1Icon } from '@radix-ui/react-icons'
+import { AppStateLink } from '../App/AppStateLink'
 
 const PositionedCloseLink = styled(({ to }: { to?: Url }) => {
   const { push } = useAppStateAwareRouter()
@@ -30,11 +30,11 @@ export default function PlaceLayout({
 }) {
   return (
     <Toolbar>
-      <Link href={closeUrl ?? '/'}>
+      <AppStateLink href={closeUrl ?? '/'}>
         <IconButton variant="ghost">
           <Cross1Icon />
         </IconButton>
-      </Link>
+      </AppStateLink>
       <FeaturePanelContextProvider>
         <ErrorBoundary>
           {children}

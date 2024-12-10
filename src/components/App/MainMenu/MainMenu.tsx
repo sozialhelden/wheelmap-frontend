@@ -11,6 +11,7 @@ import CloseIcon from "../../icons/actions/Close";
 import VectorImage from "../../shared/VectorImage";
 import AppLinks from "./AppLinks";
 import { Button, Card } from "@radix-ui/themes";
+import { AppStateLink } from "../AppStateLink";
 
 type Props = {
 	onToggle: (isMainMenuOpen: boolean) => void;
@@ -240,7 +241,7 @@ export default function MainMenu(props: Props) {
 
 	const homeLink = (
 		<div className="home-link">
-			<Link href="/" legacyBehavior>
+			<AppStateLink href="/" legacyBehavior>
 				<Button
 					className="home-Button"
 					aria-label={t`Home`}
@@ -257,7 +258,7 @@ export default function MainMenu(props: Props) {
 						hasShadow={false}
 					/>
 				</Button>
-			</Link>
+			</AppStateLink>
 		</div>
 	);
 
