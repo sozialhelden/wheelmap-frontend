@@ -4,7 +4,6 @@
 import React, {
   FC, useContext, useRef, useState,
 } from 'react'
-import { Button } from '@blueprintjs/core'
 import { t } from 'ttag'
 import { StyledPhotoUploadView } from '../../../../components/CombinedFeaturePanel/PhotoUploadView'
 import { CheckmarkIcon } from '../../../../components/icons/actions'
@@ -13,6 +12,7 @@ import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import uploadPhotoForFeature from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
 import { getLayout } from '../../../../components/App/MapLayout'
+import { Button } from '@radix-ui/themes'
 
 const uncachedUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''
 
@@ -89,9 +89,9 @@ const ExplanationContent : FC<{ onStateChanged: (state: 'uploading' | 'done' | '
 
       <div className="actions">
         <AppStateLink href="..">
-          <Button className="cancel" large minimal>{t`Cancel`}</Button>
+          <Button className="cancel">{t`Cancel`}</Button>
         </AppStateLink>
-        <Button className="accept" large onClick={() => { fileInputRef.current?.click() }}>{t`Accept`}</Button>
+        <Button className="accept" onClick={() => { fileInputRef.current?.click() }}>{t`Accept`}</Button>
         <input onChange={handleChange} multiple={false} ref={fileInputRef} type="file" hidden accept="image/jpeg" />
       </div>
     </StyledPhotoUploadView>

@@ -34,6 +34,8 @@ import { useDarkMode } from '../shared/useDarkMode'
 import { AcPoiLayers } from './AcPoiLayers'
 import { getFeatureId } from '../../lib/model/ac/Feature'
 
+import './mapbox-dark-mode.css'
+
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
 // @ts-ignore

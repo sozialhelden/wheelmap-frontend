@@ -1,8 +1,8 @@
-import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags'
-import { compact, uniq } from 'lodash'
+import {ILanguageSubtag, parseLanguageTag} from '@sozialhelden/ietf-language-tags'
+import {compact, uniq} from 'lodash'
 import * as React from 'react'
-import { getBrowserLanguageTags } from '../i18n/getBrowserLanguageTags'
-import { normalizeLanguageCode } from '../i18n/normalizeLanguageCode'
+import {getBrowserLanguageTags} from '../i18n/getBrowserLanguageTags'
+import {normalizeLanguageCode} from '../i18n/normalizeLanguageCode'
 
 type LanguageTagContext = {
   languageTags: ILanguageSubtag[];
@@ -40,4 +40,12 @@ export function useCurrentLanguageTagStrings(): string[] {
 export function useCurrentLanguageTags(): string[] {
   const ctx = React.useContext(LanguageTagContext)
   return compact(ctx.languageTags)
+}
+
+// Strips off any region and variant suffixes but keeps the script suffix
+// https://en.wikipedia.org/wiki/IETF_language_tag
+export function normalizeLanguageTag(languageTag: string): string {
+  const substrings = languageTag.split("-");
+  const regex = /^\d/;
+  return substrings[1]?.length === 4 && !regex.test(substrings[1]) ? [substrings[0], substrings[1]].join("-") : substrings[0]
 }

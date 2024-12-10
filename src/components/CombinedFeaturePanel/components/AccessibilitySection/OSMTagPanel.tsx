@@ -2,14 +2,12 @@ import { get, set, sortBy } from 'lodash'
 import * as React from 'react'
 import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
 import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
-import isAddressRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAddressRelevantOSMKey'
 import OSMTagTable from './OSMTagTable'
 import { sortOrderMap } from '../../../../lib/model/osm/tag-config/sortOrderMap'
 import { pathsToConsumedTagKeys } from '../../../../lib/model/osm/tag-config/pathsToConsumedTagKeys'
 import { omittedKeys } from '../../../../lib/model/osm/tag-config/omittedKeys'
 import { omittedKeySuffixes } from '../../../../lib/model/osm/tag-config/omittedKeySuffixes'
 import { omittedKeyPrefixes } from '../../../../lib/model/osm/tag-config/omittedKeyPrefixes'
-import { log } from '../../../../lib/util/logger'
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode // type for unknown keys.
@@ -75,6 +73,10 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
       const accessibilityRelevantKeys = filteredKeys.filter(
         isAccessibilityRelevantOSMKey,
       )
+      // add a pseudo tag if there is no wheelchair description yet to render an add button
+      if (!accessibilityRelevantKeys.some((item) => item.startsWith('wheelchair:description'))) {
+        accessibilityRelevantKeys.push('add_wheelchair_description')
+      }
 
       // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
       // const remainingKeys = difference(
