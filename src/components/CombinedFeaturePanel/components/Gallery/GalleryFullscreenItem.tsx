@@ -2,7 +2,6 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Button,
-  Dialog,
   Flex,
   IconButton,
   Kbd,
@@ -82,72 +81,77 @@ export const GalleryFullscreenItem: FC<{
     if (!image) return undefined;
     return makeSrcSetLocation(makeSrcSet(baseUrl, fullScreenSizes, image));
   }, [baseUrl, image]);
+  const reportUrl = useMemo(() => {
+    if (!image) return undefined;
+    return api.getReportUrl(image._id);
+  }, [image]);
 
   return (
-    <DialogContentWrapper>
-      <VisuallyHidden asChild>
-        <Dialog.Description>
-          {t`TODO: This will be announced to screen-readers when the dialog opens`}
-        </Dialog.Description>
-      </VisuallyHidden>
+    <>
+      <VisuallyHidden aria-live="polite">{t`Image shown: ${image._id}`}</VisuallyHidden>
+      <DialogContentWrapper aria-hidden>
+        {srcSet && (
+          <img className="gallery__fullscreen-image" srcSet={srcSet} alt="" />
+        )}
 
-      {srcSet && (
-        <img className="gallery__fullscreen-image" srcSet={srcSet} alt="" />
-      )}
-
-      <Flex
-        className="gallery__fullscreen-image__footer"
-        justify="between"
-        align="center"
-        direction={{
-          initial: "column-reverse",
-          md: "row",
-        }}
-        gap="2"
-      >
         <Flex
-          className="gallery__fullscreen-image__legend"
-          as="span"
+          className="gallery__fullscreen-image__footer"
+          justify="between"
           align="center"
+          direction={{
+            initial: "column-reverse",
+            md: "row",
+          }}
           gap="2"
         >
-          <Text color="gray">{t`You can use the following keys for navigation:`}</Text>
-          <Kbd>←</Kbd>
-          <Kbd>→</Kbd>
-          <Kbd>ESC</Kbd>
+          <Flex
+            className="gallery__fullscreen-image__legend"
+            as="span"
+            align="center"
+            gap="2"
+          >
+            <Text color="gray">{t`You can use these keys for navigation:`}</Text>
+            <Kbd>←</Kbd>
+            <Kbd>→</Kbd>
+            <Kbd>ESC</Kbd>
+            <Text color="gray" ml="4">{t`To report an image:`}</Text>
+            <Kbd>R</Kbd>
+          </Flex>
+          <Box as="span" />
+          <Flex as="span" align="center" gap="6">
+            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>
+            <Button asChild color="gray" variant="surface">
+              {reportUrl && (
+                <AppStateLink href={reportUrl}>{t`Report Image`}</AppStateLink>
+              )}
+            </Button>
+          </Flex>
         </Flex>
-        <Box as="span" />
-        <Flex as="span" align="center" gap="6">
-          <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>
-          <Button asChild color="gray" variant="surface">
-            <AppStateLink href="/">{t`Report Image`}</AppStateLink>
-          </Button>
-        </Flex>
-      </Flex>
 
-      <nav className="gallery__fullscreen-nav">
-        <ul className="gallery__fullscreen-nav__list">
-          <li className="gallery__fullscreen-nav__list-item">
-            <IconButton color="gray" size="4" onClick={api.previous}>
-              <ArrowLeftIcon />
-            </IconButton>
-          </li>
-          <li className="gallery__fullscreen-nav__list-item">
-            <IconButton color="gray" size="4" onClick={api.next}>
-              <ArrowRightIcon />
-            </IconButton>
-          </li>
-        </ul>
-      </nav>
+        <nav className="gallery__fullscreen-nav">
+          <ul className="gallery__fullscreen-nav__list">
+            <li className="gallery__fullscreen-nav__list-item">
+              <IconButton color="gray" size="4" onClick={api.previous}>
+                <ArrowLeftIcon />
+              </IconButton>
+            </li>
+            <li className="gallery__fullscreen-nav__list-item">
+              <IconButton color="gray" size="4" onClick={api.next}>
+                <ArrowRightIcon />
+              </IconButton>
+            </li>
+          </ul>
+        </nav>
 
-      <IconButton
-        className="gallery__fullscreen-image__close-button"
-        color="gray"
-        size="3"
-        onClick={api.close}
-      >
-        <CloseIcon />
-      </IconButton>
-    </DialogContentWrapper>
+        <IconButton
+          className="gallery__fullscreen-image__close-button"
+          color="gray"
+          size="3"
+          onClick={api.close}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogContentWrapper>
+    </>
   );
 };
