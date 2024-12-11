@@ -4,7 +4,7 @@ import map from 'lodash/map'
 
 import { Circle } from '../shared/IconButton'
 import CategoryButton from './CategoryButton'
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
 import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable'
 

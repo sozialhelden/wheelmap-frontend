@@ -3,7 +3,6 @@ import { t } from 'ttag'
 
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
 import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
-import colors from '../../lib/util/colors'
 import CloseIcon from '../icons/actions/Close'
 import IconButton, { Caption, Circle } from '../shared/IconButton'
 import CombinedIcon from './CombinedIcon'
@@ -31,7 +30,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
   }
 
   ${Circle} {
-    background-color: ${colors.tonedDownSelectedColor};
+    background-color: var(--accent-a11);
     margin: 2.5px;
 
     svg.icon {
@@ -50,24 +49,24 @@ export const StyledCategoryIconButton = styled(IconButton)`
   }
 
   &.active {
-    background-color: ${colors.coldBackgroundColor};
+    background-color: var(--color-panel-translucent);
 
     ${Circle} {
-      background-color: ${colors.selectedColor};
+      background-color: var(--color-surface);
     }
   }
 
   &:hover,
   &:focus {
-    background-color: ${colors.linkBackgroundColorTransparent};
+    background-color: var(--color-surface);
 
     ${Circle} {
-      background-color: ${colors.halfTonedDownSelectedColor};
+      background-color: var(--accent-11);
     }
 
     &.active {
       ${Circle} {
-        background-color: ${colors.tonedDownSelectedColor};
+        background-color: var(--accent-a12);
       }
     }
   }
@@ -82,7 +81,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
       ${Caption} {
           font-size: 0.8em;
           margin-top: 0.5em;
-          color: ${colors.darkSelectedColor};
+          color: var(--accent-12);
       }
   }
 
@@ -104,7 +103,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
           flex: 1;
           justify-content: flex-start;
           display: flex;
-          color: ${colors.darkSelectedColor};
+          color: var(--accent-12);
       }
   }
 `

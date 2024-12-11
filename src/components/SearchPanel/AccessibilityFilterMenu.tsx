@@ -5,9 +5,8 @@ import { t } from 'ttag'
 import {
   yesNoUnknownArray,
 } from '../../lib/model/ac/Feature'
-import colors from '../../lib/util/colors'
 import AccessibilityFilterButton from './AccessibilityFilterButton'
-import { PlaceFilter } from './AccessibilityFilterModel'
+import type { PlaceFilter } from './AccessibilityFilterModel'
 
 type Props = PlaceFilter & {
   className?: string;
@@ -111,7 +110,7 @@ function AccessibilityFilterMenu(props: Props) {
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
-    border-top: 1px solid ${colors.borderColor};
+    border-top: 1px solid var(--gray-4);
 
     header {
         display: flex;
