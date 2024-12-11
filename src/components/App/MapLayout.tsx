@@ -59,7 +59,7 @@ export default function MapLayout({
   const { toggleExpertMode } = useExpertMode()
   const expertModeHotkeys = React.useMemo(() => [
     {
-      combo: '9',
+      combo: 'l',
       global: true,
       label: 'Toggle expert mode',
       onKeyDown: toggleExpertMode,
