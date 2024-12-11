@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useIsomorphicLayoutEffect } from '../../components/shared/useIsomorphicLayoutEffect'
 
 const getBreakpointSize = (width: number) => (width <= 512 ? 'small' : 'big')
 
@@ -8,9 +9,9 @@ const getBreakpointSize = (width: number) => (width <= 512 ? 'small' : 'big')
  */
 export const useWindowSize = () => {
   const [windowSize, setWindowSize] = useState({
-    width: window.innerHeight,
-    height: window.innerHeight,
-    size: getBreakpointSize(window.innerWidth),
+    width: global.window?.innerHeight,
+    height: global.window?.innerHeight,
+    size: getBreakpointSize(global.window?.innerWidth),
   } as const)
 
   const updateWindowSize = useCallback((windowWidth: number, windowHeight: number) => {
@@ -19,16 +20,17 @@ export const useWindowSize = () => {
       height: windowHeight,
       size: getBreakpointSize(windowWidth),
     })
-  }, [setWindowSize])
+  }, [])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
-      updateWindowSize(window.innerWidth, window.innerHeight)
+      updateWindowSize(global.window?.innerWidth, global.window?.innerHeight)
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => { window.removeEventListener('resize', handleResize) }
-  }, [setWindowSize, updateWindowSize])
+    global.window?.addEventListener('resize', handleResize)
+    handleResize();
+    return () => { global.window?.removeEventListener('resize', handleResize) }
+  }, [updateWindowSize])
 
   return windowSize
 }
