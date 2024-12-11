@@ -16,6 +16,8 @@ import { MapFilterContextProvider } from '../Map/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
 import { Theme, ThemePanel } from '@radix-ui/themes'
 import { ThemeProvider } from 'next-themes'
+import { useExpertMode } from './MainMenu/useExpertMode'
+import { useHotkeys } from '@blueprintjs/core'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -50,19 +52,20 @@ export default function MapLayout({
 }) {
   const app = React.useContext(AppContext)
   const { clientSideConfiguration } = app || {}
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const firstStart = isFirstStart()
-  const toggleMainMenu = React.useCallback((newValue?: boolean) => {
-    setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen)
-  }, [isMenuOpen])
 
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 })
 
-  const router = useRouter()
-  const { pathname } = router
-  React.useEffect(() => {
-    setIsMenuOpen(false)
-  }, [pathname])
+  const { toggleExpertMode } = useExpertMode()
+  const expertModeHotkeys = React.useMemo(() => [
+    {
+      combo: '9',
+      global: true,
+      label: 'Toggle expert mode',
+      onKeyDown: toggleExpertMode,
+    },
+  ], [toggleExpertMode]);
+  useHotkeys(expertModeHotkeys);
 
   return (
     <ThemeProvider attribute="class">
@@ -72,11 +75,9 @@ export default function MapLayout({
           <HeadMetaTags />
           <MapFilterContextProvider>
             <GlobalMapContextProvider>
-              <MainMenu
-                onToggle={toggleMainMenu}
-                isOpen={isMenuOpen}
+              {clientSideConfiguration && <MainMenu
                 clientSideConfiguration={clientSideConfiguration}
-              />
+              />}
               {firstStart && <Onboarding />}
               <main
                 style={{ height: '100%' }}

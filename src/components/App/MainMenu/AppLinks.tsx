@@ -1,6 +1,4 @@
-import { useHotkeys } from '@blueprintjs/core'
-import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useCurrentApp } from '../../../lib/context/AppContext'
 import { useCurrentMappingEvent } from '../../../lib/context/useCurrentMappingEvent'
@@ -8,8 +6,12 @@ import { useUniqueSurveyId } from '../../../lib/context/useUniqueSurveyId'
 import { translatedStringFromObject } from '../../../lib/i18n/translatedStringFromObject'
 import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl'
 import Spinner from '../../ActivityIndicator/Spinner'
-import SessionLink from '../../Session/SessionLink'
-import { AppStateLink } from '../AppStateLink'
+import SessionMenuItem from './SessionMenuItem'
+import type { ButtonProps } from '@radix-ui/themes'
+import AppLink from './AppLink'
+import { useExpertMode } from './useExpertMode'
+import type { IApp } from '../../../lib/model/ac/App'
+import type { MappingEvent } from '../../../lib/model/ac/MappingEvent'
 
 const Badge = styled.span`
   border-radius: 0.5rlh;
@@ -19,7 +21,7 @@ const Badge = styled.span`
   margin: 0.1rem;
 `
 
-function JoinedEventLink(props: { label: string | null; url: string | null }) {
+function JoinedEventLink(props: { label?: string; url?: string }) {
   const { data: joinedMappingEvent, isValidating } = useCurrentMappingEvent()
 
   if (isValidating) {
@@ -33,89 +35,76 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
   const label = joinedMappingEvent ? joinedMappingEvent.name : props.label
 
   return (
-    <AppStateLink href={href} role="menuitem" className="nav-link">
+    <AppLink href={href} role="menuitem" className="nav-link">
       {label}
-    </AppStateLink>
+    </AppLink>
   )
 }
 
-export default function AppLinks(props: {}) {
+function expandLinkMetadata(link: IApp['related']['appLinks'][string], app: IApp, joinedMappingEvent?: MappingEvent, uniqueSurveyId: string) {
+  const baseUrl = `https://${app._id}/`
+  const localizedUrl = translatedStringFromObject(link.url);
+  const url = link.url
+    && insertPlaceholdersToAddPlaceUrl(
+      baseUrl,
+      localizedUrl,
+      joinedMappingEvent,
+      uniqueSurveyId,
+    )
+  const label = translatedStringFromObject(link.label)
+  const badgeLabel = translatedStringFromObject(link.badgeLabel)
+  const isExternal = localizedUrl?.startsWith('http')
+  return {
+    ...link,
+    url,
+    label,
+    badgeLabel,
+    isExternal,
+  }
+}
+
+export default function AppLinks() {
   const { data: joinedMappingEvent } = useCurrentMappingEvent()
   const app = useCurrentApp()
-  const baseUrl = `https://${app._id}/`
   const uniqueSurveyId = useUniqueSurveyId()
-
   const {
-    related: { appLinks },
+    related: { appLinks } = {},
   } = app
 
-  const [toogle, setToggle] = useState(false)
-  const hotkeys = useMemo(() => [
-    {
-      combo: 'l',
-      global: true,
-      label: 'Toggle OSM Power User Mode',
-      onKeyDown: () => setToggle(!toogle),
-    },
+  const { isExpertMode } = useExpertMode()
 
-  ], [toogle])
-  const { handleKeyDown } = useHotkeys(hotkeys)
+  const links = React.useMemo(
+    () => Object.values(appLinks ?? {})
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .map((link) => expandLinkMetadata(link, app, joinedMappingEvent, uniqueSurveyId))
+      .map(({ tags, label, badgeLabel, url }) => {
+        const isEventsLink = tags?.includes('events')
+        if (isEventsLink) {
+          return <JoinedEventLink {...{ label, url }} key="joined-event" />
+        }
 
-  const links = Object.values(appLinks)
-    .sort((a, b) => (a.order || 0) - (b.order || 0))
-    .map((link) => {
-      const url = link.url
-        && insertPlaceholdersToAddPlaceUrl(
-          baseUrl,
-          translatedStringFromObject(link.url),
-          joinedMappingEvent,
-          uniqueSurveyId,
-        )
-      const label = translatedStringFromObject(link.label)
-      const badgeLabel = translatedStringFromObject(link.badgeLabel)
-      const classNamesFromTags = link.tags && link.tags.map((tag) => `${tag}-link`)
-      const className = ['nav-link'].concat(classNamesFromTags).join(' ')
+        const isSessionLink = tags?.includes('session')
+        if (isSessionLink) {
+          return (
+            isExpertMode && <SessionMenuItem {...{ label }} key="session" />
+          )
+        }
 
-      const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1
-      const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place')
+        if (typeof url === 'string') {
+          const buttonProps: ButtonProps = {
+            variant: tags?.includes('primary') ? 'solid' : 'soft',
+            highContrast: true,
+          };
+          return (
+            <AppLink key={url} href={url} role="menuitem" buttonProps={buttonProps}>
+              {label}
+              {badgeLabel && <Badge>{badgeLabel}</Badge>}
+            </AppLink>
+          )
+        }
 
-      if (isAddPlaceLinkWithoutCustomUrl) {
-        return (
-          <Link
-            key="add-place"
-            href="/node/create"
-            className={className}
-            role="menuitem"
-          >
-            {label}
-            {badgeLabel && <Badge>{badgeLabel}</Badge>}
-          </Link>
-        )
-      }
-
-      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1
-      if (isEventsLink) {
-        return <JoinedEventLink {...{ label, url }} key="joined-event" />
-      }
-
-      const isSessionLink = link.tags && link.tags.indexOf('session') !== -1
-      if (isSessionLink) {
-        return (
-          toogle && <SessionLink {...{ label }} key="session" className={className} onKeyDown={handleKeyDown} />
-        )
-      }
-
-      if (typeof url === 'string') {
-        return (
-          <AppStateLink key={url} href={url} className={className} role="menuitem">
-            {label}
-            {badgeLabel && <Badge>{badgeLabel}</Badge>}
-          </AppStateLink>
-        )
-      }
-
-      return null
-    })
+        return null
+      }), [app, appLinks, isExpertMode, joinedMappingEvent, uniqueSurveyId]);
 
   return <>{links}</>
 }
