@@ -1,4 +1,4 @@
-import { Dialog } from "@radix-ui/themes";
+import { Dialog, VisuallyHidden } from "@radix-ui/themes";
 import {
   type FC,
   type KeyboardEventHandler,
@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { t } from "ttag";
 import type { AccessibilityCloudImage } from "../../../../lib/model/ac/Feature";
 import { useAppStateAwareRouter } from "../../../../lib/util/useAppStateAwareRouter";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
@@ -24,6 +25,7 @@ type GalleryContextType = {
   goTo: (imageId: string) => void;
   close: () => void;
   getDetailPageUrl: (imageId: string) => string;
+  getReportUrl: (imageId: string) => string;
 };
 export const GalleryContext = createContext<GalleryContextType>({
   size: 0,
@@ -34,6 +36,9 @@ export const GalleryContext = createContext<GalleryContextType>({
   goTo(imageId) {},
   close() {},
   getDetailPageUrl(imageId) {
+    return "";
+  },
+  getReportUrl(imageId) {
     return "";
   },
 });
@@ -50,6 +55,7 @@ export const Gallery: FC<{
     return images.findIndex((image) => image._id === imageId);
   };
 
+  const keysPressed = new Set<string>();
   const [activeIndex, setActiveIndex] = useState(-1);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -70,16 +76,20 @@ export const Gallery: FC<{
   const getDetailPageUrl = (imageId: string) => {
     return `${baseFeatureUrl}/images/${imageId}`;
   };
+  const getReportUrl = (imageId: string) => {
+    return `${getDetailPageUrl(imageId)}/report`;
+  };
 
   const api: GalleryContextType = {
     activeImage,
     activeIndex,
     size: images.length,
-    getDetailPageUrl,
     next,
     goTo,
     close,
     previous,
+    getDetailPageUrl,
+    getReportUrl,
   };
 
   // Open the dialog on initial page load when visiting the /images/[imageId] page
@@ -125,7 +135,13 @@ export const Gallery: FC<{
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLElement> = (event) => {
+    keysPressed.add(event.key);
     switch (event.key) {
+      case "r":
+        if (keysPressed.size === 1) {
+          router.push(getReportUrl(activeImage._id));
+        }
+        break;
       case "ArrowLeft":
         previous();
         break;
@@ -135,6 +151,9 @@ export const Gallery: FC<{
       default:
         break;
     }
+  };
+  const handleKeyUp: KeyboardEventHandler<HTMLElement> = (event) => {
+    keysPressed.delete(event.key);
   };
 
   return (
@@ -153,7 +172,13 @@ export const Gallery: FC<{
           maxHeight="none"
           onCloseAutoFocus={handleOnCloseAutoFocus}
           onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
         >
+          <VisuallyHidden asChild aria-hidden>
+            <Dialog.Description>
+              {t`Image gallery opened. Use the left and right arrow keys to navigate between images, press the r key to report an image and the escape key to close it.`}
+            </Dialog.Description>
+          </VisuallyHidden>
           <GalleryFullscreenItem image={activeImage} />
         </Dialog.Content>
       </Dialog.Root>
