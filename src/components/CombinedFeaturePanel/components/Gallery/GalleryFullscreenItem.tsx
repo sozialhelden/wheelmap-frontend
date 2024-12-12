@@ -87,6 +87,7 @@ export const GalleryFullscreenItem: FC<{
     if (!image) return undefined;
     return makeSrcSetLocation(makeSrcSet(baseUrl, fullScreenSizes, image));
   }, [baseUrl, image]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const reportUrl = useMemo(() => {
     if (!image) return undefined;
     return api.getReportUrl(image._id);
@@ -97,8 +98,8 @@ export const GalleryFullscreenItem: FC<{
       <VisuallyHidden aria-live="polite">
         {image && t`Image shown: ${image._id}`}
       </VisuallyHidden>
-      <DialogContentWrapper aria-hidden>
-        <div className="gallery__fullscreen-image">
+      <DialogContentWrapper>
+        <div className="gallery__fullscreen-image" aria-hidden>
           {srcSet && <img srcSet={srcSet} alt="" />}
         </div>
 
@@ -111,6 +112,7 @@ export const GalleryFullscreenItem: FC<{
             md: "row",
           }}
           gap="2"
+          aria-hidden
         >
           <Flex
             className="gallery__fullscreen-image__legend"

@@ -126,11 +126,10 @@ export const Gallery: FC<{
   // But in this case, we want to focus the currently active image and not the one that actually
   // opened the Dialog in the first place, so that's why this functionality is implemented a
   // second time.
-  const galleryRef = useRef<HTMLElement>(null);
   const handleOnCloseAutoFocus = (event: Event) => {
     event.preventDefault();
-    galleryRef.current
-      ?.querySelector<HTMLAnchorElement>(`[data-image-id=${activeImage?._id}]`)
+    document
+      .querySelector<HTMLAnchorElement>(`[data-image-id=${activeImage?._id}]`)
       ?.focus();
   };
 
@@ -159,7 +158,7 @@ export const Gallery: FC<{
   return (
     <GalleryContext.Provider value={api}>
       <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-        <GalleryGrid ref={galleryRef}>
+        <GalleryGrid>
           {images.map((image) => (
             <GalleryGridItem key={image._id} image={image} />
           ))}
