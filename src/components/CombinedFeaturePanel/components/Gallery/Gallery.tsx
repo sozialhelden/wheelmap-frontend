@@ -57,7 +57,7 @@ export const Gallery: FC<{
 
   const keysPressed = new Set<string>();
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const activeImage = images[activeIndex];
   const next = () => {
@@ -68,10 +68,10 @@ export const Gallery: FC<{
   };
   const goTo = (imageId: string) => {
     setActiveIndex(getImageIndex(imageId));
-    setDialogOpen(true);
+    setIsDialogOpen(true);
   };
   const close = () => {
-    setDialogOpen(false);
+    setIsDialogOpen(false);
   };
   const getDetailPageUrl = (imageId: string) => {
     return `${baseFeatureUrl}/images/${imageId}`;
@@ -102,18 +102,18 @@ export const Gallery: FC<{
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (
-      !dialogOpen &&
+      !isDialogOpen &&
       activeImage &&
       window.location.pathname !== baseFeatureUrl
     ) {
       router.push(baseFeatureUrl);
     }
-  }, [dialogOpen]);
+  }, [isDialogOpen]);
 
   // Set the url when navigating to an image
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    if (!dialogOpen || !activeImage) {
+    if (!isDialogOpen || !activeImage) {
       return;
     }
     const url = getDetailPageUrl(activeImage._id);
@@ -157,7 +157,7 @@ export const Gallery: FC<{
 
   return (
     <GalleryContext.Provider value={api}>
-      <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <GalleryGrid>
           {images.map((image) => (
             <GalleryGridItem key={image._id} image={image} />
