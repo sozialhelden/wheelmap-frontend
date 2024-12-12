@@ -166,8 +166,6 @@ export const Gallery: FC<{
         </GalleryGrid>
 
         <Dialog.Content
-          height="calc(100vh - 8rem)"
-          width="calc(100vw - 4rem)"
           maxWidth="none"
           maxHeight="none"
           onCloseAutoFocus={handleOnCloseAutoFocus}

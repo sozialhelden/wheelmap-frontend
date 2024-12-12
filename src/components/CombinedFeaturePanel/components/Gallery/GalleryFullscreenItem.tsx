@@ -19,19 +19,25 @@ import { GalleryContext } from "./Gallery";
 import { fullScreenSizes, makeSrcSet, makeSrcSetLocation } from "./util";
 
 const DialogContentWrapper = styled.div`
-  // Essentially the following lines imitate what the Inset component does. 
-  // Unfortunately, we cannot use the Inset component and set the width and 
-  // height to be fixed at 100% at the same time. If you find another better 
-  // way how to do that, feel free to change this bumscode™
-  height: calc(100% + calc(var(--dialog-content-padding) * 2));
-  width: calc(100% + calc(var(--dialog-content-padding) * 2));
+  // Essentially the following line imitates what the Inset component does. 
+  // Unfortunately, we cannot use the Inset component and set the height to 
+  // be fixed at the same time. If you find another better way how to do that, 
+  // feel free to change this bumscode™
   margin: calc(var(--dialog-content-padding) * -1);
-
+  
+  height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .gallery__fullscreen-image {
+    flex: 1;
+    position: relative;
+  }
+  
+  .gallery__fullscreen-image > img {
     display: block;
+    position: absolute;
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -88,11 +94,13 @@ export const GalleryFullscreenItem: FC<{
 
   return (
     <>
-      <VisuallyHidden aria-live="polite">{t`Image shown: ${image._id}`}</VisuallyHidden>
+      <VisuallyHidden aria-live="polite">
+        {image && t`Image shown: ${image._id}`}
+      </VisuallyHidden>
       <DialogContentWrapper aria-hidden>
-        {srcSet && (
-          <img className="gallery__fullscreen-image" srcSet={srcSet} alt="" />
-        )}
+        <div className="gallery__fullscreen-image">
+          {srcSet && <img srcSet={srcSet} alt="" />}
+        </div>
 
         <Flex
           className="gallery__fullscreen-image__footer"
