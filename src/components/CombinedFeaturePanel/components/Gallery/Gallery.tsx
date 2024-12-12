@@ -173,8 +173,11 @@ export const Gallery: FC<{
           onKeyUp={handleKeyUp}
         >
           <VisuallyHidden asChild aria-hidden>
+            <Dialog.Title>{t`Image gallery.`}</Dialog.Title>
+          </VisuallyHidden>
+          <VisuallyHidden asChild aria-hidden>
             <Dialog.Description>
-              {t`Image gallery opened. Use the left and right arrow keys to navigate between images, press the r key to report an image and the escape key to close it.`}
+              {t`Use the left and right arrow keys to navigate between images, press the r key to report an image and the escape key to close it.`}
             </Dialog.Description>
           </VisuallyHidden>
           <GalleryFullscreenItem image={activeImage} />
