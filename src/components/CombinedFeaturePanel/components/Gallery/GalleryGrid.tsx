@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import { forwardRef } from "react";
+import type { FC, ReactNode } from "react";
 import styled from "styled-components";
 
 const ImageList = styled.ul`
@@ -11,8 +10,6 @@ const ImageList = styled.ul`
   margin: 0;
 `;
 
-export const GalleryGrid = forwardRef<HTMLElement, { children: ReactNode }>(
-  ({ children }) => {
-    return <ImageList>{children}</ImageList>;
-  },
+export const GalleryGrid: FC<{ children: ReactNode }> = ({ children }) => (
+  <ImageList>{children}</ImageList>
 );
