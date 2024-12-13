@@ -1,90 +1,92 @@
-import { t } from 'ttag'
-import React, { useContext, useState } from 'react'
-import useSWR, { mutate } from 'swr'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { toast } from 'react-toastify'
-import { BaseEditorProps } from './BaseEditor'
-import { AppStateLink } from '../../App/AppStateLink'
-import FeatureNameHeader from '../components/FeatureNameHeader'
-import FeatureImage from '../components/image/FeatureImage'
-import { FeaturePanelContext } from '../FeaturePanelContext'
-import { StyledReportView } from '../ReportView'
-import { makeChangeRequestToInhouseApi } from '../../../lib/fetchers/makeChangeRequestToInhouseApi'
-import useSubmitNewValueCallback from '../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi'
-import { useEnvContext } from '../../../lib/context/EnvContext'
-import useInhouseOSMAPI from '../../../lib/fetchers/osm-api/useOSMAPI'
-import useRetrieveOsmParametersFromFeature from '../../../lib/fetchers/osm-api/useRetrieveOsmParametersFromFeature'
-import { EditorTagValue } from './EditorTagValue'
-import { StringFieldEditor } from './StringFieldEditor'
-import { WheelchairEditor } from './WheelchairEditor'
-import { ToiletsWheelchairEditor } from './ToiletsWheelchairEditor'
-import {isOSMFeature} from "../../../lib/model/geo/AnyFeature";
-import {fetchFeaturePrefixedId} from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import useSWR, { mutate } from "swr";
+import { t } from "ttag";
+import { useEnvContext } from "../../../lib/context/EnvContext";
+import { makeChangeRequestToInhouseApi } from "../../../lib/fetchers/makeChangeRequestToInhouseApi";
+import { fetchFeaturePrefixedId } from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import useSubmitNewValueCallback from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
+import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
+import useRetrieveOsmParametersFromFeature from "../../../lib/fetchers/osm-api/useRetrieveOsmParametersFromFeature";
+import { isOSMFeature } from "../../../lib/model/geo/AnyFeature";
+import { AppStateLink } from "../../App/AppStateLink";
+import { FeaturePanelContext } from "../FeaturePanelContext";
+import { StyledReportView } from "../ReportView";
+import FeatureNameHeader from "../components/FeatureNameHeader";
+import FeatureImage from "../components/image/FeatureImage";
+import type { BaseEditorProps } from "./BaseEditor";
+import type { EditorTagValue } from "./EditorTagValue";
+import { StringFieldEditor } from "./StringFieldEditor";
+import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
+import { WheelchairEditor } from "./WheelchairEditor";
 
-type AutoEditorProps = Omit<BaseEditorProps, 'onUrlMutationSuccess' | 'onChange' | 'handleSubmitButtonClick'>
+type AutoEditorProps = Omit<
+  BaseEditorProps,
+  "onUrlMutationSuccess" | "onChange" | "handleSubmitButtonClick"
+>;
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
-    case key.startsWith('wheelchair:description'):
-      return StringFieldEditor
+    case key.startsWith("wheelchair:description"):
+      return StringFieldEditor;
 
-    case key === 'wheelchair':
-      return WheelchairEditor
+    case key === "wheelchair":
+      return WheelchairEditor;
 
-    case key === 'toilets:wheelchair':
-      return ToiletsWheelchairEditor
+    case key === "toilets:wheelchair":
+      return ToiletsWheelchairEditor;
 
     default:
-      return undefined
+      return undefined;
   }
 }
-export const AutoEditor = ({
-  feature, tagKey,
-}: AutoEditorProps) => {
-  const { baseFeatureUrl } = useContext(FeaturePanelContext)
+export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
+  const { baseFeatureUrl } = useContext(FeaturePanelContext);
   // TODO: add typing to session data
-  const accessToken = (useSession().data as any)?.accessToken
-  const router = useRouter()
-  const env = useEnvContext()
-  const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL
-  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false })
-  const osmFeature = isOSMFeature(feature) ? feature : undefined
-  const currentOSMObjectOnServer = useSWR(osmFeature?._id, fetchFeaturePrefixedId)
-  const {
-    tagName,
-    osmType,
-    osmId,
-  } = useRetrieveOsmParametersFromFeature(osmFeature)
+  const accessToken = (useSession().data as any)?.accessToken;
+  const router = useRouter();
+  const env = useEnvContext();
+  const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
+  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
+  const osmFeature = isOSMFeature(feature) ? feature : undefined;
+  const currentOSMObjectOnServer = useSWR(
+    osmFeature?._id,
+    fetchFeaturePrefixedId,
+  );
+  const { tagName, osmType, osmId } =
+    useRetrieveOsmParametersFromFeature(osmFeature);
 
-  const [newTagValue, setEditedTagValue] = useState<EditorTagValue>('')
+  const [newTagValue, setEditedTagValue] = useState<EditorTagValue>("");
   const handleSuccess = React.useCallback(() => {
     toast.success(
       t`Thank you for contributing. Your edit will be visible soon.`,
-    )
-    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    router.push(newPath)
-  }, [router, tagName])
+    );
+    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), "");
+    router.push(newPath);
+  }, [router, tagName]);
 
   const handleOSMSuccessDBError = React.useCallback(() => {
-    const message = [t`Thank you for contributing.`,
+    const message = [
+      t`Thank you for contributing.`,
       t` There was an error while trying to save your changes to our database.`,
       t` Your changes will still be visible on Open Street Map.`,
-    ]
+    ];
     // debugger
-    toast.warning(message)
+    toast.warning(message);
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
     // router.push(newPath)
-  }, [router, tagName])
+  }, [router, tagName]);
 
-  const handleError = React.useCallback((error: Error) => {
-    const message = [
+  const handleError = React.useCallback((error: Error, message?: string) => {
+    const defaultMessage = [
       t`Your contribution could not be saved completely.`,
       t`Please try again later or let us know if the error persists. Error: ${error}`,
-    ].join(' ')
+    ].join(" ");
 
-    toast.error(message)
-  }, [])
+    toast.error(message || defaultMessage);
+  }, []);
 
   const submitNewValue = useSubmitNewValueCallback({
     handleSuccess,
@@ -97,32 +99,42 @@ export const AutoEditor = ({
     tagName,
     newTagValue,
     currentOSMObjectOnServer,
-  })
+  });
 
   const handleSubmitButtonClick = async () => {
     if (accessToken) {
-      await submitNewValue()
-      return
+      await submitNewValue();
+      return;
     }
     if (!newTagValue || !osmId) {
-      throw new Error('Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.')
+      handleError(
+        new Error('Missing Information'),
+        t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
+      );
     }
-    await makeChangeRequestToInhouseApi(
-      {
+    try {
+      await makeChangeRequestToInhouseApi({
         baseUrl: inhouseOSMAPIBaseURL,
         osmId,
         tagName,
         newTagValue,
-      },
-    )
-    handleSuccess()
-  }
+      });
+      handleSuccess();
+    } catch (error) {
+      handleError(
+        error,
+        t`Something went wrong. Please let us know if the error persists.`,
+      );
+    }
+  };
 
   const onUrlMutationSuccess = React.useCallback((urls: string[]) => {
-    mutate((key: string) => urls.includes(key), undefined, { revalidate: true })
-  }, [])
+    mutate((key: string) => urls.includes(key), undefined, {
+      revalidate: true,
+    });
+  }, []);
 
-  const Editor = getEditorForKey(tagKey)
+  const Editor = getEditorForKey(tagKey);
   if (Editor) {
     return (
       <Editor
@@ -132,22 +144,24 @@ export const AutoEditor = ({
         onUrlMutationSuccess={onUrlMutationSuccess}
         handleSubmitButtonClick={handleSubmitButtonClick}
       />
-    )
+    );
   }
 
   return (
     <StyledReportView>
       <FeatureNameHeader feature={feature}>
-        {feature['@type'] === 'osm:Feature' && (
+        {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
       <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">Back</div>
+          <div role="button" className="_option _back">
+            Back
+          </div>
         </AppStateLink>
       </footer>
     </StyledReportView>
-  )
-}
+  );
+};
