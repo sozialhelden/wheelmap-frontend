@@ -1,16 +1,16 @@
-import { get, set, sortBy } from 'lodash'
-import * as React from 'react'
-import { TypeTaggedOSMFeature } from '../../../../lib/model/geo/AnyFeature'
-import isAccessibilityRelevantOSMKey from '../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey'
-import OSMTagTable from './OSMTagTable'
-import { sortOrderMap } from '../../../../lib/model/osm/tag-config/sortOrderMap'
-import { pathsToConsumedTagKeys } from '../../../../lib/model/osm/tag-config/pathsToConsumedTagKeys'
-import { omittedKeys } from '../../../../lib/model/osm/tag-config/omittedKeys'
-import { omittedKeySuffixes } from '../../../../lib/model/osm/tag-config/omittedKeySuffixes'
-import { omittedKeyPrefixes } from '../../../../lib/model/osm/tag-config/omittedKeyPrefixes'
+import { get, set, sortBy } from "lodash";
+import * as React from "react";
+import type { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
+import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
+import { omittedKeyPrefixes } from "../../../../lib/model/osm/tag-config/omittedKeyPrefixes";
+import { omittedKeySuffixes } from "../../../../lib/model/osm/tag-config/omittedKeySuffixes";
+import { omittedKeys } from "../../../../lib/model/osm/tag-config/omittedKeys";
+import { pathsToConsumedTagKeys } from "../../../../lib/model/osm/tag-config/pathsToConsumedTagKeys";
+import { sortOrderMap } from "../../../../lib/model/osm/tag-config/sortOrderMap";
+import OSMTagTable from "./OSMTagTable";
 
 export interface ITreeNode {
-  [key: string]: string | ITreeNode // type for unknown keys.
+  [key: string]: string | ITreeNode; // type for unknown keys.
 }
 
 /**
@@ -27,74 +27,80 @@ export interface ITreeNode {
  */
 
 function generateTree(keys: string[]): ITreeNode {
-  const result: ITreeNode = {}
+  const result: ITreeNode = {};
 
   for (const key of keys) {
     for (const [bucketName, keyRegExp] of pathsToConsumedTagKeys) {
-      const matches = key.match(keyRegExp)
+      const matches = key.match(keyRegExp);
       if (matches) {
-        const path = key.replace(keyRegExp, bucketName)
-        const parentPath = path.replace(/\.[^.]+$/, '')
-        const existingParent = get(result, parentPath)
-        const newObject = typeof existingParent === 'string' ? existingParent : key
-        set(result, path, newObject)
+        const path = key.replace(keyRegExp, bucketName);
+        const parentPath = path.replace(/\.[^.]+$/, "");
+        const existingParent = get(result, parentPath);
+        const newObject =
+          typeof existingParent === "string" ? existingParent : key;
+        set(result, path, newObject);
         // log.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
         // log.log(`Assigned`, path, '=', newObject);
         // log.log(`Result`, result);
-        break
+        break;
       }
     }
   }
-  return result
+  return result;
 }
 
 function nest(tree: ITreeNode) {
-  const entries = Object.entries(tree)
+  const entries = Object.entries(tree);
   const sortedEntries = sortBy(entries, ([key]) => {
-    const order = sortOrderMap.get(key)
-    return order === undefined ? 100000 : order
-  })
+    const order = sortOrderMap.get(key);
+    return order === undefined ? 100000 : order;
+  });
 
   return sortedEntries.map(([k, v]) => {
-    if (typeof v === 'string') {
-      return { key: v }
+    if (typeof v === "string") {
+      return { key: v };
     }
-    return { key: k, children: nest(v) }
-  })
+    return { key: k, children: nest(v) };
+  });
 }
 
-export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
-  const nestedTags = React.useMemo(
-    () => {
-      const filteredKeys = Object.keys(feature.properties || {})
-        .filter((key) => !omittedKeys.has(key))
-        .filter((key) => !omittedKeyPrefixes.find((prefix) => (typeof prefix === 'string' ? key.startsWith(prefix) : key.match(prefix))))
-        .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)))
-      const accessibilityRelevantKeys = filteredKeys.filter(
-        isAccessibilityRelevantOSMKey,
+export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
+  const nestedTags = React.useMemo(() => {
+    const filteredKeys = Object.keys(feature.properties || {})
+      .filter((key) => !omittedKeys.has(key))
+      .filter(
+        (key) =>
+          !omittedKeyPrefixes.find((prefix) =>
+            typeof prefix === "string"
+              ? key.startsWith(prefix)
+              : key.match(prefix),
+          ),
       )
-      // add a pseudo tag if there is no wheelchair description yet to render an add button
-      if (!accessibilityRelevantKeys.some((item) => item.startsWith('wheelchair:description'))) {
-        accessibilityRelevantKeys.push('add_wheelchair_description')
-      }
+      .filter(
+        (key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)),
+      );
+    const accessibilityRelevantKeys = filteredKeys.filter(
+      isAccessibilityRelevantOSMKey,
+    );
+    // add a pseudo tag if there is no wheelchair description yet to render an add button
+    if (
+      !accessibilityRelevantKeys.some((item) =>
+        item.startsWith("wheelchair:description"),
+      )
+    ) {
+      accessibilityRelevantKeys.push("addWheelchairDescription");
+    }
 
-      // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
-      // const remainingKeys = difference(
-      //   filteredKeys,
-      //   accessibilityRelevantKeys,
-      //   addressRelevantKeys
-      // );
+    // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
+    // const remainingKeys = difference(
+    //   filteredKeys,
+    //   accessibilityRelevantKeys,
+    //   addressRelevantKeys
+    // );
 
-      const tree = generateTree(accessibilityRelevantKeys)
-      return nest(tree)
-    },
-    [feature],
-  )
+    const tree = generateTree(accessibilityRelevantKeys);
+    return nest(tree);
+  }, [feature]);
 
-  return (
-    <OSMTagTable
-      nestedTags={nestedTags}
-      feature={feature}
-    />
-  )
+  return <OSMTagTable nestedTags={nestedTags} feature={feature} />;
 }
