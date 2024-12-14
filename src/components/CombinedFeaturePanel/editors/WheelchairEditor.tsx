@@ -1,4 +1,4 @@
-import { Button } from "@blueprintjs/core";
+import { Button, Link } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
 import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
@@ -36,9 +36,10 @@ export const WheelchairEditor = ({
   const [editedTagValue, setEditedTagValue] = useState<
     YesNoLimitedUnknown | undefined
   >(current);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [isNoOpButton, setIsNoOpButton] = useState<boolean>(true);
+
   useEffect(() => {
-    setIsButtonDisabled(current === editedTagValue);
+    setIsNoOpButton(current === editedTagValue);
   }, [current, editedTagValue]);
 
   return (
@@ -95,14 +96,17 @@ export const WheelchairEditor = ({
       </form>
 
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">
-            Back
-          </div>
+        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+          <Link href="">{isNoOpButton ? "Cancel" : "Back"}</Link>
         </AppStateLink>
-        <Button onClick={handleSubmitButtonClick} disabled={isButtonDisabled}>
-          Send
-        </Button>
+        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+          <Button
+            variant="solid"
+            onClick={isNoOpButton ? undefined : handleSubmitButtonClick}
+          >
+            {isNoOpButton ? "Confirm" : "Send"}
+          </Button>
+        </AppStateLink>
       </footer>
     </StyledReportView>
   );
