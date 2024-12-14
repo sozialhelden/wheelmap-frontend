@@ -1,4 +1,4 @@
-import { Button, TextArea } from "@blueprintjs/core";
+import { Button, Heading, Link, TextArea } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
 import { t } from "ttag";
 import { AppStateLink } from "../../App/AppStateLink";
@@ -17,9 +17,10 @@ export const StringFieldEditor = ({
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const current = feature.properties?.[tagKey] || "";
   const [editedTagValue, setEditedTagValue] = React.useState(current);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const [isNoOpButton, setIsNoOpButton] = useState<boolean>(true);
+
   useEffect(() => {
-    setIsButtonDisabled(current === editedTagValue);
+    setIsNoOpButton(current === editedTagValue);
   }, [current, editedTagValue]);
 
   return (
@@ -32,6 +33,7 @@ export const StringFieldEditor = ({
       <h2 className="_title">{t`Editing ${tagKey}`}</h2>
 
       <TextArea
+        variant="classic"
         className="_textarea"
         placeholder="Enter text here"
         value={editedTagValue}
@@ -43,14 +45,17 @@ export const StringFieldEditor = ({
       />
 
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">
-            Back
-          </div>
+        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+          <Link href="">{isNoOpButton ? "Cancel" : "Back"}</Link>
         </AppStateLink>
-        <Button onClick={handleSubmitButtonClick} disabled={isButtonDisabled}>
-          Send
-        </Button>
+        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+          <Button
+            variant="solid"
+            onClick={isNoOpButton ? undefined : handleSubmitButtonClick}
+          >
+            {isNoOpButton ? "Confirm" : "Send"}
+          </Button>
+        </AppStateLink>
       </footer>
     </StyledReportView>
   );
