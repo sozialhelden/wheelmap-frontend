@@ -1,225 +1,193 @@
+import { FC, startTransition, useContext, useMemo, useRef, useState } from "react";
+import useSWR from "swr";
+import type { FeatureCollection, Point } from "geojson";
+import { center as turfCenter } from "@turf/turf";
+import fetchPhotonFeatures, {
+  type PhotonResultFeature,
+} from "../../../lib/fetchers/fetchPhotonFeatures";
+import { SearchConfirmText, SearchSkipText } from "../language";
+import CountryContext from "../../../lib/context/CountryContext";
+import fetchCountryGeometry from "../../../lib/fetchers/fetchCountryGeometry";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import { Button, ChevronDownIcon, DropdownMenu } from "@radix-ui/themes";
+import { t } from "ttag";
 import {
-  FC, useContext, useMemo, useRef, useState,
-} from 'react'
-import {
-  useFloating,
-  useClick,
-  useDismiss,
-  useRole,
-  useListNavigation,
-  useInteractions,
-  FloatingFocusManager,
-  offset,
-  flip,
-  size,
-  autoUpdate,
-  FloatingPortal,
-} from '@floating-ui/react'
-import useSWR from 'swr'
-import type { FeatureCollection, Point } from 'geojson'
-import { center as turfCenter } from '@turf/turf'
-import fetchPhotonFeatures, { type PhotonResultFeature } from '../../../lib/fetchers/fetchPhotonFeatures'
-import { CallToActionButton } from '../../shared/Button'
-import { SearchConfirmText, SearchSkipText } from '../language'
-import CountryContext from '../../../lib/context/CountryContext'
-import fetchCountryGeometry from '../../../lib/fetchers/fetchCountryGeometry'
-import colors from '../../../lib/util/colors'
-import { useCurrentLanguageTagStrings } from '../../../lib/context/LanguageTagContext'
+  Combobox,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxProvider,
+} from "@ariakit/react";
+import * as RadixSelect from "@radix-ui/react-select";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-export const LocationSearch: FC<{ onUserSelection: (selection?: PhotonResultFeature) => unknown }> = ({ onUserSelection }) => {
-  const [{ value, origin, selection }, setValue] = useState({ value: '', origin: 'system', selection: '' })
 
-  const region = useContext(CountryContext)
-  const { data: regionGeometry } = useSWR<FeatureCollection>({ }, fetchCountryGeometry)
+export const LocationSearch: FC<{
+  onUserSelection: (selection?: PhotonResultFeature) => unknown;
+}> = ({ onUserSelection }) => {
+  const comboboxRef = useRef<HTMLInputElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [value, setValue] = useState("");
+
+  const region = useContext(CountryContext);
+  const { data: regionGeometry } = useSWR<FeatureCollection>(
+    {},
+    fetchCountryGeometry,
+  );
   const bias = useMemo(() => {
     if (!regionGeometry) {
-      return undefined
+      return undefined;
     }
 
-    const location = regionGeometry.features.find((x) => x.properties?.['ISO3166-1'] === region)
+    const location = regionGeometry.features.find(
+      (x) => x.properties?.["ISO3166-1"] === region,
+    );
 
-    let center: Point | undefined
+    let center: Point | undefined;
     if (location) {
-      if ('centroid' in location) {
-        center = location.centroid as Point
+      if ("centroid" in location) {
+        center = location.centroid as Point;
       } else {
-        center = turfCenter(location).geometry
+        center = turfCenter(location).geometry;
       }
     }
 
     const computedBias = {
       lon: center?.coordinates[0].toString(),
       lat: center?.coordinates[1].toString(),
-      zoom: '5',
-      location_bias_scale: '1.0',
-    } as const
-    return computedBias
-  }, [regionGeometry, region])
+      zoom: "5",
+      location_bias_scale: "1.0",
+    } as const;
+    return computedBias;
+  }, [regionGeometry, region]);
 
-  const languageTag = useCurrentLanguageTagStrings()?.[0] || 'en';
-  const { data } = useSWR({ languageTag, query: value, additionalQueryParameters: { layer: 'city', ...bias } }, fetchPhotonFeatures)
-  const filteredData = useMemo(() => {
+  const languageTag = useCurrentLanguageTagStrings()?.[0] || "en";
+  const { data } = useSWR(
+    {
+      languageTag,
+      query: searchValue,
+      additionalQueryParameters: { layer: "city", ...bias },
+    },
+    fetchPhotonFeatures,
+  );
+  const filteredData: ({ key: string } & PhotonResultFeature)[] = useMemo(() => {
     if (!data) {
-      return []
+      return [
+        {
+          key: "Tokyo / Japan",
+          properties: {
+            name: "Tokyo",
+            country: "Japan",
+          },
+        },
+      ];
     }
-    const bucket: ({ key: string } & PhotonResultFeature)[] = []
+    const bucket: ({ key: string } & PhotonResultFeature)[] = [];
     for (let i = 0; i < data.features.length; i += 1) {
-      const entry = data.features[i]
+      const entry = data.features[i];
       if (!entry.properties) {
-        continue
+        continue;
       }
-      const key = `${entry.properties.city ?? entry.properties.name} / ${entry.properties.country}`
+      const key = `${entry.properties.city ?? entry.properties.name} / ${entry.properties.country}`;
       if (bucket.some((x) => x.key === key)) {
-        continue
+        continue;
       }
       bucket.push({
         key,
         ...entry,
-      })
+      });
     }
-    return bucket
-  }, [data])
-
-  const [isOpen, setIsOpen] = useState(false)
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-
-  const { refs, floatingStyles, context } = useFloating<HTMLElement>({
-    placement: 'bottom-start',
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(5),
-      flip({ padding: 10 }),
-      size({
-        apply({ rects, elements, availableHeight }) {
-          Object.assign(elements.floating.style, {
-            maxHeight: `${availableHeight}px`,
-            minWidth: `${rects.reference.width}px`,
-          })
-        },
-        padding: 10,
-      }),
-    ],
-  })
-
-  const listRef = useRef<Array<HTMLElement | null>>([])
-  const isTypingRef = useRef(false)
-
-  const click = useClick(context, { event: 'mousedown' })
-  const dismiss = useDismiss(context)
-  const role = useRole(context, { role: 'listbox' })
-  const listNav = useListNavigation(context, {
-    listRef,
-    activeIndex,
-    selectedIndex,
-    onNavigate: setActiveIndex,
-    // This is a large list, allow looping.
-    loop: true,
-  })
-
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [dismiss, role, listNav, click],
-  )
-
-  const handleSelect = (index: number) => {
-    const { key } = filteredData[index]
-    if (selectedIndex === index) {
-      setValue({ value: key, origin: 'selection', selection: key })
-      setSelectedIndex(-1)
-      return
-    }
-
-    setValue({ value, origin, selection: key })
-    setSelectedIndex(index)
-  }
+    return bucket;
+  }, [data]);
 
   return (
     <>
-      <input
-        placeholder="Location"
+      <RadixSelect.Root
         value={value}
-        onChange={(e) => { setValue({ value: e.target.value, origin: 'user', selection: '' }) }}
-        onKeyDown={(evt) => {
-          if (evt.key === 'Enter') {
-            evt.preventDefault()
-            handleSelect(0)
-          }
-        }}
-        {...getReferenceProps()}
-        ref={refs.setReference}
-      />
-      <CallToActionButton onClick={() => { onUserSelection(filteredData.find((x) => x.key === selection)) }}>
-        { selection.length > 0 ? SearchConfirmText : SearchSkipText }
-      </CallToActionButton>
-      {data && origin === 'user' && (
-        <FloatingPortal>
-          <FloatingFocusManager context={context} modal={false}>
-            <div
-              ref={refs.setFloating}
-              style={{
-                ...floatingStyles,
-                overflowY: 'auto',
-                background: colors.neutralBackgroundColor,
-                color: colors.textColor,
-                minWidth: 100,
-                borderRadius: 8,
-                outline: 0,
-                zIndex: 10000,
-              }}
-              {...getFloatingProps()}
-            >
-              {filteredData.map((feature, i) => (
-                <div
-                  key={feature.key}
-                  ref={(node) => {
-                    listRef.current[i] = node
-                  }}
-                  role="option"
-                  tabIndex={i === activeIndex ? 0 : -1}
-                  aria-selected={i === selectedIndex && i === activeIndex}
-                  style={{
-                    padding: 10,
-                    cursor: 'default',
-                    zIndex: 10001,
-                  }}
-                  {...getItemProps({
-                    // Handle pointer select.
-                    onClick() {
-                      handleSelect(i)
-                    },
-                    // Handle keyboard select.
-                    onKeyDown(evt) {
-                      if (evt.key === 'Enter') {
-                        evt.preventDefault()
-                        handleSelect(i)
-                      }
+        onValueChange={setValue}
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <ComboboxProvider
+          open={open}
+          setOpen={setOpen}
+          resetValueOnHide
+          includesBaseElement={false}
+          setValue={(value) => {
+            startTransition(() => {
+              setSearchValue(value);
+            });
+          }}
+        >
+          <ComboboxLabel className="label">{t`Enter a location name`}</ComboboxLabel>
 
-                      if (evt.key === ' ' && !isTypingRef.current) {
-                        evt.preventDefault()
-                        handleSelect(i)
-                      }
-                    },
-                  })}
-                >
-                  {feature.key}
-                  <span
-                    aria-hidden
-                    style={{
-                      position: 'absolute',
-                      right: 10,
-                      zIndex: 10002,
-                    }}
-                  >
-                    {i === selectedIndex ? ' ✓' : ''}
-                  </span>
-                </div>
-              ))}
+          <RadixSelect.Trigger aria-label="Language" className="select">
+            <RadixSelect.Value placeholder="Select a language" />
+            <RadixSelect.Icon className="select-icon">
+              <ChevronDownIcon />
+            </RadixSelect.Icon>
+          </RadixSelect.Trigger>
+
+          <RadixSelect.Content
+            // biome-ignore lint/a11y/useSemanticElements: <explanation>
+            role="dialog"
+            aria-label="Languages"
+            position="popper"
+            className="popover"
+            sideOffset={4}
+            alignOffset={-16}
+          >
+            <div className="combobox-wrapper">
+              <div className="combobox-icon">
+                <MagnifyingGlassIcon />
+              </div>
+              <Combobox
+                autoSelect
+                placeholder="Search places"
+                className="combobox"
+                // Ariakit's Combobox manually triggers a blur event on virtually
+                // blurred items, making them work as if they had actual DOM
+                // focus. These blur events might happen after the corresponding
+                // focus events in the capture phase, leading Radix Select to
+                // close the popover. This happens because Radix Select relies on
+                // the order of these captured events to discern if the focus was
+                // outside the element. Since we don't have access to the
+                // onInteractOutside prop in the Radix SelectContent component to
+                // stop this behavior, we can turn off Ariakit's behavior here.
+                onBlurCapture={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }}
+              />
             </div>
-          </FloatingFocusManager>
-        </FloatingPortal>
-      )}
+            <ComboboxList className="listbox">
+              {filteredData.map((match) => (
+                <RadixSelect.Item
+                  key={match.key}
+                  value={match.key}
+                  asChild
+                  className="item"
+                >
+                  <ComboboxItem>
+                    <RadixSelect.ItemText>{match.properties.name}</RadixSelect.ItemText>
+                  </ComboboxItem>
+                </RadixSelect.Item>
+              ))}
+            </ComboboxList>
+          </RadixSelect.Content>
+        </ComboboxProvider>
+      </RadixSelect.Root>
+      <Button
+        size="3"
+        onClick={() => {
+          onUserSelection(filteredData.find((x) => x.key === value));
+        }}
+      >
+        {value ? SearchConfirmText : SearchSkipText}
+        {value}
+      </Button>
     </>
-  )
-}
+  );
+};

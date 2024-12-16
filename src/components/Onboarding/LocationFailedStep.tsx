@@ -1,4 +1,3 @@
-import { FC, useContext } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '../../lib/context/AppContext'
 import StyledMarkdown from '../shared/StyledMarkdown'
@@ -6,6 +5,8 @@ import { LocationFailedStepPrimaryText, selectProductName } from './language'
 import { LocationSearch } from './components/LocationSearch'
 import type { PhotonResultFeature } from '../../lib/fetchers/fetchPhotonFeatures'
 import { LocationContainer } from './components/LocationContainer'
+import { Flex } from '@radix-ui/themes'
+import { type FC, useContext } from 'react'
 
 const Container = styled(LocationContainer)`
   .footer {
@@ -28,9 +29,9 @@ export const LocationFailedStep: FC<{
           selectProductName(clientSideConfiguration),
         )}
       </StyledMarkdown>
-      <footer className="footer">
+      <Flex gap="3" mt="4" justify="end">
         <LocationSearch onUserSelection={onSubmit} />
-      </footer>
+      </Flex>
     </Container>
   )
 }
