@@ -191,7 +191,8 @@
     "iOS >= 10",
     "last 1 version",
     "> 0.25%",
-    "not dead"
+    "not dead",
+    "not op_mob >= 1"
   ],
   "engines": {
     "node": "22"
