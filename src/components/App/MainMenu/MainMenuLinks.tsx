@@ -10,6 +10,7 @@ import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { t } from "ttag";
 import { AutoLink } from "./AutoLink";
+import { useWindowSize } from "../../../lib/util/useViewportSize";
 
 export default function MainMenuLinks() {
   const router = useRouter();
@@ -31,11 +32,18 @@ export default function MainMenuLinks() {
     </Button>
   );
 
+  const windowSize = useWindowSize();
   const appLinks = useAppLinks();
+  const isBigViewport = windowSize.width >= 1024;
+
+  // We show some links outside, and some inside the menu.
+  // First, we sort the links into categories:
   const alwaysVisible = appLinks.filter(l => l.importance === "alwaysVisible");
   const advertisedIfPossible = appLinks.filter(l => !l.importance || l.importance === "advertisedIfPossible");
   const insignificant = appLinks.filter(l => l.importance === "insignificant");
-  const shownInMenu = [...advertisedIfPossible, ...insignificant].sort((a, b) => (a.order || 0) - (b.order || 0));
+
+  const shownInMenu = [...isBigViewport ? [] : advertisedIfPossible, ...insignificant].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const shownInToolbar = [...isBigViewport ? advertisedIfPossible : [], ...alwaysVisible].sort((a, b) => (a.order || 0) - (b.order || 0));
 
   const appLinksPopover = (
     <Theme radius="small">
@@ -47,8 +55,8 @@ export default function MainMenuLinks() {
       </DropdownMenu.Root>
     </Theme>
   );
-  return <Flex gap="3" align="center">
-    {alwaysVisible.map(
+  return <Flex gap="4" align="center">
+    {shownInToolbar.map(
       (appLink) =>
         <AutoLink asMenuItem={false} key={appLink._id} {...appLink} />)}
     {appLinksPopover}

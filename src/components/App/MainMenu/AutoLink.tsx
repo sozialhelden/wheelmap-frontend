@@ -67,7 +67,7 @@ export function AutoLink({
 
   if (typeof url === "string") {
     const buttonProps: ButtonProps = {
-      variant: tags?.includes("primary") ? "solid" : "soft",
+      variant: tags?.includes("primary") ? "solid" : "ghost",
     };
 
     const isExternal = url.startsWith("http");
