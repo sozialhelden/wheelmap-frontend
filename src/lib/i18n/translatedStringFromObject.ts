@@ -2,13 +2,13 @@ import compact from 'lodash/compact'
 import uniq from 'lodash/uniq'
 import { normalizeLanguageCode } from './normalizeLanguageCode'
 import { currentLocales } from './i18n'
-import { LocalizedString } from './LocalizedString'
+import type { LocalizedString } from './LocalizedString'
 
 export function translatedStringFromObject(
   string: LocalizedString | null | undefined,
-): string | null {
+): string | undefined {
   if (typeof string === 'undefined' || string === null) {
-    return null
+    return undefined
   }
 
   if (typeof string === 'string') return string
@@ -46,5 +46,5 @@ export function translatedStringFromObject(
     if (foundLocale) return string[foundLocale]
   }
 
-  return null
+  return undefined
 }

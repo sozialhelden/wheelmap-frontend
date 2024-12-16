@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": false,
@@ -23,13 +19,13 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "~/*": ["./*"]
+    },
+    "baseUrl": "."
   },
-  "exclude": [
-    "node_modules",
-    "src/lib/apm",
-    "src/server"
-  ],
+  "exclude": ["node_modules", "src/lib/apm", "src/server"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

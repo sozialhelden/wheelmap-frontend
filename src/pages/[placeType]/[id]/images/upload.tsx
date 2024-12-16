@@ -11,7 +11,7 @@ import { useCurrentAppToken } from '../../../../lib/context/AppContext'
 import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
 import { AppStateLink } from '../../../../components/App/AppStateLink'
 import uploadPhotoForFeature from '../../../../lib/fetchers/ac/refactor-this/postImageUpload'
-import { getLayout } from '../../../../components/App/MapLayout'
+import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
 import { Button } from '@radix-ui/themes'
 
 const uncachedUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''
@@ -23,7 +23,7 @@ const ExplanationContent : FC<{ onStateChanged: (state: 'uploading' | 'done' | '
   const appToken = useCurrentAppToken()
 
   const { features } = useContext(FeaturePanelContext)
-  const feature = features[0]
+  const feature = features[0].feature.requestedFeature
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     (async () => {
