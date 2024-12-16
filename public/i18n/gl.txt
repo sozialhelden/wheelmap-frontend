@@ -6,11 +6,11 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:329
 msgid "Search"
 msgstr ""
 
-#: src/pages/_app.tsx:336
+#: src/pages/_app.tsx:330
 msgid "Homepage"
 msgstr ""
 
@@ -21,38 +21,38 @@ msgid "Embed mode can not be used"
 msgstr ""
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
-#: src/components/NotFound/NotFound.tsx:90
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:41
+#: src/components/NotFound/NotFound.tsx:89
 msgid "Error"
 msgstr ""
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:45
+#: src/components/NotFound/NotFound.tsx:44
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr ""
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:48
+#: src/components/NotFound/NotFound.tsx:47
 msgid "Sorry, we are offline!"
 msgstr ""
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:61
 msgid "Sorry, that should not have happened!"
 msgstr ""
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:63
 msgid "Return home"
 msgstr ""
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:66
+#: src/components/NotFound/NotFound.tsx:65
 msgid "Retry"
 msgstr ""
 
@@ -77,37 +77,37 @@ msgid "Leisure"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:111
+#: src/lib/Categories.ts:115
 msgid "Hotels"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:115
+#: src/lib/Categories.ts:119
 msgid "Tourism"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:119
+#: src/lib/Categories.ts:123
 msgid "Education"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:123
+#: src/lib/Categories.ts:127
 msgid "Authorities"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:127
+#: src/lib/Categories.ts:131
 msgid "Health"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:131
+#: src/lib/Categories.ts:135
 msgid "Money"
 msgstr ""
 
 #. translator: Root category
-#: src/lib/Categories.ts:135
+#: src/lib/Categories.ts:139
 msgid "Sports"
 msgstr ""
 
@@ -115,71 +115,71 @@ msgstr ""
 #. toilet
 #. translator: Meta category for any toilet or any place with an accessible
 #. toilet
-#: src/lib/Categories.ts:140
+#: src/lib/Categories.ts:144
 msgid "Toilets"
 msgstr ""
 
 #. translator: Shown when there was an error while loading category data from
 #. the backend.
-#: src/lib/Categories.ts:267
+#: src/lib/Categories.ts:290
 msgid "Error while loading place categories."
 msgstr ""
 
 #. translator: Long accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:491
+#: src/lib/Feature.ts:493
 msgid "Fully wheelchair accessible"
 msgstr ""
 
 #. translator: Long accessibility description for partial wheelchair
 #. accessibility
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
-#: src/lib/Feature.ts:494
+#: src/lib/Feature.ts:496
 msgid "Partially wheelchair accessible"
 msgstr ""
 
 #. translator: Long accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:497
+#: src/lib/Feature.ts:499
 msgid "Not wheelchair accessible"
 msgstr ""
 
 #. translator: Long accessibility description for unknown wheelchair
 #. accessibility
-#: src/lib/Feature.ts:500
+#: src/lib/Feature.ts:502
 msgid "Unknown accessibility"
 msgstr ""
 
 #. translator: Short accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:514
+#: src/lib/Feature.ts:516
 msgid "Fully"
 msgstr ""
 
 #. translator: Short accessibility description for partial wheelchair
 #. accessibility
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:519
 msgid "Partially"
 msgstr ""
 
 #. translator: Short accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:520
+#: src/lib/Feature.ts:522
 msgid "Not at all"
 msgstr ""
 
 #. translator: Short accessibility description for unknown wheelchair
 #. accessibility
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:101
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:525
 msgid "Unknown"
 msgstr ""
 
-#: src/lib/Feature.ts:535
+#: src/lib/Feature.ts:537
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:539
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -187,53 +187,53 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:543
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 
-#: src/lib/Feature.ts:544
+#: src/lib/Feature.ts:546
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 
-#: src/lib/Feature.ts:555
+#: src/lib/Feature.ts:557
 msgid "Wheelchair accessible toilet"
 msgstr ""
 
-#: src/lib/Feature.ts:558
+#: src/lib/Feature.ts:560
 msgid "No wheelchair accessible toilet"
 msgstr ""
 
-#: src/lib/Feature.ts:566
+#: src/lib/Feature.ts:568
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr ""
 
-#: src/lib/Feature.ts:566
+#: src/lib/Feature.ts:568
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr ""
 
-#: src/lib/Feature.ts:567
+#: src/lib/Feature.ts:569
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr ""
 
-#: src/lib/Feature.ts:567
+#: src/lib/Feature.ts:569
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr ""
 
-#: src/lib/Feature.ts:568
+#: src/lib/Feature.ts:570
 msgid "Wheelchair-height toilet seat"
 msgstr ""
 
-#: src/lib/Feature.ts:569
+#: src/lib/Feature.ts:571
 msgid "Foldable grab rails"
 msgstr ""
 
-#: src/lib/Feature.ts:570
+#: src/lib/Feature.ts:572
 msgid "Accessible sink"
 msgstr ""
 
-#: src/lib/Feature.ts:577
+#: src/lib/Feature.ts:579
 msgid "Unnamed place"
 msgstr ""
 
@@ -252,13 +252,13 @@ msgstr ""
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:278
+#: src/app/PlaceDetailsData.tsx:309
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr ""
 
-#: src/app/SearchData.tsx:126
-#: src/components/SearchToolbar/SearchResults.tsx:46
+#: src/app/SearchData.tsx:157
+#: src/components/SearchToolbar/SearchResults.tsx:45
 msgid "Search results"
 msgstr ""
 
@@ -272,18 +272,18 @@ msgid "Add a new place"
 msgstr ""
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:998
 msgid "Zoom in closer to see more places"
 msgstr ""
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1014
 msgid "Turn on location services"
 msgstr ""
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1047
 msgid "Map"
 msgstr ""
 
@@ -293,27 +293,26 @@ msgstr ""
 msgid "Go to ${ appName }"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr ""
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:97
+#: src/lib/EquipmentInfo.ts:98
 msgid "In operation"
 msgstr ""
 
 #. translator: An equipment or facility status. This does not mean the
 #. facility is broken: It might just be in maintenance! The facility might be
 #. an elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:99
+#: src/lib/EquipmentInfo.ts:100
 msgid "Out of order"
 msgstr ""
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:101
+#: src/lib/EquipmentInfo.ts:102
 msgid "Unknown operational status"
 msgstr ""
 
@@ -350,18 +349,19 @@ msgstr ""
 
 #. translator: Shown next to equipment status.
 #: src/lib/EquipmentInfo.ts:181
+#, javascript-format
 msgid "Last update: ${ dateString }"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.tsx:121
+#: src/components/MainMenu/MainMenu.tsx:120
 msgid "Home"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.tsx:244
+#: src/components/MainMenu/MainMenu.tsx:240
 msgid "Menu"
 msgstr ""
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:426
+#: src/components/SearchToolbar/SearchToolbar.tsx:409
 msgid "Clear search"
 msgstr ""
 
@@ -373,7 +373,8 @@ msgstr ""
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:92
+#: src/components/NodeToolbar/NodeToolbar.tsx:344
 msgid "Places"
 msgstr ""
 
@@ -439,7 +440,7 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:92
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:171
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:183
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:270
 #: src/components/PhotoUpload/ReportPhotoToolbar.tsx:157
 msgid "Cancel"
@@ -486,7 +487,7 @@ msgid "toilets"
 msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:129
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:168
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:180
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:273
 msgid "Continue"
 msgstr ""
@@ -534,86 +535,86 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:38
+#: src/components/Onboarding/Onboarding.tsx:37
 msgid "Help out by marking places!"
 msgstr ""
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:41
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Okay, let’s go!"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.tsx:64
+#: src/components/Onboarding/Onboarding.tsx:60
 msgid "Start screen"
 msgstr ""
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:92
+#: src/components/MappingEvents/MappingEventToolbar.tsx:91
 msgid "starting"
 msgstr ""
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:97
+#: src/components/MappingEvents/MappingEventToolbar.tsx:96
 msgid "until"
 msgstr ""
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:112
+#: src/components/MappingEvents/MappingEventToolbar.tsx:111
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr ""
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:114
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 msgid "Center map on mapping event"
 msgstr ""
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:116
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Meeting point"
 msgstr ""
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:118
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Area name"
 msgstr ""
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:120
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Event date"
 msgstr ""
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:122
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event start date"
 msgstr ""
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:124
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Event end date"
 msgstr ""
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:126
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
 msgid "Back to the mapping events list"
 msgstr ""
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:128
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr ""
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:130
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 msgid "Join mapping event"
 msgstr ""
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:132
+#: src/components/MappingEvents/MappingEventToolbar.tsx:131
 msgid "Leave mapping event"
 msgstr ""
 
@@ -669,16 +670,16 @@ msgstr ""
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
-#: src/components/NodeToolbar/NodeToolbar.tsx:259
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:63
+#: src/components/NodeToolbar/NodeToolbar.tsx:221
 msgid "How wheelchair accessible is this place?"
 msgstr ""
 
-#: src/components/Toolbar.tsx:603
+#: src/components/Toolbar.tsx:606
 msgid "Collapse details"
 msgstr ""
 
-#: src/components/Toolbar.tsx:603
+#: src/components/Toolbar.tsx:606
 msgid "Expand details"
 msgstr ""
 
@@ -695,19 +696,19 @@ msgstr ""
 
 #. translator: Screenreader description for the statistics/numbers part of a
 #. mapping event
-#: src/components/MappingEvents/Statistics.tsx:25
+#: src/components/MappingEvents/Statistics.tsx:24
 msgid "Mapping Event Numbers"
 msgstr ""
 
 #. translator: Description for number of already mapped places in the mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:27
+#: src/components/MappingEvents/Statistics.tsx:26
 msgid "Mapped Places"
 msgstr ""
 
 #. translator: Description for number of people invited to the current mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:29
+#: src/components/MappingEvents/Statistics.tsx:28
 msgid "Participants"
 msgstr ""
 
@@ -743,7 +744,7 @@ msgstr ""
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:71
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:186
 #: src/components/NodeToolbar/Report/strings.ts:27
 msgid "Back"
 msgstr ""
@@ -823,7 +824,7 @@ msgstr ""
 msgid "Show me where I am"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.tsx:117
+#: src/components/NodeToolbar/NodeHeader.tsx:118
 msgid "Unnamed facility"
 msgstr ""
 
@@ -833,12 +834,12 @@ msgid "Search for place or address"
 msgstr ""
 
 #. translator: Text in search results when nothing was found
-#: src/components/SearchToolbar/SearchResults.tsx:36
+#: src/components/SearchToolbar/SearchResults.tsx:35
 msgid "No results found"
 msgstr ""
 
 #. translator: Text in search results when an error occurred
-#: src/components/SearchToolbar/SearchResults.tsx:39
+#: src/components/SearchToolbar/SearchResults.tsx:38
 msgid "No results available. Please try again later!"
 msgstr ""
 
@@ -878,7 +879,7 @@ msgstr ""
 
 #. translator: Place name shown in search results for places with unknown name
 #. / category.
-#: src/components/SearchToolbar/SearchResult.tsx:122
+#: src/components/SearchToolbar/SearchResult.tsx:123
 msgid "Unnamed"
 msgstr ""
 
@@ -910,19 +911,19 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "Yes"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:72
 msgid "No"
 msgstr ""
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:140
 msgid "Wheelchair accessibility"
 msgstr ""
 
@@ -969,11 +970,11 @@ msgstr ""
 msgid "Fix on external page."
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:70
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:68
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:88
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:86
 msgid "All elevators and escalators"
 msgstr ""
 
@@ -1012,7 +1013,7 @@ msgid ""
 "bugs@wheelmap.org if the issue persists."
 msgstr ""
 
-#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
+#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:51
 #, javascript-format
 msgid "Remove ${ caption } Filter"
 msgstr ""
@@ -1029,26 +1030,26 @@ msgid "Expand share menu"
 msgstr ""
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBarContent.tsx:45
+#: src/components/ShareBar/ShareBarContent.tsx:79
 msgid "Collapse share menu"
 msgstr ""
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:162
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
 msgid "Confirm"
 msgstr ""
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:165
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:177
 msgid "Change"
 msgstr ""
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:70
 msgid "Mark wheelchair accessibility of WC"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:157
 msgid "Show next wheelchair accessible toilet"
 msgstr ""
 
@@ -1096,6 +1097,7 @@ msgstr ""
 #. translator: Email body used when sharing a place with known name via
 #. email.// Email subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:55
+#, javascript-format
 msgid "${ placeName } on Wheelmap.org"
 msgstr ""
 
@@ -1117,6 +1119,7 @@ msgid "Open on ${ sourceNameString }"
 msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.tsx:18
+#, javascript-format
 msgid "Add info on ${ sourceNameString }"
 msgstr ""
 
@@ -1161,7 +1164,7 @@ msgstr ""
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:98
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
@@ -1198,6 +1201,7 @@ msgid "View this place on ${ name }"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.tsx:21
+#, javascript-format
 msgid "Edit this place on ${ name }"
 msgstr ""
 
@@ -1303,6 +1307,7 @@ msgid ""
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.ts:42
+#, javascript-format
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr ""
 
@@ -1324,6 +1329,7 @@ msgid "Details"
 msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:35
+#, javascript-format
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] ""
@@ -1337,6 +1343,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:47
+#, javascript-format
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] ""
@@ -1350,6 +1357,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:59
+#, javascript-format
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] ""
@@ -1465,21 +1473,23 @@ msgstr ""
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:26
 #, javascript-format
 msgid "${ valueAndUnit } or less"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:28
+#, javascript-format
 msgid "${ valueAndUnit } or more"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:30
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
 msgid "greater than ${ valueAndUnit }"
 msgstr ""
 
@@ -1504,27 +1514,27 @@ msgstr ""
 msgid "Only residents are allowed to park here."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:207
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available."
 msgid_plural "${ capacityNumeric } parking lots available."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:212
 msgid "Parking available (accessibility unknown)."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:213
 msgid "No accessible parking lots available."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:214
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:215
 msgid "No parking available."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:216
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available, but no accessible parking."
 msgid_plural ""
@@ -1532,25 +1542,25 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:221
 msgid "Parking available, but no accessible parking."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:222
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:236
 #, javascript-format
 msgid "${ disabledCapacityNumeric } accessible parking lot available."
 msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:227
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:228
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:229
 msgid "Accessible parking available."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
 #, javascript-format
 msgid ""
 "${ disabledCapacityNumeric } accessible parking lot available (${ "
@@ -1560,3 +1570,22 @@ msgid_plural ""
 "capacityNumeric } total)."
 msgstr[0] ""
 msgstr[1] ""
+
+#. translator: Root category
+#: src/lib/Categories.ts:111
+msgid "Culture"
+msgstr ""
+
+#: src/components/NodeToolbar/NodeHeader.tsx:144
+msgid "Part of"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:202
+msgid ""
+"⚠️ OpenStreetMap has a <a "
+"href='https://community.openstreetmap.org/t/openstreetmap-org-currently-"
+"offline-operations-team-are-working-to-restore-15-december-2024-updated' "
+"target='_blank' rel='noopener noreferrer'>database problem</a> at the "
+"moment. If saving doesnʼt work, please check back later. Sorry for the "
+"inconvenience! Services are expected to be restored on Wednesday, Dec 16th."
+msgstr ""
