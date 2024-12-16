@@ -19,13 +19,6 @@ import useSubmitNewValueCallback from '../../../../lib/fetchers/osm-api/makeChan
 import { fetchFeatureSplitId } from '../../../../lib/fetchers/osm-api/fetchFeatureSplitId'
 import { ChangesetState } from '../../../../lib/fetchers/osm-api/ChangesetState'
 
-const PositionedCloseLink = styled(CloseLink)`
-  align-self: flex-start;
-  margin-top: -8px;
-  margin-right: 1px;
-`
-PositionedCloseLink.displayName = 'PositionedCloseLink'
-
 export default function CompositeFeaturesPage() {
   const router = useRouter()
   const env = useEnvContext()
