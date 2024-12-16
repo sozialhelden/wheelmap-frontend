@@ -1,4 +1,4 @@
-import { Button, Heading, Link, TextArea } from "@radix-ui/themes";
+import { Button, Link, TextArea } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
 import { t } from "ttag";
 import { AppStateLink } from "../../App/AppStateLink";
@@ -17,10 +17,11 @@ export const StringFieldEditor = ({
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const current = feature.properties?.[tagKey] || "";
   const [editedTagValue, setEditedTagValue] = React.useState(current);
-  const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState<boolean>(true);
+  const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
+    useState<boolean>(true);
 
   useEffect(() => {
-    setIsNoOpButton(current === editedTagValue);
+    setSaveButtonDoesNothing(current === editedTagValue);
   }, [current, editedTagValue]);
 
   return (
@@ -46,14 +47,16 @@ export const StringFieldEditor = ({
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-          <Link href="">{isNoOpButton ? "Cancel" : "Back"}</Link>
+          <Link href="">{saveButtonDoesNothing ? "Cancel" : "Back"}</Link>
         </AppStateLink>
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
           <Button
             variant="solid"
-            onClick={isNoOpButton ? undefined : handleSubmitButtonClick}
+            onClick={
+              saveButtonDoesNothing ? undefined : handleSubmitButtonClick
+            }
           >
-            {isNoOpButton ? "Confirm" : "Send"}
+            {saveButtonDoesNothing ? "Confirm" : "Send"}
           </Button>
         </AppStateLink>
       </footer>
