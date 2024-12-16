@@ -36,10 +36,11 @@ export const WheelchairEditor = ({
   const [editedTagValue, setEditedTagValue] = useState<
     YesNoLimitedUnknown | undefined
   >(current);
-  const [isNoOpButton, setIsNoOpButton] = useState<boolean>(true);
+  const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
+    useState<boolean>(true);
 
   useEffect(() => {
-    setIsNoOpButton(current === editedTagValue);
+    setSaveButtonDoesNothing(current === editedTagValue);
   }, [current, editedTagValue]);
 
   return (
@@ -97,14 +98,16 @@ export const WheelchairEditor = ({
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-          <Link href="">{isNoOpButton ? "Cancel" : "Back"}</Link>
+          <Link href="">{saveButtonDoesNothing ? "Cancel" : "Back"}</Link>
         </AppStateLink>
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
           <Button
             variant="solid"
-            onClick={isNoOpButton ? undefined : handleSubmitButtonClick}
+            onClick={
+              saveButtonDoesNothing ? undefined : handleSubmitButtonClick
+            }
           >
-            {isNoOpButton ? "Confirm" : "Send"}
+            {saveButtonDoesNothing ? "Confirm" : "Send"}
           </Button>
         </AppStateLink>
       </footer>
