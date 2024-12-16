@@ -17,7 +17,7 @@ export const StringFieldEditor = ({
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const current = feature.properties?.[tagKey] || "";
   const [editedTagValue, setEditedTagValue] = React.useState(current);
-  const [isNoOpButton, setIsNoOpButton] = useState<boolean>(true);
+  const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState<boolean>(true);
 
   useEffect(() => {
     setIsNoOpButton(current === editedTagValue);
