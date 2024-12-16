@@ -56,7 +56,7 @@ const CallToAction = styled.div`
     }
 `;
 
-export const GalleryCallToAction: FC = () => (
+export const ImageUploadCallToAction: FC = () => (
   <CallToActionWrapper>
     <CallToAction>
       <Text>{t`Your good deed of the day!`}</Text>
