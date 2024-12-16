@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { t } from "ttag";
 import { UserIcon } from "../../icons/ui-elements";
-import { DropdownMenu, Flex, Spinner, Text } from "@radix-ui/themes";
+import { Box, Button, DropdownMenu, Flex, Spinner, Text } from "@radix-ui/themes";
 import React from "react";
 
 function AuthenticatedMenuContent() {
@@ -11,7 +11,6 @@ function AuthenticatedMenuContent() {
 
   return (
     <>
-      <DropdownMenu.Separator />
       <DropdownMenu.Label>
         <Flex gap="2" align="center">
           {!session?.user?.image && <UserIcon />}
@@ -30,32 +29,23 @@ function AuthenticatedMenuContent() {
           <Text>{t`You’re signed in as ${username}.`}</Text>
         </Flex>
       </DropdownMenu.Label>
-      <DropdownMenu.Item
-        color="red"
-        onClick={handleSignOut}
-      >{t`Sign out`}</DropdownMenu.Item>
+      <Button color="red" onClick={handleSignOut}>
+        {t`Sign out`}
+      </Button>
     </>
   );
 }
 
 function NonAuthenticatedMenuContent() {
   const handleSignIn = React.useCallback(() => signIn("osm"), []);
-  return (
-    <>
-      <DropdownMenu.Separator />
-      <DropdownMenu.Label>
-        {t`Sign in with OpenStreetMap to enable more features.`}
-      </DropdownMenu.Label>
-      <DropdownMenu.Item onClick={handleSignIn}>{t`Sign in`}</DropdownMenu.Item>
-    </>
-  );
+  return <Button onClick={handleSignIn}>{t`Sign in with OpenStreetMap`}</Button>;
 }
 
 function LoadingMenuContent() {
   return (
-    <DropdownMenu.Item>
+    <Box>
       <Spinner />
-    </DropdownMenu.Item>
+    </Box>
   );
 }
 

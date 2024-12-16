@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 import { AppContext } from '../../lib/context/AppContext'
 import LoadableMapView from '../Map/LoadableMapView'
 import HeadMetaTags from './HeadMetaTags'
-import MainMenu from './MainMenu/MainMenu'
+import MainToolbar from './MainMenu/MainToolbar'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../Map/GlobalMapContext'
 import { MapFilterContextProvider } from '../Map/filter/MapFilterContext'
@@ -17,7 +17,7 @@ import { isFirstStart } from '../../lib/util/savedState'
 import { Theme, ThemePanel } from '@radix-ui/themes'
 import { ThemeProvider } from 'next-themes'
 import { useExpertMode } from './MainMenu/useExpertMode'
-import { useHotkeys } from '@blueprintjs/core'
+import { HotkeyConfig, useHotkeys } from '@blueprintjs/core'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -57,12 +57,13 @@ export default function MapLayout({
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 })
 
   const { toggleExpertMode } = useExpertMode()
-  const expertModeHotkeys = React.useMemo(() => [
+  const expertModeHotkeys: HotkeyConfig[] = React.useMemo(() => [
     {
-      combo: 'l',
+      combo: 'mod+e',
       global: true,
       label: 'Toggle expert mode',
       onKeyDown: toggleExpertMode,
+      allowInInput: false,
     },
   ], [toggleExpertMode]);
   useHotkeys(expertModeHotkeys);
@@ -75,7 +76,7 @@ export default function MapLayout({
           <HeadMetaTags />
           <MapFilterContextProvider>
             <GlobalMapContextProvider>
-              {clientSideConfiguration && <MainMenu
+              {clientSideConfiguration && <MainToolbar
                 clientSideConfiguration={clientSideConfiguration}
               />}
               {firstStart && <Onboarding />}

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ComponentProps, useMemo } from 'react'
+import { type ComponentProps, useMemo } from 'react'
 import { preserveSearchParams, useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 
 export const AppStateLink = ({ href, ...props }: ComponentProps<typeof Link>) => {

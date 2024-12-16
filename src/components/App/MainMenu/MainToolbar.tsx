@@ -4,11 +4,17 @@ import { t } from "ttag";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import type { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
 import VectorImage from "../../shared/VectorImage";
-import AppLinks from "./AppLinks";
-import { Box, Button, Card, DropdownMenu, Flex, Inset, Popover, Text, Theme, useThemeContext } from "@radix-ui/themes";
+import {
+  Button,
+  Card,
+  Flex,
+  Inset,
+  Text,
+  Theme,
+  useThemeContext,
+} from "@radix-ui/themes";
 import { AppStateLink } from "../AppStateLink";
-import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/router";
+import MainMenuLinks from "./MainMenuLinks";
 
 type Props = {
   clientSideConfiguration: ClientSideConfiguration;
@@ -22,18 +28,16 @@ const StyledCard = styled(Card)`
   right: 0;
   height: auto;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    .claim {
+      display: none;
+    }
+  }
 `;
 
-export default function MainMenu(props: Props) {
+export default function MainToolbar(props: Props) {
   const { clientSideConfiguration } = props;
-  const router = useRouter();
-  const { pathname } = router;
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: when pathname changes, the effect must be triggered.
-  React.useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   // The product name is configurable in the app's whitelabel settings.
   const productName =
@@ -45,12 +49,8 @@ export default function MainMenu(props: Props) {
   );
 
   const logoHomeLink = (
-    <AppStateLink href="/">
-      <Button
-        aria-label={t`Home`}
-        variant="ghost"
-        radius="none"
-      >
+    <Button aria-label={t`Home`} variant="ghost" radius="none" asChild>
+      <AppStateLink href="/onboarding">
         <VectorImage
           className="logo"
           svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
@@ -59,28 +59,9 @@ export default function MainMenu(props: Props) {
           maxWidth="150px"
           hasShadow={false}
         />
-      </Button>
-    </AppStateLink>
-  );
-
-  const menuButton = (
-    <Button variant="soft" size="3">
-      {isOpen ? (
-        <Cross2Icon width="24" height="24" />
-      ) : (
-        <HamburgerMenuIcon width="24" height="24" />
-      )}
+      </AppStateLink>
     </Button>
   );
-
-  const appLinksPopover = (<Theme radius="small">
-    <DropdownMenu.Root onOpenChange={setIsOpen}>
-      <DropdownMenu.Trigger>{menuButton}</DropdownMenu.Trigger>
-      <DropdownMenu.Content>
-        <AppLinks />
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-    </Theme>);
 
   const radius = useThemeContext().radius;
 
@@ -92,12 +73,16 @@ export default function MainMenu(props: Props) {
             <Flex justify={"between"} align="center" p="2">
               <Flex align="center" gap="4">
                 {logoHomeLink}
-                <Text as="div">{claimString}</Text>
+                <Text
+                  className="claim"
+                  as="div"
+                  size={{ initial: "2", sm: "2", md: "3", xl: "3" }}
+                >
+                  {claimString}
+                </Text>
               </Flex>
 
-                <div id="main-menu" role="menu">
-                  {appLinksPopover}
-                </div>
+              <MainMenuLinks />
             </Flex>
           </Theme>
         </Inset>

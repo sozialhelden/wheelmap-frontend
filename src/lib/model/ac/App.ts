@@ -1,15 +1,5 @@
-import type { LocalizedString } from '@sozialhelden/a11yjson'
 import type { ClientSideConfiguration } from './ClientSideConfiguration'
-
-export interface IAppLink {
-  _id: string;
-  appId: string;
-  label: LocalizedString;
-  badgeLabel?: LocalizedString;
-  url: LocalizedString;
-  order?: number;
-  tags?: string[];
-}
+import IAppLink from './IAppLink';
 
 export interface IApp {
   _id: string;
