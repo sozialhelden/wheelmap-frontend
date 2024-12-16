@@ -2,21 +2,21 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2021
-# Supaplex <bejokeup@gmail.com>, 2022
+# Supaplex <bejokeup@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Supaplex <bejokeup@gmail.com>, 2022\n"
+"Last-Translator: Supaplex <bejokeup@gmail.com>, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:329
 msgid "Search"
 msgstr "尋找"
 
-#: src/pages/_app.tsx:336
+#: src/pages/_app.tsx:330
 msgid "Homepage"
 msgstr "首頁"
 
@@ -27,38 +27,38 @@ msgid "Embed mode can not be used"
 msgstr "無法使用嵌入模式"
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
-#: src/components/NotFound/NotFound.tsx:90
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:41
+#: src/components/NotFound/NotFound.tsx:89
 msgid "Error"
 msgstr "錯誤"
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:45
+#: src/components/NotFound/NotFound.tsx:44
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr "此網址不再有效。如果您認為該地點確實存在，您可以使用搜索來找到它。"
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:48
+#: src/components/NotFound/NotFound.tsx:47
 msgid "Sorry, we are offline!"
 msgstr "抱歉，服務離線中！"
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:61
 msgid "Sorry, that should not have happened!"
 msgstr "抱歉,這不應該發生的!"
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:63
 msgid "Return home"
 msgstr "回到首頁"
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:66
+#: src/components/NotFound/NotFound.tsx:65
 msgid "Retry"
 msgstr "重試"
 
@@ -83,37 +83,37 @@ msgid "Leisure"
 msgstr "休閒"
 
 #. translator: Root category
-#: src/lib/Categories.ts:111
+#: src/lib/Categories.ts:115
 msgid "Hotels"
 msgstr "旅館"
 
 #. translator: Root category
-#: src/lib/Categories.ts:115
+#: src/lib/Categories.ts:119
 msgid "Tourism"
 msgstr "旅遊"
 
 #. translator: Root category
-#: src/lib/Categories.ts:119
+#: src/lib/Categories.ts:123
 msgid "Education"
 msgstr "教育"
 
 #. translator: Root category
-#: src/lib/Categories.ts:123
+#: src/lib/Categories.ts:127
 msgid "Authorities"
 msgstr "官方的"
 
 #. translator: Root category
-#: src/lib/Categories.ts:127
+#: src/lib/Categories.ts:131
 msgid "Health"
 msgstr "健康"
 
 #. translator: Root category
-#: src/lib/Categories.ts:131
+#: src/lib/Categories.ts:135
 msgid "Money"
 msgstr "錢"
 
 #. translator: Root category
-#: src/lib/Categories.ts:135
+#: src/lib/Categories.ts:139
 msgid "Sports"
 msgstr "運動"
 
@@ -121,71 +121,71 @@ msgstr "運動"
 #. toilet
 #. translator: Meta category for any toilet or any place with an accessible
 #. toilet
-#: src/lib/Categories.ts:140
+#: src/lib/Categories.ts:144
 msgid "Toilets"
 msgstr "廁所"
 
 #. translator: Shown when there was an error while loading category data from
 #. the backend.
-#: src/lib/Categories.ts:267
+#: src/lib/Categories.ts:290
 msgid "Error while loading place categories."
 msgstr "載入場所類別時出錯。"
 
 #. translator: Long accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:491
+#: src/lib/Feature.ts:493
 msgid "Fully wheelchair accessible"
 msgstr "完全輪椅通道"
 
 #. translator: Long accessibility description for partial wheelchair
 #. accessibility
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
-#: src/lib/Feature.ts:494
+#: src/lib/Feature.ts:496
 msgid "Partially wheelchair accessible"
 msgstr "部分輪椅通道"
 
 #. translator: Long accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:497
+#: src/lib/Feature.ts:499
 msgid "Not wheelchair accessible"
 msgstr "沒有輪椅通道"
 
 #. translator: Long accessibility description for unknown wheelchair
 #. accessibility
-#: src/lib/Feature.ts:500
+#: src/lib/Feature.ts:502
 msgid "Unknown accessibility"
 msgstr "未知"
 
 #. translator: Short accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:514
+#: src/lib/Feature.ts:516
 msgid "Fully"
 msgstr "額滿"
 
 #. translator: Short accessibility description for partial wheelchair
 #. accessibility
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:519
 msgid "Partially"
 msgstr "部分"
 
 #. translator: Short accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:520
+#: src/lib/Feature.ts:522
 msgid "Not at all"
 msgstr "不完全是"
 
 #. translator: Short accessibility description for unknown wheelchair
 #. accessibility
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:101
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:525
 msgid "Unknown"
 msgstr "未知"
 
-#: src/lib/Feature.ts:535
+#: src/lib/Feature.ts:537
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "入口沒有階梯，所有的房間也沒有階梯。"
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:539
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -193,53 +193,53 @@ msgstr "入口有一個最高 3 英吋的台階，大多數房間沒有台階。
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:543
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr "入口有一個最高 7 公分的台階，大多數房間沒有台階。"
 
-#: src/lib/Feature.ts:544
+#: src/lib/Feature.ts:546
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "入口有一步或幾步，房間不可進入。"
 
-#: src/lib/Feature.ts:555
+#: src/lib/Feature.ts:557
 msgid "Wheelchair accessible toilet"
 msgstr "輪椅可通行廁所"
 
-#: src/lib/Feature.ts:558
+#: src/lib/Feature.ts:560
 msgid "No wheelchair accessible toilet"
 msgstr "沒有輪椅無障礙廁所"
 
-#: src/lib/Feature.ts:566
+#: src/lib/Feature.ts:568
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "門口內部寬度≥35寸"
 
-#: src/lib/Feature.ts:566
+#: src/lib/Feature.ts:568
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "門口內部寬度≥90寸"
 
-#: src/lib/Feature.ts:567
+#: src/lib/Feature.ts:569
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "乾淨地板空間≥59寸寬"
 
-#: src/lib/Feature.ts:567
+#: src/lib/Feature.ts:569
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "乾淨地板空間≥150公分寬"
 
-#: src/lib/Feature.ts:568
+#: src/lib/Feature.ts:570
 msgid "Wheelchair-height toilet seat"
 msgstr "輪椅高度馬桶座"
 
-#: src/lib/Feature.ts:569
+#: src/lib/Feature.ts:571
 msgid "Foldable grab rails"
 msgstr "無障礙扶手"
 
-#: src/lib/Feature.ts:570
+#: src/lib/Feature.ts:572
 msgid "Accessible sink"
 msgstr "無障礙手盆"
 
-#: src/lib/Feature.ts:577
+#: src/lib/Feature.ts:579
 msgid "Unnamed place"
 msgstr "未命名的地方"
 
@@ -258,13 +258,13 @@ msgstr "你已經離線了。"
 msgid "To add photos to places, camera access is needed."
 msgstr "要為地方加照片，必須允許相機的權限"
 
-#: src/app/PlaceDetailsData.tsx:278
+#: src/app/PlaceDetailsData.tsx:309
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "這個地方在 ${ productName }： ${ placeTitle }"
 
-#: src/app/SearchData.tsx:126
-#: src/components/SearchToolbar/SearchResults.tsx:46
+#: src/app/SearchData.tsx:157
+#: src/components/SearchToolbar/SearchResults.tsx:45
 msgid "Search results"
 msgstr "搜尋結果"
 
@@ -278,18 +278,18 @@ msgid "Add a new place"
 msgstr "加入丟失的地方"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:998
 msgid "Zoom in closer to see more places"
 msgstr "放大更近可看更多地方"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1014
 msgid "Turn on location services"
 msgstr "開啟定位服務"
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1047
 msgid "Map"
 msgstr "地圖"
 
@@ -299,27 +299,26 @@ msgstr "地圖"
 msgid "Go to ${ appName }"
 msgstr "到 ${ appName }"
 
-#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "App Logo"
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:97
+#: src/lib/EquipmentInfo.ts:98
 msgid "In operation"
 msgstr "操作中"
 
 #. translator: An equipment or facility status. This does not mean the
 #. facility is broken: It might just be in maintenance! The facility might be
 #. an elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:99
+#: src/lib/EquipmentInfo.ts:100
 msgid "Out of order"
 msgstr "發生故障"
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:101
+#: src/lib/EquipmentInfo.ts:102
 msgid "Unknown operational status"
 msgstr "狀況不明"
 
@@ -358,18 +357,19 @@ msgstr ""
 
 #. translator: Shown next to equipment status.
 #: src/lib/EquipmentInfo.ts:181
+#, javascript-format
 msgid "Last update: ${ dateString }"
 msgstr "最新更新 : ${ dateString }。"
 
-#: src/components/MainMenu/MainMenu.tsx:121
+#: src/components/MainMenu/MainMenu.tsx:120
 msgid "Home"
 msgstr "家"
 
-#: src/components/MainMenu/MainMenu.tsx:244
+#: src/components/MainMenu/MainMenu.tsx:240
 msgid "Menu"
 msgstr "選單"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:426
+#: src/components/SearchToolbar/SearchToolbar.tsx:409
 msgid "Clear search"
 msgstr "清除搜尋"
 
@@ -381,7 +381,8 @@ msgstr "所有地方"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:92
+#: src/components/NodeToolbar/NodeToolbar.tsx:344
 msgid "Places"
 msgstr "地方"
 
@@ -447,7 +448,7 @@ msgstr "回報"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:92
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:171
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:183
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:270
 #: src/components/PhotoUpload/ReportPhotoToolbar.tsx:157
 msgid "Cancel"
@@ -497,7 +498,7 @@ msgid "toilets"
 msgstr "廁所"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:129
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:168
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:180
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:273
 msgid "Continue"
 msgstr "繼續"
@@ -545,86 +546,86 @@ msgstr "與社群交流，並且繪製你週遭一帶的無障礙設施地圖！
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:38
+#: src/components/Onboarding/Onboarding.tsx:37
 msgid "Help out by marking places!"
 msgstr "通過標記地方得到幫助！"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:41
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Okay, let’s go!"
 msgstr "好的，出發"
 
-#: src/components/Onboarding/Onboarding.tsx:64
+#: src/components/Onboarding/Onboarding.tsx:60
 msgid "Start screen"
 msgstr "輪椅地圖"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:92
+#: src/components/MappingEvents/MappingEventToolbar.tsx:91
 msgid "starting"
 msgstr "開始"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:97
+#: src/components/MappingEvents/MappingEventToolbar.tsx:96
 msgid "until"
 msgstr "直到"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:112
+#: src/components/MappingEvents/MappingEventToolbar.tsx:111
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "畫地圖活動 ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:114
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 msgid "Center map on mapping event"
 msgstr "將地圖放於繪製活動中央"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:116
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Meeting point"
 msgstr "集合"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:118
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Area name"
 msgstr "地域名稱"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:120
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Event date"
 msgstr "活動日期"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:122
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event start date"
 msgstr "活動起始日期"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:124
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Event end date"
 msgstr "活動結束日期"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:126
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
 msgid "Back to the mapping events list"
 msgstr "回到畫地圖活動清單"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:128
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "分享"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:130
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 msgid "Join mapping event"
 msgstr "參加畫地圖活動"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:132
+#: src/components/MappingEvents/MappingEventToolbar.tsx:131
 msgid "Leave mapping event"
 msgstr "離開畫地圖活動"
 
@@ -680,16 +681,16 @@ msgstr "載入資料時發生錯誤"
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
-#: src/components/NodeToolbar/NodeToolbar.tsx:259
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:63
+#: src/components/NodeToolbar/NodeToolbar.tsx:221
 msgid "How wheelchair accessible is this place?"
 msgstr "這個地方的無障礙狀況如何？"
 
-#: src/components/Toolbar.tsx:603
+#: src/components/Toolbar.tsx:606
 msgid "Collapse details"
 msgstr "當機詳情"
 
-#: src/components/Toolbar.tsx:603
+#: src/components/Toolbar.tsx:606
 msgid "Expand details"
 msgstr "展開詳情"
 
@@ -706,19 +707,19 @@ msgstr "${ eventName } 畫地圖活動標記"
 
 #. translator: Screenreader description for the statistics/numbers part of a
 #. mapping event
-#: src/components/MappingEvents/Statistics.tsx:25
+#: src/components/MappingEvents/Statistics.tsx:24
 msgid "Mapping Event Numbers"
 msgstr "畫地圖活動數量"
 
 #. translator: Description for number of already mapped places in the mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:27
+#: src/components/MappingEvents/Statistics.tsx:26
 msgid "Mapped Places"
 msgstr "已畫的地方"
 
 #. translator: Description for number of people invited to the current mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:29
+#: src/components/MappingEvents/Statistics.tsx:28
 msgid "Participants"
 msgstr "參與者"
 
@@ -754,7 +755,7 @@ msgstr "搜尋..."
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:71
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:186
 #: src/components/NodeToolbar/Report/strings.ts:27
 msgid "Back"
 msgstr "上一步"
@@ -834,7 +835,7 @@ msgstr "要在地圖上找到自己的位置，請打開瀏覽器設定並允許
 msgid "Show me where I am"
 msgstr "請顯示出我在哪"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:117
+#: src/components/NodeToolbar/NodeHeader.tsx:118
 msgid "Unnamed facility"
 msgstr "未命名設施"
 
@@ -844,12 +845,12 @@ msgid "Search for place or address"
 msgstr "搜尋地名或地址"
 
 #. translator: Text in search results when nothing was found
-#: src/components/SearchToolbar/SearchResults.tsx:36
+#: src/components/SearchToolbar/SearchResults.tsx:35
 msgid "No results found"
 msgstr "查無結果"
 
 #. translator: Text in search results when an error occurred
-#: src/components/SearchToolbar/SearchResults.tsx:39
+#: src/components/SearchToolbar/SearchResults.tsx:38
 msgid "No results available. Please try again later!"
 msgstr "查無結果。請稍後重試！"
 
@@ -889,7 +890,7 @@ msgstr "可通行輪椅的篩選器"
 
 #. translator: Place name shown in search results for places with unknown name
 #. / category.
-#: src/components/SearchToolbar/SearchResult.tsx:122
+#: src/components/SearchToolbar/SearchResult.tsx:123
 msgid "Unnamed"
 msgstr "未命名"
 
@@ -921,19 +922,19 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "這裡的廁所是否輪椅通道？"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "Yes"
 msgstr "可以"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:72
 msgid "No"
 msgstr " 不行"
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:140
 msgid "Wheelchair accessibility"
 msgstr "可通行輪椅"
 
@@ -980,11 +981,11 @@ msgstr "其他團體已為此地方提供資料，它是${ sourceName }的一部
 msgid "Fix on external page."
 msgstr "固定於外部頁面。"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:70
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:68
 msgid "Disruptions at this location"
 msgstr "此地點的干擾"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:88
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:86
 msgid "All elevators and escalators"
 msgstr "所有的電梯及電扶梯"
 
@@ -1023,7 +1024,7 @@ msgid ""
 "bugs@wheelmap.org if the issue persists."
 msgstr "抱歉，發生錯誤狀況！請再試一次，或者在仍發生錯誤狀況時寫 email 到 bugs@wheelmap.org。"
 
-#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
+#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:51
 #, javascript-format
 msgid "Remove ${ caption } Filter"
 msgstr "移除${ caption }篩選"
@@ -1040,26 +1041,26 @@ msgid "Expand share menu"
 msgstr "展開分享選單"
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBarContent.tsx:45
+#: src/components/ShareBar/ShareBarContent.tsx:79
 msgid "Collapse share menu"
 msgstr "收合共享選單"
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:162
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
 msgid "Confirm"
 msgstr "確認"
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:165
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:177
 msgid "Change"
 msgstr "修改"
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:70
 msgid "Mark wheelchair accessibility of WC"
 msgstr "加入廁所狀況"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:157
 msgid "Show next wheelchair accessible toilet"
 msgstr "顯示下一個輪椅可及的廁所"
 
@@ -1107,6 +1108,7 @@ msgstr "我在無障礙空間地圖上找到這個地方 :${ placeName }"
 #. translator: Email body used when sharing a place with known name via
 #. email.// Email subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:55
+#, javascript-format
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } 在 Wheelmap.org"
 
@@ -1131,6 +1133,7 @@ msgid "Open on ${ sourceNameString }"
 msgstr "在${ sourceNameString }開啟"
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.tsx:18
+#, javascript-format
 msgid "Add info on ${ sourceNameString }"
 msgstr "${ sourceNameString }的改善"
 
@@ -1175,7 +1178,7 @@ msgstr "謝謝您的貢獻。我們檢查後會放上您的圖像。"
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:98
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr "抱歉，發生錯誤無法標記此地點：${ e }"
@@ -1212,6 +1215,7 @@ msgid "View this place on ${ name }"
 msgstr "於${ name }瀏覽此地方"
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.tsx:21
+#, javascript-format
 msgid "Edit this place on ${ name }"
 msgstr "於${ name }編輯此地方"
 
@@ -1328,6 +1332,7 @@ msgstr ""
 "${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.ts:42
+#, javascript-format
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 
@@ -1349,6 +1354,7 @@ msgid "Details"
 msgstr "細節"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:35
+#, javascript-format
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "${ count } 的可用電梯"
@@ -1360,6 +1366,7 @@ msgid_plural "${ count } escalators in service"
 msgstr[0] "${ count } 的可用電扶梯"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:47
+#, javascript-format
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "${ count } 無法使用的電梯"
@@ -1371,6 +1378,7 @@ msgid_plural "${ count } escalators out of service"
 msgstr[0] "${ count } 無法使用的電扶梯"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:59
+#, javascript-format
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } 無法確任運作狀態的電梯"
@@ -1493,89 +1501,91 @@ msgstr "(optional)"
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "你的變動已經儲存。請留給我們時間來驗證你的貢獻。"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:26
 #, javascript-format
 msgid "${ valueAndUnit } or less"
 msgstr "${ valueAndUnit } 或更少"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:28
+#, javascript-format
 msgid "${ valueAndUnit } or more"
 msgstr "${ valueAndUnit } 或更多"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:30
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
 msgstr "比 ${ valueAndUnit } 更少"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
 msgid "greater than ${ valueAndUnit }"
 msgstr "比 ${ valueAndUnit } 更多"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36
 msgid ""
 "This is a private parking facility, but public access is usually allowed."
-msgstr ""
+msgstr "這是私人停車設施，但允許公共通行。"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
 msgid "This is a public parking facility."
-msgstr ""
+msgstr "這是公共停車設施。"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
 msgid "You need a permit to park here."
-msgstr ""
+msgstr "你需要停車證才能停在這裡。"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
 msgid "Only customers are allowed to park here."
-msgstr ""
+msgstr "只有顧客才能停在這裡。"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
 msgid "Only residents are allowed to park here."
-msgstr ""
+msgstr "只有居民才能停在這裡。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:207
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available."
 msgid_plural "${ capacityNumeric } parking lots available."
-msgstr[0] ""
+msgstr[0] "有 ${ capacityNumeric } 的停車格。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:212
 msgid "Parking available (accessibility unknown)."
-msgstr ""
+msgstr "可以停車 (無障礙狀況不明)。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:213
 msgid "No accessible parking lots available."
-msgstr ""
+msgstr "沒有無障礙停車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:214
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:215
 msgid "No parking available."
-msgstr ""
+msgstr "沒有停車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:216
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available, but no accessible parking."
 msgid_plural ""
 "${ capacityNumeric } parking lots available, but no accessible parking."
-msgstr[0] ""
+msgstr[0] "${ capacityNumeric } 停車位，但沒有無障礙車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:221
 msgid "Parking available, but no accessible parking."
-msgstr ""
+msgstr "有停車位，但沒有無障礙車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:222
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:236
 #, javascript-format
 msgid "${ disabledCapacityNumeric } accessible parking lot available."
 msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
-msgstr[0] ""
+msgstr[0] "有 ${ disabledCapacityNumeric } 無障礙停車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:227
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:228
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:229
 msgid "Accessible parking available."
-msgstr ""
+msgstr "有無障礙停車位。"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
 #, javascript-format
 msgid ""
 "${ disabledCapacityNumeric } accessible parking lot available (${ "
@@ -1583,4 +1593,23 @@ msgid ""
 msgid_plural ""
 "${ disabledCapacityNumeric } accessible parking lots available (${ "
 "capacityNumeric } total)."
-msgstr[0] ""
+msgstr[0] "有 ${ disabledCapacityNumeric } 無障礙車位 (總共 ${ capacityNumeric } )"
+
+#. translator: Root category
+#: src/lib/Categories.ts:111
+msgid "Culture"
+msgstr ""
+
+#: src/components/NodeToolbar/NodeHeader.tsx:144
+msgid "Part of"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:202
+msgid ""
+"⚠️ OpenStreetMap has a <a "
+"href='https://community.openstreetmap.org/t/openstreetmap-org-currently-"
+"offline-operations-team-are-working-to-restore-15-december-2024-updated' "
+"target='_blank' rel='noopener noreferrer'>database problem</a> at the "
+"moment. If saving doesnʼt work, please check back later. Sorry for the "
+"inconvenience! Services are expected to be restored on Wednesday, Dec 16th."
+msgstr ""
