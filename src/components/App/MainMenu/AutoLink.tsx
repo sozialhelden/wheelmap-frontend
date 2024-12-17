@@ -1,4 +1,4 @@
-import type React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
 import Spinner from "../../ActivityIndicator/Spinner";
@@ -8,6 +8,9 @@ import { useExpertMode } from "./useExpertMode";
 import type { expandLinkMetadata } from "./useAppLinks";
 import { AppStateLink } from "../AppStateLink";
 import Link from "next/link";
+import { Ref } from "colorjs.io/fn";
+import { useAppStateAwareHref } from "../useAppStateAwareHref";
+import { useRouter } from "next/router";
 
 const Badge = styled.span`
   border-radius: 0.5rlh;
@@ -17,35 +20,40 @@ const Badge = styled.span`
   margin: 0.1rem;
 `;
 
-function JoinedEventLink(props: { label?: string; url?: string, asMenuItem?: boolean }) {
+function JoinedEventLink(props: { label?: string; url?: string; asMenuItem?: boolean; buttonProps?: ButtonProps }) {
   const { data: joinedMappingEvent, isValidating } = useCurrentMappingEvent();
-
-  if (isValidating) {
-    return <Spinner />;
-  }
 
   const href = joinedMappingEvent
     ? `/events/${joinedMappingEvent._id}`
     : "/events";
 
   const label = joinedMappingEvent ? joinedMappingEvent.name : props.label;
+  const content = isValidating ? <Spinner /> : label;
+  const router = useRouter();
+  // XXX: This should be an <AppStateAwareLink>, but using it would keyboard navigation, as there
+  // is a bug in Radix UI that appears to not update the ref correctly.
+  const hrefWithParams = useAppStateAwareHref(href);
+  const openHref = useCallback(() => {
+    router.push(hrefWithParams);
+  }, [router, hrefWithParams]);
 
-  return (
-    <ButtonOrMenuItem asMenuItem={props.asMenuItem}><AppStateLink href={href}>
-      {label}
-    </AppStateLink>
-  </ButtonOrMenuItem>
-  );
+  return props.asMenuItem
+      ? <DropdownMenu.Item onClick={openHref}>
+          {content}
+        </DropdownMenu.Item>
+    : <Button {...props.buttonProps} onClick={openHref}>{content}</Button>;
 }
 
-function ButtonOrMenuItem({ asMenuItem, buttonProps, children }: { asMenuItem?: boolean, buttonProps?: ButtonProps, children?: React.ReactNode }) {
+const ButtonOrMenuItem = React.forwardRef(
+    ({ asMenuItem, buttonProps, children }: { asMenuItem?: boolean, buttonProps?: ButtonProps, children?: React.ReactNode },
+      forwardedRef: React.Ref<HTMLDivElement>
+    ) => {
   return asMenuItem
-    ? <DropdownMenu.Item asChild>
+    ? <DropdownMenu.Item asChild ref={forwardedRef}>
       {children}
     </DropdownMenu.Item>
-    : <Button {...buttonProps} asChild>{children}</Button>;
-
-}
+    : <Button {...buttonProps} asChild ref={forwardedRef}>{children}</Button>;
+});
 
 export function AutoLink({
   tags,
@@ -54,22 +62,22 @@ export function AutoLink({
   url,
   asMenuItem,
 }: ReturnType<typeof expandLinkMetadata> & { asMenuItem?: boolean }) {
+  const buttonProps: ButtonProps = {
+    variant: tags?.includes("primary") ? "solid" : "ghost",
+    highContrast: !tags?.includes("primary"),
+  };
   const { isExpertMode } = useExpertMode();
   const isEventsLink = tags?.includes("events");
   if (isEventsLink) {
-    return <JoinedEventLink {...{ asMenuItem, label, url }} key="joined-event" />;
+    return <JoinedEventLink {...{ asMenuItem, label, url, buttonProps }} key="joined-event" />;
   }
 
   const isSessionLink = tags?.includes("session");
   if (isSessionLink) {
-    return isExpertMode ? <SessionMenuItem {...{ asMenuItem, label }} key="session" /> : null;
+    return isExpertMode ? <SessionMenuItem {...{ asMenuItem, label, buttonProps }} key="session" /> : null;
   }
 
   if (typeof url === "string") {
-    const buttonProps: ButtonProps = {
-      variant: tags?.includes("primary") ? "solid" : "ghost",
-    };
-
     const isExternal = url.startsWith("http");
     const LinkElement = isExternal ? Link : AppStateLink
     const link = <LinkElement href={url} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noreferrer noopener' : undefined}>

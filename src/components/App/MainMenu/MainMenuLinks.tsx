@@ -33,6 +33,7 @@ export default function MainMenuLinks() {
   );
 
   const windowSize = useWindowSize();
+  console.log('windowSize', windowSize);
   const appLinks = useAppLinks();
   const isBigViewport = windowSize.width >= 1024;
 
@@ -58,7 +59,7 @@ export default function MainMenuLinks() {
   return <Flex gap="4" align="center">
     {shownInToolbar.map(
       (appLink) =>
-        <AutoLink asMenuItem={false} key={appLink._id} {...appLink} />)}
+        <AutoLink asMenuItem={false} {...appLink} key={appLink._id} />)}
     {appLinksPopover}
   </Flex>;
 }

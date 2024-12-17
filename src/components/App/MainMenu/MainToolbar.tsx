@@ -15,6 +15,7 @@ import {
 } from "@radix-ui/themes";
 import { AppStateLink } from "../AppStateLink";
 import MainMenuLinks from "./MainMenuLinks";
+import Link from "next/link";
 
 type Props = {
   clientSideConfiguration: ClientSideConfiguration;
@@ -50,7 +51,7 @@ export default function MainToolbar(props: Props) {
 
   const logoHomeLink = (
     <Button aria-label={t`Home`} variant="ghost" radius="none" asChild>
-      <AppStateLink href="/onboarding">
+      <Link href="/onboarding">
         <VectorImage
           className="logo"
           svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
@@ -59,7 +60,7 @@ export default function MainToolbar(props: Props) {
           maxWidth="150px"
           hasShadow={false}
         />
-      </AppStateLink>
+      </Link>
     </Button>
   );
 
