@@ -74,17 +74,5 @@ You can still use all features of the app.
 
 // translator: The text shows when a location permission had been granted but failed to be acquired for other reasons
 export const LocationFailedStepPrimaryText = (productName: string) => t`
-# That did not work!
-
-Don't worry, you can still use all features of ${productName}.
-Do you want to start in the center of a city instead?
+Could not determine location – you can still use all features of ${productName}.
 `
-
-/**
- * Location Search Texts
- */
-
-// translator: Text in a button to skip initial location selection
-export const SearchSkipText = t`Skip`
-// translator: Text in a button to set the initial location selection
-export const SearchConfirmText = t`Let’s go`
