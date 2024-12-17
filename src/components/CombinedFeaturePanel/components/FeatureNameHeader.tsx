@@ -31,22 +31,6 @@ type Props = {
   size?: 'small' | 'medium' | 'big';
 }
 
-const StyledHeader = styled.header`
-  line-height: 1;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  padding: 0 0 10px 0;
-
-  ${PlaceNameH1} {
-    flex-grow: 2;
-  }
-`
-
 export default function FeatureNameHeader(props: Props) {
   const {
     feature, children, onClickCurrentMarkerIcon, onHeaderClicked,

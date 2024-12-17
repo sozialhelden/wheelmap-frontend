@@ -12,12 +12,12 @@ import {
 } from '../../lib/model/ac/filterAccessibility'
 import Spinner from '../ActivityIndicator/Spinner'
 import ErrorBoundary from '../shared/ErrorBoundary'
-import { PlaceFilter } from './AccessibilityFilterModel'
+import type { PlaceFilter } from './AccessibilityFilterModel'
 import { StyledToolbar } from './StyledToolbar'
 import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
 import { cx } from '../../lib/util/cx'
 import { useMapOverlapRef } from '../Map/GlobalMapContext'
-import { EnrichedSearchResult } from './EnrichedSearchResult'
+import type { EnrichedSearchResult } from './EnrichedSearchResult'
 import { IconButton, VisuallyHidden } from '@radix-ui/themes'
 import { Cross1Icon } from '@radix-ui/react-icons'
 
@@ -30,7 +30,7 @@ export type Props = PlaceFilter & {
   searchQuery?: null | string;
   onChangeSearchQuery?: (newSearchQuery: string) => void;
   onSubmit?: (searchQuery: string) => void;
-  onClose?: () => void | null;
+  onClose?: () => void;
   onClick?: () => void;
   isExpanded?: boolean;
   searchResults?: null | EnrichedSearchResult[];
@@ -114,7 +114,7 @@ export default function SearchPanel({
 
   const closeLink = (
     <IconButton variant="ghost"
-      ariaLabel={t`Clear search`}
+      aria-label={t`Clear search`}
       onClick={() => {
         clearSearchAndFocusSearchField()
         if (onClose) onClose()
@@ -128,9 +128,9 @@ export default function SearchPanel({
   if (!searchResults && isSearching) {
     contentBelowSearchField = (
       <div>
-       {/* <VisuallyHidden.Root aria-live="assertive">
+        <VisuallyHidden aria-live="assertive">
           {t`Searching`}
-        </VisuallyHidden.Root>*/}
+        </VisuallyHidden>
         <Spinner size={20} />
       </div>
     )

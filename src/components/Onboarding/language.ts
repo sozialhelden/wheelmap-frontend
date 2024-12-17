@@ -29,15 +29,6 @@ export const selectHeaderMarkdownHTML = (
   return headerMarkdown && parse(translatedStringFromObject(headerMarkdown) ?? '')
 }
 
-// translator: Shown on the onboarding screen. To find it, click the logo at the top.
-export const unknownAccessibilityIncentiveText = t`Help out by marking places!`
-
-// translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-export const startButtonCaption = t`Okay, let’s go!`
-
-// translator: The alternative description of the app logo for screen readers
-export const appLogoAltText = t`App Logo`
-
 /**
  * Location Step Texts
  */
@@ -72,14 +63,9 @@ export const LocationNoPermissionPrimaryText = (
   productName: string,
   uri: string,
 ) => t`
-# No Problem!
+**No Problem!** If you change your mind, grant location permissions for ${productName} in [your deviceʼs location settings](${uri}).
 
-If you change our mind at any time, you can grant location permission for ${productName} at any time through
-[your devices' location setting](${uri})
-
-You can still use all features of Wheelmap.
-
-Do you want to start in the center of city instead?
+You can still use all features of the app.
 `
 
 /**
@@ -88,17 +74,5 @@ Do you want to start in the center of city instead?
 
 // translator: The text shows when a location permission had been granted but failed to be acquired for other reasons
 export const LocationFailedStepPrimaryText = (productName: string) => t`
-# That did not work!
-
-Don't worry, you can still use all features of ${productName}.
-Do you want to start in the center of a city instead?
+Could not determine location – you can still use all features of ${productName}.
 `
-
-/**
- * Location Search Texts
- */
-
-// translator: Text in a button to skip initial location selection
-export const SearchSkipText = t`Skip`
-// translator: Text in a button to set the initial location selection
-export const SearchConfirmText = t`Let’s go`

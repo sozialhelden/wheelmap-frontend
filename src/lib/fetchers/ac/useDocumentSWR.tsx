@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import useSWR, { SWRResponse } from 'swr'
-import { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping } from '../../model/typing/AccessibilityCloudTypeMapping'
-import ResourceError from '../ResourceError'
+import useSWR, { type SWRResponse } from 'swr'
+import type { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping } from '../../model/typing/AccessibilityCloudTypeMapping'
+import type ResourceError from '../ResourceError'
 import { fetchDocumentWithTypeTag } from './fetchDocument'
 import useAccessibilityCloudAPI from './useAccessibilityCloudAPI'
 
@@ -44,7 +44,7 @@ type ExtraAPIResultFields = {
  * ```
  */
 
-export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName]>({
+export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName] = AccessibilityCloudTypeMapping[RDFTypeName]>({
   type,
   _id,
   params,
@@ -53,6 +53,9 @@ export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDF
 }: Args<RDFTypeName>): SWRResponse<DataType & ExtraAPIResultFields, ResourceError> {
   const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached })
   const paramsWithAppToken = new URLSearchParams(params)
+  if (!appToken) {
+    throw new Error('Cannot fetch documents from accessibility.cloud without an appToken. Please supply an appToken in the environment.')
+  }
   paramsWithAppToken.append('appToken', appToken)
   const paramsString = paramsWithAppToken.toString()
   const swrConfig = useMemo(() => ({}), [])

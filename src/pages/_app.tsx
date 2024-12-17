@@ -1,30 +1,30 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import { HotkeysProvider } from '@blueprintjs/core'
-import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags'
+import { type ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags'
 import { pick, uniq } from 'lodash'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
 import { default as NextApp } from 'next/app'
 import Head from 'next/head'
 import * as queryString from 'query-string'
 import * as React from 'react'
-import { IncomingMessage, ServerResponse } from 'http'
-import { SWRConfig, SWRConfiguration } from 'swr'
+import type { IncomingMessage, ServerResponse } from 'http'
+import { SWRConfig, type SWRConfiguration } from 'swr'
 import { t } from 'ttag'
 import { toast } from 'react-toastify'
 import { AppContext } from '../lib/context/AppContext'
 import CountryContext from '../lib/context/CountryContext'
-import EnvContext, { EnvironmentVariables } from '../lib/context/EnvContext'
+import EnvContext, { type EnvironmentVariables } from '../lib/context/EnvContext'
 import { HostnameContext } from '../lib/context/HostnameContext'
 import { LanguageTagContext } from '../lib/context/LanguageTagContext'
 import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext'
-import composeContexts, { ContextAndValue } from '../lib/context/composeContexts'
+import composeContexts, { type ContextAndValue } from '../lib/context/composeContexts'
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString'
-import { IApp } from '../lib/model/ac/App'
+import type { IApp } from '../lib/model/ac/App'
 import fetchApp from '../lib/fetchers/ac/fetchApp'
-import ResourceError from '../lib/fetchers/ResourceError'
+import type ResourceError from '../lib/fetchers/ResourceError'
 import { patchFetcher } from '../lib/util/patchClientFetch'
 import { ErrorMessage } from '../components/SWRError/ErrorMessage'
 import { addToEnvironment, getEnvironment } from '../lib/util/globalEnvironment'
@@ -33,6 +33,7 @@ import "@radix-ui/themes/styles.css";
 import StyledComponentsRegistry from '../lib/context/Registry'
 import '../app/app.css'
 import '../app/inter.css'
+import ExpertModeContext, { ExpertModeContextProvider } from '../components/App/MainMenu/useExpertMode'
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -99,6 +100,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   addToEnvironment(environmentVariables)
   const environment = getEnvironment()
 
+  // biome-ignore lint/suspicious/noExplicitAny: The type of the context value is not known or important at this point.
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
@@ -117,12 +119,14 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
       <StyledComponentsRegistry>
         <HotkeysProvider>
           <SessionProvider session={session}>
-            <SWRConfig value={globalSWRConfig}>
-              {composeContexts(
-                contexts,
-                getLayout(<Component {...pageProps} />),
-              )}
-            </SWRConfig>
+            <ExpertModeContextProvider>
+              <SWRConfig value={globalSWRConfig}>
+                {composeContexts(
+                  contexts,
+                  getLayout(<Component {...pageProps} />),
+                )}
+              </SWRConfig>
+            </ExpertModeContextProvider>
           </SessionProvider>
         </HotkeysProvider>
       </StyledComponentsRegistry>

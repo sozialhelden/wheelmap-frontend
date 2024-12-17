@@ -11,10 +11,6 @@ class StateHolder implements FilterContext {
 
   public readonly listeners: Set<(filter: Partial<Record<HighlightId, Filter>>) => void> = new Set()
 
-  constructor() {
-    console.log('StateHolder constructor')
-  }
-
   public readonly addFilter = (filter: FilterAddition): Filter => {
     const entryId = (filter.id ?? crypto.randomUUID()) as HighlightId
     const entry = { ...filter, id: entryId }

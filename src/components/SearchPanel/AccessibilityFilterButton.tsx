@@ -25,7 +25,7 @@ type Props = {
 
 export const Caption = styled.span`
   flex: 1;
-  color: ${colors.darkSelectedColor};
+  color: var(--accent-a12);
 `
 
 function AccessibilityFilterButton(props: Props) {
@@ -91,12 +91,12 @@ export default styled(AccessibilityFilterButton)`
 
     ${(props) => props.isActive
       && css`
-        background-color: ${colors.coldBackgroundColor};
+        background-color: var(--color-panel-translucent);
       `};
 
     &:hover,
     &:focus {
-      background-color: ${colors.linkBackgroundColorTransparent};
+      background-color: var(--color-surface);
     }
   }
 `

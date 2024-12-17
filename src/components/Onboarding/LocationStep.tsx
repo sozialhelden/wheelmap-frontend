@@ -12,69 +12,7 @@ import {
   LocationStepPrimaryText,
 } from './language'
 import { getLocationSettingsUrl } from '../../lib/goToLocationSettings'
-import { LocationContainer } from './components/LocationContainer'
-
-const Container = styled(LocationContainer)`
-  .footer {
-    > .accept {
-      flex: 0;
-      display: flex;
-      gap: 10px;
-      min-width: fit-content;
-      justify-items: center;
-      align-items: center;
-      padding: 0 24px;
-
-      > .text {
-        transition: 0.25s transform ease;
-        transform: translateX(12px);
-      }
-
-      &.active {
-        > .text {
-          transform: translateX(0);
-        }
-
-        > .loader {
-          opacity: 1;
-        }
-      }
-
-      > .loader {
-        width: 22px;
-        height: 22px;
-        border: 3px solid #fff;
-        border-bottom-color: transparent;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: rotation 1s linear infinite;
-        transition: 0.25s opacity ease;
-        opacity: 0;
-      }
-    }
-    > .deny {
-      flex: 1;
-    }
-
-    @keyframes rotation {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  }
-`
-
-const ReducedSecondaryButton = styled(SecondaryButton)`
-  // width is 100%
-  width: auto;
-  // conforms more with the call to action button
-  padding: 0.5em 0.75em;
-  border-radius: 0.5rem;
-`
+import { Box, Button, Flex, Spinner } from '@radix-ui/themes'
 
 type Stage = 'idle' | 'acquiring' | 'failed-not-exited'
 
@@ -118,8 +56,6 @@ export const LocationStep: FC<{
         if (stage.retries >= maxRetries) {
           onFailed()
           return
-          onFailed()
-          return
         }
         setStage({ stage: 'failed-not-exited', retries: stage.retries + 1 })
         return
@@ -127,7 +63,7 @@ export const LocationStep: FC<{
 
       onGeneralError(error)
     })
-  }, [onAccept, stage, setStage, onGeneralError, maxRetries, onFailed])
+  }, [onAccept, stage, onGeneralError, maxRetries, onFailed])
 
   const isAcquiring = stage.stage === 'acquiring'
   const [url] = getLocationSettingsUrl()
@@ -138,21 +74,22 @@ export const LocationStep: FC<{
   }`
 
   return (
-    <Container>
+    <Box>
       <StyledMarkdown>{primaryText}</StyledMarkdown>
 
-      <footer className="footer">
-        <ReducedSecondaryButton onClick={onRejected} className="deny">
+      <Flex gap="3" mt="4" justify="end">
+        <Button onClick={onRejected} size="3" variant="soft">
           {DenyLocationPermissionText}
-        </ReducedSecondaryButton>
-        <CallToActionButton
+        </Button>
+        <Button
+          size="3"
           onClick={requestLocationPermission}
           className={cx('accept', isAcquiring && 'active')}
         >
           <span className="text">{GrantLocationPermissionText}</span>
-          <span className="loader" />
-        </CallToActionButton>
-      </footer>
-    </Container>
+          {stage.stage === 'acquiring' && <Spinner />}
+        </Button>
+      </Flex>
+    </Box>
   );
 };
