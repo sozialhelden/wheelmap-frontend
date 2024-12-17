@@ -40,7 +40,7 @@ export function useAppLinks() {
   );
 
   return React.useMemo(() => {
-    // We show some links outside, and some inside the menu.
+    // We show some links outside of the menu, and some inside of it.
     // First, we sort the links into categories:
     const alwaysVisible = translatedAppLinks.filter(
       (l) => l.importance === "alwaysVisible",
