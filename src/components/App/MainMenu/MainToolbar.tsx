@@ -1,11 +1,4 @@
-import * as React from "react";
-import styled from "styled-components";
-import { t } from "ttag";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import type { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
-import VectorImage from "../../shared/VectorImage";
 import {
-  Button,
   Card,
   Flex,
   Inset,
@@ -13,16 +6,18 @@ import {
   Theme,
   useThemeContext,
 } from "@radix-ui/themes";
-import { AppStateLink } from "../AppStateLink";
+import styled from "styled-components";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
+import type { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
 import MainMenuLinks from "./MainMenuLinks";
-import Link from "next/link";
+import LogoHomeLink from "./LogoHomeLink";
 
 type Props = {
   clientSideConfiguration: ClientSideConfiguration;
   className?: string;
 };
 
-const StyledCard = styled(Card)`
+const StyledBar = styled(Card)`
   position: fixed;
   top: 0;
   left: 0;
@@ -39,41 +34,24 @@ const StyledCard = styled(Card)`
 
 export default function MainToolbar(props: Props) {
   const { clientSideConfiguration } = props;
+  const { textContent, branding } = clientSideConfiguration;
+  const { product } = textContent || {};
+  const { name, claim } = product || {};
 
   // The product name is configurable in the app's whitelabel settings.
-  const productName =
-    translatedStringFromObject(
-      props.clientSideConfiguration.textContent?.product?.name,
-    ) || "A11yMap";
-  const claimString = translatedStringFromObject(
-    clientSideConfiguration?.textContent?.product?.claim,
-  );
-
-  const logoHomeLink = (
-    <Button aria-label={t`Home`} variant="ghost" radius="none" asChild>
-      <Link href="/onboarding">
-        <VectorImage
-          className="logo"
-          svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
-          aria-label={productName}
-          maxHeight="30px"
-          maxWidth="150px"
-          hasShadow={false}
-        />
-      </Link>
-    </Button>
-  );
+  const productName = translatedStringFromObject(name) || "A11yMap";
+  const claimString = translatedStringFromObject(claim);
 
   const radius = useThemeContext().radius;
 
   return (
     <Theme radius="none">
-      <StyledCard variant="surface">
+      <StyledBar variant="surface">
         <Inset>
           <Theme radius={radius}>
             <Flex justify={"between"} align="center" p="2">
               <Flex align="center" gap="4">
-                {logoHomeLink}
+                <LogoHomeLink {...{ branding, productName }} />
                 <Text
                   className="claim"
                   as="div"
@@ -87,7 +65,7 @@ export default function MainToolbar(props: Props) {
             </Flex>
           </Theme>
         </Inset>
-      </StyledCard>
+      </StyledBar>
     </Theme>
   );
 }

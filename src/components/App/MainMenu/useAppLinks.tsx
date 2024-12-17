@@ -2,54 +2,69 @@ import React from "react";
 import { useCurrentApp } from "../../../lib/context/AppContext";
 import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl";
-import type { IApp } from "../../../lib/model/ac/App";
-import type IAppLink from '~/lib/model/ac/IAppLink';
-import type { MappingEvent } from "../../../lib/model/ac/MappingEvent";
+import { useWindowSize } from "../../../lib/util/useViewportSize";
+import {
+  translateAndInterpolateAppLink,
+  type TranslatedAppLink,
+} from "./translateAndInterpolateAppLink";
 
-
-export function useAppLinks() {
-  const { data: joinedMappingEvent } = useCurrentMappingEvent();
-  const app = useCurrentApp();
-  const uniqueSurveyId = useUniqueSurveyId();
-  const {
-    related: { appLinks } = {},
-  } = app;
-
-  const links = React.useMemo(
-    () => Object.values(appLinks ?? {})
-      .map((link) => expandLinkMetadata(link, app, uniqueSurveyId, joinedMappingEvent)
-      ),
-    [app, appLinks, joinedMappingEvent, uniqueSurveyId]
-  );
-  return links;
+function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
+  return (a.order || 0) - (b.order || 0);
 }
 
-export function expandLinkMetadata(
-  link: IAppLink,
-  app: IApp,
-  uniqueSurveyId: string,
-  joinedMappingEvent?: MappingEvent,
-) {
-  const baseUrl = `https://${app._id}/`;
-  const localizedUrl = translatedStringFromObject(link.url);
-  const url =
-    link.url &&
-    insertPlaceholdersToAddPlaceUrl(
-      baseUrl,
-      localizedUrl,
-      joinedMappingEvent,
-      uniqueSurveyId,
+/**
+ * @returns An object with two arrays of {@link TranslatedAppLink}: one for the toolbar, one for
+ * the menu. The links are sorted by their configured order, and divided depending on importance
+ * and current viewport size.
+ */
+
+export function useAppLinks() {
+  const windowSize = useWindowSize();
+  const isBigViewport = windowSize.width >= 1024;
+
+  const { data: joinedMappingEvent } = useCurrentMappingEvent();
+  const app = useCurrentApp();
+  const appLinks = app.related?.appLinks;
+  const uniqueSurveyId = useUniqueSurveyId();
+  const translatedAppLinks = React.useMemo(
+    () =>
+      Object.values(appLinks ?? {}).map((link) =>
+        translateAndInterpolateAppLink(
+          link,
+          app,
+          uniqueSurveyId,
+          joinedMappingEvent,
+        ),
+      ),
+    [app, appLinks, joinedMappingEvent, uniqueSurveyId],
+  );
+
+  return React.useMemo(() => {
+    // We show some links outside, and some inside the menu.
+    // First, we sort the links into categories:
+    const alwaysVisible = translatedAppLinks.filter(
+      (l) => l.importance === "alwaysVisible",
     );
-  const label = translatedStringFromObject(link.label);
-  const badgeLabel = translatedStringFromObject(link.badgeLabel);
-  const isExternal = localizedUrl?.startsWith("http");
-  return {
-    ...link,
-    url,
-    label,
-    badgeLabel,
-    isExternal,
-  };
+    const advertisedIfPossible = translatedAppLinks.filter(
+      (l) => !l.importance || l.importance === "advertisedIfPossible",
+    );
+    const insignificant = translatedAppLinks.filter(
+      (l) => l.importance === "insignificant",
+    );
+
+    // Then, we sort the links by their configured order, and return them.
+    const linksInToolbar = [
+      ...(isBigViewport ? advertisedIfPossible : []),
+      ...alwaysVisible,
+    ].sort(sortByOrder);
+    const linksInDropdownMenu = [
+      ...(isBigViewport ? [] : advertisedIfPossible),
+      ...insignificant,
+    ].sort(sortByOrder);
+
+    return {
+      linksInToolbar,
+      linksInDropdownMenu,
+    };
+  }, [translatedAppLinks, isBigViewport]);
 }
