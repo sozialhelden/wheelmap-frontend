@@ -21,6 +21,7 @@ type Props = {
   features: AnyFeature[];
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
+  uploadStep?: string;
 };
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
@@ -75,6 +76,7 @@ export function CombinedFeaturePanel(props: Props) {
               feature={features[0]}
               activeImageId={props.activeImageId}
               isUploadDialogOpen={props.isUploadDialogOpen}
+              uploadStep={props.uploadStep}
             />
           )}
           {surroundings?.map((feature) => (

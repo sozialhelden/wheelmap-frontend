@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 import { CombinedFeaturePanel } from "~/components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
@@ -13,8 +14,15 @@ export default function ShowImageUploadPage() {
     [features],
   );
 
+  const {
+    query: { step },
+  } = useRouter();
   return (
-    <CombinedFeaturePanel features={resolvedFeatures} isUploadDialogOpen />
+    <CombinedFeaturePanel
+      features={resolvedFeatures}
+      uploadStep={step}
+      isUploadDialogOpen
+    />
   );
 }
 
