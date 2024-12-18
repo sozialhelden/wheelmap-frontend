@@ -22,6 +22,7 @@ import {
 } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadDropzone";
 import { ImageUploadPreview } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadPreview";
 import { ImageUploadProgress } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadProgress";
+import { ImageUploadSuccess } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadSuccess";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 
 type ImageUploadType = {
@@ -151,6 +152,7 @@ export const FeatureImageUpload: FC<{
           {step === 1 && <ImageUploadCriteriaList />}
           {step === 2 && <ImageUploadDropzone />}
           {step === 3 && <ImageUploadPreview feature={feature} />}
+          {step === 4 && <ImageUploadSuccess />}
         </Dialog.Content>
       </Dialog.Root>
     </ImageUploadContext.Provider>
