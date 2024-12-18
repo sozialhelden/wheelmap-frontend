@@ -2,7 +2,6 @@ import { useHotkeys } from "@blueprintjs/core";
 import { Box, Callout } from "@radix-ui/themes";
 import { uniqBy } from "lodash";
 import React, { useMemo, useState } from "react";
-import styled from "styled-components";
 import { t } from "ttag";
 import {
   type AnyFeature,
@@ -10,7 +9,6 @@ import {
   isOSMFeature,
   isSearchResultFeature,
 } from "../../lib/model/geo/AnyFeature";
-import colors from "../../lib/util/colors";
 import ErrorBoundary from "../shared/ErrorBoundary";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import OSMBuildingDetails from "./type-specific/building/OSMBuildingDetails";
@@ -21,7 +19,6 @@ type Props = {
   features: AnyFeature[];
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
-  uploadStep?: string;
 };
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {

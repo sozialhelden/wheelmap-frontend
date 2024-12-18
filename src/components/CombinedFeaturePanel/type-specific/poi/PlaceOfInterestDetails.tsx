@@ -29,14 +29,12 @@ type Props = {
   feature: AnyFeature;
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
-  uploadStep?: string;
 };
 
 export default function PlaceOfInterestDetails({
   feature,
   activeImageId,
   isUploadDialogOpen,
-  uploadStep,
 }: Props) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const map = useMap();
