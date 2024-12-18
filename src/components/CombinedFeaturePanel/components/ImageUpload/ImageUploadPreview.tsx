@@ -1,3 +1,4 @@
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
   AspectRatio,
   Box,
@@ -5,14 +6,20 @@ import {
   Card,
   Flex,
   Inset,
-  Progress,
+  Spinner,
+  Strong,
   Text,
-  Tooltip,
 } from "@radix-ui/themes";
-import React, { type FC, useState } from "react";
+import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import type { ImageWithPreview } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadDropzone";
+import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import { useCurrentAppToken } from "~/lib/context/AppContext";
+import uploadPhotoForFeature from "~/lib/fetchers/ac/refactor-this/postImageUpload";
+import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+
+const uncachedUrl =
+  process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
 const ImagePreview = styled.div`
     position: relative;
@@ -28,26 +35,48 @@ const ImagePreview = styled.div`
     inset: 0;
     z-index: 1;
     background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 4rem;
+    flex-direction: column;
+    gap: .5rem;
   }
 `;
 
 export const ImageUploadPreview: FC<{
-  image: ImageWithPreview;
-  setImage: (image?: ImageWithPreview) => void;
-}> = ({ image, setImage }) => {
-  const [isUploading, setIsUploading] = useState(false);
+  feature: AnyFeature;
+}> = ({ feature }) => {
+  const appToken = useCurrentAppToken();
+  const { image, setImage, previousStep, nextStep } =
+    useContext(ImageUploadContext);
+
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [error, setError] = useState<Error>();
+
   const cleanUp = () => {
     URL.revokeObjectURL(image.preview);
   };
   const reset = () => {
     setImage(undefined);
+    previousStep();
   };
-  const upload = () => {
+  const upload = async () => {
     setIsUploading(true);
+    try {
+      await uploadPhotoForFeature(
+        feature,
+        [image] as unknown as FileList,
+        appToken,
+        uncachedUrl,
+      );
+      nextStep();
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -56,7 +85,22 @@ export const ImageUploadPreview: FC<{
       <ImagePreview>
         {isUploading && (
           <Box className="image-upload-review__overlay">
-            <Progress size="3" value={50} variant="soft" />
+            <Spinner size="3" />
+            <Text>
+              <Strong>{t`Uploading image, please wait...`}</Strong>
+            </Text>
+          </Box>
+        )}
+        {error && (
+          <Box className="image-upload-review__overlay">
+            <ExclamationTriangleIcon color="red" width="40" height="40" />
+            <Text>
+              <Strong>{t`There was an error uploading your image!`}</Strong>
+            </Text>
+            <Text>{t`Please try again later.`}</Text>
+            <Text color="gray" align="center" mt="6">
+              {error.toString()}
+            </Text>
           </Box>
         )}
         <Card>
@@ -65,7 +109,7 @@ export const ImageUploadPreview: FC<{
               {image && (
                 <img
                   className="image-upload-review__preview-image"
-                  src={image.preview}
+                  src={image.preview.toString()}
                   onLoad={cleanUp}
                   // biome-ignore lint/a11y/noRedundantAlt: We cannot provide a proper alt-text for something the user just uploaded themselves
                   alt={t`Preview of the just selected image`}
