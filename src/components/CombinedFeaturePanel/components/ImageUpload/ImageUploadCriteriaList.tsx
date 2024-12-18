@@ -59,74 +59,69 @@ export const ImageUploadCriteriaList: FC = () => {
         <ImageCriteriaList>
           <Card asChild>
             <li className="image-criteria-list__list-item">
-              <Flex gap="2">
-                <CheckIcon className="image-criteria-list__icon" />
-                <Box>
-                  <h3 className="image-criteria-list__heading">
-                    {t`It contains useful information on accessibility.`}
-                  </h3>
-                  <Text color="gray">
-                    {t`For example by showing entrances, toilets or a map of the site.`}
-                  </Text>
-                  <Grid columns="3" gap="2" mt="3">
-                    <figure class="image-criteria-list__pictogram">
-                      <img
-                        src="/images/photo-upload/entrancePlaceholder.png"
-                        alt="A pictogram of an entrance"
-                      />
-                      <Text color="gray" asChild>
-                        <figcaption>{t`Entrance`}</figcaption>
-                      </Text>
-                    </figure>
-                    <figure class="image-criteria-list__pictogram">
-                      <img
-                        src="/images/photo-upload/toiletPlaceholder.png"
-                        alt="A pictogram of a toilet"
-                      />
-                      <Text color="gray" asChild>
-                        <figcaption>{t`Toilet`}</figcaption>
-                      </Text>
-                    </figure>
-                    <figure class="image-criteria-list__pictogram">
-                      <img
-                        src="/images/photo-upload/sitemapPlaceholder.png"
-                        alt="A topdown view showing navigational information"
-                      />
-                      <Text color="gray" asChild>
-                        <figcaption>{t`Site map`}</figcaption>
-                      </Text>
-                    </figure>
-                  </Grid>
-                </Box>
+              <Flex gap="2" align="center">
+                <CheckIcon className="image-criteria-list__icon" aria-hidden />
+                <h3 className="image-criteria-list__heading">
+                  {t`It contains useful information on accessibility.`}
+                </h3>
               </Flex>
+              <Box>
+                <Text color="gray">
+                  {t`For example by showing entrances, toilets or a map of the site.`}
+                </Text>
+                <Grid columns="3" gap="2" mt="3" aria-hidden>
+                  <figure class="image-criteria-list__pictogram">
+                    <img
+                      src="/images/photo-upload/entrancePlaceholder.png"
+                      alt="A pictogram of an entrance"
+                    />
+                    <Text color="gray" asChild>
+                      <figcaption>{t`Entrance`}</figcaption>
+                    </Text>
+                  </figure>
+                  <figure class="image-criteria-list__pictogram">
+                    <img
+                      src="/images/photo-upload/toiletPlaceholder.png"
+                      alt="A pictogram of a toilet"
+                    />
+                    <Text color="gray" asChild>
+                      <figcaption>{t`Toilet`}</figcaption>
+                    </Text>
+                  </figure>
+                  <figure class="image-criteria-list__pictogram">
+                    <img
+                      src="/images/photo-upload/sitemapPlaceholder.png"
+                      alt="A topdown view showing navigational information"
+                    />
+                    <Text color="gray" asChild>
+                      <figcaption>{t`Site map`}</figcaption>
+                    </Text>
+                  </figure>
+                </Grid>
+              </Box>
             </li>
           </Card>
           <Card asChild>
             <li className="image-criteria-list__list-item">
               <Flex gap="2">
-                <CheckIcon className="image-criteria-list__icon" />
+                <CheckIcon className="image-criteria-list__icon" aria-hidden />
                 <h3 className="image-criteria-list__heading">
-                  {t`Was taken by me.`}
+                  {t`It was taken by me.`}
                 </h3>
               </Flex>
               <Text color="gray">
-                {t`By uploading this image, I hereby publish it in the public domain as renounce copyright protection.`}
-                &nbsp; (
-                <Tooltip content={t`This link opens in a new window.`}>
-                  <Flex display="inline-flex" align="center" gap="1">
-                    <a
-                      href="https://creativecommons.org/publicdomain/zero/1.0/"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-describedby="image-upload-license-link-description"
-                    >
-                      {t`CC0 1.0 Universal license`}
-                    </a>
-
-                    <ExternalLinkIcon aria-hidden />
-                  </Flex>
-                </Tooltip>
-                )
+                {t`By uploading this image, I hereby publish it in the public domain as renounce copyright protection: `}
+                <Flex display="inline-flex" align="center" gap="1">
+                  <a
+                    href="https://creativecommons.org/publicdomain/zero/1.0/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-describedby="image-upload-license-link-description"
+                  >
+                    {t`CC0 1.0 Universal license`}
+                  </a>
+                  <ExternalLinkIcon aria-hidden />
+                </Flex>
                 <VisuallyHidden id="image-upload-license-link-description">
                   {t`This link opens in a new window.`}
                 </VisuallyHidden>
@@ -136,9 +131,9 @@ export const ImageUploadCriteriaList: FC = () => {
           <Card asChild>
             <li className="image-criteria-list__list-item">
               <Flex gap="2">
-                <CheckIcon className="image-criteria-list__icon" />
+                <CheckIcon className="image-criteria-list__icon" aria-hidden />
                 <h3 className="image-criteria-list__heading">
-                  {t`Doesn't show identifiable persons.`}
+                  {t`It doesn't show identifiable persons.`}
                 </h3>
               </Flex>
             </li>

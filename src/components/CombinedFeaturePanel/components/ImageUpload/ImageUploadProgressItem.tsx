@@ -6,7 +6,12 @@ export const ImageUploadProgressItem: FC<{
   active?: boolean;
 }> = ({ children, active }) => {
   return (
-    <Text color={active ? "blue" : "gray"} align="center" asChild>
+    <Text
+      color={active ? "blue" : "gray"}
+      align="center"
+      size={{ initial: "1", xs: "2" }}
+      asChild
+    >
       <Box py="1">{children}</Box>
     </Text>
   );

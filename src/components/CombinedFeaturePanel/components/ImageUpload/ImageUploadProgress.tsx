@@ -7,7 +7,7 @@ export const ImageUploadProgress: FC<{ uploadStep: number }> = ({
   uploadStep,
 }) => {
   return (
-    <Box mb="5">
+    <Box mb="5" aria-hidden>
       <Grid columns="4">
         <ImageUploadProgressItem active={uploadStep === 1}>
           {t`1. Criteria`}
