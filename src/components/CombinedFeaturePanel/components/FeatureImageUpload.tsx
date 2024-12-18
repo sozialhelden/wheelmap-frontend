@@ -2,8 +2,10 @@ import { CameraIcon } from "@radix-ui/react-icons";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/router";
 import React, {
+  createContext,
   type FC,
   type MouseEventHandler,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -22,106 +24,135 @@ import { ImageUploadPreview } from "~/components/CombinedFeaturePanel/components
 import { ImageUploadProgress } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadProgress";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 
+type ImageUploadType = {
+  baseUploadUrl: string;
+  step: number;
+  nextStep: () => void;
+  previousStep: () => void;
+  image?: ImageWithPreview;
+  setImage: (image?: ImageWithPreview) => void;
+  open: () => void;
+  close: () => void;
+};
+export const ImageUploadContext = createContext<ImageUploadType>({
+  baseUploadUrl: "",
+  step: 1,
+  nextStep() {},
+  previousStep() {},
+  image: undefined,
+  setImage(image) {},
+  open() {},
+  close() {},
+});
+
 export const FeatureImageUpload: FC<{
   feature: AnyFeature;
   isUploadDialogOpen?: boolean;
-  uploadStep?: string;
-}> = ({ feature, isUploadDialogOpen, uploadStep: unsanitizedUploadStep }) => {
+}> = ({ feature, isUploadDialogOpen }) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const router = useRouter();
 
-  const [uploadStep, setUploadStep] = useState<number>(0);
+  const [step, setStep] = useState<number>(1);
+  const [image, setImage] = useState<ImageWithPreview>();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(
     Boolean(isUploadDialogOpen),
   );
-  const [image, setImage] = useState<ImageWithPreview>();
 
-  const uploadUrl = useMemo(() => {
+  const baseUploadUrl = useMemo(() => {
     return `${baseFeatureUrl}/images/upload`;
   }, [baseFeatureUrl]);
 
-  const open = () => {
+  const open = useCallback(() => {
     setIsDialogOpen(true);
-  };
-  const close = () => {
+  }, []);
+  const close = useCallback(() => {
     setIsDialogOpen(false);
+  }, []);
+  const nextStep = useCallback(() => {
+    if (step < 4) setStep(step + 1);
+  }, [step]);
+  const previousStep = useCallback(() => {
+    if (step > 1) setStep(step - 1);
+  }, [step]);
+
+  const handleOnClickAddImageButton: MouseEventHandler = useCallback(
+    (event) => {
+      event.preventDefault();
+      open();
+    },
+    [],
+  );
+
+  const api: ImageUploadType = {
+    step,
+    baseUploadUrl,
+    nextStep,
+    previousStep,
+    image,
+    setImage,
+    open,
+    close,
   };
 
-  const handleOnClickAddImageButton: MouseEventHandler = (event) => {
+  const confirmWindowUnload = useCallback((event: Event) => {
     event.preventDefault();
-    open();
-  };
+  }, []);
 
-  // Set the initial upload step from the url query parameter. We don't
-  // want to navigate to steps 3 or 4 via query parameter and only with
-  // user interaction with the forms, that's why it is sanitized here
   useEffect(() => {
-    const uploadStep = Number.parseInt(unsanitizedUploadStep ?? "1");
-    setUploadStep(
-      !uploadStep || uploadStep > 2 || uploadStep < 0 ? 1 : uploadStep,
-    );
-  }, [unsanitizedUploadStep]);
+    if (image) {
+      window.addEventListener("beforeunload", confirmWindowUnload);
+    } else {
+      window.removeEventListener("beforeunload", confirmWindowUnload);
+    }
+    return () => {
+      window.removeEventListener("beforeunload", confirmWindowUnload);
+    };
+  }, [image, confirmWindowUnload]);
 
   // Reset the url when closing the dialog
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!isDialogOpen && window.location.pathname !== baseFeatureUrl) {
-      router.push(baseFeatureUrl);
+      router.push(baseFeatureUrl, undefined, { shallow: true });
     }
   }, [isDialogOpen]);
 
   // Set the url when opening the dialog
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    if (isDialogOpen && window.location.pathname !== uploadUrl) {
-      router.push(uploadUrl, undefined, { shallow: true });
+    if (isDialogOpen && window.location.pathname !== baseUploadUrl) {
+      router.push(baseUploadUrl, undefined, { shallow: true });
     }
   }, [isDialogOpen]);
 
-  // Continue to step 3 when the image gets selected
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
-  useEffect(() => {
-    if (isDialogOpen && image && uploadStep === 2) {
-      setUploadStep(3);
-    }
-  }, [image]);
-
-  // Continue to step 2 when the image gets reset
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
-  useEffect(() => {
-    if (isDialogOpen && !image && uploadStep === 3) {
-      setUploadStep(2);
-    }
-  }, [image]);
-
   return (
-    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Flex mt="2" align="center">
-        <Dialog.Trigger>
-          <Button variant="solid" asChild>
-            <AppStateLink
-              href={uploadUrl}
-              onClick={handleOnClickAddImageButton}
-            >
-              <CameraIcon /> {t`Add new image`}
-            </AppStateLink>
-          </Button>
-        </Dialog.Trigger>
-        <ImageUploadCallToAction />
-      </Flex>
-      <Dialog.Content>
-        <Dialog.Title>{t`Add a new image`}</Dialog.Title>
+    <ImageUploadContext.Provider value={api}>
+      <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Flex mt="2" align="center">
+          <Dialog.Trigger>
+            <Button variant="solid" asChild>
+              <AppStateLink
+                href={baseUploadUrl}
+                onClick={handleOnClickAddImageButton}
+              >
+                <CameraIcon /> {t`Add new image`}
+              </AppStateLink>
+            </Button>
+          </Dialog.Trigger>
+          <ImageUploadCallToAction />
+        </Flex>
+        <Dialog.Content>
+          <Dialog.Title>{t`Add a new image`}</Dialog.Title>
 
-        <Dialog.Description>
-          <ImageUploadProgress uploadStep={uploadStep} />
-        </Dialog.Description>
+          <Dialog.Description>
+            <ImageUploadProgress uploadStep={step} />
+          </Dialog.Description>
 
-        {uploadStep === 1 && <ImageUploadCriteriaList uploadUrl={uploadUrl} />}
-        {uploadStep === 2 && <ImageUploadDropzone setImage={setImage} />}
-        {uploadStep === 3 && (
-          <ImageUploadPreview image={image} setImage={setImage} />
-        )}
-      </Dialog.Content>
-    </Dialog.Root>
+          {step === 1 && <ImageUploadCriteriaList />}
+          {step === 2 && <ImageUploadDropzone />}
+          {step === 3 && <ImageUploadPreview feature={feature} />}
+        </Dialog.Content>
+      </Dialog.Root>
+    </ImageUploadContext.Provider>
   );
 };

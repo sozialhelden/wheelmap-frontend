@@ -1,22 +1,9 @@
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Card,
-  Flex,
-  Grid,
-  Inset,
-  Strong,
-  Text,
-  TextArea,
-  Tooltip,
-  VisuallyHidden,
-} from "@radix-ui/themes";
-import { useRouter } from "next/router";
-import React, { type FC, useCallback, useState } from "react";
+import { Box, Button, Strong, Text } from "@radix-ui/themes";
+import React, { type FC, useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import { t } from "ttag";
+import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
 const Dropzone = styled.div<{ $isDragActive?: boolean }>`
   padding: 3rem 4rem;
@@ -42,18 +29,19 @@ export type ImageWithPreview = File & {
   preview: URL;
 };
 
-export const ImageUploadDropzone: FC<{
-  setImage: (image: ImageWithPreview) => void;
-}> = ({ setImage }) => {
-  const router = useRouter();
+export const ImageUploadDropzone: FC = () => {
+  const { setImage, nextStep, previousStep } = useContext(ImageUploadContext);
 
-  const onDrop = useCallback(([file]) => {
-    setImage(
-      Object.assign(file, {
+  const onDrop = useCallback(
+    ([file]) => {
+      const image = Object.assign(file, {
         preview: URL.createObjectURL(file),
-      }),
-    );
-  }, []);
+      });
+      setImage(image);
+      nextStep();
+    },
+    [setImage, nextStep],
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 1,
@@ -74,7 +62,7 @@ export const ImageUploadDropzone: FC<{
       </Dropzone>
 
       <Box mt="4">
-        <Button variant="soft" color="gray" size="3" onClick={router.back}>
+        <Button variant="soft" color="gray" size="3" onClick={previousStep}>
           {t`Back`}
         </Button>
       </Box>

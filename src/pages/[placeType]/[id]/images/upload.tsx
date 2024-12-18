@@ -14,15 +14,8 @@ export default function ShowImageUploadPage() {
     [features],
   );
 
-  const {
-    query: { step },
-  } = useRouter();
   return (
-    <CombinedFeaturePanel
-      features={resolvedFeatures}
-      uploadStep={step}
-      isUploadDialogOpen
-    />
+    <CombinedFeaturePanel features={resolvedFeatures} isUploadDialogOpen />
   );
 }
 

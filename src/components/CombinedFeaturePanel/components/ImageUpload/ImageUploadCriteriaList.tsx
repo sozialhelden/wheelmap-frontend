@@ -9,10 +9,10 @@ import {
   Tooltip,
   VisuallyHidden,
 } from "@radix-ui/themes";
-import React, { type FC } from "react";
+import React, { type FC, useContext } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { AppStateLink } from "~/components/App/AppStateLink";
+import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
 const ImageCriteriaList = styled.ul`
     list-style: none;
@@ -46,9 +46,9 @@ const ImageCriteriaList = styled.ul`
     }
   `;
 
-export const ImageUploadCriteriaList: FC<{ uploadUrl: string }> = ({
-  uploadUrl,
-}) => {
+export const ImageUploadCriteriaList: FC = () => {
+  const { nextStep, close } = useContext(ImageUploadContext);
+
   return (
     <>
       <Text as="p">
@@ -150,17 +150,8 @@ export const ImageUploadCriteriaList: FC<{ uploadUrl: string }> = ({
         <Button variant="soft" color="gray" size="3" onClick={close}>
           {t`Cancel`}
         </Button>
-        <Button size="3" asChild>
-          <AppStateLink
-            href={{
-              pathname: uploadUrl,
-              query: {
-                step: 2,
-              },
-            }}
-          >
-            {t`Continue`}
-          </AppStateLink>
+        <Button size="3" onClick={nextStep}>
+          {t`Continue`}
         </Button>
       </Flex>
     </>
