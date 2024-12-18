@@ -143,7 +143,12 @@ export const FeatureImageUpload: FC<{
           <ImageUploadCallToAction />
         </Flex>
         <Dialog.Content>
-          <Dialog.Title>{t`Add a new image`}</Dialog.Title>
+          <Dialog.Title>
+            {step === 1 && t`Add a new image`}
+            {step === 2 && t`Select an image`}
+            {step === 3 && t`Review your selected image`}
+            {step === 4 && t`Upload successful`}
+          </Dialog.Title>
 
           <Dialog.Description>
             <ImageUploadProgress uploadStep={step} />

@@ -10,12 +10,12 @@ export const ImageUploadSuccess: FC = () => {
   return (
     <>
       <Flex direction="column" align="center" justify="center" py="9" px="4">
-        <CheckIcon color="green" width="50" height="50" />
-        <Text size="4">
+        <CheckIcon color="green" width="50" height="50" aria-hidden />
+        <Text size="4" align="center">
           <Strong>{t`Image uploaded successfully!`}</Strong>
         </Text>
         <Text align="center" mt="2">
-          {t`Thank you for your contribution. The image will be checked by our staff before it will be visible on Wheelmap. This can take a while, please be patient.`}
+          {t`Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient.`}
         </Text>
       </Flex>
       <Flex justify="end">
