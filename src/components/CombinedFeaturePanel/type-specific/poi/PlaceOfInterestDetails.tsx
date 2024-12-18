@@ -90,7 +90,6 @@ export default function PlaceOfInterestDetails({
       <FeatureImageUpload
         feature={feature}
         isUploadDialogOpen={isUploadDialogOpen}
-        uploadStep={uploadStep}
       />
 
       <StyledIconButtonList>
