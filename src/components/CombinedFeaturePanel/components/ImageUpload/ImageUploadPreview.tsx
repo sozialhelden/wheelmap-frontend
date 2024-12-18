@@ -22,19 +22,19 @@ const uncachedUrl =
   process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
 const ImagePreview = styled.div`
-    position: relative;
-    
-    .image-upload-review__preview-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  position: relative;
+
+  .image-upload-review__preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   
   .image-upload-review__overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
@@ -81,7 +81,6 @@ export const ImageUploadPreview: FC<{
 
   return (
     <>
-      <Text as="p" mb="4">{t`Please review your selected image:`}</Text>
       <ImagePreview>
         {isUploading && (
           <Box className="image-upload-review__overlay">
@@ -119,7 +118,7 @@ export const ImageUploadPreview: FC<{
           </Inset>
         </Card>
       </ImagePreview>
-      <Flex mt="4" justify="between">
+      <Flex mt="4" justify="between" wrap="wrap" gap="3">
         <Button
           color="gray"
           onClick={reset}
