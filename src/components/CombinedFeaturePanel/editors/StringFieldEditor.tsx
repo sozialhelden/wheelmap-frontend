@@ -61,14 +61,16 @@ export const StringFieldEditor = ({
         }}
       />
       <Picker
-        labelText={"Please select a language"}
+        placeholder={"Please select a language"}
         items={mockItems}
         onSelect={(value) => {
           setSelectedLanguage(value);
-          passLanguagePickerValueToParent(value);
+          if (passLanguagePickerValueToParent) {
+            passLanguagePickerValueToParent(value);
+          }
           console.log("Selected Language Tag:", value);
         }}
-      ></Picker>
+      />
 
       <footer className="_footer">
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
