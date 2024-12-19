@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { t } from "ttag";
+import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "../../../lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "../../../lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
@@ -24,7 +25,10 @@ import { WheelchairEditor } from "./WheelchairEditor";
 
 type AutoEditorProps = Omit<
   BaseEditorProps,
-  "onUrlMutationSuccess" | "onChange" | "handleSubmitButtonClick"
+  | "onUrlMutationSuccess"
+  | "onChange"
+  | "handleSubmitButtonClick"
+  | "passLanguagePickerValueToParent"
 >;
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
@@ -57,6 +61,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
   );
   const { tagName, osmType, osmId } =
     useRetrieveOsmParametersFromFeature(osmFeature);
+  const [finalTagName, setFinalTagName] = useState(tagName);
 
   const [newTagValue, setEditedTagValue] = useState<EditorTagValue>("");
   const handleSuccess = React.useCallback(() => {
@@ -96,7 +101,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     baseUrl: remoteOSMAPIBaseUrl,
     osmType,
     osmId,
-    tagName,
+    finalTagName,
     newTagValue,
     currentOSMObjectOnServer,
   });
@@ -108,7 +113,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     }
     if (!newTagValue || !osmId) {
       handleError(
-        new Error('Missing Information'),
+        new Error("Missing Information"),
         t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
       );
     }
@@ -134,12 +139,31 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     });
   }, []);
 
+  const handlePickerValueChange = (newPickerValue: string) => {
+    setFinalTagName(
+      [removeLanguageTagsIfPresent(tagName), newPickerValue].join(":"),
+    );
+    console.log(finalTagName);
+  };
+
   const Editor = getEditorForKey(tagKey);
-  if (Editor) {
+  if (Editor === StringFieldEditor) {
     return (
       <Editor
         feature={feature}
-        tagKey={tagKey}
+        tagKey={finalTagName}
+        onChange={setEditedTagValue}
+        onUrlMutationSuccess={onUrlMutationSuccess}
+        handleSubmitButtonClick={handleSubmitButtonClick}
+        passLanguagePickerValueToParent={handlePickerValueChange}
+      />
+    );
+  }
+  if (Editor === (WheelchairEditor || ToiletsWheelchairEditor)) {
+    return (
+      <Editor
+        feature={feature}
+        tagKey={finalTagName}
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
         handleSubmitButtonClick={handleSubmitButtonClick}
