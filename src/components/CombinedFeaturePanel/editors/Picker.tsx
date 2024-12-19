@@ -12,11 +12,7 @@ import {
   ChevronUpDownIcon,
   SearchIcon,
 } from "src/components/CombinedFeaturePanel/editors/icons.tsx";
-import "./style.css";
-import styled, {
-  createGlobalStyle,
-  StyleSheetManager,
-} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 interface PickerProps {
   placeholder: string;
