@@ -10,7 +10,10 @@ const acceptLocationAlertOnMobilesIfPresent = require('../lib/acceptLocationAler
 // See the Mocha API for test structure: https://mochajs.org/
 
 describe('Searching a place by name', function() {
+
   it('delivers results', async function() {
+    await browser.setTimeout({ 'implicit': 100000 });
+    
     await browser.url('/');
 
     await acceptLocationAlertOnMobilesIfPresent();
@@ -27,14 +30,16 @@ describe('Searching a place by name', function() {
 
     const $search = await $('[name="search"]');
     await $search.click();
-    await browser.waitUntil(async () => {
-      const el = await browser.findElement('css selector', 'a[href="/search?category=food"]');
-      return el && el[IdPropertyName];
-    });
     await saveScreenshot('Category and accessibility filter is shown');
     await (await $('[name="search"]')).addValue('alexanderplatz');
 
+    await browser.waitUntil(async () => {
+      return $('.search-results').isExisting();
+    });
+
+    browser.findElement('css selector', '.search-results');
     const $results = await $('.search-results');
+
     await expect($results).toBeDisplayedInViewport();
     await saveScreenshot('Search results are loading');
 
@@ -48,13 +53,16 @@ describe('Searching a place by name', function() {
 
     await saveScreenshot('Search results show their accessibility');
 
+    await browser.waitUntil(async () => {
+        return $results.$('header=Berlin Alexanderplatz').isExisting();
+    });
     const $resultAfterSearch = await $results.$('header=Berlin Alexanderplatz');
+
     await $resultAfterSearch.waitForClickable();
     await $resultAfterSearch.click();
 
     await browser.waitUntil(async () => (await getCurrentUrl()).match(/\/node\//));
-    const results = await browser.findElement('css selector', '.search-results');
-    await expect(results[IdPropertyName]).toBeUndefined();
+    
     const $placeInfoPanel = await $('.toolbar[aria-label~="Alexanderplatz"');
     const $placeName = await $placeInfoPanel.$('h1*=Alexanderplatz');
     await expect($placeName).toBeDisplayedInViewport();

@@ -17,11 +17,11 @@ describe('Highlighted marker', function() {
     await $button.click();
 
     const $placeInfoPanel = await $('.toolbar[aria-label="Berlin Alexanderplatz"]');
-    const $placeName = await $placeInfoPanel.$('h1=Berlin Alexanderplatz');
+    const $placeName = await $placeInfoPanel.$('div=Berlin Alexanderplatz');
     await expect($placeName).toBeDisplayedInViewport();
     await saveScreenshot('After opening');
 
-    const $highlightedMarker = await $('a.highlighted-marker[aria-label="Berlin Alexanderplatz Fully wheelchair accessible"]');
+    const $highlightedMarker = await $('a.highlighted-marker[aria-label="Berlin Alexanderplatz, Fully wheelchair accessible"]');
     await expect($highlightedMarker).toBeDisplayedInViewport();
     await saveScreenshot('Marker visible');
   });

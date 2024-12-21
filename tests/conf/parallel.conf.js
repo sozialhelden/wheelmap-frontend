@@ -36,7 +36,8 @@ checkEnvironmentVariables();
 
 // https://github.com/browserstack/webdriverio-browserstack
 exports.config = {
-  user: process.env.BROWSERSTACK_USERNAME,
+  user: process.env.BROWSERSTACK_USERNAME, 
+  bail: 1,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
 
   services: [

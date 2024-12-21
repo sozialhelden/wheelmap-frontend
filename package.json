@@ -161,6 +161,7 @@
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist && copyfiles ./public ./dist",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "wdio run tests/conf/parallel.conf.js",
+    "test-live-app": "CI_TEST_GIT_REF=production CI_TEST_GIT_SHA1=12345678 BROWSERSTACK_LOCAL=0 CI_DEPLOYMENT_TEST_URL=https://wheelmap.org npm run test",
     "version": "echo TODO: Add version syncing to bundle configurations for native apps + git commit -am 'Version bump' to package.json",
     "server": "server",
     "push-translations": "rm -rf src/.next/ && npx ttag update public/i18n/translations.pot ./src && tx push -s && echo \"Translators can now start translating new strings:\\n\\nhttps://www.transifex.com/sozialhelden/wheelmap-react-frontend/translate/#de/translationspot/335454735?q=translated%3Ano\"",
