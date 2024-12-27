@@ -2,21 +2,21 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2021
-# Gábor Babos <gabor.babos@gmail.com>, 2024
+# Gábor Babos <gabor.babos@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Gábor Babos <gabor.babos@gmail.com>, 2024\n"
+"Last-Translator: Gábor Babos <gabor.babos@gmail.com>, 2023\n"
 "Language-Team: Hungarian (https://app.transifex.com/sozialhelden/teams/16671/hu/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:329
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
 msgid "Search"
 msgstr "Keresés"
 
-#: src/pages/_app.tsx:330
+#: src/pages/_app.tsx:336
 msgid "Homepage"
 msgstr "Főoldal"
 
@@ -27,14 +27,14 @@ msgid "Embed mode can not be used"
 msgstr "Beágyazási mód nem használható"
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:41
-#: src/components/NotFound/NotFound.tsx:89
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
+#: src/components/NotFound/NotFound.tsx:90
 msgid "Error"
 msgstr "Hiba"
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:44
+#: src/components/NotFound/NotFound.tsx:45
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
@@ -43,24 +43,24 @@ msgstr ""
 "használhatod a keresést, hogy megtaláld."
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:47
+#: src/components/NotFound/NotFound.tsx:48
 msgid "Sorry, we are offline!"
 msgstr "Sajnáljuk, nemvagyunk elérhetőek!"
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:61
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
 msgid "Sorry, that should not have happened!"
 msgstr "Bocsánat, ennek nem szabadott volna megtörténnie!"
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:63
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
 msgid "Return home"
 msgstr "Vissza a Kezdőlapra"
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:65
+#: src/components/NotFound/NotFound.tsx:66
 msgid "Retry"
 msgstr "Újrapróbál"
 
@@ -85,37 +85,37 @@ msgid "Leisure"
 msgstr "Szabadidő"
 
 #. translator: Root category
-#: src/lib/Categories.ts:115
+#: src/lib/Categories.ts:111
 msgid "Hotels"
 msgstr "Hotelek"
 
 #. translator: Root category
-#: src/lib/Categories.ts:119
+#: src/lib/Categories.ts:115
 msgid "Tourism"
 msgstr "Turizmus"
 
 #. translator: Root category
-#: src/lib/Categories.ts:123
+#: src/lib/Categories.ts:119
 msgid "Education"
 msgstr "Oktatás"
 
 #. translator: Root category
-#: src/lib/Categories.ts:127
+#: src/lib/Categories.ts:123
 msgid "Authorities"
 msgstr "Hivatalos"
 
 #. translator: Root category
-#: src/lib/Categories.ts:131
+#: src/lib/Categories.ts:127
 msgid "Health"
 msgstr "Egészség"
 
 #. translator: Root category
-#: src/lib/Categories.ts:135
+#: src/lib/Categories.ts:131
 msgid "Money"
 msgstr "Pénz"
 
 #. translator: Root category
-#: src/lib/Categories.ts:139
+#: src/lib/Categories.ts:135
 msgid "Sports"
 msgstr "Sport"
 
@@ -123,71 +123,71 @@ msgstr "Sport"
 #. toilet
 #. translator: Meta category for any toilet or any place with an accessible
 #. toilet
-#: src/lib/Categories.ts:144
+#: src/lib/Categories.ts:140
 msgid "Toilets"
 msgstr "Illemhelyek"
 
 #. translator: Shown when there was an error while loading category data from
 #. the backend.
-#: src/lib/Categories.ts:290
+#: src/lib/Categories.ts:267
 msgid "Error while loading place categories."
 msgstr "Hiba történt a helyek kategóriáinak betöltésekor."
 
 #. translator: Long accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:493
+#: src/lib/Feature.ts:491
 msgid "Fully wheelchair accessible"
 msgstr "Kerekesszékkel teljes mértékben hozzáférhető"
 
 #. translator: Long accessibility description for partial wheelchair
 #. accessibility
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
-#: src/lib/Feature.ts:496
+#: src/lib/Feature.ts:494
 msgid "Partially wheelchair accessible"
 msgstr "Kerekesszékkel részben hozzáférhető"
 
 #. translator: Long accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:499
+#: src/lib/Feature.ts:497
 msgid "Not wheelchair accessible"
 msgstr "Kerekesszékkel nem hozzáférhető"
 
 #. translator: Long accessibility description for unknown wheelchair
 #. accessibility
-#: src/lib/Feature.ts:502
+#: src/lib/Feature.ts:500
 msgid "Unknown accessibility"
 msgstr "Ismeretlen állapot"
 
 #. translator: Short accessibility description for full wheelchair
 #. accessibility
-#: src/lib/Feature.ts:516
+#: src/lib/Feature.ts:514
 msgid "Fully"
 msgstr "Teljesen"
 
 #. translator: Short accessibility description for partial wheelchair
 #. accessibility
-#: src/lib/Feature.ts:519
+#: src/lib/Feature.ts:517
 msgid "Partially"
 msgstr "Részben"
 
 #. translator: Short accessibility description for no wheelchair accessibility
-#: src/lib/Feature.ts:522
+#: src/lib/Feature.ts:520
 msgid "Not at all"
 msgstr "Egyáltalán nem"
 
 #. translator: Short accessibility description for unknown wheelchair
 #. accessibility
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:101
-#: src/lib/Feature.ts:525
+#: src/lib/Feature.ts:523
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:535
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "A bejáratnál és a helyiségekben sincsenek lépcsők."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:539
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -197,56 +197,56 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:543
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "A bejáratnak egy lépcsőfoka van, max. 7 cm magas, a legtöbb szoba lépcsők "
 "nélküli."
 
-#: src/lib/Feature.ts:546
+#: src/lib/Feature.ts:544
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "A bejáratnál egy vagy több lépcső van, a helyiségek nem hozzáférhetőek."
 
-#: src/lib/Feature.ts:557
+#: src/lib/Feature.ts:555
 msgid "Wheelchair accessible toilet"
 msgstr "Akadálymentesített WC"
 
-#: src/lib/Feature.ts:560
+#: src/lib/Feature.ts:558
 msgid "No wheelchair accessible toilet"
 msgstr "Nincs kerekesszékkel hozzáférhető mosdó."
 
-#: src/lib/Feature.ts:568
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Az ajtó belső szélessége ≥ 35 hüvelyk"
 
-#: src/lib/Feature.ts:568
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Az ajtó belső szélessége ≥ 90 cm"
 
-#: src/lib/Feature.ts:569
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Elérhető padlóterület ≥ 59 hüvelyk széles"
 
-#: src/lib/Feature.ts:569
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Elérhető padlóterület ≥ 150 cm széles"
 
-#: src/lib/Feature.ts:570
+#: src/lib/Feature.ts:568
 msgid "Wheelchair-height toilet seat"
 msgstr "Kerekesszék magasságú WC ülőke"
 
-#: src/lib/Feature.ts:571
+#: src/lib/Feature.ts:569
 msgid "Foldable grab rails"
 msgstr "Lehajtható kapaszkodók"
 
-#: src/lib/Feature.ts:572
+#: src/lib/Feature.ts:570
 msgid "Accessible sink"
 msgstr "Akadálymentesített kézmosó"
 
-#: src/lib/Feature.ts:579
+#: src/lib/Feature.ts:577
 msgid "Unnamed place"
 msgstr "Névtelen hely"
 
@@ -267,13 +267,13 @@ msgstr ""
 "Ha fényképeket szeretnél adni a helyekhez, engedélyezned kell a kamera "
 "használatát."
 
-#: src/app/PlaceDetailsData.tsx:309
+#: src/app/PlaceDetailsData.tsx:278
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Ez a hely itt található: ${ productName }: ${ placeTitle }"
 
-#: src/app/SearchData.tsx:157
-#: src/components/SearchToolbar/SearchResults.tsx:45
+#: src/app/SearchData.tsx:126
+#: src/components/SearchToolbar/SearchResults.tsx:46
 msgid "Search results"
 msgstr "Keresés eredménye"
 
@@ -287,18 +287,18 @@ msgid "Add a new place"
 msgstr "Hiányzó hely hozzáadása"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:998
+#: src/components/Map/Map.tsx:1020
 msgid "Zoom in closer to see more places"
 msgstr "Nagyítson közelebb, hogy több helyet lásson"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1014
+#: src/components/Map/Map.tsx:1036
 msgid "Turn on location services"
 msgstr "Kapcsolja be a helymeghatározási szolgáltatásokat"
 
-#: src/components/Map/Map.tsx:1047
+#: src/components/Map/Map.tsx:1069
 msgid "Map"
 msgstr "Térkép"
 
@@ -308,26 +308,27 @@ msgstr "Térkép"
 msgid "Go to ${ appName }"
 msgstr "Menj a(z) ${ appName } alkalmazásba"
 
+#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "Alkalmazás logója"
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:98
+#: src/lib/EquipmentInfo.ts:97
 msgid "In operation"
 msgstr "Működésben"
 
 #. translator: An equipment or facility status. This does not mean the
 #. facility is broken: It might just be in maintenance! The facility might be
 #. an elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:100
+#: src/lib/EquipmentInfo.ts:99
 msgid "Out of order"
 msgstr "Üzemen kívül"
 
 #. translator: An equipment or facility status. The facility might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.ts:102
+#: src/lib/EquipmentInfo.ts:101
 msgid "Unknown operational status"
 msgstr "ismeretlen állapot"
 
@@ -366,19 +367,18 @@ msgstr ""
 
 #. translator: Shown next to equipment status.
 #: src/lib/EquipmentInfo.ts:181
-#, javascript-format
 msgid "Last update: ${ dateString }"
 msgstr "Legutóbbi frissítés: ${ dateString }."
 
-#: src/components/MainMenu/MainMenu.tsx:120
+#: src/components/MainMenu/MainMenu.tsx:121
 msgid "Home"
 msgstr "Kezdőlap"
 
-#: src/components/MainMenu/MainMenu.tsx:240
+#: src/components/MainMenu/MainMenu.tsx:244
 msgid "Menu"
 msgstr "Menü"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:409
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Keresés Törlése"
 
@@ -390,8 +390,7 @@ msgstr "Minden hely"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:92
-#: src/components/NodeToolbar/NodeToolbar.tsx:344
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
 msgid "Places"
 msgstr "Helyek"
 
@@ -459,7 +458,7 @@ msgstr "Jelenteni való"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:92
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:183
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:171
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:270
 #: src/components/PhotoUpload/ReportPhotoToolbar.tsx:157
 msgid "Cancel"
@@ -510,7 +509,7 @@ msgid "toilets"
 msgstr "mosdók"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:129
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:180
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:168
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:273
 msgid "Continue"
 msgstr "Folytatás"
@@ -560,86 +559,86 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:37
+#: src/components/Onboarding/Onboarding.tsx:38
 msgid "Help out by marking places!"
 msgstr "Segíts a helyek megjelölésével!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:40
+#: src/components/Onboarding/Onboarding.tsx:41
 msgid "Okay, let’s go!"
 msgstr "Oké, gyerünk!"
 
-#: src/components/Onboarding/Onboarding.tsx:60
+#: src/components/Onboarding/Onboarding.tsx:64
 msgid "Start screen"
 msgstr "Wheelmap kezdőképernyő"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:91
+#: src/components/MappingEvents/MappingEventToolbar.tsx:92
 msgid "starting"
 msgstr "kezdődő"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:96
+#: src/components/MappingEvents/MappingEventToolbar.tsx:97
 msgid "until"
 msgstr "amíg"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:111
+#: src/components/MappingEvents/MappingEventToolbar.tsx:112
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "${ mappingEvent.name } térképezési esemény"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:114
 msgid "Center map on mapping event"
 msgstr "Ugrás a térképen a térképezési eseményre"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:116
 msgid "Meeting point"
 msgstr "Találkozóhely"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:118
 msgid "Area name"
 msgstr "Terület neve"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:120
 msgid "Event date"
 msgstr "Esemény dátuma"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:122
 msgid "Event start date"
 msgstr "Esemény kezdési dátuma"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:124
 msgid "Event end date"
 msgstr "Esemény és dátum"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:126
 msgid "Back to the mapping events list"
 msgstr "Vissza a térképezési események listájához"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:128
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Megosztás"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:130
 msgid "Join mapping event"
 msgstr "Csatlakozás a térképezési eseményhez"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:131
+#: src/components/MappingEvents/MappingEventToolbar.tsx:132
 msgid "Leave mapping event"
 msgstr "Térképezési esemény elhagyása"
 
@@ -698,16 +697,16 @@ msgstr "Hiba történt az adatok betöltésekor."
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:63
-#: src/components/NodeToolbar/NodeToolbar.tsx:221
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
+#: src/components/NodeToolbar/NodeToolbar.tsx:259
 msgid "How wheelchair accessible is this place?"
 msgstr "Mennyire megközelíthető ez a hely kerekesszékkel?"
 
-#: src/components/Toolbar.tsx:606
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Részletek elrejtése"
 
-#: src/components/Toolbar.tsx:606
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Bővebben a részletekről"
 
@@ -724,19 +723,19 @@ msgstr "${ eventName } térképezési esemény térképjelzés"
 
 #. translator: Screenreader description for the statistics/numbers part of a
 #. mapping event
-#: src/components/MappingEvents/Statistics.tsx:24
+#: src/components/MappingEvents/Statistics.tsx:25
 msgid "Mapping Event Numbers"
 msgstr "Térképezési esemény számai"
 
 #. translator: Description for number of already mapped places in the mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:26
+#: src/components/MappingEvents/Statistics.tsx:27
 msgid "Mapped Places"
 msgstr "Térképezett helyek"
 
 #. translator: Description for number of people invited to the current mapping
 #. event
-#: src/components/MappingEvents/Statistics.tsx:28
+#: src/components/MappingEvents/Statistics.tsx:29
 msgid "Participants"
 msgstr "Résztvevők"
 
@@ -772,7 +771,7 @@ msgstr "Keresés…"
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:71
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:186
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
 #: src/components/NodeToolbar/Report/strings.ts:27
 msgid "Back"
 msgstr "Vissza"
@@ -858,7 +857,7 @@ msgstr ""
 msgid "Show me where I am"
 msgstr "Mutassa, hol vagyok"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:118
+#: src/components/NodeToolbar/NodeHeader.tsx:117
 msgid "Unnamed facility"
 msgstr "Névtelen létesítmény"
 
@@ -868,12 +867,12 @@ msgid "Search for place or address"
 msgstr "Hely vagy cím keresése"
 
 #. translator: Text in search results when nothing was found
-#: src/components/SearchToolbar/SearchResults.tsx:35
+#: src/components/SearchToolbar/SearchResults.tsx:36
 msgid "No results found"
 msgstr "Nincs találat"
 
 #. translator: Text in search results when an error occurred
-#: src/components/SearchToolbar/SearchResults.tsx:38
+#: src/components/SearchToolbar/SearchResults.tsx:39
 msgid "No results available. Please try again later!"
 msgstr "Nincsenek elérhető találatok. Kérünk, próbáld meg később!"
 
@@ -914,7 +913,7 @@ msgstr "Kerekesszék Hozzáférhetőségi Szűrő"
 
 #. translator: Place name shown in search results for places with unknown name
 #. / category.
-#: src/components/SearchToolbar/SearchResult.tsx:123
+#: src/components/SearchToolbar/SearchResult.tsx:122
 msgid "Unnamed"
 msgstr "Névtelen"
 
@@ -946,19 +945,19 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Kerekesszékkel hozzáférhető itt a mosdó?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
 msgid "Yes"
 msgstr "Igen"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:72
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
 msgid "No"
 msgstr "Nem"
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:140
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
 msgid "Wheelchair accessibility"
 msgstr "Kerekesszék Hozzáférhetőség"
 
@@ -1008,11 +1007,11 @@ msgstr ""
 msgid "Fix on external page."
 msgstr "Kijavítás külső oldalon"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:68
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:70
 msgid "Disruptions at this location"
 msgstr "Zavarok ezen a helyen"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:86
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:88
 msgid "All elevators and escalators"
 msgstr "Minden lift és mozgólépcső"
 
@@ -1053,7 +1052,7 @@ msgstr ""
 "Sajnáljuk, valami elromlott. Próbáld meg később, vagy írj egy e-mailt a "
 "bugs@wheelmap.org címre, ha a probléma továbbra is fennáll."
 
-#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:51
+#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
 #, javascript-format
 msgid "Remove ${ caption } Filter"
 msgstr "Távolítsa el a ${ caption } Szűrőt"
@@ -1070,26 +1069,26 @@ msgid "Expand share menu"
 msgstr "Megosztás menü kiterjesztése"
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBarContent.tsx:79
+#: src/components/ShareBar/ShareBarContent.tsx:45
 msgid "Collapse share menu"
 msgstr "A Megosztás Menü Összecsukása"
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:162
 msgid "Confirm"
 msgstr "Megerősítés"
 
 #. translator: Button caption shown while editing a place’s wheelchair status
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:177
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:165
 msgid "Change"
 msgstr "Változtatás"
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:70
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
 msgid "Mark wheelchair accessibility of WC"
 msgstr "Mosdó állapot hozzáadása"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:157
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
 msgid "Show next wheelchair accessible toilet"
 msgstr "Mutassa a következő kerekesszékkel elérhető illemhelyet"
 
@@ -1137,7 +1136,6 @@ msgstr "Ezt a helyet találtam a Wheelmapen: ${ placeName }"
 #. translator: Email body used when sharing a place with known name via
 #. email.// Email subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:55
-#, javascript-format
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } a Wheelmap.org-on"
 
@@ -1162,7 +1160,6 @@ msgid "Open on ${ sourceNameString }"
 msgstr "Megnyitás ezen: ${ sourceNameString }"
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.tsx:18
-#, javascript-format
 msgid "Add info on ${ sourceNameString }"
 msgstr " ${ sourceNameString } fejlesztése"
 
@@ -1208,7 +1205,7 @@ msgstr ""
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:98
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr "Sajnáljuk, ez a hely nem megjelölhető egy hiba miatt: ${ e }"
@@ -1247,7 +1244,6 @@ msgid "View this place on ${ name }"
 msgstr "Tekintsd meg a helyet itt: ${ name }"
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.tsx:21
-#, javascript-format
 msgid "Edit this place on ${ name }"
 msgstr "Hely módosítása itt: ${ name }"
 
@@ -1377,7 +1373,6 @@ msgstr ""
 "${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.ts:42
-#, javascript-format
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 
@@ -1399,7 +1394,6 @@ msgid "Details"
 msgstr "Részletek"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:35
-#, javascript-format
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "${ count } üzemelő felvonó"
@@ -1413,7 +1407,6 @@ msgstr[0] "${ count } üzemelő felvonó"
 msgstr[1] "${ count } működő felvonó"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:47
-#, javascript-format
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "${ count } nem üzemelő felvonó"
@@ -1427,7 +1420,6 @@ msgstr[0] "${ count } nem üzemelő mozgólépcső"
 msgstr[1] "${ count } nem üzemelő mozgólépcső"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:59
-#, javascript-format
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } ismeretlen működési állapotú felvonó"
@@ -1505,7 +1497,7 @@ msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:164
 msgid "Add a place on OpenStreetMap"
-msgstr "Rajzolj fel egy helyet az OpenStreetMapre"
+msgstr "Adj hozzá egy helyet az OpenStreetMap-on"
 
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:43
@@ -1555,94 +1547,92 @@ msgstr ""
 "A módosításod el lett mentve, azonban eltarthat egy darabig, amíg a térképen"
 " láthatóvá válik."
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:26
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
 #, javascript-format
 msgid "${ valueAndUnit } or less"
 msgstr "legfeljebb ${ valueAndUnit }"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:28
-#, javascript-format
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
 msgid "${ valueAndUnit } or more"
 msgstr "legalább ${ valueAndUnit }"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:30
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
 msgstr "kevesebb, mint ${ valueAndUnit }"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
-#, javascript-format
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
 msgid "greater than ${ valueAndUnit }"
 msgstr "több, mint ${ valueAndUnit }"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36
 msgid ""
 "This is a private parking facility, but public access is usually allowed."
-msgstr "Ez egy magánparkoló, de általában bárki használhatja."
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
 msgid "This is a public parking facility."
-msgstr "Ez egy nyilvános parkoló."
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
 msgid "You need a permit to park here."
-msgstr "Itt csak engedéllyel lehet parkolni."
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
 msgid "Only customers are allowed to park here."
-msgstr "Itt csak ügyfelek parkolhatnak."
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
 msgid "Only residents are allowed to park here."
-msgstr "Itt csak helyi lakosok parkolhatnak."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:207
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available."
 msgid_plural "${ capacityNumeric } parking lots available."
-msgstr[0] "${ capacityNumeric } parkolóhely van."
-msgstr[1] "${ capacityNumeric } parkolóhely áll rendelkezésre."
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:212
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
 msgid "Parking available (accessibility unknown)."
-msgstr "Parkolni lehet (a használati lehetőség ismeretlen)."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:213
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
 msgid "No accessible parking lots available."
-msgstr "Nincs akadálymentes parkolóhely."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:214
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:215
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
 msgid "No parking available."
-msgstr "Nem lehet parkolni."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:216
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available, but no accessible parking."
 msgid_plural ""
 "${ capacityNumeric } parking lots available, but no accessible parking."
-msgstr[0] "Van ${ capacityNumeric } parkolóhely, de nem akadálymentes."
-msgstr[1] "${ capacityNumeric } parkolóhely van, de egyik sem akadálymentes."
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:221
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
 msgid "Parking available, but no accessible parking."
-msgstr "Lehet parkolni, de nem akadálymentesen."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:222
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:236
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
 #, javascript-format
 msgid "${ disabledCapacityNumeric } accessible parking lot available."
 msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
-msgstr[0] "${ disabledCapacityNumeric } akadálymentes parkolóhely van."
-msgstr[1] "${ disabledCapacityNumeric } akadálymentes parkolóhely van."
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:227
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:228
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:229
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
 msgid "Accessible parking available."
-msgstr "Van akadálymentes parkolási lehetőség."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
 #, javascript-format
 msgid ""
 "${ disabledCapacityNumeric } accessible parking lot available (${ "
@@ -1651,27 +1641,4 @@ msgid_plural ""
 "${ disabledCapacityNumeric } accessible parking lots available (${ "
 "capacityNumeric } total)."
 msgstr[0] ""
-"${ disabledCapacityNumeric } akadálymentes parkolóhely van (összesen pedig "
-"${ capacityNumeric } db)."
 msgstr[1] ""
-"${ disabledCapacityNumeric } akadálymentes parkolóhely van (összesen pedig "
-"${ capacityNumeric } db)."
-
-#. translator: Root category
-#: src/lib/Categories.ts:111
-msgid "Culture"
-msgstr ""
-
-#: src/components/NodeToolbar/NodeHeader.tsx:144
-msgid "Part of"
-msgstr ""
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:202
-msgid ""
-"⚠️ OpenStreetMap has a <a "
-"href='https://community.openstreetmap.org/t/openstreetmap-org-currently-"
-"offline-operations-team-are-working-to-restore-15-december-2024-updated' "
-"target='_blank' rel='noopener noreferrer'>database problem</a> at the "
-"moment. If saving doesnʼt work, please check back later. Sorry for the "
-"inconvenience! Services are expected to be restored on Wednesday, Dec 16th."
-msgstr ""
