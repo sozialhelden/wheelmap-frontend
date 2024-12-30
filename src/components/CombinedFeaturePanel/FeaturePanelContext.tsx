@@ -142,7 +142,7 @@ export function FeaturePanelContextProvider(
           <p className="_title">{t`Loading further details…`}</p>
         </StyledLoadingDiv>
       )}
-      {(!anyLoading && !false) && children}
+      {children}
     </FeaturePanelContext.Provider>
   )
 }
