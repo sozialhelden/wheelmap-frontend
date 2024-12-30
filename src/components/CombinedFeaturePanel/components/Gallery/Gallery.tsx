@@ -129,7 +129,7 @@ export const Gallery: FC<{
   const handleOnCloseAutoFocus = (event: Event) => {
     event.preventDefault();
     document
-      .querySelector<HTMLAnchorElement>(`[data-image-id=${activeImage?._id}]`)
+      .querySelector<HTMLAnchorElement>(`[data-image-id="${activeImage?._id}"]`)
       ?.focus();
   };
 
