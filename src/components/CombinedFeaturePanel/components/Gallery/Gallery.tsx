@@ -98,7 +98,14 @@ export const Gallery: FC<{
     if (activeImageId) goTo(activeImageId);
   }, [images, activeImageId]);
 
-  // Reset the url when closing the dialog
+  // Reset the url when closing the dialog. This is not using react router on purpose.
+  // When using react-router it will re-render the whole FeaturePanel, because it's a
+  // new page. This introduces lag, and we want the dialog to open immediately after
+  // clicking on the image. This is temporary, the proper solution should be to use
+  // a catch-all router in the `[placeType]/[id]/index.tsx` and handle different
+  // nested-routes like image upload or fullscreen image there, without re-rendering
+  // the whole FeaturePanel.
+  // TODO: replace with catch-all route
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (
@@ -106,7 +113,7 @@ export const Gallery: FC<{
       activeImage &&
       window.location.pathname !== baseFeatureUrl
     ) {
-      router.push(baseFeatureUrl);
+      window.history.replaceState(null, document.title, baseFeatureUrl);
     }
   }, [isDialogOpen]);
 
@@ -118,9 +125,9 @@ export const Gallery: FC<{
     }
     const url = getDetailPageUrl(activeImage._id);
     if (url !== window.location.pathname) {
-      router.push(url, undefined, { shallow: true });
+      window.history.replaceState(null, document.title, url);
     }
-  }, [activeImage]);
+  }, [isDialogOpen, activeImage]);
 
   // The Dialog component can autofocus on its own, when using the Dialog.Trigger component.
   // But in this case, we want to focus the currently active image and not the one that actually
