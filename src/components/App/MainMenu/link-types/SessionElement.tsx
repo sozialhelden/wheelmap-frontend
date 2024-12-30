@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   DropdownMenu,
   Flex,
+  Popover,
   Skeleton,
   Text,
   Tooltip,
@@ -10,32 +12,48 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import { t } from "ttag";
 import MenuItemOrButton from "./MenuItemOrButton";
-import { IAutoLinkProps } from "./AutoLink";
+import type { IAutoLinkProps } from "./AutoLink";
+import Markdown from "../../../shared/Markdown";
 
 function AuthenticatedMenuContent() {
   const { data: session } = useSession();
   const username = session?.user?.name;
   const handleSignOut = React.useCallback(() => signOut(), []);
+  const signInNotice = t`
+    You’re signed in with OpenStreetMap.
+
+    Edits you make will be attributed to your OpenStreetMap account **${username}**.
+  `;
+
+  const popoverContent = (
+    <Box maxWidth={"60vw"}>
+      <Text as="p">
+        <Markdown>{signInNotice}</Markdown>
+      </Text>
+      <Button color="red" onClick={handleSignOut}>
+        {t`Sign out`}
+      </Button>
+    </Box>
+  );
 
   return (
     <Flex gap="2" align="center">
       {session?.user?.image && (
-        <Tooltip content={t`You’re signed in as ${username}.`}>
-          <img
-            src={session?.user.image}
-            alt={t`${username}'s avatar`}
-            style={{
-              maxWidth: "32px",
-              maxHeight: "32px",
-              borderRadius: "16px",
-              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-            }}
-          />
-        </Tooltip>
+        <Popover.Root>
+          <Popover.Trigger>
+            <img
+              src={session.user.image}
+              alt={t`Your avatar`}
+              width="32"
+              height="32"
+              style={{ borderRadius: "50%" }}
+            />
+          </Popover.Trigger>
+          <Popover.Content sideOffset={5} side="bottom" align="start">
+            {popoverContent}
+          </Popover.Content>
+        </Popover.Root>
       )}
-      <Button color="red" onClick={handleSignOut}>
-        {t`Sign out`}
-      </Button>
     </Flex>
   );
 }
