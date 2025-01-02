@@ -1,65 +1,85 @@
-import Head from 'next/head'
-import { useCallback } from 'react'
-import { t } from 'ttag'
-import SearchPanel from '../../components/SearchPanel/SearchPanel'
-import { useCurrentApp } from '../../lib/context/AppContext'
+import Head from "next/head";
+import { useCallback } from "react";
+import { t } from "ttag";
+import SearchPanel from "../../components/SearchPanel/SearchPanel";
+import { useAppContext } from "../../lib/context/AppContext";
 
-import { getProductTitle } from '../../lib/model/ac/ClientSideConfiguration'
-import { getAccessibilityFilterFrom } from '../../lib/model/ac/filterAccessibility'
+import { getProductTitle } from "../../lib/model/ac/ClientSideConfiguration";
+import { getAccessibilityFilterFrom } from "../../lib/model/ac/filterAccessibility";
 
-import { YesNoUnknown } from '../../lib/model/ac/Feature'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { useEnrichedSearchResults } from '../../components/SearchPanel/useEnrichedSearchResults'
-import { useMap } from '../../components/Map/useMap'
-import { getLayout } from '../../components/App/MapLayout'
+import { getLayout } from "../../components/App/MapLayout";
+import { useMap } from "../../components/Map/useMap";
+import { useEnrichedSearchResults } from "../../components/SearchPanel/useEnrichedSearchResults";
+import type { YesNoUnknown } from "../../lib/model/ac/Feature";
+import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 
 export default function Page() {
-  const router = useAppStateAwareRouter()
-  const accessibilityFilter = getAccessibilityFilterFrom(router.searchParams.wheelchair)
-  const toiletFilter = getAccessibilityFilterFrom(router.searchParams.toilet) as YesNoUnknown[]
+  const router = useAppStateAwareRouter();
+  const accessibilityFilter = getAccessibilityFilterFrom(
+    router.searchParams.wheelchair,
+  );
+  const toiletFilter = getAccessibilityFilterFrom(
+    router.searchParams.toilet,
+  ) as YesNoUnknown[];
   const {
-    category, q: searchQuery,
+    category,
+    q: searchQuery,
     lat: latFromUrl,
     lon: lonFromUrl,
-  } = router.searchParams
+  } = router.searchParams;
 
   const handleSearchQueryChange = useCallback(
     (newSearchQuery: string | undefined) => {
-      router.replace({
-        query: {
-          q: newSearchQuery && newSearchQuery.length > 0 ? newSearchQuery : null,
-          category: null,
-          toilet: null,
-          wheelchair: null,
+      router.replace(
+        {
+          query: {
+            q:
+              newSearchQuery && newSearchQuery.length > 0
+                ? newSearchQuery
+                : null,
+            category: null,
+            toilet: null,
+            wheelchair: null,
+          },
         },
-      }, undefined, { shallow: true })
+        undefined,
+        { shallow: true },
+      );
     },
     [router],
-  )
+  );
 
-  const handleSearchPanelClick = useCallback(() => {}, [])
+  const handleSearchPanelClick = useCallback(() => {}, []);
 
-  const { map: canvasMap } = useMap()
+  const { map: canvasMap } = useMap();
   const closeSearchPanel = useCallback(() => {
-    router.push({
-      pathname: '/',
-    }, undefined, { shallow: true })
-    canvasMap?.getCanvas().focus()
-  }, [canvasMap, router])
+    router.push(
+      {
+        pathname: "/",
+      },
+      undefined,
+      { shallow: true },
+    );
+    canvasMap?.getCanvas().focus();
+  }, [canvasMap, router]);
 
-  const { clientSideConfiguration } = useCurrentApp()
+  const { clientSideConfiguration } = useAppContext();
 
-  let searchTitle = ''
+  let searchTitle = "";
   if (searchQuery) {
     // translator: Search results window title
-    searchTitle = t`Search results`
+    searchTitle = t`Search results`;
   }
 
-  const { map } = useMap()
+  const { map } = useMap();
 
-  const lat = map?.getCenter().lat || latFromUrl
-  const lon = map?.getCenter().lng || lonFromUrl
-  const { searchResults, searchError, isSearching } = useEnrichedSearchResults(searchQuery, lat, lon)
+  const lat = map?.getCenter().lat || latFromUrl;
+  const lon = map?.getCenter().lng || lonFromUrl;
+  const { searchResults, searchError, isSearching } = useEnrichedSearchResults(
+    searchQuery,
+    lat,
+    lon,
+  );
 
   return (
     <>
@@ -87,7 +107,7 @@ export default function Page() {
         isSearching={isSearching}
       />
     </>
-  )
+  );
 }
 
-Page.getLayout = getLayout
+Page.getLayout = getLayout;

@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
 
-export const HostnameContext = React.createContext<string | null>(null)
+export const HostnameContext = React.createContext<string>("");
+HostnameContext.displayName = "HostnameContext";
 
-HostnameContext.displayName = 'HostnameContext'
+export default function useHostnameContext() {
+  return React.useContext(HostnameContext);
+}
 
-export default function useHostname() {
-  return React.useContext(HostnameContext)
+export function HostnameContextProvider({ hostname, children }) {
+  return (
+    <HostnameContext.Provider value={hostname}>
+      {children}
+    </HostnameContext.Provider>
+  );
 }
