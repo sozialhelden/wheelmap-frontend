@@ -51,7 +51,6 @@ export const FeatureImageUpload: FC<{
   isUploadDialogOpen?: boolean;
 }> = ({ feature, isUploadDialogOpen }) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
-  const router = useRouter();
 
   const [step, setStep] = useState<number>(1);
   const [image, setImage] = useState<ImageWithPreview>();
@@ -68,7 +67,7 @@ export const FeatureImageUpload: FC<{
   }, []);
   const close = useCallback(() => {
     setIsDialogOpen(false);
-  }, []);
+  }, [step]);
   const nextStep = useCallback(() => {
     if (step < 4) setStep(step + 1);
   }, [step]);
@@ -76,6 +75,7 @@ export const FeatureImageUpload: FC<{
     if (step > 1) setStep(step - 1);
   }, [step]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const handleOnClickAddImageButton: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
@@ -99,6 +99,14 @@ export const FeatureImageUpload: FC<{
     event.preventDefault();
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  useEffect(() => {
+    if (!isDialogOpen && step === 4) {
+      setStep(1);
+      setImage(undefined);
+    }
+  }, [isDialogOpen]);
+
   useEffect(() => {
     if (image) {
       window.addEventListener("beforeunload", confirmWindowUnload);
@@ -110,11 +118,18 @@ export const FeatureImageUpload: FC<{
     };
   }, [image, confirmWindowUnload]);
 
-  // Reset the url when closing the dialog
+  // Reset the url when closing the dialog. This is not using react router on purpose.
+  // When using react-router it will re-render the whole FeaturePanel, because it's a
+  // new page. This introduces lag, and we want the dialog to open immediately after
+  // clicking on the image. This is temporary, the proper solution should be to use
+  // a catch-all router in the `[placeType]/[id]/index.tsx` and handle different
+  // nested-routes like image upload or fullscreen image there, without re-rendering
+  // the whole FeaturePanel.
+  // TODO: replace with catch-all route
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!isDialogOpen && window.location.pathname !== baseFeatureUrl) {
-      router.push(baseFeatureUrl, undefined, { shallow: true });
+      window.history.replaceState(null, document.title, baseFeatureUrl);
     }
   }, [isDialogOpen]);
 
@@ -122,7 +137,7 @@ export const FeatureImageUpload: FC<{
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (isDialogOpen && window.location.pathname !== baseUploadUrl) {
-      router.push(baseUploadUrl, undefined, { shallow: true });
+      window.history.replaceState(null, document.title, baseUploadUrl);
     }
   }, [isDialogOpen]);
 
