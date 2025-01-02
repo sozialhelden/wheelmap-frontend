@@ -5,12 +5,11 @@ import {
   createContext,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { t } from "ttag";
-import type { AccessibilityCloudImage } from "../../../../lib/model/ac/Feature";
-import { useAppStateAwareRouter } from "../../../../lib/util/useAppStateAwareRouter";
+import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import { GalleryFullscreenItem } from "./GalleryFullscreenItem";
 import { GalleryGrid } from "./GalleryGrid";
