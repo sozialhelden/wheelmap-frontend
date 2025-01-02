@@ -1,11 +1,11 @@
 import React from "react";
-import { useCurrentApp } from "../../../lib/context/AppContext";
-import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
+import { useAppContext } from "../../../lib/context/AppContext";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
+import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { useWindowSize } from "../../../lib/util/useViewportSize";
 import {
-  translateAndInterpolateAppLink,
   type TranslatedAppLink,
+  translateAndInterpolateAppLink,
 } from "./translateAndInterpolateAppLink";
 
 function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
@@ -23,7 +23,7 @@ export function useAppLinks() {
   const isBigViewport = windowSize.width >= 1024;
 
   const { data: joinedMappingEvent } = useCurrentMappingEvent();
-  const app = useCurrentApp();
+  const app = useAppContext();
   const appLinks = app.related?.appLinks;
   const uniqueSurveyId = useUniqueSurveyId();
   const translatedAppLinks = React.useMemo(
