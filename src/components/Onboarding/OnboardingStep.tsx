@@ -8,7 +8,16 @@ import {
 import Icon from "../shared/Icon";
 import VectorImage from "../shared/VectorImage";
 import { selectHeaderMarkdownHTML, selectProductName } from "./language";
-import { Box, Button, Card, Dialog, Flex, Grid, Text } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
 import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { t } from "ttag";
 
@@ -55,12 +64,19 @@ export const OnboardingStep: React.FC<{
           dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
         />
       )}
-      <Grid gap="2" columns={{ initial: "1", md: "2" }} width="auto">
+      <Grid
+        gap="2"
+        columns={{ initial: "1", md: "2" }}
+        width="auto"
+        /* biome-ignore lint/a11y/useSemanticElements: <explanation> */
+        role="list"
+      >
         <AccessibilityCard value="yes" />
         <AccessibilityCard value="limited" />
         <AccessibilityCard value="no" />
         <AccessibilityCard value="unknown" />
       </Grid>
+
       <Flex gap="3" mt="4" justify="end">
         <Dialog.Close>
           <Button
@@ -78,15 +94,18 @@ export const OnboardingStep: React.FC<{
 };
 function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const { value } = props;
-
+  const name = accessibilityName(value);
   // translator: Shown on the onboarding screen. To find it, click the logo at the top.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
 
   return (
-    <Card>
+    // biome-ignore lint/a11y/useSemanticElements: <explanation>
+    <Card role="listitem">
       <Flex gap="3" align="start" direction="row">
         <Box>
           <Icon
+            ariaLabel={t`${name} marker`}
+            ariaDescribedBy={`${value}-marker-description`}
             accessibility={value}
             category={null}
             isMainCategory
@@ -96,14 +115,18 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
             centered
           />
         </Box>
-        <Box>
-          <Text as="div" weight="bold">
-            {accessibilityName(value)}
-          </Text>
-          <Text as="div" color="gray">
-            {accessibilityDescription(value) ||
-              unknownAccessibilityIncentiveText}
-          </Text>
+        <Box asChild>
+          <figcaption id={`${value}-marker-description`}>
+            {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+            <Text as="p" weight="bold" role="term">
+              {name}
+            </Text>
+            {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+            <Text as="p" color="gray" role="definition">
+              {accessibilityDescription(value) ||
+                unknownAccessibilityIncentiveText}
+            </Text>
+          </figcaption>
         </Box>
       </Flex>
     </Card>

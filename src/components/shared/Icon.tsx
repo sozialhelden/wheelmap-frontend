@@ -1,13 +1,13 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { YesNoLimitedUnknown } from '../../lib/model/ac/Feature'
-import colors from '../../lib/util/colors'
-import * as categoryIcons from '../icons/categories'
-import * as mainCategoryIcons from '../icons/mainCategories'
-import * as markers from '../icons/markers'
-import { log } from '../../lib/util/logger'
+import * as React from "react";
+import styled from "styled-components";
+import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import colors from "../../lib/util/colors";
+import * as categoryIcons from "../icons/categories";
+import * as mainCategoryIcons from "../icons/mainCategories";
+import * as markers from "../icons/markers";
+import { log } from "../../lib/util/logger";
 
-type Size = 'big' | 'medium' | 'small'
+type Size = "big" | "medium" | "small";
 
 type Props = {
   accessibility?: YesNoLimitedUnknown | null;
@@ -23,14 +23,17 @@ type Props = {
   backgroundColor?: string | null;
   children?: React.ReactNode | null;
   onClick?: () => void;
-}
+  ariaLabel?: string;
+  ariaRole?: string;
+  ariaDescribedBy?: string;
+};
 
 function width(size: Size) {
   return {
     big: 60,
     medium: 40,
     small: 25,
-  }[size]
+  }[size];
 }
 
 function fontSize(size: Size) {
@@ -38,15 +41,21 @@ function fontSize(size: Size) {
     big: 32,
     medium: 24,
     small: 14,
-  }[size]
+  }[size];
 }
 
 function Figure(props: Partial<Props>) {
   return (
-    <figure className={props.className} onClick={props.onClick}>
+    <figure
+      aria-label={props.ariaLabel}
+      role={props.ariaRole}
+      aria-describedby={props.ariaDescribedBy}
+      className={props.className}
+      onClick={props.onClick}
+    >
       {props.children}
     </figure>
-  )
+  );
 }
 
 export const StyledIconContainer = styled(Figure)`
@@ -65,9 +74,10 @@ export const StyledIconContainer = styled(Figure)`
   > .foreground {
     z-index: 300;
     font-size: ${(props) => fontSize(props.size)}px;
-    color: ${(props) => (props.accessibility
-    ? colors.markers.foreground[props.accessibility]
-    : props.foregroundColor || '#496394')};
+    color: ${(props) =>
+      props.accessibility
+        ? colors.markers.foreground[props.accessibility]
+        : props.foregroundColor || "#496394"};
   } 
 
   > small {
@@ -77,8 +87,8 @@ export const StyledIconContainer = styled(Figure)`
     font-size: 8px;
   }
 
-  ${(props) => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')}
-  ${(props) => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : '')}
+  ${(props) => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : "")}
+  ${(props) => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : "")}
 
   svg {
     &.background {
@@ -93,9 +103,10 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${(props) => (props.accessibility
-    ? colors.markers.background[props.accessibility]
-    : props.backgroundColor || '#FFF')};
+        fill: ${(props) =>
+          props.accessibility
+            ? colors.markers.background[props.accessibility]
+            : props.backgroundColor || "#FFF"};
       }
     }
 
@@ -109,13 +120,14 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${(props) => (props.accessibility
-    ? colors.markers.foreground[props.accessibility]
-    : props.foregroundColor || '#496394')};
+        fill: ${(props) =>
+          props.accessibility
+            ? colors.markers.foreground[props.accessibility]
+            : props.foregroundColor || "#496394"};
       }
     }
   }
-`
+`;
 
 // @TODO Rename it to CategoryIcon
 export default function Icon({
@@ -130,28 +142,36 @@ export default function Icon({
   withArrow,
   shadowed,
   ariaHidden,
+  ariaDescribedBy,
   centered,
   onClick,
+  ariaLabel,
+  ariaRole,
 }: Props) {
-  let iconName = category
+  let iconName = category;
 
-  if (iconName === '2nd_hand') {
-    iconName = 'second_hand'
+  if (iconName === "2nd_hand") {
+    iconName = "second_hand";
   }
 
-  const icons = isMainCategory ? mainCategoryIcons : categoryIcons
-  const CategoryIconComponent = icons[iconName || 'undefined'] || icons.undefined
-  const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`]
+  const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
+  const CategoryIconComponent =
+    icons[iconName || "undefined"] || icons.undefined;
+  const MarkerComponent =
+    markers[`${String(accessibility)}${withArrow ? "With" : "Without"}Arrow`];
 
-  if (typeof CategoryIconComponent === 'object') {
+  if (typeof CategoryIconComponent === "object") {
     // eslint-disable-next-line no-console
     log.log(
-      'Found a CategoryIconComponent that was an object, but should not be.',
-    )
+      "Found a CategoryIconComponent that was an object, but should not be.",
+    );
   }
 
   return (
     <StyledIconContainer
+      ariaRole={ariaRole}
+      ariaLabel={ariaLabel}
+      ariaDescribedBy={ariaDescribedBy}
       size={size}
       className={className}
       aria-hidden={ariaHidden}
@@ -169,7 +189,7 @@ export default function Icon({
         <CategoryIconComponent className="icon" />
       ) : null}
     </StyledIconContainer>
-  )
+  );
 }
 
-StyledIconContainer.displayName = 'StyledIconContainer'
+StyledIconContainer.displayName = "StyledIconContainer";

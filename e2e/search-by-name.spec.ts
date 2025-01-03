@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 test('search by name', async ({ page, browserName }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Okay, let’s go!' }).click();
-  await page.getByRole('button', { name: 'Continue without location' }).click();
-  await page.getByRole('button', { name: 'Skip' }).click();
+  await page.getByRole('button', { name: 'Continue without location access' }).click();
+  await page.getByRole('button', { name: 'Let’s go!' }).click();
   await expect(page.getByRole('dialog')).not.toBeVisible();
 
   if (test.info().project.name.match(/mobile/i)) {

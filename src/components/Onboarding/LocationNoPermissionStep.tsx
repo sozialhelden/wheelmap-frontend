@@ -21,7 +21,7 @@ export const LocationNoPermissionStep: FC<{
         )}
       </StyledMarkdown>
       <Flex gap="3" mt="4" justify="end">
-        <Button size="3" onClick={() => onSubmit()}>{t`Letʼs go!`}</Button>
+        <Button size="3" onClick={() => onSubmit()}>{t`Let’s go!`}</Button>
       </Flex>
     </Box>
   );
