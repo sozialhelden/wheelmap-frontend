@@ -14,7 +14,8 @@ export default function LogoHomeLink({
         <VectorImage
           className="logo"
           svg={branding?.vectorLogoSVG}
-          aria-label={productName}
+          aria-label={t`${productName} logo`}
+          role="banner"
           maxHeight="30px"
           maxWidth="150px"
           hasShadow={false}

@@ -43,9 +43,11 @@ export default function MainMenuLinks() {
             aria-label={isOpen ? t`Close menu` : t`Show menu`}
           >
             {isOpen ? (
-              <Cross2Icon width="24" height="24" />
+              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
+              <Cross2Icon width="24" height="24" role="none" />
             ) : (
-              <HamburgerMenuIcon width="24" height="24" />
+              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
+              <HamburgerMenuIcon width="24" height="24" role="none" />
             )}
           </Button>
         </DropdownMenu.Trigger>

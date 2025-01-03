@@ -46,7 +46,8 @@ export default function MainToolbar(props: Props) {
 
   return (
     <Theme radius="none">
-      <StyledBar variant="surface">
+      {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+      <StyledBar variant="surface" role="navigation">
         <Inset>
           <Theme radius={radius}>
             <Flex justify={"between"} align="center" p="2">

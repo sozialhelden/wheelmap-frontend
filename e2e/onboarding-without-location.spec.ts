@@ -1,4 +1,4 @@
-import { test, expect } from './a11y/axe-test';
+import { test, expect } from './lib/axe-test';
 
 test('has title', async ({ page }) => {
   await page.goto('/');
