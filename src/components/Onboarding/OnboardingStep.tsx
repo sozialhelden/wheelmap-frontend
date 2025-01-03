@@ -7,11 +7,7 @@ import {
 } from "../../lib/model/accessibility/accessibilityStrings";
 import Icon from "../shared/Icon";
 import VectorImage from "../shared/VectorImage";
-import {
-  selectHeaderMarkdownHTML,
-  selectProductName,
-  startButtonCaption,
-} from "./language";
+import { selectHeaderMarkdownHTML, selectProductName } from "./language";
 import { Box, Button, Card, Dialog, Flex, Grid, Text } from "@radix-ui/themes";
 import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { t } from "ttag";
@@ -36,13 +32,14 @@ export const OnboardingStep: React.FC<{
   }, [callToActionButton]);
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`
+  const startButtonCaption = t`Okay, let’s go!`;
 
   return (
     <>
       <VectorImage
         className="logo"
         svg={clientSideConfiguration?.branding?.vectorLogoSVG}
+        role="banner"
         aria-label={selectProductName(clientSideConfiguration)}
         maxHeight="50px"
         maxWidth="200px"
@@ -83,25 +80,32 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const { value } = props;
 
   // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`
+  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
 
-  return <Card>
-    <Flex gap="3" align="start" direction="row">
-      <Box>
-        <Icon
-          accessibility={value}
-          category={null}
-          isMainCategory
-          size="big"
-          withArrow
-          shadowed
-          centered />
-      </Box>
-      <Box>
-        <Text as="div" weight="bold">{accessibilityName(value)}</Text>
-        <Text as="div" color="gray">{accessibilityDescription(value) || unknownAccessibilityIncentiveText}</Text>
-      </Box>
-    </Flex>
-  </Card>;
+  return (
+    <Card>
+      <Flex gap="3" align="start" direction="row">
+        <Box>
+          <Icon
+            accessibility={value}
+            category={null}
+            isMainCategory
+            size="big"
+            withArrow
+            shadowed
+            centered
+          />
+        </Box>
+        <Box>
+          <Text as="div" weight="bold">
+            {accessibilityName(value)}
+          </Text>
+          <Text as="div" color="gray">
+            {accessibilityDescription(value) ||
+              unknownAccessibilityIncentiveText}
+          </Text>
+        </Box>
+      </Flex>
+    </Card>
+  );
 }
-
