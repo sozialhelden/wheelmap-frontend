@@ -9,13 +9,15 @@ import dynamic from 'next/dynamic'
 import { AppContext } from '../../lib/context/AppContext'
 import LoadableMapView from '../Map/LoadableMapView'
 import HeadMetaTags from './HeadMetaTags'
-import MainMenu from './MainMenu/MainMenu'
+import MainToolbar from './MainMenu/MainToolbar'
 import ErrorBoundary from '../shared/ErrorBoundary'
 import { GlobalMapContextProvider } from '../Map/GlobalMapContext'
 import { MapFilterContextProvider } from '../Map/filter/MapFilterContext'
 import { isFirstStart } from '../../lib/util/savedState'
 import { Theme, ThemePanel } from '@radix-ui/themes'
 import { ThemeProvider } from 'next-themes'
+import { useExpertMode } from './MainMenu/useExpertMode'
+import { HotkeyConfig, useHotkeys } from '@blueprintjs/core'
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -50,34 +52,36 @@ export default function MapLayout({
 }) {
   const app = React.useContext(AppContext)
   const { clientSideConfiguration } = app || {}
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const firstStart = isFirstStart()
-  const toggleMainMenu = React.useCallback((newValue?: boolean) => {
-    setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen)
-  }, [isMenuOpen])
+  const router = useRouter()
+  const isOnboardingVisible = firstStart || router.pathname === '/onboarding'
 
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 })
 
-  const router = useRouter()
-  const { pathname } = router
-  React.useEffect(() => {
-    setIsMenuOpen(false)
-  }, [pathname])
+  const { toggleExpertMode } = useExpertMode()
+  const expertModeHotkeys: HotkeyConfig[] = React.useMemo(() => [
+    {
+      combo: 'mod+e',
+      global: true,
+      label: 'Toggle expert mode',
+      onKeyDown: toggleExpertMode,
+      allowInInput: false,
+    },
+  ], [toggleExpertMode]);
+  useHotkeys(expertModeHotkeys);
 
   return (
     <ThemeProvider attribute="class">
       <Theme accentColor="blue" grayColor="sand" radius="full" scaling="100%">
-        <ThemePanel />
+        <ThemePanel defaultOpen={false} />
         <ErrorBoundary>
           <HeadMetaTags />
           <MapFilterContextProvider>
             <GlobalMapContextProvider>
-              <MainMenu
-                onToggle={toggleMainMenu}
-                isOpen={isMenuOpen}
+              {clientSideConfiguration && <MainToolbar
                 clientSideConfiguration={clientSideConfiguration}
-              />
-              {firstStart && <Onboarding />}
+              />}
+              {isOnboardingVisible && <Onboarding />}
               <main
                 style={{ height: '100%' }}
                 ref={containerRef}

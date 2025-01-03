@@ -164,7 +164,7 @@ export function filterLayers(
       layout: omit(localizedLayer.layout, 'line-z-offset'),
       paint: omit(localizedLayer.paint, 'line-occlusion-opacity'),
     }
-    console.log(enhancedLayer)
+    
     const accessibilityCloudLayer = { ...enhancedLayer, id: enhancedLayer.id + '-ac', source: 'ac:PlaceInfo', 'source-layer': 'place-infos' };
 
     if (layer.id.startsWith('osm-selected')) {
