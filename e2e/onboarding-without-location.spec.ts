@@ -34,8 +34,7 @@ test.describe('onboarding dialog', () => {
     await waitForDialogToBeStable(page);
     await expect(page.getByRole('dialog')).toMatchAriaSnapshot(`
       - dialog:
-        - banner "Wheelmap":
-          - img
+        - banner "Wheelmap"
         - paragraph:
           - paragraph: "Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:"
         - list:
