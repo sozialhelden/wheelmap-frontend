@@ -107,7 +107,7 @@ export const ImageUploadCriteriaList: FC = () => {
                 </CriteriaListHeading>
               </Flex>
               <Text color="gray">
-                {t`By uploading this image, I hereby publish it in the public domain as renounce copyright protection: `}
+                {t`By uploading this image, I hereby publish it in the public domain and renounce copyright protection: `}
                 <Flex display="inline-flex" align="center" gap="1">
                   <a
                     href="https://creativecommons.org/publicdomain/zero/1.0/"
