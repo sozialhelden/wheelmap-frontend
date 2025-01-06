@@ -71,9 +71,9 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
+  webServer: process.env.CI ? undefined : {
     command: 'npm run dev',
     url: process.env.TEST_DEPLOYMENT_BASE_URL,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 });
