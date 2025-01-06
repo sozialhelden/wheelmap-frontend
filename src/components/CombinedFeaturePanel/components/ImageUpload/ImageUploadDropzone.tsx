@@ -23,19 +23,17 @@ const Dropzone = styled.div<{ $isDragActive?: boolean }>`
         border: none;
         outline: none;
     }
-
-    .image-upload-dropzone__text--on-desktop {
-        @media (hover: none) {
-            display: none;
-        }
-    }
-
-    .image-upload-dropzone__text--on-mobile {
+`;
+const TextForDesktop = styled(Text)`
+    @media (hover: none) {
         display: none;
-        
-        @media (hover: none) {
-            display: block;
-        }
+    }
+`;
+const TextForMobile = styled(Text)`
+    display: none;
+
+    @media (hover: none) {
+        display: block;
     }
 `;
 
@@ -68,19 +66,15 @@ export const ImageUploadDropzone: FC = () => {
     <>
       <Dropzone {...getRootProps()} $isDragActive={isDragActive}>
         <input {...getInputProps()} />
-        <Text as="p" className="image-upload-dropzone__text--on-desktop">
+        <TextForDesktop as="p" aria-hidden>
           <Strong>{t`Drag an image here to select it`}</Strong>
-        </Text>
-        <Text
-          as="p"
-          color="gray"
-          className="image-upload-dropzone__text--on-desktop"
-        >
+        </TextForDesktop>
+        <TextForDesktop as="p" color="gray" aria-hidden>
           {t`or click the select button.`}
-        </Text>
-        <Text as="p" className="image-upload-dropzone__text--on-mobile">
+        </TextForDesktop>
+        <TextForMobile as="p">
           <Strong>{t`Use the following button to select an image:`}</Strong>
-        </Text>
+        </TextForMobile>
         <Button variant="soft" mt="2">{t`Select image`}</Button>
       </Dropzone>
 

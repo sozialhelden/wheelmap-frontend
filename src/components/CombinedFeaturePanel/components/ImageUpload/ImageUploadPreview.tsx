@@ -21,16 +21,15 @@ import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 const uncachedUrl =
   process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
-const ImagePreview = styled.div`
+const PreviewWrapper = styled.div`
   position: relative;
-
-  .image-upload-review__preview-image {
+`;
+const PreviewImage = styled.img`
     width: 100%;
     height: 100%;
-    object-fit: cover;
-  }
-  
-  .image-upload-review__overlay {
+    object-fit: contain;
+  `;
+const PreviewOverlay = styled(Box)`
     position: absolute;
     inset: 0;
     z-index: 1;
@@ -42,7 +41,6 @@ const ImagePreview = styled.div`
     padding: 4rem;
     flex-direction: column;
     gap: .5rem;
-  }
 `;
 
 export const ImageUploadPreview: FC<{
@@ -81,17 +79,17 @@ export const ImageUploadPreview: FC<{
 
   return (
     <>
-      <ImagePreview>
+      <PreviewWrapper>
         {isUploading && (
-          <Box className="image-upload-review__overlay">
+          <PreviewOverlay>
             <Spinner size="3" />
             <Text>
               <Strong>{t`Uploading image, please wait...`}</Strong>
             </Text>
-          </Box>
+          </PreviewOverlay>
         )}
         {error && (
-          <Box className="image-upload-review__overlay">
+          <PreviewOverlay>
             <ExclamationTriangleIcon color="red" width="40" height="40" />
             <Text>
               <Strong>{t`There was an error uploading your image!`}</Strong>
@@ -100,13 +98,13 @@ export const ImageUploadPreview: FC<{
             <Text color="gray" align="center" mt="6">
               {error.toString()}
             </Text>
-          </Box>
+          </PreviewOverlay>
         )}
         <Card>
           <Inset>
             <AspectRatio ratio={4 / 3}>
               {image && (
-                <img
+                <PreviewImage
                   className="image-upload-review__preview-image"
                   src={image.preview.toString()}
                   onLoad={cleanUp}
@@ -117,7 +115,7 @@ export const ImageUploadPreview: FC<{
             </AspectRatio>
           </Inset>
         </Card>
-      </ImagePreview>
+      </PreviewWrapper>
       <Flex mt="4" justify="between" wrap="wrap" gap="3">
         <Button
           color="gray"
