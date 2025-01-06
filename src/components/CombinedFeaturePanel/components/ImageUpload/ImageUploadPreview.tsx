@@ -33,7 +33,7 @@ const PreviewOverlay = styled(Box)`
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--gray-surface);
     backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
@@ -80,27 +80,27 @@ export const ImageUploadPreview: FC<{
   return (
     <>
       <PreviewWrapper>
-        {isUploading && (
-          <PreviewOverlay>
-            <Spinner size="3" />
-            <Text>
-              <Strong>{t`Uploading image, please wait...`}</Strong>
-            </Text>
-          </PreviewOverlay>
-        )}
-        {error && (
-          <PreviewOverlay>
-            <ExclamationTriangleIcon color="red" width="40" height="40" />
-            <Text>
-              <Strong>{t`There was an error uploading your image!`}</Strong>
-            </Text>
-            <Text>{t`Please try again later.`}</Text>
-            <Text color="gray" align="center" mt="6">
-              {error.toString()}
-            </Text>
-          </PreviewOverlay>
-        )}
         <Card>
+          {isUploading && (
+            <PreviewOverlay>
+              <Spinner size="3" />
+              <Text>
+                <Strong>{t`Uploading image, please wait...`}</Strong>
+              </Text>
+            </PreviewOverlay>
+          )}
+          {error && (
+            <PreviewOverlay>
+              <ExclamationTriangleIcon color="red" width="40" height="40" />
+              <Text>
+                <Strong>{t`There was an error uploading your image!`}</Strong>
+              </Text>
+              <Text>{t`Please try again later.`}</Text>
+              <Text color="gray" align="center" mt="6">
+                {error.toString()}
+              </Text>
+            </PreviewOverlay>
+          )}
           <Inset>
             <AspectRatio ratio={4 / 3}>
               {image && (
