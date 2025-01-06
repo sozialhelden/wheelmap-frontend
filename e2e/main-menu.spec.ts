@@ -1,18 +1,9 @@
 import { test, expect } from './lib/axe-test';
+import baseURL from './lib/base-url';
 import { skipOnDesktops, skipOnMobiles } from './lib/device-type';
 import { skipOnboarding } from './skipOnboarding';
 
 test.beforeEach(async ({ page }) => {
-  if (!process.env.CI_TEST_DEPLOYMENT_BASE_URL) {
-    throw new Error('Please set the CI_TEST_DEPLOYMENT_BASE_URL environment variable before testing.');
-  }
-  const baseURLFromEnvVariable = new URL(process.env.CI_TEST_DEPLOYMENT_BASE_URL);
-  baseURLFromEnvVariable.hash = '';
-  baseURLFromEnvVariable.search = '';
-  const baseURL = baseURLFromEnvVariable.toString();
-
-  console.log('Testing against base URL', baseURL, 'from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value:', process.env.CI_TEST_DEPLOYMENT_BASE_URL, ')');
-
   // Go to the starting url before each test.
   await page.goto(baseURL);
   await skipOnboarding(page);

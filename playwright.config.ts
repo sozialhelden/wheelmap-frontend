@@ -6,7 +6,6 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-import url from 'url';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 if (!process.env.CI_TEST_DEPLOYMENT_BASE_URL) {
@@ -36,7 +35,10 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    /*
+      Base URL to use in actions like `await page.goto('/')`.
+    */
+    // TODO: Beware, this does not work in CI yet for yet unknown reasons.
     baseURL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
