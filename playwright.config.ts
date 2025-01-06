@@ -17,6 +17,8 @@ baseURLFromEnvVariable.hash = '';
 baseURLFromEnvVariable.search = '';
 const baseURL = baseURLFromEnvVariable.toString();
 
+console.log('Testing against base URL', baseURL, 'from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value:', process.env.CI_TEST_DEPLOYMENT_BASE_URL, ')');
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
