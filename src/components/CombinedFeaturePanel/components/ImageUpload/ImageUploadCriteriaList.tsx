@@ -14,37 +14,34 @@ import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
-const ImageCriteriaList = styled.ul`
+const CriteriaList = styled.ul`
     list-style: none;
     padding: 0;
+`;
 
-    .image-criteria-list__list-item {
-      img { 
-        max-width: 100%;
-      }
-    }
-    
-    .image-criteria-list__icon {
-      fill: var(--green-a10);
-      stroke: var(--green-a10);
-      width: 1.5rem;
-      height: 1.5rem;
-      flex-shrink: 0;
-    }
+const CriteriaListItem = styled.li`
+  img { max-width: 100%; }
+`;
 
-    .image-criteria-list__heading {
-      margin: 0;
-      font-size: 1rem;
-    }
-    
-    .image-criteria-list__pictogram {
-      margin: 0;
-      
-      & > figcaption {
-        text-align: center;
-      }
-    }
-  `;
+const CriteriaListIcon = styled(CheckIcon)`
+  fill: var(--green-a10);
+  stroke: var(--green-a10);
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+`;
+
+const CriteriaListPictogram = styled.figure`
+  margin: 0;
+  & > figcaption {
+    text-align: center;
+  }
+`;
+
+const CriteriaListHeading = styled.header`
+  margin: 0;
+  font-size: 1rem;
+`;
 
 export const ImageUploadCriteriaList: FC = () => {
   const { nextStep, close } = useContext(ImageUploadContext);
@@ -56,21 +53,21 @@ export const ImageUploadCriteriaList: FC = () => {
       </Text>
 
       <Flex asChild direction="column" gap="2">
-        <ImageCriteriaList>
+        <CriteriaList>
           <Card asChild>
-            <li className="image-criteria-list__list-item">
+            <CriteriaListItem>
               <Flex gap="2" align="center">
-                <CheckIcon className="image-criteria-list__icon" aria-hidden />
-                <h3 className="image-criteria-list__heading">
+                <CriteriaListIcon aria-hidden />
+                <CriteriaListHeading>
                   {t`It contains useful information on accessibility.`}
-                </h3>
+                </CriteriaListHeading>
               </Flex>
               <Box>
                 <Text color="gray">
                   {t`For example by showing entrances, toilets or a map of the site.`}
                 </Text>
                 <Grid columns="3" gap="2" mt="3" aria-hidden>
-                  <figure class="image-criteria-list__pictogram">
+                  <CriteriaListPictogram>
                     <img
                       src="/images/photo-upload/entrancePlaceholder.png"
                       alt="A pictogram of an entrance"
@@ -78,8 +75,8 @@ export const ImageUploadCriteriaList: FC = () => {
                     <Text color="gray" asChild>
                       <figcaption>{t`Entrance`}</figcaption>
                     </Text>
-                  </figure>
-                  <figure class="image-criteria-list__pictogram">
+                  </CriteriaListPictogram>
+                  <CriteriaListPictogram>
                     <img
                       src="/images/photo-upload/toiletPlaceholder.png"
                       alt="A pictogram of a toilet"
@@ -87,8 +84,8 @@ export const ImageUploadCriteriaList: FC = () => {
                     <Text color="gray" asChild>
                       <figcaption>{t`Toilet`}</figcaption>
                     </Text>
-                  </figure>
-                  <figure class="image-criteria-list__pictogram">
+                  </CriteriaListPictogram>
+                  <CriteriaListPictogram>
                     <img
                       src="/images/photo-upload/sitemapPlaceholder.png"
                       alt="A topdown view showing navigational information"
@@ -96,18 +93,18 @@ export const ImageUploadCriteriaList: FC = () => {
                     <Text color="gray" asChild>
                       <figcaption>{t`Site map`}</figcaption>
                     </Text>
-                  </figure>
+                  </CriteriaListPictogram>
                 </Grid>
               </Box>
-            </li>
+            </CriteriaListItem>
           </Card>
           <Card asChild>
-            <li className="image-criteria-list__list-item">
+            <CriteriaListItem className="image-criteria-list__list-item">
               <Flex gap="2">
-                <CheckIcon className="image-criteria-list__icon" aria-hidden />
-                <h3 className="image-criteria-list__heading">
+                <CriteriaListIcon aria-hidden />
+                <CriteriaListHeading>
                   {t`It was taken by me.`}
-                </h3>
+                </CriteriaListHeading>
               </Flex>
               <Text color="gray">
                 {t`By uploading this image, I hereby publish it in the public domain as renounce copyright protection: `}
@@ -126,19 +123,19 @@ export const ImageUploadCriteriaList: FC = () => {
                   {t`This link opens in a new window.`}
                 </VisuallyHidden>
               </Text>
-            </li>
+            </CriteriaListItem>
           </Card>
           <Card asChild>
-            <li className="image-criteria-list__list-item">
+            <CriteriaListItem>
               <Flex gap="2">
-                <CheckIcon className="image-criteria-list__icon" aria-hidden />
-                <h3 className="image-criteria-list__heading">
+                <CriteriaListIcon aria-hidden />
+                <CriteriaListHeading>
                   {t`It doesn't show identifiable persons.`}
-                </h3>
+                </CriteriaListHeading>
               </Flex>
-            </li>
+            </CriteriaListItem>
           </Card>
-        </ImageCriteriaList>
+        </CriteriaList>
       </Flex>
 
       <Flex justify="between">
