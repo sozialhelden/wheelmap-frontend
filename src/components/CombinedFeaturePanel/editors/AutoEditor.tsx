@@ -1,3 +1,6 @@
+import { getTag } from "@sozialhelden/ietf-language-tags";
+import { franc } from "franc";
+import registry from "language-subtag-registry/data/json";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
@@ -5,6 +8,7 @@ import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { t } from "ttag";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { languageTagsForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { useEnvContext } from "../../../lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "../../../lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
@@ -62,15 +66,18 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
   const { tagName, osmType, osmId } =
     useRetrieveOsmParametersFromFeature(osmFeature);
   const [finalTagName, setFinalTagName] = useState(tagName);
-
   const [newTagValue, setEditedTagValue] = useState<EditorTagValue>("");
+
   const handleSuccess = React.useCallback(() => {
     toast.success(
       t`Thank you for contributing. Your edit will be visible soon.`,
     );
-    const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), "");
+    const newPath = router.asPath.replace(
+      new RegExp(`/edit/${finalTagName}`),
+      "",
+    );
     router.push(newPath);
-  }, [router, tagName]);
+  }, [router, finalTagName]);
 
   const handleOSMSuccessDBError = React.useCallback(() => {
     const message = [
@@ -82,7 +89,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     toast.warning(message);
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
     // router.push(newPath)
-  }, [router, tagName]);
+  }, [router, finalTagName]);
 
   const handleError = React.useCallback((error: Error, message?: string) => {
     const defaultMessage = [
@@ -101,7 +108,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     baseUrl: remoteOSMAPIBaseUrl,
     osmType,
     osmId,
-    finalTagName,
+    tagName: finalTagName,
     newTagValue,
     currentOSMObjectOnServer,
   });
@@ -121,7 +128,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
       await makeChangeRequestToInhouseApi({
         baseUrl: inhouseOSMAPIBaseURL,
         osmId,
-        tagName,
+        finalTagName,
         newTagValue,
       });
       handleSuccess();
@@ -143,7 +150,6 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     setFinalTagName(
       [removeLanguageTagsIfPresent(tagName), newPickerValue].join(":"),
     );
-    console.log(finalTagName);
   };
 
   const Editor = getEditorForKey(tagKey);
