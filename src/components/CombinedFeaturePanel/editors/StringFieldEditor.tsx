@@ -1,7 +1,12 @@
 import { Button, Link, TextArea } from "@radix-ui/themes";
+import { getTag } from "@sozialhelden/ietf-language-tags";
 import React, { useContext, useEffect, useState } from "react";
 import { t } from "ttag";
 import Picker from "~/components/CombinedFeaturePanel/editors/Picker";
+import {
+  languageTagMapForStringFieldEditor,
+  languageTagsForStringFieldEditor,
+} from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -27,19 +32,6 @@ export const StringFieldEditor = ({
     setSaveButtonDoesNothing(current === editedTagValue);
   }, [current, editedTagValue]);
 
-  const mockItems = [
-    { value: "en", label: "English" },
-    { value: "es", label: "Spanish" },
-    { value: "fr", label: "French" },
-    { value: "de", label: "German" },
-    { value: "it", label: "Italian" },
-    { value: "ja", label: "Japanese" },
-    { value: "zh", label: "Chinese" },
-    { value: "ar", label: "Arabic" },
-    { value: "ru", label: "Russian" },
-    { value: "hi", label: "Hindi" },
-  ];
-
   return (
     <StyledReportView>
       <FeatureNameHeader feature={feature}>
@@ -62,13 +54,12 @@ export const StringFieldEditor = ({
       />
       <Picker
         placeholder={"Please select a language"}
-        items={mockItems}
+        items={languageTagMapForStringFieldEditor}
         onSelect={(value) => {
           setSelectedLanguage(value);
           if (passLanguagePickerValueToParent) {
             passLanguagePickerValueToParent(value);
           }
-          console.log("Selected Language Tag:", value);
         }}
       />
 
