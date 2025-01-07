@@ -143,9 +143,13 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
   }, []);
 
   const handlePickerValueChange = (newPickerValue: string) => {
-    setFinalTagName(
-      [removeLanguageTagsIfPresent(tagName), newPickerValue].join(":"),
-    );
+    let finalTag = tagName;
+    try {
+      finalTag = removeLanguageTagsIfPresent(tagName);
+    } catch (error) {
+      // do nothing here?
+    }
+    setFinalTagName([finalTag, newPickerValue].join(":"));
   };
 
   const Editor = getEditorForKey(tagKey);
