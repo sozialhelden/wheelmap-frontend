@@ -28,16 +28,17 @@ const PickerStyles = createGlobalStyle`
         justify-content: center;
         gap: 0.25rem;
         border-radius: 0.25rem;
-        background-color: white;
+        background-color: var(--accent-2);
         padding-left: 1rem;
         padding-right: 1rem;
-        color: black;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        border: none !important;
+        //color: black;
+        //box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
         color-scheme: light;
     }
 
     .select:hover {
-        background-color: #ede9fe;
+        background-color: var(--accent-6);
     }
 
     @media (min-width: 640px) {
@@ -59,6 +60,8 @@ const PickerStyles = createGlobalStyle`
         box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px
         rgb(0 0 0 / 0.1);
         color-scheme: light;
+        width: 100%;
+        max-width: inherit; 
     }
 
     .combobox-wrapper {
@@ -67,6 +70,9 @@ const PickerStyles = createGlobalStyle`
         align-items: center;
         padding: 0.25rem;
         padding-bottom: 0px;
+        
+        width: 300px; 
+        max-width: 100%; 
     }
 
     .combobox {
@@ -80,6 +86,8 @@ const PickerStyles = createGlobalStyle`
         color: black;
         outline: 2px solid transparent;
         outline-offset: 2px;
+        
+        width: 100%;
     }
 
     .combobox::placeholder {
@@ -120,23 +128,14 @@ const PickerStyles = createGlobalStyle`
         color: black;
         outline: 2px solid transparent;
         outline-offset: 2px;
+        background-color: var(--accent-2);
     }
 
     .item[data-active-item] {
         background-color: #ddd6fe;
+        //background-color: var(--accent-5) !important; // for some reason radix color does not work here
     }
-
-    .item[data-highlighted] {
-        background-color: #ddd6fe; /* Highlighted background */
-        color: black;
-    }
-
-    .item:hover {
-        background-color: #ddd6fe; /* Same as data-highlighted */
-        color: black;
-    }
-
-
+    
     @media (min-width: 640px) {
         .item {
             height: 2.25rem;
