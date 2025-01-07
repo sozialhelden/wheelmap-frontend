@@ -1,6 +1,3 @@
-import { getTag } from "@sozialhelden/ietf-language-tags";
-import { franc } from "franc";
-import registry from "language-subtag-registry/data/json";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
@@ -8,7 +5,6 @@ import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { t } from "ttag";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { languageTagsForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { useEnvContext } from "../../../lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "../../../lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";

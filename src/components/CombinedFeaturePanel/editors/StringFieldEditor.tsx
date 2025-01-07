@@ -1,12 +1,8 @@
 import { Button, Link, TextArea } from "@radix-ui/themes";
-import { getTag } from "@sozialhelden/ietf-language-tags";
 import React, { useContext, useEffect, useState } from "react";
 import { t } from "ttag";
 import Picker from "~/components/CombinedFeaturePanel/editors/Picker";
-import {
-  languageTagMapForStringFieldEditor,
-  languageTagsForStringFieldEditor,
-} from "~/lib/i18n/languageTagsForStringFieldEditor";
+import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";

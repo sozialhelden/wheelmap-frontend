@@ -2,7 +2,6 @@ import React from "react";
 import type { SWRResponse } from "swr";
 import { log } from "../../util/logger";
 import { callBackendToUpdateInhouseDb } from "../callBackendToUpdateInhouseDb";
-import { ChangesetState } from "./ChangesetState";
 import useOSMAPI from "./useOSMAPI";
 
 export async function createChangeset({
