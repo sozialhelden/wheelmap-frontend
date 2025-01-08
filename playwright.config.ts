@@ -6,17 +6,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
+import baseURL from './e2e/lib/base-url';
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-if (!process.env.CI_TEST_DEPLOYMENT_BASE_URL) {
-  throw new Error('Please set the CI_TEST_DEPLOYMENT_BASE_URL environment variable before testing.');
-}
-const baseURLFromEnvVariable = new URL(process.env.CI_TEST_DEPLOYMENT_BASE_URL);
-baseURLFromEnvVariable.hash = '';
-baseURLFromEnvVariable.search = '';
-const baseURL = baseURLFromEnvVariable.toString();
 
-console.log('Testing against base URL', baseURL, 'from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value:', process.env.CI_TEST_DEPLOYMENT_BASE_URL, ')');
+console.log(`Testing against base URL ${baseURL} from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value: '${process.env.CI_TEST_DEPLOYMENT_BASE_URL}')`);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
