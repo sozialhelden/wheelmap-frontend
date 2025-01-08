@@ -1,6 +1,12 @@
-# This is run on CI deployments.
+# This script runs inside CI deployments.
+#
+# At the time of writing, an Argo Workflow runs this script in a pod with pre-configured
+# environment variables.
+#
+# More infos: http://localhost:8000/infrastructure/argo/2-ci/#inside-the-ci-workflow
 
 echo "Running tests against URL '$CI_TEST_DEPLOYMENT_BASE_URL' from environment variable CI_TEST_DEPLOYMENT_BASE_URL..."
+
 npx playwright install --with-deps
 npm install @axe-core/playwright
 
