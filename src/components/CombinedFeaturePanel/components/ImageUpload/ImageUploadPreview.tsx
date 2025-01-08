@@ -14,12 +14,10 @@ import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import { useCurrentAppToken } from "~/lib/context/AppContext";
+import { ErrorScreen } from "~/components/shared/ErrorScreen";
 import uploadPhotoForFeature from "~/lib/fetchers/ac/refactor-this/postImageUpload";
+import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
-
-const uncachedUrl =
-  process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
 const PreviewWrapper = styled.div`
   position: relative;
@@ -46,7 +44,7 @@ const PreviewOverlay = styled(Box)`
 export const ImageUploadPreview: FC<{
   feature: AnyFeature;
 }> = ({ feature }) => {
-  const appToken = useCurrentAppToken();
+  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true });
   const { image, setImage, previousStep, nextStep } =
     useContext(ImageUploadContext);
 
@@ -66,8 +64,8 @@ export const ImageUploadPreview: FC<{
       await uploadPhotoForFeature(
         feature,
         [image] as unknown as FileList,
+        baseUrl,
         appToken,
-        uncachedUrl,
       );
       nextStep();
     } catch (error) {
@@ -91,14 +89,11 @@ export const ImageUploadPreview: FC<{
           )}
           {error && (
             <PreviewOverlay>
-              <ExclamationTriangleIcon color="red" width="40" height="40" />
-              <Text>
-                <Strong>{t`There was an error uploading your image!`}</Strong>
-              </Text>
-              <Text>{t`Please try again later.`}</Text>
-              <Text color="gray" align="center" mt="6">
-                {error.toString()}
-              </Text>
+              <ErrorScreen
+                heading={t`There was an error uploading your image!`}
+                text={t`Please try again later.`}
+                error={error.toString()}
+              />
             </PreviewOverlay>
           )}
           <Inset>
