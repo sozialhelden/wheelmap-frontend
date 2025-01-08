@@ -85,7 +85,10 @@ For testing the apps, we use [PlayWright](https://playwright.dev) (which enables
 
 ### Testing locally
 
-To test locally, [install the PlayWright VSCode extension](https://playwright.dev/docs/getting-started-vscode). Then, run `npm run test`.
+To test locally,
+- [Install the PlayWright VSCode extension](https://playwright.dev/docs/getting-started-vscode),
+- Run `npx playwright install --with-deps` to install PlayWright's browser binaries,
+- Run `npm run test`.
 
 ### Testing via CI
 
