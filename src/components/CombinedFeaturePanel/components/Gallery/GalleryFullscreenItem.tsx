@@ -1,7 +1,6 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import {
   Box,
-  Button,
   Flex,
   IconButton,
   Kbd,
@@ -12,7 +11,7 @@ import { CloseIcon } from "next/dist/client/components/react-dev-overlay/interna
 import { type FC, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { AppStateLink } from "~/components/App/AppStateLink";
+import GalleryReportPopover from "~/components/CombinedFeaturePanel/components/Gallery/GalleryReportPopover";
 import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import { GalleryContext } from "./Gallery";
@@ -87,11 +86,6 @@ export const GalleryFullscreenItem: FC<{
     if (!image) return undefined;
     return makeSrcSetLocation(makeSrcSet(baseUrl, fullScreenSizes, image));
   }, [baseUrl, image]);
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
-  const reportUrl = useMemo(() => {
-    if (!image) return undefined;
-    return api.getReportUrl(image._id);
-  }, [image]);
 
   return (
     <>
@@ -129,12 +123,8 @@ export const GalleryFullscreenItem: FC<{
           </Flex>
           <Box as="span" />
           <Flex as="span" align="center" gap="6">
-            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>
-            <Button asChild color="gray" variant="surface">
-              {reportUrl && (
-                <AppStateLink href={reportUrl}>{t`Report Image`}</AppStateLink>
-              )}
-            </Button>
+            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>{" "}
+            <GalleryReportPopover image={image} />
           </Flex>
         </Flex>
 

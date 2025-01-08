@@ -29,7 +29,7 @@ export const FeatureGallery: FC<{
 }> = ({ feature, activeImageId }) => {
   const ids = makeImageIds(feature);
   const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true });
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     baseUrl && appToken
       ? ids.map((x) => makeImageLocation(baseUrl, appToken, x.context, x.id))
       : null,
@@ -39,7 +39,11 @@ export const FeatureGallery: FC<{
 
   return (
     <>
-      <Gallery images={images} activeImageId={activeImageId} />
+      <Gallery
+        images={images}
+        activeImageId={activeImageId}
+        onReloadRequested={mutate}
+      />
     </>
   );
 };
