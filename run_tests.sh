@@ -3,7 +3,7 @@
 # At the time of writing, an Argo Workflow runs this script in a pod with pre-configured
 # environment variables.
 #
-# More infos: http://localhost:8000/infrastructure/argo/2-ci/#inside-the-ci-workflow
+# More infos: http://manual.i.wheelmap.tech/infrastructure/argo/2-ci/#inside-the-ci-workflow
 
 echo "Running tests against URL '$CI_TEST_DEPLOYMENT_BASE_URL' from environment variable CI_TEST_DEPLOYMENT_BASE_URL..."
 
