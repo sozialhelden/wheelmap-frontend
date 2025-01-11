@@ -39,7 +39,7 @@ test.describe('onboarding dialog', () => {
   });
 
 
-  test('is WCAG-compliant', async ({ page, makeAxeBuilder }) => {
+  test('is WCAG-compliant in the first step', async ({ page, makeAxeBuilder }) => {
     await waitForDialogToBeStable(page);
 
     const accessibilityScanResults = await makeAxeBuilder()
