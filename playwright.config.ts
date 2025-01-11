@@ -6,10 +6,9 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-import baseURL from './e2e/lib/base-url';
+import getBaseURL from './e2e/lib/base-url';
 
-dotenv.config({ path: path.resolve(__dirname, '.env') });
-
+const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
 console.log(`Testing against base URL ${baseURL} from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value: '${process.env.CI_TEST_DEPLOYMENT_BASE_URL}')`);
 
 /**
