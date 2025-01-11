@@ -1,33 +1,38 @@
-import { t } from 'ttag'
+import { t } from "ttag";
 
-import styled from 'styled-components'
+import styled from "styled-components";
 
-import React, { useCallback } from 'react'
-import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
-import { AnyFeature } from '../../lib/model/geo/AnyFeature'
-import colors from '../../lib/util/colors'
-import Address from '../NodeToolbar/Address'
-import Icon from '../shared/Icon'
-import { PlaceNameHeader } from '../shared/PlaceName'
-import { AppStateLink } from '../App/AppStateLink'
-import { cx } from '../../lib/util/cx'
-import { isWheelchairAccessible } from '../../lib/model/accessibility/isWheelchairAccessible'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { useMap } from '../Map/useMap'
-import { useCurrentLanguageTagStrings } from '../../lib/context/LanguageTagContext'
-import { ACCategory } from '../../lib/model/ac/categories/ACCategory'
-import { getLocalizedCategoryName, unknownCategory } from '../../lib/model/ac/categories/Categories'
-import { calculateDefaultPadding } from '../Map/MapOverlapPadding'
-import { EnrichedSearchResult, makeStyles, mapResultToUrlObject } from './EnrichedSearchResult'
+import React, { useCallback } from "react";
+import useCategory from "../../lib/fetchers/ac/refactor-this/useCategory";
+import { AnyFeature } from "../../lib/model/geo/AnyFeature";
+import colors from "../../lib/util/colors";
+import Address from "../NodeToolbar/Address";
+import Icon from "../shared/Icon";
+import { PlaceNameHeader } from "../shared/PlaceName";
+import { AppStateLink } from "../App/AppStateLink";
+import { cx } from "../../lib/util/cx";
+import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
+import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+import { useMap } from "../Map/useMap";
+import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
+import { ACCategory } from "../../lib/model/ac/categories/ACCategory";
 import {
-  getLocalizedStringTranslationWithMultipleLocales,
-} from '../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
+  getLocalizedCategoryName,
+  unknownCategory,
+} from "../../lib/model/ac/categories/Categories";
+import { calculateDefaultPadding } from "../Map/MapOverlapPadding";
+import {
+  EnrichedSearchResult,
+  makeStyles,
+  mapResultToUrlObject,
+} from "./EnrichedSearchResult";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 
 type Props = {
   className?: string;
   feature: EnrichedSearchResult;
   hidden: boolean;
-}
+};
 
 const StyledListItem = styled.li`
     padding: 0;
@@ -108,109 +113,128 @@ const StyledListItem = styled.li`
             font-weight: 600;
         }
     }
-`
+`;
 
-const useFeatureCategoryLabel = (placeName: string, category: ACCategory | null | undefined) => {
-  const languageTags = useCurrentLanguageTagStrings()
+const useFeatureCategoryLabel = (
+  placeName: string,
+  category: ACCategory | null | undefined,
+) => {
+  const languageTags = useCurrentLanguageTagStrings();
 
   if (!category || category === unknownCategory) {
-    return undefined
+    return undefined;
   }
 
-  const categoryLabel = getLocalizedCategoryName(category, languageTags)
+  const categoryLabel = getLocalizedCategoryName(category, languageTags);
 
   if (!categoryLabel) {
-    return undefined
+    return undefined;
   }
 
-  const isCategoryLabelInPlaceName = placeName.toLocaleLowerCase(languageTags).includes(categoryLabel.toLocaleLowerCase(languageTags))
+  const isCategoryLabelInPlaceName = placeName
+    .toLocaleLowerCase(languageTags)
+    .includes(categoryLabel.toLocaleLowerCase(languageTags));
 
   if (isCategoryLabelInPlaceName) {
-    return undefined
+    return undefined;
   }
 
-  return categoryLabel
-}
+  return categoryLabel;
+};
 
 export default function SearchResult({ feature, className, hidden }: Props) {
-  const { title, address } = feature.displayData
+  const { title, address } = feature.displayData;
 
-  const languageTags = useCurrentLanguageTagStrings()
+  const languageTags = useCurrentLanguageTagStrings();
   // translator: Place name shown in search results for places with unknown name / category.
-  const unknownPlaceName = t`Unknown place`
-  const placeName = (title ? getLocalizedStringTranslationWithMultipleLocales(title, languageTags) : unknownPlaceName) ?? unknownPlaceName
-  const addressString = address ? getLocalizedStringTranslationWithMultipleLocales(address, languageTags) : undefined
+  const unknownPlaceName = t`Unknown place`;
+  const placeName =
+    (title
+      ? getLocalizedStringTranslationWithMultipleLocales(title, languageTags)
+      : unknownPlaceName) ?? unknownPlaceName;
+  const addressString = address
+    ? getLocalizedStringTranslationWithMultipleLocales(address, languageTags)
+    : undefined;
 
-  const { category } = useCategory(feature.placeInfo, feature.osmFeature, feature.photonResult)
+  const { category } = useCategory(
+    feature.placeInfo,
+    feature.osmFeature,
+    feature.photonResult,
+  );
 
-  const categoryLabel = useFeatureCategoryLabel(placeName, category)
-  const shownCategoryId = category && category._id
+  const categoryLabel = useFeatureCategoryLabel(placeName, category);
+  const shownCategoryId = category && category._id;
 
-  const detailedFeature = (feature.placeInfo || feature.osmFeature) as AnyFeature | null
-  const accessibility = detailedFeature && isWheelchairAccessible(detailedFeature)
+  const detailedFeature = (feature.placeInfo ||
+    feature.osmFeature) as AnyFeature | null;
+  const accessibility =
+    detailedFeature && isWheelchairAccessible(detailedFeature);
 
-  const { push } = useAppStateAwareRouter()
-  const { map } = useMap()
-  const clickHandler = useCallback((evt: React.MouseEvent) => {
-    if (evt.ctrlKey) {
-      return
-    }
-    evt.preventDefault()
+  const { push } = useAppStateAwareRouter();
+  const { map } = useMap();
+  const clickHandler = useCallback(
+    (evt: React.MouseEvent) => {
+      if (evt.ctrlKey) {
+        return;
+      }
+      evt.preventDefault();
 
-    const { lat, lon, extent } = feature.displayData
-    const urlObject = mapResultToUrlObject(feature)
+      const { lat, lon, extent } = feature.displayData;
+      const urlObject = mapResultToUrlObject(feature);
 
-    if (extent) {
-      map?.fitBounds(
-        [
-          [extent[0], extent[1]],
-          [extent[2], extent[3]],
-        ],
-        {
+      if (extent) {
+        map?.fitBounds(
+          [
+            [extent[0], extent[1]],
+            [extent[2], extent[3]],
+          ],
+          {
+            padding: calculateDefaultPadding(),
+            maxDuration: 0,
+          },
+        );
+      } else {
+        map?.jumpTo({
+          center: [lon, lat],
+          zoom: 20,
           padding: calculateDefaultPadding(),
-          maxDuration: 0,
-        },
-      )
-    } else {
-      map?.jumpTo({
-        center: [lon, lat],
-        zoom: 20,
-        padding: calculateDefaultPadding(),
-      })
-    }
+        });
+      }
 
-    if (urlObject && urlObject.pathname) {
-      push(urlObject)
-    }
-  }, [push, feature, map])
+      if (urlObject && urlObject.pathname) {
+        push(urlObject);
+      }
+    },
+    [push, feature, map],
+  );
 
   const classNames = cx(
     className,
-    'search-result',
-    hidden && 'hidden',
-    feature.osmFeature && 'is-on-wheelmap',
+    "search-result",
+    hidden && "hidden",
+    feature.osmFeature && "is-on-wheelmap",
     makeStyles(feature),
-  )
+  );
   return (
     <StyledListItem className={classNames}>
       <AppStateLink href={mapResultToUrlObject(feature)} onClick={clickHandler}>
         <PlaceNameHeader
-          className={detailedFeature ? 'is-on-wheelmap' : undefined}
+          className={detailedFeature ? "is-on-wheelmap" : undefined}
         >
           {shownCategoryId ? (
             <Icon
-              accessibility={accessibility || null}
+              accessibility={accessibility || undefined}
               category={shownCategoryId}
               size="medium"
-              centered
-              ariaHidden
             />
           ) : null}
           {placeName}
-          {categoryLabel && <span className="category-label">{categoryLabel}</span>}
+          {categoryLabel && (
+            <span className="category-label">{categoryLabel}</span>
+          )}
         </PlaceNameHeader>
         {addressString ? <Address role="none">{addressString}</Address> : null}
       </AppStateLink>
     </StyledListItem>
-  )
+  );
 }

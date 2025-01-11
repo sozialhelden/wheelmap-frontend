@@ -3,6 +3,7 @@ import Link from "next/link";
 import { t } from "ttag";
 import type { IBranding } from "../../../lib/model/ac/IBranding";
 import VectorImage from "../../shared/VectorImage";
+import { useMemo } from "react";
 
 export default function LogoHomeLink({
   branding,
@@ -12,13 +13,11 @@ export default function LogoHomeLink({
     <Button aria-label={t`Home`} variant="ghost" radius="none" asChild>
       <Link href="/onboarding">
         <VectorImage
-          className="logo"
           svg={branding?.vectorLogoSVG}
-          aria-label={t`${productName} logo`}
-          role="banner"
           maxHeight="30px"
           maxWidth="150px"
           hasShadow={false}
+          svgHTMLAttributes={{ "aria-label": t`${productName} logo` }}
         />
       </Link>
     </Button>

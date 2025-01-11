@@ -5,11 +5,27 @@ import { useEffect, useMemo, useState } from "react";
 import { t } from "ttag";
 import AutoLink from "./link-types/AutoLink";
 import { useAppLinks as useCurrentAppLinks } from "./useAppLinks";
+import { useExpertMode } from "./useExpertMode";
+import IAppLink from "../../../lib/model/ac/IAppLink";
+import { TranslatedAppLink } from "./translateAndInterpolateAppLink";
+
+function filterExpertModeLinks(
+  links: TranslatedAppLink[],
+  isExpertMode: boolean,
+) {
+  return links.filter((link) => {
+    if (link.tags?.includes("session")) {
+      return isExpertMode;
+    }
+    return true;
+  });
+}
 
 export default function MainMenuLinks() {
   const router = useRouter();
   const { pathname } = router;
   const [isOpen, setIsOpen] = useState(false);
+  const { isExpertMode } = useExpertMode();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: when pathname changes, close the main menu.
   useEffect(() => setIsOpen(false), [pathname]);
@@ -18,18 +34,20 @@ export default function MainMenuLinks() {
 
   const menuLinkElements = useMemo(
     () =>
-      linksInDropdownMenu.map((appLink) => (
-        <AutoLink asMenuItem {...appLink} key={appLink._id} />
-      )),
-    [linksInDropdownMenu],
+      filterExpertModeLinks(linksInDropdownMenu, isExpertMode).map(
+        (appLink) => <AutoLink asMenuItem {...appLink} key={appLink._id} />,
+      ),
+    [linksInDropdownMenu, isExpertMode],
   );
 
   const toolbarLinkElements = useMemo(
     () =>
-      linksInToolbar.map((appLink) => (
-        <AutoLink asMenuItem={false} {...appLink} key={appLink._id} />
+      filterExpertModeLinks(linksInToolbar, isExpertMode).map((appLink) => (
+        <li key={appLink._id}>
+          <AutoLink asMenuItem={false} {...appLink} />
+        </li>
       )),
-    [linksInToolbar],
+    [linksInToolbar, isExpertMode],
   );
 
   const dropdownMenuButton = menuLinkElements.length > 0 && (
@@ -43,11 +61,9 @@ export default function MainMenuLinks() {
             aria-label={isOpen ? t`Close menu` : t`Show menu`}
           >
             {isOpen ? (
-              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
-              <Cross2Icon width="24" height="24" role="none" />
+              <Cross2Icon width="24" height="24" aria-hidden="true" />
             ) : (
-              // biome-ignore lint/a11y/useValidAriaRole: <explanation>
-              <HamburgerMenuIcon width="24" height="24" role="none" />
+              <HamburgerMenuIcon width="24" height="24" aria-hidden="true" />
             )}
           </Button>
         </DropdownMenu.Trigger>
@@ -57,9 +73,13 @@ export default function MainMenuLinks() {
   );
 
   return (
-    <Flex gap="4" align="center">
-      {toolbarLinkElements}
-      {dropdownMenuButton}
+    <Flex gap="4" align="center" asChild>
+      <nav>
+        <Flex gap="4" align="center" direction={"row"} asChild>
+          <ul>{toolbarLinkElements}</ul>
+        </Flex>
+        {dropdownMenuButton}
+      </nav>
     </Flex>
   );
 }

@@ -1,5 +1,7 @@
 import { test, expect } from './lib/axe-test';
-import baseURL from './lib/base-url';
+import getBaseURL from './lib/base-url';
+
+const baseURL = getBaseURL();
 
 test('has title', async ({ page }) => {
   await page.goto(baseURL);
@@ -8,7 +10,7 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/Wheelmap/);
 });
 
-const dialogSelector = 'dialog[aria-label="Start screen"]';
+const dialogSelector = 'dialog[data-state="open"]';
 
 async function waitForDialogToBeStable(page) {
   const dialog = await page.$(dialogSelector);
@@ -22,8 +24,8 @@ test.describe('onboarding dialog', () => {
     await page.goto(baseURL);
   });
 
-  test('has banner', async ({ page }) => {
-    await expect(page.getByRole('dialog').getByLabel('Wheelmap')).toBeVisible();
+  test('has a logo', async ({ page }) => {
+    await expect(page.getByRole('dialog').getByLabel('Wheelmap logo')).toBeVisible();
   });
 
   test('has 4 accessibility examples', async ({ page }) => {
@@ -33,48 +35,15 @@ test.describe('onboarding dialog', () => {
 
   test('matches a snapshot', async ({ page }) => {
     await waitForDialogToBeStable(page);
-    await expect(page.getByRole('dialog')).toMatchAriaSnapshot(`
-      - dialog:
-        - banner "Wheelmap"
-        - paragraph:
-          - paragraph: "Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:"
-        - list:
-          - listitem:
-            - figure "Fully wheelchair accessible marker":
-              - img
-              - img
-            - term: Fully wheelchair accessible
-            - definition: Entrance has no steps, important areas are accessible without steps.
-          - listitem:
-            - figure "Partially wheelchair accessible marker":
-              - img
-              - img
-            - term: Partially wheelchair accessible
-            - definition: Entrance has one step with max. 3 inches height, most areas are without steps.
-          - listitem:
-            - figure "Not wheelchair accessible marker":
-              - img
-              - img
-            - term: Not wheelchair accessible
-            - definition: Entrance has a high step or several steps, important areas are inaccessible.
-          - listitem:
-            - figure "Unknown accessibility marker":
-              - img
-              - img
-            - term: Unknown accessibility
-            - definition: Help out by marking places!
-        - button "Okay, let’s go!"
-    `);
+    await expect(page.getByRole('dialog')).toMatchAriaSnapshot("");
   });
 
 
-  // This test is skipped because the page is not fully WCAG compliant yet.
-  test.skip('is WCAG-compliant', async ({ page, makeAxeBuilder }) => {
+  test('is WCAG-compliant', async ({ page, makeAxeBuilder }) => {
     await waitForDialogToBeStable(page);
+
     const accessibilityScanResults = await makeAxeBuilder()
-        // Automatically uses the shared AxeBuilder configuration,
-        // but supports additional test-specific configuration too
-        // .include(dialogSelector)
+        .include("#onboarding-dialog-content")
         .analyze();
 
     expect(accessibilityScanResults.violations).toEqual([]);

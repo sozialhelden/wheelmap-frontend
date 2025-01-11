@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { omit } from "lodash";
-import ISVGOResult from "../../lib/model/ac/ISVGOResult";
+import type ISVGOResult from "../../lib/model/ac/ISVGOResult";
 import { useEffect, useRef } from "react";
 
 type ContainerProps = {
@@ -25,20 +25,32 @@ const Container = styled.div<ContainerProps>`
   }
 `;
 
-type Props = ContainerProps &
-  React.HTMLAttributes<HTMLSpanElement> & {
-    svg: ISVGOResult | undefined;
-  };
+type Props = ContainerProps & {
+  svg: ISVGOResult | undefined;
+  svgHTMLAttributes?: React.HTMLAttributes<SVGElement>;
+  containerHTMLAttributes?: React.HTMLAttributes<HTMLDivElement>;
+};
 
 export default function VectorImage(props: Props) {
-  const svgSource = props.svg?.data;
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const {
+    svgHTMLAttributes,
+    containerHTMLAttributes,
+    svg,
+    maxWidth,
+    maxHeight,
+    hasShadow,
+  } = props;
+  const svgSource = svg?.data;
+
   useEffect(() => {
     const svgElement = containerRef.current?.querySelector("svg");
     if (svgElement) {
-      svgElement.setAttribute("role", "none");
+      for (const key in svgHTMLAttributes) {
+        svgElement.setAttribute(key, svgHTMLAttributes[key]);
+      }
     }
-  }, []);
+  }, [svgHTMLAttributes]);
 
   if (!svgSource) {
     return null;
@@ -46,8 +58,10 @@ export default function VectorImage(props: Props) {
   return (
     <Container
       ref={containerRef}
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
       dangerouslySetInnerHTML={{ __html: svgSource || "" }}
-      {...omit(props, "svg", "hasShadow")}
+      {...containerHTMLAttributes}
+      {...{ maxWidth, maxHeight, hasShadow }}
     />
   );
 }

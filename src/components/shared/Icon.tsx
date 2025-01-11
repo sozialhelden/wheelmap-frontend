@@ -6,29 +6,31 @@ import * as categoryIcons from "../icons/categories";
 import * as mainCategoryIcons from "../icons/mainCategories";
 import * as markers from "../icons/markers";
 import { log } from "../../lib/util/logger";
+import { getLocalizedCategoryName } from "../../lib/model/ac/categories/Categories";
+import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 
 type Size = "big" | "medium" | "small";
 
-type Props = {
-  accessibility?: YesNoLimitedUnknown | null;
-  category?: string | null;
-  isMainCategory?: boolean;
-  className?: string | null;
+type ContainerProps = {
   size: Size;
-  withArrow?: boolean | null;
-  centered?: boolean | null;
-  shadowed?: boolean | null;
-  ariaHidden?: boolean | null;
-  foregroundColor?: string | null;
-  backgroundColor?: string | null;
-  children?: React.ReactNode | null;
-  onClick?: () => void;
-  ariaLabel?: string;
-  ariaRole?: string;
-  ariaDescribedBy?: string;
+  withArrow?: boolean;
+  accessibility?: YesNoLimitedUnknown;
+  foregroundColor?: string;
+  backgroundColor?: string;
 };
 
-function width(size: Size) {
+type Props = ContainerProps & {
+  category?: string;
+  isMainCategory?: boolean;
+  className?: string;
+  shadowed?: boolean;
+  children?: React.ReactNode;
+  containerHTMLAttributes?: React.HTMLAttributes<HTMLElement>;
+  markerHTMLAttributes?: React.HTMLAttributes<SVGSVGElement>;
+  iconHTMLAttributes?: React.HTMLAttributes<SVGSVGElement>;
+};
+
+function width(size: Size = "medium") {
   return {
     big: 60,
     medium: 40,
@@ -36,7 +38,7 @@ function width(size: Size) {
   }[size];
 }
 
-function fontSize(size: Size) {
+function fontSize(size: Size = "medium") {
   return {
     big: 32,
     medium: 24,
@@ -44,21 +46,7 @@ function fontSize(size: Size) {
   }[size];
 }
 
-function Figure(props: Partial<Props>) {
-  return (
-    <figure
-      aria-label={props.ariaLabel}
-      role={props.ariaRole}
-      aria-describedby={props.ariaDescribedBy}
-      className={props.className}
-      onClick={props.onClick}
-    >
-      {props.children}
-    </figure>
-  );
-}
-
-export const StyledIconContainer = styled(Figure)`
+export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
   position: relative;
   margin: 0;
 
@@ -86,9 +74,6 @@ export const StyledIconContainer = styled(Figure)`
     right: 1px;
     font-size: 8px;
   }
-
-  ${(props) => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : "")}
-  ${(props) => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : "")}
 
   svg {
     &.background {
@@ -133,20 +118,16 @@ export const StyledIconContainer = styled(Figure)`
 export default function Icon({
   accessibility,
   children,
-  backgroundColor = colors.markers.background[accessibility],
+  backgroundColor = accessibility && colors.markers.background[accessibility],
   foregroundColor,
   category,
   isMainCategory,
   className,
   size,
   withArrow,
-  shadowed,
-  ariaHidden,
-  ariaDescribedBy,
-  centered,
-  onClick,
-  ariaLabel,
-  ariaRole,
+  containerHTMLAttributes,
+  markerHTMLAttributes,
+  iconHTMLAttributes,
 }: Props) {
   let iconName = category;
 
@@ -169,24 +150,23 @@ export default function Icon({
 
   return (
     <StyledIconContainer
-      ariaRole={ariaRole}
-      ariaLabel={ariaLabel}
-      ariaDescribedBy={ariaDescribedBy}
       size={size}
       className={className}
-      aria-hidden={ariaHidden}
       accessibility={accessibility}
       backgroundColor={backgroundColor}
       foregroundColor={foregroundColor}
-      centered={centered}
-      onClick={onClick}
+      {...containerHTMLAttributes}
     >
       {accessibility && MarkerComponent ? (
-        <MarkerComponent className="background" fill={backgroundColor} />
+        <MarkerComponent
+          className="background"
+          fill={backgroundColor}
+          {...markerHTMLAttributes}
+        />
       ) : null}
       {children}
       {CategoryIconComponent ? (
-        <CategoryIconComponent className="icon" />
+        <CategoryIconComponent className="icon" {...iconHTMLAttributes} />
       ) : null}
     </StyledIconContainer>
   );

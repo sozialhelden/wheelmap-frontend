@@ -17,13 +17,14 @@ type Props = {
   className?: string;
 };
 
-const StyledBar = styled(Card)`
+const StyledBar = styled.header`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: auto;
   z-index: 1;
+  padding: var(--space-2);
 
   @media (max-width: 768px) {
     .claim {
@@ -46,11 +47,10 @@ export default function MainToolbar(props: Props) {
 
   return (
     <Theme radius="none">
-      {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-      <StyledBar variant="surface" role="navigation">
-        <Inset>
+      <Card asChild variant="surface" role="banner">
+        <StyledBar>
           <Theme radius={radius}>
-            <Flex justify={"between"} align="center" p="2">
+            <Flex justify={"between"} align="center" p="0">
               <Flex align="center" gap="4">
                 <LogoHomeLink {...{ branding, productName }} />
                 <Text
@@ -61,12 +61,11 @@ export default function MainToolbar(props: Props) {
                   {claimString}
                 </Text>
               </Flex>
-
               <MainMenuLinks />
             </Flex>
           </Theme>
-        </Inset>
-      </StyledBar>
+        </StyledBar>
+      </Card>
     </Theme>
   );
 }

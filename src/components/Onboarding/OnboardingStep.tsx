@@ -2,12 +2,13 @@ import * as React from "react";
 import { useEffect } from "react";
 import { AppContext } from "../../lib/context/AppContext";
 import {
+  accessibilityColor as accessibilityColorName,
   accessibilityDescription,
   accessibilityName,
 } from "../../lib/model/accessibility/accessibilityStrings";
 import Icon from "../shared/Icon";
 import VectorImage from "../shared/VectorImage";
-import { selectHeaderMarkdownHTML, selectProductName } from "./language";
+import { selectHeaderMarkdownHTML, gerProductName } from "./gerProductName";
 import {
   Box,
   Button,
@@ -17,15 +18,20 @@ import {
   Grid,
   Heading,
   Text,
+  VisuallyHidden,
 } from "@radix-ui/themes";
 import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { t } from "ttag";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import StyledMarkdown from "../shared/StyledMarkdown";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose = () => {} }) => {
   const { clientSideConfiguration } = React.useContext(AppContext) ?? {};
-  const headerMarkdownHTML = selectHeaderMarkdownHTML(clientSideConfiguration);
+  const headerMarkdown = translatedStringFromObject(
+    clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
+  );
 
   const callToActionButton = React.createRef<HTMLButtonElement>();
   const handleClose = () => {
@@ -42,40 +48,37 @@ export const OnboardingStep: React.FC<{
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
   const startButtonCaption = t`Okay, let’s go!`;
+  const productName = gerProductName(clientSideConfiguration);
 
   return (
     <>
       <VectorImage
-        className="logo"
         svg={clientSideConfiguration?.branding?.vectorLogoSVG}
-        role="banner"
-        aria-label={selectProductName(clientSideConfiguration)}
+        svgHTMLAttributes={{ "aria-label": `${productName} logo` }}
         maxHeight="50px"
         maxWidth="200px"
         hasShadow={false}
       />
 
-      {headerMarkdownHTML && (
-        <Text
-          as="p"
-          id="wheelmap-claim-onboarding"
-          className="claim"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: The SVG content is managed by the team.
-          dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
-        />
-      )}
-      <Grid
-        gap="2"
-        columns={{ initial: "1", md: "2" }}
-        width="auto"
-        /* biome-ignore lint/a11y/useSemanticElements: <explanation> */
-        role="list"
-      >
-        <AccessibilityCard value="yes" />
-        <AccessibilityCard value="limited" />
-        <AccessibilityCard value="no" />
-        <AccessibilityCard value="unknown" />
-      </Grid>
+      {/* Hidden because from a purely visual perspective, it's clear what an onboarding dialog is. */}
+      <VisuallyHidden>
+        <Dialog.Title>{t`Welcome to ${productName}!`}</Dialog.Title>
+      </VisuallyHidden>
+
+      <Dialog.Description>
+        <Text as="div" my="2">
+          <StyledMarkdown inline>{headerMarkdown || ""}</StyledMarkdown>
+        </Text>
+
+        <Grid gap="2" columns={{ initial: "1", md: "2" }} width="auto" asChild>
+          <ul>
+            <AccessibilityCard value="yes" />
+            <AccessibilityCard value="limited" />
+            <AccessibilityCard value="no" />
+            <AccessibilityCard value="unknown" />
+          </ul>
+        </Grid>
+      </Dialog.Description>
 
       <Flex gap="3" mt="4" justify="end">
         <Dialog.Close>
@@ -84,6 +87,7 @@ export const OnboardingStep: React.FC<{
             onClick={handleClose}
             ref={callToActionButton}
             size="4"
+            highContrast
           >
             {startButtonCaption}
           </Button>
@@ -95,40 +99,48 @@ export const OnboardingStep: React.FC<{
 function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const { value } = props;
   const name = accessibilityName(value);
+  const colorName = accessibilityColorName(value);
   // translator: Shown on the onboarding screen. To find it, click the logo at the top.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: <explanation>
-    <Card role="listitem">
-      <Flex gap="3" align="start" direction="row">
-        <Box>
-          <Icon
-            ariaLabel={t`${name} marker`}
-            ariaDescribedBy={`${value}-marker-description`}
-            accessibility={value}
-            category={null}
-            isMainCategory
-            size="big"
-            withArrow
-            shadowed
-            centered
-          />
-        </Box>
-        <Box asChild>
-          <figcaption id={`${value}-marker-description`}>
-            {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-            <Text as="p" weight="bold" role="term">
-              {name}
-            </Text>
-            {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-            <Text as="p" color="gray" role="definition">
-              {accessibilityDescription(value) ||
-                unknownAccessibilityIncentiveText}
-            </Text>
-          </figcaption>
-        </Box>
-      </Flex>
+    <Card asChild>
+      <li>
+        <Flex gap="3" align="start" direction="row" asChild>
+          <figure>
+            <Box>
+              <Icon
+                containerHTMLAttributes={{
+                  "aria-label": t`${colorName} map marker`,
+                  role: "img",
+                }}
+                markerHTMLAttributes={{ "aria-hidden": "true" }}
+                iconHTMLAttributes={{ "aria-hidden": "true" }}
+                accessibility={value}
+                category={undefined}
+                isMainCategory
+                size="big"
+                withArrow
+                shadowed
+              />
+            </Box>
+            <Box asChild>
+              <figcaption>
+                {/* biome-ignore lint/a11y/useSemanticElements: Using 'correct' semantic HTML here
+                    would create an invalid DOM tree. The ARIA tree stays sensible here. */}
+                <Text as="p" weight="bold" role="term">
+                  {name}
+                </Text>
+                {/* biome-ignore lint/a11y/useSemanticElements: See above */}
+                <Text as="p" color="gray" role="definition">
+                  {accessibilityDescription(value) ||
+                    unknownAccessibilityIncentiveText}
+                </Text>
+              </figcaption>
+            </Box>
+          </figure>
+        </Flex>
+      </li>
     </Card>
   );
 }

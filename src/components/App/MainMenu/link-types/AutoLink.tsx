@@ -38,14 +38,13 @@ export default function AutoLink({
 }: ReturnType<typeof translateAndInterpolateAppLink> & {
   asMenuItem: boolean;
 }) {
-  const { isExpertMode } = useExpertMode();
   const buttonProps: ButtonProps = useAppLinkButtonProps(tags);
 
   let Element: React.ComponentType<IAutoLinkProps> | null;
   if (tags?.includes("events")) {
     Element = JoinedEventLink;
   } else if (tags?.includes("session")) {
-    Element = isExpertMode ? SessionElement : null;
+    Element = SessionElement;
   } else if (typeof url === "string") {
     Element = ExternalOrInternalAppLink;
   } else {

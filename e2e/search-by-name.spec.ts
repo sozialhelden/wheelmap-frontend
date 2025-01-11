@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { skipOnboarding } from './skipOnboarding';
-import baseURL from './lib/base-url';
+import getBaseURL from './lib/base-url';
+
+const baseURL = getBaseURL();
 
 test('search by name', async ({ page }) => {
   test.skip(true, 'This is still flaky, because the search toolbar is sometimes re-rendered and cleared after entering something.');

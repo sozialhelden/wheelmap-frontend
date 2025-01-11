@@ -1,7 +1,9 @@
 import { test, expect } from './lib/axe-test';
-import baseURL from './lib/base-url';
+import getBaseURL from './lib/base-url';
 import { skipOnDesktops, skipOnMobiles } from './lib/device-type';
 import { skipOnboarding } from './skipOnboarding';
+
+const baseURL = getBaseURL();
 
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.
@@ -10,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('has banner', async ({ page }) => {
-  await expect(page.getByRole('navigation').getByRole('link', { name: 'Home' })).toBeVisible();
+  await expect(page.getByRole('banner').getByRole('link', { name: 'Home' })).toBeVisible();
 });
 
 test.describe("when the menu is closed", () => {
@@ -18,27 +20,30 @@ test.describe("when the menu is closed", () => {
     skipOnMobiles();
 
     // On desktops, the greater part of the navigation is always visible.
-    await expect(page.getByRole('navigation')).toMatchAriaSnapshot(`
-      - navigation:
+    await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
+      - banner:
         - link "Home":
-          - banner "Wheelmap logo"
+          - img
         - text: Find wheelchair accessible places.
-        - link "Get involved"
-        - link "News"
-        - link "Press"
-        - link "Events"
-        - link "Add a new place"
-        - button "Show menu"
+        - navigation:
+          - list:
+            - link "Get involved"
+            - link "News"
+            - link "Press"
+            - link "Events"
+            - link "Add a new place"
+          - button "Show menu"
     `);
   });
 
   test('has correct ARIA snapshot on mobiles', async ({ page }) => {
     skipOnDesktops();
-    await expect(page.getByRole('navigation')).toMatchAriaSnapshot(`
-      - navigation:
+    await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
+      - banner:
         - link "Home":
-          - banner "Wheelmap logo"
-        - button "Show menu"
+          - img "Wheelmap logo"
+        - navigation:
+          - button "Show menu"
     `);
   });
 });
@@ -49,7 +54,7 @@ test.describe("when the menu is open", () => {
     await page.getByRole('navigation').getByRole('button', { name: 'Show menu' }).click();
   });
   test.afterEach(async ({ page }) => {
-    await page.getByRole('menu', { name: 'Close menu' }).click();
+    await page.getByRole('menu', { name: 'Close menu' }).tap();
     await expect(page.getByRole('menu')).not.toBeVisible();
   });
   test('has correct ARIA snapshot on desktops', async ({ page }) => {
