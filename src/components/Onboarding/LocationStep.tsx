@@ -16,6 +16,7 @@ import {
   Dialog,
   Flex,
   Spinner,
+  VisuallyHidden,
 } from "@radix-ui/themes";
 import { t } from "ttag";
 
@@ -73,10 +74,11 @@ export const LocationStep: FC<{
 
   // translator: A description that the app is now asking for location permissions while onboarding
   const explanation = t`
-    Wheelmap is meant to help you orient yourself. For this, you need to allow the app to use your device location.
-    You may change your decision at any time!
+    Wheelmap makes more sense if you **allow the app to use your device location**.
 
     Your location always stays on your device.
+
+    You may change your decision at any time!
   `;
 
   // translator: A hint that shows up, when acquiring location permissions initially failed
@@ -84,9 +86,9 @@ export const LocationStep: FC<{
 
   return (
     <Box>
-      <AlertDialog.Title>
-        {t`Hold up — we may need your location permissions`}
-      </AlertDialog.Title>
+      <VisuallyHidden>
+        <AlertDialog.Title>{t`Enable location permissions`}</AlertDialog.Title>
+      </VisuallyHidden>
       <AlertDialog.Description>
         <StyledMarkdown>{explanation}</StyledMarkdown>
         {stage.retries > 0 && <StyledMarkdown>{hint}</StyledMarkdown>}
@@ -95,7 +97,7 @@ export const LocationStep: FC<{
       <Flex gap="3" mt="4" justify="end">
         <AlertDialog.Action>
           <Button onClick={onRejected} size="3" variant="soft">
-            {t`Continue without location access`}
+            {t`Skip`}
           </Button>
         </AlertDialog.Action>
         <AlertDialog.Action>
