@@ -80,7 +80,7 @@ export const LocationStep: FC<{
   `;
 
   // translator: A hint that shows up, when acquiring location permissions initially failed
-  const hint = t`If you’re experiencing issues, you may consult [your devices permission configuration](${uri}).`;
+  const hint = t`If you’re experiencing issues, you may consult [your devices permission configuration](${url}).`;
 
   return (
     <Box>
@@ -88,7 +88,7 @@ export const LocationStep: FC<{
         {t`Hold up — we may need your location permissions`}
       </AlertDialog.Title>
       <AlertDialog.Description>
-        <StyledMarkdown>{primaryText}</StyledMarkdown>
+        <StyledMarkdown>{explanation}</StyledMarkdown>
         {stage.retries > 0 && <StyledMarkdown>{hint}</StyledMarkdown>}
       </AlertDialog.Description>
 
