@@ -27,11 +27,16 @@ test.describe("when the menu is closed", () => {
         - text: Find wheelchair accessible places.
         - navigation:
           - list:
-            - link "Get involved"
-            - link "News"
-            - link "Press"
-            - link "Events"
-            - link "Add a new place"
+            - listitem:
+              - link "Get involved"
+            - listitem:
+              - link "News"
+            - listitem:
+              - link "Press"
+            - listitem:
+              - link "Events"
+            - listitem:
+              - link "Add a new place"
           - button "Show menu"
     `);
   });
