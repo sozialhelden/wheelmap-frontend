@@ -1,4 +1,4 @@
-const withTranspileModules = require('next-transpile-modules')
+const withTranspileModules = require("next-transpile-modules");
 
 /**
  * @type {import('next').NextConfig}
@@ -31,15 +31,15 @@ const configuration = {
         // util: require.resolve('util'),
         // vm: require.resolve('vm-browserify'),
         // zlib: require.resolve('browserify-zlib'),
-        fs: 'empty',
-        dgram: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty',
-        async_hooks: 'mock',
+        fs: "empty",
+        dgram: "empty",
+        net: "empty",
+        tls: "empty",
+        child_process: "empty",
+        async_hooks: "mock",
       },
-    }
-    return config
+    };
+    return config;
   },
   productionBrowserSourceMaps: false,
   typescript: {
@@ -59,6 +59,9 @@ const configuration = {
   compiler: {
     styledComponents: true,
   },
-}
+  images: {
+    deviceSizes: [375, 480, 640, 750, 828, 1080, 1200, 1920],
+  },
+};
 
-module.exports = configuration
+module.exports = configuration;

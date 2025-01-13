@@ -5,12 +5,10 @@ import {
   createContext,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { t } from "ttag";
-import type { AccessibilityCloudImage } from "../../../../lib/model/ac/Feature";
-import { useAppStateAwareRouter } from "../../../../lib/util/useAppStateAwareRouter";
+import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import { GalleryFullscreenItem } from "./GalleryFullscreenItem";
 import { GalleryGrid } from "./GalleryGrid";
@@ -25,7 +23,9 @@ type GalleryContextType = {
   goTo: (imageId: string) => void;
   close: () => void;
   getDetailPageUrl: (imageId: string) => string;
-  getReportUrl: (imageId: string) => string;
+  reload: () => void;
+  isReportPopoverOpen: boolean;
+  setIsReportPopoverOpen: (value: boolean) => void;
 };
 export const GalleryContext = createContext<GalleryContextType>({
   size: 0,
@@ -38,37 +38,40 @@ export const GalleryContext = createContext<GalleryContextType>({
   getDetailPageUrl(imageId) {
     return "";
   },
-  getReportUrl(imageId) {
-    return "";
-  },
+  reload() {},
+  isReportPopoverOpen: false,
+  setIsReportPopoverOpen(value) {},
 });
 
 export const Gallery: FC<{
   images: AccessibilityCloudImage[];
   activeImageId?: string;
-}> = ({ images, activeImageId }) => {
+  onReloadRequested?: () => void;
+}> = ({ images, activeImageId, onReloadRequested }) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
-  const router = useAppStateAwareRouter();
 
   const getImageIndex = (imageId?: string) => {
     if (!imageId) return -1;
     return images.findIndex((image) => image._id === imageId);
   };
 
-  const keysPressed = new Set<string>();
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isReportPopoverOpen, setIsReportPopoverOpen] = useState(false);
 
   const activeImage = images[activeIndex];
   const next = () => {
     setActiveIndex(activeIndex + 1 >= images.length ? 0 : activeIndex + 1);
+    setIsReportPopoverOpen(false);
   };
   const previous = () => {
     setActiveIndex(activeIndex - 1 < 0 ? images.length - 1 : activeIndex - 1);
+    setIsReportPopoverOpen(false);
   };
   const goTo = (imageId: string) => {
     setActiveIndex(getImageIndex(imageId));
     setIsDialogOpen(true);
+    setIsReportPopoverOpen(false);
   };
   const close = () => {
     setIsDialogOpen(false);
@@ -76,8 +79,8 @@ export const Gallery: FC<{
   const getDetailPageUrl = (imageId: string) => {
     return `${baseFeatureUrl}/images/${imageId}`;
   };
-  const getReportUrl = (imageId: string) => {
-    return `${getDetailPageUrl(imageId)}/report`;
+  const reload = () => {
+    onReloadRequested?.();
   };
 
   const api: GalleryContextType = {
@@ -89,7 +92,9 @@ export const Gallery: FC<{
     close,
     previous,
     getDetailPageUrl,
-    getReportUrl,
+    reload,
+    isReportPopoverOpen,
+    setIsReportPopoverOpen,
   };
 
   // Open the dialog on initial page load when visiting the /images/[imageId] page
@@ -140,13 +145,16 @@ export const Gallery: FC<{
       ?.focus();
   };
 
+  const keysPressed = new Set<string>();
+
   const handleKeyDown: KeyboardEventHandler<HTMLElement> = (event) => {
     keysPressed.add(event.key);
+    if (keysPressed.size !== 1) {
+      return;
+    }
     switch (event.key) {
       case "r":
-        if (keysPressed.size === 1) {
-          router.push(getReportUrl(activeImage._id));
-        }
+        setIsReportPopoverOpen(true);
         break;
       case "ArrowLeft":
         previous();

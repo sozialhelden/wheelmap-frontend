@@ -1,50 +1,22 @@
-// onStartReportPhotoFlow = (photo: PhotoModel) => {
-//   this.setState({ isSearchBarVisible: false, photoMarkedForReport: photo });
-// };
+import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "~/components/CombinedFeaturePanel/PlaceLayout";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
-// onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
-//   if (photo.appSource === 'accessibility-cloud') {
-//     accessibilityCloudImageCache.reportPhoto(String(photo._id), reason, this.props.app.tokenString);
-//     this.onExitReportPhotoFlow('reported');
-//   }
-// };
+export default function ShowReportPage() {
+  const router = useAppStateAwareRouter();
+  const { baseFeatureUrl } = useContext(FeaturePanelContext);
+  const {
+    query: { imageId },
+  } = useRouter();
 
-// onExitReportPhotoFlow = (notification?: string) => {
-//   this.setState({
-//     isSearchBarVisible: !isOnSmallViewport(),
-//     photoMarkedForReport: null,
-//     photoFlowNotification: notification,
-//   });
-// };
+  const id = typeof imageId === "string" ? imageId : imageId[0];
 
-import { useRouter } from 'next/router'
-import { log } from '../../../../../lib/util/logger'
-import { getLayout } from '../../../../../components/App/MapLayout'
-
-function PlaceImageReportPage() {
-  const router = useRouter()
-  const { placeType, imageId } = router.query
-
-  log.log(router.query)
-
-  // <ReportPhotoToolbar
-  //   hidden={!this.props.photoMarkedForReport}
-  //   photo={this.props.photoMarkedForReport}
-  //   onClose={this.props.onAbortReportPhotoFlow}
-  //   onCompleted={this.props.onFinishReportPhotoFlow}
-  // />
-  return (
-    <>
-      <header />
-      <h1>
-        Upload Photo Instructions:
-        {' '}
-        {`imageId: ${imageId}, placeType: ${placeType}`}
-      </h1>
-    </>
-  )
+  useEffect(() => {
+    // redirect to single image as the report doesn't have its own page anymore
+    router.replace(`${baseFeatureUrl}/images/${id}`);
+  }, []);
 }
 
-export default PlaceImageReportPage
-
-PlaceImageReportPage.getLayout = getLayout
+ShowReportPage.getLayout = getLayout;
