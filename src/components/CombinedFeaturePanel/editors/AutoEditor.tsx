@@ -46,7 +46,11 @@ function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
       return undefined;
   }
 }
-export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
+export const AutoEditor = ({
+  feature,
+  tagKey,
+  addingNewLanguage,
+}: AutoEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken;
@@ -142,15 +146,28 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     });
   }, []);
 
-  const handlePickerValueChange = (newPickerValue: string) => {
-    let finalTag = tagName;
-    try {
-      finalTag = removeLanguageTagsIfPresent(tagName);
-    } catch (error) {
-      // do nothing here?
-    }
-    setFinalTagName([finalTag, newPickerValue].join(":"));
-  };
+  const handlePickerValueChange = React.useCallback(
+    (newPickerValue: string) => {
+      let finalTag = tagName;
+      try {
+        finalTag = removeLanguageTagsIfPresent(tagName);
+      } catch (error) {
+        // what should we do here?
+      }
+      const updatedTagName = [finalTag, newPickerValue].join(":");
+
+      if (updatedTagName !== finalTagName) {
+        setFinalTagName(updatedTagName);
+
+        const newUrl = router.asPath.replace(
+          `/edit/${tagKey}`,
+          `/edit/${updatedTagName}`,
+        );
+        router.replace(newUrl, undefined, { shallow: true });
+      }
+    },
+    [tagName, tagKey, router, finalTagName],
+  );
 
   const Editor = getEditorForKey(tagKey);
   if (Editor === StringFieldEditor) {
@@ -158,6 +175,7 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
       <Editor
         feature={feature}
         tagKey={finalTagName}
+        addingNewLanguage={addingNewLanguage}
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
         handleSubmitButtonClick={handleSubmitButtonClick}

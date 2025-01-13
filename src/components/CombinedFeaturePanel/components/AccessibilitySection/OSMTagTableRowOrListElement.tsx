@@ -1,5 +1,6 @@
 import { Tooltip } from "@radix-ui/themes";
 import styled from "styled-components";
+import { EditDropdownMenu } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { EditButton } from "./EditButton";
@@ -27,6 +28,7 @@ export function OSMTagTableRowOrListElement({
   keyLabel,
   valueElement,
   isEditable,
+  isLanguageTagged,
   editURL,
   keyDetails,
   valueDetails,
@@ -65,7 +67,13 @@ export function OSMTagTableRowOrListElement({
 
   const valueIsString = typeof valueElement === "string";
   const valueIsNumber = typeof valueElement === "number";
-  const editButton = isEditable && <EditButton editURL={editURL} />;
+  //const editButton = isEditable && <EditButton editURL={editURL} />;
+  //TODO: insert conditional selection of plain edit button (editable keys) or drop down menu (editable and lang tagged keys)
+  const editControls = isLanguageTagged ? (
+    <EditDropdownMenu editURL={editURL} />
+  ) : isEditable ? (
+    <EditButton editURL={editURL} />
+  ) : null;
 
   const displayedValueContent = valueIsString ? (
     <span
@@ -86,11 +94,11 @@ export function OSMTagTableRowOrListElement({
         </StyledMarkdown>
       ) : null}
       {!valueIsNumber && !valueIsString && valueElement}
-      {editButton}
+      {editControls}
     </span>
   ) : (
     <>
-      <span>{valueElement}</span> {editButton}
+      <span>{valueElement}</span> {editControls}
     </>
   );
 

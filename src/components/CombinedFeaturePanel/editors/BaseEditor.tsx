@@ -5,6 +5,7 @@ import type { EditorTagValue } from "./EditorTagValue";
 export type BaseEditorProps = {
   tagKey: string;
   feature: AnyFeature;
+  addingNewLanguage: boolean;
   onUrlMutationSuccess: (urls: string[]) => void;
   onChange: (tagValue: EditorTagValue) => void;
   handleSubmitButtonClick: () => void;
