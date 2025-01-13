@@ -17,7 +17,7 @@ console.log(`Testing against base URL ${baseURL} from CI_TEST_DEPLOYMENT_BASE_UR
 export default defineConfig({
   testDir: './e2e',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: !process.env.CI,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
