@@ -51,7 +51,7 @@ test.describe('onboarding dialog', () => {
 
   test('can be closed', async ({ page }) => {
     await page.getByRole('button', { name: 'Okay, let’s go!' }).click();
-    await page.getByRole('button', { name: 'Continue without location access' }).click();
+    await page.getByRole('button', { name: 'Skip' }).click();
     await page.getByRole('button', { name: 'Let’s go!' }).click();
 
     await expect(page.getByRole('dialog')).not.toBeVisible();
