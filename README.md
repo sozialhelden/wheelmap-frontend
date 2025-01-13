@@ -103,4 +103,3 @@ New code is automatically tested on pushing it to the git repository. GitHub dis
 ## Code of Conduct
 
 We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
-
