@@ -50,6 +50,7 @@ COPY --from=buildenv /usr/app/public ./public
 COPY --from=buildenv /usr/app/node_modules ./node_modules
 COPY --from=buildenv /usr/app/e2e ./e2e
 COPY --from=buildenv /usr/app/run_tests.sh ./run_tests.sh
+COPY --from=buildenv /usr/app/playwright.config.ts ./playwright.config.ts
 
 EXPOSE 3000
 
