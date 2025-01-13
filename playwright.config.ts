@@ -4,12 +4,8 @@ import { defineConfig, devices } from '@playwright/test';
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-import dotenv from 'dotenv';
-import path from 'path';
-import getBaseURL from './e2e/lib/base-url';
 
 const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
-console.log(`Testing against base URL ${baseURL} from CI_TEST_DEPLOYMENT_BASE_URL environment variable (original value: '${process.env.CI_TEST_DEPLOYMENT_BASE_URL}')`);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
