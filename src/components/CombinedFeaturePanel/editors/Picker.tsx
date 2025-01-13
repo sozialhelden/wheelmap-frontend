@@ -15,7 +15,9 @@ import {
 import { createGlobalStyle } from "styled-components";
 
 interface PickerProps {
-  placeholder: string;
+  searchFieldPlaceholder: string;
+  pickerPlaceholder: string;
+  defaultPickerValue?: { label: string; value: string };
   items: { label: string; value: string }[];
   onSelect: (selectedValue: string) => void;
 }
@@ -149,11 +151,22 @@ const PickerStyles = createGlobalStyle`
     }
 `;
 
-export default function Picker({ placeholder, items, onSelect }: PickerProps) {
+/*if the language of the browser appears in the picker and at the same time
+ * editing is forbidden as long as the language was not selected, the user will be confused
+ * in case the preselected language matches their intended language and they dont change
+ * the picker value. Thats why there is a placeholder here instead of a default value
+ * */
+
+export default function Picker({
+  searchFieldPlaceholder,
+  pickerPlaceholder,
+  defaultPickerValue,
+  items,
+  onSelect,
+}: PickerProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
-
   const matches = useMemo(() => {
     if (!searchValue) return items;
     const keys = ["label", "value"];
@@ -195,7 +208,7 @@ export default function Picker({ placeholder, items, onSelect }: PickerProps) {
           }}
         >
           <RadixSelect.Trigger aria-label="Language" className="select">
-            <RadixSelect.Value placeholder="Select a language" />
+            <RadixSelect.Value placeholder={pickerPlaceholder} />
             <RadixSelect.Icon className="select-icon">
               <ChevronUpDownIcon />
             </RadixSelect.Icon>
@@ -216,7 +229,7 @@ export default function Picker({ placeholder, items, onSelect }: PickerProps) {
                 </div>
                 <Combobox
                   autoSelect
-                  placeholder={placeholder}
+                  placeholder={searchFieldPlaceholder}
                   className="combobox"
                   // Ariakit's Combobox manually triggers a blur event on virtually
                   // blurred items, making them work as if they had actual DOM
