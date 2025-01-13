@@ -26,7 +26,7 @@ export function getRequestQuery(
 export function getRequestLanguageTags(request?: IncomingMessage): string[] {
   if (request) {
     return parseAcceptLanguageString(
-      request.headers?.["accept-language"] ?? "",
+      request.headers?.["accept-language"] ?? "en-US",
     );
   }
   return Array.from(new Set([navigator.language, ...navigator.languages]));
