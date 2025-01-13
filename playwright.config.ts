@@ -34,7 +34,10 @@ export default defineConfig({
     trace: 'retain-on-failure',
 
     /* Record videos for failing tests. See https://playwright.dev/docs/videos */
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
+
+    /* TLS errors can happen when an Ingress is freshly deployed in CI. */
+    ignoreHTTPSErrors: true
   },
 
   /* Configure projects for major browsers */
