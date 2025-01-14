@@ -103,4 +103,3 @@ New code is automatically tested on pushing it to the git repository. GitHub dis
 ## Code of Conduct
 https://argo.i.wheelmap.tech/artifact-files/argo-events/workflows/deploy-branch-crrqq/deploy-branch-crrqq-479967441/outputs/test-artifacts
 We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
-
