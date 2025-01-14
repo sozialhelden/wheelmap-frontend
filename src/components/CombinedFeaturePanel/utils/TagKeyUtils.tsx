@@ -1,7 +1,7 @@
 import { languageTaggedKeys } from "~/lib/model/osm/tag-config/languageTaggedKeys";
-import { log } from "../../util/logger";
 
 export const removeLanguageTagsIfPresent = (inputString: string) => {
+  //TODO: re-implement this using regex
   if (languageTaggedKeys.has(inputString)) {
     return inputString;
   }
@@ -16,4 +16,9 @@ export const removeLanguageTagsIfPresent = (inputString: string) => {
   }
   console.log("Tag is not language-tagged. Returning original input string.");
   return inputString;
+};
+
+export const extractLanguageTagIfPresent = (inputString: string) => {
+  //TODO: implement this using regex
+  return "";
 };

@@ -1,5 +1,5 @@
 import { Badge, Button, Dialog, Flex, Text, TextArea } from "@radix-ui/themes";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import Picker from "~/components/CombinedFeaturePanel/editors/Picker";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
@@ -33,19 +33,21 @@ export const StringFieldEditor = ({
   const tagKeyWithoutLangTag = removeLanguageTagsIfPresent(tagKey);
   console.log("tag key without lang tag: ", tagKeyWithoutLangTag);
 
-  const currentTagValue = feature.properties?.[tagKey] || "";
-  const descriptions = Object.keys(feature.properties).filter((key) =>
+  const initialTagValue = feature.properties?.[tagKey] || "";
+  const descriptionKeys = Object.keys(feature.properties).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
   );
+  //TODO: reimplement this in a robust manner as a reusable function in TagKeyUtils.tsx
   const availableLangTags = new Set(
-    descriptions
+    descriptionKeys
       .filter((description) => description.split(":").length > 2)
-      .map((description) => description.split(":")[2]),
+      .map((description) => description.split(":").at(-1) || ""),
   );
 
   console.log("available langtags: ", availableLangTags);
 
-  const [editedTagValue, setEditedTagValue] = useState(currentTagValue);
+  const [currentTagValue, setCurrentTagValue] = useState(initialTagValue);
+  const [editedTagValue, setEditedTagValue] = useState(initialTagValue);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState(true);
@@ -55,9 +57,7 @@ export const StringFieldEditor = ({
     ? "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description."
     : "Please describe how accessible this place is for wheelchair users.";
 
-  useEffect(() => {
-    setSaveButtonDoesNothing(currentTagValue === editedTagValue);
-  }, [currentTagValue, editedTagValue]);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const initialValue = useMemo(() => {
     if (availableLangTags.has(selectedLanguage)) {
@@ -73,14 +73,34 @@ export const StringFieldEditor = ({
   ]);
 
   useEffect(() => {
+    setSaveButtonDoesNothing(currentTagValue === editedTagValue);
+  }, [currentTagValue, editedTagValue]);
+
+  useEffect(() => {
     setTextAreaValue(initialValue);
+    setCurrentTagValue(initialTagValue);
+    setEditedTagValue(initialTagValue);
   }, [initialValue]);
 
   const handleTextAreaChange = (newValue) => {
     setTextAreaValue(newValue);
     setEditedTagValue(newValue);
+    setHasValueChanged(newValue !== initialTagValue);
     onChange(newValue);
+    textAreaRef.current?.focus();
   };
+
+  // TODO: find a better way to keep the focus on the text area, this approach causes flickering
+  useEffect(() => {
+    if (!addingNewLanguage || hasValueChanged) {
+      // When the textarea is enabled, ensure it regains focus
+      setTimeout(() => {
+        if (textAreaRef.current) {
+          textAreaRef.current.focus();
+        }
+      }, 0);
+    }
+  }, [addingNewLanguage, hasValueChanged]);
 
   return (
     <Dialog.Root open>
@@ -137,8 +157,9 @@ export const StringFieldEditor = ({
           )}
 
           <TextArea
+            ref={textAreaRef}
             aria-label="Enter text here"
-            defaultValue={addingNewLanguage ? undefined : currentTagValue}
+            defaultValue={addingNewLanguage ? undefined : initialTagValue}
             value={addingNewLanguage ? textAreaValue : undefined}
             placeholder="Enter text here"
             disabled={addingNewLanguage ? !hasValueChanged : false}
@@ -151,7 +172,7 @@ export const StringFieldEditor = ({
           <Flex gap="3" mt="4" justify="end">
             <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
               <Button variant="soft" size="2">
-                {saveButtonDoesNothing ? "Cancel" : "Back"}
+                Cancel
               </Button>
             </AppStateLink>
 
