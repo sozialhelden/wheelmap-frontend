@@ -5,13 +5,13 @@ import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { t } from "ttag";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { useEnvContext } from "../../../lib/context/EnvContext";
-import { makeChangeRequestToInhouseApi } from "../../../lib/fetchers/makeChangeRequestToInhouseApi";
-import { fetchFeaturePrefixedId } from "../../../lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { useEnvContext } from "~/lib/context/EnvContext";
+import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
+import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
 import useSubmitNewValueCallback from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
 import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
 import useRetrieveOsmParametersFromFeature from "../../../lib/fetchers/osm-api/useRetrieveOsmParametersFromFeature";
-import { isOSMFeature } from "../../../lib/model/geo/AnyFeature";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -89,7 +89,7 @@ export const AutoEditor = ({
     toast.warning(message);
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
     // router.push(newPath)
-  }, [router, finalTagName]);
+  });
 
   const handleError = React.useCallback((error: Error, message?: string) => {
     const defaultMessage = [
@@ -128,7 +128,7 @@ export const AutoEditor = ({
       await makeChangeRequestToInhouseApi({
         baseUrl: inhouseOSMAPIBaseURL,
         osmId,
-        finalTagName,
+        tagName: finalTagName,
         newTagValue,
       });
       handleSuccess();
@@ -148,13 +148,8 @@ export const AutoEditor = ({
 
   const handlePickerValueChange = React.useCallback(
     (newPickerValue: string) => {
-      let finalTag = tagName;
-      try {
-        finalTag = removeLanguageTagsIfPresent(tagName);
-      } catch (error) {
-        // what should we do here?
-      }
-      const updatedTagName = [finalTag, newPickerValue].join(":");
+      const baseTag = removeLanguageTagsIfPresent(tagName);
+      const updatedTagName = [baseTag, newPickerValue].join(":");
 
       if (updatedTagName !== finalTagName) {
         setFinalTagName(updatedTagName);

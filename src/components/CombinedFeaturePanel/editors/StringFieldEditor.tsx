@@ -1,9 +1,7 @@
 import { Badge, Button, Dialog, Flex, Text, TextArea } from "@radix-ui/themes";
-import { featureEach } from "@turf/turf";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Picker from "~/components/CombinedFeaturePanel/editors/Picker";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
@@ -48,29 +46,41 @@ export const StringFieldEditor = ({
   console.log("available langtags: ", availableLangTags);
 
   const [editedTagValue, setEditedTagValue] = useState(currentTagValue);
-  const [textAreaValue, setTextAreaValue] = useState(currentTagValue);
+  const [textAreaValue, setTextAreaValue] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState(true);
   const [hasValueChanged, setHasValueChanged] = useState(false);
+
+  const dialogDescription = addingNewLanguage
+    ? "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description."
+    : "Please describe how accessible this place is for wheelchair users.";
 
   useEffect(() => {
     setSaveButtonDoesNothing(currentTagValue === editedTagValue);
   }, [currentTagValue, editedTagValue]);
 
-  useEffect(() => {
+  const initialValue = useMemo(() => {
     if (availableLangTags.has(selectedLanguage)) {
       const newTagKey = `${tagKeyWithoutLangTag}:${selectedLanguage}`;
-      const newValue = feature.properties[newTagKey] || "";
-      setTextAreaValue(newValue);
-    } else {
-      setTextAreaValue("");
+      return feature.properties[newTagKey] || "";
     }
+    return "";
   }, [
     selectedLanguage,
     availableLangTags,
     feature.properties,
     tagKeyWithoutLangTag,
   ]);
+
+  useEffect(() => {
+    setTextAreaValue(initialValue);
+  }, [initialValue]);
+
+  const handleTextAreaChange = (newValue) => {
+    setTextAreaValue(newValue);
+    setEditedTagValue(newValue);
+    onChange(newValue);
+  };
 
   return (
     <Dialog.Root open>
@@ -85,21 +95,21 @@ export const StringFieldEditor = ({
 
         <Dialog.Description size="2" mb="4">
           <Flex direction="column" gap="3">
-            Please describe how accessible this place is for wheelchair users.
-            Start by selecting the language for your description.
-            <Flex gap="2">
-              <Badge color="orange">Note</Badge>
-              <Text size="1" color="gray">
-                Currently, we support a limited number of languages. More will
-                be added soon! If your language is missing, please contact our
-                support team. &#x1F60A;
-              </Text>
-            </Flex>
+            {dialogDescription}
+            {addingNewLanguage && (
+              <Flex gap="2">
+                <Badge color="orange">Note</Badge>
+                <Text size="1" color="gray">
+                  Currently, we support a limited number of languages. More will
+                  be added soon! If your language is missing, please contact our
+                  support team. &#x1F60A;
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </Dialog.Description>
 
         <Flex direction="column" gap="5" style={{ width: "100%" }}>
-          {/* Conditionally display Language Picker Row */}
           {addingNewLanguage && (
             <Flex align="center" gap="3" style={{ width: "100%" }}>
               <Text as="label" size="2" id="language-picker-label">
@@ -128,14 +138,11 @@ export const StringFieldEditor = ({
 
           <TextArea
             aria-label="Enter text here"
-            defaultValue={currentTagValue}
+            defaultValue={addingNewLanguage ? undefined : currentTagValue}
             value={addingNewLanguage ? textAreaValue : undefined}
             placeholder="Enter text here"
             disabled={addingNewLanguage ? !hasValueChanged : false}
-            onChange={(evt) => {
-              setEditedTagValue(evt.target.value);
-              onChange(evt.target.value);
-            }}
+            onChange={(evt) => handleTextAreaChange(evt.target.value)}
             size="2"
             radius="small"
             variant="classic"
