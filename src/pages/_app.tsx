@@ -18,8 +18,10 @@ import { UserAgentContextProvider } from "../lib/context/UserAgentContext";
 import { patchFetcher } from "../lib/util/patchClientFetch";
 import "@radix-ui/themes/styles.css";
 import StyledComponentsRegistry from "../lib/context/Registry";
+import "../app/reset.css";
 import "../app/app.css";
 import "../app/inter.css";
+import "../app/pointer-cursor.css";
 import { ExpertModeContextProvider } from "~/components/App/MainMenu/useExpertMode";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import {
