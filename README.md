@@ -92,7 +92,9 @@ To test locally,
 
 ### Testing via CI
 
-New code is automatically tested on pushing it to the git repository. GitHub displays the test status next to commits.
+New code is automatically tested when you push it to the git repository. For team members, GitHub displays the test status next to commits.
+
+The commit statuses include links to your branch deployment, the CI workflow UI, and to PlayWright testing results.
 
 ## Contributing data and code
 
@@ -101,5 +103,5 @@ New code is automatically tested on pushing it to the git repository. GitHub dis
 - If you have a concrete bugfix, you can create a pull request - please create an issue first so we can organize collaboration together.
 
 ## Code of Conduct
-https://argo.i.wheelmap.tech/artifact-files/argo-events/workflows/deploy-branch-crrqq/deploy-branch-crrqq-479967441/outputs/test-artifacts
+
 We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
