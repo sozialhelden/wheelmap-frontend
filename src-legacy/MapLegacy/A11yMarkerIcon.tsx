@@ -28,10 +28,10 @@ export default class A11yMarkerIcon extends MarkerIcon {
     const accessibility = isWheelchairAccessible(feature.properties);
     const iconName = getIconNameForProperties(categories, feature.properties);
     const wheelchairAccessibilityText = accessibilityName(
-      isWheelchairAccessible(feature.properties)
+      isWheelchairAccessible(feature.properties),
     );
     const accessibleName = `${String(
-      translatedStringFromObject(feature.properties.name)
+      translatedStringFromObject(feature.properties.name),
     )} ${String(wheelchairAccessibilityText)}`;
 
     super({ iconAnchorOffset, highlighted, accessibleName, ...restOptions });
@@ -44,7 +44,6 @@ export default class A11yMarkerIcon extends MarkerIcon {
         size={highlighted ? "big" : "small"}
         withArrow={highlighted}
         shadowed={highlighted}
-        centered
         ariaHidden={highlighted}
       />
     );

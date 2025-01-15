@@ -1,13 +1,13 @@
-import * as React from 'react'
-import isEqual from 'lodash/isEqual'
-import styled from 'styled-components'
+import * as React from "react";
+import isEqual from "lodash/isEqual";
+import styled from "styled-components";
 
-import Icon from '../shared/Icon'
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
-import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible'
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
+import Icon from "../shared/Icon";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
+import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
+import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 
-const ToiletIcon = styled.figure``
+const ToiletIcon = styled.figure``;
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
@@ -15,14 +15,14 @@ type Props = {
   category?: string | null;
   isMainCategory?: boolean;
   className?: string;
-}
+};
 
 function CombinedIcon(props: Props) {
-  if (!props.accessibilityFilter) return null
+  if (!props.accessibilityFilter) return null;
 
   const accessibilities = isAccessibilityFiltered(props.accessibilityFilter)
     ? props.accessibilityFilter
-    : [null]
+    : [null];
 
   return (
     <div aria-hidden className={props.className}>
@@ -30,18 +30,18 @@ function CombinedIcon(props: Props) {
         <Icon
           key={accessibility}
           accessibility={accessibility}
-          category={props.category}
+          category={props.category || undefined}
           isMainCategory={props.isMainCategory}
           size="medium"
         />
       ))}
-      {isEqual(props.toiletFilter, ['yes']) ? (
+      {isEqual(props.toiletFilter, ["yes"]) ? (
         <ToiletIcon>
           <ToiletStatusAccessible />
         </ToiletIcon>
       ) : null}
     </div>
-  )
+  );
 }
 
 export default styled(CombinedIcon)`
@@ -96,4 +96,4 @@ export default styled(CombinedIcon)`
       stroke: white;
     }
   }
-`
+`;

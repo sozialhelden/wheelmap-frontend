@@ -79,24 +79,22 @@ We have a retranslate tool that allows to use the `en_US` language on transifex 
 
 ## Testing
 
-<a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
+For testing the apps, we use [PlayWright](https://playwright.dev) (which enables quick E2E tests locally and on CI) and [BrowserStack](https://browserstack.com) (for testing manually with [BrowserStack Live](https://www.browserstack.com/live)). We thank the PlayWright and BrowserStack teams for their great products and their support! ❤️
 
-For testing the apps, we use [BrowserStack](https://browserstack.com) - it can run test suites on various browsers and live devices. Currently, our testing happens mostly manually on [BrowserStack Live](https://www.browserstack.com/live), but pull requests will soon get automatic CI checks using [BrowserStack Automate](https://www.browserstack.com/automate) and [BrowserStack App Automate](https://www.browserstack.com/app-automate). We thank the BrowserStack team for their great products and their support! ❤️
+<a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
 
 ### Testing locally
 
-To test locally, get BrowserStack login data, put them into environment variables and run the tests like this on the shell:
-
-```bash
-export BROWSERSTACK_USERNAME=...
-export BROWSERSTACK_ACCESS_KEY=...
-export CI_TEST_DEPLOYMENT_BASE_URL=http://localhost
-npm run test
-```
+To test locally,
+- [Install the PlayWright VSCode extension](https://playwright.dev/docs/getting-started-vscode),
+- Run `npx playwright install --with-deps` to install PlayWright's browser binaries,
+- Run `npm run test`.
 
 ### Testing via CI
 
-New code is automatically tested on pushing it to the git repository. GitHub displays the test status next to commits.
+New code is automatically tested when you push it to the git repository. For team members, GitHub displays the test status next to commits.
+
+The commit statuses include links to your branch deployment, the CI workflow UI, and to PlayWright testing results.
 
 ## Contributing data and code
 
