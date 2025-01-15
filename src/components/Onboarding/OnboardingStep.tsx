@@ -8,7 +8,7 @@ import {
 } from "../../lib/model/accessibility/accessibilityStrings";
 import Icon from "../shared/Icon";
 import VectorImage from "../shared/VectorImage";
-import { selectHeaderMarkdownHTML, gerProductName } from "./gerProductName";
+import { selectHeaderMarkdownHTML, getProductName } from "./getProductName";
 import {
   Box,
   Button,
@@ -48,7 +48,7 @@ export const OnboardingStep: React.FC<{
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
   const startButtonCaption = t`Okay, let’s go!`;
-  const productName = gerProductName(clientSideConfiguration);
+  const productName = getProductName(clientSideConfiguration);
 
   return (
     <>

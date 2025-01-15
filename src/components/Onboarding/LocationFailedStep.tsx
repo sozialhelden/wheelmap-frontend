@@ -3,8 +3,8 @@ import { AppContext } from "../../lib/context/AppContext";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationFailedStepPrimaryText,
-  gerProductName as getProductName,
-} from "./gerProductName";
+  getProductName as getProductName,
+} from "./getProductName";
 import { AlertDialog, Box, Button, Dialog, Flex } from "@radix-ui/themes";
 import { type FC, useContext } from "react";
 

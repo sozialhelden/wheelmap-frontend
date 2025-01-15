@@ -7,7 +7,7 @@ import {
   DenyLocationPermissionText,
   GrantLocationPermissionText,
   LocationStepPrimaryText,
-} from "./gerProductName";
+} from "./getProductName";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import {
   AlertDialog,
