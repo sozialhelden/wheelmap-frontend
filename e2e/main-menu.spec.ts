@@ -41,6 +41,7 @@ test.describe("when the menu is closed", () => {
     `);
   });
 
+  
   test('has correct ARIA snapshot on mobiles', async ({ page }) => {
     skipOnDesktops();
     await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
