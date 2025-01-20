@@ -27,6 +27,7 @@
   
   - [ ] A new E2e playwright test covers this feature / A new test that reproduces the bug passes now.
   - [ ] The feature deployment works.
+  - [ ] The automated tests are passing.
   - [ ] I have manually tested this feature
     - [ ] on mobile
     - [ ] by using keyboard-only navigation
