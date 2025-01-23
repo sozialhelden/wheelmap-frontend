@@ -21,7 +21,8 @@
 
 ## ⚠️ Creation checklist
 
-**Before creating this merge request, go over the following checklist, if applicable (click to expand)**
+**Before creating this merge request, go over the following checklist (click to expand). 
+Remove any items that are not applicable.**
 
 <details><summary>💪 I have tested my code</summary>
   
@@ -58,7 +59,14 @@
 - [ ] It follows the template, has a clear description and testing instructions if needed.
 - [ ] It references applicable Asana tickets.
 - [ ] It targets the right branch.
-- [ ] The documentation in this repository and the [tech manual](https://manual.i.wheelmap.tech/) is up-to-date.
+- [ ] I removed not applicable sections of the PR template.
+</details> 
+
+<details><summary>📝 I updated the documentation</summary>
+  
+- [ ] I updated the documentation in this repository.
+- [ ] I updated the [tech manual](https://manual.i.wheelmap.tech/).
+- [ ] I updated the manual testing plan of the app so that it includes a testing flow for this feature.
 </details> 
 
   
