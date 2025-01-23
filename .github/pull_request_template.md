@@ -56,6 +56,7 @@ Remove any items that are not applicable.**
 
 <details><summary>✨ I have created a nice pull request</summary>
   
+- [ ] It has a clear title.
 - [ ] It follows the template, has a clear description and testing instructions if needed.
 - [ ] It references applicable Asana tickets.
 - [ ] It targets the right branch.
