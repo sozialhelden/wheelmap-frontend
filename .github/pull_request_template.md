@@ -60,6 +60,7 @@ Remove any items that are not applicable.**
 - [ ] It references applicable Asana tickets.
 - [ ] It targets the right branch.
 - [ ] I removed not applicable sections of the PR template.
+- [ ] [optional] I added a GIF of my favorite animal to the PR description to lighten the mood of my colleagues.
 </details> 
 
 <details><summary>📝 I updated the documentation</summary>
