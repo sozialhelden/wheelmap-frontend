@@ -1,7 +1,7 @@
 import type React from "react";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import type { OSMTagProps } from "../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
-import { valueRenderFunctions } from "../../../../components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
+import type { OSMTagProps } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
+import { valueRenderFunctions } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../i18n/getLocalizedStringTranslationWithMultipleLocales";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {

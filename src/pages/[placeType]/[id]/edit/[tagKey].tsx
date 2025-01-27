@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
-import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
-import { AutoEditor } from "../../../../components/CombinedFeaturePanel/editors/AutoEditor";
+import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "~/components/CombinedFeaturePanel/PlaceLayout";
+import { AutoEditor } from "~/components/CombinedFeaturePanel/editors/AutoEditor";
 
 export default function EditPage() {
   const {
