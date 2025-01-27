@@ -1,13 +1,12 @@
 import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Button, DropdownMenu, Flex, Theme } from "@radix-ui/themes";
+import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { t } from "ttag";
-import IAppLink from "../../../lib/model/ac/IAppLink";
-import AutoLink from "./link-types/AutoLink";
-import type { TranslatedAppLink } from "./translateAndInterpolateAppLink";
-import { useAppLinks as useCurrentAppLinks } from "./useAppLinks";
-import { useExpertMode } from "./useExpertMode";
+import type { TranslatedAppLink } from "~/lib/useAppLink";
+import { useExpertMode } from "~/lib/useExpertMode";
+import { useNavigation } from "~/lib/useNavigation";
+import AppLink from "./Navigation/AppLink";
 
 function filterExpertModeLinks(
   links: TranslatedAppLink[],
@@ -21,7 +20,7 @@ function filterExpertModeLinks(
   });
 }
 
-export default function MainMenuLinks() {
+export default function Navigation() {
   const router = useRouter();
   const { pathname } = router;
   const [isOpen, setIsOpen] = useState(false);
@@ -30,12 +29,12 @@ export default function MainMenuLinks() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: when pathname changes, close the main menu.
   useEffect(() => setIsOpen(false), [pathname]);
 
-  const { linksInToolbar, linksInDropdownMenu } = useCurrentAppLinks();
+  const { linksInToolbar, linksInDropdownMenu } = useNavigation();
 
   const menuLinkElements = useMemo(
     () =>
       filterExpertModeLinks(linksInDropdownMenu, isExpertMode).map(
-        (appLink) => <AutoLink asMenuItem {...appLink} key={appLink._id} />,
+        (appLink) => <AppLink asMenuItem {...appLink} key={appLink._id} />,
       ),
     [linksInDropdownMenu, isExpertMode],
   );
@@ -44,7 +43,7 @@ export default function MainMenuLinks() {
     () =>
       filterExpertModeLinks(linksInToolbar, isExpertMode).map((appLink) => (
         <li key={appLink._id}>
-          <AutoLink asMenuItem={false} {...appLink} />
+          <AppLink asMenuItem={false} {...appLink} />
         </li>
       )),
     [linksInToolbar, isExpertMode],
@@ -54,8 +53,8 @@ export default function MainMenuLinks() {
     <Theme radius="small">
       <DropdownMenu.Root onOpenChange={setIsOpen}>
         <DropdownMenu.Trigger>
-          <Button
-            variant="solid"
+          <IconButton
+            variant="soft"
             color="gray"
             size="3"
             aria-label={isOpen ? t`Close menu` : t`Show menu`}
@@ -65,7 +64,7 @@ export default function MainMenuLinks() {
             ) : (
               <HamburgerMenuIcon width="24" height="24" aria-hidden="true" />
             )}
-          </Button>
+          </IconButton>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>{menuLinkElements}</DropdownMenu.Content>
       </DropdownMenu.Root>

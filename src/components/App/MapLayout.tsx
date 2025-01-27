@@ -10,14 +10,14 @@ import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
+import { useExpertMode } from "../../lib/useExpertMode";
 import { isFirstStart } from "../../lib/util/savedState";
 import { GlobalMapContextProvider } from "../Map/GlobalMapContext";
 import LoadableMapView from "../Map/LoadableMapView";
 import { MapFilterContextProvider } from "../Map/filter/MapFilterContext";
+import TopBar from "../TopBar/TopBar";
 import ErrorBoundary from "../shared/ErrorBoundary";
 import HeadMetaTags from "./HeadMetaTags";
-import MainToolbar from "./MainMenu/MainToolbar";
-import { useExpertMode } from "./MainMenu/useExpertMode";
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -84,9 +84,7 @@ export default function MapLayout({
           <MapFilterContextProvider>
             <GlobalMapContextProvider>
               {clientSideConfiguration && (
-                <MainToolbar
-                  clientSideConfiguration={clientSideConfiguration}
-                />
+                <TopBar clientSideConfiguration={clientSideConfiguration} />
               )}
               {isOnboardingVisible && <Onboarding />}
               <main style={{ height: "100%" }} ref={containerRef}>
