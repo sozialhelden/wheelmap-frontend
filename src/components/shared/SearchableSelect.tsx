@@ -57,7 +57,9 @@ export default function SearchableSelect({
               position="popper"
             >
               {items.map(({label, value}) => (
-              <Select.Item value={value}>{label}</Select.Item>
+                <Select.Item key={value} value={value}>
+                  {label}
+                </Select.Item>
               ))}
 
             </Select.Content>
