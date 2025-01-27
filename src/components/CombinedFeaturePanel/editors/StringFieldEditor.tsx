@@ -22,8 +22,6 @@ export const StringFieldEditor = ({
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const {normalizedTag: tagKeyWithoutLangTag} = removeLanguageTagsIfPresent(tagKey);
-  console.log("tag key without lang tag: ", tagKeyWithoutLangTag);
-
   const initialTagValue = feature.properties?.[tagKey] || "";
   const descriptionKeys = Object.keys(feature.properties).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
@@ -34,8 +32,6 @@ export const StringFieldEditor = ({
       .filter((description) => description.split(":").length > 2)
       .map((description) => description.split(":").at(-1) || ""),
   );
-
-  console.log("available langtags: ", availableLangTags);
 
   const [currentTagValue, setCurrentTagValue] = useState(initialTagValue);
   const [editedTagValue, setEditedTagValue] = useState(initialTagValue);
@@ -105,7 +101,7 @@ export const StringFieldEditor = ({
             <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
           </VisuallyHidden>
 
-        <Dialog.Description size="2" mb="4">
+        <Dialog.Description size="2" mb="4" as="div">
           <Flex direction="column" gap="3">
             {dialogDescription}
             {addingNewLanguage && (
@@ -114,10 +110,10 @@ export const StringFieldEditor = ({
                   <Callout.Icon>
                     <InfoCircledIcon />
                   </Callout.Icon>
-                  <Callout.Text>
-                    {t`Currently, we support a limited number of languages. `}<br/>
-                    {t`More will be added soon! If your language is missing, please contact our
-                      support team.`}
+                  <Callout.Text as="div">
+                    {t`Currently, we support a limited number of languages.`}
+                    <br />
+                    {t`More will be added soon! If your language is missing, please contact our support team.`}
                   </Callout.Text>
                 </Callout.Root>
               </Flex>
