@@ -1,10 +1,10 @@
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import type { IApp } from "../../../lib/model/ac/App";
-import type IAppLink from "../../../lib/model/ac/IAppLink";
-import type { MappingEvent } from "../../../lib/model/ac/MappingEvent";
-import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/ac/insertPlaceholdersToAddPlaceUrl";
+import { translatedStringFromObject } from "~/lib/i18n/translatedStringFromObject";
+import type { IApp } from "~/lib/model/ac/App";
+import type IAppLink from "~/lib/model/ac/IAppLink";
+import type { MappingEvent } from "~/lib/model/ac/MappingEvent";
+import { insertPlaceholdersToAddPlaceUrl } from "~/lib/model/ac/insertPlaceholdersToAddPlaceUrl";
 
-export function translateAndInterpolateAppLink(
+export function useAppLink(
   link: IAppLink,
   app: IApp,
   uniqueSurveyId: string,
@@ -35,6 +35,4 @@ export function translateAndInterpolateAppLink(
   };
 }
 
-export type TranslatedAppLink = ReturnType<
-  typeof translateAndInterpolateAppLink
->;
+export type TranslatedAppLink = ReturnType<typeof useAppLink>;

@@ -1,7 +1,7 @@
-import { useCurrentMappingEvent } from "../../../../lib/context/useCurrentMappingEvent";
-import Spinner from "../../../ActivityIndicator/Spinner";
-import { AppStateLink } from "../../AppStateLink";
-import type { IAutoLinkProps } from "./AutoLink";
+import { useCurrentMappingEvent } from "~/lib/context/useCurrentMappingEvent";
+import Spinner from "../../ActivityIndicator/Spinner";
+import { AppStateLink } from "../../App/AppStateLink";
+import type { IAutoLinkProps } from "./AppLink";
 import MenuItemOrButton from "./MenuItemOrButton";
 
 /**
