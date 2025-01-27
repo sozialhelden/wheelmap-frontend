@@ -13,9 +13,8 @@ export default function EditPage() {
   const feature = features[0].feature?.requestedFeature;
   const key = Array.isArray(tagKey) ? tagKey[0] : tagKey;
   const addingNewLanguage = newLang === "true";
-  console.log("adding new language ", addingNewLanguage);
 
-  return (
+  return feature && (
     <AutoEditor
       tagKey={key}
       feature={feature}
