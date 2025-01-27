@@ -1,11 +1,11 @@
-import { Badge, type ButtonProps, Tooltip } from "@radix-ui/themes";
+import { Badge } from "@radix-ui/themes";
 import Link from "next/link";
-import { AppStateLink } from "../../AppStateLink";
-import type { IAutoLinkProps } from "./AutoLink";
+import { AppStateLink } from "../../App/AppStateLink";
+import type { IAutoLinkProps } from "./AppLink";
 import ErroneousLink from "./ErroneousLink";
 import MenuItemOrButton from "./MenuItemOrButton";
 
-export default function ExternalOrInternalAppLink(props: IAutoLinkProps) {
+export default function ExternalOrInternalLink(props: IAutoLinkProps) {
   const { label, badgeLabel, url } = props;
   let children: React.ReactNode;
   if (!url) {

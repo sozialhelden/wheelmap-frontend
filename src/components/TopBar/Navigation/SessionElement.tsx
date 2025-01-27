@@ -1,18 +1,9 @@
-import {
-  Box,
-  Button,
-  DropdownMenu,
-  Flex,
-  Popover,
-  Skeleton,
-  Text,
-  Tooltip,
-} from "@radix-ui/themes";
+import { Box, Button, Flex, Popover, Skeleton, Text } from "@radix-ui/themes";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import { t } from "ttag";
-import Markdown from "../../../shared/Markdown";
-import type { IAutoLinkProps } from "./AutoLink";
+import Markdown from "../../shared/Markdown";
+import type { IAutoLinkProps } from "./AppLink";
 import MenuItemOrButton from "./MenuItemOrButton";
 
 function AuthenticatedMenuContent() {

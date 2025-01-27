@@ -1,5 +1,4 @@
 import { HotkeysProvider } from "@blueprintjs/core";
-import "@radix-ui/themes/styles.css";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -7,20 +6,6 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import * as React from "react";
-import { ExpertModeContextProvider } from "~/components/App/MainMenu/useExpertMode";
-import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
-import {
-  getRequestCountryCode,
-  getRequestHostname,
-  getRequestILanguageTags,
-  getRequestQuery,
-  getRequestUserAgentString,
-} from "~/lib/util/request";
-import { setResponseLanguageHeaders } from "~/lib/util/response";
-import "../app/app.css";
-import "../app/inter.css";
-import "../app/pointer-cursor.css";
-import "../app/reset.css";
 import { AppContextProvider } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
 import {
@@ -29,9 +14,24 @@ import {
 } from "../lib/context/EnvContext";
 import { HostnameContextProvider } from "../lib/context/HostnameContext";
 import { LanguageCodeContextProvider } from "../lib/context/LanguageTagContext";
-import StyledComponentsRegistry from "../lib/context/Registry";
 import { UserAgentContextProvider } from "../lib/context/UserAgentContext";
 import { patchFetcher } from "../lib/util/patchClientFetch";
+import "@radix-ui/themes/styles.css";
+import StyledComponentsRegistry from "../lib/context/Registry";
+import "../app/reset.css";
+import "../app/app.css";
+import "../app/inter.css";
+import "../app/pointer-cursor.css";
+import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
+import { ExpertModeContextProvider } from "~/lib/useExpertMode";
+import {
+  getRequestCountryCode,
+  getRequestHostname,
+  getRequestILanguageTags,
+  getRequestQuery,
+  getRequestUserAgentString,
+} from "~/lib/util/request";
+import { setResponseLanguageHeaders } from "~/lib/util/response";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

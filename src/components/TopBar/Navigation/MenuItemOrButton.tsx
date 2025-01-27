@@ -1,5 +1,5 @@
 import { Button, DropdownMenu } from "@radix-ui/themes";
-import type { IAutoLinkProps } from "./AutoLink";
+import type { IAutoLinkProps } from "./AppLink";
 
 /**
  * Use this to render a menu item or a button, depending on the `asMenuItem` prop.

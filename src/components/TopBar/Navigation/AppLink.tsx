@@ -1,9 +1,8 @@
 import type { ButtonProps } from "@radix-ui/themes";
 import { useMemo } from "react";
-import type { translateAndInterpolateAppLink } from "../translateAndInterpolateAppLink";
-import { useExpertMode } from "../useExpertMode";
+import type { useAppLink } from "~/lib/useAppLink";
 import ErroneousLink from "./ErroneousLink";
-import ExternalOrInternalAppLink from "./ExternalOrInternalAppLink";
+import ExternalOrInternalLink from "./ExternalOrInternalLink";
 import JoinedEventLink from "./JoinedEventLink";
 import SessionElement from "./SessionElement";
 
@@ -29,13 +28,13 @@ function useAppLinkButtonProps(tags: string[] | undefined): ButtonProps {
  * A link that can be used in the main menu, which can be either a button (if rendered in the
  * toolbar) or a menu item (if rendered inside the dropdown menu).
  */
-export default function AutoLink({
+export default function AppLink({
   tags,
   label,
   badgeLabel,
   url,
   asMenuItem,
-}: ReturnType<typeof translateAndInterpolateAppLink> & {
+}: ReturnType<typeof useAppLink> & {
   asMenuItem: boolean;
 }) {
   const buttonProps: ButtonProps = useAppLinkButtonProps(tags);
@@ -46,7 +45,7 @@ export default function AutoLink({
   } else if (tags?.includes("session")) {
     Element = SessionElement;
   } else if (typeof url === "string") {
-    Element = ExternalOrInternalAppLink;
+    Element = ExternalOrInternalLink;
   } else {
     Element = ErroneousLink;
   }

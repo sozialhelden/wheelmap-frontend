@@ -1,12 +1,9 @@
 import React from "react";
-import { useAppContext } from "../../../lib/context/AppContext";
-import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
-import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
-import { useWindowSize } from "../../../lib/util/useViewportSize";
-import {
-  type TranslatedAppLink,
-  translateAndInterpolateAppLink,
-} from "./translateAndInterpolateAppLink";
+import { useAppContext } from "~/lib/context/AppContext";
+import { useCurrentMappingEvent } from "~/lib/context/useCurrentMappingEvent";
+import { useUniqueSurveyId } from "~/lib/context/useUniqueSurveyId";
+import { useWindowSize } from "~/lib/util/useViewportSize";
+import { type TranslatedAppLink, useAppLink } from "./useAppLink";
 
 function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
   return (a.order || 0) - (b.order || 0);
@@ -18,7 +15,7 @@ function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
  * and current viewport size.
  */
 
-export function useAppLinks() {
+export function useNavigation() {
   const windowSize = useWindowSize();
   const isBigViewport = windowSize.width >= 1024;
 
@@ -29,12 +26,7 @@ export function useAppLinks() {
   const translatedAppLinks = React.useMemo(
     () =>
       Object.values(appLinks ?? {}).map((link) =>
-        translateAndInterpolateAppLink(
-          link,
-          app,
-          uniqueSurveyId,
-          joinedMappingEvent,
-        ),
+        useAppLink(link, app, uniqueSurveyId, joinedMappingEvent),
       ),
     [app, appLinks, joinedMappingEvent, uniqueSurveyId],
   );
