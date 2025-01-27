@@ -1,6 +1,6 @@
-import { Badge, Button, Dialog, Flex, Text, TextArea } from "@radix-ui/themes";
+import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden} from "@radix-ui/themes";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
-import Picker from "~/components/CombinedFeaturePanel/editors/Picker";
+import SearchableSelect from "~/components/shared/SearchableSelect";
 import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { AppStateLink } from "../../App/AppStateLink";
@@ -8,6 +8,8 @@ import { FeaturePanelContext } from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
+import {InfoCircledIcon} from "@radix-ui/react-icons";
+import {t} from "ttag";
 
 export const StringFieldEditor = ({
   feature,
@@ -19,18 +21,7 @@ export const StringFieldEditor = ({
 }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  /* Code to autofill the language picker with the browser language
-   * This is disabled now, because the text area needs to be disabled unless a language is selected
-   * In case the pre selected language is the intended language of the user, which might actually often be the
-   * case, the text area would stay disabled, which is confusing for the user
-   * */
-
-  //const currentLangTag = useCurrentLanguageTagStrings()[0];
-  /*const defaultLanguageInPicker = languageTagMapForStringFieldEditor.find(
-    (entry) => entry.value === currentLangTag,
-  );*/
-
-  const tagKeyWithoutLangTag = removeLanguageTagsIfPresent(tagKey);
+  const {normalizedTag: tagKeyWithoutLangTag} = removeLanguageTagsIfPresent(tagKey);
   console.log("tag key without lang tag: ", tagKeyWithoutLangTag);
 
   const initialTagValue = feature.properties?.[tagKey] || "";
@@ -54,8 +45,8 @@ export const StringFieldEditor = ({
   const [hasValueChanged, setHasValueChanged] = useState(false);
 
   const dialogDescription = addingNewLanguage
-    ? "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description."
-    : "Please describe how accessible this place is for wheelchair users.";
+    ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
+    : t`Below you can edit this description. Add information that you find useful.`;
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -93,7 +84,6 @@ export const StringFieldEditor = ({
   // TODO: find a better way to keep the focus on the text area, this approach causes flickering
   useEffect(() => {
     if (!addingNewLanguage || hasValueChanged) {
-      // When the textarea is enabled, ensure it regains focus
       setTimeout(() => {
         if (textAreaRef.current) {
           textAreaRef.current.focus();
@@ -105,41 +95,47 @@ export const StringFieldEditor = ({
   return (
     <Dialog.Root open>
       <Dialog.Content>
+        <Flex direction="column" gap="3">
         <FeatureNameHeader feature={feature}>
           {feature["@type"] === "osm:Feature" && (
             <FeatureImage feature={feature} />
           )}
         </FeatureNameHeader>
-
-        <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
+          <VisuallyHidden asChild>
+            <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
+          </VisuallyHidden>
 
         <Dialog.Description size="2" mb="4">
           <Flex direction="column" gap="3">
             {dialogDescription}
             {addingNewLanguage && (
               <Flex gap="2">
-                <Badge color="orange">Note</Badge>
-                <Text size="1" color="gray">
-                  Currently, we support a limited number of languages. More will
-                  be added soon! If your language is missing, please contact our
-                  support team. &#x1F60A;
-                </Text>
+                <Callout.Root>
+                  <Callout.Icon>
+                    <InfoCircledIcon />
+                  </Callout.Icon>
+                  <Callout.Text>
+                    {t`Currently, we support a limited number of languages. `}<br/>
+                    {t`More will be added soon! If your language is missing, please contact our
+                      support team.`}
+                  </Callout.Text>
+                </Callout.Root>
               </Flex>
             )}
           </Flex>
         </Dialog.Description>
+        </Flex>
 
-        <Flex direction="column" gap="5" style={{ width: "100%" }}>
+        <Flex direction="column" gap="5" style={{width: "100%"}}>
           {addingNewLanguage && (
-            <Flex align="center" gap="3" style={{ width: "100%" }}>
-              <Text as="label" size="2" id="language-picker-label">
+            <Flex align="center" gap="3" style={{width: "100%"}}>
+              <Text as="label" size="2">
                 Select a language:
               </Text>
-              <Flex style={{ flexGrow: 1 }}>
-                <Picker
-                  id="language-picker"
-                  searchFieldPlaceholder="Search for languages"
-                  pickerPlaceholder="Select your language"
+              <Flex style={{flexGrow: 1}}>
+                <SearchableSelect
+                  id="select"
+                  selectPlaceholder={t`Languages`}
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {
                     setSelectedLanguage(value);
@@ -150,29 +146,31 @@ export const StringFieldEditor = ({
                       }
                     }
                   }}
-                  aria-labelledby="language-picker-label"
+                  ariaLabelForTrigger={t`Select a language`}
+                  ariaLabelForContent={t`List of languages`}
                 />
               </Flex>
             </Flex>
           )}
 
-          <TextArea
-            ref={textAreaRef}
-            aria-label="Enter text here"
-            defaultValue={addingNewLanguage ? undefined : initialTagValue}
-            value={addingNewLanguage ? textAreaValue : undefined}
-            placeholder="Enter text here"
-            disabled={addingNewLanguage ? !hasValueChanged : false}
-            onChange={(evt) => handleTextAreaChange(evt.target.value)}
-            size="2"
-            radius="small"
-            variant="classic"
-          />
+          <div hidden={addingNewLanguage ? !hasValueChanged : false}>
+            <TextArea
+              ref={textAreaRef}
+              aria-label={t`Enter a description here`}
+              defaultValue={addingNewLanguage ? undefined : initialTagValue}
+              value={addingNewLanguage ? textAreaValue : undefined}
+              placeholder={t`Enter a description here`}
+              onChange={(evt) => handleTextAreaChange(evt.target.value)}
+              size="2"
+              radius="small"
+              variant="classic"
+            />
+          </div>
 
           <Flex gap="3" mt="4" justify="end">
             <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
               <Button variant="soft" size="2">
-                Cancel
+                {t`Cancel`}
               </Button>
             </AppStateLink>
 
@@ -184,7 +182,7 @@ export const StringFieldEditor = ({
                   saveButtonDoesNothing ? undefined : handleSubmitButtonClick
                 }
               >
-                {saveButtonDoesNothing ? "Confirm" : "Send"}
+                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
               </Button>
             </AppStateLink>
           </Flex>
