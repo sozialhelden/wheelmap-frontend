@@ -148,7 +148,7 @@ export const AutoEditor = ({
 
   const handlePickerValueChange = React.useCallback(
     (newPickerValue: string) => {
-      const baseTag = removeLanguageTagsIfPresent(tagName);
+      const {normalizedTag: baseTag} = removeLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
 
       if (updatedTagName !== finalTagName) {
@@ -178,7 +178,21 @@ export const AutoEditor = ({
       />
     );
   }
-  if (Editor === (WheelchairEditor || ToiletsWheelchairEditor)) {
+  if (Editor === WheelchairEditor) {
+    console.log("key: ",  finalTagName)
+    console.log("Editor: ", Editor)
+    return (
+      <Editor
+        feature={feature}
+        tagKey={finalTagName}
+        onChange={setEditedTagValue}
+        onUrlMutationSuccess={onUrlMutationSuccess}
+        handleSubmitButtonClick={handleSubmitButtonClick}
+      />
+    );
+  }
+
+  if (Editor === ToiletsWheelchairEditor) {
     return (
       <Editor
         feature={feature}
