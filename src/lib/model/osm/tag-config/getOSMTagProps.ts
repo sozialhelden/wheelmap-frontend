@@ -112,10 +112,7 @@ export function getOSMTagProps({
     );
 
   const isEditable = editableKeys.has(key);
-  console.log("key: ", key);
-  const isLanguageTagged = languageTaggedKeys.has(
-    removeLanguageTagsIfPresent(key),
-  );
+  const { isLanguageTagged } = removeLanguageTagsIfPresent(key);
   const editURL = `${baseFeatureUrl}/edit/${key}`;
   const tagProps: OSMTagProps = {
     tagKey: key,
