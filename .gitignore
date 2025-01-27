@@ -48,3 +48,7 @@ env/*
 *secret.yml
 /screenshots
 /local.log
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

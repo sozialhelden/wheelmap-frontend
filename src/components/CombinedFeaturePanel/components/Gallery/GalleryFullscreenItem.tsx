@@ -1,7 +1,6 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import {
   Box,
-  Button,
   Flex,
   IconButton,
   Kbd,
@@ -12,11 +11,10 @@ import { CloseIcon } from "next/dist/client/components/react-dev-overlay/interna
 import { type FC, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { AppStateLink } from "~/components/App/AppStateLink";
-import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
+import GalleryReportPopover from "~/components/CombinedFeaturePanel/components/Gallery/GalleryReportPopover";
+import Image from "~/components/Image";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import { GalleryContext } from "./Gallery";
-import { fullScreenSizes, makeSrcSet, makeSrcSetLocation } from "./util";
 
 const DialogContentWrapper = styled.div`
   // Essentially the following line imitates what the Inset component does. 
@@ -26,85 +24,85 @@ const DialogContentWrapper = styled.div`
   margin: calc(var(--dialog-content-padding) * -1);
   
   height: calc(100vh - 4rem);
-  display: flex;
-  flex-direction: column;
+  grid-template-rows: 1fr auto;
+  display: grid;
+  overflow: hidden;
   position: relative;
+`;
+const ImageWrapper = styled.div<{ $width?: number; $height?: number }>`
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .gallery__fullscreen-image {
-    flex: 1;
-    position: relative;
+  & > img {
+    width: auto;
+    height: auto;
+    max-height: min(100%, ${(props) => `${props.$height}px`});
+    max-width: min(100%, ${(props) => `${props.$width}px`});
   }
-  
-  .gallery__fullscreen-image > img {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+`;
+const ImageNav = styled.nav`
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  right: 1rem;
+  transform: translateY(-50%);
+`;
+const ImageNavList = styled.ul`
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+`;
+const ImageFooter = styled(Flex)`
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border-top: 2px solid var(--gray-7);
+`;
+const ImageLegend = styled(Flex)`
+  @media (hover: none) {
+    display: none !important;
   }
-
-  .gallery__fullscreen-nav {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    right: 1rem;
-    transform: translateY(-50%);
-  }
-
-  .gallery__fullscreen-nav__list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .gallery__fullscreen-image__footer {
-    flex-shrink: 0;
-    padding: 0.5rem 1rem;
-    border-top: 2px solid var(--gray-7);
-  }
-
-  .gallery__fullscreen-image__legend {
-    @media (hover: none) {
-      display: none !important;
-    }
-  }
-
-  .gallery__fullscreen-image__close-button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
+`;
+const ImageCloseButton = styled(IconButton)`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `;
 
 export const GalleryFullscreenItem: FC<{
   image: AccessibilityCloudImage;
 }> = ({ image }) => {
-  const { baseUrl } = useAccessibilityCloudAPI({ cached: true });
   const api = useContext(GalleryContext);
 
-  const srcSet = useMemo(() => {
-    if (!image) return undefined;
-    return makeSrcSetLocation(makeSrcSet(baseUrl, fullScreenSizes, image));
-  }, [baseUrl, image]);
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
-  const reportUrl = useMemo(() => {
-    if (!image) return undefined;
-    return api.getReportUrl(image._id);
-  }, [image]);
+  // TODO: replace in the near future with actual description
+  const imageDescription = image?._id;
 
   return (
     <>
       <VisuallyHidden aria-live="polite">
-        {image && t`Image shown: ${image._id}`}
+        {image && t`Image shown: ${imageDescription}`}
       </VisuallyHidden>
       <DialogContentWrapper>
-        <div className="gallery__fullscreen-image" aria-hidden>
-          {srcSet && <img srcSet={srcSet} alt="" />}
-        </div>
+        {image && (
+          <ImageWrapper
+            $height={image.dimensions.height}
+            $width={image.dimensions.width}
+          >
+            <Image
+              image={image}
+              key={image._id}
+              width={1600}
+              sizes="100vw"
+              alt={imageDescription}
+            />
+          </ImageWrapper>
+        )}
 
-        <Flex
-          className="gallery__fullscreen-image__footer"
+        <ImageFooter
           justify="between"
           align="center"
           direction={{
@@ -114,53 +112,39 @@ export const GalleryFullscreenItem: FC<{
           gap="2"
           aria-hidden
         >
-          <Flex
-            className="gallery__fullscreen-image__legend"
-            as="span"
-            align="center"
-            gap="2"
-          >
+          <ImageLegend align="center" gap="2">
             <Text color="gray">{t`You can use these keys for navigation:`}</Text>
             <Kbd>←</Kbd>
             <Kbd>→</Kbd>
             <Kbd>ESC</Kbd>
             <Text color="gray" ml="4">{t`To report an image:`}</Text>
             <Kbd>R</Kbd>
-          </Flex>
+          </ImageLegend>
           <Box as="span" />
           <Flex as="span" align="center" gap="6">
-            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>
-            <Button asChild color="gray" variant="surface">
-              {reportUrl && (
-                <AppStateLink href={reportUrl}>{t`Report Image`}</AppStateLink>
-              )}
-            </Button>
+            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>{" "}
+            <GalleryReportPopover image={image} />
           </Flex>
-        </Flex>
+        </ImageFooter>
 
-        <nav className="gallery__fullscreen-nav">
-          <ul className="gallery__fullscreen-nav__list">
-            <li className="gallery__fullscreen-nav__list-item">
+        <ImageNav>
+          <ImageNavList>
+            <li>
               <IconButton color="gray" size="4" onClick={api.previous}>
                 <ArrowLeftIcon />
               </IconButton>
             </li>
-            <li className="gallery__fullscreen-nav__list-item">
+            <li>
               <IconButton color="gray" size="4" onClick={api.next}>
                 <ArrowRightIcon />
               </IconButton>
             </li>
-          </ul>
-        </nav>
+          </ImageNavList>
+        </ImageNav>
 
-        <IconButton
-          className="gallery__fullscreen-image__close-button"
-          color="gray"
-          size="3"
-          onClick={api.close}
-        >
+        <ImageCloseButton color="gray" size="3" onClick={api.close}>
           <CloseIcon />
-        </IconButton>
+        </ImageCloseButton>
       </DialogContentWrapper>
     </>
   );

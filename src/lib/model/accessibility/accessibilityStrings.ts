@@ -23,6 +23,27 @@ export function accessibilityName(
   }
 }
 
+export function accessibilityColor(
+  accessibility: YesNoLimitedUnknown,
+): string | null {
+  switch (accessibility) {
+  // translator: color representing full accessibility
+  case 'yes':
+    return t`green`
+    // translator: color representing partial accessibility
+  case 'limited':
+    return t`orange`
+    // translator: color representing inaccessibility
+  case 'no':
+    return t`red`
+    // translator: color representing unknown accessibility
+  case 'unknown':
+    return t`gray`
+  default:
+    return null
+  }
+}
+
 export function shortAccessibilityName(
   accessibility: YesNoLimitedUnknown,
 ): string | null {

@@ -4,10 +4,12 @@ export async function callBackendToUpdateInhouseDb({
   baseUrl,
   osmId,
   osmType,
+  tagName,
 }: {
   baseUrl: string;
   osmId: string;
   osmType: string;
+  tagName: string;
 }) {
   log.log('writeChangesToInhouseDb', osmType, osmId)
   const osmIdAsNumber = osmId.replace(/\D/g, '')
@@ -18,6 +20,7 @@ export async function callBackendToUpdateInhouseDb({
     },
     method: 'POST',
     mode: 'cors',
+    body: tagName
   })
 
   if (!response.ok) {
