@@ -3,6 +3,7 @@ import { IconButton } from "@radix-ui/themes";
 import { DropdownMenu } from "@radix-ui/themes";
 import React from "react";
 import { AppStateLink } from "../../../App/AppStateLink";
+import {t} from "ttag";
 
 function addQueryParamToURL(
   baseURL: string,
@@ -19,21 +20,20 @@ export function EditDropdownMenu({ editURL }: { editURL: string }) {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <IconButton variant="soft" size="3">
-          <Pencil1Icon width="13" height="13" />
-          <DropdownMenu.TriggerIcon />
+          <Pencil1Icon width="18" height="18" />
         </IconButton>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Content>
-        <DropdownMenu.Item>
+        <DropdownMenu.Item asChild>
           <AppStateLink href={addQueryParamToURL(editURL, "newLang", "false")}>
-            Edit this description
+            {t`Edit this description`}
           </AppStateLink>
         </DropdownMenu.Item>
 
-        <DropdownMenu.Item>
+        <DropdownMenu.Item asChild>
           <AppStateLink href={addQueryParamToURL(editURL, "newLang", "true")}>
-            Add a description in another language
+            {t`Add a description in another language`}
           </AppStateLink>
         </DropdownMenu.Item>
       </DropdownMenu.Content>
