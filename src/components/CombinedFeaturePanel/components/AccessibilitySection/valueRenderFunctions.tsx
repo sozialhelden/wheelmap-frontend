@@ -132,6 +132,21 @@ export const valueRenderFunctions: Record<
 > = {
   "^wheelchair$": ({ defaultValueLabel }) => <div>{defaultValueLabel}</div>,
   "^addWheelchairDescription$": () => <AddWheelchairDescription />,
+  "^(?:([\\w_]+):)?description(?::([\\w\\-]+))?$": ({ value, matches }) => {
+    const text = value;
+    const targetGroup = matches[1];
+    const lang = matches[2];
+    const targetGroupMarker = {
+      wheelchair: "🧑",
+      hearing: "👂",
+      blind: "👁",
+    }[targetGroup];
+    return (
+      <StyledMarkdown lang={lang}>
+        {t`${targetGroupMarker} “${text}”`}
+      </StyledMarkdown>
+    );
+  },
   "^opening_hours$": ({ key, value, osmFeature }) => (
     <OpeningHoursValue
       value={String(value)}
@@ -210,20 +225,5 @@ export const valueRenderFunctions: Record<
   ),
   "^(?:socket:([\\w_]+):)?output$": ({ value }) => (
     <DisplayedQuantity value={value} defaultUnit="W" />
-  ),
-  "^(?:([\\w_]+):)?description(?:(\\w\\w))?$": ({ value, matches }) => {
-    const text = value;
-    const targetGroup = matches[1];
-    const lang = matches[2];
-    const targetGroupMarker = {
-      wheelchair: "🧑",
-      hearing: "👂",
-      blind: "👁",
-    }[targetGroup];
-    return (
-      <StyledMarkdown lang={lang}>
-        {t`${targetGroupMarker} “${text}”`}
-      </StyledMarkdown>
-    );
-  },
+  )
 };
