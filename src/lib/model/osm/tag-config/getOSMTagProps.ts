@@ -1,5 +1,5 @@
 import type React from "react";
-import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import type { OSMTagProps } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import { valueRenderFunctions } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -112,7 +112,7 @@ export function getOSMTagProps({
     );
 
   const isEditable = editableKeys.has(key);
-  const { isLanguageTagged } = removeLanguageTagsIfPresent(key);
+  const { isLanguageTagged } = normalizeAndExtractLanguageTagsIfPresent(key);
   const editURL = `${baseFeatureUrl}/edit/${key}`;
   const tagProps: OSMTagProps = {
     tagKey: key,

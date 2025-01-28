@@ -1,7 +1,7 @@
 import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden} from "@radix-ui/themes";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import SearchableSelect from "~/components/shared/SearchableSelect";
-import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {getAvailableLangTags, normalizeAndExtractLanguageTagsIfPresent} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
@@ -19,19 +19,16 @@ export const StringFieldEditor = ({
   handleSubmitButtonClick,
   passLanguagePickerValueToParent,
 }: BaseEditorProps) => {
+
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  const {normalizedTag: tagKeyWithoutLangTag} = removeLanguageTagsIfPresent(tagKey);
+  const {normalizedTag: tagKeyWithoutLangTag} = normalizeAndExtractLanguageTagsIfPresent(tagKey);
   const initialTagValue = feature.properties?.[tagKey] || "";
+
   const descriptionKeys = Object.keys(feature.properties).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
   );
-  //TODO: reimplement this in a robust manner as a reusable function in TagKeyUtils.tsx
-  const availableLangTags = new Set(
-    descriptionKeys
-      .filter((description) => description.split(":").length > 2)
-      .map((description) => description.split(":").at(-1) || ""),
-  );
+  const availableLangTags = getAvailableLangTags(descriptionKeys, tagKeyWithoutLangTag.split(":").length)
 
   const [currentTagValue, setCurrentTagValue] = useState(initialTagValue);
   const [editedTagValue, setEditedTagValue] = useState(initialTagValue);

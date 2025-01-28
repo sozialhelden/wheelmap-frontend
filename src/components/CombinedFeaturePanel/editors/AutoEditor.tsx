@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { t } from "ttag";
-import { removeLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
@@ -148,7 +148,7 @@ export const AutoEditor = ({
 
   const handlePickerValueChange = React.useCallback(
     (newPickerValue: string) => {
-      const {normalizedTag: baseTag} = removeLanguageTagsIfPresent(tagName);
+      const {normalizedTag: baseTag} = normalizeAndExtractLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
 
       if (updatedTagName !== finalTagName) {
@@ -179,8 +179,6 @@ export const AutoEditor = ({
     );
   }
   if (Editor === WheelchairEditor) {
-    console.log("key: ",  finalTagName)
-    console.log("Editor: ", Editor)
     return (
       <Editor
         feature={feature}
