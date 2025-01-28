@@ -1,11 +1,10 @@
-import { Box, Button, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import styled from "styled-components";
-import { t } from "ttag";
-import NeedsIcon from "~/components/icons/actions/Needs";
+import NeedsPicker from "~/components/TopBar/NeedsPicker";
 import { translatedStringFromObject } from "~/lib/i18n/translatedStringFromObject";
 import type { ClientSideConfiguration } from "~/lib/model/ac/ClientSideConfiguration";
-import Logo from "./Logo";
-import Navigation from "./Navigation";
+import Logo from "./TopBar/Logo";
+import Navigation from "./TopBar/Navigation";
 
 const StyledTopBar = styled.header`
     position: fixed;
@@ -23,24 +22,6 @@ const StyledTopBar = styled.header`
     @media (max-width: 768px) {
         grid-template-columns: 65px 1fr 65px;
     }
-`;
-
-const NeedPickerButton = styled(Button)`
-    max-width: 100%;
-    line-height: 1.1;
-`;
-
-const NeedPickerIcon = styled.span`
-    background: var(--accent-9);
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 9999px;
-    // --space-4 is the spacing used by the parent NeedPickerButton in size 3
-    margin-right: calc(-1 * calc(var(--space-4) - .4rem));
-    flex-shrink: 0;
 `;
 
 export default function TopBar(props: {
@@ -66,12 +47,7 @@ export default function TopBar(props: {
         </Box>
       </Flex>
       <Flex justify="center" align="center">
-        <NeedPickerButton variant="soft" size="3">
-          {t`What do you need?`}
-          <NeedPickerIcon>
-            <NeedsIcon />
-          </NeedPickerIcon>
-        </NeedPickerButton>
+        <NeedsPicker />
       </Flex>
       <Flex justify="end" align="center">
         <Navigation />
