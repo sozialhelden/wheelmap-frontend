@@ -1,9 +1,23 @@
 import { type ReactNode, createContext, useContext, useState } from "react";
 import { t } from "ttag";
 
-// add additional categories and needs to this settings object,
+type NeedSettingsInterface = Record<
+  string,
+  {
+    title: string;
+    needs: Record<
+      string,
+      {
+        label: string;
+        help?: string;
+      }
+    >;
+  }
+>;
+
+// add additional need categories and needs to this settings object,
 // everything else including types will be auto-generated based on it.
-const settings = {
+const needSettings = {
   mobility: {
     title: t`Mobility`,
     needs: {
@@ -35,17 +49,25 @@ const settings = {
         label: t`I have no toilet needs`,
       },
       "wheelchair-full": {
-        label: t`Full wheelchair accessible toilet`,
+        label: t`Fully wheelchair accessible toilet`,
       },
       "has-toilet": {
         label: t`Has a toilet`,
       },
       "no-data": {
-        label: t`No information about toilets`,
+        label: t`No toilet info yet`,
       },
     },
   },
 } as const;
+
+// we're using const assertions in order to automatically generate types
+// from the needSettings. but in order to make sure the needSettings above
+// also satisfy their interface, we export a settings variable typed with
+// the aforementioned interface. if something is off with the needSettings
+// above, typescript will show an error on this settings variable instead.
+// not ideal, but it ensures type-safety and allows for auto-type magic.
+export const settings: NeedSettingsInterface = needSettings;
 
 export type NeedSettings = typeof settings;
 export type NeedCategory = keyof NeedSettings;
@@ -53,14 +75,14 @@ export type Needs = {
   [key in NeedCategory]: keyof (typeof settings)[key]["needs"] | undefined;
 };
 
-const categories = Object.entries(settings).map(
+export const categories = Object.entries(settings).map(
   ([category]) => category as NeedCategory,
 );
-const emptyNeeds = Object.fromEntries(
+export const emptyNeeds = Object.fromEntries(
   categories.map((category) => [category, undefined]),
 ) as Needs;
 
-export type NeedsContext = {
+type NeedsContext = {
   needs: Needs;
   setNeeds: (needs: Needs) => void;
   settings: NeedSettings;
