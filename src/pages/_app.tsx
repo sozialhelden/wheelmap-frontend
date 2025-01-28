@@ -6,24 +6,25 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import * as React from "react";
-import { AppContextProvider } from "../lib/context/AppContext";
-import CountryContext from "../lib/context/CountryContext";
+import { AppContextProvider } from "~/lib/context/AppContext";
+import CountryContext from "~/lib/context/CountryContext";
 import {
   EnvContextProvider,
   type EnvironmentVariables,
-} from "../lib/context/EnvContext";
-import { HostnameContextProvider } from "../lib/context/HostnameContext";
-import { LanguageCodeContextProvider } from "../lib/context/LanguageTagContext";
-import { UserAgentContextProvider } from "../lib/context/UserAgentContext";
-import { patchFetcher } from "../lib/util/patchClientFetch";
+} from "~/lib/context/EnvContext";
+import { HostnameContextProvider } from "~/lib/context/HostnameContext";
+import { LanguageCodeContextProvider } from "~/lib/context/LanguageTagContext";
+import { UserAgentContextProvider } from "~/lib/context/UserAgentContext";
+import { patchFetcher } from "~/lib/util/patchClientFetch";
 import "@radix-ui/themes/styles.css";
-import StyledComponentsRegistry from "../lib/context/Registry";
-import "../app/reset.css";
-import "../app/app.css";
-import "../app/inter.css";
-import "../app/pointer-cursor.css";
+import StyledComponentsRegistry from "~/lib/context/Registry";
+import "~/app/reset.css";
+import "~/app/app.css";
+import "~/app/inter.css";
+import "~/app/pointer-cursor.css";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
+import { NeedsContextProvider } from "~/lib/useNeeds";
 import {
   getRequestCountryCode,
   getRequestHostname,
@@ -80,9 +81,11 @@ export default function MyApp(
                         <LanguageCodeContextProvider
                           languageTags={languageTags}
                         >
-                          <AppContextProvider>
-                            {getLayout(<Component />)}
-                          </AppContextProvider>
+                          <NeedsContextProvider>
+                            <AppContextProvider>
+                              {getLayout(<Component />)}
+                            </AppContextProvider>
+                          </NeedsContextProvider>
                         </LanguageCodeContextProvider>
                       </CountryContext.Provider>
                     </UserAgentContextProvider>
