@@ -8,6 +8,9 @@ import { omittedKeys } from "~/lib/model/osm/tag-config/omittedKeys";
 import { pathsToConsumedTagKeys } from "~/lib/model/osm/tag-config/pathsToConsumedTagKeys";
 import { sortOrderMap } from "~/lib/model/osm/tag-config/sortOrderMap";
 import OSMTagTable from "./OSMTagTable";
+import {getAvailableLangTags} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {useCurrentLanguageTagStrings} from "~/lib/context/LanguageTagContext";
+import {getPreferredLanguageTag} from "@sozialhelden/ietf-language-tags";
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode; // type for unknown keys.
@@ -65,6 +68,7 @@ function nest(tree: ITreeNode) {
 }
 
 export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
+  const browserLanguageTags = useCurrentLanguageTagStrings();
   const nestedTags = React.useMemo(() => {
     const filteredKeys = Object.keys(feature.properties || {})
       .filter((key) => !omittedKeys.has(key))
@@ -82,13 +86,47 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     const accessibilityRelevantKeys = filteredKeys.filter(
       isAccessibilityRelevantOSMKey,
     );
+
+    /*THE PART BELOW HANDLES SELECTION OF THE MOST SUITABLE WHEELCHAIR DESCRIPTION*/
+    const descriptionKeys = accessibilityRelevantKeys.filter((key) =>
+      key.startsWith("wheelchair:description"),
+    );
+    const availableLangTags = getAvailableLangTags(descriptionKeys, 2)
+
+    // TODO: handle case that description lang tag is more specific than browser lang tag, eg: wheelchair:description:zh-Hans vs zh
+    // TODO: handle the case that the default description is actually in the users preferred language but is not selected because it has no language tag
+    let matchingLangTag: string = "";
+    for (const tag of browserLanguageTags) {
+      if (availableLangTags.has(tag)) {
+        matchingLangTag = tag;
+        break;
+      }
+    }
+    let finalListOfKeys: string[]
+    if (matchingLangTag) {
+      finalListOfKeys = accessibilityRelevantKeys.filter(key => {
+        if (key.startsWith("wheelchair:description")) {
+          return key === `wheelchair:description:${matchingLangTag}`;
+        }
+        return true;
+      });
+    } else {
+      // TODO: if there is no match, show default description wheelchair:description? or show no description at all?
+      finalListOfKeys = accessibilityRelevantKeys.filter(key => {
+        if (key.startsWith("wheelchair:description")) {
+          return key === `wheelchair:description`; // currently shows default description
+        }
+        return true;
+      });
+    }
+
     // add a pseudo tag if there is no wheelchair description yet to render an add button
     if (
-      !accessibilityRelevantKeys.some((item) =>
+      !finalListOfKeys.some((item) =>
         item.startsWith("wheelchair:description"),
       )
     ) {
-      accessibilityRelevantKeys.push("addWheelchairDescription");
+      finalListOfKeys.push("addWheelchairDescription");
     }
 
     // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
@@ -98,7 +136,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     //   addressRelevantKeys
     // );
 
-    const tree = generateTree(accessibilityRelevantKeys);
+    const tree = generateTree(finalListOfKeys);
     return nest(tree);
   }, [feature]);
 
