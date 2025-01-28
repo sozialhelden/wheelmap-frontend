@@ -1,6 +1,6 @@
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
-import { Box, Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
-import { type RefObject, useState } from "react";
+import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
+import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
 import { type NeedCategory, useNeeds } from "~/lib/useNeeds";
 
@@ -25,49 +25,58 @@ const HelpText = styled(Text)<{ $isVisible: boolean }>`
   transition: all 300ms ease;
 `;
 
-export default function NeedsSection({
-  category,
-  onValueChange,
-  showDivider,
-  domRef,
-  value,
-}: {
-  category: NeedCategory;
-  onValueChange: (value: string) => void;
-  showDivider?: boolean;
-  domRef?: RefObject<HTMLElement | undefined>;
-  value?: string;
-}) {
+export const NeedsSection = forwardRef(function NeedsSection(
+  {
+    category,
+    onValueChange,
+    showDivider,
+    value,
+  }: {
+    category: NeedCategory;
+    onValueChange: (value: string) => void;
+    showDivider?: boolean;
+    value?: string;
+  },
+  ref,
+) {
   const [isHelpExpanded, setIsHelpExpanded] = useState(false);
   const { title, needs } = useNeeds().settings[category];
 
   const toggleHelp = () => {
     setIsHelpExpanded(!isHelpExpanded);
   };
+  const hasHelpText = Boolean(
+    Object.entries(needs).find(([_, { help }]) => Boolean(help)),
+  );
 
   return (
-    <Wrapper ref={domRef} $showDivider={showDivider}>
+    <Wrapper
+      ref={ref as RefObject<HTMLElement>}
+      $showDivider={Boolean(showDivider)}
+    >
       <Flex justify="between" align="center" mb="2">
         <Heading>{title}</Heading>
-        <IconButton
-          variant="soft"
-          highContrast={true}
-          color="gray"
-          onClick={toggleHelp}
-        >
-          <QuestionMarkIcon />
-        </IconButton>
+        {hasHelpText && (
+          <IconButton
+            variant="soft"
+            highContrast={true}
+            color="gray"
+            onClick={toggleHelp}
+          >
+            <QuestionMarkIcon />
+          </IconButton>
+        )}
       </Flex>
       <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
         {Object.entries(needs).map(([key, { label, help }]) => (
           <>
-            <RadioGroup.Item value={key} key={`radio-${key}`}>
+            <RadioGroup.Item value={key} key={`radio-${category}-${key}`}>
               {label}
             </RadioGroup.Item>
             {help && (
               <HelpText
                 size="1"
-                key={`help-${key}`}
+                key={`help-${category}-${key}`}
                 $isVisible={isHelpExpanded}
               >
                 {help}
@@ -78,4 +87,4 @@ export default function NeedsSection({
       </RadioGroup.Root>
     </Wrapper>
   );
-}
+});
