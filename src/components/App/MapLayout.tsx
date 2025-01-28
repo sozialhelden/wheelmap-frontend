@@ -15,7 +15,7 @@ import { isFirstStart } from "../../lib/util/savedState";
 import { GlobalMapContextProvider } from "../Map/GlobalMapContext";
 import LoadableMapView from "../Map/LoadableMapView";
 import { MapFilterContextProvider } from "../Map/filter/MapFilterContext";
-import TopBar from "../TopBar/TopBar";
+import TopBar from "../TopBar";
 import ErrorBoundary from "../shared/ErrorBoundary";
 import HeadMetaTags from "./HeadMetaTags";
 

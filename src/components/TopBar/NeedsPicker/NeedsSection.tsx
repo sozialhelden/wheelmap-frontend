@@ -1,0 +1,81 @@
+import { QuestionMarkIcon } from "@radix-ui/react-icons";
+import { Box, Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
+import { type RefObject, useState } from "react";
+import styled from "styled-components";
+import { type NeedCategory, useNeeds } from "~/lib/useNeeds";
+
+const Wrapper = styled.section<{ $showDivider: boolean }>`
+  padding: var(--space-5) var(--space-6);
+  transition: border-color 400ms ease-in-out;
+  @media (min-width: 769px) {
+    border-right: ${({ $showDivider }) => `2px solid ${$showDivider ? "var(--gray-4)" : "transparent"};`}
+  }
+  @media (max-width: 768px) {
+    border-bottom: ${({ $showDivider }) => `2px solid ${$showDivider ? "var(--gray-4)" : "transparent"};`}
+  }
+`;
+const Heading = styled.h3`
+  font-weight: 500;
+  font-size: .95rem;
+`;
+const HelpText = styled(Text)<{ $isVisible: boolean }>`
+  opacity: ${({ $isVisible }) => ($isVisible ? "1" : "0")};
+  max-height: ${({ $isVisible }) => ($isVisible ? "10rem" : "0")};
+  margin: ${({ $isVisible }) => ($isVisible ? ".25rem 0 .75rem" : "0")};
+  transition: all 300ms ease;
+`;
+
+export default function NeedsSection({
+  category,
+  onValueChange,
+  showDivider,
+  domRef,
+  value,
+}: {
+  category: NeedCategory;
+  onValueChange: (value: string) => void;
+  showDivider?: boolean;
+  domRef?: RefObject<HTMLElement | undefined>;
+  value?: string;
+}) {
+  const [isHelpExpanded, setIsHelpExpanded] = useState(false);
+  const { title, needs } = useNeeds().settings[category];
+
+  const toggleHelp = () => {
+    setIsHelpExpanded(!isHelpExpanded);
+  };
+
+  return (
+    <Wrapper ref={domRef} $showDivider={showDivider}>
+      <Flex justify="between" align="center" mb="2">
+        <Heading>{title}</Heading>
+        <IconButton
+          variant="soft"
+          highContrast={true}
+          color="gray"
+          onClick={toggleHelp}
+        >
+          <QuestionMarkIcon />
+        </IconButton>
+      </Flex>
+      <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
+        {Object.entries(needs).map(([key, { label, help }]) => (
+          <>
+            <RadioGroup.Item value={key} key={`radio-${key}`}>
+              {label}
+            </RadioGroup.Item>
+            {help && (
+              <HelpText
+                size="1"
+                key={`help-${key}`}
+                $isVisible={isHelpExpanded}
+              >
+                {help}
+              </HelpText>
+            )}
+          </>
+        ))}
+      </RadioGroup.Root>
+    </Wrapper>
+  );
+}
