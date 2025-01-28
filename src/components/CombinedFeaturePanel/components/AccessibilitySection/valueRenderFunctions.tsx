@@ -4,8 +4,8 @@ import { t } from "ttag";
 import type {
   TypeTaggedOSMFeature,
   TypeTaggedPlaceInfo,
-} from "../../../../lib/model/geo/AnyFeature";
-import { classifyHSLColor } from "../../../../lib/util/classifyHSLColor";
+} from "~/lib/model/geo/AnyFeature";
+import { classifyHSLColor } from "~/lib/util/classifyHSLColor";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { useDarkMode } from "../../../shared/useDarkMode";
 import AddWheelchairDescription from "./AddWheelchairDescription";

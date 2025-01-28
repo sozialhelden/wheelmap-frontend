@@ -10,7 +10,6 @@ import { sortOrderMap } from "~/lib/model/osm/tag-config/sortOrderMap";
 import OSMTagTable from "./OSMTagTable";
 import {getAvailableLangTags} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import {useCurrentLanguageTagStrings} from "~/lib/context/LanguageTagContext";
-import {getPreferredLanguageTag} from "@sozialhelden/ietf-language-tags";
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode; // type for unknown keys.
