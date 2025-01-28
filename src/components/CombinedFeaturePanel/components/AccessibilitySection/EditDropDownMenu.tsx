@@ -19,7 +19,7 @@ export function EditDropdownMenu({ editURL }: { editURL: string }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <IconButton variant="soft" size="3">
+        <IconButton variant="soft" size="2">
           <Pencil1Icon width="18" height="18" />
         </IconButton>
       </DropdownMenu.Trigger>
