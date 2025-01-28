@@ -1,5 +1,15 @@
-import { type ReactNode, createContext, useContext, useState } from "react";
+import {
+  type FunctionComponent,
+  type ReactNode,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 import { t } from "ttag";
+import { NoData } from "~/icons/needs/mobility/NoData";
+import { WheelchairFull } from "~/icons/needs/mobility/WheelchairFull";
+import { WheelchairNot } from "~/icons/needs/mobility/WheelchairNot";
+import { WheelchairPartial } from "~/icons/needs/mobility/WheelchairPartial";
 
 type NeedSettingsInterface = Record<
   string,
@@ -10,6 +20,7 @@ type NeedSettingsInterface = Record<
       {
         label: string;
         help?: string;
+        icon?: FunctionComponent;
       }
     >;
   }
@@ -17,7 +28,7 @@ type NeedSettingsInterface = Record<
 
 // add additional need categories and needs to this settings object,
 // everything else including types will be auto-generated based on it.
-const needSettings = {
+const settings = {
   mobility: {
     title: t`Mobility`,
     needs: {
@@ -27,18 +38,22 @@ const needSettings = {
       "wheelchair-full": {
         label: t`Fully wheelchair accessible`,
         help: t`Entrance has no steps, and all rooms are accessible without steps.`,
+        icon: WheelchairFull,
       },
       "wheelchair-partial": {
         label: t`Partially wheelchair accessible`,
         help: t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
+        icon: WheelchairPartial,
       },
       "wheelchair-not": {
         label: t`Not wheelchair accessible`,
         help: t`Entrance has a high step or several steps, none of the rooms are accessible.`,
+        icon: WheelchairNot,
       },
       "no-data": {
         label: t`No wheelchair info yet`,
         help: t`There is no information available about wheelchair accessibility.`,
+        icon: NoData,
       },
     },
   },
@@ -62,12 +77,12 @@ const needSettings = {
 } as const;
 
 // we're using const assertions in order to automatically generate types
-// from the needSettings. but in order to make sure the needSettings above
-// also satisfy their interface, we export a settings variable typed with
-// the aforementioned interface. if something is off with the needSettings
-// above, typescript will show an error on this settings variable instead.
-// not ideal, but it ensures type-safety and allows for auto-type magic.
-export const settings: NeedSettingsInterface = needSettings;
+// from the settings. but in order to make sure the settings above
+// also satisfy their interface, we have a validatedSettings variable typed
+// with the aforementioned interface. if something is off with the settings
+// above, typescript will show an error on this validatedSettings variable
+// instead. not ideal, but it ensures type-safety and allows for auto-type magic.
+const validatedSettings: NeedSettingsInterface = settings;
 
 export type NeedSettings = typeof settings;
 export type NeedCategory = keyof NeedSettings;

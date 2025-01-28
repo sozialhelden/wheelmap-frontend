@@ -1,5 +1,5 @@
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
-import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
+import { Box, Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
 import { type NeedCategory, useNeeds } from "~/lib/useNeeds";
@@ -68,11 +68,28 @@ export const NeedsSection = forwardRef(function NeedsSection(
         )}
       </Flex>
       <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
-        {Object.entries(needs).map(([key, { label, help }]) => (
+        {Object.entries(needs).map(([key, { label, help, icon: Icon }]) => (
           <>
-            <RadioGroup.Item value={key} key={`radio-${category}-${key}`}>
-              {label}
-            </RadioGroup.Item>
+            <Flex
+              asChild
+              gap="2"
+              align="center"
+              key={`radio-${category}-${key}`}
+            >
+              <Text as="label" size="3">
+                <RadioGroup.Item value={key} />
+                <Flex
+                  as="span"
+                  flexBasis="100%"
+                  justify="between"
+                  align="center"
+                  gap="4"
+                >
+                  {label}
+                  {Icon && <Icon />}
+                </Flex>
+              </Text>
+            </Flex>
             {help && (
               <HelpText
                 size="1"

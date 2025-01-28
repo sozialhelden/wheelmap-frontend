@@ -1,4 +1,5 @@
 import { Button } from "@radix-ui/themes";
+import { forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import NeedsIcon from "~/components/icons/actions/Needs";
@@ -20,13 +21,13 @@ const IconWrapper = styled.span`
   flex-shrink: 0;
 `;
 
-export function NeedsButton(props) {
+export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
   return (
-    <StyledButton {...props} variant="soft" size="3">
+    <StyledButton {...props} variant="soft" size="3" ref={ref}>
       {t`What do you need?`}
       <IconWrapper>
         <NeedsIcon />
       </IconWrapper>
     </StyledButton>
   );
-}
+});

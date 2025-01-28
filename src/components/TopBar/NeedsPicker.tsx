@@ -3,7 +3,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NeedsButtonSection } from "~/components/TopBar/NeedsPicker/NeedsButtonSection";
-import { type NeedCategory, type Needs, useNeeds } from "~/lib/useNeeds";
+import { type Needs, useNeeds } from "~/lib/useNeeds";
 import { NeedsButton } from "./NeedsPicker/NeedsButton";
 import { NeedsHighlighter } from "./NeedsPicker/NeedsHighlighter";
 import { NeedsHighlighterSection } from "./NeedsPicker/NeedsHighlighterSection";
@@ -93,9 +93,10 @@ export default function NeedsPicker() {
           <NeedsDialogOverlay />
           <NeedsDialogContent>
             <VisuallyHidden>
-              <DialogPrimitive.Title>
-                TODO: Description for screen readers
-              </DialogPrimitive.Title>
+              <DialogPrimitive.Title />
+              <DialogPrimitive.Description>
+                TODO: add description for screen readers
+              </DialogPrimitive.Description>
             </VisuallyHidden>
 
             <ScrollArea
