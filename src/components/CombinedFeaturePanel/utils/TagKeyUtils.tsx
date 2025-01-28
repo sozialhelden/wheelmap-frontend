@@ -1,7 +1,6 @@
 import { languageTaggedKeys } from "~/lib/model/osm/tag-config/languageTaggedKeys";
 
 export const removeLanguageTagsIfPresent = (inputString: string) => {
-
   if (languageTaggedKeys.has(inputString)) {
     return  { normalizedTag: inputString, isLanguageTagged: true };
   }
