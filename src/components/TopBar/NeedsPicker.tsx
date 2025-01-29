@@ -32,7 +32,7 @@ const NeedsDialogContent = styled(DialogPrimitive.Content)`
   top: var(--space-2);
   left: 50%;
   transform: translate(-50%, 0);
-  background: #fff;
+  background: var(--color-panel);
   box-shadow: var(--black-a4) 0 .2rem .4rem;
   width: calc(100% - (var(--space-8) * 2));
   max-height: calc(100% - (var(--space-2) * 2));
@@ -94,9 +94,7 @@ export default function NeedsPicker() {
           <NeedsDialogContent>
             <VisuallyHidden>
               <DialogPrimitive.Title />
-              <DialogPrimitive.Description>
-                TODO: add description for screen readers
-              </DialogPrimitive.Description>
+              <DialogPrimitive.Description>{}</DialogPrimitive.Description>
             </VisuallyHidden>
 
             <ScrollArea

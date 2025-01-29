@@ -15,7 +15,7 @@ const StyledTopBar = styled.header`
     z-index: 1;
     padding: var(--space-2);
     border-bottom: 2px solid var(--gray-5);
-    background: var(--gray-1);
+    background: var(--color-panel);
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
     

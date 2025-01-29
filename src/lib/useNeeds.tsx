@@ -1,28 +1,28 @@
 import {
-  type FunctionComponent,
+  type FC,
   type ReactNode,
   createContext,
   useContext,
   useState,
 } from "react";
 import { t } from "ttag";
-import { NoData } from "~/icons/needs/mobility/NoData";
-import { WheelchairFull } from "~/icons/needs/mobility/WheelchairFull";
-import { WheelchairNot } from "~/icons/needs/mobility/WheelchairNot";
-import { WheelchairPartial } from "~/icons/needs/mobility/WheelchairPartial";
+import { FullyWheelchairAccessibleIcon } from "~/icons/needs/mobility/FullyWheelchairAccessibleIcon";
+import { NoDataIcon } from "~/icons/needs/mobility/NoDataIcon";
+import { NotWheelchairAccessibleIcon } from "~/icons/needs/mobility/NotWheelchairAccessibleIcon";
+import { PartiallyWheelchairAccessibleCombinationIcon } from "~/icons/needs/mobility/PartiallyWheelchairAccessibleCombinationIcon";
+import { FullyWheelchairAccessibleToiletIcon } from "~/icons/needs/toilets/FullyWheelchairAccessibleToiletIcon";
+import { ToiletPresentIcon } from "~/icons/needs/toilets/ToiletPresentIcon";
 
+export type NeedProperties = {
+  label: string;
+  help?: string;
+  icon?: FC;
+};
 type NeedSettingsInterface = Record<
   string,
   {
     title: string;
-    needs: Record<
-      string,
-      {
-        label: string;
-        help?: string;
-        icon?: FunctionComponent;
-      }
-    >;
+    needs: Record<string, NeedProperties>;
   }
 >;
 
@@ -35,25 +35,25 @@ const settings = {
       "no-need": {
         label: t`I have no mobility needs`,
       },
-      "wheelchair-full": {
+      "fully-wheelchair-accessible": {
         label: t`Fully wheelchair accessible`,
         help: t`Entrance has no steps, and all rooms are accessible without steps.`,
-        icon: WheelchairFull,
+        icon: FullyWheelchairAccessibleIcon,
       },
-      "wheelchair-partial": {
+      "partially-wheelchair-accessible": {
         label: t`Partially wheelchair accessible`,
         help: t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
-        icon: WheelchairPartial,
+        icon: PartiallyWheelchairAccessibleCombinationIcon,
       },
-      "wheelchair-not": {
+      "not-wheelchair-accessible": {
         label: t`Not wheelchair accessible`,
         help: t`Entrance has a high step or several steps, none of the rooms are accessible.`,
-        icon: WheelchairNot,
+        icon: NotWheelchairAccessibleIcon,
       },
       "no-data": {
         label: t`No wheelchair info yet`,
         help: t`There is no information available about wheelchair accessibility.`,
-        icon: NoData,
+        icon: NoDataIcon,
       },
     },
   },
@@ -63,11 +63,13 @@ const settings = {
       "no-need": {
         label: t`I have no toilet needs`,
       },
-      "wheelchair-full": {
+      "fully-wheelchair-accessible": {
         label: t`Fully wheelchair accessible toilet`,
+        icon: FullyWheelchairAccessibleToiletIcon,
       },
-      "has-toilet": {
+      "toilet-present": {
         label: t`Has a toilet`,
+        icon: ToiletPresentIcon,
       },
       "no-data": {
         label: t`No toilet info yet`,

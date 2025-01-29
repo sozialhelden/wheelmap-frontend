@@ -77,7 +77,13 @@ export default function MapLayout({
 
   return (
     <ThemeProvider attribute="class">
-      <Theme accentColor="blue" grayColor="sand" radius="full" scaling="100%">
+      <Theme
+        accentColor="indigo"
+        grayColor="sand"
+        radius="full"
+        scaling="100%"
+        panelBackground="solid"
+      >
         <ThemePanel defaultOpen={false} />
         <ErrorBoundary>
           <HeadMetaTags />

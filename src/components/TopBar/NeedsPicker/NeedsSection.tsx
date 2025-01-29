@@ -2,10 +2,15 @@ import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import { Box, Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
-import { type NeedCategory, useNeeds } from "~/lib/useNeeds";
+import { t } from "ttag";
+import {
+  type NeedCategory,
+  type NeedProperties,
+  useNeeds,
+} from "~/lib/useNeeds";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
   transition: border-color 400ms ease-in-out;
   @media (min-width: 769px) {
     border-right: ${({ $showDivider }) => `2px solid ${$showDivider ? "var(--gray-4)" : "transparent"};`}
@@ -42,11 +47,14 @@ export const NeedsSection = forwardRef(function NeedsSection(
   const [isHelpExpanded, setIsHelpExpanded] = useState(false);
   const { title, needs } = useNeeds().settings[category];
 
+  const helpTextBaseId = `needs-help-text-${category}`;
   const toggleHelp = () => {
     setIsHelpExpanded(!isHelpExpanded);
   };
   const hasHelpText = Boolean(
-    Object.entries(needs).find(([_, { help }]) => Boolean(help)),
+    Object.entries(needs).find(([_, { help }]: [string, NeedProperties]) =>
+      Boolean(help),
+    ),
   );
 
   return (
@@ -57,51 +65,64 @@ export const NeedsSection = forwardRef(function NeedsSection(
       <Flex justify="between" align="center" mb="2">
         <Heading>{title}</Heading>
         {hasHelpText && (
-          <IconButton
-            variant="soft"
-            highContrast={true}
-            color="gray"
-            onClick={toggleHelp}
-          >
-            <QuestionMarkIcon />
-          </IconButton>
+          <Flex as="span" justify="center" width="40px" aria-hidden>
+            <IconButton
+              variant="soft"
+              highContrast={true}
+              color="gray"
+              onClick={toggleHelp}
+            >
+              <QuestionMarkIcon />
+            </IconButton>
+          </Flex>
         )}
       </Flex>
-      <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
-        {Object.entries(needs).map(([key, { label, help, icon: Icon }]) => (
-          <>
-            <Flex
-              asChild
-              gap="2"
-              align="center"
-              key={`radio-${category}-${key}`}
-            >
-              <Text as="label" size="3">
-                <RadioGroup.Item value={key} />
-                <Flex
-                  as="span"
-                  flexBasis="100%"
-                  justify="between"
-                  align="center"
-                  gap="4"
-                >
-                  {label}
-                  {Icon && <Icon />}
+      <Flex asChild direction="column" gap="2">
+        <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
+          {Object.entries(needs).map(
+            ([key, { label, help, icon: Icon }]: [string, NeedProperties]) => {
+              return (
+                <Flex direction="column" key={`${category}-${key}`}>
+                  <Flex asChild gap="2" align="center">
+                    <Text as="label" size="3">
+                      <RadioGroup.Item
+                        value={key}
+                        aria-describedby={`${helpTextBaseId}-${key}`}
+                      />
+                      <Flex
+                        as="span"
+                        flexBasis="100%"
+                        justify="between"
+                        align="center"
+                        gap="4"
+                      >
+                        {label}
+                        <Flex
+                          as="span"
+                          justify="center"
+                          width="40px"
+                          aria-hidden
+                        >
+                          {Icon && <Icon />}
+                        </Flex>
+                      </Flex>
+                    </Text>
+                  </Flex>
+                  {help && (
+                    <HelpText
+                      size="1"
+                      $isVisible={isHelpExpanded}
+                      id={`${helpTextBaseId}-${key}`}
+                    >
+                      {help}
+                    </HelpText>
+                  )}
                 </Flex>
-              </Text>
-            </Flex>
-            {help && (
-              <HelpText
-                size="1"
-                key={`help-${category}-${key}`}
-                $isVisible={isHelpExpanded}
-              >
-                {help}
-              </HelpText>
-            )}
-          </>
-        ))}
-      </RadioGroup.Root>
+              );
+            },
+          )}
+        </RadioGroup.Root>
+      </Flex>
     </Wrapper>
   );
 });
