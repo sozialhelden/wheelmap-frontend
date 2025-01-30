@@ -1,10 +1,10 @@
 import { Button, Link } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
-import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
-import { unknownCategory } from "../../../lib/model/ac/categories/Categories";
-import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
+import { unknownCategory } from "~/lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import { AppStateLink } from "../../App/AppStateLink";
 import Icon from "../../shared/Icon";
 import { FeaturePanelContext } from "../FeaturePanelContext";

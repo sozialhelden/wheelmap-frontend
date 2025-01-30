@@ -1,8 +1,8 @@
 import { Button, Link } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
-import type { YesNoUnknown } from "../../../lib/model/ac/Feature";
-import { isOrHasAccessibleToilet } from "../../../lib/model/accessibility/isOrHasAccessibleToilet";
-import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import type { YesNoUnknown } from "~/lib/model/ac/Feature";
+import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
+import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import { AppStateLink } from "../../App/AppStateLink";
 import { ToiletStatusNotAccessible } from "../../icons/accessibility";
 import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
