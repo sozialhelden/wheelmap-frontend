@@ -45,7 +45,10 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
   const selection = Object.entries(needs)
     .filter(([_, need]) => Boolean(need))
     .map(([category, need]) => {
-      return settings[category].needs[need] as NeedProperties;
+      return {
+        ...(settings[category].needs[need] as NeedProperties),
+        title: settings[category].title,
+      };
     });
 
   const selectionWithIcon = selection.filter(({ icon }) => Boolean(icon));
@@ -61,9 +64,11 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
         {selection.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
         {selectionWithIcon.length > 0 && (
           <Flex gap="2" ml="3" aria-hidden>
-            {selectionWithIcon.map(({ label, icon: Icon }) => (
-              <Tooltip content={label} key={label}>
-                <Icon />
+            {selectionWithIcon.map(({ title, label, icon: Icon }) => (
+              <Tooltip content={`${title}: ${label}`} key={label}>
+                <span>
+                  <Icon />
+                </span>
               </Tooltip>
             ))}
           </Flex>
