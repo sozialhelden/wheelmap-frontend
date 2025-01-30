@@ -146,7 +146,7 @@ export const AutoEditor = ({
     });
   }, []);
 
-  const handlePickerValueChange = React.useCallback(
+  const handleTagKeyChange = React.useCallback(
     (newPickerValue: string) => {
       const {normalizedTag: baseTag} = normalizeAndExtractLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
@@ -174,7 +174,7 @@ export const AutoEditor = ({
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
         handleSubmitButtonClick={handleSubmitButtonClick}
-        passLanguagePickerValueToParent={handlePickerValueChange}
+        passLanguagePickerValueToParent={handleTagKeyChange}
       />
     );
   }
