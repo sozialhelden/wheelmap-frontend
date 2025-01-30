@@ -39,7 +39,6 @@ export default function SearchableSelect({
       <Select.Root
         value={value}
         onValueChange={setValue}
-        //open={open}
         onOpenChange={setOpen}
       >
           <Select.Trigger
