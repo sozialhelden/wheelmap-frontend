@@ -52,9 +52,7 @@ export default function SearchableSelect({
         {/*TODO: make select searchable: https://ariakit.org/examples/combobox-radix-select*/}
 
             <Select.Content
-              role="dialog"
               aria-label={ariaLabelForContent}
-              position="popper"
             >
               {items.map(({label, value}) => (
                 <Select.Item key={value} value={value}>
