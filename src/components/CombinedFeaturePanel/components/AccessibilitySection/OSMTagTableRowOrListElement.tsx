@@ -67,8 +67,6 @@ export function OSMTagTableRowOrListElement({
 
   const valueIsString = typeof valueElement === "string";
   const valueIsNumber = typeof valueElement === "number";
-  //const editButton = isEditable && <EditButton editURL={editURL} />;
-  //TODO: insert conditional selection of plain edit button (editable keys) or drop down menu (editable and lang tagged keys)
   const editControls = isLanguageTagged ? (
     <EditDropdownMenu editURL={editURL} />
   ) : isEditable ? (
