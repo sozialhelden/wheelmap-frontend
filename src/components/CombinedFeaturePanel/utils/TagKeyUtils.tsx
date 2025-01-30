@@ -2,11 +2,15 @@ import {languageTaggedKeys} from "~/lib/model/osm/tag-config/languageTaggedKeys"
 import {describeIETFLanguageTag} from "@sozialhelden/ietf-language-tags";
 
 /*
-* Checks whether an osm tag is generally language tagged and if a language tag is present.
+* Checks whether an osm tag has language tag support and if a language tag is present.
 * Returns the normalized osm tag, a flag and the language tag itself if the input tag is in the list of language tagged osm tags.
 * If the input tag is not language tagged the flag is returned as false.
 * If the input tag is generally language tagged (in the list of language tags) but no language is appended on this instance,
 * the flag is returned as true and the language tag as null.
+* Examples
+* Input: wheelchair:description:es, Output: { wheelchair:description, true, es }
+* Input: wheelchair:description, Output: { wheelchair:description, true, null }
+* Input: an:other:tag, Output: { an:other:tag, false, null }
 */
 
 export const normalizeAndExtractLanguageTagsIfPresent = (tagName: string) => {
