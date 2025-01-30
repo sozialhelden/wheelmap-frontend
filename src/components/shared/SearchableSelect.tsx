@@ -43,7 +43,6 @@ export default function SearchableSelect({
       >
           <Select.Trigger
             aria-label={ariaLabelForTrigger}
-            className="select"
             placeholder={selectPlaceholder}
             variant="soft">
           </Select.Trigger>
