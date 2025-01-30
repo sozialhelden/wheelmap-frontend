@@ -23,13 +23,6 @@ import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
 import { WheelchairEditor } from "./WheelchairEditor";
 
-type AutoEditorProps = Omit<
-  BaseEditorProps,
-  | "onUrlMutationSuccess"
-  | "onChange"
-  | "handleSubmitButtonClick"
-  | "passLanguagePickerValueToParent"
->;
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -50,7 +43,7 @@ export const AutoEditor = ({
   feature,
   tagKey,
   addingNewLanguage,
-}: AutoEditorProps) => {
+}: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken;
@@ -165,39 +158,16 @@ export const AutoEditor = ({
   );
 
   const Editor = getEditorForKey(tagKey);
-  if (Editor === StringFieldEditor) {
+  if (Editor) {
     return (
       <Editor
         feature={feature}
         tagKey={finalTagName}
+        onChange={setEditedTagValue}
+        onUrlMutationSuccess={onUrlMutationSuccess}
+        handleSubmitButtonClick={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
         passLanguagePickerValueToParent={handleTagKeyChange}
-      />
-    );
-  }
-  if (Editor === WheelchairEditor) {
-    return (
-      <Editor
-        feature={feature}
-        tagKey={finalTagName}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
-      />
-    );
-  }
-
-  if (Editor === ToiletsWheelchairEditor) {
-    return (
-      <Editor
-        feature={feature}
-        tagKey={finalTagName}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
       />
     );
   }

@@ -11,14 +11,14 @@ import type { BaseEditorProps } from "./BaseEditor";
 import {InfoCircledIcon} from "@radix-ui/react-icons";
 import {t} from "ttag";
 
-export const StringFieldEditor = ({
-  feature,
-  tagKey,
-  addingNewLanguage,
-  onChange,
-  handleSubmitButtonClick,
-  passLanguagePickerValueToParent,
-}: BaseEditorProps) => {
+export const StringFieldEditor: React.FC<BaseEditorProps> = ({
+     feature,
+     tagKey,
+     addingNewLanguage,
+     onChange,
+     handleSubmitButtonClick,
+     passLanguagePickerValueToParent,
+   }) => {
 
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
@@ -70,7 +70,7 @@ export const StringFieldEditor = ({
     setTextAreaValue(newValue);
     setEditedTagValue(newValue);
     setHasValueChanged(newValue !== initialTagValue);
-    onChange(newValue);
+    onChange?.(newValue);
     textAreaRef.current?.focus();
   };
 
@@ -127,7 +127,6 @@ export const StringFieldEditor = ({
               </Text>
               <Flex style={{flexGrow: 1}}>
                 <SearchableSelect
-                  id="select"
                   selectPlaceholder={t`Languages`}
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {

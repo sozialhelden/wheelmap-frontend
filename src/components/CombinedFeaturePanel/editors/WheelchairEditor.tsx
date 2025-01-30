@@ -14,7 +14,7 @@ import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor = ({
+export const WheelchairEditor: React.FC<BaseEditorProps> =({
   feature,
   onChange,
   handleSubmitButtonClick,
@@ -55,7 +55,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("yes");
-            onChange("yes");
+            onChange?.("yes");
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -68,7 +68,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("limited");
-            onChange("limited");
+            onChange?.("limited");
           }}
           className="_okay"
           inputLabel="accessibility-partially"
@@ -83,7 +83,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("no");
-            onChange("no");
+            onChange?.("no");
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"
