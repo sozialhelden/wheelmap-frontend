@@ -1,4 +1,5 @@
-import { languageTaggedKeys } from "~/lib/model/osm/tag-config/languageTaggedKeys";
+import {languageTaggedKeys} from "~/lib/model/osm/tag-config/languageTaggedKeys";
+import {describeIETFLanguageTag} from "@sozialhelden/ietf-language-tags";
 
 /*
 * Checks whether an osm tag is generally language tagged and if a language tag is present.
@@ -8,23 +9,30 @@ import { languageTaggedKeys } from "~/lib/model/osm/tag-config/languageTaggedKey
 * the flag is returned as true and the language tag as null.
 */
 
-export const normalizeAndExtractLanguageTagsIfPresent = (inputString: string) => {
-  if (languageTaggedKeys.has(inputString)) {
-    return { normalizedTag: inputString, isLanguageTagged: true, languageTag: null };
+export const normalizeAndExtractLanguageTagsIfPresent = (tagName: string) => {
+  if (languageTaggedKeys.has(tagName)) {
+    return { normalizedTag: tagName, hasLanguageTagSupport: true, languageTag: null };
   }
 
-  const parts: string[] = inputString.split(":");
+  const parts: string[] = tagName.split(":");
   let assembledString: string = parts.slice(0, parts.length - 1).join(":");
 
   for (let i = 1; i < parts.length; i++) {
     if (languageTaggedKeys.has(assembledString)) {
       const languageTag = parts[parts.length - i];
-      return { normalizedTag: assembledString, isLanguageTagged: true, languageTag };
+      const isValidTag = describeIETFLanguageTag(languageTag, false) !== "undefined tag"
+      if (isValidTag){
+        return { normalizedTag: assembledString, hasLanguageTagSupport: true, languageTag };
+      }
+      else {
+        console.warn("Tag ", assembledString, "is appended with an unknown tag.")
+        return { normalizedTag: assembledString, hasLanguageTagSupport: true, languageTag: null };
+      }
     }
     assembledString = parts.slice(0, parts.length - (1 + i)).join(":");
   }
 
-  return { normalizedTag: inputString, isLanguageTagged: false, languageTag: null };
+  return { normalizedTag: tagName, hasLanguageTagSupport: false, languageTag: null };
 };
 
 
