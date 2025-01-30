@@ -1,6 +1,6 @@
-import { Select } from "@radix-ui/themes";
-import { useEffect, useState} from "react";
-import * as React from 'react';
+import {Select} from "@radix-ui/themes";
+import * as React from "react";
+import {useEffect, useState} from "react";
 
 interface SearchableSelectProps {
   selectPlaceholder: string;
@@ -39,7 +39,7 @@ export default function SearchableSelect({
       <Select.Root
         value={value}
         onValueChange={setValue}
-        open={open}
+        //open={open}
         onOpenChange={setOpen}
       >
           <Select.Trigger

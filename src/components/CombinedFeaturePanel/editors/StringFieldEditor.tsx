@@ -1,13 +1,16 @@
 import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden} from "@radix-ui/themes";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import SearchableSelect from "~/components/shared/SearchableSelect";
-import {getAvailableLangTags, normalizeAndExtractLanguageTagsIfPresent} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent
+} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {languageTagMapForStringFieldEditor} from "~/lib/i18n/languageTagsForStringFieldEditor";
+import {AppStateLink} from "../../App/AppStateLink";
+import {FeaturePanelContext} from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type { BaseEditorProps } from "./BaseEditor";
+import type {BaseEditorProps} from "./BaseEditor";
 import {InfoCircledIcon} from "@radix-ui/react-icons";
 import {t} from "ttag";
 
@@ -17,7 +20,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
      addingNewLanguage,
      onChange,
      handleSubmitButtonClick,
-     passLanguagePickerValueToParent,
+     onLanguageChange,
    }) => {
 
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
@@ -131,8 +134,8 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {
                     setSelectedLanguage(value);
-                    if (passLanguagePickerValueToParent) {
-                      passLanguagePickerValueToParent(value);
+                    if (onLanguageChange) {
+                      onLanguageChange(value);
                       if (!hasValueChanged) {
                         setHasValueChanged(true);
                       }
