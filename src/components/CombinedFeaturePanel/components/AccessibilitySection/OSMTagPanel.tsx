@@ -92,13 +92,24 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     );
     const availableLangTags = getAvailableLangTags(descriptionKeys, 2);
 
-    let matchingLangTag = "";
-    for (const tag of browserLanguageTags) {
+    let matchingLangTag: string | null = "";
+
+    // compare against most prioritized language tag
+    matchingLangTag = availableLangTags.has(browserLanguageTags[0])
+      ? browserLanguageTags[0]
+      : null;
+
+    // alternative: compare against the entire list of available lang tags to provide a fallback
+    // this causes the issue that a low prio language tag might override the preferred one
+    // since the default description might actually be in the preferred language but might not be selected
+    // because it is not language tagged
+
+    /*for (const tag of browserLanguageTags) {
       if (availableLangTags.has(tag)) {
         matchingLangTag = tag;
         break;
       }
-    }
+    }*/
 
     let finalListOfKeys: string[];
     if (matchingLangTag) {
