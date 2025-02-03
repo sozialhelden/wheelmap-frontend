@@ -111,7 +111,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     } else {
       finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
         if (key.startsWith("wheelchair:description")) {
-          return key === `wheelchair:description`;
+          return key === "wheelchair:description";
         }
         return true;
       });
