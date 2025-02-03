@@ -1,15 +1,15 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
+import { getAvailableLangTags } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { TypeTaggedOSMFeature } from "~/lib/model/geo/AnyFeature";
-import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { omittedKeyPrefixes } from "~/lib/model/osm/tag-config/omittedKeyPrefixes";
 import { omittedKeySuffixes } from "~/lib/model/osm/tag-config/omittedKeySuffixes";
 import { omittedKeys } from "~/lib/model/osm/tag-config/omittedKeys";
 import { pathsToConsumedTagKeys } from "~/lib/model/osm/tag-config/pathsToConsumedTagKeys";
 import { sortOrderMap } from "~/lib/model/osm/tag-config/sortOrderMap";
+import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import OSMTagTable from "./OSMTagTable";
-import {getAvailableLangTags} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import {useCurrentLanguageTagStrings} from "~/lib/context/LanguageTagContext";
 
 export interface ITreeNode {
   [key: string]: string | ITreeNode; // type for unknown keys.
@@ -86,34 +86,32 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
       isAccessibilityRelevantOSMKey,
     );
 
-    /*THE PART BELOW HANDLES SELECTION OF THE MOST SUITABLE WHEELCHAIR DESCRIPTION*/
+    /*SELECTION OF MOST SUITABLE WHEELCHAIR DESCRIPTION*/
     const descriptionKeys = accessibilityRelevantKeys.filter((key) =>
       key.startsWith("wheelchair:description"),
     );
-    const availableLangTags = getAvailableLangTags(descriptionKeys, 2)
+    const availableLangTags = getAvailableLangTags(descriptionKeys, 2);
 
-    // TODO: handle case that description lang tag is more specific than browser lang tag, eg: wheelchair:description:zh-Hans vs zh
-    // TODO: handle the case that the default description is actually in the users preferred language but is not selected because it has no language tag
-    let matchingLangTag: string = "";
+    let matchingLangTag = "";
     for (const tag of browserLanguageTags) {
       if (availableLangTags.has(tag)) {
         matchingLangTag = tag;
         break;
       }
     }
-    let finalListOfKeys: string[]
+
+    let finalListOfKeys: string[];
     if (matchingLangTag) {
-      finalListOfKeys = accessibilityRelevantKeys.filter(key => {
+      finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
         if (key.startsWith("wheelchair:description")) {
           return key === `wheelchair:description:${matchingLangTag}`;
         }
         return true;
       });
     } else {
-      // TODO: if there is no match, show default description wheelchair:description? or show no description at all?
-      finalListOfKeys = accessibilityRelevantKeys.filter(key => {
+      finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
         if (key.startsWith("wheelchair:description")) {
-          return key === `wheelchair:description`; // currently shows default description
+          return key === `wheelchair:description`;
         }
         return true;
       });
@@ -121,9 +119,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
 
     // add a pseudo tag if there is no wheelchair description yet to render an add button
     if (
-      !finalListOfKeys.some((item) =>
-        item.startsWith("wheelchair:description"),
-      )
+      !finalListOfKeys.some((item) => item.startsWith("wheelchair:description"))
     ) {
       finalListOfKeys.push("addWheelchairDescription");
     }
