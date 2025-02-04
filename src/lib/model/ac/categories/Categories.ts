@@ -2,7 +2,6 @@ import type { LocalizedString } from "../../../i18n/LocalizedString";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../../i18n/getLocalizedStringTranslationWithMultipleLocales";
 import type { AnyFeature } from "../../geo/AnyFeature";
 import type { ACCategory } from "./ACCategory";
-import { getRootCategoryTable } from "./getRootCategoryTable";
 
 type SynonymCache = Map<string, ACCategory>;
 
@@ -20,14 +19,6 @@ export type CategoryLookupTables = {
   synonymCache: SynonymCache | undefined;
   categories: ACCategory[];
 };
-
-export function getRootCategory(key: string) {
-  return getRootCategoryTable()[key];
-}
-
-export function translatedRootCategoryName(key: string) {
-  return getRootCategoryTable()[key].name;
-}
 
 export function getCategory(
   synonymCache: SynonymCache,

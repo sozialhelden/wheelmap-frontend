@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import * as React from "react";
 import { Source } from "react-map-gl/mapbox";
+import { categories } from "~/config/categories";
 import { useEnvContext } from "../../lib/context/EnvContext";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
-import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 import { databaseTableNames } from "./filterLayers";
 
@@ -42,8 +42,6 @@ export const MapSources = () => {
     useEnvContext();
 
   const mvtParams = useMemo(() => {
-    const categoryTable = getRootCategoryTable();
-
     const baseParams = new URLSearchParams({
       limit: "10000",
       epsg: "3857",
@@ -58,7 +56,7 @@ export const MapSources = () => {
     }
 
     if (category) {
-      const categoryEntry = categoryTable[category];
+      const categoryEntry = categories[category];
       if (categoryEntry) {
         if (categoryEntry.applyCustomSearchParams) {
           categoryEntry?.applyCustomSearchParams(baseParams);
