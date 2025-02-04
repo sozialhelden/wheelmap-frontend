@@ -2,7 +2,6 @@ import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { type RefObject, forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import type { NeedProperties } from "~/config/needs";
 import NeedsIcon from "~/icons/NeedsIcon";
 import { useNeeds } from "~/lib/useNeeds";
 
@@ -41,18 +40,10 @@ const NumberBadge = styled.span`
 `;
 
 export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
-  const { needs, settings } = useNeeds();
+  const { needs: needsMap } = useNeeds();
 
-  const selection = Object.entries(needs)
-    .filter(([_, need]) => Boolean(need))
-    .map(([category, need]) => {
-      return {
-        ...(settings[category].needs[need] as NeedProperties),
-        title: settings[category].title,
-      };
-    });
-
-  const selectionWithIcon = selection.filter(({ icon }) => Boolean(icon));
+  const needs = Object.values(needsMap);
+  const needsWithIcon = needs.filter(({ icon }) => Boolean(icon));
 
   return (
     <Theme radius="full" asChild>
@@ -62,11 +53,11 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
         size="3"
         ref={ref as RefObject<HTMLButtonElement>}
       >
-        {selection.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
-        {selectionWithIcon.length > 0 && (
+        {needs.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
+        {needsWithIcon.length > 0 && (
           <Flex gap="2" ml="3" aria-hidden>
-            {selectionWithIcon.map(({ title, label, icon: Icon }) => (
-              <Tooltip content={`${title}: ${label}`} key={label()}>
+            {needsWithIcon.map(({ label, icon: Icon }) => (
+              <Tooltip content={`${label()}`} key={label()}>
                 <Icon />
               </Tooltip>
             ))}
@@ -75,11 +66,9 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
         <IconWrapper>
           <NeedsIcon />
         </IconWrapper>
-        {selection.length > 0 && (
-          <NumberBadge
-            aria-label={t`You have ${selection.length} needs selected`}
-          >
-            {selection.length}
+        {needs.length > 0 && (
+          <NumberBadge aria-label={t`You have ${needs.length} needs selected`}>
+            {needs.length}
           </NumberBadge>
         )}
       </StyledButton>

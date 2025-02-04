@@ -1,6 +1,6 @@
 import { type MutableRefObject, useLayoutEffect, useState } from "react";
 import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
-import type { SectionRefs } from "~/components/TopBar/NeedsPicker/hooks/useHighlighterRefs";
+import type { SectionRefs } from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterRefs";
 
 type HighlightPosition = {
   top: number;
@@ -9,7 +9,7 @@ type HighlightPosition = {
   width: number;
 };
 
-export function useHighlighterPosition({
+export function useNeedsHighlighterPosition({
   containerRef,
   highlightedSection,
   sectionRefs,
