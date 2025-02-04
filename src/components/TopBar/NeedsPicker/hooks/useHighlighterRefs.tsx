@@ -1,4 +1,4 @@
-import { type MutableRefObject, useEffect, useMemo, useRef } from "react";
+import { type MutableRefObject, useRef } from "react";
 import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
 import { useNeeds } from "~/lib/useNeeds";
 

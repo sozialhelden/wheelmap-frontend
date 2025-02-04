@@ -66,9 +66,7 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
           <Flex gap="2" ml="3" aria-hidden>
             {selectionWithIcon.map(({ title, label, icon: Icon }) => (
               <Tooltip content={`${title}: ${label}`} key={label}>
-                <span>
-                  <Icon />
-                </span>
+                <Icon />
               </Tooltip>
             ))}
           </Flex>

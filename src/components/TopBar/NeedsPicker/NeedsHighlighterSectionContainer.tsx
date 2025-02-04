@@ -2,7 +2,7 @@ import { Slot } from "radix-ui";
 import { type ReactNode, type RefObject, useContext, useRef } from "react";
 import { HighlighterContext, type Section } from "./NeedsHighlighter";
 
-export function NeedsHighlighterSection({
+export function NeedsHighlighterSectionContainer({
   section,
   children,
   ...props

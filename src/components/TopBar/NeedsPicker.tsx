@@ -6,7 +6,7 @@ import { NeedsButtonSection } from "~/components/TopBar/NeedsPicker/NeedsButtonS
 import { type Needs, useNeeds } from "~/lib/useNeeds";
 import { NeedsButton } from "./NeedsPicker/NeedsButton";
 import { NeedsHighlighter } from "./NeedsPicker/NeedsHighlighter";
-import { NeedsHighlighterSection } from "./NeedsPicker/NeedsHighlighterSection";
+import { NeedsHighlighterSectionContainer } from "./NeedsPicker/NeedsHighlighterSectionContainer";
 import { NeedsSection } from "./NeedsPicker/NeedsSection";
 import { useHighlighterSections } from "./NeedsPicker/hooks/useHighlighterSections";
 
@@ -35,10 +35,12 @@ const NeedsDialogContent = styled(DialogPrimitive.Content)`
   background: var(--color-panel);
   box-shadow: var(--black-a4) 0 .2rem .4rem;
   width: calc(100% - (var(--space-8) * 2));
+  max-width: 940px;
   max-height: calc(100% - (var(--space-2) * 2));
   display: flex;
   overflow: hidden;
   border-radius: var(--radius-5);
+  
   @media (max-width: 768px) {
     border-radius: var(--radius-3);
   }
@@ -108,7 +110,10 @@ export default function NeedsPicker() {
               >
                 <Grid columns={{ initial: "1fr", sm: "1fr 1fr max-content" }}>
                   {sections.map((section) => (
-                    <NeedsHighlighterSection section={section} key={section}>
+                    <NeedsHighlighterSectionContainer
+                      section={section}
+                      key={section}
+                    >
                       {section === "buttons" ? (
                         <NeedsButtonSection
                           onSaveButtonClick={save}
@@ -126,7 +131,7 @@ export default function NeedsPicker() {
                           }
                         />
                       )}
-                    </NeedsHighlighterSection>
+                    </NeedsHighlighterSectionContainer>
                   ))}
                 </Grid>
               </NeedsHighlighter>
