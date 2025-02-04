@@ -1,13 +1,9 @@
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
-import { Box, Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
+import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
-import {
-  type NeedCategory,
-  type NeedProperties,
-  useNeeds,
-} from "~/lib/useNeeds";
+import type { NeedCategory, NeedProperties } from "~/config/needs";
+import { useNeeds } from "~/lib/useNeeds";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
@@ -96,7 +92,7 @@ export const NeedsSection = forwardRef(function NeedsSection(
                         align="center"
                         gap="4"
                       >
-                        {label}
+                        {label()}
                         <Flex
                           as="span"
                           justify="center"
@@ -114,7 +110,7 @@ export const NeedsSection = forwardRef(function NeedsSection(
                       $isVisible={isHelpExpanded}
                       id={`${helpTextBaseId}-${key}`}
                     >
-                      {help}
+                      {help()}
                     </HelpText>
                   )}
                 </Flex>

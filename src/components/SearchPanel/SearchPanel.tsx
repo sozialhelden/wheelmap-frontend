@@ -8,7 +8,7 @@ import SearchInputField from "./SearchInputField";
 import SearchResults from "./SearchResults";
 
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { IconButton, VisuallyHidden } from "@radix-ui/themes";
+import { Box, IconButton, VisuallyHidden } from "@radix-ui/themes";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 import { cx } from "../../lib/util/cx";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
@@ -143,41 +143,25 @@ export default function SearchPanel({
       </div>
     );
   } else {
-    contentBelowSearchField = (
-      <>
-        {categoryMenuOrNothing}
-        {accessibilityFilterMenu}
-      </>
-    );
+    contentBelowSearchField = <Box />;
   }
 
   const overlayRef = useMapOverlapRef(false);
 
   return (
-    <StyledToolbar
-      hidden={hidden}
-      inert={inert}
-      minimalHeight={75}
-      isSwipeable={false}
-      enableTransitions={false}
-      minimalTopPosition={minimalTopPosition}
-      ref={overlayRef}
-      className={cx(className, isExpanded && "isExpanded")}
-    >
-      <ErrorBoundary>
-        <header>
-          <form
-            onSubmit={(ev) => {
-              ev.preventDefault();
-            }}
-          >
-            <SearchIcon />
-            {searchInputField}
-            {searchQuery && closeLink}
-          </form>
-        </header>
-        <section onTouchStart={() => blur()}>{contentBelowSearchField}</section>
-      </ErrorBoundary>
-    </StyledToolbar>
+    <ErrorBoundary>
+      <header>
+        <form
+          onSubmit={(ev) => {
+            ev.preventDefault();
+          }}
+        >
+          <SearchIcon />
+          {searchInputField}
+          {searchQuery && closeLink}
+        </form>
+      </header>
+      <section onTouchStart={() => blur()}>{contentBelowSearchField}</section>
+    </ErrorBoundary>
   );
 }
