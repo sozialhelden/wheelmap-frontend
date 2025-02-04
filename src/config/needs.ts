@@ -8,8 +8,8 @@ import { FullyWheelchairAccessibleToiletIcon } from "~/icons/needs/toilets/Fully
 import { ToiletPresentIcon } from "~/icons/needs/toilets/ToiletPresentIcon";
 
 export type NeedProperties = {
-  label: string;
-  help?: string;
+  label: () => string;
+  help?: () => string;
   icon?: FC;
 };
 
@@ -28,26 +28,30 @@ export const settings = {
     title: t`Mobility`,
     needs: {
       "no-need": {
-        label: t`I have no mobility needs`,
+        label: () => t`I have no mobility needs`,
       },
       "fully-wheelchair-accessible": {
-        label: t`Fully wheelchair accessible`,
-        help: t`Entrance has no steps, and all rooms are accessible without steps.`,
+        label: () => t`Fully wheelchair accessible`,
+        help: () =>
+          t`Entrance has no steps, and all rooms are accessible without steps.`,
         icon: FullyWheelchairAccessibleIcon,
       },
       "partially-wheelchair-accessible": {
-        label: t`Partially wheelchair accessible`,
-        help: t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
+        label: () => t`Partially wheelchair accessible`,
+        help: () =>
+          t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
         icon: PartiallyWheelchairAccessibleCombinationIcon,
       },
       "not-wheelchair-accessible": {
-        label: t`Not wheelchair accessible`,
-        help: t`Entrance has a high step or several steps, none of the rooms are accessible.`,
+        label: () => t`Not wheelchair accessible`,
+        help: () =>
+          t`Entrance has a high step or several steps, none of the rooms are accessible.`,
         icon: NotWheelchairAccessibleIcon,
       },
       "no-data": {
-        label: t`No wheelchair info yet`,
-        help: t`There is no information available about wheelchair accessibility.`,
+        label: () => t`No wheelchair info yet`,
+        help: () =>
+          t`There is no information available about wheelchair accessibility.`,
         icon: NoDataIcon,
       },
     },
@@ -56,18 +60,18 @@ export const settings = {
     title: t`Toilets`,
     needs: {
       "no-need": {
-        label: t`I have no toilet needs`,
+        label: () => t`I have no toilet needs`,
       },
       "fully-wheelchair-accessible": {
-        label: t`Fully wheelchair accessible toilet`,
+        label: () => t`Fully wheelchair accessible toilet`,
         icon: FullyWheelchairAccessibleToiletIcon,
       },
       "toilet-present": {
-        label: t`Has a toilet`,
+        label: () => t`Has a toilet`,
         icon: ToiletPresentIcon,
       },
       "no-data": {
-        label: t`No toilet info yet`,
+        label: () => t`No toilet info yet`,
       },
     },
   },

@@ -4,10 +4,6 @@ import SearchButton from "./SearchButton";
 import SearchPanel from "./SearchPanel";
 
 const SearchContainer = styled.div`
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-
     > .search-button {
         display: none;
     }

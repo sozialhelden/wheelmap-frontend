@@ -2,8 +2,9 @@ import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { type RefObject, forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
+import type { NeedProperties } from "~/config/needs";
 import NeedsIcon from "~/icons/NeedsIcon";
-import { type NeedProperties, Needs, useNeeds } from "~/lib/useNeeds";
+import { useNeeds } from "~/lib/useNeeds";
 
 const StyledButton = styled(Button)`
   max-width: 100%;
@@ -65,7 +66,7 @@ export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
         {selectionWithIcon.length > 0 && (
           <Flex gap="2" ml="3" aria-hidden>
             {selectionWithIcon.map(({ title, label, icon: Icon }) => (
-              <Tooltip content={`${title}: ${label}`} key={label}>
+              <Tooltip content={`${title}: ${label}`} key={label()}>
                 <Icon />
               </Tooltip>
             ))}

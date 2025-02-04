@@ -5,7 +5,7 @@ import {
   type SectionRefSetter,
   useHighlighterRefs,
 } from "~/components/TopBar/NeedsPicker/hooks/useHighlighterRefs";
-import { type NeedCategory, useNeeds } from "~/lib/useNeeds";
+import type { NeedCategory } from "~/config/needs";
 
 const HighlighterContainer = styled.div`
   position: relative;
