@@ -1,13 +1,14 @@
-import type React from "react";
+import { type MutableRefObject, forwardRef } from "react";
 
-function SvgGovernment(props: React.SVGAttributes<SVGElement>) {
+export const GovernmentIcon = forwardRef(function GovernmentIcon(props, ref) {
   return (
+    // biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
     <svg
       width="1em"
       height="1em"
-      aria-hidden="true"
       viewBox="0 0 15 15"
       {...props}
+      ref={ref as MutableRefObject<SVGSVGElement>}
     >
       <path
         d="M3 2v11h5v-3h3v3h1V2H3zm4 10H4v-2h3v2zm0-3H4V7h3v2zm0-3H4V4h3v2zm4 3H8V7h3v2zm0-3H8V4h3v2z"
@@ -16,6 +17,4 @@ function SvgGovernment(props: React.SVGAttributes<SVGElement>) {
       />
     </svg>
   );
-}
-
-export default SvgGovernment;
+});

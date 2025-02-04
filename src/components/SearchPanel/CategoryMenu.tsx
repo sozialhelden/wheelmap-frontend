@@ -6,10 +6,10 @@ import type {
   YesNoLimitedUnknown,
   YesNoUnknown,
 } from "../../lib/model/ac/Feature";
-import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 import { Circle } from "../shared/IconButton";
 import CategoryButton from "./CategoryButton";
+// import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable'
 
 type Props = {
   onFocus?: () => void;
