@@ -1,11 +1,13 @@
 import { useMemo } from "react";
 import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
-import type { NeedCategory, Needs } from "~/config/needs";
+import type { NeedCategory, NeedSelection } from "~/config/needs";
 import { categories } from "~/lib/useNeeds";
 
 export const sections: Section[] = [...categories, "buttons"];
 
-export function useHighlighterSections({ needs }: { needs: Needs }): {
+export function useNeedsHighlighterSections({
+  needs,
+}: { needs: NeedSelection }): {
   highlightedSection: Section;
   isGivenOrNextSectionHighlighted: (section: Section) => boolean;
   sections: Section[];

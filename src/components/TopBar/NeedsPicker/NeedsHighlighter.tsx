@@ -1,10 +1,10 @@
 import { type ReactNode, type RefObject, createContext } from "react";
 import styled from "styled-components";
-import { useHighlighterPosition } from "~/components/TopBar/NeedsPicker/hooks/useHighlighterPosition";
+import { useNeedsHighlighterPosition } from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterPosition";
 import {
   type SectionRefSetter,
-  useHighlighterRefs,
-} from "~/components/TopBar/NeedsPicker/hooks/useHighlighterRefs";
+  useNeedsHighlighterRefs,
+} from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterRefs";
 import type { NeedCategory } from "~/config/needs";
 
 const HighlighterContainer = styled.div`
@@ -44,8 +44,9 @@ export function NeedsHighlighter({
   showHighlightTransition?: boolean;
   children: ReactNode;
 }) {
-  const { containerRef, sectionRefs, setSectionRef } = useHighlighterRefs();
-  const { position, isVisible } = useHighlighterPosition({
+  const { containerRef, sectionRefs, setSectionRef } =
+    useNeedsHighlighterRefs();
+  const { position, isVisible } = useNeedsHighlighterPosition({
     containerRef,
     sectionRefs,
     highlightedSection,
