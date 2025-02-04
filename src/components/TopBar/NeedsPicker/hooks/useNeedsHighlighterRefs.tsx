@@ -11,7 +11,7 @@ export type SectionRefSetter = (
   ref: MutableRefObject<HTMLElement | undefined>,
 ) => void;
 
-export function useHighlighterRefs(): {
+export function useNeedsHighlighterRefs(): {
   containerRef: MutableRefObject<HTMLElement | undefined>;
   sectionRefs: SectionRefs;
   setSectionRef: SectionRefSetter;

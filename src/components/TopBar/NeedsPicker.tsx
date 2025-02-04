@@ -3,12 +3,13 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NeedsButtonSection } from "~/components/TopBar/NeedsPicker/NeedsButtonSection";
-import { type Needs, useNeeds } from "~/lib/useNeeds";
+import type { NeedSelection } from "~/config/needs";
+import { useNeeds } from "~/lib/useNeeds";
 import { NeedsButton } from "./NeedsPicker/NeedsButton";
 import { NeedsHighlighter } from "./NeedsPicker/NeedsHighlighter";
 import { NeedsHighlighterSectionContainer } from "./NeedsPicker/NeedsHighlighterSectionContainer";
 import { NeedsSection } from "./NeedsPicker/NeedsSection";
-import { useHighlighterSections } from "./NeedsPicker/hooks/useHighlighterSections";
+import { useNeedsHighlighterSections } from "./NeedsPicker/hooks/useNeedsHighlighterSections";
 
 const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
   animation: showOverlay 400ms ease-out;
@@ -58,19 +59,20 @@ const NeedsDialogContent = styled(DialogPrimitive.Content)`
 `;
 
 export default function NeedsPicker() {
-  const { needs: globalNeeds, setNeeds: setGlobalNeeds } = useNeeds();
-  const [needs, setNeeds] = useState<Needs>(globalNeeds);
+  const { selection: globalSelection, setSelection: setGlobalSelection } =
+    useNeeds();
+  const [selection, setSelection] = useState<NeedSelection>(globalSelection);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { sections, highlightedSection, isGivenOrNextSectionHighlighted } =
-    useHighlighterSections({ needs });
+    useNeedsHighlighterSections({ needs: selection });
 
   const save = () => {
-    setGlobalNeeds(needs);
+    setGlobalSelection(selection);
     setIsOpen(false);
   };
   const reset = () => {
-    setNeeds(globalNeeds);
+    setSelection(globalSelection);
     setIsOpen(false);
   };
 
@@ -82,7 +84,7 @@ export default function NeedsPicker() {
   useEffect(() => {
     setShowHighlightTransition(true);
     setTimeout(() => setShowHighlightTransition(false), 400);
-  }, [needs]);
+  }, [selection]);
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
@@ -122,9 +124,9 @@ export default function NeedsPicker() {
                       ) : (
                         <NeedsSection
                           category={section}
-                          value={needs[section]}
+                          value={selection[section]}
                           onValueChange={(value) =>
-                            setNeeds({ ...needs, [section]: value })
+                            setSelection({ ...selection, [section]: value })
                           }
                           showDivider={
                             !isGivenOrNextSectionHighlighted(section)
