@@ -26,6 +26,7 @@ module.exports = {
   expandProps: true,
   typescript: true,
   ref: true,
+  filenameCase: "snake",
   replaceAttrValues: {
     "#fff": "currentColor",
     "#ffffff": "currentColor",
