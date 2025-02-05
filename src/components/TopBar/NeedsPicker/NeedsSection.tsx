@@ -3,7 +3,7 @@ import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
 import type { NeedCategory, NeedProperties } from "~/config/needs";
-import { useNeeds } from "~/lib/useNeeds";
+import { useNeeds } from "~/hooks/useNeeds";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);

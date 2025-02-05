@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NeedsButtonSection } from "~/components/TopBar/NeedsPicker/NeedsButtonSection";
 import type { NeedSelection } from "~/config/needs";
-import { useNeeds } from "~/lib/useNeeds";
+import { useNeeds } from "~/hooks/useNeeds";
 import { NeedsButton } from "./NeedsPicker/NeedsButton";
 import { NeedsHighlighter } from "./NeedsPicker/NeedsHighlighter";
 import { NeedsHighlighterSectionContainer } from "./NeedsPicker/NeedsHighlighterSectionContainer";
