@@ -1,6 +1,3 @@
-## Give a clear title for your pull request
-
-
 ##  🖊️ Description
 **💡 What? Why? How?**
 
@@ -13,6 +10,10 @@
 **📎 Related Ticket**
 
 *Add an Asana link*
+
+**🔗 PR Dependencies**
+
+*Include links to other PRs, that this PR depends on and that need to be merged beforehand*
 
 **👀 Seak Peek (Optional)**
 
@@ -71,7 +72,6 @@ Remove any items that are not applicable.**
 - [ ] I updated the manual testing plan of the app so that it includes a testing flow for this feature.
 </details> 
 
-  
 
 ## 🔍 Reviewing
 
@@ -91,11 +91,3 @@ _For example: Reinstall your dependencies, rebuild your docker image, add someth
 
 **Remove this section, if you don't need it**  
 _For example: To test this feature, click on the "Create" button, fill out the form, click "Save" and then upload a file._
-
-
-
-
-
-
-
-
