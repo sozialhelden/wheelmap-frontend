@@ -2,8 +2,8 @@ import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { type RefObject, forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
+import { useNeeds } from "~/hooks/useNeeds";
 import NeedsIcon from "~/icons/NeedsIcon";
-import { useNeeds } from "~/lib/useNeeds";
 
 const StyledButton = styled(Button)`
   max-width: 100%;
