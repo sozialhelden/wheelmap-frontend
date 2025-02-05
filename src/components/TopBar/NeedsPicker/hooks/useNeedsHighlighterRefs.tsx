@@ -1,6 +1,6 @@
 import { type MutableRefObject, useRef } from "react";
 import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
-import { useNeeds } from "~/lib/useNeeds";
+import { useNeeds } from "~/hooks/useNeeds";
 
 export type SectionRefs = Record<
   Section,
