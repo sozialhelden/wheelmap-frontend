@@ -13,6 +13,10 @@ import {
   type Needs,
   settings,
 } from "~/config/needs";
+import {
+  useLegacyA11yFilterQueryParams,
+  useLegacyA11yFilterQueryParamsDefaultSelection,
+} from "~/hooks/useLegacyA11yFilterQueryParams";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 export const categories = Object.entries(settings).map(
@@ -37,8 +41,8 @@ const NeedsContext = createContext<NeedsContext>({
   categories,
 });
 export function NeedsContextProvider({ children }: { children: ReactNode }) {
-  const router = useAppStateAwareRouter();
-  const [selection, setSelection] = useState(emptyNeeds);
+  const { defaultSelection } = useLegacyA11yFilterQueryParamsDefaultSelection();
+  const [selection, setSelection] = useState(defaultSelection);
 
   const needs = useMemo(
     () =>
@@ -52,27 +56,7 @@ export function NeedsContextProvider({ children }: { children: ReactNode }) {
     [selection],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    const queryParams = {
-      toilet: Object.values(needs).reduce((acc, need) => {
-        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-        return [...acc, ...(need?.legacyQueryParams?.toilet ?? [])];
-      }, []),
-      wheelchair: Object.values(needs).reduce((acc, need) => {
-        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
-        return [...acc, ...(need?.legacyQueryParams?.wheelchair ?? [])];
-      }, []),
-    };
-    const queryHasChanged = Object.entries(queryParams).find(
-      ([param, value]) => {
-        return router.query[param] !== value;
-      },
-    );
-    if (queryHasChanged) {
-      router.push({ query: queryParams });
-    }
-  }, [needs]);
+  useLegacyA11yFilterQueryParams({ needs });
 
   return (
     <NeedsContext.Provider
