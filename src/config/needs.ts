@@ -12,6 +12,7 @@ import { ToiletPresentIcon } from "~/icons/needs/toilets/ToiletPresentIcon";
 export const settings = {
   mobility: {
     title: t`Mobility`,
+    legacyQueryParamName: "wheelchair",
     needs: {
       "no-need": {
         label: () => t`I have no mobility needs`,
@@ -21,41 +22,34 @@ export const settings = {
         help: () =>
           t`Entrance has no steps, and all rooms are accessible without steps.`,
         icon: FullyWheelchairAccessibleIcon,
-        legacyQueryParams: {
-          wheelchair: ["yes"],
-        },
+        legacyQueryParams: ["yes"],
       },
       "partially-wheelchair-accessible": {
         label: () => t`Partially wheelchair accessible`,
         help: () =>
           t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
         icon: PartiallyWheelchairAccessibleCombinationIcon,
-        legacyQueryParams: {
-          wheelchair: ["limited", "yes"],
-        },
+        legacyQueryParams: ["limited", "yes"],
       },
       "not-wheelchair-accessible": {
         label: () => t`Not wheelchair accessible`,
         help: () =>
           t`Entrance has a high step or several steps, none of the rooms are accessible.`,
         icon: NotWheelchairAccessibleIcon,
-        legacyQueryParams: {
-          wheelchair: ["no"],
-        },
+        legacyQueryParams: ["no"],
       },
       "no-data": {
         label: () => t`No wheelchair info yet`,
         help: () =>
           t`There is no information available about wheelchair accessibility.`,
         icon: NoDataIcon,
-        legacyQueryParams: {
-          wheelchair: ["unknown"],
-        },
+        legacyQueryParams: ["unknown"],
       },
     },
   },
   toilet: {
     title: t`Toilets`,
+    legacyQueryParamName: "toilet",
     needs: {
       "no-need": {
         label: () => t`I have no toilet needs`,
@@ -63,9 +57,7 @@ export const settings = {
       "fully-wheelchair-accessible": {
         label: () => t`Fully wheelchair accessible toilet`,
         icon: FullyWheelchairAccessibleToiletIcon,
-        legacyQueryParams: {
-          toilet: ["yes"],
-        },
+        legacyQueryParams: ["yes"],
       },
       // "toilet-present": {
       //   label: () => t`Has a toilet`,
@@ -80,12 +72,9 @@ export const settings = {
 
 export type NeedProperties = {
   label: () => string;
-  legacyQueryParams?: {
-    wheelchair?: Readonly<("yes" | "no" | "limited" | "unknown")[]>;
-    toilet?: Readonly<("yes" | "no")[]>;
-  };
   help?: () => string;
   icon?: FC;
+  legacyQueryParams?: Readonly<string[]>;
 };
 export type NeedSettings = typeof settings;
 export type NeedCategory = keyof NeedSettings;
@@ -107,6 +96,7 @@ const validatedSettings: Record<
   string,
   {
     title: string;
+    legacyQueryParamName?: string;
     needs: Record<string, NeedProperties>;
   }
 > = settings;
