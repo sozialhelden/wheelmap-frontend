@@ -1,78 +1,80 @@
 import type { FC } from "react";
 import { t } from "ttag";
 import { ToiletIcon } from "~/components/icons/categories/toilet";
-import { AccommodationIcon } from "~/components/icons/mainCategories/AccommodationIcon";
-import { EducationIcon } from "~/components/icons/mainCategories/EducationIcon";
-import { FoodIcon } from "~/components/icons/mainCategories/FoodIcon";
-import { GovernmentIcon } from "~/components/icons/mainCategories/GovernmentIcon";
-import { HealthIcon } from "~/components/icons/mainCategories/HealthIcon";
-import { LeisureIcon } from "~/components/icons/mainCategories/LeisureIcon";
-import { MoneyPostIcon } from "~/components/icons/mainCategories/MoneyPostIcon";
-import { PublicTransferIcon } from "~/components/icons/mainCategories/PublicTransferIcon";
-import { ShoppingIcon } from "~/components/icons/mainCategories/ShoppingIcon";
-import { SportIcon } from "~/components/icons/mainCategories/SportIcon";
-import { TourismIcon } from "~/components/icons/mainCategories/TourismIcon";
+import {
+  accommodation,
+  education,
+  food,
+  government,
+  health,
+  leisure,
+  money_post,
+  public_transfer,
+  shopping,
+  sport,
+  tourism,
+} from "~/components/icons/mainCategories";
 
 export const categories = {
   shopping: {
     // translator: Root category
     name: () => t`Shopping`,
     priority: 10,
-    icon: ShoppingIcon,
+    icon: shopping,
   },
   food: {
     // translator: Root category
     name: () => t`Food & Drinks`,
     priority: 20,
-    icon: FoodIcon,
+    icon: food,
   },
   public_transfer: {
     // translator: Root category
     name: () => t`Transport`,
     priority: 30,
-    icon: PublicTransferIcon,
+    icon: public_transfer,
   },
   leisure: {
     // translator: Root category
     name: () => t`Leisure`,
     priority: 40,
-    icon: LeisureIcon,
+    icon: leisure,
   },
   accommodation: {
     // translator: Root category
     name: () => t`Hotels`,
     priority: 40,
-    icon: AccommodationIcon,
+    icon: accommodation,
   },
   tourism: {
     // translator: Root category
     name: () => t`Tourism`,
-    icon: TourismIcon,
+    icon: tourism,
   },
   education: {
     // translator: Root category
     name: () => t`Education`,
-    icon: EducationIcon,
+    icon: education,
   },
   government: {
     // translator: Root category
     name: () => t`Authorities`,
-    icon: GovernmentIcon,
+    icon: government,
   },
   health: {
     // translator: Root category
     name: () => t`Health`,
-    icon: HealthIcon,
+    icon: health,
   },
   money_post: {
     // translator: Root category
     name: () => t`Money`,
-    icon: MoneyPostIcon,
+    icon: money_post,
   },
   sport: {
     // translator: Root category
     name: () => t`Sports`,
-    icon: SportIcon,
+    icon: sport,
   },
   // This returns all places that either ARE a toilet, or HAVE an accessible toilet
   toilets: {
