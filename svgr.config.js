@@ -34,6 +34,6 @@ module.exports = {
     "#000000": "currentColor",
     "#010101": "currentColor",
   },
-  template,
-  indexTemplate,
+  // template,
+  // indexTemplate,
 };
