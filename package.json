@@ -145,9 +145,6 @@
     "> 0.25%",
     "not dead"
   ],
-  "engines": {
-    "node": "22"
-  },
   "resolutions": {
     "https-proxy-agent": "^3.0.0",
     "styled-components": "^6.1.11"
