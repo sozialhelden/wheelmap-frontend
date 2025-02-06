@@ -1,10 +1,9 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const StyledReportView = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-bottom: 24px;
 
   color: #000;
 
@@ -128,4 +127,4 @@ export const StyledReportView = styled.div`
           background-color: rgba(243, 158, 59, 0.1);
       }
   }
-`
+`;
