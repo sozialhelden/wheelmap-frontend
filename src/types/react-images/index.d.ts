@@ -1,1 +1,1 @@
-declare module 'react-images';
+declare module "react-images";
