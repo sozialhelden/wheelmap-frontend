@@ -169,7 +169,7 @@ export const AutoEditor = ({
         tagKey={finalTagName}
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
+        onSubmit={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
         onLanguageChange={handleLanguageSuffixChange}
       />
