@@ -112,22 +112,16 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     }*/
 
     let finalListOfKeys: string[];
-    if (matchingLangTag) {
-      finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
-        if (key.startsWith("wheelchair:description")) {
-          return key === `wheelchair:description:${matchingLangTag}`;
-        }
+    finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
+      if (!key.startsWith("wheelchair:description")) {
         return true;
-      });
-    } else {
-      finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
-        if (key.startsWith("wheelchair:description")) {
-          return key === "wheelchair:description";
-        }
-        return true;
-      });
-    }
-
+      }
+      if (matchingLangTag) {
+        return key === `wheelchair:description:${matchingLangTag}`;
+      } else {
+        return key === "wheelchair:description";
+      }
+    });
     // add a pseudo tag if there is no wheelchair description yet to render an add button
     if (
       !finalListOfKeys.some((item) => item.startsWith("wheelchair:description"))
