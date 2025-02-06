@@ -90,6 +90,7 @@
     "expect": "^26.6.2",
     "express": "^4.21.2",
     "next-transpile-modules": "^10.0.1",
+    "husky": "^9.1.7",
     "npm-force-resolutions": "0.0.3",
     "npmignore": "^0.2.0",
     "react-test-renderer": "^18.3.1",
@@ -123,7 +124,8 @@
     "format": "eslint \"src/**/*.js\" --write",
     "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
     "docs:build": "typedoc src --options typedoc.json --out dist/docs/typescript --json dist/typedoc-output.json && npx esrun ./tools/generate-overview.ts",
-    "docs:install": "docker pull squidfunk/mkdocs-material"
+    "docs:install": "docker pull squidfunk/mkdocs-material",
+    "prepare": "husky"
   },
   "browserslist": [
     "Android > 4.4",
