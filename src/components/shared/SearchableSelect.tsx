@@ -1,6 +1,6 @@
-import { Select } from "@radix-ui/themes";
-import { useEffect, useState} from "react";
-import * as React from 'react';
+import {Select} from "@radix-ui/themes";
+import * as React from "react";
+import {useEffect, useState} from "react";
 
 interface SearchableSelectProps {
   selectPlaceholder: string;
@@ -39,12 +39,10 @@ export default function SearchableSelect({
       <Select.Root
         value={value}
         onValueChange={setValue}
-        open={open}
         onOpenChange={setOpen}
       >
           <Select.Trigger
             aria-label={ariaLabelForTrigger}
-            className="select"
             placeholder={selectPlaceholder}
             variant="soft">
           </Select.Trigger>
@@ -52,9 +50,7 @@ export default function SearchableSelect({
         {/*TODO: make select searchable: https://ariakit.org/examples/combobox-radix-select*/}
 
             <Select.Content
-              role="dialog"
               aria-label={ariaLabelForContent}
-              position="popper"
             >
               {items.map(({label, value}) => (
                 <Select.Item key={value} value={value}>

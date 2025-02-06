@@ -1,8 +1,8 @@
 import { Button, Link } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
-import type { YesNoUnknown } from "../../../lib/model/ac/Feature";
-import { isOrHasAccessibleToilet } from "../../../lib/model/accessibility/isOrHasAccessibleToilet";
-import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import type { YesNoUnknown } from "~/lib/model/ac/Feature";
+import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
+import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import { AppStateLink } from "../../App/AppStateLink";
 import { ToiletStatusNotAccessible } from "../../icons/accessibility";
 import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
@@ -12,7 +12,7 @@ import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const ToiletsWheelchairEditor = ({
+export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   handleSubmitButtonClick,
@@ -42,7 +42,7 @@ export const ToiletsWheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("yes");
-            onChange("yes");
+            onChange?.("yes");
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -56,7 +56,7 @@ export const ToiletsWheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("no");
-            onChange("no");
+            onChange?.("no");
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"

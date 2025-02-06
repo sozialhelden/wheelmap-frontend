@@ -1,24 +1,27 @@
 import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden} from "@radix-ui/themes";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import SearchableSelect from "~/components/shared/SearchableSelect";
-import {getAvailableLangTags, normalizeAndExtractLanguageTagsIfPresent} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent
+} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {languageTagMapForStringFieldEditor} from "~/lib/i18n/languageTagsForStringFieldEditor";
+import {AppStateLink} from "../../App/AppStateLink";
+import {FeaturePanelContext} from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type { BaseEditorProps } from "./BaseEditor";
+import type {BaseEditorProps} from "./BaseEditor";
 import {InfoCircledIcon} from "@radix-ui/react-icons";
 import {t} from "ttag";
 
-export const StringFieldEditor = ({
-  feature,
-  tagKey,
-  addingNewLanguage,
-  onChange,
-  handleSubmitButtonClick,
-  passLanguagePickerValueToParent,
-}: BaseEditorProps) => {
+export const StringFieldEditor: React.FC<BaseEditorProps> = ({
+     feature,
+     tagKey,
+     addingNewLanguage,
+     onChange,
+     handleSubmitButtonClick,
+     onLanguageChange,
+   }) => {
 
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
@@ -70,7 +73,7 @@ export const StringFieldEditor = ({
     setTextAreaValue(newValue);
     setEditedTagValue(newValue);
     setHasValueChanged(newValue !== initialTagValue);
-    onChange(newValue);
+    onChange?.(newValue);
     textAreaRef.current?.focus();
   };
 
@@ -127,13 +130,12 @@ export const StringFieldEditor = ({
               </Text>
               <Flex style={{flexGrow: 1}}>
                 <SearchableSelect
-                  id="select"
                   selectPlaceholder={t`Languages`}
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {
                     setSelectedLanguage(value);
-                    if (passLanguagePickerValueToParent) {
-                      passLanguagePickerValueToParent(value);
+                    if (onLanguageChange) {
+                      onLanguageChange(value);
                       if (!hasValueChanged) {
                         setHasValueChanged(true);
                       }

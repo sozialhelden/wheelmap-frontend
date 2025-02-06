@@ -1,10 +1,10 @@
 import { Button, Link } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
-import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
-import { unknownCategory } from "../../../lib/model/ac/categories/Categories";
-import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
+import { unknownCategory } from "~/lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import { AppStateLink } from "../../App/AppStateLink";
 import Icon from "../../shared/Icon";
 import { FeaturePanelContext } from "../FeaturePanelContext";
@@ -14,7 +14,7 @@ import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor = ({
+export const WheelchairEditor: React.FC<BaseEditorProps> =({
   feature,
   onChange,
   handleSubmitButtonClick,
@@ -55,7 +55,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("yes");
-            onChange("yes");
+            onChange?.("yes");
           }}
           className="_yes"
           inputLabel="accessibility-fully"
@@ -68,7 +68,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("limited");
-            onChange("limited");
+            onChange?.("limited");
           }}
           className="_okay"
           inputLabel="accessibility-partially"
@@ -83,7 +83,7 @@ export const WheelchairEditor = ({
         <AccessibilityView
           onClick={() => {
             setEditedTagValue("no");
-            onChange("no");
+            onChange?.("no");
           }}
           className="_no"
           inputLabel="accessibility-not-at-all"

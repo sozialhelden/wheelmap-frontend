@@ -1,35 +1,28 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
-import useSWR, { mutate } from "swr";
-import { t } from "ttag";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { useEnvContext } from "~/lib/context/EnvContext";
-import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
-import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
-import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
+import React, {useContext, useState} from "react";
+import {toast} from "react-toastify";
+import useSWR, {mutate} from "swr";
+import {t} from "ttag";
+import {normalizeAndExtractLanguageTagsIfPresent} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {useEnvContext} from "~/lib/context/EnvContext";
+import {makeChangeRequestToInhouseApi} from "~/lib/fetchers/makeChangeRequestToInhouseApi";
+import {fetchFeaturePrefixedId} from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import {isOSMFeature} from "~/lib/model/geo/AnyFeature";
 import useSubmitNewValueCallback from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
 import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
-import useRetrieveOsmParametersFromFeature from "../../../lib/fetchers/osm-api/useRetrieveOsmParametersFromFeature";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
-import { StyledReportView } from "../ReportView";
+import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
+import {AppStateLink} from "../../App/AppStateLink";
+import {FeaturePanelContext} from "../FeaturePanelContext";
+import {StyledReportView} from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type { BaseEditorProps } from "./BaseEditor";
-import type { EditorTagValue } from "./EditorTagValue";
-import { StringFieldEditor } from "./StringFieldEditor";
-import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
-import { WheelchairEditor } from "./WheelchairEditor";
+import type {BaseEditorProps} from "./BaseEditor";
+import type {EditorTagValue} from "./EditorTagValue";
+import {StringFieldEditor} from "./StringFieldEditor";
+import {ToiletsWheelchairEditor} from "./ToiletsWheelchairEditor";
+import {WheelchairEditor} from "./WheelchairEditor";
 
-type AutoEditorProps = Omit<
-  BaseEditorProps,
-  | "onUrlMutationSuccess"
-  | "onChange"
-  | "handleSubmitButtonClick"
-  | "passLanguagePickerValueToParent"
->;
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -50,21 +43,23 @@ export const AutoEditor = ({
   feature,
   tagKey,
   addingNewLanguage,
-}: AutoEditorProps) => {
+}: BaseEditorProps) => {
+  const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   // TODO: add typing to session data
   const accessToken = (useSession().data as any)?.accessToken;
-  const router = useRouter();
   const env = useEnvContext();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
   const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
+
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
   const currentOSMObjectOnServer = useSWR(
     osmFeature?._id,
     fetchFeaturePrefixedId,
   );
   const { tagName, osmType, osmId } =
-    useRetrieveOsmParametersFromFeature(osmFeature);
+    getOsmParametersFromFeature(osmFeature, tagKey);
+
   const [finalTagName, setFinalTagName] = useState(tagName);
   const [newTagValue, setEditedTagValue] = useState<EditorTagValue>("");
 
@@ -146,7 +141,7 @@ export const AutoEditor = ({
     });
   }, []);
 
-  const handlePickerValueChange = React.useCallback(
+  const handleTagKeyChange = React.useCallback(
     (newPickerValue: string) => {
       const {normalizedTag: baseTag} = normalizeAndExtractLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
@@ -165,39 +160,16 @@ export const AutoEditor = ({
   );
 
   const Editor = getEditorForKey(tagKey);
-  if (Editor === StringFieldEditor) {
+  if (Editor) {
     return (
       <Editor
         feature={feature}
         tagKey={finalTagName}
+        onChange={setEditedTagValue}
+        onUrlMutationSuccess={onUrlMutationSuccess}
+        handleSubmitButtonClick={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
-        passLanguagePickerValueToParent={handlePickerValueChange}
-      />
-    );
-  }
-  if (Editor === WheelchairEditor) {
-    return (
-      <Editor
-        feature={feature}
-        tagKey={finalTagName}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
-      />
-    );
-  }
-
-  if (Editor === ToiletsWheelchairEditor) {
-    return (
-      <Editor
-        feature={feature}
-        tagKey={finalTagName}
-        onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
+        onLanguageChange={handleTagKeyChange}
       />
     );
   }
