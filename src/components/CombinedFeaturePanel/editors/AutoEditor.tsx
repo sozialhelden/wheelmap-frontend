@@ -21,7 +21,6 @@ import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
-import type { EditorTagValue } from "./EditorTagValue";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
 import { WheelchairEditor } from "./WheelchairEditor";
