@@ -1,12 +1,11 @@
 import type React from "react";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
-import type { EditorTagValue } from "./EditorTagValue";
 
 export type BaseEditorProps = {
   tagKey: string;
   feature: AnyFeature;
   onUrlMutationSuccess: (urls: string[]) => void;
-  onChange: (tagValue: EditorTagValue) => void;
+  onChange: (tagValue: string) => void;
   handleSubmitButtonClick: () => void;
 };
 
