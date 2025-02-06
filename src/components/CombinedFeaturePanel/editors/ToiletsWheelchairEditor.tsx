@@ -1,5 +1,7 @@
-import { Button, Link } from "@radix-ui/themes";
-import React, { useContext, useEffect, useState } from "react";
+import { Button, Dialog, Flex } from "@radix-ui/themes";
+import type React from "react";
+import { useContext, useEffect, useState } from "react";
+import { t } from "ttag";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
@@ -31,59 +33,78 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   }, [current, editedTagValue]);
 
   return (
-    <StyledReportView className="_view">
-      <FeatureNameHeader feature={feature}>
-        {feature["@type"] === "osm:Feature" && (
-          <FeatureImage feature={feature} />
-        )}
-      </FeatureNameHeader>
-      <h2 className="_title">How wheelchair accessible is the toilet?</h2>
-      <form>
-        <AccessibilityView
-          onClick={() => {
-            setEditedTagValue("yes");
-            onChange?.("yes");
-          }}
-          className="_yes"
-          inputLabel="accessibility-fully"
-          selected={editedTagValue === "yes"}
-          icon={<ToiletStatusAccessibleIcon />}
-          valueName="Yes"
-        >
-          Entrance has no steps, and all rooms are accessible without steps.
-        </AccessibilityView>
+    <Dialog.Root open>
+      <Dialog.Content
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
+      >
+        <Flex direction="column" gap="4" style={{ padding: "10px" }}>
+          <FeatureNameHeader feature={feature} id="dialog-title">
+            {feature["@type"] === "osm:Feature" && (
+              <FeatureImage feature={feature} />
+            )}
+          </FeatureNameHeader>
 
-        <AccessibilityView
-          onClick={() => {
-            setEditedTagValue("no");
-            onChange?.("no");
-          }}
-          className="_no"
-          inputLabel="accessibility-not-at-all"
-          selected={editedTagValue === "no"}
-          icon={<ToiletStatusNotAccessible />}
-          valueName="No"
-        >
-          Entrance has a high step or several steps, none of the rooms are
-          accessible.
-        </AccessibilityView>
-      </form>
+          <Dialog.Description id="dialog-description" size="4" mb="4" as="div">
+            {t`Is this toilet wheelchair accessible?`}
+          </Dialog.Description>
 
-      <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-          <Link href="">{saveButtonDoesNothing ? "Cancel" : "Back"}</Link>
-        </AppStateLink>
-        <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-          <Button
-            variant="solid"
-            onClick={
-              saveButtonDoesNothing ? undefined : handleSubmitButtonClick
-            }
-          >
-            {saveButtonDoesNothing ? "Confirm" : "Send"}
-          </Button>
-        </AppStateLink>
-      </footer>
-    </StyledReportView>
+          <StyledReportView className="_view">
+            <form>
+              <AccessibilityView
+                onClick={() => {
+                  setEditedTagValue("yes");
+                  onChange?.("yes");
+                }}
+                className="_yes"
+                inputLabel="accessibility-fully"
+                selected={editedTagValue === "yes"}
+                icon={<ToiletStatusAccessibleIcon />}
+                valueName="Yes"
+              >
+                {t`Entrance has no steps, and all rooms are accessible without
+                  steps.`}
+              </AccessibilityView>
+
+              <AccessibilityView
+                onClick={() => {
+                  setEditedTagValue("no");
+                  onChange?.("no");
+                }}
+                className="_no"
+                inputLabel="accessibility-not-at-all"
+                selected={editedTagValue === "no"}
+                icon={<ToiletStatusNotAccessible />}
+                valueName="No"
+              >
+                {t`Entrance has a high step or several steps, none of the rooms are
+                  accessible.`}
+              </AccessibilityView>
+            </form>
+
+            <Flex gap="3" mt="3" justify="end">
+              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+                <Button variant="soft" size="2" aria-label={t`Cancel`}>
+                  {t`Cancel`}
+                </Button>
+              </AppStateLink>
+
+              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
+                <Button
+                  variant="solid"
+                  size="2"
+                  aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
+                  onClick={
+                    saveButtonDoesNothing ? undefined : handleSubmitButtonClick
+                  }
+                >
+                  {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+                </Button>
+              </AppStateLink>
+            </Flex>
+          </StyledReportView>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 };
