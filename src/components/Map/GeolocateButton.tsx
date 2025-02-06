@@ -1,10 +1,10 @@
-import { createGlobalStyle } from 'styled-components'
-import { GeolocateControl } from 'react-map-gl'
-import { FC } from 'react'
-import useUserAgent from '../../lib/context/UserAgentContext'
-import LocateIcon from '../icons/actions/LocateOff.svg'
-import LocateOnIcon from '../icons/actions/LocateOn.svg'
-import LocateUnavailableIcon from '../icons/actions/LocateUnavailable.svg'
+import type { FC } from "react";
+import { GeolocateControl } from "react-map-gl";
+import { createGlobalStyle } from "styled-components";
+import useUserAgent from "../../lib/context/UserAgentContext";
+import LocateIcon from "../icons/actions/LocateOff.svg";
+import LocateOnIcon from "../icons/actions/LocateOn.svg";
+import LocateUnavailableIcon from "../icons/actions/LocateUnavailable.svg";
 
 const MapboxLocationPinStyles = createGlobalStyle`
   .mapboxgl-ctrl > button.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active > .mapboxgl-ctrl-icon {
@@ -42,18 +42,18 @@ const MapboxLocationPinStyles = createGlobalStyle`
       }
     }
   }
-`
+`;
 
 export const GeolocateButton: FC = () => {
-  const userAgent = useUserAgent()
-  const isAndroid = userAgent?.os?.name === 'Android'
+  const userAgent = useUserAgent();
+  const isAndroid = userAgent?.os?.name === "Android";
   return (
     <>
-      { !isAndroid && <MapboxLocationPinStyles />}
+      {!isAndroid && <MapboxLocationPinStyles />}
       <GeolocateControl
         positionOptions={{ enableHighAccuracy: true }}
         trackUserLocation
       />
     </>
-  )
-}
+  );
+};

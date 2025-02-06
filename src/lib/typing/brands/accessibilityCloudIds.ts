@@ -1,12 +1,15 @@
-import { AccessibilityCloudRDFType } from '../../model/typing/AccessibilityCloudTypeMapping'
-import { Brand } from './brand'
+import type { AccessibilityCloudRDFType } from "../../model/typing/AccessibilityCloudTypeMapping";
+import type { Brand } from "./brand";
 
 /**
  * @example '"ac:PlaceInfo/123"' is an RDF URI. `ac:` is the prefix that is expanded to
  * https://accessibility.cloud, and `PlaceInfo` is the type of the entity.
  *
  */
-export type AccessibilityCloudRDFId = Brand<`${AccessibilityCloudRDFType}/${string}`, '@brand_ac_rdf_id'>
+export type AccessibilityCloudRDFId = Brand<
+  `${AccessibilityCloudRDFType}/${string}`,
+  "@brand_ac_rdf_id"
+>;
 
 /**
  * @example '"ac:PlaceInfo:123"' is handed over as URI parameter, for example in paths like
@@ -14,4 +17,7 @@ export type AccessibilityCloudRDFId = Brand<`${AccessibilityCloudRDFType}/${stri
  * not a valid RDF URI. It would be more 'correct' to use %2F instead of `:` in the URI, but
  * this would be less human-readable.
  */
-export type AccessibilityCloudURIParameterId = Brand<`${AccessibilityCloudRDFType}:${string}`, '@brand_ac_uri_parameter_id'>
+export type AccessibilityCloudURIParameterId = Brand<
+  `${AccessibilityCloudRDFType}:${string}`,
+  "@brand_ac_uri_parameter_id"
+>;

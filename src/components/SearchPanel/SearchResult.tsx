@@ -2,31 +2,32 @@ import { t } from "ttag";
 
 import styled from "styled-components";
 
-import React, { useCallback } from "react";
-import useCategory from "../../lib/fetchers/ac/refactor-this/useCategory";
-import { AnyFeature } from "../../lib/model/geo/AnyFeature";
-import colors from "../../lib/util/colors";
-import Address from "../NodeToolbar/Address";
-import Icon from "../shared/Icon";
-import { PlaceNameHeader } from "../shared/PlaceName";
-import { AppStateLink } from "../App/AppStateLink";
-import { cx } from "../../lib/util/cx";
-import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
-import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
-import { useMap } from "../Map/useMap";
+import type React from "react";
+import { useCallback } from "react";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import { ACCategory } from "../../lib/model/ac/categories/ACCategory";
+import useCategory from "../../lib/fetchers/ac/refactor-this/useCategory";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import type { ACCategory } from "../../lib/model/ac/categories/ACCategory";
 import {
   getLocalizedCategoryName,
   unknownCategory,
 } from "../../lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
+import type { AnyFeature } from "../../lib/model/geo/AnyFeature";
+import colors from "../../lib/util/colors";
+import { cx } from "../../lib/util/cx";
+import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+import { AppStateLink } from "../App/AppStateLink";
 import { calculateDefaultPadding } from "../Map/MapOverlapPadding";
+import { useMap } from "../Map/useMap";
+import Address from "../NodeToolbar/Address";
+import Icon from "../shared/Icon";
+import { PlaceNameHeader } from "../shared/PlaceName";
 import {
-  EnrichedSearchResult,
+  type EnrichedSearchResult,
   makeStyles,
   mapResultToUrlObject,
 } from "./EnrichedSearchResult";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 
 type Props = {
   className?: string;
@@ -163,7 +164,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
   );
 
   const categoryLabel = useFeatureCategoryLabel(placeName, category);
-  const shownCategoryId = category && category._id;
+  const shownCategoryId = category?._id;
 
   const detailedFeature = (feature.placeInfo ||
     feature.osmFeature) as AnyFeature | null;
@@ -201,7 +202,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
         });
       }
 
-      if (urlObject && urlObject.pathname) {
+      if (urlObject?.pathname) {
         push(urlObject);
       }
     },
@@ -233,7 +234,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
             <span className="category-label">{categoryLabel}</span>
           )}
         </PlaceNameHeader>
-        {addressString ? <Address role="none">{addressString}</Address> : null}
+        {addressString ? <Address>{addressString}</Address> : null}
       </AppStateLink>
     </StyledListItem>
   );

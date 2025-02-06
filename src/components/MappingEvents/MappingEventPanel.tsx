@@ -12,7 +12,10 @@ import {
   useCurrentMappingEventId,
 } from "../../lib/context/MappingEventContext";
 import { buildFullImageUrl } from "../../lib/model/ac/Image";
-import { canMappingEventBeJoined } from "../../lib/model/ac/MappingEvent";
+import {
+  type MappingEvent,
+  canMappingEventBeJoined,
+} from "../../lib/model/ac/MappingEvent";
 import colors from "../../lib/util/colors";
 import StyledToolbar from "../NodeToolbar/StyledToolbar";
 import GlobeIcon from "../icons/ui-elements/GlobeIcon";
@@ -105,7 +108,7 @@ const StyledMappingEventToolbar = styled(StyledToolbar)`
 `;
 
 export default function MappingEventPanel({ mappingEvent }: Props) {
-  const mappingEventId = mappingEvent._id;
+  const mappingEventId = mappingEvent?._id;
 
   const imageSource = mappingEvent?.images?.[0]
     ? buildFullImageUrl(mappingEvent.images[0])
@@ -123,8 +126,8 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     ? new Date(mappingEvent.startTime)
     : null;
   const endDate = mappingEvent?.endTime ? new Date(mappingEvent.endTime) : null;
-  let startDateString = null;
-  let endDateString = null;
+  let startDateString: string | null = null;
+  let endDateString: string | null = null;
 
   const { preferredLanguage } = useCurrentLanguage();
 
@@ -200,11 +203,11 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     setJoinedMappingEventId(null);
     trackMappingEventMembershipChanged({ userUUID, app, reason: "button" });
     mutateMappingEventId();
-  }, []);
+  }, [userUUID, app, mutateMappingEventId]);
 
   const router = useRouter();
   const joinMappingEventAndShowWelcomeDialog = useCallback(() => {
-    setJoinedMappingEventId(mappingEventId);
+    setJoinedMappingEventId(mappingEventId ?? null);
     trackMappingEventMembershipChanged({
       userUUID,
       app,
@@ -215,16 +218,19 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
       shallow: true,
     });
     mutateMappingEventId();
-  }, [mappingEvent, mappingEventId]);
+  }, [
+    mappingEvent,
+    mappingEventId,
+    mutateMappingEventId,
+    app,
+    router,
+    userUUID,
+  ]);
 
   const mappingEventCenterUrl = `/events/${mappingEventId}?lat=${mappingEvent?.meetingPoint?.geometry?.[1]}&lon=${mappingEvent?.meetingPoint?.geometry?.[0]}&zoom=18`;
 
   return (
-    <StyledMappingEventToolbar
-      ariaLabel={toolbarAriaLabel}
-      role="dialog"
-      minimalHeight={205}
-    >
+    <StyledMappingEventToolbar ariaLabel={toolbarAriaLabel} minimalHeight={205}>
       <header style={{ marginTop: "24px" }}>
         {!joinedMappingEventId && (
           <Link href="/events" aria-label={backLinkAriaLabel}>
@@ -292,9 +298,11 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
 
       <img className="mapping-event-image" src={imageSource} alt="" />
 
-      <div className="mapping-event-description">
-        <StyledMarkdown>{mappingEvent?.description}</StyledMarkdown>
-      </div>
+      {mappingEvent?.description && (
+        <div className="mapping-event-description">
+          <StyledMarkdown>{String(mappingEvent?.description)}</StyledMarkdown>
+        </div>
+      )}
 
       <Statistics
         mappedPlacesCount={
@@ -317,13 +325,6 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
           <DangerButton onClick={leaveMappingEvent}>
             {leaveButtonCaption}
           </DangerButton>
-        )}
-
-        {mappingEvent && (
-          <MappingEventShareBar
-            mappingEvent={mappingEvent}
-            buttonCaption={shareButtonCaption}
-          />
         )}
       </div>
     </StyledMappingEventToolbar>

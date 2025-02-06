@@ -1,13 +1,16 @@
-import * as React from 'react'
-import styled, { css } from 'styled-components'
-import { t } from 'ttag'
+import type * as React from "react";
+import styled, { css } from "styled-components";
+import { t } from "ttag";
 
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
-import colors from '../../lib/util/colors'
-import CloseIcon from '../icons/actions/Close'
-import Button from '../shared/Button'
-import CombinedIcon from './CombinedIcon'
-import { AppStateLink } from '../App/AppStateLink'
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../lib/model/ac/Feature";
+import colors from "../../lib/util/colors";
+import { AppStateLink } from "../App/AppStateLink";
+import CloseIcon from "../icons/actions/Close";
+import Button from "../shared/Button";
+import CombinedIcon from "./CombinedIcon";
 
 type Props = {
   className?: string;
@@ -21,12 +24,12 @@ type Props = {
   onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
   isActive: boolean;
-}
+};
 
 export const Caption = styled.span`
   flex: 1;
   color: var(--accent-a12);
-`
+`;
 
 function AccessibilityFilterButton(props: Props) {
   const {
@@ -38,15 +41,18 @@ function AccessibilityFilterButton(props: Props) {
     caption,
     isActive,
     className,
-  } = props
+  } = props;
 
   return (
     <AppStateLink
       href={{
-        query: isActive ? { wheelchair: null, toilet: null } : {
-          wheelchair: accessibilityFilter.length > 0 ? accessibilityFilter : null,
-          toilet: toiletFilter.length > 0 ? toiletFilter : null,
-        },
+        query: isActive
+          ? { wheelchair: null, toilet: null }
+          : {
+              wheelchair:
+                accessibilityFilter.length > 0 ? accessibilityFilter : null,
+              toilet: toiletFilter.length > 0 ? toiletFilter : null,
+            },
       }}
       legacyBehavior
     >
@@ -60,14 +66,17 @@ function AccessibilityFilterButton(props: Props) {
       >
         <CombinedIcon
           {...{
-            toiletFilter, accessibilityFilter, category, isMainCategory,
+            toiletFilter,
+            accessibilityFilter,
+            category,
+            isMainCategory,
           }}
         />
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </AppStateLink>
-  )
+  );
 }
 
 export default styled(AccessibilityFilterButton)`
@@ -89,8 +98,9 @@ export default styled(AccessibilityFilterButton)`
       width: 70px;
     }
 
-    ${(props) => props.isActive
-      && css`
+    ${(props) =>
+      props.isActive &&
+      css`
         background-color: var(--color-panel-translucent);
       `};
 
@@ -99,4 +109,4 @@ export default styled(AccessibilityFilterButton)`
       background-color: var(--color-surface);
     }
   }
-`
+`;

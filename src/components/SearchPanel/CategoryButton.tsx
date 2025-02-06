@@ -1,12 +1,15 @@
-import styled from 'styled-components'
-import { t } from 'ttag'
+import styled from "styled-components";
+import { t } from "ttag";
 
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
-import CloseIcon from '../icons/actions/Close'
-import IconButton, { Caption, Circle } from '../shared/IconButton'
-import CombinedIcon from './CombinedIcon'
-import { AppStateLink } from '../App/AppStateLink'
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../lib/model/ac/Feature";
+import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import { AppStateLink } from "../App/AppStateLink";
+import CloseIcon from "../icons/actions/Close";
+import IconButton, { Caption, Circle } from "../shared/IconButton";
+import CombinedIcon from "./CombinedIcon";
 
 type Props = {
   name: string;
@@ -20,7 +23,7 @@ type Props = {
   onBlur?: () => void;
   className?: string;
   isMainCategory: boolean;
-}
+};
 
 export const StyledCategoryIconButton = styled(IconButton)`
   figure {
@@ -106,7 +109,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
           color: var(--accent-12);
       }
   }
-`
+`;
 
 export default function CategoryButton(props: Props) {
   const {
@@ -116,29 +119,36 @@ export default function CategoryButton(props: Props) {
     toiletFilter,
     showCloseButton,
     className,
-  } = props
+  } = props;
 
-  let shownAccessibilities = accessibilityFilter
+  let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
-    shownAccessibilities = []
+    shownAccessibilities = [];
   }
 
   const icon = (
     <CombinedIcon
       accessibilityFilter={shownAccessibilities}
       toiletFilter={toiletFilter}
-      category={category || 'undefined'}
+      category={category || "undefined"}
       isMainCategory={isMainCategory}
       aria-hidden
     />
-  )
+  );
 
   return (
     <AppStateLink
       href={{
         query: { category: showCloseButton ? null : category },
       }}
-      onClick={props.onClick ? (e) => { e.preventDefault(); props.onClick?.(category) } : undefined}
+      onClick={
+        props.onClick
+          ? (e) => {
+              e.preventDefault();
+              props.onClick?.(category);
+            }
+          : undefined
+      }
     >
       <StyledCategoryIconButton
         aria-label={
@@ -156,5 +166,5 @@ export default function CategoryButton(props: Props) {
         {showCloseButton && <CloseIcon style={{ order: 1 }} />}
       </StyledCategoryIconButton>
     </AppStateLink>
-  )
+  );
 }

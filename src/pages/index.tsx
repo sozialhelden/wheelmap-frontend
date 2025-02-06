@@ -1,21 +1,19 @@
-import { useRouter } from 'next/router'
-import React, { useEffect, ReactElement } from 'react'
-import { isFirstStart } from '../lib/util/savedState'
-import { SearchButtonOrInput } from '../components/SearchPanel/SearchButtonOrInput'
-import { getLayout } from '../components/App/MapLayout'
+import { useRouter } from "next/router";
+import React, { useEffect, ReactElement } from "react";
+import { getLayout } from "../components/App/MapLayout";
+import { SearchButtonOrInput } from "../components/SearchPanel/SearchButtonOrInput";
+import { isFirstStart } from "../lib/util/savedState";
 
 export default function Page() {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (isFirstStart()) {
-      router.replace('/onboarding')
+      router.replace("/onboarding");
     }
-  }, [router])
+  }, [router]);
 
-  return (
-    <SearchButtonOrInput />
-  )
+  return <SearchButtonOrInput />;
 }
 
-Page.getLayout = getLayout
+Page.getLayout = getLayout;

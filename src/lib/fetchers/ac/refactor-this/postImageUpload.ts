@@ -12,13 +12,17 @@ export default async function uploadPhotoForFeature(
 ): Promise<void> {
   const image = images[0];
 
-  let url;
+  let url: string;
   if (isPlaceInfo(feature)) {
     const id = feature._id;
     url = `${baseUrl}/image-upload?placeId=${id}&appToken=${appToken}`;
   } else if (isOSMFeature(feature)) {
     const uri = `osm:${feature._id}`;
     url = `${baseUrl}/image-upload/osm-geometry/photo?uri=${uri}&appToken=${appToken}`;
+  } else {
+    throw new Error(
+      "Uploading photos is only supported for places from accessibility.cloud or OSM.",
+    );
   }
 
   const response = await fetch(url, {

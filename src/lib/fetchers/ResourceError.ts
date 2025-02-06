@@ -21,6 +21,6 @@ export default class ResourceError extends Error {
      */
     public statusText: string,
   ) {
-    super(reason)
+    super(reason);
   }
 }

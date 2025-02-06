@@ -43,7 +43,13 @@ export function OSMTagTableRowOrListElement({
     </HeaderElement>
   );
 
-  const detailElements = [keyDetails, valueDetails].filter(Boolean);
+  const detailElements: string[] = [];
+  if (keyDetails) {
+    detailElements.push(keyDetails);
+  }
+  if (valueDetails) {
+    detailElements.push(valueDetails);
+  }
   const hasDetails = detailElements.length > 0;
 
   const detailElementsContained = hasDetails && (
@@ -53,8 +59,8 @@ export function OSMTagTableRowOrListElement({
       )}
       {detailElements.length > 1 && (
         <ul>
-          {detailElements.map((element, i) => (
-            <li key={i}>
+          {detailElements.map((element) => (
+            <li key={element}>
               <StyledMarkdown>{element}</StyledMarkdown>
             </li>
           ))}
@@ -123,9 +129,7 @@ export function OSMTagTableRowOrListElement({
     </>
   );
   const maybeWrappedContent = isHorizontal ? (
-    <StyledTag minimal large round>
-      {content}
-    </StyledTag>
+    <StyledTag>{content}</StyledTag>
   ) : (
     <RowTag className={tagKey}>{content}</RowTag>
   );

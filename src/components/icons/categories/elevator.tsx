@@ -1,8 +1,14 @@
-import React from 'react'
+import type React from "react";
 
-function SvgElevator(props: React.SVGAttributes<{}>) {
+function SvgElevator(props: React.SVGAttributes<SVGElement>) {
   return (
-    <svg width="1em" height="1em" viewBox="0 0 15 15" {...props}>
+    <svg
+      width="1em"
+      height="1em"
+      aria-hidden="true"
+      viewBox="0 0 15 15"
+      {...props}
+    >
       <g fill="#000" fillRule="evenodd">
         <path
           d="M2 1.017v13h7.134v-13H2zm0-1h7.134a1 1 0 011 1v13a1 1 0 01-1 1H2a1 1 0 01-1-1v-13a1 1 0 011-1z"
@@ -15,7 +21,7 @@ function SvgElevator(props: React.SVGAttributes<{}>) {
         />
       </g>
     </svg>
-  )
+  );
 }
 
-export default SvgElevator
+export default SvgElevator;

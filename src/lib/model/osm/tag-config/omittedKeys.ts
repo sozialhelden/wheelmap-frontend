@@ -1,4 +1,1 @@
-export const omittedKeys = new Set([
-  'building',
-  'parking',
-])
+export const omittedKeys = new Set(["building", "parking"]);

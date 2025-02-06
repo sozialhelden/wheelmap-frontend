@@ -11,9 +11,9 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import { t } from "ttag";
-import MenuItemOrButton from "./MenuItemOrButton";
-import type { IAutoLinkProps } from "./AutoLink";
 import Markdown from "../../../shared/Markdown";
+import type { IAutoLinkProps } from "./AutoLink";
+import MenuItemOrButton from "./MenuItemOrButton";
 
 function AuthenticatedMenuContent() {
   const { data: session } = useSession();

@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react'
-import Head from 'next/head'
-import { TwitterConfiguration } from '../../lib/model/ac/ClientSideConfiguration'
+import Head from "next/head";
+import React, { PureComponent } from "react";
+import type { TwitterConfiguration } from "../../lib/model/ac/ClientSideConfiguration";
 
 type Props = {
   shareHost: string;
@@ -11,13 +11,11 @@ type Props = {
 
 class TwitterMeta extends PureComponent<Props> {
   render() {
-    const {
-      shareHost, productName, description, twitter,
-    } = this.props
-    const { creatorHandle, siteHandle, imageURL } = twitter
+    const { shareHost, productName, description, twitter } = this.props;
+    const { creatorHandle, siteHandle, imageURL } = twitter;
 
     if (!creatorHandle && !siteHandle) {
-      return null
+      return null;
     }
 
     return (
@@ -60,8 +58,8 @@ class TwitterMeta extends PureComponent<Props> {
           />
         )}
       </Head>
-    )
+    );
   }
 }
 
-export default TwitterMeta
+export default TwitterMeta;

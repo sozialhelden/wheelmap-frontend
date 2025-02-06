@@ -1,34 +1,17 @@
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
-import useCategory from '../../lib/fetchers/ac/refactor-this/useCategory'
-import { anyFeature } from '../../lib/fixtures/mocks/features/anyfeature'
-import MockedPOIDetails from '../../lib/fixtures/mocks/features/MockedPOIDetails'
-import { getLayout } from '../../components/App/MapLayout'
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { getLayout } from "../../components/App/MapLayout";
+import useCategory from "../../lib/fetchers/ac/refactor-this/useCategory";
+import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
+import { anyFeature } from "../../lib/fixtures/mocks/features/anyfeature";
 
-function Cat() {
-  const router = useRouter()
-  const { category } = router.query
+function CategoryPage() {
+  const router = useRouter();
+  const { category } = router.query;
 
-  // attach the category to mock feature
-  const myFeat = anyFeature
-  useEffect(() => {
-    myFeat.properties.category = category as string
-  }, [category])
-
-  const myCat = useCategory(myFeat)
-
-  const displayCat = myCat?.category?._id
-    ? myCat.category._id
-    : 'not a valid category'
-
-  return (
-    <MockedPOIDetails
-      feature={myFeat}
-      description={`This cat is: ${displayCat}`}
-    />
-  )
+  return <div>TODO: Display a page for {category} here</div>;
 }
 
-export default Cat
+export default CategoryPage;
 
-Cat.getLayout = getLayout
+Cat.getLayout = getLayout;

@@ -1,9 +1,22 @@
-import React from 'react'
+import type React from "react";
 
-function BellIcon() {
+function BellIcon(props: React.SVGAttributes<SVGElement>) {
   return (
-    <svg width="24px" height="25px" viewBox="0 0 24 25" version="1.1" aria-hidden>
-      <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+    <svg
+      width="24px"
+      height="25px"
+      viewBox="0 0 24 25"
+      version="1.1"
+      aria-hidden="true"
+      {...props}
+    >
+      <g
+        id="Symbols"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
         <g
           id="ui-icon/notification"
           transform="translate(-5.000000, -4.000000)"
@@ -17,7 +30,7 @@ function BellIcon() {
         </g>
       </g>
     </svg>
-  )
+  );
 }
 
-export default BellIcon
+export default BellIcon;

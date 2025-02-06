@@ -1,3 +1,4 @@
+import { Button } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
@@ -42,10 +43,10 @@ function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
       return undefined;
   }
 }
+
 export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
-  // TODO: add typing to session data
-  const accessToken = (useSession().data as any)?.accessToken;
+  const accessToken = useSession().data?.accessToken;
   const router = useRouter();
   const env = useEnvContext();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
@@ -73,11 +74,8 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
       t` There was an error while trying to save your changes to our database.`,
       t` Your changes will still be visible on Open Street Map.`,
     ];
-    // debugger
     toast.warning(message);
-    // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    // router.push(newPath)
-  }, [router, tagName]);
+  }, []);
 
   const handleError = React.useCallback((error: Error, message?: string) => {
     const defaultMessage = [
@@ -108,9 +106,10 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
     }
     if (!newTagValue || !osmId) {
       handleError(
-        new Error('Missing Information'),
+        new Error("Missing Information"),
         t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
       );
+      return;
     }
     try {
       await makeChangeRequestToInhouseApi({
@@ -156,11 +155,9 @@ export const AutoEditor = ({ feature, tagKey }: AutoEditorProps) => {
       </FeatureNameHeader>
       <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">
-            Back
-          </div>
-        </AppStateLink>
+        <Button asChild>
+          <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>
+        </Button>
       </footer>
     </StyledReportView>
   );

@@ -1,8 +1,8 @@
-import { FC } from 'react'
-import { t } from 'ttag'
-import styled from 'styled-components'
-import ResourceError from '../../lib/fetchers/ResourceError'
-import StyledMarkdown from '../shared/StyledMarkdown'
+import type { FC } from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import ResourceError from "../../lib/fetchers/ResourceError";
+import StyledMarkdown from "../shared/StyledMarkdown";
 
 export const ErrorCodeTitles = {
   400: t`Bad request`,
@@ -45,7 +45,7 @@ export const ErrorCodeTitles = {
   508: t`Loop detected`,
   510: t`Not extended`,
   511: t`Network authentication required`,
-} as const
+} as const;
 
 export const ErrorCodeExplanation = {
   400: t`The server could not understand what the app was asking for.`,
@@ -88,10 +88,10 @@ export const ErrorCodeExplanation = {
   508: t`Loop detected.`,
   510: t`The server does not support the HTTP version that the app is using.`,
   511: t`The server requires the app to authenticate with a network.`,
-} as const
+} as const;
 
-export const GenericErrorTitle = t`An error occurred`
-export const GenericErrorExplanation = t`Please try again later or let us know if the error persists.`
+export const GenericErrorTitle = t`An error occurred`;
+export const GenericErrorExplanation = t`Please try again later or let us know if the error persists.`;
 
 const TitleBar = styled.h2`
   display: flex;
@@ -107,12 +107,19 @@ const TitleBar = styled.h2`
     font-size: 2rem;
     font-weight: 200;
   }
-`
+`;
 
-export const ErrorMessage: FC<{error: ResourceError | Error}> = ({ error }) => {
-  const title = (error instanceof ResourceError ? ErrorCodeTitles[error.status] : error.message) ?? GenericErrorTitle
-  const explanation = (error instanceof ResourceError ? ErrorCodeExplanation[error.status] : undefined)
-    ?? GenericErrorExplanation
+export const ErrorMessage: FC<{ error: ResourceError | Error }> = ({
+  error,
+}) => {
+  const title =
+    (error instanceof ResourceError
+      ? ErrorCodeTitles[error.status]
+      : error.message) ?? GenericErrorTitle;
+  const explanation =
+    (error instanceof ResourceError
+      ? ErrorCodeExplanation[error.status]
+      : undefined) ?? GenericErrorExplanation;
 
   return (
     <>
@@ -120,12 +127,8 @@ export const ErrorMessage: FC<{error: ResourceError | Error}> = ({ error }) => {
         <div className="_image">🫢</div>
         <div className="_title">{title}</div>
       </TitleBar>
-      <StyledMarkdown>
-        {error.message ?? t`An error occurred.`}
-      </StyledMarkdown>
-      <StyledMarkdown>
-        {explanation}
-      </StyledMarkdown>
+      <StyledMarkdown>{error.message ?? t`An error occurred.`}</StyledMarkdown>
+      <StyledMarkdown>{explanation}</StyledMarkdown>
     </>
-  )
-}
+  );
+};

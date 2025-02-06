@@ -1,53 +1,60 @@
-import { LocalizedString, StructuredAddress } from '@sozialhelden/a11yjson'
+import type {
+  LocalizedString,
+  StructuredAddress,
+} from "@sozialhelden/a11yjson";
 
-type StringFieldStructuredAddress = { [K in keyof StructuredAddress]?: string }
+type StringFieldStructuredAddress = { [K in keyof StructuredAddress]?: string };
 
-export default function getAddressString(parts: StringFieldStructuredAddress | undefined): string | undefined {
+export default function getAddressString(
+  parts: StringFieldStructuredAddress | undefined,
+): string | undefined {
   if (!parts) {
-    return undefined
+    return undefined;
   }
   return [
-    [parts.street, parts.house].filter(Boolean).join(' '),
-    [parts.postalCode, parts.city].filter(Boolean).join(' '),
+    [parts.street, parts.house].filter(Boolean).join(" "),
+    [parts.postalCode, parts.city].filter(Boolean).join(" "),
     parts.state,
     parts.countryCode,
   ]
     .filter(Boolean)
-    .join(', ')
+    .join(", ");
 }
 
-export function getLocalizedAddressString(address: StructuredAddress | undefined): LocalizedString | undefined {
+export function getLocalizedAddressString(
+  address: StructuredAddress | undefined,
+): LocalizedString | undefined {
   if (!address) {
-    return undefined
+    return undefined;
   }
 
-  const locales = new Set<string>()
-  const baseData: StringFieldStructuredAddress = {}
-  const localizedData: Record<string, StringFieldStructuredAddress> = {}
+  const locales = new Set<string>();
+  const baseData: StringFieldStructuredAddress = {};
+  const localizedData: Record<string, StringFieldStructuredAddress> = {};
 
   for (const key of Object.keys(address)) {
-    const value = address[key]
+    const value = address[key];
 
-    if (typeof value === 'object' && value !== null) {
+    if (typeof value === "object" && value !== null) {
       for (const locale of Object.keys(value)) {
-        locales.add(locale)
-        localizedData[locale] = localizedData[locale] || {}
-        localizedData[locale][key] = value[locale]
+        locales.add(locale);
+        localizedData[locale] = localizedData[locale] || {};
+        localizedData[locale][key] = value[locale];
       }
     } else {
-      baseData[key] = value
+      baseData[key] = value;
     }
   }
 
-  const result: LocalizedString = {}
+  const result: LocalizedString = {};
 
   for (const locale of locales) {
-    const data = { ...baseData, ...localizedData[locale] }
-    const addressString = getAddressString(data)
+    const data = { ...baseData, ...localizedData[locale] };
+    const addressString = getAddressString(data);
     if (addressString) {
-      result[locale] = addressString
+      result[locale] = addressString;
     }
   }
 
-  return result
+  return result;
 }

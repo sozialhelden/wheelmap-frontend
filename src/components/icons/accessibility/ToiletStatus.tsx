@@ -1,9 +1,25 @@
-import * as React from 'react'
+// biome-ignore lint/style/useImportType: React is used in JSX
+import * as React from "react";
 
-export default function UnknownToiletStatusIcon(props: React.SVGAttributes<{}>) {
+export default function UnknownToiletStatusIcon(
+  props: React.SVGAttributes<SVGElement>,
+) {
   return (
-    <svg width="34px" height="24px" viewBox="0 0 34 24" version="1.1" {...props}>
-      <g id="WC-Sign" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+    <svg
+      aria-hidden="true"
+      width="34px"
+      height="24px"
+      viewBox="0 0 34 24"
+      version="1.1"
+      {...props}
+    >
+      <g
+        id="WC-Sign"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
         <path
           d="M5,0 L29,0 C31.7614237,-4.4408921e-16 34,2.23857625 34,5 L34,19 C34,21.7614237 31.7614237,24 29,24 L5,24 C2.23857625,24 3.33066907e-16,21.7614237 0,19 L0,5 C-4.4408921e-16,2.23857625 2.23857625,5.55111512e-16 5,0 Z"
           id="Outlines"
@@ -29,5 +45,5 @@ export default function UnknownToiletStatusIcon(props: React.SVGAttributes<{}>) 
         />
       </g>
     </svg>
-  )
+  );
 }

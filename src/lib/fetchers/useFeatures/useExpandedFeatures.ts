@@ -1,14 +1,16 @@
-import type { SWRInfiniteConfiguration } from 'swr/infinite'
-import { isAccessibilityCloudId } from '../../typing/discriminators/isAccessibilityCloudId'
-import { isOSMIdWithTableAndContextName } from '../../typing/discriminators/osmDiscriminator'
+import type { SWRInfiniteConfiguration } from "swr/infinite";
+import type { AccessibilityCloudRDFId } from "../../typing/brands/accessibilityCloudIds";
+import { isAccessibilityCloudId } from "../../typing/discriminators/isAccessibilityCloudId";
+import { isOSMIdWithTableAndContextName } from "../../typing/discriminators/osmDiscriminator";
 import type {
-  FetchOneFeatureResult, FetchOnePlaceInfoResult, FetchOsmToAcFeatureResult,
-} from './fetchers'
-import type { FeatureId } from './types'
-import { useFeatures } from './useFeatures'
-import { useOsmToAcFeature } from './useOsmToAcFeature'
-import { useAcToOsmFeatures } from './useAcToOsmFeatures'
-import type { AccessibilityCloudRDFId } from '../../typing/brands/accessibilityCloudIds'
+  FetchOneFeatureResult,
+  FetchOnePlaceInfoResult,
+  FetchOsmToAcFeatureResult,
+} from "./fetchers";
+import type { FeatureId } from "./types";
+import { useAcToOsmFeatures } from "./useAcToOsmFeatures";
+import { useFeatures } from "./useFeatures";
+import { useOsmToAcFeature } from "./useOsmToAcFeature";
 
 /**
  * `useExpandedFeatures` is a hook to load `ac:PlaceInfo` and `osm:Feature` IDs in the order passed of {@link features}.
@@ -37,12 +39,12 @@ export const useExpandedFeatures = (
      * [SWR hook options](https://swr.vercel.app/docs/pagination#parameters) used to fetch
      * directly ID-referenced feature results internally.
      */
-    useFeaturesSWRConfig: SWRInfiniteConfiguration<FetchOneFeatureResult>,
+    useFeaturesSWRConfig: SWRInfiniteConfiguration<FetchOneFeatureResult>;
     /**
      * [SWR hook options](https://swr.vercel.app/docs/pagination#parameters) used to fetch
      * indirect (= additional) feature results internally.
      */
-    useOsmToAcSWRConfig: SWRInfiniteConfiguration<FetchOsmToAcFeatureResult>,
+    useOsmToAcSWRConfig: SWRInfiniteConfiguration<FetchOsmToAcFeatureResult>;
     /**
      * Whether to use a CDN as source for the features. Using a CDN speed up data loading
      * significantly, but CDN-based results might be stale (changed in the meantime).
@@ -52,21 +54,41 @@ export const useExpandedFeatures = (
      *
      * @default false
      */
-    cache?: boolean
+    cache?: boolean;
   },
 ) => {
-  const initialFeaturesResult = useFeatures(featureIds, options ? { swr: options.useFeaturesSWRConfig, cache: options.cache } : undefined)
-  const initialFeatures = initialFeaturesResult.data ?? []
+  const initialFeaturesResult = useFeatures(
+    featureIds,
+    options
+      ? { swr: options.useFeaturesSWRConfig, cache: options.cache }
+      : undefined,
+  );
+  const initialFeatures = initialFeaturesResult.data ?? [];
 
-  const osmFeatureIds = featureIds.filter((x) => !!x && isOSMIdWithTableAndContextName(x)) ?? []
+  const osmFeatureIds =
+    featureIds.filter((x) => !!x && isOSMIdWithTableAndContextName(x)) ?? [];
   // eslint-disable-next-line max-len, @stylistic/js/max-len
-  const additionalAcFeatureResult = useOsmToAcFeature(osmFeatureIds, options ? { swr: options.useOsmToAcSWRConfig, cache: options.cache } : undefined)
+  const additionalAcFeatureResult = useOsmToAcFeature(
+    osmFeatureIds,
+    options
+      ? { swr: options.useOsmToAcSWRConfig, cache: options.cache }
+      : undefined,
+  );
 
   const feats = initialFeatures
     // eslint-disable-next-line max-len, @stylistic/js/max-len
-    .filter((x): x is Omit<FetchOnePlaceInfoResult, 'originId'> & { originId: AccessibilityCloudRDFId } => isAccessibilityCloudId(x.originId) && !!x.feature)
-    .map((x) => ({ feature: x.feature, originId: x.originId }))
-  const additionalOSMFeaturesResult = useAcToOsmFeatures(feats, { swr: options?.useFeaturesSWRConfig, cache: options?.cache ?? false })
+    .filter(
+      (
+        x,
+      ): x is Omit<FetchOnePlaceInfoResult, "originId"> & {
+        originId: AccessibilityCloudRDFId;
+      } => isAccessibilityCloudId(x.originId) && !!x.feature,
+    )
+    .map((x) => ({ feature: x.feature, originId: x.originId }));
+  const additionalOSMFeaturesResult = useAcToOsmFeatures(feats, {
+    swr: options?.useFeaturesSWRConfig,
+    cache: options?.cache ?? false,
+  });
 
   return {
     /** List of the feature that had been requested */
@@ -77,8 +99,14 @@ export const useExpandedFeatures = (
     additionalOsmFeatures: additionalOSMFeaturesResult,
 
     /** Indicating that at least one more request is loading */
-    isLoading: initialFeaturesResult.isLoading || additionalAcFeatureResult.isLoading || additionalOSMFeaturesResult.isLoading,
+    isLoading:
+      initialFeaturesResult.isLoading ||
+      additionalAcFeatureResult.isLoading ||
+      additionalOSMFeaturesResult.isLoading,
     /** Indicating that at least one more request is validating */
-    isValidating: initialFeaturesResult.isValidating || additionalAcFeatureResult.isValidating || additionalOSMFeaturesResult.isValidating,
-  }
-}
+    isValidating:
+      initialFeaturesResult.isValidating ||
+      additionalAcFeatureResult.isValidating ||
+      additionalOSMFeaturesResult.isValidating,
+  };
+};

@@ -87,16 +87,14 @@ const StyledMappingEventsToolbar = styled(StyledToolbar)`
 `;
 
 function getMappingEventLink(event: MappingEvent): string {
-  const extent = event && event.area && event.area.properties.extent;
+  const extent = event?.area?.properties.extent;
   if (!extent) {
     return `/events/${event._id}`;
   }
   return `/events/${event._id}?extent=${extent}`;
 }
 
-type Props = {};
-
-export default function MappingEventListPanel({}: Props) {
+export default function MappingEventListPanel() {
   const app = useAppContext();
   const { data, isValidating, error } = useCollectionSWR({
     type: "ac:MappingEvent",
@@ -125,7 +123,6 @@ export default function MappingEventListPanel({}: Props) {
   return (
     <StyledMappingEventsToolbar
       ariaLabel={mappingEventsListAriaLabel}
-      role="dialog"
       minimalHeight={180}
     >
       <header>
@@ -147,20 +144,19 @@ export default function MappingEventListPanel({}: Props) {
         👉 {mapathonExplanationLinkCaption}
       </a>
       <ul>
-        {mappingEvents &&
-          mappingEvents.map((event) => (
-            <li key={event._id}>
-              <Link href={getMappingEventLink(event)} className="link-button">
-                <div>
-                  <MappingEventMarkerIcon />
-                </div>
-                <div>
-                  <h3>{event.name}</h3>
-                  {event.area && <p>{event.area.properties.name}</p>}
-                </div>
-              </Link>
-            </li>
-          ))}
+        {mappingEvents?.map((event) => (
+          <li key={event._id}>
+            <Link href={getMappingEventLink(event)} className="link-button">
+              <div>
+                <MappingEventMarkerIcon />
+              </div>
+              <div>
+                <h3>{event.name}</h3>
+                {event.area && <p>{event.area.properties.name}</p>}
+              </div>
+            </Link>
+          </li>
+        ))}
       </ul>
       <footer />
     </StyledMappingEventsToolbar>

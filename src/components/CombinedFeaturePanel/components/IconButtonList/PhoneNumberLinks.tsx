@@ -1,12 +1,12 @@
-import { uniq } from 'lodash'
-import Link from 'next/link'
-import { t } from 'ttag'
-import { AnyFeature } from '../../../../lib/model/geo/AnyFeature'
-import PhoneIcon from '../../../icons/actions/Phone'
+import { uniq } from "lodash";
+import Link from "next/link";
+import { t } from "ttag";
+import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
+import PhoneIcon from "../../../icons/actions/Phone";
 
 type Props = {
   feature: AnyFeature;
-}
+};
 
 function SinglePhoneNumberLink({
   phoneNumber,
@@ -17,7 +17,7 @@ function SinglePhoneNumberLink({
 }) {
   return (
     <li>
-      <Link href={`tel:${phoneNumber.replace(/[^\d+]/g, '')}`}>
+      <Link href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}>
         <PhoneIcon />
         <span>
           {t`Call ${phoneNumber}`}
@@ -25,25 +25,31 @@ function SinglePhoneNumberLink({
         </span>
       </Link>
     </li>
-  )
+  );
 }
 
 export default function PhoneNumberLinks({ feature }: Props) {
-  let phoneNumber: string | undefined
-  let mobilePhoneNumbers: string[] | undefined
+  let phoneNumber: string | undefined;
+  let mobilePhoneNumbers: string[] | undefined;
 
-  if (feature['@type'] === 'osm:Feature') {
-    phoneNumber = (feature.properties['contact:phone'] || feature.properties.phone) as string | undefined
+  if (feature["@type"] === "osm:Feature") {
+    phoneNumber = (feature.properties["contact:phone"] ||
+      feature.properties.phone) as string | undefined;
     mobilePhoneNumbers = uniq(
       (
-        (feature.properties['contact:mobile'] || feature.properties.mobile) as string | undefined
+        (feature.properties["contact:mobile"] || feature.properties.mobile) as
+          | string
+          | undefined
       )?.split(/[;,]\s*/) || [],
-    )
-  } else if (feature['@type'] === 'a11yjson:PlaceInfo' || feature['@type'] === 'ac:PlaceInfo') {
-    phoneNumber = feature.properties.phoneNumber
+    );
+  } else if (
+    feature["@type"] === "a11yjson:PlaceInfo" ||
+    feature["@type"] === "ac:PlaceInfo"
+  ) {
+    phoneNumber = feature.properties.phoneNumber;
   }
 
-  if (typeof phoneNumber !== 'string') return null
+  if (typeof phoneNumber !== "string") return null;
 
   return (
     <>
@@ -56,5 +62,5 @@ export default function PhoneNumberLinks({ feature }: Props) {
         />
       ))}
     </>
-  )
+  );
 }
