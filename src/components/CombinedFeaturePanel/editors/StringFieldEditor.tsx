@@ -1,37 +1,49 @@
-import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden} from "@radix-ui/themes";
-import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
-import SearchableSelect from "~/components/shared/SearchableSelect";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import {
+  Button,
+  Callout,
+  Dialog,
+  Flex,
+  Text,
+  TextArea,
+  VisuallyHidden,
+} from "@radix-ui/themes";
+import type React from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "ttag";
 import {
   getAvailableLangTags,
-  normalizeAndExtractLanguageTagsIfPresent
+  normalizeAndExtractLanguageTagsIfPresent,
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import {languageTagMapForStringFieldEditor} from "~/lib/i18n/languageTagsForStringFieldEditor";
-import {AppStateLink} from "../../App/AppStateLink";
-import {FeaturePanelContext} from "../FeaturePanelContext";
+import SearchableSelect from "~/components/shared/SearchableSelect";
+import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
+import { AppStateLink } from "../../App/AppStateLink";
+import { FeaturePanelContext } from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type {BaseEditorProps} from "./BaseEditor";
-import {InfoCircledIcon} from "@radix-ui/react-icons";
-import {t} from "ttag";
+import type { BaseEditorProps } from "./BaseEditor";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
-     feature,
-     tagKey,
-     addingNewLanguage,
-     onChange,
-     handleSubmitButtonClick,
-     onLanguageChange,
-   }) => {
-
+  feature,
+  tagKey,
+  addingNewLanguage,
+  onChange,
+  handleSubmitButtonClick,
+  onLanguageChange,
+}) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  const {normalizedTag: tagKeyWithoutLangTag} = normalizeAndExtractLanguageTagsIfPresent(tagKey);
+  const { normalizedTag: tagKeyWithoutLangTag } =
+    normalizeAndExtractLanguageTagsIfPresent(tagKey);
   const initialTagValue = feature.properties?.[tagKey] || "";
 
   const descriptionKeys = Object.keys(feature.properties).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
   );
-  const availableLangTags = getAvailableLangTags(descriptionKeys, tagKeyWithoutLangTag.split(":").length)
+  const availableLangTags = getAvailableLangTags(
+    descriptionKeys,
+    tagKeyWithoutLangTag.split(":").length,
+  );
 
   const [currentTagValue, setCurrentTagValue] = useState(initialTagValue);
   const [editedTagValue, setEditedTagValue] = useState(initialTagValue);
@@ -92,43 +104,43 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
     <Dialog.Root open>
       <Dialog.Content>
         <Flex direction="column" gap="3">
-        <FeatureNameHeader feature={feature}>
-          {feature["@type"] === "osm:Feature" && (
-            <FeatureImage feature={feature} />
-          )}
-        </FeatureNameHeader>
+          <FeatureNameHeader feature={feature}>
+            {feature["@type"] === "osm:Feature" && (
+              <FeatureImage feature={feature} />
+            )}
+          </FeatureNameHeader>
           <VisuallyHidden asChild>
             <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
           </VisuallyHidden>
 
-        <Dialog.Description size="2" mb="4" as="div">
-          <Flex direction="column" gap="3">
-            {dialogDescription}
-            {addingNewLanguage && (
-              <Flex gap="2">
-                <Callout.Root>
-                  <Callout.Icon>
-                    <InfoCircledIcon />
-                  </Callout.Icon>
-                  <Callout.Text as="div">
-                    {t`Currently, we support a limited number of languages.`}
-                    <br />
-                    {t`More will be added soon! If your language is missing, please contact our support team.`}
-                  </Callout.Text>
-                </Callout.Root>
-              </Flex>
-            )}
-          </Flex>
-        </Dialog.Description>
+          <Dialog.Description size="3" mb="4" as="div">
+            <Flex direction="column" gap="3">
+              {dialogDescription}
+              {addingNewLanguage && (
+                <Flex gap="2">
+                  <Callout.Root>
+                    <Callout.Icon>
+                      <InfoCircledIcon />
+                    </Callout.Icon>
+                    <Callout.Text as="div">
+                      {t`Currently, we support a limited number of languages.`}
+                      <br />
+                      {t`More will be added soon! If your language is missing, please contact our support team.`}
+                    </Callout.Text>
+                  </Callout.Root>
+                </Flex>
+              )}
+            </Flex>
+          </Dialog.Description>
         </Flex>
 
-        <Flex direction="column" gap="5" style={{width: "100%"}}>
+        <Flex direction="column" gap="3" style={{ width: "100%" }}>
           {addingNewLanguage && (
-            <Flex align="center" gap="3" style={{width: "100%"}}>
+            <Flex align="center" gap="3" style={{ width: "100%" }}>
               <Text as="label" size="2">
                 Select a language:
               </Text>
-              <Flex style={{flexGrow: 1}}>
+              <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect
                   selectPlaceholder={t`Languages`}
                   items={languageTagMapForStringFieldEditor}

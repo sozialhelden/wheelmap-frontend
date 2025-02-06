@@ -45,7 +45,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
             )}
           </FeatureNameHeader>
 
-          <Dialog.Description id="dialog-description" size="4" mb="4">
+          <Dialog.Description id="dialog-description" size="3">
             {t`Is this toilet wheelchair accessible?`}
           </Dialog.Description>
 
