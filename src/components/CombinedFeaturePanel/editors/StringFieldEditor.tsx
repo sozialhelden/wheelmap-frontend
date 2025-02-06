@@ -54,7 +54,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   const dialogDescription = addingNewLanguage
     ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
-    : t`Below you can edit this description. Add information that you find useful.`;
+    : t`Please edit this description in the same language.`;
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
