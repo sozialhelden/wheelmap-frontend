@@ -1,7 +1,6 @@
 import React from 'react'
 import { SWRResponse } from 'swr'
 import { log } from '../../util/logger'
-import { ChangesetState } from './ChangesetState'
 import { callBackendToUpdateInhouseDb } from '../callBackendToUpdateInhouseDb'
 import useOSMAPI from './useOSMAPI'
 
@@ -153,7 +152,7 @@ export default function useSubmitNewValueCallback({
       changesetComplete = true
 
       await callBackendToUpdateInhouseDb({
-        baseUrl: inhouseBaseUrl, osmType, osmId,
+        baseUrl: inhouseBaseUrl, osmType, osmId, tagName
       })
 
       handleSuccess()
