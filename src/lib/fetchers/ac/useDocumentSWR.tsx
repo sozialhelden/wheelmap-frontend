@@ -1,9 +1,12 @@
-import { useMemo } from 'react'
-import useSWR, { type SWRResponse } from 'swr'
-import type { AccessibilityCloudRDFType, AccessibilityCloudTypeMapping } from '../../model/typing/AccessibilityCloudTypeMapping'
-import type ResourceError from '../ResourceError'
-import { fetchDocumentWithTypeTag } from './fetchDocument'
-import useAccessibilityCloudAPI from './useAccessibilityCloudAPI'
+import { useMemo } from "react";
+import useSWR, { type SWRResponse } from "swr";
+import type {
+  AccessibilityCloudRDFType,
+  AccessibilityCloudTypeMapping,
+} from "../../model/typing/AccessibilityCloudTypeMapping";
+import type ResourceError from "../ResourceError";
+import { fetchDocumentWithTypeTag } from "./fetchDocument";
+import useAccessibilityCloudAPI from "./useAccessibilityCloudAPI";
 
 type Args<RDFTypeName> = {
   /** The RDF type of the document to fetch {@link AccessibilityCloudRDFType}. */
@@ -20,11 +23,11 @@ type Args<RDFTypeName> = {
   cached?: boolean;
   /** Whether to run the fetcher. Defaults to `true`. */
   shouldRun?: boolean;
-}
+};
 
 type ExtraAPIResultFields = {
   related: Record<string, Record<string, unknown>>;
-}
+};
 
 /**
  * React hook to fetch a typed single document from the accessibility.cloud API using [SWR](https://swr.vercel.app/).
@@ -44,25 +47,34 @@ type ExtraAPIResultFields = {
  * ```
  */
 
-export default function useDocumentSWR<RDFTypeName extends AccessibilityCloudRDFType, DataType extends AccessibilityCloudTypeMapping[RDFTypeName] = AccessibilityCloudTypeMapping[RDFTypeName]>({
+export default function useDocumentSWR<
+  RDFTypeName extends AccessibilityCloudRDFType,
+  DataType extends
+    AccessibilityCloudTypeMapping[RDFTypeName] = AccessibilityCloudTypeMapping[RDFTypeName],
+>({
   type,
   _id,
   params,
   cached = true,
   shouldRun = true,
-}: Args<RDFTypeName>): SWRResponse<DataType & ExtraAPIResultFields, ResourceError> {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached })
-  const paramsWithAppToken = new URLSearchParams(params)
+}: Args<RDFTypeName>): SWRResponse<
+  DataType & ExtraAPIResultFields,
+  ResourceError
+> {
+  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached });
+  const paramsWithAppToken = new URLSearchParams(params);
   if (!appToken) {
-    throw new Error('Cannot fetch documents from accessibility.cloud without an appToken. Please supply an appToken in the environment.')
+    throw new Error(
+      "Cannot fetch documents from accessibility.cloud without an appToken. Please supply an appToken in the environment.",
+    );
   }
-  paramsWithAppToken.append('appToken', appToken)
-  const paramsString = paramsWithAppToken.toString()
-  const swrConfig = useMemo(() => ({}), [])
+  paramsWithAppToken.append("appToken", appToken);
+  const paramsString = paramsWithAppToken.toString();
+  const swrConfig = useMemo(() => ({}), []);
   const document = useSWR<DataType & ExtraAPIResultFields, ResourceError>(
     shouldRun && baseUrl && type && _id && { baseUrl, type, _id, paramsString },
     fetchDocumentWithTypeTag,
     swrConfig,
-  )
-  return document
+  );
+  return document;
 }

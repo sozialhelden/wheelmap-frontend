@@ -1,20 +1,23 @@
-import Link from 'next/link'
-import { t } from 'ttag'
-import { TypeTaggedPlaceInfo } from '../../../../lib/model/geo/AnyFeature'
-import WorldIcon from '../../../icons/actions/World'
-import ISource from '../../../../lib/model/ac/ISource'
-import useDocumentSWR from '../../../../lib/fetchers/ac/useDocumentSWR'
+import Link from "next/link";
+import { t } from "ttag";
+import useDocumentSWR from "../../../../lib/fetchers/ac/useDocumentSWR";
+import type ISource from "../../../../lib/model/ac/ISource";
+import type { TypeTaggedPlaceInfo } from "../../../../lib/model/geo/AnyFeature";
+import WorldIcon from "../../../icons/actions/World";
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;
 };
 
 export default function ExternalInfoAndEditPageLinks(props: Props) {
-  const { feature } = props
+  const { feature } = props;
   const featureId = feature._id;
-  const source = useDocumentSWR<ISource>({ collectionName: 'Sources', _id: featureId });
-  const sourceNameString = source.data?.name
-  const { editPageUrl, infoPageUrl } = feature.properties
+  const source = useDocumentSWR<ISource>({
+    collectionName: "Sources",
+    _id: featureId,
+  });
+  const sourceNameString = source.data?.name;
+  const { editPageUrl, infoPageUrl } = feature.properties;
 
   return (
     <>
@@ -38,5 +41,5 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
         </li>
       )}
     </>
-  )
+  );
 }

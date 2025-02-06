@@ -1,8 +1,8 @@
 import { Badge, type ButtonProps, Tooltip } from "@radix-ui/themes";
 import Link from "next/link";
 import { AppStateLink } from "../../AppStateLink";
-import ErroneousLink from "./ErroneousLink";
 import type { IAutoLinkProps } from "./AutoLink";
+import ErroneousLink from "./ErroneousLink";
 import MenuItemOrButton from "./MenuItemOrButton";
 
 export default function ExternalOrInternalAppLink(props: IAutoLinkProps) {

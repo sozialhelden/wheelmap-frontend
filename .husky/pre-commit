@@ -1,0 +1,16 @@
+# This pre-commit hook runs before git execs a new commit, applying automatic fixes to git-staged
+# files.
+#
+# Husky will install this pre-commit hook automatically via npm's `prepare` hook (see package.json).
+#
+# Husky documentation: https://typicode.github.io/husky/
+# BiomeJS documentation: https://github.com/biomejs/pre-commit
+
+# Apply safe fixes for linter errors where possible
+npx biome lint --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
+
+# Fix formatting in applicable files
+biome format --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
+
+# Include changes from automatic fixes in the current commit
+git update-index --again

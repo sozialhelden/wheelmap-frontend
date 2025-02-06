@@ -1,8 +1,14 @@
-import React from 'react'
+import type React from "react";
 
-function SvgNoWithArrow(props: React.SVGAttributes<{}>) {
+function SvgNoWithArrow(props: React.SVGAttributes<SVGElement>) {
   return (
-    <svg width="1em" height="1em" viewBox="0 0 25 25" {...props}>
+    <svg
+      width="1em"
+      aria-hidden="true"
+      height="1em"
+      viewBox="0 0 25 25"
+      {...props}
+    >
       <path
         strokeOpacity={0.269}
         stroke="#000"
@@ -12,7 +18,7 @@ function SvgNoWithArrow(props: React.SVGAttributes<{}>) {
         fill="none"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgNoWithArrow
+export default SvgNoWithArrow;

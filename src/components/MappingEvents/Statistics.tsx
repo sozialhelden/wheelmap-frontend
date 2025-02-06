@@ -1,17 +1,17 @@
-import React from 'react'
-import { t } from 'ttag'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+import { t } from "ttag";
 
-import MapPinWithPlusIcon from '../icons/ui-elements/MapPinWithPlusIcon'
-import BellIcon from '../icons/ui-elements/BellIcon'
-import { UserIcon } from '../icons/ui-elements/index'
+import BellIcon from "../icons/ui-elements/BellIcon";
+import MapPinWithPlusIcon from "../icons/ui-elements/MapPinWithPlusIcon";
+import { UserIcon } from "../icons/ui-elements/index";
 
 type Props = {
-  mappedPlacesCount: number,
-  participantCount: number,
-  startDate: Date | null,
-  endDate: Date | null,
-  className?: string,
+  mappedPlacesCount: number;
+  participantCount: number;
+  startDate: Date | null;
+  endDate: Date | null;
+  className?: string;
 };
 
 function Statistics({
@@ -22,11 +22,11 @@ function Statistics({
   className,
 }: Props) {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
-  const statisticsRegionAriaLabel = t`Mapping Event Numbers`
+  const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event
-  const mappedPlacesLabel = t`Mapped Places`
+  const mappedPlacesLabel = t`Mapped Places`;
   // translator: Description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`Participants`
+  const inviteesCountAriaLabel = t`Participants`;
 
   return (
     <section className={className} aria-label={statisticsRegionAriaLabel}>
@@ -45,7 +45,7 @@ function Statistics({
         <div className="statistic-description">{inviteesCountAriaLabel}</div>
       </div>
     </section>
-  )
+  );
 }
 
 const StyledStatistics = styled(Statistics)`
@@ -75,6 +75,6 @@ const StyledStatistics = styled(Statistics)`
     font-size: 14px;
     color: #22262d;
   }
-`
+`;
 
-export default StyledStatistics
+export default StyledStatistics;

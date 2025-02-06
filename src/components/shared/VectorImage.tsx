@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
 import { omit } from "lodash";
-import type ISVGOResult from "../../lib/model/ac/ISVGOResult";
 import { useEffect, useRef } from "react";
+import styled, { css } from "styled-components";
+import type ISVGOResult from "../../lib/model/ac/ISVGOResult";
 
 type ContainerProps = {
   maxWidth?: string;

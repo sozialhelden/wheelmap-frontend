@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
-import OnboardingDialog from "./OnboardingDialog";
-import { saveState } from "../../lib/util/savedState";
 import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
+import { saveState } from "../../lib/util/savedState";
+import OnboardingDialog from "./OnboardingDialog";
 
 export default function OnboardingView() {
   const router = useRouter();

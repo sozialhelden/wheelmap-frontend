@@ -1,5 +1,5 @@
-import { Tag } from '@blueprintjs/core';
-import styled from 'styled-components';
+import { Tag } from "@blueprintjs/core";
+import styled from "styled-components";
 
 const StyledTag = styled.div`
   border-radius: 1rem;

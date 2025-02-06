@@ -18,10 +18,20 @@ export function determineIfZerothLevelIsSkippedHere(languageTags: string[]) {
     // The library tries to give helpful feedback for typical errors in tags.
     true,
     // Allows you to use your own logging function. Supply `null` to suppress console output.
-    log.log
+    log.log,
   );
-  const assumeZeroSkippingCountryByLanguage = ['kk', 'kaz', 'ko', 'kor', 'mn', 'mon'].includes(languageTag.language);
-  const assumeZeroSkippingCountryByRegion = ['KZ', 'KR', 'MN'].includes(languageTag.region);
-  const skipZerothLevel = assumeZeroSkippingCountryByLanguage || assumeZeroSkippingCountryByRegion;
+  const assumeZeroSkippingCountryByLanguage = [
+    "kk",
+    "kaz",
+    "ko",
+    "kor",
+    "mn",
+    "mon",
+  ].includes(languageTag.language);
+  const assumeZeroSkippingCountryByRegion = ["KZ", "KR", "MN"].includes(
+    languageTag.region,
+  );
+  const skipZerothLevel =
+    assumeZeroSkippingCountryByLanguage || assumeZeroSkippingCountryByRegion;
   return skipZerothLevel;
 }

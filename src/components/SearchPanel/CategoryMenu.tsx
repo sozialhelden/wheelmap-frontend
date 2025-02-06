@@ -1,12 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import map from 'lodash/map'
+import map from "lodash/map";
+import React from "react";
+import styled from "styled-components";
 
-import { Circle } from '../shared/IconButton'
-import CategoryButton from './CategoryButton'
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
-import { isAccessibilityFiltered } from '../../lib/model/ac/filterAccessibility'
-import { getRootCategoryTable } from '../../lib/model/ac/categories/getRootCategoryTable'
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../lib/model/ac/Feature";
+import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";
+import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import { Circle } from "../shared/IconButton";
+import CategoryButton from "./CategoryButton";
 
 type Props = {
   onFocus?: () => void;
@@ -15,18 +18,18 @@ type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
   toiletFilter?: YesNoUnknown[];
   className?: string;
-}
+};
 
 function CategoryMenu(props: Props) {
-  const { category } = props
+  const { category } = props;
 
-  let rootCategories = getRootCategoryTable()
+  let rootCategories = getRootCategoryTable();
 
   if (category) {
-    rootCategories = { [category]: rootCategories[category] }
+    rootCategories = { [category]: rootCategories[category] };
   }
 
-  const showCloseButton = Boolean(category)
+  const showCloseButton = Boolean(category);
 
   return (
     <div className={props.className}>
@@ -36,8 +39,8 @@ function CategoryMenu(props: Props) {
           onBlur={props.onBlur}
           showCloseButton={showCloseButton}
           hasCircle={
-            !showCloseButton
-            && !isAccessibilityFiltered(props.accessibilityFilter)
+            !showCloseButton &&
+            !isAccessibilityFiltered(props.accessibilityFilter)
           }
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}
@@ -48,7 +51,7 @@ function CategoryMenu(props: Props) {
         />
       ))}
     </div>
-  )
+  );
 }
 
 export default styled(CategoryMenu)`
@@ -87,4 +90,4 @@ export default styled(CategoryMenu)`
       }
     }
   }
-`
+`;

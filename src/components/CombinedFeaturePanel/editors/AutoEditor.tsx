@@ -1,28 +1,30 @@
-import {useSession} from "next-auth/react";
-import {useRouter} from "next/router";
-import React, {useContext, useState} from "react";
-import {toast} from "react-toastify";
-import useSWR, {mutate} from "swr";
-import {t} from "ttag";
-import {normalizeAndExtractLanguageTagsIfPresent} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import {useEnvContext} from "~/lib/context/EnvContext";
-import {makeChangeRequestToInhouseApi} from "~/lib/fetchers/makeChangeRequestToInhouseApi";
-import {fetchFeaturePrefixedId} from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
-import {isOSMFeature} from "~/lib/model/geo/AnyFeature";
-import useSubmitNewValueCallback from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
+import { Button } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import useSWR, { mutate } from "swr";
+import { t } from "ttag";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { useEnvContext } from "~/lib/context/EnvContext";
+import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
+import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
-import {AppStateLink} from "../../App/AppStateLink";
-import {FeaturePanelContext} from "../FeaturePanelContext";
-import {StyledReportView} from "../ReportView";
+import useSubmitNewValueCallback, {
+  type OSMAPIElement,
+} from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
+import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
+import { AppStateLink } from "../../App/AppStateLink";
+import { FeaturePanelContext } from "../FeaturePanelContext";
+import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type {BaseEditorProps} from "./BaseEditor";
-import type {EditorTagValue} from "./EditorTagValue";
-import {StringFieldEditor} from "./StringFieldEditor";
-import {ToiletsWheelchairEditor} from "./ToiletsWheelchairEditor";
-import {WheelchairEditor} from "./WheelchairEditor";
-
+import type { BaseEditorProps } from "./BaseEditor";
+import type { EditorTagValue } from "./EditorTagValue";
+import { StringFieldEditor } from "./StringFieldEditor";
+import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
+import { WheelchairEditor } from "./WheelchairEditor";
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -46,22 +48,28 @@ export const AutoEditor = ({
 }: BaseEditorProps) => {
   const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
-  // TODO: add typing to session data
-  const accessToken = (useSession().data as any)?.accessToken;
+  const accessToken = useSession().data?.accessToken;
   const env = useEnvContext();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
+  if (!remoteOSMAPIBaseUrl) {
+    throw new Error(
+      "Missing OSM API Base URL. Please set the NEXT_PUBLIC_OSM_API_BASE_URL environment variable.",
+    );
+  }
   const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
 
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
-  const currentOSMObjectOnServer = useSWR(
+  const currentOSMObjectOnServer = useSWR<OSMAPIElement>(
     osmFeature?._id,
     fetchFeaturePrefixedId,
   );
-  const { tagName, osmType, osmId } =
-    getOsmParametersFromFeature(osmFeature, tagKey);
+  const { tagName, osmType, osmId } = getOsmParametersFromFeature(
+    osmFeature,
+    tagKey,
+  );
 
   const [finalTagName, setFinalTagName] = useState(tagName);
-  const [newTagValue, setEditedTagValue] = useState<EditorTagValue>("");
+  const [newTagValue, setEditedTagValue] = useState<string>("");
 
   const handleSuccess = React.useCallback(() => {
     toast.success(
@@ -80,11 +88,10 @@ export const AutoEditor = ({
       t` There was an error while trying to save your changes to our database.`,
       t` Your changes will still be visible on Open Street Map.`,
     ];
-    // debugger
     toast.warning(message);
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
     // router.push(newPath)
-  });
+  }, []);
 
   const handleError = React.useCallback((error: Error, message?: string) => {
     const defaultMessage = [
@@ -105,7 +112,7 @@ export const AutoEditor = ({
     osmId,
     tagName: finalTagName,
     newTagValue,
-    currentOSMObjectOnServer,
+    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
   });
 
   const handleSubmitButtonClick = async () => {
@@ -118,6 +125,7 @@ export const AutoEditor = ({
         new Error("Missing Information"),
         t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
       );
+      return;
     }
     try {
       await makeChangeRequestToInhouseApi({
@@ -143,7 +151,8 @@ export const AutoEditor = ({
 
   const handleTagKeyChange = React.useCallback(
     (newPickerValue: string) => {
-      const {normalizedTag: baseTag} = normalizeAndExtractLanguageTagsIfPresent(tagName);
+      const { normalizedTag: baseTag } =
+        normalizeAndExtractLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
 
       if (updatedTagName !== finalTagName) {
@@ -159,7 +168,7 @@ export const AutoEditor = ({
     [tagName, tagKey, router, finalTagName],
   );
 
-  const Editor = getEditorForKey(tagKey);
+  const Editor = tagKey && getEditorForKey(tagKey);
   if (Editor) {
     return (
       <Editor
@@ -183,11 +192,9 @@ export const AutoEditor = ({
       </FeatureNameHeader>
       <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
       <footer className="_footer">
-        <AppStateLink href={baseFeatureUrl}>
-          <div role="button" className="_option _back">
-            Back
-          </div>
-        </AppStateLink>
+        <Button asChild>
+          <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>
+        </Button>
       </footer>
     </StyledReportView>
   );

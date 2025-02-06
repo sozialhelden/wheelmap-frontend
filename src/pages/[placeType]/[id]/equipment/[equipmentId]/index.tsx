@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router'
-import { log } from '../../../../../lib/util/logger'
-import { getLayout } from '../../../../../components/App/MapLayout'
+import { useRouter } from "next/router";
+import { getLayout } from "../../../../../components/App/MapLayout";
+import { log } from "../../../../../lib/util/logger";
 
 function Equipment() {
-  const router = useRouter()
-  const { placeType, id, equipmentId } = router.query
+  const router = useRouter();
+  const { placeType, id, equipmentId } = router.query;
 
-  log.log(router.query)
+  log.log(router.query);
   return (
     <>
       <header />
@@ -14,9 +14,9 @@ function Equipment() {
       <h2>{`PlaceId: ${id}, placeType: ${placeType}`}</h2>
       <h2>{`EquipmentId: ${equipmentId}`}</h2>
     </>
-  )
+  );
 }
 
-export default Equipment
+export default Equipment;
 
-Equipment.getLayout = getLayout
+Equipment.getLayout = getLayout;

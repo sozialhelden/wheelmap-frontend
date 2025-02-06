@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const StyledTable = styled.table`
   th {
@@ -42,4 +42,4 @@ export const StyledTable = styled.table`
     overflow-wrap: anywhere;
     max-width: 100%;
   }
-`
+`;

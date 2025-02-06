@@ -70,60 +70,6 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[];
 };
 
-// todo: case analysis for id extraction
-export function getFeatureId(
-  feature: PlaceInfo | EquipmentInfo | any,
-): string | null {
-  if (!feature) return null;
-  const idProperties = [
-    feature.id,
-    feature._id,
-    feature.properties.id,
-    feature.properties._id,
-    feature.properties.osm_id,
-  ];
-  const result = idProperties.filter(
-    (id) => typeof id === "string" || typeof id === "number",
-  )[0];
-  return result ? String(result) : null;
-}
-
-export function hrefForPlaceInfo(feature: PlaceInfo) {
-  const featureId = getFeatureId(feature);
-  const [, osmFeatureType, osmId] =
-    featureId?.match(/^(node|way|relation)\/(\d+)$/) || [];
-  if (osmFeatureType && osmId) {
-    return `/${osmFeatureType}/${osmId}`;
-  }
-  return `/nodes/${featureId}`;
-}
-
-export function hrefForEquipmentInfo(feature: EquipmentInfo) {
-  const { properties } = feature;
-  const featureId = getFeatureId(feature);
-  const placeInfoId = properties?.placeInfoId;
-  if (includes(["elevator", "escalator"], properties?.category)) {
-    return `/nodes/${placeInfoId}/equipment/${featureId}`;
-  }
-  return `/nodes/${featureId}`;
-}
-
-export function sourceIdsForFeature(
-  feature: PlaceInfo | EquipmentInfo | any,
-): string[] {
-  if (!feature) return [];
-
-  const { properties } = feature;
-  if (!properties) return [];
-
-  const placeSourceId =
-    properties && typeof properties.sourceId === "string"
-      ? properties.sourceId
-      : null;
-
-  return uniq([placeSourceId].filter(Boolean));
-}
-
 function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
   const wheelchairToiletTag =
     feature.properties["toilets:wheelchair"] ||
@@ -137,7 +83,7 @@ function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
 }
 
 export function hasAccessibleToilet(
-  feature: PlaceInfo | OSMFeature | any,
+  feature: PlaceInfo | OSMFeature,
 ): YesNoUnknown {
   if (isOSMFeature(feature)) {
     return hasAccessibleToiletOSM(feature);
@@ -152,7 +98,7 @@ export function hasAccessibleToilet(
   const restrooms: Restroom[] = flatten(
     properties.accessibility.areas
       ?.map((area) => {
-        if (!(area.restrooms instanceof Array)) return null;
+        if (!Array.isArray(area.restrooms)) return null;
         return area.restrooms;
       })
       .concat(properties.accessibility.restrooms),

@@ -1,11 +1,11 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import type * as React from "react";
+import styled from "styled-components";
 
 type IconButtonProps = {
   caption: string | null;
   hasCircle?: boolean;
   isHorizontal?: boolean;
-} & React.HTMLAttributes<HTMLDivElement>
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export const Circle = styled.div`
   width: 35px;
@@ -15,16 +15,16 @@ export const Circle = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-`
+`;
 
 function UnstyledCaption(props: Partial<IconButtonProps>) {
-  return <div className={props.className}>{props.children}</div>
+  return <div className={props.className}>{props.children}</div>;
 }
 
 export const Caption = styled(UnstyledCaption)`
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.2;
-`
+`;
 
 const StyledIconButtonContainer = styled.div`
   display: flex;
@@ -40,24 +40,21 @@ const StyledIconButtonContainer = styled.div`
   &[data-is-horizontal='true'] {
     flex-direction: row;
   }
-`
+`;
 
 export default function IconButton({
-  hasCircle, isHorizontal, caption, children, ...props
-} : IconButtonProps) {
-  const icon = hasCircle ? (
-    <Circle>{children}</Circle>
-  ) : (
-    children
-  )
+  hasCircle,
+  isHorizontal,
+  caption,
+  children,
+  ...props
+}: IconButtonProps) {
+  const icon = hasCircle ? <Circle>{children}</Circle> : children;
 
   return (
-    <StyledIconButtonContainer
-      data-is-horizontal={isHorizontal}
-      {...props}
-    >
+    <StyledIconButtonContainer data-is-horizontal={isHorizontal} {...props}>
       {icon}
       <Caption isHorizontal={isHorizontal}>{caption}</Caption>
     </StyledIconButtonContainer>
-  )
+  );
 }

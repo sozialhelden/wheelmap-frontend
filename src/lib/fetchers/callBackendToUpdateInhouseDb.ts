@@ -1,4 +1,4 @@
-import { log } from '../util/logger'
+import { log } from "../util/logger";
 
 export async function callBackendToUpdateInhouseDb({
   baseUrl,
@@ -7,25 +7,28 @@ export async function callBackendToUpdateInhouseDb({
   tagName,
 }: {
   baseUrl: string;
-  osmId: string;
+  osmId: number;
   osmType: string;
   tagName: string;
 }) {
-  log.log('writeChangesToInhouseDb', osmType, osmId)
-  const osmIdAsNumber = osmId.replace(/\D/g, '')
-  const response = await fetch(`${baseUrl}/legacy/api/${osmType}/${osmIdAsNumber}/refresh`, {
-    credentials: 'omit',
-    headers: {
-      'Content-Type': 'application/json',
+  log.log("writeChangesToInhouseDb", osmType, osmId);
+  const osmIdAsNumber = String(osmId).replace(/\D/g, "");
+  const response = await fetch(
+    `${baseUrl}/legacy/api/${osmType}/${osmIdAsNumber}/refresh`,
+    {
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      mode: "cors",
+      body: tagName,
     },
-    method: 'POST',
-    mode: 'cors',
-    body: tagName
-  })
+  );
 
   if (!response.ok) {
-    throw new Error('Could not update inhouse DB')
+    throw new Error("Could not update inhouse DB");
   }
-  const text = response.text()
-  return text
+  const text = response.text();
+  return text;
 }

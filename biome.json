@@ -8,9 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      "dist"
-    ]
+    "ignore": ["dist"]
   },
   "formatter": {
     "enabled": true,

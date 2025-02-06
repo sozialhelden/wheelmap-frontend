@@ -10,4 +10,6 @@
  * fn({ } as B) // ✅ works, B inherited the `@brand_base`
  * ```
  */
-export type Brand<Type, Name extends `@brand_${string}`> = Type & { [key in Name]: never }
+export type Brand<Type, Name extends `@brand_${string}`> = Type & {
+  [key in Name]: never;
+};

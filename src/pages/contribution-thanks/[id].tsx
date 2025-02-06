@@ -1,23 +1,9 @@
-import { useRouter } from 'next/router'
-import { getLayout } from '../../components/App/MapLayout'
+import { useRouter } from "next/router";
+import { getLayout } from "../../components/App/MapLayout";
 
 function Contribs() {
-  const router = useRouter()
-  const { id } = router.query
-
-  // TODO: trackModalView('contribution-thanks');
-
-  // <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
-  //   <ContributionThanksDialog
-  //     hidden={this.props.modalNodeState !== 'contribution-thanks'}
-  //     onClose={this.props.onCloseModalDialog}
-  //     featureId={this.props.featureId as string}
-  //     onSelectFeature={id => {
-  //       this.props.onCloseModalDialog();
-  //       this.props.onMarkerClick(id);
-  //     }}
-  //   />
-  // </FocusTrap>
+  const router = useRouter();
+  const { id } = router.query;
 
   return (
     <>
@@ -27,9 +13,9 @@ function Contribs() {
         {id}
       </h1>
     </>
-  )
+  );
 }
 
-export default Contribs
+export default Contribs;
 
-Contribs.getLayout = getLayout
+Contribs.getLayout = getLayout;

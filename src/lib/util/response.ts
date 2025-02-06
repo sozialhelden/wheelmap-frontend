@@ -1,4 +1,4 @@
-import type { ServerResponse } from "http";
+import type { ServerResponse } from "node:http";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 
 export function setResponseLanguageHeaders(

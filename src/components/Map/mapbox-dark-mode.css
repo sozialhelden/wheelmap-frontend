@@ -1,7 +1,10 @@
 /* This adapts MapboxGL controls to dark mode when enabled. */
 
 html.dark {
-  .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right,
+  .mapboxgl-ctrl-top-left,
+  .mapboxgl-ctrl-top-right {
     z-index: auto !important;
   }
 

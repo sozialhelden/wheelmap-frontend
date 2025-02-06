@@ -1,5 +1,5 @@
-import type { PhotonResultFeature } from '../../fetchers/fetchPhotonFeatures'
+import type { PhotonResultFeature } from "../../fetchers/fetchPhotonFeatures";
 
 export interface PhotonTypeMapping {
-  'photon:SearchResult': PhotonResultFeature;
+  "photon:SearchResult": PhotonResultFeature;
 }

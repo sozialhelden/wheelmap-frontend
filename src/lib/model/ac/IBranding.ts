@@ -1,4 +1,4 @@
-import ISVGOResult from './ISVGOResult'
+import type ISVGOResult from "./ISVGOResult";
 
 export type IBranding = {
   colors?: {

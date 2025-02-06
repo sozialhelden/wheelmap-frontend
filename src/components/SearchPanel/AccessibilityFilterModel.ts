@@ -1,6 +1,9 @@
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/model/ac/Feature'
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../lib/model/ac/Feature";
 
 export type PlaceFilter = {
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-}
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
+};

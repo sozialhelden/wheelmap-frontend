@@ -1,3 +1,10 @@
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/model/ac/Feature'
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../../lib/model/ac/Feature";
 
-export type EditorTagValue = YesNoLimitedUnknown | YesNoUnknown | string | undefined
+export type EditorTagValue =
+  | YesNoLimitedUnknown
+  | YesNoUnknown
+  | string
+  | undefined;

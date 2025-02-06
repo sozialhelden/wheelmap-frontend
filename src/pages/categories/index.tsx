@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { getLayout } from '../../components/App/MapLayout'
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getLayout } from "../../components/App/MapLayout";
 
 function Category() {
-  const router = useRouter()
-  const { categories, category } = router.query
+  const router = useRouter();
+  const { categories, category } = router.query;
 
   return (
     <>
@@ -22,10 +22,10 @@ function Category() {
         </li>
       </ul>
     </>
-  )
+  );
 }
 
-export default Category
+export default Category;
 
 // import Link from 'next/link';
 
@@ -48,4 +48,4 @@ export default Category
 
 // export default Categories;
 
-Category.getLayout = getLayout
+Category.getLayout = getLayout;
