@@ -1,12 +1,10 @@
-var webdriver = require("selenium-webdriver");
+const webdriver = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
-const fs = require("fs");
-let helper = require("./helper");
+const fs = require("node:fs");
+const helper = require("./helper");
 
 // Input capabilities
-var capabilities = {
-  // "bstack:options": {
-  os: "Windows",
+const capabilities = {
   osVersion: "10",
   local: "false",
   //'seleniumVersion' : '4.0.0-alpha.5',
@@ -21,9 +19,9 @@ var capabilities = {
   "goog:chromeOptions": {
     prefs: {
       // 0 - Default, 1 - Allow, 2 - Block
-      "profile.managed_default_content_settings.geolocation": 1
-    }
-  }
+      "profile.managed_default_content_settings.geolocation": 1,
+    },
+  },
 };
 
 (async function run() {
@@ -35,7 +33,7 @@ var capabilities = {
       .withCapabilities(capabilities)
       .build();
 
-    const waitFind = locator => {
+    const waitFind = (locator) => {
       return driver.findElement(async () => {
         await driver.wait(webdriver.until.elementLocated(locator));
         return driver.findElement(locator);
@@ -45,36 +43,36 @@ var capabilities = {
     await driver.get("http://wheelmap.org");
     await waitFind(webdriver.By.css(".button-continue-with-cookies")).click();
     await waitFind(webdriver.By.name("search")).sendKeys(
-      "Alexanderplatz" + webdriver.Key.ENTER
+      `Alexanderplatz${webdriver.Key.ENTER}`,
     );
     await waitFind(webdriver.By.className("search-results")); // wait for displayed
     await waitFind(webdriver.By.css('h1[class^="PlaceName"]')).click();
     await waitFind(
-      webdriver.By.css('[class="leaflet-control-zoom-in"]')
+      webdriver.By.css('[class="leaflet-control-zoom-in"]'),
     ).click();
     await waitFind(
-      webdriver.By.css('[class="leaflet-control-zoom-in"]')
+      webdriver.By.css('[class="leaflet-control-zoom-in"]'),
     ).click();
     await waitFind(webdriver.By.css('[aria-label="Map"]')).sendKeys(
-      webdriver.Key.ARROW_RIGHT
+      webdriver.Key.ARROW_RIGHT,
     );
 
     await waitFind(webdriver.By.name("search")).click();
     await waitFind(webdriver.By.css('[aria-label="Food & Drinks"]')).click();
-    await helper.saveScreenshot(driver, `search-via-categories_01.png`);
+    await helper.saveScreenshot(driver, "search-via-categories_01.png");
 
     await waitFind(
-      webdriver.By.css('[aria-label="Only fully wheelchair accessible"]')
+      webdriver.By.css('[aria-label="Only fully wheelchair accessible"]'),
     ).click();
-    await helper.saveScreenshot(driver, `search-via-categories_02.png`);
+    await helper.saveScreenshot(driver, "search-via-categories_02.png");
 
     await waitFind(webdriver.By.name("search")).sendKeys(
-      webdriver.Key.BACK_SPACE
+      webdriver.Key.BACK_SPACE,
     );
     await waitFind(webdriver.By.className("search-results")); // wait for displayed
     await waitFind(webdriver.By.css('h1[class^="PlaceName"]')).click();
 
-    await helper.saveScreenshot(driver, `search-via-categories_03.png`);
+    await helper.saveScreenshot(driver, "search-via-categories_03.png");
 
     // const fullyAccessibleMenuButton = browser.$('[aria-label="Only fully wheelchair accessible"]');
     // fullyAccessibleMenuButton.click();

@@ -1,12 +1,10 @@
-var webdriver = require("selenium-webdriver");
+const webdriver = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
-const fs = require("fs");
-let helper = require("./helper");
+const fs = require("node:fs");
+const helper = require("./helper");
 
 // Input capabilities
-var capabilities = {
-  // "bstack:options": {
-  os: "Windows",
+const capabilities = {
   osVersion: "10",
   local: "false",
   //'seleniumVersion' : '4.0.0-alpha.5',
@@ -21,16 +19,16 @@ var capabilities = {
   "goog:chromeOptions": {
     prefs: {
       // 0 - Default, 1 - Allow, 2 - Block
-      "profile.managed_default_content_settings.geolocation": 1
-    }
-  }
+      "profile.managed_default_content_settings.geolocation": 1,
+    },
+  },
 };
 
 const Origin = {
   /** Compute offsets relative to the pointer's current position. */
   POINTER: "pointer",
   /** Compute offsets relative to the viewport. */
-  VIEWPORT: "viewport"
+  VIEWPORT: "viewport",
 };
 
 async function slowDragAndDrop(from, to, actions) {
@@ -41,27 +39,27 @@ async function slowDragAndDrop(from, to, actions) {
     (!to || typeof to.x !== "number" || typeof to.y !== "number")
   ) {
     throw new InvalidArgumentError(
-      "Invalid drag target; must specify a WebElement or {x, y} offset"
+      "Invalid drag target; must specify a WebElement or {x, y} offset",
     );
   }
 
   await actions
     .move({
-      origin: from
+      origin: from,
     })
     .press();
   if (to instanceof WebElement) {
     await actions.move({
-      origin: to
+      origin: to,
     });
   } else {
     await actions.move(
       {
         x: to.x,
         y: to.y,
-        origin: Origin.POINTER
+        origin: Origin.POINTER,
       },
-      1000
+      1000,
     );
   }
   return actions.release();
@@ -76,7 +74,7 @@ async function slowDragAndDrop(from, to, actions) {
       .withCapabilities(capabilities)
       .build();
 
-    const waitFind = locator => {
+    const waitFind = (locator) => {
       return driver.findElement(async () => {
         await driver.wait(webdriver.until.elementLocated(locator));
         return driver.findElement(locator);
@@ -86,34 +84,34 @@ async function slowDragAndDrop(from, to, actions) {
     await driver.get("http://wheelmap.org");
     await waitFind(webdriver.By.css(".button-continue-with-cookies")).click();
     await waitFind(webdriver.By.name("search")).sendKeys(
-      "Alexanderplatz" + webdriver.Key.ENTER
+      `Alexanderplatz${webdriver.Key.ENTER}`,
     );
     await waitFind(webdriver.By.className("search-results")); // wait for displayed
     //await helper.saveScreenshot(driver, "search-results-are-displayed.png");
     await waitFind(webdriver.By.css('h1[class^="PlaceName"]')).click();
     await waitFind(
-      webdriver.By.css('[class="leaflet-control-zoom-in"]')
+      webdriver.By.css('[class="leaflet-control-zoom-in"]'),
     ).click();
     await waitFind(
-      webdriver.By.css('[class="leaflet-control-zoom-in"]')
+      webdriver.By.css('[class="leaflet-control-zoom-in"]'),
     ).click();
     // const from = await waitFind(webdriver.By.css('a[class^="leaflet-marker"]'));
     const from = await waitFind(
       webdriver.By.css(
-        'a[aria-label="U Alexanderplatz Not wheelchair accessible"]'
-      )
+        'a[aria-label="U Alexanderplatz Not wheelchair accessible"]',
+      ),
     );
     // aria-label="U Alexanderplatz Not wheelchair accessible"
 
     const to = await waitFind(
       webdriver.By.css(
-        'a[aria-label="Berlin Tourist Info im Park Inn Hotel am Alexanderplatz  Fully wheelchair accessible"]'
-      )
+        'a[aria-label="Berlin Tourist Info im Park Inn Hotel am Alexanderplatz  Fully wheelchair accessible"]',
+      ),
     );
     // aria-label="Berlin Tourist Info im Park Inn Hotel am Alexanderplatz  Fully wheelchair accessible"
 
     const actions = await driver.actions({
-      bridge: true
+      bridge: true,
     });
     await actions.dragAndDrop(from, to);
 
@@ -124,7 +122,7 @@ async function slowDragAndDrop(from, to, actions) {
 
     // (from: WebElement, to?: WebElement | { x?: string | number; y?: string | number; }): Actions
 
-    await helper.saveScreenshot(driver, `drag-and-drop.png`);
+    await helper.saveScreenshot(driver, "drag-and-drop.png");
   } finally {
     if (driver) {
       await driver.quit();
