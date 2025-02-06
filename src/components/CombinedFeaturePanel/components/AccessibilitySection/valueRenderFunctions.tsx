@@ -138,7 +138,7 @@ export const valueRenderFunctions: Record<
     const lang = matches[2];
     const targetGroupMarker = {
       wheelchair: "🧑",
-      hearing: "👂",
+      deaf: "👂",
       blind: "👁",
     }[targetGroup];
     return (
@@ -225,5 +225,5 @@ export const valueRenderFunctions: Record<
   ),
   "^(?:socket:([\\w_]+):)?output$": ({ value }) => (
     <DisplayedQuantity value={value} defaultUnit="W" />
-  )
+  ),
 };
