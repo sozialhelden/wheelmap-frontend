@@ -35,7 +35,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   return (
     <Dialog.Root open>
       <Dialog.Content
-        aria-label={feature.name || t`Toilet Accessibility Editor`}
+        aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
