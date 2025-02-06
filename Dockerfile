@@ -21,6 +21,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 RUN npm set progress=false && npm config set depth 0
+
+# We want dev dependencies installed here to run tests.
+# We also want to install the @biomejs/cli-darwin-arm64 package on dev machines. This would break
+# our linux-based CI though, so we need to remove the package before building the final image.
+RUN npm remove @biomejs/cli-darwin-arm64
 RUN npm ci
 COPY . .
 RUN touch .env && NODE_ENV=production npm run build && npm prune --production && rm -rf ./node_modules/.cache
