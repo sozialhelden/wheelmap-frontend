@@ -72,7 +72,7 @@ function ColorContainer({
     <span style={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
       <span
         lang="en"
-        aria-label=""
+        aria-hidden="true"
         style={{
           backgroundColor,
           borderRadius: "0.5rem",
