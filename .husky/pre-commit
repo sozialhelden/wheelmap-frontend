@@ -1,0 +1,2 @@
+npx biome lint --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
+git update-index --again
