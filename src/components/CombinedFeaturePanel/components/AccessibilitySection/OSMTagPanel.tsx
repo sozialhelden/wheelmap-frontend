@@ -86,31 +86,15 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
       isAccessibilityRelevantOSMKey,
     );
 
-    /*SELECTION OF MOST SUITABLE WHEELCHAIR DESCRIPTION*/
+    // select most suitable language of wheelchair description
     const descriptionKeys = accessibilityRelevantKeys.filter((key) =>
       key.startsWith("wheelchair:description"),
     );
     const availableLangTags = getAvailableLangTags(descriptionKeys, 2);
-
     let matchingLangTag: string | null = "";
-
-    // compare against most prioritized language tag
     matchingLangTag = availableLangTags.has(browserLanguageTags[0])
       ? browserLanguageTags[0]
       : null;
-
-    // alternative: compare against the entire list of available lang tags to provide a fallback
-    // this causes the issue that a low prio language tag might override the preferred one
-    // since the default description might actually be in the preferred language but might not be selected
-    // because it is not language tagged
-
-    /*for (const tag of browserLanguageTags) {
-      if (availableLangTags.has(tag)) {
-        matchingLangTag = tag;
-        break;
-      }
-    }*/
-
     let finalListOfKeys: string[];
     finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
       if (!key.startsWith("wheelchair:description")) {
@@ -122,6 +106,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
         return key === "wheelchair:description";
       }
     });
+
     // add a pseudo tag if there is no wheelchair description yet to render an add button
     if (
       !finalListOfKeys.some((item) => item.startsWith("wheelchair:description"))
