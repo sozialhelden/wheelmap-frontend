@@ -1,7 +1,7 @@
-import { OSMFeatureCollection } from '../geo/AnyFeature'
-import OSMFeature from '../osm/OSMFeature'
+import type { OSMFeatureCollection } from "../geo/AnyFeature";
+import type OSMFeature from "../osm/OSMFeature";
 
 export interface OSMTypeMapping {
-  'osm:Feature': OSMFeature;
-  'osm:FeatureCollection': OSMFeatureCollection;
+  "osm:Feature": OSMFeature;
+  "osm:FeatureCollection": OSMFeatureCollection;
 }

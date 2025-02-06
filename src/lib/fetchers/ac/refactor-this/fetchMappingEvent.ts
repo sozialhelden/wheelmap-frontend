@@ -1,12 +1,12 @@
-import type { IImage } from '../../../model/ac/Image';
-import useDocumentSWR from '../useDocumentSWR'
-import { useMemo } from 'react'
+import { useMemo } from "react";
+import type { IImage } from "../../../model/ac/Image";
+import useDocumentSWR from "../useDocumentSWR";
 
 export function useMappingEvent(_id: string) {
   const response = useDocumentSWR({
-    type: 'ac:MappingEvent',
+    type: "ac:MappingEvent",
     _id,
-    params: new URLSearchParams({ includeRelated: 'images' }),
+    params: new URLSearchParams({ includeRelated: "images" }),
   });
 
   const responseWithImages = useMemo(() => {
@@ -19,7 +19,9 @@ export function useMappingEvent(_id: string) {
         ...response.data,
         images: Object.keys(response.data.related.images)
           .map((_id) => response.data?.related.images[_id])
-          .filter((image: IImage) => image.objectId === response.data?._id) as IImage[],
+          .filter(
+            (image: IImage) => image.objectId === response.data?._id,
+          ) as IImage[],
       },
     };
   }, [response]);

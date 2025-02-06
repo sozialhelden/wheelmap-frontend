@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
-import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
-import { WheelchairEditor } from '../../../../components/CombinedFeaturePanel/editors/WheelchairEditor'
+import React, { useContext } from "react";
+import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
+import { WheelchairEditor } from "../../../../components/CombinedFeaturePanel/editors/WheelchairEditor";
 
 function WheelchairAccessibility() {
-  const { features } = useContext(FeaturePanelContext)
+  const { features } = useContext(FeaturePanelContext);
 
-  const feature = features[0]
-  return <WheelchairEditor feature={feature} tagKey="wheelchair" />
+  const feature = features[0];
+  return <WheelchairEditor feature={feature} tagKey="wheelchair" />;
 }
 
-WheelchairAccessibility.getLayout = getLayout
+WheelchairAccessibility.getLayout = getLayout;
 
-export default WheelchairAccessibility
+export default WheelchairAccessibility;

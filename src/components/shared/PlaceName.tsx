@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from "styled-components";
 
 const placeNameCSS = css<{ isSmall: false }>`
   margin: 0;
@@ -9,8 +9,8 @@ const placeNameCSS = css<{ isSmall: false }>`
   flex-direction: row;
   align-items: center;
   word-break: break-word;
-  font-size: ${(props) => (props.isSmall ? 'inherit' : '20px')};
-  font-weight: ${(props) => (props.isSmall ? '500' : '400')};
+  font-size: ${(props) => (props.isSmall ? "inherit" : "20px")};
+  font-weight: ${(props) => (props.isSmall ? "500" : "400")};
   gap: 5px;
 
   figure {
@@ -32,16 +32,16 @@ const placeNameCSS = css<{ isSmall: false }>`
       content: ")"
     }
   }
-`
+`;
 
 export const PlaceNameH1 = styled.h1.attrs({ isSmall: false })`
   ${placeNameCSS}
-`
+`;
 
 export const PlaceNameH2 = styled.h2.attrs({ isSmall: true })`
   ${placeNameCSS}
-`
+`;
 
 export const PlaceNameHeader = styled.header.attrs({ isSmall: false })`
   ${placeNameCSS}
-`
+`;

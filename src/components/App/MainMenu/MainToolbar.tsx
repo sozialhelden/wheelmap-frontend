@@ -9,8 +9,8 @@ import {
 import styled from "styled-components";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import type { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
-import MainMenuLinks from "./MainMenuLinks";
 import LogoHomeLink from "./LogoHomeLink";
+import MainMenuLinks from "./MainMenuLinks";
 
 type Props = {
   clientSideConfiguration: ClientSideConfiguration;

@@ -103,7 +103,7 @@ export const ImageUploadPreview: FC<{
                   className="image-upload-review__preview-image"
                   src={image.preview.toString()}
                   onLoad={cleanUp}
-                  // biome-ignore lint/a11y/noRedundantAlt: We cannot provide a proper alt-text for something the user just uploaded themselves
+                  // We cannot provide a proper alt-text for something the user just uploaded themselves
                   alt={t`Preview of the just selected image`}
                 />
               )}

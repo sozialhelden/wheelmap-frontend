@@ -1,4 +1,4 @@
-import type { IncomingMessage } from "http";
+import type { IncomingMessage } from "node:http";
 import { parseLanguageTag } from "@sozialhelden/ietf-language-tags";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import { type ParsedQuery, parseUrl } from "query-string";

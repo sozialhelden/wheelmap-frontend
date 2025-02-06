@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import SearchButton from './SearchButton'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import SearchPanel from './SearchPanel'
+import styled from "styled-components";
+import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+import SearchButton from "./SearchButton";
+import SearchPanel from "./SearchPanel";
 
 const SearchContainer = styled.div`
     position: absolute;
@@ -21,32 +21,38 @@ const SearchContainer = styled.div`
             display: none;
         }
     }
-`
+`;
 
 export const SearchButtonOrInput = () => {
-  const { searchParams, accessibilityFilter, toiletFilter } = useAppStateAwareRouter()
-  const { category } = searchParams
+  const { searchParams, accessibilityFilter, toiletFilter } =
+    useAppStateAwareRouter();
+  const { category } = searchParams;
 
-  const router = useAppStateAwareRouter()
-  const shouldBeHidden = router.nextRouter.pathname.startsWith('/search')
+  const router = useAppStateAwareRouter();
+  const shouldBeHidden = router.nextRouter.pathname.startsWith("/search");
 
   if (shouldBeHidden) {
-    return null
+    return null;
   }
 
   return (
     <SearchContainer>
-      <SearchButton className="search-button" accessibilityFilter={accessibilityFilter} toiletFilter={toiletFilter} category={category} />
+      <SearchButton
+        className="search-button"
+        accessibilityFilter={accessibilityFilter}
+        toiletFilter={toiletFilter}
+        category={category}
+      />
       <SearchPanel
         className="search-panel"
         inert
         onChangeSearchQuery={() => {}}
-        onClick={() => router.push('/search')}
+        onClick={() => router.push("/search")}
         isExpanded={false}
         accessibilityFilter={accessibilityFilter}
         toiletFilter={toiletFilter}
         category={category}
       />
     </SearchContainer>
-  )
-}
+  );
+};

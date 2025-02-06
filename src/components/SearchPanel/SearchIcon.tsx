@@ -1,8 +1,10 @@
-import * as React from 'react'
+// biome-ignore lint/style/useImportType: React is used in JSX
+import * as React from "react";
 
 export default function SearchIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      aria-hidden="true"
       width="15px"
       height="15px"
       viewBox="0 0 15 15"
@@ -17,5 +19,5 @@ export default function SearchIcon(props: React.SVGProps<SVGSVGElement>) {
         />
       </g>
     </svg>
-  )
+  );
 }

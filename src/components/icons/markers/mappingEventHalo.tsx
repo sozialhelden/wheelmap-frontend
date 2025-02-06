@@ -1,8 +1,14 @@
-import React from 'react'
+import type React from "react";
 
-function SvgMappingEventHalo(props: React.SVGAttributes<{}>) {
+function SvgMappingEventHalo(props: React.SVGAttributes<SVGElement>) {
   return (
-    <svg width="1em" height="1em" viewBox="0 0 444 444" {...props}>
+    <svg
+      width="1em"
+      aria-hidden="true"
+      height="1em"
+      viewBox="0 0 444 444"
+      {...props}
+    >
       <defs>
         <filter
           x="-75%"
@@ -24,7 +30,7 @@ function SvgMappingEventHalo(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgMappingEventHalo
+export default SvgMappingEventHalo;

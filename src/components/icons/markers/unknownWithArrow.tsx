@@ -1,8 +1,14 @@
-import React from 'react'
+import type React from "react";
 
-function SvgUnknownWithArrow(props: React.SVGAttributes<{}>) {
+function SvgUnknownWithArrow(props: React.SVGAttributes<SVGElement>) {
   return (
-    <svg width="1em" height="1em" viewBox="0 0 25 25" {...props}>
+    <svg
+      width="1em"
+      aria-hidden="true"
+      height="1em"
+      viewBox="0 0 25 25"
+      {...props}
+    >
       <path
         strokeOpacity={0.254}
         stroke="#000"
@@ -11,7 +17,7 @@ function SvgUnknownWithArrow(props: React.SVGAttributes<{}>) {
         fillRule="evenodd"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgUnknownWithArrow
+export default SvgUnknownWithArrow;

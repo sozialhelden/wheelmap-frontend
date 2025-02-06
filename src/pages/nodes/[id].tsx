@@ -1,25 +1,29 @@
-import { useEffect } from 'react'
-import { useAppStateAwareRouter } from '../../lib/util/useAppStateAwareRouter'
-import { getLayout } from '../../components/App/MapLayout'
+import { useEffect } from "react";
+import { getLayout } from "../../components/App/MapLayout";
+import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 
 export default function LegacyNodeFeaturesPage() {
-  const { replace, query: { id } } = useAppStateAwareRouter()
+  const {
+    replace,
+    query: { id },
+  } = useAppStateAwareRouter();
 
   useEffect(() => {
-    const isOSMFeatureId = typeof id === 'string' && id.length > 0 && /^-?\d+$/.test(id)
+    const isOSMFeatureId =
+      typeof id === "string" && id.length > 0 && /^-?\d+$/.test(id);
 
     if (isOSMFeatureId) {
-      if (id.startsWith('-')) {
-        replace(`/way/${id}`)
+      if (id.startsWith("-")) {
+        replace(`/way/${id}`);
       } else {
-        replace(`/node/${id}`)
+        replace(`/node/${id}`);
       }
     }
 
-    replace(`/ac:PlaceInfo/${id}`)
-  }, [replace, id])
+    replace(`/ac:PlaceInfo/${id}`);
+  }, [replace, id]);
 
-  return null
+  return null;
 }
 
-LegacyNodeFeaturesPage.getLayout = getLayout
+LegacyNodeFeaturesPage.getLayout = getLayout;

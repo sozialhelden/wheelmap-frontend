@@ -1,3 +1,3 @@
-import { memoize, kebabCase } from 'lodash'
+import { kebabCase, memoize } from "lodash";
 
-export const memoizedKebabCase = memoize(kebabCase)
+export const memoizedKebabCase = memoize(kebabCase);

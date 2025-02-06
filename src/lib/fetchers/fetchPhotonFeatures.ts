@@ -1,5 +1,5 @@
-import { Point } from 'geojson'
-import { t } from 'ttag'
+import type { Point } from "geojson";
+import { t } from "ttag";
 
 export type PhotonResultProperties = {
   city?: string;
@@ -7,7 +7,7 @@ export type PhotonResultProperties = {
   name?: string;
   osm_id?: number;
   osm_key?: string;
-  osm_type?: 'N' | 'W' | 'R';
+  osm_type?: "N" | "W" | "R";
   osm_value?: string;
   postcode?: string;
   countrycode?: string;
@@ -18,58 +18,59 @@ export type PhotonResultProperties = {
   housenumber?: string;
   street?: string;
   extent?: [number, number, number, number];
-}
+};
 
 export type PhotonResultFeature = {
   geometry: Point;
   properties: PhotonResultProperties;
-}
+};
 
 export type PhotonSearchResultCollection = {
-  features: PhotonResultFeature[],
-  error?: any,
-}
+  features: PhotonResultFeature[];
+  error?: unknown;
+};
 
-const baseUrl = 'https://photon.komoot.io/api'
+const baseUrl = "https://photon.komoot.io/api";
 
-export default async function fetchPhotonFeatures({ languageCode, query, additionalQueryParameters = {} }: {
-  query: string,
-  additionalQueryParameters: Record<string, string | string[] | undefined> | {},
-  languageCode: string,
+export default async function fetchPhotonFeatures({
+  languageCode,
+  query,
+  additionalQueryParameters = {},
+}: {
+  query: string;
+  additionalQueryParameters: Record<string, string | string[] | undefined>;
+  languageCode: string;
 }): Promise<PhotonSearchResultCollection | undefined> {
   if (!query || query.trim().length <= 0) {
-    return undefined
+    return undefined;
   }
-  const supportedLanguageCodes = ['en', 'de', 'fr', 'it'] // See Photon documentation
+  const supportedLanguageCodes = ["en", "de", "fr", "it"]; // See Photon documentation
 
   const queryParameters = new URLSearchParams([
-    ['q', query],
-    ['limit', '30'],
-    ...Object.entries(additionalQueryParameters)
-      .flatMap(
-        ([key, stringOrStringArray]) => {
-          if (stringOrStringArray === undefined) {
-            return []
-          }
-          return (
-            typeof stringOrStringArray === 'string'
-              ? [[key, stringOrStringArray]]
-              : stringOrStringArray.map((value) => [key, value])
-          )
-        },
-      ),
-  ])
+    ["q", query],
+    ["limit", "30"],
+    ...Object.entries(additionalQueryParameters).flatMap(
+      ([key, stringOrStringArray]) => {
+        if (stringOrStringArray === undefined) {
+          return [];
+        }
+        return typeof stringOrStringArray === "string"
+          ? [[key, stringOrStringArray]]
+          : stringOrStringArray.map((value) => [key, value]);
+      },
+    ),
+  ]);
 
   if (supportedLanguageCodes.includes(languageCode)) {
-    queryParameters.append('lang', languageCode)
+    queryParameters.append("lang", languageCode);
   }
 
-  const url = `${baseUrl}?${queryParameters.toString()}`
+  const url = `${baseUrl}?${queryParameters.toString()}`;
 
-  const response = await fetch(url)
+  const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(t`Could not load search results.`)
+    throw new Error(t`Could not load search results.`);
   }
 
-  return await response.json() as PhotonSearchResultCollection
+  return (await response.json()) as PhotonSearchResultCollection;
 }

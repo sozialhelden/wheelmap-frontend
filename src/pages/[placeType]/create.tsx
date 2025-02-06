@@ -1,9 +1,9 @@
-import { getLayout } from '../../components/CombinedFeaturePanel/PlaceLayout'
+import { getLayout } from "../../components/CombinedFeaturePanel/PlaceLayout";
 
 function CreatePage() {
-  return <div>TODO</div>
+  return <div>TODO</div>;
 }
 
-export default CreatePage
+export default CreatePage;
 
-CreatePage.getLayout = getLayout
+CreatePage.getLayout = getLayout;

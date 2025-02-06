@@ -1,3 +1,1 @@
-export const omittedKeySuffixes = [
-  ':count',
-]
+export const omittedKeySuffixes = [":count"];

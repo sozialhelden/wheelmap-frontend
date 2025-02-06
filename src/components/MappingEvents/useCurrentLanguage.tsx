@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from "react";
 
-export function useCurrentLanguage(): { preferredLanguage: any } {
+export function useCurrentLanguage(): { preferredLanguage: string } {
   // TODO: Mock implementation. Use React.useContext() here.
-  const preferredLanguage = 'en'
+  const preferredLanguage = "en";
 
-  return { preferredLanguage }
+  return { preferredLanguage };
 }

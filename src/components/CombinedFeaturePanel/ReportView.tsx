@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const StyledReportView = styled.div`
   display: flex;
@@ -128,4 +128,4 @@ export const StyledReportView = styled.div`
           background-color: rgba(243, 158, 59, 0.1);
       }
   }
-`
+`;

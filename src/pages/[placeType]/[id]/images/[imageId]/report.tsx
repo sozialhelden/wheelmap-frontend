@@ -13,6 +13,7 @@ export default function ShowReportPage() {
 
   const id = typeof imageId === "string" ? imageId : imageId[0];
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Effect happens only once.
   useEffect(() => {
     // redirect to single image as the report doesn't have its own page anymore
     router.replace(`${baseFeatureUrl}/images/${id}`);

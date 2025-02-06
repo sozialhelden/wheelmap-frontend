@@ -1,11 +1,11 @@
 import type { ButtonProps } from "@radix-ui/themes";
 import { useMemo } from "react";
+import type { translateAndInterpolateAppLink } from "../translateAndInterpolateAppLink";
+import { useExpertMode } from "../useExpertMode";
 import ErroneousLink from "./ErroneousLink";
 import ExternalOrInternalAppLink from "./ExternalOrInternalAppLink";
 import JoinedEventLink from "./JoinedEventLink";
 import SessionElement from "./SessionElement";
-import type { translateAndInterpolateAppLink } from "../translateAndInterpolateAppLink";
-import { useExpertMode } from "../useExpertMode";
 
 export type IAutoLinkProps = {
   asMenuItem: boolean;

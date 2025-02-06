@@ -1,32 +1,30 @@
-import { log } from '../util/logger'
+import { log } from "../util/logger";
 
 export async function makeChangeRequestToInhouseApi({
   baseUrl,
   osmId,
   tagName,
   newTagValue,
-  // currentTagsOnServer,
 }: {
   baseUrl: string;
   osmId: string;
   tagName: string;
   newTagValue: string;
-  // currentTagsOnServer: any;
 }) {
-  log.log('makeChangeRequestToApi', osmId, tagName, newTagValue)
+  log.log("makeChangeRequestToApi", osmId, tagName, newTagValue);
   const response = await fetch(`${baseUrl}/legacy/api/${osmId}/${tagName}`, {
     body: JSON.stringify({ value: newTagValue }),
-    credentials: 'omit',
+    credentials: "omit",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    method: 'POST',
-    mode: 'cors',
-  })
+    method: "POST",
+    mode: "cors",
+  });
 
   if (!response.ok) {
-    throw new Error('Could not update')
+    throw new Error("Could not update");
   }
-  const text = response.text()
-  return text
+  const text = response.text();
+  return text;
 }

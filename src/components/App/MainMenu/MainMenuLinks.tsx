@@ -3,11 +3,11 @@ import { Button, DropdownMenu, Flex, Theme } from "@radix-ui/themes";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { t } from "ttag";
+import IAppLink from "../../../lib/model/ac/IAppLink";
 import AutoLink from "./link-types/AutoLink";
+import type { TranslatedAppLink } from "./translateAndInterpolateAppLink";
 import { useAppLinks as useCurrentAppLinks } from "./useAppLinks";
 import { useExpertMode } from "./useExpertMode";
-import IAppLink from "../../../lib/model/ac/IAppLink";
-import { TranslatedAppLink } from "./translateAndInterpolateAppLink";
 
 function filterExpertModeLinks(
   links: TranslatedAppLink[],

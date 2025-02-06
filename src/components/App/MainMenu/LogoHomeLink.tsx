@@ -1,9 +1,9 @@
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
+import { useMemo } from "react";
 import { t } from "ttag";
 import type { IBranding } from "../../../lib/model/ac/IBranding";
 import VectorImage from "../../shared/VectorImage";
-import { useMemo } from "react";
 
 export default function LogoHomeLink({
   branding,

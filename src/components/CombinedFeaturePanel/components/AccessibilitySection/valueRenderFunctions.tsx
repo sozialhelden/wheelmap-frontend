@@ -1,5 +1,6 @@
 import Color from "colorjs.io";
-import type React from "react";
+// biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
+import React from "react";
 import { t } from "ttag";
 import type {
   TypeTaggedOSMFeature,
@@ -67,12 +68,16 @@ function ColorContainer({
   children,
   backgroundColor,
   textColor,
-}: { children: React.ReactNode; backgroundColor: string; textColor: string }) {
+}: {
+  children: React.ReactNode;
+  backgroundColor: string;
+  textColor: string;
+}) {
   return (
     <span style={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
       <span
         lang="en"
-        aria-label=""
+        aria-hidden="true"
         style={{
           backgroundColor,
           borderRadius: "0.5rem",
@@ -107,7 +112,7 @@ function DisplayedColor({ type, value }: { type: string; value: string }) {
     });
     return (
       <ColorContainer
-        backgroundColor={backgroundColor}
+        backgroundColor={backgroundColor.toString()}
         textColor={textColor.toString({ precision: 3 })}
       >
         {String(classifiedColor)} {type}

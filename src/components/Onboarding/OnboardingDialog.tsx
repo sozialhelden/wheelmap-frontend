@@ -1,17 +1,14 @@
+import { AlertDialog, Dialog } from "@radix-ui/themes";
 /* eslint-disable @typescript-eslint/indent */
-import * as React from "react";
+import type * as React from "react";
 import { useCallback, useMemo, useState } from "react";
-import styled from "styled-components";
 import { t } from "ttag";
-import colors from "../../lib/util/colors";
-import ModalDialog from "../shared/ModalDialog";
+import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
+import { log } from "../../lib/util/logger";
 import { LocationFailedStep } from "./LocationFailedStep";
 import { LocationNoPermissionStep } from "./LocationNoPermissionStep";
 import { LocationStep } from "./LocationStep";
 import { OnboardingStep } from "./OnboardingStep";
-import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
-import { log } from "../../lib/util/logger";
-import { AlertDialog, Dialog } from "@radix-ui/themes";
 
 type OnboardingState =
   | "onboarding"

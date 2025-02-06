@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ComponentProps, Ref } from "react";
-import { useAppStateAwareHref } from "./useAppStateAwareHref";
 import React from "react";
+import { useAppStateAwareHref } from "./useAppStateAwareHref";
 
 export const AppStateLink = React.forwardRef(
   (

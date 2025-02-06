@@ -1,4 +1,4 @@
-import { getLayout } from '../components/App/MapLayout'
+import { getLayout } from "../components/App/MapLayout";
 
 export default function NotFound() {
   return (
@@ -13,7 +13,7 @@ export default function NotFound() {
         statusCode={404}
       /> */}
     </>
-  )
+  );
 }
 
-NotFound.getLayout = getLayout
+NotFound.getLayout = getLayout;
