@@ -1,12 +1,12 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
 import type { TypeTaggedOSMFeature } from "~/lib/model/geo/AnyFeature";
-import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { omittedKeyPrefixes } from "~/lib/model/osm/tag-config/omittedKeyPrefixes";
 import { omittedKeySuffixes } from "~/lib/model/osm/tag-config/omittedKeySuffixes";
 import { omittedKeys } from "~/lib/model/osm/tag-config/omittedKeys";
 import { pathsToConsumedTagKeys } from "~/lib/model/osm/tag-config/pathsToConsumedTagKeys";
 import { sortOrderMap } from "~/lib/model/osm/tag-config/sortOrderMap";
+import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import OSMTagTable from "./OSMTagTable";
 
 export interface ITreeNode {

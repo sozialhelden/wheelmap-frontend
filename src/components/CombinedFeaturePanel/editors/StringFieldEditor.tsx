@@ -31,13 +31,16 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   handleSubmitButtonClick,
   onLanguageChange,
 }) => {
+  if (!tagKey) {
+    throw new Error("Editing a tag value works only with a defined tag key.");
+  }
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const { normalizedTag: tagKeyWithoutLangTag } =
     normalizeAndExtractLanguageTagsIfPresent(tagKey);
-  const initialTagValue = feature.properties?.[tagKey] || "";
+  const initialTagValue = feature.properties?.[tagKey] ?? "";
 
-  const descriptionKeys = Object.keys(feature.properties).filter((key) =>
+  const descriptionKeys = Object.keys(feature.properties ?? {}).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
   );
   const availableLangTags = getAvailableLangTags(
@@ -61,7 +64,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const initialValue = useMemo(() => {
     if (availableLangTags.has(selectedLanguage)) {
       const newTagKey = `${tagKeyWithoutLangTag}:${selectedLanguage}`;
-      return feature.properties[newTagKey] || "";
+      return feature?.properties?.[newTagKey] || "";
     }
     return "";
   }, [
@@ -79,7 +82,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
     setTextAreaValue(initialValue);
     setCurrentTagValue(initialTagValue);
     setEditedTagValue(initialTagValue);
-  }, [initialValue]);
+  }, [initialValue, initialTagValue]);
 
   const handleTextAreaChange = (newValue) => {
     setTextAreaValue(newValue);

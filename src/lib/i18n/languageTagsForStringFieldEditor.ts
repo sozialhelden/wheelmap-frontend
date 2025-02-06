@@ -1,7 +1,7 @@
-import {t} from "ttag";
+import { t } from "ttag";
 
 export const languageTagMapForStringFieldEditor = [
-  { value: "ar", label: t`Arabic`},
+  { value: "ar", label: t`Arabic` },
   { value: "bg", label: t`Bulgarian` },
   { value: "ca", label: t`Catalan/Valencian` },
   { value: "cs", label: t`Czech` },
