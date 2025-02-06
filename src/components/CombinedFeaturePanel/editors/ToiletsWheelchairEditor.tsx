@@ -35,17 +35,17 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   return (
     <Dialog.Root open>
       <Dialog.Content
-        aria-labelledby="dialog-title"
+        aria-label={feature.name || t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
-          <FeatureNameHeader feature={feature} id="dialog-title">
+          <FeatureNameHeader feature={feature}>
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
             )}
           </FeatureNameHeader>
 
-          <Dialog.Description id="dialog-description" size="4" mb="4" as="div">
+          <Dialog.Description id="dialog-description" size="4" mb="4">
             {t`Is this toilet wheelchair accessible?`}
           </Dialog.Description>
 
