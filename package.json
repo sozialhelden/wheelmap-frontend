@@ -7,7 +7,6 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "@biomejs/cli-darwin-arm64": "^1.9.4",
     "@blueprintjs/core": "^5.16.4",
     "@mapbox/mapbox-gl-language": "^1.0.1",
     "@radix-ui/react-icons": "^1.3.2",
@@ -58,6 +57,7 @@
     "@babel/preset-env": "^7.26.7",
     "@babel/preset-typescript": "^7.26.0",
     "@biomejs/biome": "^1.9.4",
+    "@biomejs/cli-darwin-arm64": "^1.9.4",
     "@playwright/test": "^1.50.1",
     "@svgr/cli": "^8.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
