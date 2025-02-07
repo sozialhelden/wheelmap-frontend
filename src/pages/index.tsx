@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect, ReactElement } from "react";
+import { useEffect } from "react";
 import { getLayout } from "../components/App/MapLayout";
 import { SearchButtonOrInput } from "../components/SearchPanel/SearchButtonOrInput";
 import { isFirstStart } from "../lib/util/savedState";

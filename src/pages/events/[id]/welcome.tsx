@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
-import MapLayout, { getLayout } from "../../../components/App/MapLayout";
+import { getLayout } from "../../../components/App/MapLayout";
 import MappingEventWelcomeDialog from "../../../components/MappingEvents/MappingEventWelcomeDialog";
 
 export default function Page() {

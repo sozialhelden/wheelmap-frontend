@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createServer } from "node:http";
 import next from "next";
 import fetchApp from "../lib/fetchers/ac/fetchApp";
