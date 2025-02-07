@@ -140,11 +140,11 @@ export default function useSubmitNewValueCallback({
 }: {
   accessToken: string;
   baseUrl: string;
-  osmType?: string;
-  osmId?: number;
+  osmType: string | undefined;
+  osmId: number | undefined;
   tagName: string;
   newTagValue: string;
-  currentOSMObjectOnServer: OSMAPIElement;
+  currentOSMObjectOnServer: OSMAPIElement | undefined;
   handleSuccess: () => void;
   handleOSMSuccessDBError: (error: Error) => void;
   handleError: (error: Error) => void;

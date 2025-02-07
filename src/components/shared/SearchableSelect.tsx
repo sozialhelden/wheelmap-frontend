@@ -33,22 +33,28 @@ export default function SearchableSelect({
   }, [value, onSelect]);
 
   return (
-    <Select.Root value={value} onValueChange={setValue} onOpenChange={setOpen}>
-      <Select.Trigger
-        aria-label={ariaLabelForTrigger}
-        placeholder={selectPlaceholder}
-        variant="soft"
-      />
+    <>
+      <Select.Root
+        value={value}
+        onValueChange={setValue}
+        onOpenChange={setOpen}
+      >
+        <Select.Trigger
+          aria-label={ariaLabelForTrigger}
+          placeholder={selectPlaceholder}
+          variant="soft"
+        />
 
-      {/*TODO: make select searchable: https://ariakit.org/examples/combobox-radix-select*/}
+        {/*TODO: make select searchable: https://ariakit.org/examples/combobox-radix-select*/}
 
-      <Select.Content aria-label={ariaLabelForContent}>
-        {items.map(({ label, value }) => (
-          <Select.Item key={value} value={value}>
-            {label}
-          </Select.Item>
-        ))}
-      </Select.Content>
-    </Select.Root>
+        <Select.Content aria-label={ariaLabelForContent}>
+          {items.map(({ label, value }) => (
+            <Select.Item key={value} value={value}>
+              {label}
+            </Select.Item>
+          ))}
+        </Select.Content>
+      </Select.Root>
+    </>
   );
 }

@@ -11,8 +11,10 @@ import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestT
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
-import useSubmitNewValueCallback from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
+import useSubmitNewValueCallback, {
+  type OSMAPIElement,
+} from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
+import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -45,20 +47,18 @@ export const AutoEditor = ({
 }: BaseEditorProps) => {
   const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
-
-  // biome-ignore lint/suspicious/noExplicitAny: TODO: Fix this typing
-  const accessToken = (useSession().data as any)?.accessToken;
+  const accessToken = useSession().data?.accessToken;
   const env = useEnvContext();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
   if (!remoteOSMAPIBaseUrl) {
     throw new Error(
-      "OSM base url not set. Please set NEXT_PUBLIC_OSM_API_BASE_URL.",
+      "Missing OSM API Base URL. Please set the NEXT_PUBLIC_OSM_API_BASE_URL environment variable.",
     );
   }
   const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
 
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
-  const currentOSMObjectOnServerResponse = useSWR(
+  const currentOSMObjectOnServer = useSWR<OSMAPIElement>(
     osmFeature?._id,
     fetchFeaturePrefixedId,
   );
@@ -88,6 +88,8 @@ export const AutoEditor = ({
       t` Your changes will still be visible on Open Street Map.`,
     ];
     toast.warning(message);
+    // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
+    // router.push(newPath)
   }, []);
 
   const handleError = React.useCallback((error: Error, message?: string) => {
@@ -109,7 +111,7 @@ export const AutoEditor = ({
     osmId,
     tagName: finalTagName,
     newTagValue,
-    currentOSMObjectOnServer: currentOSMObjectOnServerResponse.data,
+    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
   });
 
   const handleSubmitButtonClick = async () => {
@@ -122,6 +124,7 @@ export const AutoEditor = ({
         new Error("Missing Information"),
         t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
       );
+      return;
     }
     try {
       await makeChangeRequestToInhouseApi({
@@ -145,11 +148,11 @@ export const AutoEditor = ({
     });
   }, []);
 
-  const handleLanguageSuffixChange = React.useCallback(
-    (newLanguageSuffix: string) => {
+  const handleTagKeyChange = React.useCallback(
+    (newPickerValue: string) => {
       const { normalizedTag: baseTag } =
         normalizeAndExtractLanguageTagsIfPresent(tagName);
-      const updatedTagName = [baseTag, newLanguageSuffix].join(":");
+      const updatedTagName = [baseTag, newPickerValue].join(":");
 
       if (updatedTagName !== finalTagName) {
         setFinalTagName(updatedTagName);
@@ -174,7 +177,7 @@ export const AutoEditor = ({
         onUrlMutationSuccess={onUrlMutationSuccess}
         onSubmit={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
-        onLanguageChange={handleLanguageSuffixChange}
+        onLanguageChange={handleTagKeyChange}
       />
     );
   }
@@ -189,7 +192,7 @@ export const AutoEditor = ({
       <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href={baseFeatureUrl}>{t`Back`}</AppStateLink>
+          <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>
         </Button>
       </footer>
     </StyledReportView>

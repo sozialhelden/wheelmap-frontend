@@ -4,7 +4,6 @@ export const StyledReportView = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-bottom: 24px;
 
   color: #000;
 

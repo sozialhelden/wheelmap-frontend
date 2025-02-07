@@ -2,8 +2,8 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 import { DropdownMenu } from "@radix-ui/themes";
 import React from "react";
+import { t } from "ttag";
 import { AppStateLink } from "../../../App/AppStateLink";
-import {t} from "ttag";
 
 function addQueryParamToURL(
   baseURL: string,

@@ -31,11 +31,14 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   onSubmit,
   onLanguageChange,
 }) => {
+  if (!tagKey) {
+    throw new Error("Editing a tag value works only with a defined tag key.");
+  }
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const { normalizedTag: tagKeyWithoutLangTag } =
     normalizeAndExtractLanguageTagsIfPresent(tagKey);
-  const initialTagValue = (tagKey && feature.properties?.[tagKey]) || "";
+  const initialTagValue = feature.properties?.[tagKey] ?? "";
 
   const descriptionKeys = Object.keys(feature.properties ?? {}).filter((key) =>
     key.startsWith(tagKeyWithoutLangTag),
@@ -54,14 +57,14 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   const dialogDescription = addingNewLanguage
     ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
-    : t`Below you can edit this description. Add information that you find useful.`;
+    : t`Please edit this description in the same language.`;
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const initialValue = useMemo(() => {
     if (availableLangTags.has(selectedLanguage)) {
       const newTagKey = `${tagKeyWithoutLangTag}:${selectedLanguage}`;
-      return feature.properties?.[newTagKey] || "";
+      return feature?.properties?.[newTagKey] || "";
     }
     return "";
   }, [
@@ -113,7 +116,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
             <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
           </VisuallyHidden>
 
-          <Dialog.Description size="2" mb="4" as="div">
+          <Dialog.Description size="3" mb="4" as="div">
             <Flex direction="column" gap="3">
               {dialogDescription}
               {addingNewLanguage && (
@@ -134,7 +137,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </Dialog.Description>
         </Flex>
 
-        <Flex direction="column" gap="5" style={{ width: "100%" }}>
+        <Flex direction="column" gap="3" style={{ width: "100%" }}>
           {addingNewLanguage && (
             <Flex align="center" gap="3" style={{ width: "100%" }}>
               <Text as="label" size="2">

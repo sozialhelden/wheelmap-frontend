@@ -1,20 +1,17 @@
+import { Button, Spinner } from "@radix-ui/themes";
 import React, { type FC, type ReactNode, useContext, useState } from "react";
 import { t } from "ttag";
 import { AppStateLink } from "../../../../components/App/AppStateLink";
+import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
+import { StyledReportView } from "../../../../components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "../../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "../../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import ToiletStatusAccessible from "../../../../components/icons/accessibility/ToiletStatusAccessible";
 import ToiletStatusNotAccessible from "../../../../components/icons/accessibility/ToiletStatusNotAccessible";
 import RadioButtonOn from "../../../../components/icons/ui-elements/RadioButtonSelected";
 import RadioButtonOff from "../../../../components/icons/ui-elements/RadioButtonUnselected";
 import { cx } from "../../../../lib/util/cx";
 
-import { Button } from "@radix-ui/themes";
-import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
-import { StyledReportView } from "../../../../components/CombinedFeaturePanel/ReportView";
-
-// TODO: Use Radix UI for this component
 export const AccessibilityView: FC<{
   onClick: () => unknown;
   className?: string;
@@ -49,7 +46,9 @@ export const AccessibilityView: FC<{
       />
       {selected ? <RadioButtonOn /> : <RadioButtonOff />}
       {icon}
-      <span className="_caption">{valueName}</span>
+      <span className="_caption" aria-hidden="true">
+        {valueName}
+      </span>
     </header>
     {children && <main className="_main">{children}</main>}
   </div>
@@ -59,15 +58,13 @@ function ReportSendToAC() {
   const { features } = useContext(FeaturePanelContext);
   const [option, setOption] = useState<"yes" | "no" | undefined>(undefined);
 
-  const feature = features[0];
-
+  const feature = features[0].feature?.acFeature;
+  if (!feature) {
+    return <Spinner />;
+  }
   return (
     <StyledReportView className="_view">
-      <FeatureNameHeader feature={feature}>
-        {feature["@type"] === "osm:Feature" && (
-          <FeatureImage feature={feature} />
-        )}
-      </FeatureNameHeader>
+      <FeatureNameHeader feature={feature} />
 
       <h2 className="_title">{t`Is the toilet here wheelchair accessible?`}</h2>
 
@@ -105,10 +102,12 @@ function ReportSendToAC() {
 
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href="../report">{t`Back`}</AppStateLink>
+          <AppStateLink href="../report">Back</AppStateLink>
         </Button>
         {/* @TODO: Implementing the sending request */}
-        <Button>{t`Continue`}</Button>
+        <Button asChild disabled={option === undefined}>
+          Continue
+        </Button>
       </footer>
     </StyledReportView>
   );

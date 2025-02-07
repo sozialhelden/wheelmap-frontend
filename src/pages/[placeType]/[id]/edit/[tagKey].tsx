@@ -14,12 +14,14 @@ export default function EditPage() {
   const key = Array.isArray(tagKey) ? tagKey[0] : tagKey;
   const addingNewLanguage = newLang === "true";
 
-  return feature && (
-    <AutoEditor
-      tagKey={key}
-      feature={feature}
-      addingNewLanguage={addingNewLanguage}
-    />
+  return (
+    feature && (
+      <AutoEditor
+        tagKey={key}
+        feature={feature}
+        addingNewLanguage={addingNewLanguage}
+      />
+    )
   );
 }
 
