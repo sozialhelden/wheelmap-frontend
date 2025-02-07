@@ -7,7 +7,7 @@ import flatten from "lodash/flatten";
 import includes from "lodash/includes";
 import uniq from "lodash/uniq";
 import type { PhotonResultFeature } from "../../fetchers/fetchPhotonFeatures";
-import { isOSMFeature } from "../geo/AnyFeature";
+import { isOSMFeature, isPlaceInfo } from "../geo/AnyFeature";
 import type OSMFeature from "../osm/OSMFeature";
 
 export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
@@ -89,34 +89,32 @@ export function hasAccessibleToilet(
     return hasAccessibleToiletOSM(feature);
   }
 
-  const { properties } = feature;
+  if (isPlaceInfo(feature)) {
+    const { properties } = feature;
 
-  if (!properties.accessibility) {
-    return "unknown";
+    if (!properties.accessibility || typeof properties !== "object") {
+      return "unknown";
+    }
+
+    const restrooms = properties.accessibility.restrooms;
+
+    if (!restrooms) return "unknown";
+
+    const accessibleCount = restrooms.filter(
+      (r) => r.isAccessibleWithWheelchair === true,
+    ).length;
+    const nonAccessibleCount = restrooms.filter(
+      (r) => r.isAccessibleWithWheelchair === false,
+    ).length;
+    const unknownCount = restrooms.filter(
+      (r) =>
+        r.isAccessibleWithWheelchair === null ||
+        r.isAccessibleWithWheelchair === undefined,
+    ).length;
+
+    if (accessibleCount >= 1) return "yes";
+    if (nonAccessibleCount > unknownCount) return "no";
   }
 
-  const restrooms: Restroom[] = flatten(
-    properties.accessibility.areas
-      ?.map((area) => {
-        if (!Array.isArray(area.restrooms)) return null;
-        return area.restrooms;
-      })
-      .concat(properties.accessibility.restrooms),
-  );
-
-  const accessibleCount = restrooms.filter(
-    (r) => r.isAccessibleWithWheelchair === true,
-  ).length;
-  const nonAccessibleCount = restrooms.filter(
-    (r) => r.isAccessibleWithWheelchair === false,
-  ).length;
-  const unknownCount = restrooms.filter(
-    (r) =>
-      r.isAccessibleWithWheelchair === null ||
-      r.isAccessibleWithWheelchair === undefined,
-  ).length;
-
-  if (accessibleCount >= 1) return "yes";
-  if (nonAccessibleCount > unknownCount) return "no";
   return "unknown";
 }
