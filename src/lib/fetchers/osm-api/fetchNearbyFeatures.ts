@@ -5,7 +5,7 @@ import {
   isOSMFeature,
 } from "../../model/geo/AnyFeature";
 import { fetchOSMFeatureCollection } from "./fetchOSMFeatureCollection";
-import useOSMAPI from "./useOSMAPI";
+import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 // Example: http://127.0.0.1:3001/api/v1/buildings.geojson?next=toilets&lon=13.389506863843508&lat=52.51441791024004
 
@@ -34,7 +34,7 @@ export function useNearbyFeatures(
   const osmFeature = feature?.["@type"] === "osm:Feature" ? feature : undefined;
   const acFeature = feature?.["@type"] === "ac:PlaceInfo" ? feature : undefined;
 
-  const { baseUrl } = useOSMAPI({ cached: true });
+  const { baseUrl } = useInhouseOSMAPI({ cached: true });
   const {
     coordinates: [longitude, latitude],
   } = osmFeature?.centroid ||

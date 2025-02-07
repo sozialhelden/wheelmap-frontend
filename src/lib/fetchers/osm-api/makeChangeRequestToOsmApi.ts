@@ -2,7 +2,7 @@ import React from "react";
 import type { SWRResponse } from "swr";
 import { log } from "../../util/logger";
 import { callBackendToUpdateInhouseDb } from "../callBackendToUpdateInhouseDb";
-import useOSMAPI from "./useOSMAPI";
+import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 export async function createChangeset({
   baseUrl,
@@ -34,13 +34,14 @@ export async function createChangeset({
   return response.text();
 }
 
-type OSMAPIElementResponse = SWRResponse<{
+export type OSMAPIElement = {
   version: string;
   lat: string;
   lon: string;
   id: string;
   tags: Record<string, string>;
-}>;
+};
+export type OSMAPIElementResponse = SWRResponse<OSMAPIElement>;
 
 export async function createChange({
   accessToken,
@@ -55,12 +56,11 @@ export async function createChange({
   baseUrl: string;
   accessToken: string;
   osmType: string;
-  // osmId: string | string[];
-  osmId: string; // i dont think there can be an array of ids in the change request
+  osmId: number;
   changesetId: string;
   tagName: string;
   newTagValue: string;
-  currentOSMObjectOnServer: OSMAPIElementResponse;
+  currentOSMObjectOnServer: OSMAPIElement;
 }) {
   log.log(
     "createChange",
@@ -69,9 +69,9 @@ export async function createChange({
     changesetId,
     tagName,
     newTagValue,
-    currentOSMObjectOnServer.data,
+    currentOSMObjectOnServer,
   );
-  const { version, lat, lon, id, tags } = currentOSMObjectOnServer.data;
+  const { version, lat, lon, id, tags } = currentOSMObjectOnServer;
   const numericId = id;
   const currentTagsOnServer = tags;
   const newTags = {
@@ -140,19 +140,25 @@ export default function useSubmitNewValueCallback({
 }: {
   accessToken: string;
   baseUrl: string;
-  osmType: string;
-  osmId: number;
+  osmType?: string;
+  osmId?: number;
   tagName: string;
   newTagValue: string;
-  currentOSMObjectOnServer: OSMAPIElementResponse;
+  currentOSMObjectOnServer: OSMAPIElement;
   handleSuccess: () => void;
   handleOSMSuccessDBError: (error: Error) => void;
   handleError: (error: Error) => void;
 }) {
-  const { baseUrl: inhouseBaseUrl } = useOSMAPI({ cached: false });
+  const { baseUrl: inhouseBaseUrl } = useInhouseOSMAPI({ cached: false });
 
   return React.useCallback(async () => {
-    if (!currentOSMObjectOnServer || !accessToken || !newTagValue || !osmType) {
+    if (
+      !currentOSMObjectOnServer ||
+      !accessToken ||
+      !newTagValue ||
+      !osmType ||
+      !osmId
+    ) {
       throw new Error(
         "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.",
       );

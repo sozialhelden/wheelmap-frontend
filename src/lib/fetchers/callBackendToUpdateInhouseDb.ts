@@ -7,14 +7,13 @@ export async function callBackendToUpdateInhouseDb({
   tagName,
 }: {
   baseUrl: string;
-  osmId: string;
+  osmId: number;
   osmType: string;
   tagName: string;
 }) {
   log.log("writeChangesToInhouseDb", osmType, osmId);
-  const osmIdAsNumber = osmId.replace(/\D/g, "");
   const response = await fetch(
-    `${baseUrl}/legacy/api/${osmType}/${osmIdAsNumber}/refresh`,
+    `${baseUrl}/legacy/api/${osmType}/${osmId}/refresh`,
     {
       credentials: "omit",
       headers: {

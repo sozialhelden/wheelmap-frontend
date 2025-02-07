@@ -5,7 +5,7 @@ import type { TypeTaggedPlaceInfo } from "../../model/geo/AnyFeature";
 import type { AccessibilityCloudRDFId } from "../../typing/brands/accessibilityCloudIds";
 import type { OSMIdWithTableAndContextNames } from "../../typing/brands/osmIds";
 import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
-import { getOSMAPI } from "../osm-api/useOSMAPI";
+import { getInhouseOSMAPI } from "../osm-api/useInhouseOSMAPI";
 import {
   type FetchOneFeatureProperties,
   type FetchOneFeatureResult,
@@ -48,7 +48,7 @@ export const useAcToOsmFeatures = (
   const env = useEnvContext();
   const currentAppToken = useCurrentAppToken();
 
-  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getOSMAPI(
+  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(
     env,
     currentAppToken,
     options?.cache ?? false,

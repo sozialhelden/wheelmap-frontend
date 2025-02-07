@@ -4,7 +4,7 @@ import {
   useEnvContext,
 } from "../../context/EnvContext";
 
-export function getOSMAPI(
+export function getInhouseOSMAPI(
   env: EnvironmentVariables,
   currentAppToken: string,
   cached: boolean,
@@ -23,8 +23,10 @@ export function getOSMAPI(
   return { baseUrl, appToken };
 }
 
-export default function useOSMAPI({ cached = true }: { cached: boolean }) {
+export default function useInhouseOSMAPI({
+  cached = true,
+}: { cached: boolean }) {
   const env = useEnvContext();
   const appToken = useCurrentAppToken();
-  return getOSMAPI(env, appToken, cached);
+  return getInhouseOSMAPI(env, appToken, cached);
 }

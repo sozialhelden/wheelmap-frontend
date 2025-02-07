@@ -3,7 +3,7 @@ import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
 import { useCurrentAppToken } from "../../context/AppContext";
 import { useEnvContext } from "../../context/EnvContext";
 import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
-import { getOSMAPI } from "../osm-api/useOSMAPI";
+import { getInhouseOSMAPI } from "../osm-api/useInhouseOSMAPI";
 import {
   type FetchOneFeatureProperties,
   type FetchOneFeatureResult,
@@ -22,7 +22,7 @@ export const useFeatures = (
   const env = useEnvContext();
   const currentAppToken = useCurrentAppToken();
 
-  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getOSMAPI(
+  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(
     env,
     currentAppToken,
     options?.cache ?? false,

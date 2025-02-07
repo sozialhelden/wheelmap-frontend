@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { useEnvContext } from "../../context/EnvContext";
 import type { OSMFeatureCollection } from "../../model/geo/AnyFeature";
 import type OSMFeature from "../../model/osm/OSMFeature";
-import useOSMAPI from "./useOSMAPI";
+import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 export async function fetchOSMFeatures([table, baseUrl, longitude, latitude]: [
   string,
@@ -25,7 +25,7 @@ export function useAdminAreas({
   longitude,
   latitude,
 }: { longitude: number | undefined; latitude: number | undefined }) {
-  const { baseUrl } = useOSMAPI({ cached: true });
+  const { baseUrl } = useInhouseOSMAPI({ cached: true });
   const table = "admin_gen0";
   const features = useSWR(
     baseUrl && latitude && longitude
