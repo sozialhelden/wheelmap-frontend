@@ -14,7 +14,7 @@ import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmPar
 import useSubmitNewValueCallback, {
   type OSMAPIElement,
 } from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useOSMAPI";
+import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
