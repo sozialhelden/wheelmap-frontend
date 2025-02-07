@@ -14,6 +14,17 @@ export function removeNullAndUndefinedFields<T extends []>(
   something: T,
 ): DeepPartial<T>;
 
+/**
+ * Recursively removes
+ *
+ * - all fields with `null` or `undefined` values from an object or array.
+ * - empty arrays and objects.
+ *
+ * @example
+ * removeNullAndUndefinedFields({ a: 1, b: null, c: undefined, d: { e: [], f: null, g: 2 } })
+ * // => { a: 1, d: { g: 2 } }
+ */
+
 export function removeNullAndUndefinedFields(something: unknown): unknown {
   if (isPlainObject(something) && something instanceof Object) {
     const result = {};
