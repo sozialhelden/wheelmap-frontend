@@ -1,7 +1,8 @@
-import { createServer } from "node:http";
+// biome-ignore lint/style/useNodejsImportProtocol: The current build system doesn't work with Node.js-style imports. This is a temporary workaround.
+import { createServer } from "http";
 import next from "next";
 import fetchApp from "../lib/fetchers/ac/fetchApp";
-import addEmbedModeResponseHeaders from "../lib/util/addEmbedModeResponseHeaders";
+// import addEmbedModeResponseHeaders from "../lib/util/addEmbedModeResponseHeaders";
 import { log } from "../lib/util/logger";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -26,13 +27,14 @@ app.prepare().then(() => {
       if (!customizedApp) {
         throw new Error(`No app found for hostname ${hostname}`);
       }
-      const embedToken = url.searchParams.get("embedToken");
+      // TODO: Re-add this later
 
-      addEmbedModeResponseHeaders(
-        customizedApp,
-        res,
-        typeof embedToken === "string" ? embedToken : undefined,
-      );
+      // const embedToken = url.searchParams.get("embedToken");
+      // addEmbedModeResponseHeaders(
+      //   customizedApp,
+      //   res,
+      //   typeof embedToken === "string" ? embedToken : undefined,
+      // );
 
       await handle(req, res);
     } catch (err) {
