@@ -10,4 +10,4 @@ function CategoryPage() {
 
 export default CategoryPage;
 
-Cat.getLayout = getLayout;
+CategoryPage.getLayout = getLayout;
