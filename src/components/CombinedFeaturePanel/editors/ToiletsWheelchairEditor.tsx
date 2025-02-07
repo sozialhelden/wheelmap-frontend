@@ -1,5 +1,6 @@
 import { Button, Link } from "@radix-ui/themes";
-import React, { useContext, useEffect, useState } from "react";
+import type React from "react";
+import { useContext, useEffect, useState } from "react";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
@@ -15,7 +16,7 @@ import type { BaseEditorProps } from "./BaseEditor";
 export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
-  handleSubmitButtonClick,
+  onSubmit,
 }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
@@ -76,9 +77,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
           <Button
             variant="solid"
-            onClick={
-              saveButtonDoesNothing ? undefined : handleSubmitButtonClick
-            }
+            onClick={saveButtonDoesNothing ? undefined : onSubmit}
           >
             {saveButtonDoesNothing ? "Confirm" : "Send"}
           </Button>

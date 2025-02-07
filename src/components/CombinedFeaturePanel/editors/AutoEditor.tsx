@@ -145,11 +145,11 @@ export const AutoEditor = ({
     });
   }, []);
 
-  const handleTagKeyChange = React.useCallback(
-    (newPickerValue: string) => {
+  const handleLanguageSuffixChange = React.useCallback(
+    (newLanguageSuffix: string) => {
       const { normalizedTag: baseTag } =
         normalizeAndExtractLanguageTagsIfPresent(tagName);
-      const updatedTagName = [baseTag, newPickerValue].join(":");
+      const updatedTagName = [baseTag, newLanguageSuffix].join(":");
 
       if (updatedTagName !== finalTagName) {
         setFinalTagName(updatedTagName);
@@ -172,9 +172,9 @@ export const AutoEditor = ({
         tagKey={finalTagName}
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
-        handleSubmitButtonClick={handleSubmitButtonClick}
+        onSubmit={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
-        onLanguageChange={handleTagKeyChange}
+        onLanguageChange={handleLanguageSuffixChange}
       />
     );
   }

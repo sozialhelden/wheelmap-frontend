@@ -1,5 +1,6 @@
 import { Button, Link } from "@radix-ui/themes";
-import React, { useContext, useEffect, useState } from "react";
+import type React from "react";
+import { useContext, useEffect, useState } from "react";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { unknownCategory } from "~/lib/model/ac/categories/Categories";
@@ -14,10 +15,10 @@ import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor: React.FC<BaseEditorProps> =({
+export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
-  handleSubmitButtonClick,
+  onSubmit,
 }: BaseEditorProps) => {
   const languageTags = useCurrentLanguageTagStrings();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
@@ -103,9 +104,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> =({
         <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
           <Button
             variant="solid"
-            onClick={
-              saveButtonDoesNothing ? undefined : handleSubmitButtonClick
-            }
+            onClick={saveButtonDoesNothing ? undefined : onSubmit}
           >
             {saveButtonDoesNothing ? "Confirm" : "Send"}
           </Button>

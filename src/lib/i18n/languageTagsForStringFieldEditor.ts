@@ -1,7 +1,7 @@
-import {t} from "ttag";
+import { t } from "ttag";
 
 export const languageTagMapForStringFieldEditor = [
-  { value: "ar", label: t`Arabic`},
+  { value: "ar", label: t`Arabic` },
   { value: "bg", label: t`Bulgarian` },
   { value: "ca", label: t`Catalan/Valencian` },
   { value: "cs", label: t`Czech` },
@@ -45,10 +45,10 @@ export const languageTagMapForStringFieldEditor = [
   { value: "tr", label: t`Turkish` },
   { value: "uk", label: t`Ukrainian` },
   { value: "vi", label: t`Vietnamese` },
-  { value: "zh-Hans", label: t`Chinese (simplified)` },
-  { value: "zh-Hant", label: t`Chinese (traditional)` },
-  { value: "zh-Hant-TW", label: t`Chinese (traditional, Taiwan)` },
-  { value: "zh-Hant-HK", label: t`Chinese (traditional, Hong Kong)` },
+  { value: "zh-CN", label: t`Chinese (China)` },
+  { value: "zh-TW", label: t`Chinese (Taiwan)` },
+  { value: "zh-HK", label: t`Chinese (Hong Kong)` },
+  { value: "zh-SG", label: t`Chinese (Singapur)` },
 ];
 
 export const languageTagsForStringFieldEditor = [
