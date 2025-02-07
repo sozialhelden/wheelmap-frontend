@@ -21,7 +21,6 @@ import { FixedHelpButton } from "../CombinedFeaturePanel/components/HelpButton";
 import { useEnvContext } from "../../lib/context/EnvContext";
 import { StyledLoadingIndicator } from "./LoadingIndictor";
 
-import { getFeatureId } from "../../lib/model/ac/Feature";
 import { log } from "../../lib/util/logger";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 import { useDarkMode } from "../shared/useDarkMode";
@@ -86,18 +85,6 @@ export default function MapView(props: IProps) {
   }, [width, height]);
 
   useApplyMapPadding();
-
-  // const featureLayer = React.useMemo(() => {
-  //   return generateSelectedFeatureLayer(props.featureId);
-  // }, [props.featureId]);
-
-  // const featureDetailsLayer = useMemo(() => {
-  //   return generateFeatureDetailsLayer(props.featureId);
-  // }, [props.featureId]);
-
-  // const unclusteredPointLabelLayer = useMemo(() => {
-  //   return generateUnclusteredPointLabelLayer(lastImportType, languageTagsStrings, props.featureId);
-  // }, [lastImportType, props.featureId]);
 
   const updateViewportQuery = useCallback(
     ({
@@ -167,7 +154,7 @@ export default function MapView(props: IProps) {
       router.push(
         `/composite/${uniq(
           features.map((f) =>
-            [f.source, String(f.id).replace("/", ":")].join(":"),
+            [f.source, String(f.properties?.id).replace("/", ":")].join(":"),
           ),
         ).join(",")}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
       );
