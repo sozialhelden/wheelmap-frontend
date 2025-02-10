@@ -102,7 +102,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   return (
     <Dialog.Root open data-testid="string-field-editor-dialog">
-      <Dialog.Content>
+      <Dialog.Content id="string-field-editor-dialog-content">
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
             {feature["@type"] === "osm:Feature" && (
@@ -163,6 +163,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           <div hidden={addingNewLanguage ? !hasValueChanged : false}>
             <TextArea
               ref={textAreaRef}
+              data-testid="string-field-editor-text-area"
               aria-label={t`Enter a description here`}
               defaultValue={addingNewLanguage ? undefined : initialTagValue}
               value={addingNewLanguage ? textAreaValue : undefined}
