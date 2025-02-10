@@ -41,7 +41,3 @@ export const PlaceNameH1 = styled.h1.attrs({ isSmall: false })`
 export const PlaceNameH2 = styled.h2.attrs({ isSmall: true })`
   ${placeNameCSS}
 `;
-
-export const PlaceNameHeader = styled.header.attrs({ isSmall: false })`
-  ${placeNameCSS}
-`;
