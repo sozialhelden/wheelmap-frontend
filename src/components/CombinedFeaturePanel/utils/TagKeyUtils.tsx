@@ -13,16 +13,16 @@ import { languageTaggedKeys } from "~/lib/model/osm/tag-config/languageTaggedKey
  * Input: `an:other:tag`, Output: `{ an:other:tag, false, null }`
  */
 
-export const normalizeAndExtractLanguageTagsIfPresent = (tagName: string) => {
-  if (languageTaggedKeys.has(tagName)) {
+export const normalizeAndExtractLanguageTagsIfPresent = (osmTagKey: string) => {
+  if (languageTaggedKeys.has(osmTagKey)) {
     return {
-      normalizedTag: tagName,
+      normalizedOSMTagKey: osmTagKey,
       hasLanguageTagSupport: true,
       languageTag: null,
     };
   }
 
-  const parts: string[] = tagName.split(":");
+  const parts: string[] = osmTagKey.split(":");
   let assembledString: string = parts.slice(0, parts.length - 1).join(":");
 
   for (let i = 1; i < parts.length; i++) {
@@ -32,14 +32,14 @@ export const normalizeAndExtractLanguageTagsIfPresent = (tagName: string) => {
         describeIETFLanguageTag(languageTag, false) !== "undefined tag";
       if (isValidTag) {
         return {
-          normalizedTag: assembledString,
+          normalizedOSMTagKey: assembledString,
           hasLanguageTagSupport: true,
           languageTag,
         };
       }
       console.warn("Tag ", assembledString, "is appended with an unknown tag.");
       return {
-        normalizedTag: assembledString,
+        normalizedOSMTagKey: assembledString,
         hasLanguageTagSupport: true,
         languageTag: null,
       };
@@ -48,7 +48,7 @@ export const normalizeAndExtractLanguageTagsIfPresent = (tagName: string) => {
   }
 
   return {
-    normalizedTag: tagName,
+    normalizedOSMTagKey: osmTagKey,
     hasLanguageTagSupport: false,
     languageTag: null,
   };

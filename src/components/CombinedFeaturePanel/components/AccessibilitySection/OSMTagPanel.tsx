@@ -1,6 +1,9 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
-import { getAvailableLangTags } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent,
+} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { TypeTaggedOSMFeature } from "~/lib/model/geo/AnyFeature";
 import { omittedKeyPrefixes } from "~/lib/model/osm/tag-config/omittedKeyPrefixes";
@@ -54,7 +57,9 @@ function generateTree(keys: string[]): ITreeNode {
 function nest(tree: ITreeNode) {
   const entries = Object.entries(tree);
   const sortedEntries = sortBy(entries, ([key]) => {
-    const order = sortOrderMap.get(key);
+    const { normalizedOSMTagKey } =
+      normalizeAndExtractLanguageTagsIfPresent(key);
+    const order = sortOrderMap.get(normalizedOSMTagKey);
     return order === undefined ? 100000 : order;
   });
 

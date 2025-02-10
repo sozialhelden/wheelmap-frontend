@@ -150,7 +150,7 @@ export const AutoEditor = ({
 
   const handleTagKeyChange = React.useCallback(
     (newPickerValue: string) => {
-      const { normalizedTag: baseTag } =
+      const { normalizedOSMTagKey: baseTag } =
         normalizeAndExtractLanguageTagsIfPresent(tagName);
       const updatedTagName = [baseTag, newPickerValue].join(":");
 

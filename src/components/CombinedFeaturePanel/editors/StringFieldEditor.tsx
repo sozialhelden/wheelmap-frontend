@@ -36,7 +36,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   }
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  const { normalizedTag: tagKeyWithoutLangTag } =
+  const { normalizedOSMTagKey: tagKeyWithoutLangTag } =
     normalizeAndExtractLanguageTagsIfPresent(tagKey);
   const initialTagValue = feature.properties?.[tagKey] ?? "";
 
