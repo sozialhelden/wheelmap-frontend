@@ -35,7 +35,35 @@ test.describe('onboarding dialog', () => {
 
   test('matches a snapshot', async ({ page }) => {
     await waitForDialogToBeStable(page);
-    await expect(page.getByRole('dialog')).toMatchAriaSnapshot("");
+    await expect(page.getByRole('dialog')).toMatchAriaSnapshot(`
+      - dialog "Welcome to Wheelmap!":
+        - img "Wheelmap logo"
+        - heading "Welcome to Wheelmap!" [level=1]
+        - paragraph:
+          - text: "Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:"
+          - list:
+            - listitem:
+              - figure "Fully wheelchair accessible Entrance has no steps, important areas are accessible without steps.":
+                - img "green map marker"
+                - term: Fully wheelchair accessible
+                - definition: Entrance has no steps, important areas are accessible without steps.
+            - listitem:
+              - figure "Partially wheelchair accessible Entrance has one step with max. 3 inches height, most areas are without steps.":
+                - img "orange map marker"
+                - term: Partially wheelchair accessible
+                - definition: Entrance has one step with max. 3 inches height, most areas are without steps.
+            - listitem:
+              - figure "Not wheelchair accessible Entrance has a high step or several steps, important areas are inaccessible.":
+                - img "red map marker"
+                - term: Not wheelchair accessible
+                - definition: Entrance has a high step or several steps, important areas are inaccessible.
+            - listitem:
+              - figure "Unknown accessibility Help out by marking places!":
+                - img "gray map marker"
+                - term: Unknown accessibility
+                - definition: Help out by marking places!
+        - button "Okay, let’s go!"
+    `);
   });
 
 
