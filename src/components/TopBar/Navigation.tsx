@@ -2,6 +2,7 @@ import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
 import { t } from "ttag";
 import type { TranslatedAppLink } from "~/lib/useAppLink";
 import { useExpertMode } from "~/lib/useExpertMode";
@@ -19,6 +20,10 @@ function filterExpertModeLinks(
     return true;
   });
 }
+
+const FlexListItem = styled.li`
+    display: flex;
+`;
 
 export default function Navigation() {
   const router = useRouter();
@@ -42,9 +47,9 @@ export default function Navigation() {
   const toolbarLinkElements = useMemo(
     () =>
       filterExpertModeLinks(linksInToolbar, isExpertMode).map((appLink) => (
-        <li key={appLink._id}>
+        <FlexListItem key={appLink._id}>
           <AppLink asMenuItem={false} {...appLink} />
-        </li>
+        </FlexListItem>
       )),
     [linksInToolbar, isExpertMode],
   );

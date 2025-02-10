@@ -1,16 +1,15 @@
 import type * as React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
+import MapButton from "../../../src-legacy/MapLegacy/MapButton";
 import type {
   YesNoLimitedUnknown,
   YesNoUnknown,
 } from "../../lib/model/ac/Feature";
-import { translatedRootCategoryName } from "../../lib/model/ac/categories/Categories";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 import { AppStateLink } from "../App/AppStateLink";
 import BreadcrumbChevron from "../icons/ui-elements/BreadcrumbChevron";
 import CombinedIcon from "./CombinedIcon";
-import MapButton from "./MapButton";
 import SearchIcon from "./SearchIcon";
 
 type Props = {
@@ -81,10 +80,11 @@ export default function SearchButton({
             }}
           />
         )}
-
-        <Caption>
-          {category ? translatedRootCategoryName(category) : allPlacesCaption}
-        </Caption>
+        {/*  <Caption>*/}
+        {/*    {category*/}
+        {/*      ? translatedRootCategoryName(category)*/}
+        {/*      : allPlacesCaption}*/}
+        {/*  </Caption>*/}
       </StyledButton>
     </AppStateLink>
   );

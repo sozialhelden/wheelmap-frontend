@@ -2,118 +2,55 @@ import { t } from "ttag";
 
 import styled from "styled-components";
 
-import type React from "react";
+import { Flex } from "@radix-ui/themes";
+import type React, {Ref} from "react";
+import { forwardRef } from "react";
 import { useCallback } from "react";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import useCategory from "../../lib/fetchers/ac/refactor-this/useCategory";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type { ACCategory } from "../../lib/model/ac/categories/ACCategory";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import useCategory from "~/lib/fetchers/ac/refactor-this/useCategory";
+import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import type { ACCategory } from "~/lib/model/ac/categories/ACCategory";
 import {
   getLocalizedCategoryName,
   unknownCategory,
-} from "../../lib/model/ac/categories/Categories";
-import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
-import type { AnyFeature } from "../../lib/model/geo/AnyFeature";
-import colors from "../../lib/util/colors";
-import { cx } from "../../lib/util/cx";
-import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+} from "~/lib/model/ac/categories/Categories";
+import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import { AppStateLink } from "../App/AppStateLink";
 import { calculateDefaultPadding } from "../Map/MapOverlapPadding";
 import { useMap } from "../Map/useMap";
-import Address from "../NodeToolbar/Address";
 import Icon from "../shared/Icon";
-import { PlaceNameHeader } from "../shared/PlaceName";
 import {
   type EnrichedSearchResult,
-  makeStyles,
   mapResultToUrlObject,
 } from "./EnrichedSearchResult";
 
 type Props = {
   className?: string;
   feature: EnrichedSearchResult;
-  hidden: boolean;
+  isHighlighted?: boolean;
 };
 
-const StyledListItem = styled.li`
-    padding: 0;
-    
-    &:focus-within {
-        background: ${colors.linkBackgroundColor};
-        border: 2px solid ${colors.linkColor};
-        border-radius: 5px;
-    }
-    
-    > a {
-        display: block;
-        font-size: 16px;
-        padding: 10px;
-        text-decoration: none;
-        border-radius: 4px;
-        cursor: pointer;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        text-align: left;
-        overflow: hidden;
-        color: rgba(0, 0, 0, 0.8) !important;
-        width: 100%;
-    
-        @media (hover), (-moz-touch-enabled: 0) {
-            &:hover {
-                background-color: ${colors.linkBackgroundColorTransparent};
-            }
-        }
-    
-        &:focus&:not(.primary-button) {
-            background-color: ${colors.linkBackgroundColorTransparent};
-        }
-    
-        &:disabled {
-            opacity: 0.15;
-        }
-    
-        &:hover {
-            color: rgba(0, 0, 0, 0.8) !important;
-        }
-    
-        address {
-            font-size: 16px !important;
-            color: rgba(0, 0, 0, 0.6);
-        }
-        
+const StyledListItem = styled.li<{ $isHighlighted?: boolean }>`
+  padding: 0;
+
+  > a {
+    padding: .5rem .75rem;
+    text-decoration: none;
+    background-color: transparent;
+    color: var(--gray-12);
+    border: 2px solid ${({ $isHighlighted }) => ($isHighlighted ? "var(--accent-10)" : "transparent")};
+
+    &:hover {
+      background-color: var(--accent-3);
     }
 
-    &.no-result {
-        text-align: center;
-        font-size: 16px;
-        overflow: hidden;
-        padding: 20px;
+    address {
+      font-size: 0.8rem;
+      color: var(--gray-10);
     }
-
-    &.error-result {
-        text-align: center;
-        font-size: 16px;
-        overflow: hidden;
-        padding: 20px;
-        font-weight: 400;
-        background-color: ${colors.negativeBackgroundColorTransparent};
-    }
-
-    &.osm-category-place-borough,
-    &.osm-category-place-suburb,
-    &.osm-category-place-village,
-    &.osm-category-place-hamlet,
-    &.osm-category-place-town,
-    &.osm-category-place-city,
-    &.osm-category-place-county,
-    &.osm-category-place-state,
-    &.osm-category-place-country,
-    &.osm-category-boundary-administrative {
-        header {
-            font-weight: 600;
-        }
-    }
+  }
 `;
 
 const useFeatureCategoryLabel = (
@@ -143,7 +80,10 @@ const useFeatureCategoryLabel = (
   return categoryLabel;
 };
 
-export default function SearchResult({ feature, className, hidden }: Props) {
+export const SearchResult = forwardRef(function SearchResult(
+  { feature, isHighlighted, ...props }: Props,
+  ref: Ref<HTMLLIElement>,
+) {
   const { title, address } = feature.displayData;
 
   const languageTags = useCurrentLanguageTagStrings();
@@ -164,7 +104,7 @@ export default function SearchResult({ feature, className, hidden }: Props) {
   );
 
   const categoryLabel = useFeatureCategoryLabel(placeName, category);
-  const shownCategoryId = category?._id;
+  const shownCategoryId = category && category._id;
 
   const detailedFeature = (feature.placeInfo ||
     feature.osmFeature) as AnyFeature | null;
@@ -202,25 +142,19 @@ export default function SearchResult({ feature, className, hidden }: Props) {
         });
       }
 
-      if (urlObject?.pathname) {
+      if (urlObject && urlObject.pathname) {
         push(urlObject);
       }
     },
     [push, feature, map],
   );
 
-  const classNames = cx(
-    className,
-    "search-result",
-    hidden && "hidden",
-    feature.osmFeature && "is-on-wheelmap",
-    makeStyles(feature),
-  );
   return (
-    <StyledListItem className={classNames}>
-      <AppStateLink href={mapResultToUrlObject(feature)} onClick={clickHandler}>
-        <PlaceNameHeader
-          className={detailedFeature ? "is-on-wheelmap" : undefined}
+    <StyledListItem $isHighlighted={isHighlighted} ref={ref} {...props}>
+      <Flex asChild gap="2">
+        <AppStateLink
+          href={mapResultToUrlObject(feature)}
+          onClick={clickHandler}
         >
           {shownCategoryId ? (
             <Icon
@@ -229,13 +163,17 @@ export default function SearchResult({ feature, className, hidden }: Props) {
               size="medium"
             />
           ) : null}
-          {placeName}
-          {categoryLabel && (
-            <span className="category-label">{categoryLabel}</span>
-          )}
-        </PlaceNameHeader>
-        {addressString ? <Address>{addressString}</Address> : null}
-      </AppStateLink>
+          <Flex align="start" direction="column" justify="center">
+            <h3 className={detailedFeature ? "is-on-wheelmap" : undefined}>
+              {placeName}
+              {categoryLabel && (
+                <span className="category-label">{categoryLabel}</span>
+              )}
+            </h3>
+            {addressString ? <address>{addressString}</address> : null}
+          </Flex>
+        </AppStateLink>
+      </Flex>
     </StyledListItem>
   );
-}
+});

@@ -22,9 +22,9 @@ import "~/app/reset.css";
 import "~/app/app.css";
 import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
+import { NeedsContextProvider } from "~/hooks/useNeeds";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
-import { NeedsContextProvider } from "~/lib/useNeeds";
 import {
   getRequestCountryCode,
   getRequestHostname,
