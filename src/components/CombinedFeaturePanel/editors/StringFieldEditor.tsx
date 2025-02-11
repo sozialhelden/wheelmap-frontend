@@ -1,17 +1,25 @@
-import {InfoCircledIcon} from "@radix-ui/react-icons";
-import {Button, Callout, Dialog, Flex, Text, TextArea, VisuallyHidden,} from "@radix-ui/themes";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import {
+  Button,
+  Callout,
+  Dialog,
+  Flex,
+  Text,
+  TextArea,
+  VisuallyHidden,
+} from "@radix-ui/themes";
 import type React from "react";
-import {useEffect, useMemo, useRef, useState} from "react";
-import {t} from "ttag";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { t } from "ttag";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import SearchableSelect from "~/components/shared/SearchableSelect";
-import {languageTagMapForStringFieldEditor} from "~/lib/i18n/languageTagsForStringFieldEditor";
+import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
-import type {BaseEditorProps} from "./BaseEditor";
+import type { BaseEditorProps } from "./BaseEditor";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,
