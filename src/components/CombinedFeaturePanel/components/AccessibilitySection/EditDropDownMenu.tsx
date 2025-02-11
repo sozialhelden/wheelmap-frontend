@@ -9,7 +9,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
   const { features } = useContext(FeaturePanelContext);
   const feature = features[0].feature?.requestedFeature;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [addingNewLanguage, setAddingNewLanguage] = useState(false);
+  const [addNewLanguage, setAddNewLanguage] = useState(false);
 
   return (
     <DropdownMenu.Root>
@@ -23,7 +23,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
         <DropdownMenu.Item
           onSelect={(e) => {
             setIsDialogOpen(true);
-            setAddingNewLanguage(false);
+            setAddNewLanguage(false);
           }}
         >
           {t`Edit this description`}
@@ -32,7 +32,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
         <DropdownMenu.Item
           onSelect={(e) => {
             setIsDialogOpen(true);
-            setAddingNewLanguage(true);
+            setAddNewLanguage(true);
           }}
         >
           {t`Add a description in another language`}
@@ -43,7 +43,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
         <AutoEditor
           feature={feature}
           tagKey={tagKey}
-          addNewLanguage={addingNewLanguage}
+          addNewLanguage={addNewLanguage}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
