@@ -17,7 +17,6 @@ import {
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import SearchableSelect from "~/components/shared/SearchableSelect";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
-import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
@@ -30,7 +29,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   onChange,
   onSubmit,
   onLanguageChange,
+  onClose,
 }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+
   if (!tagKey) {
     throw new Error("Editing a tag value works only with a defined tag key.");
   }
@@ -104,7 +106,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   }, [addingNewLanguage, hasValueChanged]);
 
   return (
-    <Dialog.Root open>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content>
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
@@ -178,21 +180,17 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </div>
 
           <Flex gap="3" mt="4" justify="end">
-            <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-              <Button variant="soft" size="2">
-                {t`Cancel`}
-              </Button>
-            </AppStateLink>
+            <Button variant="soft" size="2" onClick={onClose}>
+              {t`Cancel`}
+            </Button>
 
-            <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-              <Button
-                variant="solid"
-                size="2"
-                onClick={saveButtonDoesNothing ? undefined : onSubmit}
-              >
-                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              </Button>
-            </AppStateLink>
+            <Button
+              variant="solid"
+              size="2"
+              onClick={saveButtonDoesNothing ? onClose : onSubmit}
+            >
+              {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+            </Button>
           </Flex>
         </Flex>
       </Dialog.Content>
