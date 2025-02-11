@@ -1,10 +1,7 @@
-import { expect, test } from "./lib/axe-test";
-import getBaseURL from "./lib/base-url";
-
-const baseURL = getBaseURL();
+import { test, expect } from './lib/axe-test';
 
 test("has title", async ({ page }) => {
-  await page.goto(baseURL);
+  await page.goto("/");
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Wheelmap/);
@@ -21,7 +18,7 @@ async function waitForDialogToBeStable(page) {
 test.describe("onboarding dialog", () => {
   test.beforeEach(async ({ page }) => {
     // Go to the starting url before each test.
-    await page.goto(baseURL);
+    await page.goto("/");
   });
 
   test("has a logo", async ({ page }) => {

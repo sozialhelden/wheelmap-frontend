@@ -4,6 +4,7 @@ import { defineConfig, devices } from "@playwright/test";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
+import 'dotenv/config'
 
 const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
 
@@ -77,13 +78,4 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  webServer: process.env.CI
-    ? undefined
-    : {
-        command: "npm run dev",
-        url: process.env.TEST_DEPLOYMENT_BASE_URL,
-        reuseExistingServer: true,
-      },
 });
