@@ -151,15 +151,7 @@ const StyledSection = styled.section`
         width: 44px;
         height: 5px;
         border-radius: 2.5px;
-        background-color: rgba(0, 0, 0, 0.2);
-
-        &.focus-visible {
-          box-shadow: 0px 0px 0px 2px #4469e1;
-        }
-      }
-
-      &.focus-visible {
-        box-shadow: none !important;
+        background-color: var(--gray-5);
       }
     }
   }

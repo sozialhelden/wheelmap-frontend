@@ -48,7 +48,7 @@ const StyledButton = styled(MapButton)`
         height: 20px;
 
         path {
-            fill: #334455;
+            fill: var(--gray-a12);
         }
     }
 `;
