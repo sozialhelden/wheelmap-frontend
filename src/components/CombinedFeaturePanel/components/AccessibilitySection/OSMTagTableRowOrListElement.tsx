@@ -29,7 +29,6 @@ export function OSMTagTableRowOrListElement({
   valueElement,
   isEditable,
   isLanguageTagged,
-  editURL,
   keyDetails,
   valueDetails,
   isHorizontal,
@@ -77,7 +76,7 @@ export function OSMTagTableRowOrListElement({
   const editControls = isLanguageTagged ? (
     <EditDropdownMenu tagKey={tagKey} />
   ) : isEditable ? (
-    <EditButton tagKey={tagKey} />
+    <EditButton tagKey={tagKey} addNewLanguage={false} />
   ) : null;
 
   const displayedValueContent = valueIsString ? (

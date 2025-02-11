@@ -50,7 +50,6 @@ export function getOSMTagProps({
   attributesById,
   languageTags,
   feature,
-  baseFeatureUrl,
 }: {
   key: string;
   matchedKey: string;
@@ -114,7 +113,7 @@ export function getOSMTagProps({
   const isEditable = editableKeys.has(key);
   const { hasLanguageTagSupport } =
     normalizeAndExtractLanguageTagsIfPresent(key);
-  const editURL = `${baseFeatureUrl}/edit/${key}`;
+
   const tagProps: OSMTagProps = {
     tagKey: key,
     hasDisplayedKey,
@@ -124,7 +123,6 @@ export function getOSMTagProps({
     valueElement: valueLabel,
     isEditable,
     isLanguageTagged: hasLanguageTagSupport,
-    editURL,
     valueDetails,
     keyDetails,
     isHorizontal: horizontalKeys.has(key),
