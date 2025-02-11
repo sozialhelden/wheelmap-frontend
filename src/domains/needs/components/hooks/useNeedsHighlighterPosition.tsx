@@ -1,6 +1,6 @@
 import { type MutableRefObject, useLayoutEffect, useState } from "react";
-import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
-import type { SectionRefs } from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterRefs";
+import type { Section } from "~/domains/needs/components/NeedsDropdownHighlighter";
+import type { SectionRefs } from "~/domains/needs/components/hooks/useNeedsHighlighterRefs";
 
 type HighlightPosition = {
   top: number;

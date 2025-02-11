@@ -22,7 +22,7 @@ import "~/app/reset.css";
 import "~/app/app.css";
 import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
-import { NeedsContextProvider } from "~/hooks/useNeeds";
+import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {

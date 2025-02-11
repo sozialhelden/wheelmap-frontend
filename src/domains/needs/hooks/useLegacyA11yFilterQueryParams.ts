@@ -5,7 +5,7 @@ import {
   type NeedSelection,
   type Needs,
   settings,
-} from "~/config/needs";
+} from "~/domains/needs/needs";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 function matchesCurrentQuery(
@@ -28,7 +28,7 @@ function matchesCurrentQuery(
   );
 }
 
-// get default need-selection from legacy a11yfilter query params wheechair and toilet
+// get default need-selection from legacy a11y-filter query params wheelchair and toilet
 export function useLegacyA11yFilterQueryParamsDefaultSelection(): {
   defaultSelection: NeedSelection;
 } {
@@ -47,7 +47,8 @@ export function useLegacyA11yFilterQueryParamsDefaultSelection(): {
   return { defaultSelection };
 }
 
-export function useLegacyA11yFilterQueryParams({ needs }: { needs: Needs }) {
+// sync the given needs with the legacy a11y-filter query params wheelchair and toilet
+export function useSyncWithLegacyA11yFilterQueryParams({ needs }: { needs: Needs }) {
   const router = useAppStateAwareRouter();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
