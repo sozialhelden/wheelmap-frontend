@@ -36,6 +36,7 @@ import {
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
 
+import "../components/Map/mapbox-dark-mode.css";
 import "../css/app.css";
 import "../css/colors/accessibility.css";
 import "../css/colors/base.css";
