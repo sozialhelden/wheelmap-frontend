@@ -12,7 +12,8 @@ const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: './',
+  testMatch: '**/*.spec.ts',
   /* Run tests in files in parallel */
   fullyParallel: !process.env.CI,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
