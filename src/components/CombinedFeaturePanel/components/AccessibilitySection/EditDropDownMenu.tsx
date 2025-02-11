@@ -21,7 +21,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
 
       <DropdownMenu.Content>
         <DropdownMenu.Item
-          onSelect={(e) => {
+          onSelect={() => {
             setIsDialogOpen(true);
             setAddNewLanguage(false);
           }}
@@ -30,7 +30,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
         </DropdownMenu.Item>
 
         <DropdownMenu.Item
-          onSelect={(e) => {
+          onSelect={() => {
             setIsDialogOpen(true);
             setAddNewLanguage(true);
           }}
