@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import colors from "../../lib/util/colors";
-import { ChromelessButton } from "../shared/Button";
 import Toolbar from "../shared/Toolbar";
 
 const StyledToolbar = styled(Toolbar)`
@@ -9,24 +7,6 @@ const StyledToolbar = styled(Toolbar)`
   padding-bottom: 0px;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
-
-  ${ChromelessButton}.expand-button {
-    padding: 8px 10px;
-    display: flex;
-    justify-content: left;
-    width: 100%;
-
-    &:hover {
-      color: ${colors.linkColor};
-      background-color: ${colors.linkBackgroundColorTransparent};
-    }
-
-    svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      fill: #89939e;
-    }
-  }
 
   &.toolbar-is-scrollable {
     > div > header {

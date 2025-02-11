@@ -1,9 +1,6 @@
 import type * as React from "react";
 import styled from "styled-components";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
-import { getLocalizedCategoryName } from "../../lib/model/ac/categories/Categories";
-import colors from "../../lib/util/colors";
 import { log } from "../../lib/util/logger";
 import * as categoryIcons from "../icons/categories";
 import * as mainCategoryIcons from "../icons/mainCategories";
@@ -62,10 +59,7 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
   > .foreground {
     z-index: 300;
     font-size: ${(props) => fontSize(props.size)}px;
-    color: ${(props) =>
-      props.accessibility
-        ? colors.markers.foreground[props.accessibility]
-        : props.foregroundColor || "#496394"};
+    color: var(${(props) => (props.accessibility ? `--rating-${props.accessibility}` : "--accent")});
   } 
 
   > small {
@@ -90,8 +84,8 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
       rect {
         fill: ${(props) =>
           props.accessibility
-            ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || "#FFF"};
+            ? `var(--rating-${props.accessibility})`
+            : props.backgroundColor || "var(--accent-a3)"};
       }
     }
 
@@ -107,8 +101,8 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
       rect {
         fill: ${(props) =>
           props.accessibility
-            ? colors.markers.foreground[props.accessibility]
-            : props.foregroundColor || "#496394"};
+            ? `var(--rating-${props.accessibility}-contrast)`
+            : props.foregroundColor || "var(--accent-12)"};
       }
     }
   }
@@ -118,7 +112,7 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
 export default function Icon({
   accessibility,
   children,
-  backgroundColor = accessibility && colors.markers.background[accessibility],
+  backgroundColor,
   foregroundColor,
   category,
   isMainCategory,

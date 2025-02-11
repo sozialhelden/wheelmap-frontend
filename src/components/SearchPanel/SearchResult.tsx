@@ -14,7 +14,6 @@ import {
 } from "../../lib/model/ac/categories/Categories";
 import { isWheelchairAccessible } from "../../lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "../../lib/model/geo/AnyFeature";
-import colors from "../../lib/util/colors";
 import { cx } from "../../lib/util/cx";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 import { AppStateLink } from "../App/AppStateLink";
@@ -37,13 +36,7 @@ type Props = {
 
 const StyledListItem = styled.li`
     padding: 0;
-    
-    &:focus-within {
-        background: ${colors.linkBackgroundColor};
-        border: 2px solid ${colors.linkColor};
-        border-radius: 5px;
-    }
-    
+
     > a {
         display: block;
         font-size: 16px;
@@ -56,32 +49,12 @@ const StyledListItem = styled.li`
         outline: none;
         text-align: left;
         overflow: hidden;
-        color: rgba(0, 0, 0, 0.8) !important;
         width: 100%;
-    
-        @media (hover), (-moz-touch-enabled: 0) {
-            &:hover {
-                background-color: ${colors.linkBackgroundColorTransparent};
-            }
-        }
-    
-        &:focus&:not(.primary-button) {
-            background-color: ${colors.linkBackgroundColorTransparent};
-        }
-    
-        &:disabled {
-            opacity: 0.15;
-        }
-    
-        &:hover {
-            color: rgba(0, 0, 0, 0.8) !important;
-        }
-    
+
         address {
             font-size: 16px !important;
-            color: rgba(0, 0, 0, 0.6);
         }
-        
+
     }
 
     &.no-result {
@@ -97,7 +70,7 @@ const StyledListItem = styled.li`
         overflow: hidden;
         padding: 20px;
         font-weight: 400;
-        background-color: ${colors.negativeBackgroundColorTransparent};
+        color: var(--danger-10);
     }
 
     &.osm-category-place-borough,
