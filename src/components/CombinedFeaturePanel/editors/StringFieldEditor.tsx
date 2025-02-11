@@ -54,6 +54,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState(true);
   const [hasValueChanged, setHasValueChanged] = useState(false);
+  const [isRightBound, setIsRightBound] = useState(false);
 
   const dialogDescription = addingNewLanguage
     ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
@@ -77,6 +78,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   useEffect(() => {
     setSaveButtonDoesNothing(currentTagValue === editedTagValue);
   }, [currentTagValue, editedTagValue]);
+
+  useEffect(() => {
+    setIsRightBound(selectedLanguage === "ar" || selectedLanguage === "fa");
+  }, [selectedLanguage]);
 
   useEffect(() => {
     setTextAreaValue(initialValue);
@@ -163,7 +168,13 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
             </Flex>
           )}
 
-          <div hidden={addingNewLanguage ? !hasValueChanged : false}>
+          <div
+            hidden={addingNewLanguage ? !hasValueChanged : false}
+            style={{
+              direction: isRightBound ? "rtl" : "ltr",
+              textAlign: isRightBound ? "right" : "left",
+            }}
+          >
             <TextArea
               ref={textAreaRef}
               aria-label={t`Enter a description here`}
