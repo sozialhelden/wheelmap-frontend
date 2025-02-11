@@ -13,10 +13,10 @@ const StyledTag = styled.div`
     padding: 0.25rem 0.6666rem;
   }
 
-  background-color: var(--gray-3) !important;
+  background-color: var(--gray-a3) !important;
   color: var(--gray-12) !important;
   > header {
-    background-color: var(--gray-4) !important;
+    background-color: var(--gray-a6) !important;
     color: var(--gray-12) !important;
   }
 `;
