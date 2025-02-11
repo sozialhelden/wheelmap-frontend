@@ -1,4 +1,3 @@
-import { Tag } from "@blueprintjs/core";
 import styled from "styled-components";
 
 const StyledTag = styled.div`
@@ -14,9 +13,11 @@ const StyledTag = styled.div`
     padding: 0.25rem 0.6666rem;
   }
 
-  background-color: #a4bae530 !important;
+  background-color: var(--gray-3) !important;
+  color: var(--gray-12) !important;
   > header {
-    background-color: #a4bae533 !important;
+    background-color: var(--gray-4) !important;
+    color: var(--gray-12) !important;
   }
 `;
 

@@ -25,15 +25,6 @@ const StyledSearchInputField = styled.input`
 
     transition: width 0.3s ease-out, height 0.3s ease-out;
 
-    &::-webkit-input-placeholder,
-    &::-moz-placeholder,
-    &:-moz-placeholder,
-    &::-ms-input-placeholder,
-    &:-ms-input-placeholder {
-        color: #333;
-        opacity: 1;
-    }
-
     &:disabled {
         opacity: 1;
         cursor: unset;
