@@ -3,7 +3,6 @@ import { Flex, IconButton, ScrollArea, Spinner, Theme } from "@radix-ui/themes";
 import React, {
   type KeyboardEventHandler,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -13,6 +12,9 @@ import { useMap } from "~/components/Map/useMap";
 import { makeFeatureId } from "~/components/SearchPanel/EnrichedSearchResult";
 import { SearchResult } from "~/components/SearchPanel/SearchResult";
 import { useEnrichedSearchResults } from "~/components/SearchPanel/useEnrichedSearchResults";
+import { type Category, categories } from "~/config/categories";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import { getLocalizedCategoryName } from "~/lib/model/ac/categories/Categories";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 const SearchWrapper = styled.div`
@@ -97,6 +99,8 @@ export function SearchBar() {
 
   const searchResultsContainer = useRef<HTMLUListElement | undefined>();
 
+  const categoryFilter = router.query.category;
+
   const { map } = useMap();
   const { searchResults, searchError, isSearching } = useEnrichedSearchResults(
     searchTerm,
@@ -104,15 +108,20 @@ export function SearchBar() {
     map?.getCenter().lng || router.searchParams.lon,
   );
 
-  const isDropdownOpen = Boolean(input);
+  const isDropdownOpen = Boolean(input && !categoryFilter);
 
   const getHighlightedDomElement = () => {
     return searchResultsContainer.current?.querySelector(
       `[data-highlight-index="${highlightedIndex}"]`,
     );
   };
+
+  const resetCategoryFilter = () => {
+    router.replace({ query: { category: "" } });
+  };
   const reset = () => {
     setInput("");
+    if (categoryFilter) resetCategoryFilter();
   };
   const highlightNext = () => {
     if (!searchResults?.length) return;
@@ -148,6 +157,7 @@ export function SearchBar() {
 
   useEffect(() => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
+    if (categoryFilter) return;
     setDebounceTimeout(setTimeout(() => setSearchTerm(input), 250));
   }, [input]);
 
@@ -160,6 +170,21 @@ export function SearchBar() {
       block: "nearest",
     });
   }, [highlightedIndex]);
+
+  useEffect(() => {
+    if (!categoryFilter) return;
+    setInput(categories[categoryFilter as Category]?.name());
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    if (!categoryFilter) return;
+    if (input !== categories[categoryFilter as Category]?.name()) {
+      resetCategoryFilter();
+      setSearchTerm(input);
+      return;
+    }
+    setSearchTerm(undefined);
+  }, [input]);
 
   return (
     <SearchWrapper>
@@ -191,7 +216,17 @@ export function SearchBar() {
             <Spinner size="3" />
           </Flex>
         )}
-        {!isSearching && !!searchResults?.length && (
+        {!isSearching && searchResults?.length === 0 && (
+          <Flex justify="center" align="center" p="4">
+            {t`No results found!`}
+          </Flex>
+        )}
+        {!isSearching && searchError && (
+          <Flex justify="center" align="center" p="4">
+            {t`An error occurred. Please try again later!`}
+          </Flex>
+        )}
+        {!isSearching && !searchError && !!searchResults?.length && (
           <TrimmedScrollArea scrollbars="vertical">
             <SearchResultList ref={searchResultsContainer}>
               {searchResults.map((result, index) => (
@@ -204,16 +239,6 @@ export function SearchBar() {
               ))}
             </SearchResultList>
           </TrimmedScrollArea>
-        )}
-        {!isSearching && searchResults?.length === 0 && (
-          <Flex justify="center" align="center" p="4">
-            {t`No results found!`}
-          </Flex>
-        )}
-        {!isSearching && searchError && (
-          <Flex justify="center" align="center" p="4">
-            {t`An error occurred. Please try again later!`}
-          </Flex>
         )}
       </SearchDropdown>
     </SearchWrapper>
