@@ -19,7 +19,7 @@ import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLoca
 import { FixedHelpButton } from "../CombinedFeaturePanel/components/HelpButton";
 
 import { useEnvContext } from "../../lib/context/EnvContext";
-import { StyledLoadingIndicator } from "./LoadingIndictor";
+import { StyledLoadingIndicator } from "./LoadingIndicator";
 
 import { log } from "../../lib/util/logger";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";

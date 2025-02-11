@@ -52,17 +52,12 @@ export const StyledLoadingIndicator = styled(LoadingIndicator)`
     }
   }
 
- .bp5-dark .loader {
-  border-color: #f6f7f9;
- } 
- .bp5-light .loader {
-  border-color: #1c2127;
- }
  .loader {
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
     border: 2px solid;
+    border-color: var(--gray-4)
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
