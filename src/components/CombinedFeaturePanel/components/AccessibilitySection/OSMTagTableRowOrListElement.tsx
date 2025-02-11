@@ -1,10 +1,10 @@
-import { Tooltip } from "@radix-ui/themes";
+import {Tooltip} from "@radix-ui/themes";
 import styled from "styled-components";
-import { EditButton } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import { EditDropdownMenu } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
-import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
+import {EditButton} from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
+import {EditDropdownMenu} from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
+import {horizontalKeys} from "~/lib/model/osm/tag-config/horizontalKeys";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
-import type { OSMTagProps } from "./OSMTagProps";
+import type {OSMTagProps} from "./OSMTagProps";
 import StyledTag from "./StyledTag";
 
 const StyledListElement = styled.li`

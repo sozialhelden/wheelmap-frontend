@@ -1,6 +1,6 @@
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
@@ -8,7 +8,6 @@ import { unknownCategory } from "~/lib/model/ac/categories/Categories";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "../../shared/Icon";
-import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
@@ -26,7 +25,6 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
     useState<boolean>(true);
 
   const languageTags = useCurrentLanguageTagStrings();
-  const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const { category, categoryTagKeys } = useFeatureLabel({
     feature,
