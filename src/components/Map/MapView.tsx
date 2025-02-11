@@ -33,7 +33,6 @@ import { loadIconsInMapInstance } from "./useMapIconLoader";
 import { useMapViewInternals } from "./useMapInternals";
 import { uriFriendlyPosition } from "./utils";
 
-import "./mapbox-dark-mode.css";
 import { feature } from "@turf/turf";
 import { isOSMFeature } from "../../lib/model/geo/AnyFeature";
 
