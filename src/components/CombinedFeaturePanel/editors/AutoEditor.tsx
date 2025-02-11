@@ -44,6 +44,7 @@ export const AutoEditor = ({
   feature,
   tagKey,
   addingNewLanguage,
+  onClose,
 }: BaseEditorProps) => {
   const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
@@ -167,7 +168,7 @@ export const AutoEditor = ({
     [tagName, tagKey, router, finalTagName],
   );
 
-  const Editor = tagKey && getEditorForKey(tagKey);
+  const Editor = getEditorForKey(tagKey);
   if (Editor) {
     return (
       <Editor
@@ -178,6 +179,7 @@ export const AutoEditor = ({
         onSubmit={handleSubmitButtonClick}
         addingNewLanguage={addingNewLanguage}
         onLanguageChange={handleTagKeyChange}
+        onClose={onClose}
       />
     );
   }
