@@ -6,7 +6,10 @@ import React, { useContext, useState } from "react";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import { AutoEditor } from "../../editors/AutoEditor";
 
-export function EditButton({ tagKey }: { tagKey: string }) {
+export function EditButton({
+  tagKey,
+  addNewLanguage,
+}: { tagKey: string; addNewLanguage: boolean }): JSX.Element {
   const { features } = useContext(FeaturePanelContext);
   const feature = features[0].feature?.requestedFeature;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,7 +32,7 @@ export function EditButton({ tagKey }: { tagKey: string }) {
         <AutoEditor
           feature={feature}
           tagKey={tagKey}
-          addingNewLanguage={false}
+          addNewLanguage={addNewLanguage}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
