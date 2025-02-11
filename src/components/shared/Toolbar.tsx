@@ -170,29 +170,6 @@ const StyledSection = styled.section`
     margin-bottom: 10px;
   }
 
-  .link-button {
-    display: block;
-    font-size: 16px;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
-  }
-
-  button.link-button.full-width-button {
-    text-align: left;
-  }
-
-  .primary-button {
-    min-width: 8em;
-    &[disabled] {
-      pointer-events: none;
-    }
-  }
-
   &.toolbar-hidden {
     opacity: 0;
     pointer-events: none;
@@ -504,7 +481,7 @@ export default function Toolbar({
   );
 
   return (
-    <Card asChild={true} size="1">
+    <Card asChild={true} size="1" variant="ghost">
       <StyledSection
         className={filteredClassNames}
         style={{
@@ -522,6 +499,9 @@ export default function Toolbar({
             viewportHeight,
             isModal || false,
           ),
+          backgroundColor: "var(--card-background-color)",
+          WebkitBackdropFilter: "var(--backdrop-filter-panel)",
+          backdropFilter: "var(--backdrop-filter-panel)",
         }}
         ref={scrollElementRef}
         aria-hidden={inert || hidden}
