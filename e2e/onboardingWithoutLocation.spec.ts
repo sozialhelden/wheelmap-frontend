@@ -1,4 +1,4 @@
-import { test, expect } from './lib/axe-test';
+import { test, expect } from './utils/testFixture';
 
 test("has title", async ({ page }) => {
   await page.goto("/");

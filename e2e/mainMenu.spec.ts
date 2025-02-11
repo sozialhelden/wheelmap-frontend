@@ -1,6 +1,6 @@
-import { test, expect } from './lib/axe-test';
-import { skipOnDesktops, skipOnMobiles } from './lib/device-type';
-import { skipOnboarding } from './skipOnboarding';
+import { test, expect } from './utils/testFixture';
+import { skipOnDesktops, skipOnMobiles } from './utils/deviceType';
+import { skipOnboarding } from './utils/skipOnboarding';
 
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.
