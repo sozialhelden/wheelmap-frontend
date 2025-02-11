@@ -1,11 +1,19 @@
 import { HotkeysProvider } from "@blueprintjs/core";
+import { Theme, ThemePanel } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import * as React from "react";
+import "~/app/app.css";
+import "~/app/inter.css";
+import "~/app/pointer-cursor.css";
+import "~/app/reset.css";
+import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import { AppContextProvider } from "~/lib/context/AppContext";
 import CountryContext from "~/lib/context/CountryContext";
 import {
@@ -14,19 +22,11 @@ import {
 } from "~/lib/context/EnvContext";
 import { HostnameContextProvider } from "~/lib/context/HostnameContext";
 import { LanguageCodeContextProvider } from "~/lib/context/LanguageTagContext";
-import { UserAgentContextProvider } from "~/lib/context/UserAgentContext";
-import { patchFetcher } from "~/lib/util/patchClientFetch";
-import "@radix-ui/themes/styles.css";
 import StyledComponentsRegistry from "~/lib/context/Registry";
-import "~/app/reset.css";
-import "~/app/app.css";
-import "~/app/inter.css";
-import "~/app/pointer-cursor.css";
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import { ThemeProvider } from "next-themes";
-import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
+import { UserAgentContextProvider } from "~/lib/context/UserAgentContext";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
+import { patchFetcher } from "~/lib/util/patchClientFetch";
 import {
   getRequestCountryCode,
   getRequestHostname,
@@ -35,6 +35,16 @@ import {
   getRequestUserAgentString,
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
+
+import "../css/app.css";
+import "../css/colors/accessibility.css";
+import "../css/colors/base.css";
+import "../css/colors/link.css";
+import "../css/fonts.css";
+import "../css/inter.css";
+import "../css/pointer-cursor.css";
+import "../css/reset.css";
+
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
