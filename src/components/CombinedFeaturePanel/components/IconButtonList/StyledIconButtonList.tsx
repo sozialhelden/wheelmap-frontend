@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import colors from "../../../../lib/util/colors";
 
 const StyledIconButtonList = styled.ul`
   display: flex;
@@ -29,6 +28,7 @@ const StyledIconButtonList = styled.ul`
       text-overflow: ellipsis;
       font-weight: 500;
       text-decoration: none;
+      color: var(--accent-12);
     }
 
     svg {
@@ -40,12 +40,12 @@ const StyledIconButtonList = styled.ul`
       rect,
       circle,
       path {
-        fill: ${colors.tonedDownSelectedColor};
+        fill: var(--accent-12);
       }
     }
 
     &:not(:hover) {
-      color: ${colors.textColorTonedDown};
+      color: var(--accent-12);
     }
   }
 `;

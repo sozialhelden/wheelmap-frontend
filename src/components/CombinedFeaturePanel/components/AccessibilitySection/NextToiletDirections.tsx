@@ -3,7 +3,6 @@ import { t } from "ttag";
 import { useNearbyFeatures } from "../../../../lib/fetchers/osm-api/fetchNearbyFeatures";
 import { hasAccessibleToilet } from "../../../../lib/model/ac/Feature";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
-import colors from "../../../../lib/util/colors";
 import { formatDistance } from "../../../../lib/util/strings/formatDistance";
 import { PlaceholderSpan } from "../../../shared/Placeholder";
 
@@ -20,11 +19,7 @@ export default function NextToiletDirections({
   const caption = t`Next wheelchair-accessible WC`;
 
   if (isLoading) {
-    return (
-      <PlaceholderSpan color={colors.linkColor}>
-        {caption} 100 m →
-      </PlaceholderSpan>
-    );
+    return <PlaceholderSpan>{caption} 100 m →</PlaceholderSpan>;
   }
   const nextToilet = nearbyFeatures?.[0];
   if (!nextToilet) {
