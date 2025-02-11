@@ -2,23 +2,15 @@ import {
   AlertDialog,
   Box,
   Button,
-  Dialog,
   Flex,
   Spinner,
   VisuallyHidden,
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import { cx } from "../../lib/util/cx";
-import { CallToActionButton, SecondaryButton } from "../shared/Button";
 import StyledMarkdown from "../shared/StyledMarkdown";
-import {
-  DenyLocationPermissionText,
-  GrantLocationPermissionText,
-  LocationStepPrimaryText,
-} from "./getProductName";
 
 type Stage = "idle" | "acquiring" | "failed-not-exited";
 
