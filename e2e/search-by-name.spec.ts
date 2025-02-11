@@ -1,15 +1,12 @@
-import { expect, test } from "@playwright/test";
-import getBaseURL from "./lib/base-url";
-import { skipOnboarding } from "./skipOnboarding";
-
-const baseURL = getBaseURL();
+import { test, expect } from '@playwright/test';
+import { skipOnboarding } from './skipOnboarding';
 
 test("search by name", async ({ page }) => {
   test.skip(
     true,
     "This is still flaky, because the search toolbar is sometimes re-rendered and cleared after entering something.",
   );
-  await page.goto(baseURL);
+  await page.goto("/");
   await skipOnboarding(page);
   await expect(page.getByRole("dialog")).not.toBeVisible();
 
