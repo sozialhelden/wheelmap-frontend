@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { skipOnboarding } from './skipOnboarding';
+import { skipOnboarding } from './utils/skipOnboarding';
 
 test("search by name", async ({ page }) => {
   test.skip(
