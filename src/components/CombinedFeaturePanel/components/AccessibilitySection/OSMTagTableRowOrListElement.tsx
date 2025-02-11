@@ -1,9 +1,9 @@
 import { Tooltip } from "@radix-ui/themes";
 import styled from "styled-components";
+import { EditButton } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { EditDropdownMenu } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
-import { EditButton } from "./EditButton";
 import type { OSMTagProps } from "./OSMTagProps";
 import StyledTag from "./StyledTag";
 
@@ -73,10 +73,11 @@ export function OSMTagTableRowOrListElement({
 
   const valueIsString = typeof valueElement === "string";
   const valueIsNumber = typeof valueElement === "number";
+
   const editControls = isLanguageTagged ? (
-    <EditDropdownMenu editURL={editURL} />
+    <EditDropdownMenu tagKey={tagKey} />
   ) : isEditable ? (
-    <EditButton editURL={editURL} />
+    <EditButton tagKey={tagKey} />
   ) : null;
 
   const displayedValueContent = valueIsString ? (
