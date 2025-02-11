@@ -26,6 +26,7 @@ import "../css/pointer-cursor.css";
 import "../css/colors/base.css";
 import "../css/colors/accessibility.css";
 import "../css/colors/link.css";
+import "../components/Map/mapbox-dark-mode.css";
 
 import { AppContextProvider } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
