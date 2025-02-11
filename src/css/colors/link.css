@@ -1,4 +1,5 @@
-a,
-a:visited {
+/* Use Radix' default accent color as fallback for non-Radix-styled links. */
+a:not(.rt-reset),
+a:visited:not(.rt-reset) {
   color: var(--accent-11);
 }
