@@ -17,10 +17,16 @@ import {
   getRequestUserAgentString,
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
-import "../app/app.css";
-import "../app/inter.css";
-import "../app/pointer-cursor.css";
-import "../app/reset.css";
+
+import "../css/reset.css";
+import "../css/app.css";
+import "../css/fonts.css";
+import "../css/inter.css";
+import "../css/pointer-cursor.css";
+import "../css/colors/base.css";
+import "../css/colors/accessibility.css";
+import "../css/colors/link.css";
+
 import { AppContextProvider } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
 import {
