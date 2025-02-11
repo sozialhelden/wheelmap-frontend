@@ -2,8 +2,8 @@ import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
-import type { NeedCategory, NeedProperties } from "~/config/needs";
-import { useNeeds } from "~/hooks/useNeeds";
+import type { NeedCategory, NeedProperties } from "~/domains/needs/needs";
+import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
@@ -26,7 +26,7 @@ const HelpText = styled(Text)<{ $isVisible: boolean }>`
   transition: all 300ms ease;
 `;
 
-export const NeedsSection = forwardRef(function NeedsSection(
+export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
   {
     category,
     onValueChange,

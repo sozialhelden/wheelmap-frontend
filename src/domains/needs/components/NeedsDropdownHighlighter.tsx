@@ -1,11 +1,11 @@
 import { type ReactNode, type RefObject, createContext } from "react";
 import styled from "styled-components";
-import { useNeedsHighlighterPosition } from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterPosition";
+import { useNeedsHighlighterPosition } from "~/domains/needs/components/hooks/useNeedsHighlighterPosition";
 import {
   type SectionRefSetter,
   useNeedsHighlighterRefs,
-} from "~/components/TopBar/NeedsPicker/hooks/useNeedsHighlighterRefs";
-import type { NeedCategory } from "~/config/needs";
+} from "~/domains/needs/components/hooks/useNeedsHighlighterRefs";
+import type { NeedCategory } from "~/domains/needs/needs";
 
 const HighlighterContainer = styled.div`
   position: relative;
@@ -35,7 +35,7 @@ export const HighlighterContext = createContext<HighlighterContext>({
   setSectionRef() {},
 });
 
-export function NeedsHighlighter({
+export function NeedsDropdownHighlighter({
   highlightedSection,
   showHighlightTransition,
   children,
