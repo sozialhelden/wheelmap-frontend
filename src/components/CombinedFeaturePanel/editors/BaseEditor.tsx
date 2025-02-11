@@ -9,6 +9,7 @@ export type BaseEditorProps = {
   onSubmit?: () => void;
   addingNewLanguage?: boolean;
   onLanguageChange?: (languageTag: string) => void;
+  onClose?: () => void;
 };
 
 export type BaseEditorComponent = React.FC<BaseEditorProps>;
