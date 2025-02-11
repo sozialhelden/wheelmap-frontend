@@ -114,7 +114,7 @@ export function getOSMTagProps({
   const { hasLanguageTagSupport } =
     normalizeAndExtractLanguageTagsIfPresent(key);
 
-  const tagProps: OSMTagProps = {
+  return {
     tagKey: key,
     hasDisplayedKey,
     keyLabel,
@@ -127,5 +127,4 @@ export function getOSMTagProps({
     keyDetails,
     isHorizontal: horizontalKeys.has(key),
   };
-  return tagProps;
 }
