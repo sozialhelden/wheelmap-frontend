@@ -1,7 +1,7 @@
 import { Button, DropdownMenu, ScrollArea, Theme } from "@radix-ui/themes";
 import styled from "styled-components";
 import { t } from "ttag";
-import type { Category } from "~/config/categories";
+import type { Category } from "~/domains/categories/categories";
 import { useCategories } from "~/lib/useCategories";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 

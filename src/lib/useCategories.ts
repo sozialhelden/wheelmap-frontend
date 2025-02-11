@@ -2,7 +2,7 @@ import {
   type Category,
   type CategoryProperties,
   categories,
-} from "~/config/categories";
+} from "~/domains/categories/categories";
 
 export function useCategories() {
   return {

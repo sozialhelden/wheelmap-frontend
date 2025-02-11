@@ -9,11 +9,7 @@ import { useCallback } from "react";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import useCategory from "~/lib/fetchers/ac/refactor-this/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type { ACCategory } from "~/lib/model/ac/categories/ACCategory";
-import {
-  getLocalizedCategoryName,
-  unknownCategory,
-} from "~/lib/model/ac/categories/Categories";
+import type { ACCategory } from "~/domains/categories/types/ACCategory";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
@@ -25,6 +21,8 @@ import {
   type EnrichedSearchResult,
   mapResultToUrlObject,
 } from "./EnrichedSearchResult";
+import {unknownCategory} from "~/domains/categories/functions/cache";
+import {getLocalizedCategoryName} from "~/domains/categories/functions/localization";
 
 type Props = {
   className?: string;

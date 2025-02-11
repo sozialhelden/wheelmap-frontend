@@ -1,10 +1,7 @@
-import * as React from "react";
-import {
-  getCategoryForFeature,
-  unknownCategory,
-} from "../../../model/ac/categories/Categories";
-import type { AnyFeature } from "../../../model/geo/AnyFeature";
-import { useCategorySynonymCache } from "./fetchAccessibilityCloudCategories";
+import * as React from 'react'
+import { AnyFeature } from '../../../model/geo/AnyFeature'
+import { useCategorySynonymCache } from './fetchAccessibilityCloudCategories'
+import {getCategoryForFeature, unknownCategory} from "~/domains/categories/functions/cache";
 
 export default function useCategory(
   ...features: (AnyFeature | null | undefined)[]

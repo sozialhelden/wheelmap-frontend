@@ -1,13 +1,13 @@
-import type * as React from "react";
+import * as React from "react";
 import styled from "styled-components";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
-import { getLocalizedCategoryName } from "../../lib/model/ac/categories/Categories";
+import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import colors from "../../lib/util/colors";
-import { log } from "../../lib/util/logger";
 import * as categoryIcons from "../icons/categories";
 import * as mainCategoryIcons from "../icons/mainCategories";
 import * as markers from "../icons/markers";
+import { log } from "../../lib/util/logger";
+import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
+import {getLocalizedCategoryName} from "~/domains/categories/functions/localization";
 
 type Size = "big" | "medium" | "small";
 

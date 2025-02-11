@@ -1,8 +1,9 @@
-import useSWR from "swr";
-import { useCurrentAppToken } from "../../../context/AppContext";
-import { useEnvContext } from "../../../context/EnvContext";
-import type { ACCategory } from "../../../model/ac/categories/ACCategory";
-import { generateSynonymCache } from "../../../model/ac/categories/Categories";
+import useSWR from 'swr'
+import { useCurrentAppToken } from '../../../context/AppContext'
+import { useEnvContext } from '../../../context/EnvContext'
+import { ACCategory } from '../../../../domains/categories/types/ACCategory'
+
+import {generateSynonymCache} from "~/domains/categories/functions/cache";
 
 export async function fetchAccessibilityCloudCategories([appToken, baseUrl]: [
   string,

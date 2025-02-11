@@ -12,10 +12,10 @@ import { useMap } from "~/components/Map/useMap";
 import { makeFeatureId } from "~/components/SearchPanel/EnrichedSearchResult";
 import { SearchResult } from "~/components/SearchPanel/SearchResult";
 import { useEnrichedSearchResults } from "~/components/SearchPanel/useEnrichedSearchResults";
-import { type Category, categories } from "~/config/categories";
+import { type Category, categories } from "~/domains/categories/categories";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
-import { getLocalizedCategoryName } from "~/lib/model/ac/categories/Categories";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import {getLocalizedCategoryName} from "~/domains/categories/functions/localization";
 
 const SearchWrapper = styled.div`
     position: relative;
