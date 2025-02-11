@@ -1,4 +1,4 @@
-import { test, expect } from './utils/testFixture';
+import { test, expect } from './setup/test-fixture';
 
 test("has title", async ({ page }) => {
   await page.goto("/");
