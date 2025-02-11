@@ -43,7 +43,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
         <AutoEditor
           feature={feature}
           tagKey={tagKey}
-          addingNewLanguage={addingNewLanguage}
+          addNewLanguage={addingNewLanguage}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
