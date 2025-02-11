@@ -1,3 +1,4 @@
-a {
+a,
+a:visited {
   color: var(--accent-11);
 }
