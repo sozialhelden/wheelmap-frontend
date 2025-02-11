@@ -9,6 +9,6 @@ export default function AddWheelchairDescription() {
   const languageTags = useCurrentLanguageTagStrings();
   const normalizedLanguageTag = normalizeLanguageTag(languageTags[0]);
   const key = `wheelchair:description:${normalizedLanguageTag}`;
-  const editButton = <EditButton tagKey={key} addingNewLanguage={true} />;
+  const editButton = <EditButton tagKey={key} addNewLanguage={true} />;
   return editButton;
 }

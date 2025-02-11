@@ -43,7 +43,7 @@ function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
 export const AutoEditor = ({
   feature,
   tagKey,
-  addingNewLanguage,
+  addNewLanguage,
   onClose,
 }: BaseEditorProps) => {
   const router = useRouter();
@@ -177,7 +177,7 @@ export const AutoEditor = ({
         onChange={setEditedTagValue}
         onUrlMutationSuccess={onUrlMutationSuccess}
         onSubmit={handleSubmitButtonClick}
-        addingNewLanguage={addingNewLanguage}
+        addingNewLanguage={addNewLanguage}
         onLanguageChange={handleTagKeyChange}
         onClose={onClose}
       />
