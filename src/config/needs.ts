@@ -59,6 +59,7 @@ export const settings = {
         icon: FullyWheelchairAccessibleToiletIcon,
         legacyQueryParams: ["yes"],
       },
+      // Would be nice, but we currently have no way to filter for it
       // "toilet-present": {
       //   label: () => t`Has a toilet`,
       //   icon: ToiletPresentIcon,
@@ -70,17 +71,23 @@ export const settings = {
   },
 } as const;
 
+// Complete configuration of all available needs and their respective categories
+export type NeedSettings = typeof settings;
+// Identifier for a category that groups multiple needs
+export type NeedCategory = keyof NeedSettings;
+// All the properties each individual need has
 export type NeedProperties = {
   label: () => string;
   help?: () => string;
   icon?: FC;
   legacyQueryParams?: Readonly<string[]>;
 };
-export type NeedSettings = typeof settings;
-export type NeedCategory = keyof NeedSettings;
+// A map that contains what need has been selected for each available category
 export type NeedSelection = {
   [key in NeedCategory]: keyof (typeof settings)[key]["needs"] | undefined;
 };
+// A map that contains all the properties of the selected need for each
+// available category
 export type Needs = {
   [key in NeedCategory]?: NeedProperties;
 };
