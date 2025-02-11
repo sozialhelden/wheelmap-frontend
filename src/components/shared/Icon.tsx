@@ -102,7 +102,7 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
         fill: ${(props) =>
           props.accessibility
             ? `var(--rating-${props.accessibility}-contrast)`
-            : props.foregroundColor || "var(--accent-12)"};
+            : props.foregroundColor || "var(--accent-contrast)"};
       }
     }
   }

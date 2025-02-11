@@ -33,7 +33,7 @@ export const StyledCategoryIconButton = styled(IconButton)`
   }
 
   ${Circle} {
-    background-color: var(--accent-a11);
+    background-color: var(--accent-a5);
     margin: 2.5px;
 
     svg.icon {
