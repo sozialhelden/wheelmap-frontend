@@ -1,59 +1,30 @@
-import type UAParser from "ua-parser-js";
-import openButtonCaption from "../../openButtonCaption";
+import { centerOfMass } from "@turf/turf";
 import type { AnyFeature } from "./AnyFeature";
 
-// see https://developer.android.com/guide/components/intents-common#Maps
-export function generateGeoUrl(feature: AnyFeature, placeName: string) {
-  if (!feature.geometry || !Array.isArray(feature.geometry.coordinates))
-    return null;
-  const coords = feature.geometry.coordinates;
-  return `geo:${coords[1]},${coords[0]}?q=${coords[1]},${
-    coords[0]
-  }(${encodeURIComponent(placeName)})`;
-}
-
-// see https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
-export function generateAppleMapsUrl(feature: AnyFeature, placeName: string) {
-  if (!feature.geometry || !Array.isArray(feature.geometry.coordinates))
-    return null;
-  const coords = feature.geometry.coordinates;
-  return `http://maps.apple.com/?ll=${coords[1]},${
-    coords[0]
-  }&q=${encodeURIComponent(placeName)}`;
-}
-
-// see https://docs.microsoft.com/en-us/previous-versions/windows/apps/jj635237(v=win.10)
-export function generateBingMapsUrl(feature: AnyFeature, placeName: string) {
-  if (!feature.geometry || !Array.isArray(feature.geometry.coordinates))
-    return null;
-  const coords = feature.geometry.coordinates;
-  return `bingmaps:?collection=point.${coords[1]}_${
-    coords[0]
-  }_${encodeURIComponent(placeName)}`;
-}
-
 export function generateMapsUrl(
-  userAgent: UAParser.IResult,
+  userAgent: UAParser.IResult | undefined | null,
   feature: AnyFeature,
   placeName: string,
 ) {
-  const osName = userAgent.os.name;
+  const osName = userAgent?.os.name;
 
-  if (osName) {
-    const isBingMaps = osName.match(/^Windows/);
-    const isAppleMaps = osName === "Mac OS" || osName === "iOS";
+  if (!feature.geometry || !osName) return null;
 
-    if (isBingMaps) {
-      const caption = openButtonCaption("Bing Maps");
-      return { url: generateBingMapsUrl(feature, placeName), caption };
-    }
+  const center = centerOfMass(feature.geometry);
+  const [lon, lat] = center.geometry?.coordinates ?? [];
 
-    if (isAppleMaps) {
-      const caption = openButtonCaption("Apple Maps");
-      return { url: generateAppleMapsUrl(feature, placeName), caption };
-    }
+  if (!lat || !lon) return null;
+
+  if (osName.match(/^Windows/)) {
+    // see https://docs.microsoft.com/en-us/previous-versions/windows/apps/jj635237(v=win.10)
+    return `bingmaps:?collection=point.${lat}_${lon}_${encodeURIComponent(placeName)}`;
   }
 
-  const caption = openButtonCaption("Maps app");
-  return { url: generateGeoUrl(feature, placeName), caption };
+  if (osName === "Mac OS" || osName === "iOS") {
+    // see https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
+    return `http://maps.apple.com/?ll=${lat},${lon}&q=${encodeURIComponent(placeName)}`;
+  }
+
+  // see https://developer.android.com/guide/components/intents-common#Maps
+  return `geo:${lat},${lon}?q=${lat},${lon}(${encodeURIComponent(placeName)})`;
 }

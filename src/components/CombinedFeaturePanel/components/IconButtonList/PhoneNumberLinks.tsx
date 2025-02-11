@@ -3,6 +3,7 @@ import Link from "next/link";
 import { t } from "ttag";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import PhoneIcon from "../../../icons/actions/Phone";
+import { CaptionedIconButton } from "./CaptionedIconButton";
 
 type Props = {
   feature: AnyFeature;
@@ -16,15 +17,12 @@ function SinglePhoneNumberLink({
   extraInfo?: string;
 }) {
   return (
-    <li>
-      <Link href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}>
-        <PhoneIcon />
-        <span>
-          {t`Call ${phoneNumber}`}
-          {extraInfo && ` (${extraInfo})`}
-        </span>
-      </Link>
-    </li>
+    <CaptionedIconButton
+      href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}
+      icon={<PhoneIcon />}
+      caption={t`Call`}
+      extraInfo={extraInfo}
+    />
   );
 }
 

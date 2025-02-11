@@ -16,7 +16,7 @@ export default function NextToiletDirections({
   } = useNearbyFeatures(shouldShowNextToilets && feature, {
     wheelchair: "yes",
   });
-  const caption = t`Next wheelchair-accessible WC`;
+  const caption = t`Nearest wheelchair-accessible WC`;
 
   if (isLoading) {
     return <PlaceholderSpan>{caption} 100 m →</PlaceholderSpan>;

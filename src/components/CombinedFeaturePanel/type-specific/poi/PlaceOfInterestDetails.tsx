@@ -1,4 +1,5 @@
 import { Callout } from "@blueprintjs/core";
+import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import { bbox } from "@turf/turf";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -10,6 +11,7 @@ import {
 } from "../../../../lib/model/geo/AnyFeature";
 import { AppStateLink } from "../../../App/AppStateLink";
 import { useMap } from "../../../Map/useMap";
+import SvgFlag from "../../../icons/actions/Flag";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import FeatureAccessibility from "../../components/AccessibilitySection/FeatureAccessibility";
 import NextToiletDirections from "../../components/AccessibilitySection/NextToiletDirections";
@@ -19,6 +21,7 @@ import { FeatureGallery } from "../../components/FeatureGallery";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
 import FeaturesDebugJSON from "../../components/FeaturesDebugJSON";
 import AddressMapsLinkItems from "../../components/IconButtonList/AddressMapsLinkItems";
+import { CaptionedIconButton } from "../../components/IconButtonList/CaptionedIconButton";
 import ExternalInfoAndEditPageLinks from "../../components/IconButtonList/ExternalInfoAndEditPageLinks";
 import PhoneNumberLinks from "../../components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "../../components/IconButtonList/PlaceWebsiteLink";
@@ -101,9 +104,12 @@ export default function PlaceOfInterestDetails({
         {/*
         <ShareButtons {...props} />
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
+        <CaptionedIconButton
+          href={`${baseFeatureUrl}/report`}
+          icon={<SvgFlag />}
+          caption={t`Report`}
+        />
       </StyledIconButtonList>
-
-      <AppStateLink href={`${baseFeatureUrl}/report`}>{t`Report`}</AppStateLink>
     </FeatureContext.Provider>
   );
 }
