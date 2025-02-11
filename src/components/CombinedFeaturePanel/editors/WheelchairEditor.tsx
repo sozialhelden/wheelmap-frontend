@@ -1,18 +1,16 @@
-import { Button, Dialog, Flex } from "@radix-ui/themes";
-import type React from "react";
-import { useEffect, useState } from "react";
-import { t } from "ttag";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
-import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
-import { unknownCategory } from "~/lib/model/ac/categories/Categories";
-import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
+import { Button, Link } from "@radix-ui/themes";
+import React, { useEffect, useState } from "react";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
+import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
+import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "../../shared/Icon";
 import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
+import {unknownCategory} from "~/domains/categories/functions/cache";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,

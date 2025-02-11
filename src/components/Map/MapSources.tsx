@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import * as React from "react";
 import { Source } from "react-map-gl/mapbox";
-import { categories } from "~/config/categories";
+import { categories } from "~/domains/categories/categories";
 import { useEnvContext } from "../../lib/context/EnvContext";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";

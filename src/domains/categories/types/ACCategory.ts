@@ -1,4 +1,4 @@
-import type { LocalizedString } from "../../../i18n/LocalizedString";
+import { LocalizedString } from '~/lib/i18n/LocalizedString'
 
 export type ACCategory = {
   _id: string;
