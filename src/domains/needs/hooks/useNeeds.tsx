@@ -1,30 +1,17 @@
+import {createContext, type ReactNode, useContext, useMemo, useState,} from "react";
 import {
-  type ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+    categories,
+    emptyNeeds,
+    type NeedCategory,
+    type Needs,
+    type NeedSelection,
+    type NeedSettings,
+    settings,
+} from "~/domains/needs/needs";
 import {
-  type NeedCategory,
-  type NeedSelection,
-  type NeedSettings,
-  type Needs,
-  settings,
-} from "~/config/needs";
-import {
-  useLegacyA11yFilterQueryParams,
-  useLegacyA11yFilterQueryParamsDefaultSelection,
-} from "~/hooks/useLegacyA11yFilterQueryParams";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
-
-export const categories = Object.entries(settings).map(
-  ([category]) => category as NeedCategory,
-);
-export const emptyNeeds = Object.fromEntries(
-  categories.map((category) => [category, undefined]),
-) as NeedSelection;
+    useSyncWithLegacyA11yFilterQueryParams,
+    useLegacyA11yFilterQueryParamsDefaultSelection,
+} from "~/domains/needs/hooks/useLegacyA11yFilterQueryParams";
 
 type NeedsContext = {
   needs: Needs;
@@ -56,7 +43,7 @@ export function NeedsContextProvider({ children }: { children: ReactNode }) {
     [selection],
   );
 
-  useLegacyA11yFilterQueryParams({ needs });
+  useSyncWithLegacyA11yFilterQueryParams({ needs });
 
   return (
     <NeedsContext.Provider

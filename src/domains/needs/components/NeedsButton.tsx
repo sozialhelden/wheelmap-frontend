@@ -1,9 +1,9 @@
 import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
-import { type RefObject, forwardRef } from "react";
+import {forwardRef, Ref} from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { useNeeds } from "~/hooks/useNeeds";
-import NeedsIcon from "~/icons/NeedsIcon";
+import { useNeeds } from "~/domains/needs/hooks/useNeeds";
+import NeedsIcon from "~/components/icons/needs/NeedsIcon";
 
 const StyledButton = styled(Button)`
   max-width: 100%;
@@ -20,7 +20,6 @@ const IconWrapper = styled.span`
   justify-content: center;
   align-items: center;
   border-radius: 9999px;
-  // --space-4 is the spacing used by the parent radix button Button in size 3
   flex-shrink: 0;
 `;
 const NumberBadge = styled.span`
@@ -39,25 +38,26 @@ const NumberBadge = styled.span`
   font-size: .85rem;
 `;
 
-export const NeedsButton = forwardRef(function NeedsButton(props, ref) {
+export const NeedsButton = forwardRef(function NeedsButton(props, ref: Ref<HTMLButtonElement>) {
   const { needs: needsMap } = useNeeds();
 
   const needs = Object.values(needsMap);
   const needsWithIcon = needs.filter(({ icon }) => Boolean(icon));
 
-  return (
+    return (
     <Theme radius="full" asChild>
       <StyledButton
         {...props}
+        ref={ref}
         variant="soft"
         size="3"
-        ref={ref as RefObject<HTMLButtonElement>}
       >
         {needs.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
         {needsWithIcon.length > 0 && (
           <Flex gap="2" ml="3" aria-hidden>
             {needsWithIcon.map(({ label, icon: Icon }) => (
               <Tooltip content={`${label()}`} key={label()}>
+                {/* @ts-ignore */}
                 <Icon />
               </Tooltip>
             ))}

@@ -2,14 +2,14 @@ import { Grid, ScrollArea, Theme, VisuallyHidden } from "@radix-ui/themes";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { NeedsButtonSection } from "~/components/TopBar/NeedsPicker/NeedsButtonSection";
-import type { NeedSelection } from "~/config/needs";
-import { useNeeds } from "~/hooks/useNeeds";
-import { NeedsButton } from "./NeedsPicker/NeedsButton";
-import { NeedsHighlighter } from "./NeedsPicker/NeedsHighlighter";
-import { NeedsHighlighterSectionContainer } from "./NeedsPicker/NeedsHighlighterSectionContainer";
-import { NeedsSection } from "./NeedsPicker/NeedsSection";
-import { useNeedsHighlighterSections } from "./NeedsPicker/hooks/useNeedsHighlighterSections";
+import { NeedsDropdownButtonSection } from "~/domains/needs/components/NeedsDropdownButtonSection";
+import type { NeedSelection } from "~/domains/needs/needs";
+import { useNeeds } from "~/domains/needs/hooks/useNeeds";
+import { NeedsButton } from "./NeedsButton";
+import { NeedsDropdownHighlighter } from "./NeedsDropdownHighlighter";
+import { NeedsDropdownHighlighterSectionContainer } from "./NeedsDropdownHighlighterSectionContainer";
+import { NeedsDropdownSection } from "./NeedsDropdownSection";
+import { useNeedsHighlighterSections } from "~/domains/needs/components/hooks/useNeedsHighlighterSections";
 
 const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
   animation: showOverlay 400ms ease-out;
@@ -106,23 +106,23 @@ export default function NeedsPicker() {
               scrollbars="vertical"
               style={{ height: "auto" }}
             >
-              <NeedsHighlighter
+              <NeedsDropdownHighlighter
                 highlightedSection={highlightedSection}
                 showHighlightTransition={showHighlightTransition}
               >
                 <Grid columns={{ initial: "1fr", sm: "1fr 1fr max-content" }}>
                   {sections.map((section) => (
-                    <NeedsHighlighterSectionContainer
+                    <NeedsDropdownHighlighterSectionContainer
                       section={section}
                       key={section}
                     >
                       {section === "buttons" ? (
-                        <NeedsButtonSection
+                        <NeedsDropdownButtonSection
                           onSaveButtonClick={save}
                           onResetButtonClick={reset}
                         />
                       ) : (
-                        <NeedsSection
+                        <NeedsDropdownSection
                           category={section}
                           value={selection[section]}
                           onValueChange={(value) =>
@@ -133,10 +133,10 @@ export default function NeedsPicker() {
                           }
                         />
                       )}
-                    </NeedsHighlighterSectionContainer>
+                    </NeedsDropdownHighlighterSectionContainer>
                   ))}
                 </Grid>
-              </NeedsHighlighter>
+              </NeedsDropdownHighlighter>
             </ScrollArea>
           </NeedsDialogContent>
         </Theme>

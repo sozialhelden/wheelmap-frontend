@@ -1,21 +1,21 @@
 import { Button, Flex, Theme } from "@radix-ui/themes";
-import { type RefObject, forwardRef } from "react";
+import { forwardRef, Ref} from "react";
 import { t } from "ttag";
 
-export const NeedsButtonSection = forwardRef(function NeedsButtonSection(
+export const NeedsDropdownButtonSection = forwardRef(function NeedsDropdownButtonSection(
   {
     onSaveButtonClick,
     onResetButtonClick,
     ...props
   }: { onSaveButtonClick: () => void; onResetButtonClick: () => void },
-  ref,
+  ref: Ref<HTMLDivElement>,
 ) {
   return (
     <Theme
       {...props}
+      ref={ref}
       asChild
       radius="medium"
-      ref={ref as RefObject<HTMLDivElement>}
     >
       <Flex
         p="6"

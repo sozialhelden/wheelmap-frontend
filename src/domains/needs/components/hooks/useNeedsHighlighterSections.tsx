@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import type { Section } from "~/components/TopBar/NeedsPicker/NeedsHighlighter";
-import type { NeedCategory, NeedSelection } from "~/config/needs";
-import { categories } from "~/hooks/useNeeds";
+import type { Section } from "~/domains/needs/components/NeedsDropdownHighlighter";
+import {categories, NeedCategory, NeedSelection} from "~/domains/needs/needs";
 
 export const sections: Section[] = [...categories, "buttons"];
 
