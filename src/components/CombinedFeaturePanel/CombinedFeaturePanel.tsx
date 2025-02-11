@@ -1,5 +1,5 @@
 import { useHotkeys } from "@blueprintjs/core";
-import { Box, Callout } from "@radix-ui/themes";
+import { Box, Callout, Flex, Inset, Separator } from "@radix-ui/themes";
 import { uniqBy } from "lodash";
 import React, { useMemo, useState } from "react";
 import { t } from "ttag";
@@ -23,7 +23,7 @@ type Props = {
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
   if (!isOSMFeature(feature)) {
-    return <section>Feature type not supported</section>;
+    return null;
   }
 
   if (feature.properties.building) {
@@ -37,11 +37,7 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
     return <OSMSidewalkDetails feature={feature} />;
   }
 
-  return (
-    <section>
-      <h2>Feature type not supported</h2>
-    </section>
-  );
+  return null;
 }
 
 export function CombinedFeaturePanel(props: Props) {
@@ -67,7 +63,13 @@ export function CombinedFeaturePanel(props: Props) {
   return (
     <React.StrictMode>
       <ErrorBoundary>
-        <Box onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+        <Flex
+          gap="4"
+          direction="column"
+          align="stretch"
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
+        >
           {features[0] && (
             <PlaceOfInterestDetails
               feature={features[0]}
@@ -75,8 +77,16 @@ export function CombinedFeaturePanel(props: Props) {
               isUploadDialogOpen={props.isUploadDialogOpen}
             />
           )}
+
           {surroundings?.map((feature) => (
-            <FeatureSection key={getKey(feature)} feature={feature} />
+            <>
+              <Inset side="x" key={`${getKey(feature)}-separator`}>
+                <Separator orientation="horizontal" size="4" />
+              </Inset>
+              <Box key={getKey(feature)}>
+                <FeatureSection feature={feature} />
+              </Box>
+            </>
           ))}
 
           {(!features || features.length === 0) && (
@@ -86,7 +96,7 @@ export function CombinedFeaturePanel(props: Props) {
           )}
 
           <p>{showDebugger && <FeaturesDebugJSON features={features} />}</p>
-        </Box>
+        </Flex>
       </ErrorBoundary>
     </React.StrictMode>
   );
