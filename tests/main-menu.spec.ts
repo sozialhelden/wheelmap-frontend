@@ -1,6 +1,6 @@
-import { test, expect } from './utils/testFixture';
-import { skipOnDesktops, skipOnMobiles } from './utils/deviceType';
-import { skipOnboarding } from './utils/skipOnboarding';
+import { test, expect } from '../../../../e2e/setup/test-fixture';
+import { skipOnDesktops, skipOnMobiles } from '../../../../e2e/utils/device-type';
+import { skipOnboarding } from '../../../../e2e/utils/skip-onboarding';
 
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.

@@ -1,5 +1,5 @@
 import { test, expect } from 'playwright-test-coverage';
-import { skipOnboarding } from './utils/skipOnboarding';
+import { skipOnboarding } from '../../../../tests/utils/skip-onboarding';
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
