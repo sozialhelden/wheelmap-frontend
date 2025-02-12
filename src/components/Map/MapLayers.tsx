@@ -1,7 +1,7 @@
 import { useHotkeys } from "@blueprintjs/core";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import type { LayerProps } from "react-map-gl";
+import type { LayerProps } from "react-map-gl/mapbox";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { MapLayer } from "./MapLayer";

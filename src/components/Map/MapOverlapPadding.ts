@@ -1,5 +1,5 @@
 import { debounce } from "lodash";
-import type { MapRef } from "react-map-gl";
+import type { MapRef } from "react-map-gl/mapbox";
 
 interface Rect {
   top: number;

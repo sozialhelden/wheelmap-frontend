@@ -10,7 +10,7 @@ import {
   NavigationControl,
   Map as ReactMapGL,
   type ViewStateChangeEvent,
-} from "react-map-gl";
+} from "react-map-gl/mapbox";
 
 import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
