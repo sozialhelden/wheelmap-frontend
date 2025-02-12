@@ -9,6 +9,9 @@ const Container = styled.div`
   display: flex;
   gap: 0.5rem;
   padding: 0 .5rem;
+  @media (max-width: 768px) {
+    margin-bottom: .75rem;
+  }
 `;
 const StyledButton = styled(Button)`
   background: var(--color-panel);

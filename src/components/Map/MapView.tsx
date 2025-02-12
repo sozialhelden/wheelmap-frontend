@@ -16,13 +16,12 @@ import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLocation";
-import { FixedHelpButton } from "../CombinedFeaturePanel/components/HelpButton";
 
-import { useEnvContext } from "../../lib/context/EnvContext";
+import { useEnvContext } from "~/lib/context/EnvContext";
 import { StyledLoadingIndicator } from "./LoadingIndictor";
 
-import { log } from "../../lib/util/logger";
-import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+import { log } from "~/lib/util/logger";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import { useDarkMode } from "../shared/useDarkMode";
 import { AcPoiLayers } from "./AcPoiLayers";
 import { GeolocateButton } from "./GeolocateButton";
@@ -211,11 +210,15 @@ export default function MapView(props: IProps) {
             <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
           )}
           {mapLoaded && <AcPoiLayers />}
-          <NavigationControl style={{ right: "1rem", top: "1rem" }} />
           <GeolocateButton />
+          <NavigationControl
+            position="bottom-right"
+            showZoom={true}
+            visualizePitch={true}
+            showCompass={true}
+          />
         </ReactMapGL>
       </MapProvider>
-      <FixedHelpButton />
       <StyledLoadingIndicator />
     </>
   );
