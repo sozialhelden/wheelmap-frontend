@@ -4,6 +4,8 @@ import {
   categories,
 } from "~/domains/categories/categories";
 
+export type CategoryListItem = CategoryProperties & { id: Category };
+
 export function getCategoryList() {
   return Object.entries(categories)
     .map(([id, category]) => {
@@ -14,5 +16,5 @@ export function getCategoryList() {
     })
     .sort((a: CategoryProperties, b: CategoryProperties) => {
       return (a.priority ?? 9999) - (b.priority ?? 9999);
-    }) as (CategoryProperties & { id: Category })[];
+    }) as CategoryListItem[];
 }

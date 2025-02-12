@@ -1,23 +1,25 @@
-import { test, expect } from './setup/test-fixture';
-import { skipOnDesktops, skipOnMobiles } from './utils/device-type';
-import { skipOnboarding } from './utils/skip-onboarding';
+import { expect, test } from "./setup/test-fixture";
+import { skipOnDesktops, skipOnMobiles } from "./utils/device";
+import { onboarding } from "./utils/onboarding";
 
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.
   await page.goto("/");
-  await skipOnboarding(page);
+  await onboarding(page);
 });
 
-test('has banner', async ({ page }) => {
-  await expect(page.getByRole('banner').getByRole('link', { name: 'Home' })).toBeVisible();
+test("has banner", async ({ page }) => {
+  await expect(
+    page.getByRole("banner").getByRole("link", { name: "Home" }),
+  ).toBeVisible();
 });
 
 test.describe("when the menu is closed", () => {
-  test('has correct ARIA snapshot on desktops', async ({ page }) => {
+  test("has correct ARIA snapshot on desktops", async ({ page }) => {
     skipOnMobiles();
 
     // On desktops, the greater part of the navigation is always visible.
-    await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
+    await expect(page.getByRole("banner")).toMatchAriaSnapshot(`
       - banner:
         - link "Home":
           - img
@@ -38,9 +40,9 @@ test.describe("when the menu is closed", () => {
     `);
   });
 
-  test('has correct ARIA snapshot on mobiles', async ({ page }) => {
+  test("has correct ARIA snapshot on mobiles", async ({ page }) => {
     skipOnDesktops();
-    await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
+    await expect(page.getByRole("banner")).toMatchAriaSnapshot(`
       - banner:
         - link "Home":
           - img "Wheelmap logo"
@@ -51,19 +53,25 @@ test.describe("when the menu is closed", () => {
 });
 
 test.describe("when the menu is open", () => {
-  test.skip(true, 'This is still flaky, closing the menu still wrongly opens a link in the background.');
+  test.skip(
+    true,
+    "This is still flaky, closing the menu still wrongly opens a link in the background.",
+  );
   test.beforeEach(async ({ page }) => {
-    await page.getByRole('navigation').getByRole('button', { name: 'Show menu' }).click();
+    await page
+      .getByRole("navigation")
+      .getByRole("button", { name: "Show menu" })
+      .click();
   });
   test.afterEach(async ({ page }) => {
-    await page.getByRole('menu', { name: 'Close menu' }).tap();
-    await expect(page.getByRole('menu')).not.toBeVisible();
+    await page.getByRole("menu", { name: "Close menu" }).tap();
+    await expect(page.getByRole("menu")).not.toBeVisible();
   });
-  test('has correct ARIA snapshot on desktops', async ({ page }) => {
+  test("has correct ARIA snapshot on desktops", async ({ page }) => {
     skipOnMobiles();
 
     // On desktops, the greater part of the navigation is always visible.
-    await expect(page.getByRole('menu')).toMatchAriaSnapshot(`
+    await expect(page.getByRole("menu")).toMatchAriaSnapshot(`
       - menu "Close menu":
         - menuitem "Contact"
         - menuitem "Legal"
@@ -71,9 +79,9 @@ test.describe("when the menu is open", () => {
     `);
   });
 
-  test('has correct ARIA snapshot on mobiles', async ({ page }) => {
+  test("has correct ARIA snapshot on mobiles", async ({ page }) => {
     skipOnDesktops();
-    await expect(page.getByRole('menu')).toMatchAriaSnapshot(`
+    await expect(page.getByRole("menu")).toMatchAriaSnapshot(`
       - menu "Close menu":
         - menuitem "Get involved"
         - menuitem "News"

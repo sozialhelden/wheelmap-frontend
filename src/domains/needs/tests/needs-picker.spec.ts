@@ -5,7 +5,8 @@ import {
   type NeedSettings,
   settings as needSettings,
 } from "~/domains/needs/needs";
-import { skipOnboarding } from "../../../../tests/utils/skip-onboarding";
+import { onboarding } from "../../../../tests/utils/onboarding";
+import { getQueryParams } from "../../../../tests/utils/url";
 
 const getDropdown = (page: Page): Locator => {
   return page
@@ -15,9 +16,6 @@ const getDropdown = (page: Page): Locator => {
 };
 const getButton = (page: Page): Locator => {
   return page.getByRole("button", { name: "Select your needs" });
-};
-const getQueryParams = (page: Page): URLSearchParams => {
-  return new URL(page.url()).searchParams;
 };
 const forEachNeedCategory = async (
   callback: (settings: NeedSettings[NeedCategory]) => Promise<void>,
@@ -44,7 +42,7 @@ const assertDropdownIsNotVisible = async (page: Page) => {
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
-  await skipOnboarding(page);
+  await onboarding(page);
 });
 
 test.describe("needs-picker", () => {
