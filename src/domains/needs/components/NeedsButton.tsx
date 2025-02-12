@@ -2,7 +2,7 @@ import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import NeedsIcon from "~/components/icons/needs/NeedsIcon";
+import NeedsIcon from "~/domains/needs/components/icons/NeedsIcon";
 import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 
 const StyledButton = styled(Button)`
