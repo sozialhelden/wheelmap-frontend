@@ -95,7 +95,7 @@ export function CombinedFeaturePanel(props: Props) {
             </Callout.Root>
           )}
 
-          <p>{showDebugger && <FeaturesDebugJSON features={features} />}</p>
+          {showDebugger && <FeaturesDebugJSON features={features} />}
         </Flex>
       </ErrorBoundary>
     </React.StrictMode>
