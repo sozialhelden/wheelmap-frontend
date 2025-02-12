@@ -1,5 +1,5 @@
 import { Button, Flex, Theme } from "@radix-ui/themes";
-import { forwardRef, Ref} from "react";
+import { forwardRef, type Ref} from "react";
 import { t } from "ttag";
 
 export const NeedsDropdownButtonSection = forwardRef(function NeedsDropdownButtonSection(

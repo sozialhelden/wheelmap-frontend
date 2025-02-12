@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { compact } from 'lodash'
 import { t } from 'ttag'
-import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
+import type { AnyFeature } from '../../../lib/model/geo/AnyFeature'
 import useCategory from '../../../lib/fetchers/ac/refactor-this/useCategory'
 import { usePlaceInfo } from '../../../lib/fetchers/ac/usePlaceInfo'
 import { placeNameFor } from '../../../lib/model/geo/placeNameFor'

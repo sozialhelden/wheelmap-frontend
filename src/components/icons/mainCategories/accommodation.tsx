@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { SVGProps } from "react";
-import { Ref, forwardRef } from "react";
+import { type Ref, forwardRef } from "react";
 const SvgAccommodation = (
   props: SVGProps<SVGSVGElement>,
   ref: Ref<SVGSVGElement>
