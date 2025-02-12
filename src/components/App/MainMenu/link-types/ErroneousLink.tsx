@@ -1,7 +1,7 @@
 import { Badge, Tooltip } from "@radix-ui/themes";
 import { t } from "ttag";
-import MenuItemOrButton from "./MenuItemOrButton";
 import type { IAutoLinkProps } from "./AutoLink";
+import MenuItemOrButton from "./MenuItemOrButton";
 
 export default function ErroneousLink(props: IAutoLinkProps) {
   return (

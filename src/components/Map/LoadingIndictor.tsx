@@ -1,22 +1,35 @@
-import { createContext, FC, HTMLAttributes, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type FC,
+  type HTMLAttributes,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled, { useTheme } from "styled-components";
 import { cx } from "../../lib/util/cx";
 import { useInterval } from "../shared/useInterval";
-
 
 export const LoadingIndicator: FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const inflight = window.fetchInflight;
   const [loading, setLoading] = useState(0);
   useInterval(() => {
-    if(inflight != window.fetchInflight) {
+    if (inflight !== window.fetchInflight) {
       setLoading(window.fetchInflight ?? 0);
     }
-  }, 500)
-  if(!loading) {
+  }, 500);
+  if (!loading) {
     return null;
   }
-  return <div {...props} className={cx(props.className, "bp5-button bp5-large")}> <div className="loader"/> </div>
-}
+  return (
+    <div {...props} className={cx(props.className, "bp5-button bp5-large")}>
+      {" "}
+      <div className="loader" />{" "}
+    </div>
+  );
+};
 
 export const StyledLoadingIndicator = styled(LoadingIndicator)`
   position: fixed;
@@ -65,4 +78,4 @@ export const StyledLoadingIndicator = styled(LoadingIndicator)`
         transform: rotate(360deg);
     }
   } 
-`
+`;

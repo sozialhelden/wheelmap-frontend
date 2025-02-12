@@ -1,5 +1,6 @@
 import { Tooltip } from "@radix-ui/themes";
 import styled from "styled-components";
+import { EditDropdownMenu } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import { horizontalKeys } from "../../../../lib/model/osm/tag-config/horizontalKeys";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { EditButton } from "./EditButton";
@@ -27,6 +28,7 @@ export function OSMTagTableRowOrListElement({
   keyLabel,
   valueElement,
   isEditable,
+  isLanguageTagged,
   editURL,
   keyDetails,
   valueDetails,
@@ -43,7 +45,13 @@ export function OSMTagTableRowOrListElement({
     </HeaderElement>
   );
 
-  const detailElements = [keyDetails, valueDetails].filter(Boolean);
+  const detailElements: string[] = [];
+  if (keyDetails) {
+    detailElements.push(keyDetails);
+  }
+  if (valueDetails) {
+    detailElements.push(valueDetails);
+  }
   const hasDetails = detailElements.length > 0;
 
   const detailElementsContained = hasDetails && (
@@ -53,8 +61,8 @@ export function OSMTagTableRowOrListElement({
       )}
       {detailElements.length > 1 && (
         <ul>
-          {detailElements.map((element, i) => (
-            <li key={i}>
+          {detailElements.map((element) => (
+            <li key={element}>
               <StyledMarkdown>{element}</StyledMarkdown>
             </li>
           ))}
@@ -65,7 +73,11 @@ export function OSMTagTableRowOrListElement({
 
   const valueIsString = typeof valueElement === "string";
   const valueIsNumber = typeof valueElement === "number";
-  const editButton = isEditable && <EditButton editURL={editURL} />;
+  const editControls = isLanguageTagged ? (
+    <EditDropdownMenu editURL={editURL} />
+  ) : isEditable ? (
+    <EditButton editURL={editURL} />
+  ) : null;
 
   const displayedValueContent = valueIsString ? (
     <span
@@ -86,11 +98,11 @@ export function OSMTagTableRowOrListElement({
         </StyledMarkdown>
       ) : null}
       {!valueIsNumber && !valueIsString && valueElement}
-      {editButton}
+      {editControls}
     </span>
   ) : (
     <>
-      <span>{valueElement}</span> {editButton}
+      <span>{valueElement}</span> {editControls}
     </>
   );
 
@@ -123,9 +135,7 @@ export function OSMTagTableRowOrListElement({
     </>
   );
   const maybeWrappedContent = isHorizontal ? (
-    <StyledTag minimal large round>
-      {content}
-    </StyledTag>
+    <StyledTag>{content}</StyledTag>
   ) : (
     <RowTag className={tagKey}>{content}</RowTag>
   );

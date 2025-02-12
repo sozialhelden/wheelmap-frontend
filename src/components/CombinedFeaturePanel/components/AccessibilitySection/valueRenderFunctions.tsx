@@ -1,11 +1,12 @@
 import Color from "colorjs.io";
-import type React from "react";
+// biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
+import React from "react";
 import { t } from "ttag";
 import type {
   TypeTaggedOSMFeature,
   TypeTaggedPlaceInfo,
-} from "../../../../lib/model/geo/AnyFeature";
-import { classifyHSLColor } from "../../../../lib/util/classifyHSLColor";
+} from "~/lib/model/geo/AnyFeature";
+import { classifyHSLColor } from "~/lib/util/classifyHSLColor";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import { useDarkMode } from "../../../shared/useDarkMode";
 import AddWheelchairDescription from "./AddWheelchairDescription";
@@ -67,12 +68,16 @@ function ColorContainer({
   children,
   backgroundColor,
   textColor,
-}: { children: React.ReactNode; backgroundColor: string; textColor: string }) {
+}: {
+  children: React.ReactNode;
+  backgroundColor: string;
+  textColor: string;
+}) {
   return (
     <span style={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
       <span
         lang="en"
-        aria-label=""
+        aria-hidden="true"
         style={{
           backgroundColor,
           borderRadius: "0.5rem",
@@ -107,7 +112,7 @@ function DisplayedColor({ type, value }: { type: string; value: string }) {
     });
     return (
       <ColorContainer
-        backgroundColor={backgroundColor}
+        backgroundColor={backgroundColor.toString()}
         textColor={textColor.toString({ precision: 3 })}
       >
         {String(classifiedColor)} {type}
@@ -132,6 +137,21 @@ export const valueRenderFunctions: Record<
 > = {
   "^wheelchair$": ({ defaultValueLabel }) => <div>{defaultValueLabel}</div>,
   "^addWheelchairDescription$": () => <AddWheelchairDescription />,
+  "^(?:([\\w_]+):)?description(?::([\\w\\-]+))?$": ({ value, matches }) => {
+    const text = value;
+    const targetGroup = matches[1];
+    const lang = matches[2];
+    const targetGroupMarker = {
+      wheelchair: "🧑",
+      deaf: "👂",
+      blind: "👁",
+    }[targetGroup];
+    return (
+      <StyledMarkdown lang={lang}>
+        {t`${targetGroupMarker} “${text}”`}
+      </StyledMarkdown>
+    );
+  },
   "^opening_hours$": ({ key, value, osmFeature }) => (
     <OpeningHoursValue
       value={String(value)}
@@ -211,19 +231,4 @@ export const valueRenderFunctions: Record<
   "^(?:socket:([\\w_]+):)?output$": ({ value }) => (
     <DisplayedQuantity value={value} defaultUnit="W" />
   ),
-  "^(?:([\\w_]+):)?description(?:(\\w\\w))?$": ({ value, matches }) => {
-    const text = value;
-    const targetGroup = matches[1];
-    const lang = matches[2];
-    const targetGroupMarker = {
-      wheelchair: "🧑",
-      hearing: "👂",
-      blind: "👁",
-    }[targetGroup];
-    return (
-      <StyledMarkdown lang={lang}>
-        {t`${targetGroupMarker} “${text}”`}
-      </StyledMarkdown>
-    );
-  },
 };

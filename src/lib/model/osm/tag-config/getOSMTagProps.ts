@@ -1,6 +1,7 @@
 import type React from "react";
-import type { OSMTagProps } from "../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
-import { valueRenderFunctions } from "../../../../components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
+import type { OSMTagProps } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
+import { valueRenderFunctions } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../i18n/getLocalizedStringTranslationWithMultipleLocales";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {
@@ -111,6 +112,8 @@ export function getOSMTagProps({
     );
 
   const isEditable = editableKeys.has(key);
+  const { hasLanguageTagSupport } =
+    normalizeAndExtractLanguageTagsIfPresent(key);
   const editURL = `${baseFeatureUrl}/edit/${key}`;
   const tagProps: OSMTagProps = {
     tagKey: key,
@@ -120,6 +123,7 @@ export function getOSMTagProps({
     valueAttribute,
     valueElement: valueLabel,
     isEditable,
+    isLanguageTagged: hasLanguageTagSupport,
     editURL,
     valueDetails,
     keyDetails,

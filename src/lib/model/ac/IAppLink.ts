@@ -1,6 +1,9 @@
 import type { LocalizedString } from "@sozialhelden/a11yjson";
 
-export type ImportanceValue = 'alwaysVisible' | 'advertisedIfPossible' | 'insignificant';
+export type ImportanceValue =
+  | "alwaysVisible"
+  | "advertisedIfPossible"
+  | "insignificant";
 
 export default interface IAppLink {
   _id: string;

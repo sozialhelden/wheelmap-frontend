@@ -1,14 +1,3 @@
-import * as React from "react";
-import { useEffect } from "react";
-import { AppContext } from "../../lib/context/AppContext";
-import {
-  accessibilityColor as accessibilityColorName,
-  accessibilityDescription,
-  accessibilityName,
-} from "../../lib/model/accessibility/accessibilityStrings";
-import Icon from "../shared/Icon";
-import VectorImage from "../shared/VectorImage";
-import { selectHeaderMarkdownHTML, getProductName } from "./getProductName";
 import {
   Box,
   Button,
@@ -20,10 +9,21 @@ import {
   Text,
   VisuallyHidden,
 } from "@radix-ui/themes";
-import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import * as React from "react";
+import { useEffect } from "react";
 import { t } from "ttag";
+import { AppContext } from "../../lib/context/AppContext";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import {
+  accessibilityColor as accessibilityColorName,
+  accessibilityDescription,
+  accessibilityName,
+} from "../../lib/model/accessibility/accessibilityStrings";
+import Icon from "../shared/Icon";
 import StyledMarkdown from "../shared/StyledMarkdown";
+import VectorImage from "../shared/VectorImage";
+import { getProductName, selectHeaderMarkdownHTML } from "./getProductName";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;

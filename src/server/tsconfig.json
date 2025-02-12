@@ -16,18 +16,8 @@
     "moduleResolution": "node",
     "target": "ES2022",
     "module": "CommonJS",
-    "lib": [
-      "esNext",
-      "DOM"
-    ]
+    "lib": ["esNext", "DOM"]
   },
-  "exclude": [
-    "node_modules",
-    "src/.next"
-  ],
-  "include": [
-    "./*.ts",
-    "../app/router.ts",
-    "server.ts"
-  ]
+  "exclude": ["node_modules", "src/.next"],
+  "include": ["./*.ts", "../app/router.ts", "server.ts"]
 }

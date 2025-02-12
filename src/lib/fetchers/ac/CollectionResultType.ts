@@ -1,1 +1,1 @@
-export type CollectionResultType = 'List' | 'FeatureCollection';
+export type CollectionResultType = "List" | "FeatureCollection";

@@ -1,12 +1,17 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
-import type { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent,
+} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import type { TypeTaggedOSMFeature } from "~/lib/model/geo/AnyFeature";
+import { omittedKeyPrefixes } from "~/lib/model/osm/tag-config/omittedKeyPrefixes";
+import { omittedKeySuffixes } from "~/lib/model/osm/tag-config/omittedKeySuffixes";
+import { omittedKeys } from "~/lib/model/osm/tag-config/omittedKeys";
+import { pathsToConsumedTagKeys } from "~/lib/model/osm/tag-config/pathsToConsumedTagKeys";
+import { sortOrderMap } from "~/lib/model/osm/tag-config/sortOrderMap";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
-import { omittedKeyPrefixes } from "../../../../lib/model/osm/tag-config/omittedKeyPrefixes";
-import { omittedKeySuffixes } from "../../../../lib/model/osm/tag-config/omittedKeySuffixes";
-import { omittedKeys } from "../../../../lib/model/osm/tag-config/omittedKeys";
-import { pathsToConsumedTagKeys } from "../../../../lib/model/osm/tag-config/pathsToConsumedTagKeys";
-import { sortOrderMap } from "../../../../lib/model/osm/tag-config/sortOrderMap";
 import OSMTagTable from "./OSMTagTable";
 
 export interface ITreeNode {
@@ -52,7 +57,9 @@ function generateTree(keys: string[]): ITreeNode {
 function nest(tree: ITreeNode) {
   const entries = Object.entries(tree);
   const sortedEntries = sortBy(entries, ([key]) => {
-    const order = sortOrderMap.get(key);
+    const { normalizedOSMTagKey } =
+      normalizeAndExtractLanguageTagsIfPresent(key);
+    const order = sortOrderMap.get(normalizedOSMTagKey);
     return order === undefined ? 100000 : order;
   });
 
@@ -65,6 +72,7 @@ function nest(tree: ITreeNode) {
 }
 
 export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
+  const browserLanguageTags = useCurrentLanguageTagStrings();
   const nestedTags = React.useMemo(() => {
     const filteredKeys = Object.keys(feature.properties || {})
       .filter((key) => !omittedKeys.has(key))
@@ -82,25 +90,37 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
     const accessibilityRelevantKeys = filteredKeys.filter(
       isAccessibilityRelevantOSMKey,
     );
+
+    // select most suitable language of wheelchair description
+    const descriptionKeys = accessibilityRelevantKeys.filter((key) =>
+      key.startsWith("wheelchair:description"),
+    );
+    const availableLangTags = getAvailableLangTags(descriptionKeys, 2);
+    let matchingLangTag: string | null = "";
+    matchingLangTag = availableLangTags.has(browserLanguageTags[0])
+      ? browserLanguageTags[0]
+      : null;
+    let finalListOfKeys: string[];
+    finalListOfKeys = accessibilityRelevantKeys.filter((key) => {
+      if (!key.startsWith("wheelchair:description")) {
+        return true;
+      }
+      if (matchingLangTag) {
+        return key === `wheelchair:description:${matchingLangTag}`;
+      }
+      return key === "wheelchair:description";
+    });
+
     // add a pseudo tag if there is no wheelchair description yet to render an add button
     if (
-      !accessibilityRelevantKeys.some((item) =>
-        item.startsWith("wheelchair:description"),
-      )
+      !finalListOfKeys.some((item) => item.startsWith("wheelchair:description"))
     ) {
-      accessibilityRelevantKeys.push("addWheelchairDescription");
+      finalListOfKeys.push("addWheelchairDescription");
     }
 
-    // const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey)
-    // const remainingKeys = difference(
-    //   filteredKeys,
-    //   accessibilityRelevantKeys,
-    //   addressRelevantKeys
-    // );
-
-    const tree = generateTree(accessibilityRelevantKeys);
+    const tree = generateTree(finalListOfKeys);
     return nest(tree);
-  }, [feature]);
+  }, [feature, browserLanguageTags]);
 
   return <OSMTagTable nestedTags={nestedTags} feature={feature} />;
 }

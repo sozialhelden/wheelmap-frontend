@@ -1,5 +1,5 @@
-import React from 'react'
-import IAccessibilityAttribute from '../../../../lib/model/ac/IAccessibilityAttribute'
+import type React from "react";
+import type IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
 
 export type OSMTagProps = {
   tagKey: string;
@@ -7,6 +7,7 @@ export type OSMTagProps = {
   keyLabel: React.ReactNode;
   valueElement: React.ReactNode;
   isEditable: boolean;
+  isLanguageTagged: boolean;
   editURL: string;
   valueDetails?: string;
   keyDetails?: string;

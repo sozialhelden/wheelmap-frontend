@@ -1,64 +1,81 @@
-import React, {
-  FC,
-  ReactNode, useContext, useState,
-} from 'react'
-import { t } from 'ttag'
-import FeatureImage from '../../../../components/CombinedFeaturePanel/components/image/FeatureImage'
-import FeatureNameHeader from '../../../../components/CombinedFeaturePanel/components/FeatureNameHeader'
-import ToiletStatusAccessible from '../../../../components/icons/accessibility/ToiletStatusAccessible'
-import ToiletStatusNotAccessible from '../../../../components/icons/accessibility/ToiletStatusNotAccessible'
-import RadioButtonOn from '../../../../components/icons/ui-elements/RadioButtonSelected'
-import RadioButtonOff from '../../../../components/icons/ui-elements/RadioButtonUnselected'
-import { cx } from '../../../../lib/util/cx'
-import { AppStateLink } from '../../../../components/App/AppStateLink'
-import { getLayout } from '../../../../components/CombinedFeaturePanel/PlaceLayout'
-
-import { FeaturePanelContext } from '../../../../components/CombinedFeaturePanel/FeaturePanelContext'
-import { StyledReportView } from '../../../../components/CombinedFeaturePanel/ReportView'
+import { Button, Spinner } from "@radix-ui/themes";
+import React, { type FC, type ReactNode, useContext, useState } from "react";
+import { t } from "ttag";
+import { AppStateLink } from "../../../../components/App/AppStateLink";
+import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
+import { StyledReportView } from "../../../../components/CombinedFeaturePanel/ReportView";
+import FeatureNameHeader from "../../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import ToiletStatusAccessible from "../../../../components/icons/accessibility/ToiletStatusAccessible";
+import ToiletStatusNotAccessible from "../../../../components/icons/accessibility/ToiletStatusNotAccessible";
+import RadioButtonOn from "../../../../components/icons/ui-elements/RadioButtonSelected";
+import RadioButtonOff from "../../../../components/icons/ui-elements/RadioButtonUnselected";
+import { cx } from "../../../../lib/util/cx";
 
 export const AccessibilityView: FC<{
-  onClick: () => unknown,
-  className?: string,
-  inputLabel: string,
-  children?: ReactNode
-  selected: boolean
-  icon: ReactNode,
-  valueName: string
+  onClick: () => unknown;
+  className?: string;
+  inputLabel: string;
+  children?: ReactNode;
+  selected: boolean;
+  icon: ReactNode;
+  valueName: string;
 }> = ({
-  onClick, className, inputLabel, children, selected, icon, valueName,
+  onClick,
+  className,
+  inputLabel,
+  children,
+  selected,
+  icon,
+  valueName,
 }) => (
-  <div className={cx('_option', className)} onClick={onClick} role="option" aria-selected={selected} onKeyDown={onClick} tabIndex={0}>
-    <label htmlFor={inputLabel} />
+  <div
+    className={cx("_option", className)}
+    onClick={onClick}
+    aria-selected={selected}
+    onKeyDown={onClick}
+  >
     <header className="_header">
-      <input id={inputLabel} className="_accessibility" aria-label="Yes" type="radio" name="accessibility" value="yes" />
-      { selected ? <RadioButtonOn /> : <RadioButtonOff /> }
-      { icon }
-      <span className="_caption" aria-hidden="true">{valueName}</span>
+      <input
+        id={inputLabel}
+        className="_accessibility"
+        aria-label="Yes"
+        type="radio"
+        name="accessibility"
+        value="yes"
+      />
+      {selected ? <RadioButtonOn /> : <RadioButtonOff />}
+      {icon}
+      <span className="_caption" aria-hidden="true">
+        {valueName}
+      </span>
     </header>
-    {children && (<main className="_main">{children}</main>)}
+    {children && <main className="_main">{children}</main>}
   </div>
-)
+);
 
 function ReportSendToAC() {
-  const { features } = useContext(FeaturePanelContext)
-  const [option, setOption] = useState<'yes' | 'no' | undefined>(undefined)
+  const { features } = useContext(FeaturePanelContext);
+  const [option, setOption] = useState<"yes" | "no" | undefined>(undefined);
 
-  const feature = features[0]
-
+  const feature = features[0].feature?.acFeature;
+  if (!feature) {
+    return <Spinner />;
+  }
   return (
     <StyledReportView className="_view">
-      <FeatureNameHeader feature={feature}>
-        {feature['@type'] === 'osm:Feature' && (
-          <FeatureImage feature={feature} />
-        )}
-      </FeatureNameHeader>
-      <h2 className="_title">Is the toilet here wheelchair accessible?</h2>
+      <FeatureNameHeader feature={feature} />
+
+      <h2 className="_title">{t`Is the toilet here wheelchair accessible?`}</h2>
+
       <form>
         <AccessibilityView
-          onClick={() => { setOption('yes') }}
+          onClick={() => {
+            setOption("yes");
+          }}
           className="_yes"
           inputLabel="accessibility-yes"
-          selected={option === 'yes'}
+          selected={option === "yes"}
           icon={<ToiletStatusAccessible />}
           valueName="Yes"
         >
@@ -72,24 +89,30 @@ function ReportSendToAC() {
         </AccessibilityView>
 
         <AccessibilityView
-          onClick={() => { setOption('no') }}
+          onClick={() => {
+            setOption("no");
+          }}
           className="_no"
           inputLabel="accessibility-no"
-          selected={option === 'no'}
+          selected={option === "no"}
           icon={<ToiletStatusNotAccessible />}
           valueName="No"
         />
       </form>
 
       <footer className="_footer">
-        <AppStateLink href="../report"><div role="button" className="_option _back">Back</div></AppStateLink>
-        { /* @TODO: Implementing the sending request */}
-        <div role="button" className={cx('_option', '_primary', option === undefined && '_disabled')}>Continue</div>
+        <Button asChild>
+          <AppStateLink href="../report">Back</AppStateLink>
+        </Button>
+        {/* @TODO: Implementing the sending request */}
+        <Button asChild disabled={option === undefined}>
+          Continue
+        </Button>
       </footer>
     </StyledReportView>
-  )
+  );
 }
 
-ReportSendToAC.getLayout = getLayout
+ReportSendToAC.getLayout = getLayout;
 
-export default ReportSendToAC
+export default ReportSendToAC;

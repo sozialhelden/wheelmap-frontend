@@ -1,5 +1,5 @@
-import type { ClientSideConfiguration } from './ClientSideConfiguration'
-import type IAppLink from './IAppLink';
+import type { ClientSideConfiguration } from "./ClientSideConfiguration";
+import type IAppLink from "./IAppLink";
 
 export interface IApp {
   _id: string;

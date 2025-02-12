@@ -1,5 +1,5 @@
-import { t } from 'ttag'
-import { RootCategoryEntry } from './RootCategoryEntry'
+import { t } from "ttag";
+import type { RootCategoryEntry } from "./RootCategoryEntry";
 
 // This must be a function - Results from t`` are dependent on the current context.
 // If t`` is called at root level of a module, it doesn't know the translations yet
@@ -58,8 +58,8 @@ export function getRootCategoryTable(): { [key: string]: RootCategoryEntry } {
       name: t`Toilets`,
       isSubCategory: true,
       applyCustomSearchParams: (params) => {
-        params.set('hasToiletInfo', 'true')
+        params.set("hasToiletInfo", "true");
       },
     },
-  }
+  };
 }

@@ -1,12 +1,12 @@
+import { AlertDialog, Box, Button, Dialog, Flex } from "@radix-ui/themes";
+import { type FC, useContext } from "react";
 import { t } from "ttag";
 import { AppContext } from "../../lib/context/AppContext";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationFailedStepPrimaryText,
-  getProductName as getProductName,
+  getProductName,
 } from "./getProductName";
-import { AlertDialog, Box, Button, Dialog, Flex } from "@radix-ui/themes";
-import { type FC, useContext } from "react";
 
 export const LocationFailedStep: FC<{
   onSubmit: () => unknown;

@@ -1,47 +1,50 @@
-/* eslint-disable no-console */
-import { createServer } from 'http'
-import next from 'next'
-import addEmbedModeResponseHeaders from '../lib/util/addEmbedModeResponseHeaders'
-import fetchApp from '../lib/fetchers/ac/fetchApp'
-import { log } from '../lib/util/logger'
+// biome-ignore lint/style/useNodejsImportProtocol: The current build system doesn't work with Node.js-style imports. This is a temporary workaround.
+import { createServer } from "http";
+import next from "next";
+import fetchApp from "../lib/fetchers/ac/fetchApp";
+// import addEmbedModeResponseHeaders from "../lib/util/addEmbedModeResponseHeaders";
+import { log } from "../lib/util/logger";
 
-const dev = process.env.NODE_ENV !== 'production'
-const defaultHostname = 'localhost'
-const port = process.env.PORT ? Number(process.env.PORT) : 3000
-const app = next({ dev, hostname: defaultHostname, port })
-const handle = app.getRequestHandler()
+const dev = process.env.NODE_ENV !== "production";
+const defaultHostname = "localhost";
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const app = next({ dev, hostname: defaultHostname, port });
+const handle = app.getRequestHandler();
 
-log.log('Preparing app...');
+log.log("Preparing app...");
 app.prepare().then(() => {
-  log.log('Creating server...');
+  log.log("Creating server...");
   const server = createServer(async (req, res) => {
     try {
-      const url = new URL(req.url)
-      // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-      const hostname = req && global['window'] ? req.headers.host : global['window'].location.hostname
-      const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN
-      const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
-      const customizedApp = await fetchApp({ baseUrl, appToken, hostname })
+      const url = new URL(req.url);
+      const hostname =
+        req && global.window
+          ? req.headers.host
+          : global.window.location.hostname;
+      const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+      const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
+      const customizedApp = await fetchApp({ baseUrl, appToken, hostname });
       if (!customizedApp) {
-        throw new Error(`No app found for hostname ${hostname}`)
+        throw new Error(`No app found for hostname ${hostname}`);
       }
-      const embedToken = url.searchParams.get('embedToken')
+      // TODO: Re-add this later
 
-      addEmbedModeResponseHeaders(
-        customizedApp,
-        res,
-        typeof embedToken === 'string' ? embedToken : undefined,
-      )
+      // const embedToken = url.searchParams.get("embedToken");
+      // addEmbedModeResponseHeaders(
+      //   customizedApp,
+      //   res,
+      //   typeof embedToken === "string" ? embedToken : undefined,
+      // );
 
-      await handle(req, res)
+      await handle(req, res);
     } catch (err) {
-      log.error('Error occurred handling', req.url, err)
-      res.statusCode = 500
-      res.end('internal server error')
+      log.error("Error occurred handling", req.url, err);
+      res.statusCode = 500;
+      res.end("internal server error");
     }
-  })
-  log.log('Start listening...');
+  });
+  log.log("Start listening...");
   server.listen(port, () => {
-    log.log(`> Ready on http://${defaultHostname}:${port}`)
-  })
-})
+    log.log(`> Ready on http://${defaultHostname}:${port}`);
+  });
+});

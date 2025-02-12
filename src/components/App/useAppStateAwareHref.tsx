@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import {
-  useAppStateAwareRouter,
   preserveSearchParams,
+  useAppStateAwareRouter,
 } from "../../lib/util/useAppStateAwareRouter";
 
 export function useAppStateAwareHref(href: string | UrlObject) {

@@ -1,13 +1,14 @@
-import React from 'react'
-import { AnyFeature } from '../../../lib/model/geo/AnyFeature'
-import { EditorTagValue } from './EditorTagValue'
+import type React from "react";
+import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 
 export type BaseEditorProps = {
-  tagKey: string
-  feature: AnyFeature
-  onUrlMutationSuccess: (urls: string[]) => void
-  onChange: (tagValue: EditorTagValue) => void
-  handleSubmitButtonClick: () => void
-}
+  feature: AnyFeature;
+  tagKey?: string;
+  onUrlMutationSuccess?: (urls: string[]) => void;
+  onChange?: (tagValue: string) => void;
+  onSubmit?: () => void;
+  addingNewLanguage?: boolean;
+  onLanguageChange?: (languageTag: string) => void;
+};
 
-export type BaseEditorComponent = React.FC<BaseEditorProps>
+export type BaseEditorComponent = React.FC<BaseEditorProps>;

@@ -1,11 +1,14 @@
-import * as React from "react";
 import isEqual from "lodash/isEqual";
+import * as React from "react";
 import styled from "styled-components";
 
-import Icon from "../shared/Icon";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
+import type {
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+} from "../../lib/model/ac/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
+import Icon from "../shared/Icon";
 
 const ToiletIcon = styled.figure``;
 

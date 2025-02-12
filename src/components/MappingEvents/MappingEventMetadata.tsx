@@ -20,7 +20,7 @@ export function MappingEventMetadata({
     ? `${mappingEvent.name} - ${translatedProductName}`
     : mappingEvent.name;
   const pageDescription = mappingEvent.description;
-  const mappingEventImage = mappingEvent.images && mappingEvent.images[0];
+  const mappingEventImage = mappingEvent.images?.[0];
   const mappingEventImageUrl =
     mappingEventImage && buildFullImageUrl(mappingEventImage);
   const imageURL = mappingEventImageUrl || "/images/eventPlaceholder.png";

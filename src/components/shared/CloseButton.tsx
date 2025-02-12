@@ -1,8 +1,8 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { t } from 'ttag'
-import colors from '../../lib/util/colors'
-import CloseIcon from '../icons/actions/Close'
+import * as React from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import colors from "../../lib/util/colors";
+import CloseIcon from "../icons/actions/Close";
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -28,24 +28,22 @@ const StyledButton = styled.button`
   > svg {
     display: block;
   }
-`
+`;
 
 type Props = React.HTMLAttributes<HTMLButtonElement>;
 
 const CloseButton = React.forwardRef<HTMLElement, Props>(
-  (props: Props, ref: { current: null | HTMLButtonElement }) =>
+  (props: Props, ref: { current: null | HTMLButtonElement }) => (
     // https://reactjs.org/docs/forwarding-refs.html
-    (
-      <StyledButton
-        {...props}
-        className={`close-link ${props.className || ''}`}
-        aria-label={props['aria-label'] || t`Close`}
-        ref={ref}
-      >
-        <CloseIcon />
-      </StyledButton>
-    ),
+    <StyledButton
+      {...props}
+      className={`close-link ${props.className || ""}`}
+      aria-label={props["aria-label"] || t`Close`}
+      ref={ref}
+    >
+      <CloseIcon />
+    </StyledButton>
+  ),
+);
 
-)
-
-export default CloseButton
+export default CloseButton;

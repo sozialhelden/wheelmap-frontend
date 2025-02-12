@@ -67,7 +67,7 @@ export const FeatureImageUpload: FC<{
   }, []);
   const close = useCallback(() => {
     setIsDialogOpen(false);
-  }, [step]);
+  }, []);
   const nextStep = useCallback(() => {
     if (step < 4) setStep(step + 1);
   }, [step]);

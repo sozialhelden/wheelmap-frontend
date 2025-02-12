@@ -1,9 +1,8 @@
-type OSMFeature = {
+import type { Geometry } from "geojson";
+
+type OSMFeature = GeoJSON.Feature<Geometry, Record<string, string | number>> & {
   _id: string;
-  geometry: { coordinates: any; type: 'Polygon' | 'MultiPolygon' | 'Point' };
-  centroid: { coordinates: number[]; type: 'Point' };
-  properties: Record<string, string | number>;
-  type: 'Feature';
+  centroid: { coordinates: number[]; type: "Point" };
   source: string;
   sourceLayer: string;
   error?: never;
@@ -19,7 +18,7 @@ export type OSMFeatureOrError = OSMFeature | OSMAPIErrorResponse;
 export function isErrorResponse(
   featureOrError: OSMFeatureOrError,
 ): featureOrError is OSMAPIErrorResponse {
-  return featureOrError.error !== undefined
+  return featureOrError.error !== undefined;
 }
 
 export type OSMFeatureId = {
@@ -27,4 +26,4 @@ export type OSMFeatureId = {
   id: string;
 };
 
-export default OSMFeature
+export default OSMFeature;

@@ -1,4 +1,4 @@
-import type { IncomingMessage } from "http";
+import type { IncomingMessage } from "node:http";
 import React from "react";
 import { UAParser } from "ua-parser-js";
 

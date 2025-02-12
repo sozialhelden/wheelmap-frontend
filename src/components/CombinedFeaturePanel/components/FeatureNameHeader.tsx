@@ -1,3 +1,4 @@
+import { Box, Button } from "@radix-ui/themes";
 import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
@@ -10,7 +11,6 @@ import ChevronRight from "../../shared/ChevronRight";
 import Icon from "../../shared/Icon";
 import { PlaceNameH1, PlaceNameH2 } from "../../shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
-import { Box, Button } from "@radix-ui/themes";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
