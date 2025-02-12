@@ -55,6 +55,12 @@ const SearchInput = styled.input`
   padding: .7rem .8rem;
   flex-basis: 100%;
   background: transparent;
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+  }
 `;
 const IconOverlay = styled.div`
   position: absolute;
