@@ -1,10 +1,10 @@
 import { t } from 'ttag'
 import getEquipmentInfoDescription from '../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription'
-import { LocalizedString } from '../../i18n/LocalizedString'
+import type { LocalizedString } from '../../i18n/LocalizedString'
 import { getLocalizedStringTranslationWithMultipleLocales } from '../../i18n/getLocalizedStringTranslationWithMultipleLocales'
-import { ACCategory } from '../../../domains/categories/types/ACCategory'
+import type { ACCategory } from '../../../domains/categories/types/ACCategory'
 import { getLocalizableStringForOSMKey } from '../osm/getLocalizableStringForOSMKey'
-import { AnyFeature } from './AnyFeature'
+import type { AnyFeature } from './AnyFeature'
 import {getLocalizableCategoryName} from "~/domains/categories/functions/localization";
 
 export function placeNameFor(
