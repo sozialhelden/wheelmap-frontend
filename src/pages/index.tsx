@@ -21,6 +21,7 @@ const Toolbar = styled.div`
 export default function Page() {
   const router = useRouter();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (isFirstStart()) {
       router.replace("/onboarding");

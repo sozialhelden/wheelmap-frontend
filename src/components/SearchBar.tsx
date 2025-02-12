@@ -13,9 +13,9 @@ import { makeFeatureId } from "~/components/SearchPanel/EnrichedSearchResult";
 import { SearchResult } from "~/components/SearchPanel/SearchResult";
 import { useEnrichedSearchResults } from "~/components/SearchPanel/useEnrichedSearchResults";
 import { type Category, categories } from "~/domains/categories/categories";
+import { getLocalizedCategoryName } from "~/domains/categories/functions/localization";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
-import {getLocalizedCategoryName} from "~/domains/categories/functions/localization";
 
 const SearchWrapper = styled.div`
     position: relative;
@@ -161,16 +161,19 @@ export function SearchBar() {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
     if (categoryFilter) return;
     setDebounceTimeout(setTimeout(() => setSearchTerm(input), 250));
   }, [input]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setHighlightedIndex(-1);
   }, [searchTerm]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     getHighlightedDomElement()?.scrollIntoView({
       block: "nearest",
@@ -182,6 +185,7 @@ export function SearchBar() {
     setInput(categories[categoryFilter as Category]?.name());
   }, [categoryFilter]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!categoryFilter) return;
     if (input !== categories[categoryFilter as Category]?.name()) {
