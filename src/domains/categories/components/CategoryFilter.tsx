@@ -2,7 +2,7 @@ import { Button, DropdownMenu, ScrollArea, Theme } from "@radix-ui/themes";
 import styled from "styled-components";
 import { t } from "ttag";
 import type { Category } from "~/domains/categories/categories";
-import { useCategories } from "~/lib/useCategories";
+import { getCategoryList } from "~/domains/categories/functions/display";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 const Container = styled.div`
@@ -17,9 +17,9 @@ const StyledButton = styled(Button)`
 
 const numberOfMainCategories = 5;
 
-export function FilterBar() {
+export function CategoryFilter() {
   const router = useAppStateAwareRouter();
-  const { categories } = useCategories();
+  const categories = getCategoryList();
 
   const mainCategories = categories.slice(0, numberOfMainCategories);
   const categoriesInMenu = categories.slice(numberOfMainCategories);
