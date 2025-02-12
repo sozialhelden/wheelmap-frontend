@@ -2,17 +2,17 @@ import type { FC } from "react";
 import { t } from "ttag";
 import { ToiletIcon } from "~/components/icons/categories/toilet";
 import {
-  accommodation,
-  education,
-  food,
-  government,
-  health,
-  leisure,
-  money_post,
-  public_transfer,
-  shopping,
-  sport,
-  tourism,
+  Accommodation,
+  Education,
+  Food,
+  Government,
+  Health,
+  Leisure,
+  MoneyPost,
+  PublicTransfer,
+  Shopping,
+  Sport,
+  Tourism,
 } from "~/components/icons/mainCategories";
 
 export const categories = {
@@ -20,61 +20,61 @@ export const categories = {
     // translator: Root category
     name: () => t`Shopping`,
     priority: 10,
-    icon: shopping,
+    icon: Shopping,
   },
   food: {
     // translator: Root category
     name: () => t`Food & Drinks`,
     priority: 20,
-    icon: food,
+    icon: Food,
   },
   public_transfer: {
     // translator: Root category
     name: () => t`Transport`,
     priority: 30,
-    icon: public_transfer,
+    icon: PublicTransfer,
   },
   leisure: {
     // translator: Root category
     name: () => t`Leisure`,
     priority: 40,
-    icon: leisure,
+    icon: Leisure,
   },
   accommodation: {
     // translator: Root category
     name: () => t`Hotels`,
     priority: 40,
-    icon: accommodation,
+    icon: Accommodation,
   },
   tourism: {
     // translator: Root category
     name: () => t`Tourism`,
-    icon: tourism,
+    icon: Tourism,
   },
   education: {
     // translator: Root category
     name: () => t`Education`,
-    icon: education,
+    icon: Education,
   },
   government: {
     // translator: Root category
     name: () => t`Authorities`,
-    icon: government,
+    icon: Government,
   },
   health: {
     // translator: Root category
     name: () => t`Health`,
-    icon: health,
+    icon: Health,
   },
   money_post: {
     // translator: Root category
     name: () => t`Money`,
-    icon: money_post,
+    icon: MoneyPost,
   },
   sport: {
     // translator: Root category
     name: () => t`Sports`,
-    icon: sport,
+    icon: Sport,
   },
   // This returns all places that either ARE a toilet, or HAVE an accessible toilet
   toilets: {
