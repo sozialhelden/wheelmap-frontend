@@ -189,28 +189,51 @@ function loadIcon(
   loadImageFromDataURL(map, finalIconName, dataUrl, wasInCache);
 }
 
-export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
+export async function loadIconsInMapInstance(
+  mapInstance: MapBoxMap,
+): Promise<void> {
+  const tasks: Array<() => void> = [];
+
+  // Queue tasks for category icons.
   for (const iconName of Object.keys(categoryIcons)) {
     for (const accessibilityGrade of ["yes", "no", "limited"]) {
-      loadIcon(mapInstance, categoryIcons, iconName, {
-        fill: "white",
-        addShadow: true,
-        suffix: `-${accessibilityGrade}`,
+      tasks.push(() => {
+        loadIcon(mapInstance, categoryIcons, iconName, {
+          fill: "white",
+          addShadow: true,
+          suffix: `-${accessibilityGrade}`,
+        });
       });
     }
-    loadIcon(mapInstance, categoryIcons, iconName, {
-      fill: "#666",
-      addShadow: true,
-      suffix: "-unknown",
-      iconSize: 0.8,
+    tasks.push(() => {
+      loadIcon(mapInstance, categoryIcons, iconName, {
+        fill: "#666",
+        addShadow: true,
+        suffix: "-unknown",
+        iconSize: 0.8,
+      });
     });
   }
 
+  // Queue tasks for marker icons.
   for (const iconName of Object.keys(markerIcons)) {
-    loadIcon(mapInstance, markerIcons, iconName, {
-      fill: "black",
-      addShadow: true,
-      suffix: "",
+    tasks.push(() => {
+      loadIcon(mapInstance, markerIcons, iconName, {
+        fill: "black",
+        addShadow: true,
+        suffix: "",
+      });
     });
+  }
+
+  // Process tasks in batches of 20.
+  const batchSize = 20;
+  for (let i = 0; i < tasks.length; i += batchSize) {
+    const batch = tasks.slice(i, i + batchSize);
+    for (const task of batch) {
+      task();
+    }
+    // Yield control to let the UI update.
+    await new Promise((resolve) => setTimeout(resolve, 0));
   }
 }
