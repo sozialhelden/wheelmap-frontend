@@ -48,155 +48,157 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("needs-picker", () => {
-  test.describe("dropdown", () => {
-    test("it opens when clicking the need-picker button", async ({ page }) => {
-      await assertDropdownIsNotVisible(page);
+  test("it opens a dropdown when clicking the need-picker button", async ({
+    page,
+  }) => {
+    await assertDropdownIsNotVisible(page);
 
-      await openDropdown(page);
+    await openDropdown(page);
 
-      await assertDropdownIsVisible(page);
-    });
+    await assertDropdownIsVisible(page);
+  });
 
-    test("it can be closed using the cancel button", async ({ page }) => {
-      await openDropdown(page);
+  test("the dropdown can be closed using the cancel button", async ({
+    page,
+  }) => {
+    await openDropdown(page);
 
-      await getDropdown(page).getByRole("button", { name: "Cancel" }).click();
+    await getDropdown(page).getByRole("button", { name: "Cancel" }).click();
 
-      await assertDropdownIsNotVisible(page);
-    });
+    await assertDropdownIsNotVisible(page);
+  });
 
-    test("it shows all configured needs", async ({ page }) => {
-      await openDropdown(page);
+  test("it shows all configured needs", async ({ page }) => {
+    await openDropdown(page);
 
-      await forEachNeedCategory(async ({ needs }) => {
-        await forEachNeed(needs, async ({ label }) => {
-          await expect(
-            getDropdown(page).getByText(label()).first(),
-          ).toBeVisible();
-        });
+    await forEachNeedCategory(async ({ needs }) => {
+      await forEachNeed(needs, async ({ label }) => {
+        await expect(
+          getDropdown(page).getByText(label()).first(),
+        ).toBeVisible();
       });
     });
+  });
 
-    test("it shows all configured help-texts after clicking the help button", async ({
-      page,
-    }) => {
-      await openDropdown(page);
+  test("it shows all configured help-texts after clicking the help button", async ({
+    page,
+  }) => {
+    await openDropdown(page);
 
-      await forEachNeedCategory(async ({ title, needs }) => {
-        const hasHelpText = Object.values(needs).find(
-          ({ help }: NeedProperties) => Boolean(help),
-        );
-        if (!hasHelpText) {
+    await forEachNeedCategory(async ({ title, needs }) => {
+      const hasHelpText = Object.values(needs).find(
+        ({ help }: NeedProperties) => Boolean(help),
+      );
+      if (!hasHelpText) {
+        return;
+      }
+      await getDropdown(page)
+        .getByLabel(`Show more information about ${title}`)
+        .click();
+      await forEachNeed(needs, async (need: NeedProperties) => {
+        if (!need.help) {
           return;
         }
-        await getDropdown(page)
-          .getByLabel(`Show more information about ${title}`)
-          .click();
-        await forEachNeed(needs, async (need: NeedProperties) => {
-          if (!need.help) {
-            return;
-          }
-          await expect(
-            getDropdown(page).getByText(need.help()).first(),
-          ).toBeVisible();
-        });
+        await expect(
+          getDropdown(page).getByText(need.help()).first(),
+        ).toBeVisible();
       });
     });
+  });
 
-    test("it allows needs to be selected", async ({ page }) => {
-      await openDropdown(page);
-      await getDropdown(page)
-        .getByRole("radio", { name: "Partially wheelchair accessible" })
-        .click();
+  test("it allows needs to be selected", async ({ page }) => {
+    await openDropdown(page);
+    await getDropdown(page)
+      .getByRole("radio", { name: "Partially wheelchair accessible" })
+      .click();
 
-      await expect(
-        getDropdown(page).getByRole("radio", {
-          name: "Partially wheelchair accessible",
-        }),
-      ).toBeChecked();
-    });
+    await expect(
+      getDropdown(page).getByRole("radio", {
+        name: "Partially wheelchair accessible",
+      }),
+    ).toBeChecked();
+  });
 
-    test("it saves the need selection after clicking the save button", async ({
-      page,
-    }) => {
-      await expect(
-        getButton(page).getByLabel("You have 2 needs selected"),
-      ).toHaveCount(0);
-      await expect(
-        getButton(page).getByLabel("Partially wheelchair accessible"),
-      ).toHaveCount(0);
-      await expect(
-        getButton(page).getByLabel("Fully wheelchair accessible toilet"),
-      ).toHaveCount(0);
+  test("it saves the need selection after clicking the save button", async ({
+    page,
+  }) => {
+    await expect(
+      getButton(page).getByLabel("You have 2 needs selected"),
+    ).toHaveCount(0);
+    await expect(
+      getButton(page).getByLabel("Partially wheelchair accessible"),
+    ).toHaveCount(0);
+    await expect(
+      getButton(page).getByLabel("Fully wheelchair accessible toilet"),
+    ).toHaveCount(0);
 
-      await openDropdown(page);
-      await getDropdown(page)
-        .getByRole("radio", { name: "Partially wheelchair accessible" })
-        .click();
-      await getDropdown(page)
-        .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
-        .click();
-      await getDropdown(page).getByRole("button", { name: "Save" }).click();
-      await assertDropdownIsNotVisible(page);
+    await openDropdown(page);
+    await getDropdown(page)
+      .getByRole("radio", { name: "Partially wheelchair accessible" })
+      .click();
+    await getDropdown(page)
+      .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
+      .click();
+    await getDropdown(page).getByRole("button", { name: "Save" }).click();
+    await assertDropdownIsNotVisible(page);
 
-      await expect(
-        getButton(page).getByLabel("You have 2 needs selected"),
-      ).toBeVisible();
-      await expect(
-        getButton(page).getByLabel("Partially wheelchair accessible"),
-      ).toBeVisible();
-      await expect(
-        getButton(page).getByLabel("Fully wheelchair accessible toilet"),
-      ).toBeVisible();
-    });
+    await expect(
+      getButton(page).getByLabel("You have 2 needs selected"),
+    ).toBeVisible();
+    await expect(
+      getButton(page).getByLabel("Partially wheelchair accessible"),
+    ).toBeVisible();
+    await expect(
+      getButton(page).getByLabel("Fully wheelchair accessible toilet"),
+    ).toBeVisible();
+  });
 
-    test("it adds the selected needs as URL query parameters", async ({
-      page,
-    }) => {
-      expect(getQueryParams(page).get("wheelchair")).toBeFalsy();
-      expect(getQueryParams(page).get("toilet")).toBeFalsy();
+  test("it adds the selected needs as URL query parameters", async ({
+    page,
+  }) => {
+    expect(getQueryParams(page).get("wheelchair")).toBeFalsy();
+    expect(getQueryParams(page).get("toilet")).toBeFalsy();
 
-      await openDropdown(page);
-      await getDropdown(page)
-        .getByRole("radio", { name: "Partially wheelchair accessible" })
-        .click();
-      await getDropdown(page)
-        .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
-        .click();
-      await getDropdown(page).getByRole("button", { name: "Save" }).click();
-      await assertDropdownIsNotVisible(page);
+    await openDropdown(page);
+    await getDropdown(page)
+      .getByRole("radio", { name: "Partially wheelchair accessible" })
+      .click();
+    await getDropdown(page)
+      .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
+      .click();
+    await getDropdown(page).getByRole("button", { name: "Save" }).click();
+    await assertDropdownIsNotVisible(page);
 
-      expect(getQueryParams(page).getAll("wheelchair")).toEqual([
-        "limited",
-        "yes",
-      ]);
-      expect(getQueryParams(page).getAll("toilet")).toEqual(["yes"]);
-    });
+    expect(getQueryParams(page).getAll("wheelchair")).toEqual([
+      "limited",
+      "yes",
+    ]);
+    expect(getQueryParams(page).getAll("toilet")).toEqual(["yes"]);
+  });
 
-    test("it doesn't save needs when clicking the cancel button", async ({
-      page,
-    }) => {
-      await openDropdown(page);
-      await getDropdown(page)
-        .getByRole("radio", { name: "Partially wheelchair accessible" })
-        .click();
-      await getDropdown(page)
-        .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
-        .click();
-      await getDropdown(page).getByRole("button", { name: "Cancel" }).click();
-      await assertDropdownIsNotVisible(page);
+  test("it doesn't save needs when clicking the cancel button", async ({
+    page,
+  }) => {
+    await openDropdown(page);
+    await getDropdown(page)
+      .getByRole("radio", { name: "Partially wheelchair accessible" })
+      .click();
+    await getDropdown(page)
+      .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
+      .click();
+    await getDropdown(page).getByRole("button", { name: "Cancel" }).click();
+    await assertDropdownIsNotVisible(page);
 
-      await expect(
-        getButton(page).getByLabel("You have 2 needs selected"),
-      ).toHaveCount(0);
-      await expect(
-        getButton(page).getByLabel("Partially wheelchair accessible"),
-      ).toHaveCount(0);
-      await expect(
-        getButton(page).getByLabel("Fully wheelchair accessible toilet"),
-      ).toHaveCount(0);
-      expect(getQueryParams(page).get("wheelchair")).toBeFalsy();
-      expect(getQueryParams(page).get("toilet")).toBeFalsy();
-    });
+    await expect(
+      getButton(page).getByLabel("You have 2 needs selected"),
+    ).toHaveCount(0);
+    await expect(
+      getButton(page).getByLabel("Partially wheelchair accessible"),
+    ).toHaveCount(0);
+    await expect(
+      getButton(page).getByLabel("Fully wheelchair accessible toilet"),
+    ).toHaveCount(0);
+    expect(getQueryParams(page).get("wheelchair")).toBeFalsy();
+    expect(getQueryParams(page).get("toilet")).toBeFalsy();
   });
 });
