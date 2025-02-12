@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "ttag";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import WorldIcon from "../../../icons/actions/World";
 import { CaptionedIconButton } from "./CaptionedIconButton";
@@ -36,11 +37,13 @@ export default function PlaceWebsiteLink({ feature }: Props) {
     [placeWebsiteUrl],
   );
 
+  const caption = hostname.length > 20 ? t`Web` : hostname;
+
   return (
     <CaptionedIconButton
       href={placeWebsiteUrl}
       icon={<WorldIcon />}
-      caption={hostname}
+      caption={caption}
     />
   );
 }
