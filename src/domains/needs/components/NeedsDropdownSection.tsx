@@ -1,9 +1,10 @@
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
-import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
+import {Flex, IconButton, RadioGroup, Text, VisuallyHidden} from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
 import type { NeedCategory, NeedProperties } from "~/domains/needs/needs";
 import { useNeeds } from "~/domains/needs/hooks/useNeeds";
+import {t} from "ttag";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
@@ -63,6 +64,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
         {hasHelpText && (
           <Flex as="span" justify="center" width="40px" aria-hidden>
             <IconButton
+              aria-label={t`Show more information about ${title}`}
               variant="soft"
               highContrast={true}
               color="gray"
