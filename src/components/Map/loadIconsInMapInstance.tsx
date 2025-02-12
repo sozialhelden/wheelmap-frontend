@@ -12,15 +12,9 @@ type IconMap = {
 
 const renderCache = new Map<string, string>();
 const imageCache = new Map<string, HTMLImageElement>();
+const IconSize = 60;
 
-function getFinalIconName(
-  iconName: string,
-  options: { suffix?: string } = {},
-): string {
-  return `${iconName}${options?.suffix ?? ""}`;
-}
-
-function renderIconComponents(
+function renderIconReactComponents(
   icons: IconMap,
   iconName: string,
   finalIconName: string,
@@ -32,6 +26,7 @@ function renderIconComponents(
   const containerElement = document.createElement("div");
   const reactRoot = createRoot(containerElement);
 
+  // Without flushing, the icon component would render asynchronously.
   flushSync(() => {
     const [categoryIconName, accessibilityGrade] = finalIconName.split("-");
     const IconComponent =
@@ -64,12 +59,12 @@ function renderIconComponents(
   return { svgElement, containerElement, reactRoot };
 }
 
-function applyIconTransformations(
+function applyIconTransformationsAndFills(
   svgElement: SVGSVGElement,
   options: { fill?: string; addShadow?: boolean; iconSize?: number } = {},
 ): void {
-  svgElement.setAttribute("width", "60");
-  svgElement.setAttribute("height", "60");
+  svgElement.setAttribute("width", IconSize.toString());
+  svgElement.setAttribute("height", IconSize.toString());
 
   const iconElement = svgElement.querySelector("svg > svg");
   const iconSize = options.iconSize || 1.0;
@@ -94,6 +89,9 @@ function applyIconTransformations(
   }
 }
 
+/**
+ * Enhances icon contrast.
+ */
 function applyDropShadowFilter(svgElement: SVGSVGElement) {
   const graphicalElements = svgElement.querySelectorAll(
     "path, rect, circle, ellipse, line, polyline, polygon",
@@ -122,7 +120,7 @@ function applyDropShadowFilter(svgElement: SVGSVGElement) {
   svgElement.appendChild(defs);
 }
 
-function createSvgDataUrl(div: HTMLDivElement): string {
+function createSVGDataUrl(div: HTMLDivElement): string {
   const svg = div.innerHTML;
   return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
@@ -133,7 +131,13 @@ function loadImageFromDataURL(
   dataUrl: string,
   wasInCache: boolean,
 ): void {
-  const image = new Image(60, 60);
+  const existingImage = imageCache.get(finalIconName);
+  if (existingImage) {
+    map.addImage(finalIconName, existingImage, { pixelRatio: 4 });
+    return;
+  }
+
+  const image = new Image(IconSize, IconSize);
 
   image.onload = () => {
     imageCache.set(finalIconName, image);
@@ -160,7 +164,7 @@ function loadIcon(
     iconSize?: number;
   } = {},
 ): void {
-  const finalIconName = getFinalIconName(iconName, options);
+  const finalIconName = `${iconName}${options?.suffix ?? ""}`;
 
   if (map.hasImage(finalIconName)) {
     return;
@@ -170,25 +174,28 @@ function loadIcon(
   const wasInCache = !!dataUrl;
 
   if (!dataUrl) {
-    const renderResult = renderIconComponents(icons, iconName, finalIconName);
+    const renderResult = renderIconReactComponents(
+      icons,
+      iconName,
+      finalIconName,
+    );
     if (!renderResult) return;
 
     const { svgElement, containerElement: div, reactRoot: root } = renderResult;
-    applyIconTransformations(svgElement, options);
-    dataUrl = createSvgDataUrl(div);
+    applyIconTransformationsAndFills(svgElement, options);
+    dataUrl = createSVGDataUrl(div);
     renderCache.set(finalIconName, dataUrl);
     root.unmount();
     div.innerHTML = "";
   }
 
-  const existingImage = imageCache.get(finalIconName);
-  if (existingImage) {
-    map.addImage(finalIconName, existingImage, { pixelRatio: 4 });
-    return;
-  }
   loadImageFromDataURL(map, finalIconName, dataUrl, wasInCache);
 }
 
+/**
+ * Load all icons in the map instance in batches (asynchronously).
+ * Without batching, the loading would take too long. Synchonous loading would block the UI thread.
+ */
 export async function loadIconsInMapInstance(
   mapInstance: MapBoxMap,
 ): Promise<void> {
