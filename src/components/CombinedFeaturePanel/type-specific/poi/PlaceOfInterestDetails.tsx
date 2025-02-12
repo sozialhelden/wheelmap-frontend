@@ -67,11 +67,6 @@ export default function PlaceOfInterestDetails({
     return (
       <Callout>
         <h2>{t`This place has no known properties.`}</h2>
-        <p>
-          <Link href={`https://openstreetmap.org/${feature._id}`}>
-            {t`View on OpenStreetMap`}
-          </Link>
-        </p>
         <FeaturesDebugJSON features={[feature]} />
       </Callout>
     );
