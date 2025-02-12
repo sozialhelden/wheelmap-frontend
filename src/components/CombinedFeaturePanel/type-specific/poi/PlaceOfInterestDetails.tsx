@@ -1,7 +1,6 @@
 import { Callout } from "@blueprintjs/core";
-import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import { bbox } from "@turf/turf";
-import Link from "next/link";
+import type { BBox } from "geojson";
 import React, { useContext } from "react";
 import { t } from "ttag";
 import { FeatureImageUpload } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
@@ -9,7 +8,6 @@ import {
   type AnyFeature,
   isPlaceInfo,
 } from "../../../../lib/model/geo/AnyFeature";
-import { AppStateLink } from "../../../App/AppStateLink";
 import { useMap } from "../../../Map/useMap";
 import SvgFlag from "../../../icons/actions/Flag";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
@@ -34,6 +32,10 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
+function is2DBBox(bbox: BBox): bbox is [number, number, number, number] {
+  return bbox.length === 4;
+}
+
 export default function PlaceOfInterestDetails({
   feature,
   activeImageId,
@@ -41,6 +43,25 @@ export default function PlaceOfInterestDetails({
 }: Props) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const map = useMap();
+
+  const flyToFeature = React.useCallback(() => {
+    if ("type" in feature) {
+      const featureBbox = bbox(feature);
+      if (!is2DBBox(featureBbox)) {
+        return;
+      }
+      const cameraOptions = map?.map?.cameraForBounds(featureBbox, {
+        maxZoom: 19,
+      });
+      if (cameraOptions) {
+        map?.map?.flyTo({
+          ...cameraOptions,
+          duration: 1000,
+          padding: 100,
+        });
+      }
+    }
+  }, [feature, map]);
 
   if (!feature.properties) {
     return (
@@ -58,24 +79,7 @@ export default function PlaceOfInterestDetails({
 
   return (
     <FeatureContext.Provider value={feature}>
-      <FeatureNameHeader
-        feature={feature}
-        onHeaderClicked={() => {
-          console.log(feature.geometry?.coordinates);
-          const coordinates = feature.geometry?.coordinates;
-          if (!coordinates) {
-            return;
-          }
-
-          const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
-            maxZoom: 19,
-          });
-          if (cameraOptions) {
-            map?.map?.flyTo({ ...cameraOptions, duration: 1000, padding: 100 });
-          }
-          // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
-        }}
-      >
+      <FeatureNameHeader feature={feature} onHeaderClicked={flyToFeature}>
         {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
