@@ -1,5 +1,6 @@
 import { Button, Link } from "@radix-ui/themes";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
 import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";

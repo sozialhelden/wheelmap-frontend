@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import { useCurrentAppToken } from '../../../context/AppContext'
 import { useEnvContext } from '../../../context/EnvContext'
-import { ACCategory } from '../../../../domains/categories/types/ACCategory'
+import type { ACCategory } from '../../../../domains/categories/types/ACCategory'
 
 import {generateSynonymCache} from "~/domains/categories/functions/cache";
 
