@@ -145,6 +145,7 @@ export const valueRenderFunctions: Record<
       wheelchair: "🧑",
       deaf: "👂",
       blind: "👁",
+      undefined: "",
     }[targetGroup];
     return (
       <StyledMarkdown lang={lang}>
