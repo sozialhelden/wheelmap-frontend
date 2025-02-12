@@ -11,10 +11,6 @@ export const unknownCategory: Readonly<ACCategory> = {
   synonyms: [],
   parentIds: [],
 };
-export type CategoryLookupTables = {
-  synonymCache: SynonymCache | undefined;
-  categories: ACCategory[];
-};
 
 export function getCategory(
   synonymCache: SynonymCache,
