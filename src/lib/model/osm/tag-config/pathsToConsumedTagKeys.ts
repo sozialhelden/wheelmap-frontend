@@ -48,6 +48,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["health.healthcare", /^healthcare$/],
   ["health.speciality", /^healthcare:speciality$/],
   ["health.dispensing", /^dispensing$/],
+  ["sports.type", /^sport$/],
   ["capacities.$1", /^capacity:([\w_]+)$/],
   ["capacities.capacity:total", /^capacity$/],
   [
@@ -83,7 +84,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ],
   [
     "amenities.$1",
-    /^(bin|shelter|lit|bench|tactile_paving|compressed_air|power_supply|sanitary_dump_station)$/,
+    /^(bin|shelter|lit|bench|compressed_air|power_supply|sanitary_dump_station)$/,
   ],
   ["service.bike_$1", /^service:bicycle:([\w_]+)$/],
   ["playground_structure.type", /^playground$/],
@@ -96,6 +97,9 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["both.$1", /^([\w_]+):both$/],
   ["ground.surface", /^surface$/],
   ["ground.surface.$1", /^surface:([\w_]+)$/],
+  ["ground.smoothness", /^smoothness$/],
+  ["ground.smoothness.$1", /^smoothness:([\w_]+)$/],
+  ["ground.tactile_paving", /^tactile_paving$/],
   ["ground.kerb", /^kerb$/],
   ["ground.kerb_$1", /^kerb:([\w_]+)$/],
   ["passenger_information.display", /^passenger_information_display$/],

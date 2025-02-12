@@ -115,6 +115,7 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "passenger_information_display:speech_output",
   "departures_board",
   "surface",
+  "smoothness",
   "kerb:approach_aid",
   "blind",
   "fee:conditional",
@@ -125,4 +126,5 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "building:levels",
   "building:part",
   "baby",
+  "sport",
 ]);
