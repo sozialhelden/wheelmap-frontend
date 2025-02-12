@@ -7,6 +7,7 @@ const SvgSport = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
     width="1em"
     height="1em"
     viewBox="0 0 15 15"
+    aria-hidden="true"
     ref={ref}
     {...props}
   >

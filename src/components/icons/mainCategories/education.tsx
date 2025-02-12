@@ -3,13 +3,14 @@ import type { SVGProps } from "react";
 import { type Ref, forwardRef } from "react";
 const SvgEducation = (
   props: SVGProps<SVGSVGElement>,
-  ref: Ref<SVGSVGElement>
+  ref: Ref<SVGSVGElement>,
 ) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
     height="1em"
     viewBox="0 0 15 15"
+    aria-hidden="true"
     ref={ref}
     {...props}
   >
