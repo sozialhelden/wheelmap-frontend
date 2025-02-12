@@ -1,6 +1,8 @@
 import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Flex, IconButton, ScrollArea, Spinner, Theme } from "@radix-ui/themes";
 import React, {
+  ChangeEvent,
+  type ChangeEventHandler,
   type KeyboardEventHandler,
   useEffect,
   useRef,
@@ -9,12 +11,10 @@ import React, {
 import styled from "styled-components";
 import { t } from "ttag";
 import { useMap } from "~/components/Map/useMap";
-import { makeFeatureId } from "~/components/SearchPanel/EnrichedSearchResult";
-import { SearchResult } from "~/components/SearchPanel/SearchResult";
-import { useEnrichedSearchResults } from "~/components/SearchPanel/useEnrichedSearchResults";
 import { type Category, categories } from "~/domains/categories/categories";
-import { getLocalizedCategoryName } from "~/domains/categories/functions/localization";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import { SearchResult } from "~/domains/search/components/SearchResult";
+import { makeFeatureId } from "~/domains/search/functions/data-mapping";
+import { useEnrichedSearchResults } from "~/domains/search/hooks/useEnrichedSearchResults";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 const SearchWrapper = styled.div`
@@ -95,11 +95,15 @@ const SearchResultList = styled.ul`
   padding: 0;
 `;
 
-export function SearchBar() {
+export function Search() {
   const router = useAppStateAwareRouter();
 
-  const [input, setInput] = useState<string>();
-  const [searchTerm, setSearchTerm] = useState<string>();
+  const initialSearchTerm = Array.isArray(router.query.q)
+    ? router.query.q[0]
+    : router.query.q;
+
+  const [input, setInput] = useState<string>(initialSearchTerm);
+  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
@@ -122,12 +126,14 @@ export function SearchBar() {
     );
   };
 
-  const resetCategoryFilter = () => {
-    router.replace({ query: { category: "" } });
+  const resetCategoryFilter = async () => {
+    await router.replace({ query: { category: "" } });
   };
   const reset = () => {
     setInput("");
-    if (categoryFilter) resetCategoryFilter();
+    if (categoryFilter) {
+      resetCategoryFilter();
+    }
   };
   const highlightNext = () => {
     if (!searchResults?.length) return;
@@ -138,6 +144,21 @@ export function SearchBar() {
     if (!searchResults?.length) return;
     const newIndex = Math.max(highlightedIndex - 1, 0);
     setHighlightedIndex(newIndex);
+  };
+
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = async (
+    event,
+  ) => {
+    setInput(event.target.value);
+    if (!categoryFilter) {
+      return;
+    }
+    if (event.target.value !== categories[categoryFilter as Category]?.name()) {
+      await resetCategoryFilter();
+      setSearchTerm(event.target.value);
+      return;
+    }
+    setSearchTerm("");
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
@@ -163,14 +184,19 @@ export function SearchBar() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (debounceTimeout) clearTimeout(debounceTimeout);
-    if (categoryFilter) return;
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+    if (categoryFilter) {
+      return;
+    }
     setDebounceTimeout(setTimeout(() => setSearchTerm(input), 250));
   }, [input]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setHighlightedIndex(-1);
+    router.replace({ query: { q: searchTerm } });
   }, [searchTerm]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -181,20 +207,11 @@ export function SearchBar() {
   }, [highlightedIndex]);
 
   useEffect(() => {
-    if (!categoryFilter) return;
-    setInput(categories[categoryFilter as Category]?.name());
-  }, [categoryFilter]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (!categoryFilter) return;
-    if (input !== categories[categoryFilter as Category]?.name()) {
-      resetCategoryFilter();
-      setSearchTerm(input);
+    if (!categoryFilter) {
       return;
     }
-    setSearchTerm(undefined);
-  }, [input]);
+    setInput(categories[categoryFilter as Category]?.name());
+  }, [categoryFilter]);
 
   return (
     <SearchWrapper>
@@ -202,7 +219,7 @@ export function SearchBar() {
         <SearchFormField $isDropdownOpen={isDropdownOpen}>
           <SearchInput
             value={input}
-            onChange={(event) => setInput(event.target.value)}
+            onChange={handleInputChange}
             type="search"
             placeholder={t`Search for place or address`}
             onKeyDown={handleKeyDown}

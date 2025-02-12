@@ -3,26 +3,24 @@ import { t } from "ttag";
 import styled from "styled-components";
 
 import { Flex } from "@radix-ui/themes";
-import type React, {Ref} from "react";
+import type { MouseEvent, Ref } from "react";
 import { forwardRef } from "react";
 import { useCallback } from "react";
+import { unknownCategory } from "~/domains/categories/functions/cache";
+import { getLocalizedCategoryName } from "~/domains/categories/functions/localization";
+import type { ACCategory } from "~/domains/categories/types/ACCategory";
+import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import useCategory from "~/lib/fetchers/ac/refactor-this/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type { ACCategory } from "~/domains/categories/types/ACCategory";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
-import { AppStateLink } from "../App/AppStateLink";
-import { calculateDefaultPadding } from "../Map/MapOverlapPadding";
-import { useMap } from "../Map/useMap";
-import Icon from "../shared/Icon";
-import {
-  type EnrichedSearchResult,
-  mapResultToUrlObject,
-} from "./EnrichedSearchResult";
-import {unknownCategory} from "~/domains/categories/functions/cache";
-import {getLocalizedCategoryName} from "~/domains/categories/functions/localization";
+import { AppStateLink } from "../../../components/App/AppStateLink";
+import { calculateDefaultPadding } from "../../../components/Map/MapOverlapPadding";
+import { useMap } from "../../../components/Map/useMap";
+import Icon from "../../../components/shared/Icon";
+import { mapResultToUrlObject } from "../functions/data-mapping";
 
 type Props = {
   className?: string;
@@ -102,7 +100,7 @@ export const SearchResult = forwardRef(function SearchResult(
   );
 
   const categoryLabel = useFeatureCategoryLabel(placeName, category);
-  const shownCategoryId = category && category._id;
+  const shownCategoryId = category?._id;
 
   const detailedFeature = (feature.placeInfo ||
     feature.osmFeature) as AnyFeature | null;
@@ -112,7 +110,7 @@ export const SearchResult = forwardRef(function SearchResult(
   const { push } = useAppStateAwareRouter();
   const { map } = useMap();
   const clickHandler = useCallback(
-    (evt: React.MouseEvent) => {
+    (evt: MouseEvent) => {
       if (evt.ctrlKey) {
         return;
       }
@@ -140,7 +138,7 @@ export const SearchResult = forwardRef(function SearchResult(
         });
       }
 
-      if (urlObject && urlObject.pathname) {
+      if (urlObject?.pathname) {
         push(urlObject);
       }
     },
