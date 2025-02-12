@@ -1,9 +1,9 @@
 import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
-import {forwardRef, Ref} from "react";
+import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 import NeedsIcon from "~/components/icons/needs/NeedsIcon";
+import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 
 const StyledButton = styled(Button)`
   max-width: 100%;
@@ -38,39 +38,43 @@ const NumberBadge = styled.span`
   font-size: .85rem;
 `;
 
-export const NeedsButton = forwardRef(function NeedsButton(props, ref: Ref<HTMLButtonElement>) {
+export const NeedsButton = forwardRef(function NeedsButton(
+  props,
+  ref: Ref<HTMLButtonElement>,
+) {
   const { needs: needsMap } = useNeeds();
 
   const needs = Object.values(needsMap);
   const needsWithIcon = needs.filter(({ icon }) => Boolean(icon));
 
-    return (
+  return (
     <Theme radius="full" asChild>
       <StyledButton
         {...props}
         ref={ref}
         variant="soft"
         size="3"
+        aria-label={t`Select your needs`}
       >
+        {needs.length > 0 && (
+          <NumberBadge aria-label={t`You have ${needs.length} needs selected`}>
+            <span aria-hidden>{needs.length}</span>
+          </NumberBadge>
+        )}
         {needs.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
         {needsWithIcon.length > 0 && (
-          <Flex gap="2" ml="3" aria-hidden>
+          <Flex gap="2" ml="3">
             {needsWithIcon.map(({ label, icon: Icon }) => (
               <Tooltip content={`${label()}`} key={label()}>
                 {/* @ts-ignore */}
-                <Icon />
+                <Icon aria-label={label()} />
               </Tooltip>
             ))}
           </Flex>
         )}
-        <IconWrapper>
+        <IconWrapper aria-hidden>
           <NeedsIcon />
         </IconWrapper>
-        {needs.length > 0 && (
-          <NumberBadge aria-label={t`You have ${needs.length} needs selected`}>
-            {needs.length}
-          </NumberBadge>
-        )}
       </StyledButton>
     </Theme>
   );
