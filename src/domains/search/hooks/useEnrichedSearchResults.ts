@@ -1,19 +1,20 @@
 import type { PlaceInfo } from "@sozialhelden/a11yjson";
 import { useContext, useMemo } from "react";
 import useSWR from "swr";
-import { AppContext } from "../../lib/context/AppContext";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
-import useCollectionSWR from "../../lib/fetchers/ac/useCollectionSWR";
-import { useSameAsOSMIdPlaceInfos } from "../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos";
-import fetchPhotonFeatures from "../../lib/fetchers/fetchPhotonFeatures";
-import { useFeatures } from "../../lib/fetchers/useFeatures";
-import type { TypeTaggedPlaceInfo } from "../../lib/model/geo/AnyFeature";
-import { getLocalizedAddressString } from "../../lib/model/geo/getAddressString";
+import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
+import { AppContext } from "../../../lib/context/AppContext";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import useCollectionSWR from "../../../lib/fetchers/ac/useCollectionSWR";
+import { useSameAsOSMIdPlaceInfos } from "../../../lib/fetchers/ac/useSameAsOSMIdPlaceInfos";
+import fetchPhotonFeatures from "../../../lib/fetchers/fetchPhotonFeatures";
+import { useFeatures } from "../../../lib/fetchers/useFeatures";
+import type { TypeTaggedPlaceInfo } from "../../../lib/model/geo/AnyFeature";
+import { getLocalizedAddressString } from "../../../lib/model/geo/getAddressString";
 import {
-  type EnrichedSearchResult,
+  buildId,
+  buildOSMUri,
   makeDisplayDataFromPhotonResult,
-} from "./EnrichedSearchResult";
-import { buildId, buildOSMUri } from "./photonFeatureHelpers";
+} from "../functions/data-mapping";
 
 export function useEnrichedSearchResults(
   searchQuery: string | undefined | null,
