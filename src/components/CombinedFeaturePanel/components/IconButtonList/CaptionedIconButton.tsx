@@ -10,6 +10,10 @@ type Props = {
 };
 
 const ListItem = styled.li`
+  .rt-Text {
+    color: var(--accent-12);
+  }
+
   svg {
     width: 1.5rem;
     height: 1.5rem;
@@ -35,7 +39,7 @@ export function CaptionedIconButton({ icon, caption, href, extraInfo }: Props) {
 
   return (
     <ListItem>
-      <Button asChild color="gray" size="2" variant="ghost">
+      <Button asChild color="blue" size="2" variant="ghost">
         {href ? (
           <AppStateLink href={href} target="_blank" rel="noopener noreferrer">
             {content}
