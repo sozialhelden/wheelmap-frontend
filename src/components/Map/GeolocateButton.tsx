@@ -53,6 +53,7 @@ export const GeolocateButton: FC = () => {
       <GeolocateControl
         positionOptions={{ enableHighAccuracy: true }}
         trackUserLocation
+        position="bottom-right"
       />
     </>
   );

@@ -1,14 +1,10 @@
-import type {FC} from "react";
-import {t} from "ttag";
-import {FullyWheelchairAccessibleIcon} from "~/components/icons/needs/mobility/FullyWheelchairAccessibleIcon";
-import {NoDataIcon} from "~/components/icons/needs/mobility/NoDataIcon";
-import {NotWheelchairAccessibleIcon} from "~/components/icons/needs/mobility/NotWheelchairAccessibleIcon";
-import {
-  PartiallyWheelchairAccessibleCombinationIcon
-} from "~/components/icons/needs/mobility/PartiallyWheelchairAccessibleCombinationIcon";
-import {
-  FullyWheelchairAccessibleToiletIcon
-} from "~/components/icons/needs/toilets/FullyWheelchairAccessibleToiletIcon";
+import type { FC } from "react";
+import { t } from "ttag";
+import { FullyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
+import { NoDataIcon } from "~/domains/needs/components/icons/mobility/NoDataIcon";
+import { NotWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
+import { PartiallyWheelchairAccessibleCombinationIcon } from "~/domains/needs/components/icons/mobility/PartiallyWheelchairAccessibleCombinationIcon";
+import { FullyWheelchairAccessibleToiletIcon } from "~/domains/needs/components/icons/toilets/FullyWheelchairAccessibleToiletIcon";
 
 // add additional need categories and needs to this settings object,
 // everything else including types will be auto-generated based on it.
@@ -112,9 +108,9 @@ const validatedSettings: Record<
 > = settings;
 
 export const categories = Object.entries(settings).map(
-    ([category]) => category as NeedCategory,
+  ([category]) => category as NeedCategory,
 );
 
 export const emptyNeeds = Object.fromEntries(
-    categories.map((category) => [category, undefined]),
+  categories.map((category) => [category, undefined]),
 ) as NeedSelection;
