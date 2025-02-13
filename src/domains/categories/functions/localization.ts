@@ -1,30 +1,28 @@
-import type {ACCategory} from "~/domains/categories/types/ACCategory";
-import {
-    getLocalizedStringTranslationWithMultipleLocales
-} from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type {LocalizedString} from "~/lib/i18n/LocalizedString";
+import type { ACCategory } from "~/domains/categories/types/ACCategory";
+import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import type { LocalizedString } from "~/lib/i18n/LocalizedString";
 
 export function getLocalizableCategoryName(
-    category: ACCategory,
+  category: ACCategory,
 ): LocalizedString | undefined {
-    return category.translations?._id;
+  return category.translations?._id;
 }
 
 export function getLocalizedCategoryName(
-    category: ACCategory | undefined | null,
-    requestedLanguageTags: string[],
+  category: ACCategory | undefined | null,
+  requestedLanguageTags: string[],
 ) {
-    if (!category) {
-        return undefined;
-    }
+  if (!category) {
+    return undefined;
+  }
 
-    const localizedString = getLocalizableCategoryName(category);
-    if (!localizedString) {
-        return undefined;
-    }
+  const localizedString = getLocalizableCategoryName(category);
+  if (!localizedString) {
+    return undefined;
+  }
 
-    return getLocalizedStringTranslationWithMultipleLocales(
-        localizedString,
-        requestedLanguageTags,
-    );
+  return getLocalizedStringTranslationWithMultipleLocales(
+    localizedString,
+    requestedLanguageTags,
+  );
 }

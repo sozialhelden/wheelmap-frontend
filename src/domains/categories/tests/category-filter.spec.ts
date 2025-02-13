@@ -1,12 +1,12 @@
 import { test } from "@playwright/test";
 import { getCategoryList } from "~/domains/categories/functions/display";
 import { expect } from "../../../../tests/setup/test-fixture";
-import { onboarding } from "../../../../tests/utils/onboarding";
+import { skipOnboarding } from "../../../../tests/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/utils/url";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
-  await onboarding(page);
+  await skipOnboarding(page);
 });
 
 test.describe("category-filter", () => {

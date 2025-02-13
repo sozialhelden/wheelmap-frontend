@@ -5,7 +5,7 @@ import {
   type NeedSettings,
   settings as needSettings,
 } from "~/domains/needs/needs";
-import { onboarding } from "../../../../tests/utils/onboarding";
+import { skipOnboarding } from "../../../../tests/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/utils/url";
 
 const getDropdown = (page: Page): Locator => {
@@ -42,7 +42,7 @@ const assertDropdownIsNotVisible = async (page: Page) => {
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
-  await onboarding(page);
+  await skipOnboarding(page);
 });
 
 test.describe("needs-picker", () => {

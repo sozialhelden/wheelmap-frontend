@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { onboarding } from "./utils/onboarding";
+import { skipOnboarding } from "./utils/skipOnboarding";
 
 test("search by name", async ({ page }) => {
   test.skip(
@@ -7,7 +7,7 @@ test("search by name", async ({ page }) => {
     "This is still flaky, because the search toolbar is sometimes re-rendered and cleared after entering something.",
   );
   await page.goto("/");
-  await onboarding(page);
+  await skipOnboarding(page);
   await expect(page.getByRole("dialog")).not.toBeVisible();
 
   if (test.info().project.name.match(/mobile/i)) {
