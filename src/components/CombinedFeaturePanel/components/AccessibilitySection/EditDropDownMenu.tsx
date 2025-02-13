@@ -12,32 +12,34 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
   const [addNewLanguage, setAddNewLanguage] = useState(false);
 
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <IconButton variant="soft" size="2">
-          <Pencil1Icon width="18" height="18" />
-        </IconButton>
-      </DropdownMenu.Trigger>
+    <>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <IconButton variant="soft" size="2">
+            <Pencil1Icon width="18" height="18" />
+          </IconButton>
+        </DropdownMenu.Trigger>
 
-      <DropdownMenu.Content>
-        <DropdownMenu.Item
-          onSelect={() => {
-            setIsDialogOpen(true);
-            setAddNewLanguage(false);
-          }}
-        >
-          {t`Edit this description`}
-        </DropdownMenu.Item>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item
+            onSelect={() => {
+              setIsDialogOpen(true);
+              setAddNewLanguage(false);
+            }}
+          >
+            {t`Edit this description`}
+          </DropdownMenu.Item>
 
-        <DropdownMenu.Item
-          onSelect={() => {
-            setIsDialogOpen(true);
-            setAddNewLanguage(true);
-          }}
-        >
-          {t`Add a description in another language`}
-        </DropdownMenu.Item>
-      </DropdownMenu.Content>
+          <DropdownMenu.Item
+            onSelect={() => {
+              setIsDialogOpen(true);
+              setAddNewLanguage(true);
+            }}
+          >
+            {t`Add a description in another language`}
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
 
       {isDialogOpen && feature && (
         <AutoEditor
@@ -47,6 +49,6 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
           onClose={() => setIsDialogOpen(false)}
         />
       )}
-    </DropdownMenu.Root>
+    </>
   );
 }
