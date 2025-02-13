@@ -51,27 +51,29 @@ export function CategoryFilter() {
                 {name()}
               </StyledButton>
             ))}
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger>
-                <StyledButton
-                  color="gray"
-                  variant="surface"
-                  highContrast
-                  size="1"
-                >
-                  {t`More ...`}
-                  <DropdownMenu.TriggerIcon />
-                </StyledButton>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content>
-                {categoriesInMenu.map(({ id, name, icon: Icon }) => (
-                  <DropdownMenu.Item key={id} onClick={() => filter(id)}>
-                    {Icon && <Icon aria-hidden />}
-                    {name()}
-                  </DropdownMenu.Item>
-                ))}
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
+            {categoriesInMenu.length > 0 && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <StyledButton
+                    color="gray"
+                    variant="surface"
+                    highContrast
+                    size="1"
+                  >
+                    {t`More ...`}
+                    <DropdownMenu.TriggerIcon />
+                  </StyledButton>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  {categoriesInMenu.map(({ id, name, icon: Icon }) => (
+                    <DropdownMenu.Item key={id} onClick={() => filter(id)}>
+                      {Icon && <Icon aria-hidden />}
+                      {name()}
+                    </DropdownMenu.Item>
+                  ))}
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
           </Container>
         </Theme>
       </ScrollArea>

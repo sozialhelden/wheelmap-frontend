@@ -63,4 +63,17 @@ test.describe("category-filter", () => {
 
     expect(getQueryParams(page).get("category")).toBe("shopping");
   });
+
+  test("it adds the category as URL query param when clicking a category in the menu", async ({
+    page,
+  }) => {
+    expect(getQueryParams(page).get("category")).toBeFalsy();
+    await expect(page.getByRole("menuitem", { name: "Money" })).toHaveCount(0);
+
+    await page.getByRole("button", { name: "More ..." }).click();
+    await expect(page.getByRole("menuitem", { name: "Money" })).toBeVisible();
+    await page.getByRole("menuitem", { name: "Money" }).click();
+
+    expect(getQueryParams(page).get("category")).toBe("money_post");
+  });
 });
