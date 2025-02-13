@@ -127,8 +127,14 @@ export function SearchFormField({
         />
         {input ? (
           <Flex width="32px">
-            <IconButton variant="ghost" size="3" color="gray" onClick={reset}>
-              <Cross1Icon height="16" width="16" />
+            <IconButton
+              variant="ghost"
+              size="3"
+              color="gray"
+              onClick={reset}
+              aria-label={t`Clear search`}
+            >
+              <Cross1Icon height="16" width="16" aria-hidden />
             </IconButton>
           </Flex>
         ) : (

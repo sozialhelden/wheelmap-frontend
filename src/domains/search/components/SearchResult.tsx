@@ -146,7 +146,12 @@ export const SearchResult = forwardRef(function SearchResult(
   );
 
   return (
-    <StyledListItem $isHighlighted={isHighlighted} ref={ref} {...props}>
+    <StyledListItem
+      $isHighlighted={isHighlighted}
+      ref={ref}
+      {...props}
+      data-testid={isHighlighted && "highlighted-search-result"}
+    >
       <Flex asChild gap="2">
         <AppStateLink
           href={mapResultToUrlObject(feature)}
@@ -163,7 +168,7 @@ export const SearchResult = forwardRef(function SearchResult(
             <h3 className={detailedFeature ? "is-on-wheelmap" : undefined}>
               {placeName}
               {categoryLabel && (
-                <span className="category-label">{categoryLabel}</span>
+                <span className="category-label"> {categoryLabel}</span>
               )}
             </h3>
             {addressString ? <address>{addressString}</address> : null}
