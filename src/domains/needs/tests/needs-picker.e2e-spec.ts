@@ -5,8 +5,8 @@ import {
   type NeedSettings,
   settings as needSettings,
 } from "~/domains/needs/needs";
-import { skipOnboarding } from "../../../../tests/utils/skipOnboarding";
-import { getQueryParams } from "../../../../tests/utils/url";
+import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
+import { getQueryParams } from "../../../../tests/e2e/utils/url";
 
 const getDropdown = (page: Page): Locator => {
   return page
