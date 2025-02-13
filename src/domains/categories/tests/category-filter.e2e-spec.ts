@@ -1,8 +1,8 @@
 import { test } from "@playwright/test";
 import { getCategoryList } from "~/domains/categories/functions/display";
-import { expect } from "../../../../tests/setup/test-fixture";
-import { skipOnboarding } from "../../../../tests/utils/skipOnboarding";
-import { getQueryParams } from "../../../../tests/utils/url";
+import { expect } from "../../../../tests/e2e/setup/test-fixture";
+import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
+import { getQueryParams } from "../../../../tests/e2e/utils/url";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");

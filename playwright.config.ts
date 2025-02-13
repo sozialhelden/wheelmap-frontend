@@ -13,7 +13,7 @@ const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
  */
 export default defineConfig({
   testDir: "./",
-  testMatch: "**/*.spec.ts",
+  testMatch: "**/*.e2e-spec.ts",
   /* Run tests in files in parallel */
   fullyParallel: !process.env.CI,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
