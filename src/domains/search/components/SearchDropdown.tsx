@@ -43,26 +43,34 @@ export const SearchDropdown = forwardRef(function SearchDropdown(
   ref: Ref<HTMLDivElement>,
 ) {
   return (
-    <StyledSearchDropdown $visible={isOpen} ref={ref}>
-      {isSearching && (
-        <Flex justify="center" align="center" p="4">
-          <Spinner size="3" />
-        </Flex>
-      )}
-      {!isSearching && !hasResults && (
-        <Flex justify="center" align="center" p="4">
-          {t`No results found!`}
-        </Flex>
-      )}
-      {!isSearching && hasError && (
-        <Flex justify="center" align="center" p="4">
-          {t`An error occurred. Please try again later!`}
-        </Flex>
-      )}
-      {!isSearching && !hasError && hasResults && (
-        <TrimmedScrollArea scrollbars="vertical">
-          <SearchResultList>{children}</SearchResultList>
-        </TrimmedScrollArea>
+    <StyledSearchDropdown
+      $visible={isOpen}
+      ref={ref}
+      data-testid="search-result-dropdown"
+    >
+      {isOpen && (
+        <>
+          {isSearching && (
+            <Flex justify="center" align="center" p="4">
+              <Spinner size="3" />
+            </Flex>
+          )}
+          {!isSearching && !hasResults && (
+            <Flex justify="center" align="center" p="4">
+              {t`No results found!`}
+            </Flex>
+          )}
+          {!isSearching && hasError && (
+            <Flex justify="center" align="center" p="4">
+              {t`An error occurred. Please try again later!`}
+            </Flex>
+          )}
+          {!isSearching && !hasError && hasResults && (
+            <TrimmedScrollArea scrollbars="vertical">
+              <SearchResultList>{children}</SearchResultList>
+            </TrimmedScrollArea>
+          )}
+        </>
       )}
     </StyledSearchDropdown>
   );
