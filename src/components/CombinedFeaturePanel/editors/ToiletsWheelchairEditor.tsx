@@ -1,14 +1,12 @@
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "ttag";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import { AppStateLink } from "../../App/AppStateLink";
 import { ToiletStatusNotAccessible } from "../../icons/accessibility";
 import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
-import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
@@ -18,13 +16,14 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   onSubmit,
+  onClose,
 }: BaseEditorProps) => {
-  const { baseFeatureUrl } = useContext(FeaturePanelContext);
-
   const current = isOrHasAccessibleToilet(feature);
   const [editedTagValue, setEditedTagValue] = useState<
     YesNoUnknown | undefined
   >(current);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
     useState<boolean>(true);
 
@@ -33,7 +32,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   }, [current, editedTagValue]);
 
   return (
-    <Dialog.Root open>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content
         aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
@@ -83,22 +82,23 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
             </form>
 
             <Flex gap="3" mt="3" justify="end">
-              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-                <Button variant="soft" size="2" aria-label={t`Cancel`}>
-                  {t`Cancel`}
-                </Button>
-              </AppStateLink>
+              <Button
+                variant="soft"
+                size="2"
+                aria-label={t`Cancel`}
+                onClick={onClose}
+              >
+                {t`Cancel`}
+              </Button>
 
-              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-                <Button
-                  variant="solid"
-                  size="2"
-                  aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
-                  onClick={saveButtonDoesNothing ? undefined : onSubmit}
-                >
-                  {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-                </Button>
-              </AppStateLink>
+              <Button
+                variant="solid"
+                size="2"
+                aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
+                onClick={saveButtonDoesNothing ? onClose : onSubmit}
+              >
+                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              </Button>
             </Flex>
           </StyledReportView>
         </Flex>
