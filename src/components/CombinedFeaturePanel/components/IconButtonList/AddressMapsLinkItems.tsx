@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React from "react";
+import useCategory from "../../../../domains/categories/hooks/useCategory";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
-import useCategory from "../../../../lib/fetchers/ac/refactor-this/useCategory";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import { generateMapsUrl } from "../../../../lib/model/geo/generateMapsUrls";
 import { placeNameFor } from "../../../../lib/model/geo/placeNameFor";

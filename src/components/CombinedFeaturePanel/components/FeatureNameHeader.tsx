@@ -10,7 +10,7 @@ import Icon from "../../shared/Icon";
 import { PlaceNameH1, PlaceNameH2 } from "../../shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import { Box, Button } from "@radix-ui/themes";
-import {unknownCategory} from "~/domains/categories/functions/cache";
+import { unknownCategory } from "~/domains/categories/functions/cache";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;

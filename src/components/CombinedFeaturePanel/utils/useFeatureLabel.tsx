@@ -1,19 +1,17 @@
-import * as React from 'react'
-import { compact } from 'lodash'
-import { t } from 'ttag'
-import type { AnyFeature } from '../../../lib/model/geo/AnyFeature'
-import useCategory from '../../../lib/fetchers/ac/refactor-this/useCategory'
-import { usePlaceInfo } from '../../../lib/fetchers/ac/usePlaceInfo'
-import { placeNameFor } from '../../../lib/model/geo/placeNameFor'
-import {
-  getLocalizedStringTranslationWithMultipleLocales,
-} from '../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales'
-import useAccessibilityAttributesIdMap from '../../../lib/fetchers/ac/useAccessibilityAttributesIdMap'
-import getGenericCategoryDisplayName from '../../../lib/model/osm/getFeatureCategoryDisplayName'
-import getEquipmentInfoDescription from '../../NodeToolbar/Equipment/getEquipmentInfoDescription'
-import useWikidataName from '../../../lib/fetchers/wikidata/useWikidataName'
-import {getCategoryForFeature} from "~/domains/categories/functions/cache";
-import {getLocalizableCategoryName} from "~/domains/categories/functions/localization";
+import { compact } from "lodash";
+import * as React from "react";
+import { t } from "ttag";
+import { getCategoryForFeature } from "~/domains/categories/functions/cache";
+import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import useCategory from "../../../domains/categories/hooks/useCategory";
+import useAccessibilityAttributesIdMap from "../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
+import { usePlaceInfo } from "../../../lib/fetchers/ac/usePlaceInfo";
+import useWikidataName from "../../../lib/fetchers/wikidata/useWikidataName";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
+import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
+import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
+import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 
 function getRoomNumberString(roomNumber: string) {
   return t`Room ${roomNumber}`;
