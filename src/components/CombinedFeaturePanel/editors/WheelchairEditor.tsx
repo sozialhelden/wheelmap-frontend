@@ -11,7 +11,7 @@ import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
-import {unknownCategory} from "~/domains/categories/functions/cache";
+import { unknownCategory } from "~/domains/categories/functions/cache";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,

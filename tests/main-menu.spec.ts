@@ -1,11 +1,11 @@
 import { expect, test } from "./setup/test-fixture";
 import { skipOnDesktops, skipOnMobiles } from "./utils/device";
-import { onboarding } from "./utils/onboarding";
+import { skipOnboarding } from "./utils/skipOnboarding";
 
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.
   await page.goto("/");
-  await onboarding(page);
+  await skipOnboarding(page);
 });
 
 test("has banner", async ({ page }) => {

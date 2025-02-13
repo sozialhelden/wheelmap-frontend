@@ -1,16 +1,22 @@
-import {createContext, type ReactNode, useContext, useMemo, useState,} from "react";
 import {
-    categories,
-    emptyNeeds,
-    type NeedCategory,
-    type Needs,
-    type NeedSelection,
-    type NeedSettings,
-    settings,
+  createContext,
+  type ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import {
+  categories,
+  emptyNeeds,
+  type NeedCategory,
+  type Needs,
+  type NeedSelection,
+  type NeedSettings,
+  settings,
 } from "~/domains/needs/needs";
 import {
-    useSyncWithLegacyA11yFilterQueryParams,
-    useLegacyA11yFilterQueryParamsDefaultSelection,
+  useSyncWithLegacyA11yFilterQueryParams,
+  useLegacyA11yFilterQueryParamsDefaultSelection,
 } from "~/domains/needs/hooks/useLegacyA11yFilterQueryParams";
 
 type NeedsContext = {

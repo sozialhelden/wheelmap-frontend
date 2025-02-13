@@ -48,7 +48,9 @@ export function useLegacyA11yFilterQueryParamsDefaultSelection(): {
 }
 
 // sync the given needs with the legacy a11y-filter query params wheelchair and toilet
-export function useSyncWithLegacyA11yFilterQueryParams({ needs }: { needs: Needs }) {
+export function useSyncWithLegacyA11yFilterQueryParams({
+  needs,
+}: { needs: Needs }) {
   const router = useAppStateAwareRouter();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
