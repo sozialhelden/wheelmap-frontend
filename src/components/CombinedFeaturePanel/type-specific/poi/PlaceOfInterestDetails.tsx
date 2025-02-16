@@ -1,6 +1,6 @@
 import { Callout } from "@blueprintjs/core";
 import { bbox } from "@turf/turf";
-import Link from "next/link";
+import type { BBox } from "geojson";
 import React, { useContext } from "react";
 import { t } from "ttag";
 import { FeatureImageUpload } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
@@ -8,8 +8,8 @@ import {
   type AnyFeature,
   isPlaceInfo,
 } from "../../../../lib/model/geo/AnyFeature";
-import { AppStateLink } from "../../../App/AppStateLink";
 import { useMap } from "../../../Map/useMap";
+import SvgFlag from "../../../icons/actions/Flag";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import FeatureAccessibility from "../../components/AccessibilitySection/FeatureAccessibility";
 import NextToiletDirections from "../../components/AccessibilitySection/NextToiletDirections";
@@ -19,6 +19,7 @@ import { FeatureGallery } from "../../components/FeatureGallery";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
 import FeaturesDebugJSON from "../../components/FeaturesDebugJSON";
 import AddressMapsLinkItems from "../../components/IconButtonList/AddressMapsLinkItems";
+import { CaptionedIconButton } from "../../components/IconButtonList/CaptionedIconButton";
 import ExternalInfoAndEditPageLinks from "../../components/IconButtonList/ExternalInfoAndEditPageLinks";
 import PhoneNumberLinks from "../../components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "../../components/IconButtonList/PlaceWebsiteLink";
@@ -31,6 +32,10 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
+function is2DBBox(bbox: BBox): bbox is [number, number, number, number] {
+  return bbox.length === 4;
+}
+
 export default function PlaceOfInterestDetails({
   feature,
   activeImageId,
@@ -39,15 +44,29 @@ export default function PlaceOfInterestDetails({
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const map = useMap();
 
+  const flyToFeature = React.useCallback(() => {
+    if ("type" in feature) {
+      const featureBbox = bbox(feature);
+      if (!is2DBBox(featureBbox)) {
+        return;
+      }
+      const cameraOptions = map?.map?.cameraForBounds(featureBbox, {
+        maxZoom: 19,
+      });
+      if (cameraOptions) {
+        map?.map?.flyTo({
+          ...cameraOptions,
+          duration: 1000,
+          padding: 100,
+        });
+      }
+    }
+  }, [feature, map]);
+
   if (!feature.properties) {
     return (
       <Callout>
         <h2>{t`This place has no known properties.`}</h2>
-        <p>
-          <Link href={`https://openstreetmap.org/${feature._id}`}>
-            {t`View on OpenStreetMap`}
-          </Link>
-        </p>
         <FeaturesDebugJSON features={[feature]} />
       </Callout>
     );
@@ -55,24 +74,7 @@ export default function PlaceOfInterestDetails({
 
   return (
     <FeatureContext.Provider value={feature}>
-      <FeatureNameHeader
-        feature={feature}
-        onHeaderClicked={() => {
-          console.log(feature.geometry?.coordinates);
-          const coordinates = feature.geometry?.coordinates;
-          if (!coordinates) {
-            return;
-          }
-
-          const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
-            maxZoom: 19,
-          });
-          if (cameraOptions) {
-            map?.map?.flyTo({ ...cameraOptions, duration: 1000, padding: 100 });
-          }
-          // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
-        }}
-      >
+      <FeatureNameHeader feature={feature} onHeaderClicked={flyToFeature}>
         {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
@@ -101,9 +103,12 @@ export default function PlaceOfInterestDetails({
         {/*
         <ShareButtons {...props} />
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
+        <CaptionedIconButton
+          href={`${baseFeatureUrl}/report`}
+          icon={<SvgFlag />}
+          caption={t`Report`}
+        />
       </StyledIconButtonList>
-
-      <AppStateLink href={`${baseFeatureUrl}/report`}>{t`Report`}</AppStateLink>
     </FeatureContext.Provider>
   );
 }

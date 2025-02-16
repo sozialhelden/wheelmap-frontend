@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { t } from "ttag";
 import useDocumentSWR from "../../../../lib/fetchers/ac/useDocumentSWR";
-import type ISource from "../../../../lib/model/ac/ISource";
 import type { TypeTaggedPlaceInfo } from "../../../../lib/model/geo/AnyFeature";
 import WorldIcon from "../../../icons/actions/World";
+import { CaptionedIconButton } from "./CaptionedIconButton";
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;
@@ -11,34 +11,31 @@ type Props = {
 
 export default function ExternalInfoAndEditPageLinks(props: Props) {
   const { feature } = props;
-  const featureId = feature._id;
-  const source = useDocumentSWR<ISource>({
-    collectionName: "Sources",
+  const featureId = feature?._id;
+  const source = useDocumentSWR({
+    type: "ac:Source",
+    cached: true,
     _id: featureId,
   });
   const sourceNameString = source.data?.name;
-  const { editPageUrl, infoPageUrl } = feature.properties;
+  const { editPageUrl, infoPageUrl } = feature?.properties ?? {};
 
   return (
     <>
       {infoPageUrl && sourceNameString && (
-        <li>
-          <Link href={infoPageUrl}>
-            <WorldIcon />
-            {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
-            <span>{t`Open on ${sourceNameString}`}</span>
-          </Link>
-        </li>
+        <CaptionedIconButton
+          href={infoPageUrl}
+          icon={<WorldIcon />}
+          caption={sourceNameString}
+        />
       )}
 
       {editPageUrl && editPageUrl !== infoPageUrl && (
-        <li>
-          <Link href={editPageUrl}>
-            <WorldIcon />
-            {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
-            <span>{t`Add info on ${sourceNameString}`}</span>
-          </Link>
-        </li>
+        <CaptionedIconButton
+          href={editPageUrl}
+          icon={<WorldIcon />}
+          caption={t`Edit on ${sourceNameString}`}
+        />
       )}
     </>
   );

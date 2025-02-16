@@ -22,4 +22,6 @@ export const horizontalKeys = new Set([
   "passenger_information",
   "ground",
   "capacities",
+  "sports",
+  "material",
 ]);

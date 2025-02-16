@@ -1,5 +1,5 @@
+import { Box } from "@radix-ui/themes";
 import { isEqual } from "lodash";
-import { t } from "ttag";
 import type { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import FeatureAccessibility from "../../components/AccessibilitySection/FeatureAccessibility";
@@ -16,12 +16,9 @@ export default function OSMBuildingDetails({
   }
 
   return (
-    <section>
-      <h4>{t`Part of`}</h4>
-      <article>
-        <FeatureNameHeader feature={feature} size="small" />
-        <FeatureAccessibility feature={feature} />
-      </article>
-    </section>
+    <>
+      <FeatureNameHeader feature={feature} size="small" />
+      <FeatureAccessibility feature={feature} />
+    </>
   );
 }

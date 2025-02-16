@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import useCategory from "../../../../lib/fetchers/ac/refactor-this/useCategory";
@@ -13,6 +14,7 @@ import RouteIcon from "../../../icons/actions/Route";
 import FeatureAddressString, {
   addressForFeature,
 } from "../FeatureAddressString";
+import { CaptionedIconButton } from "./CaptionedIconButton";
 
 type Props = {
   feature?: AnyFeature;
@@ -31,7 +33,7 @@ export default function AddressMapsLinkItems(props: Props) {
     [feature, category, languageTags],
   );
 
-  const openInMaps = React.useMemo(
+  const openInMapsUrl = React.useMemo(
     () => generateMapsUrl(userAgent, feature, placeName),
     [userAgent, feature, placeName],
   );
@@ -41,26 +43,24 @@ export default function AddressMapsLinkItems(props: Props) {
     [feature],
   );
 
-  const address = addressForFeature(feature);
-  const addressElement = address && <FeatureAddressString address={address} />;
+  // const address = addressForFeature(feature);
+  // const addressElement = address && <FeatureAddressString address={address} />;
 
   return (
     <>
-      {openInMaps && (
-        <li>
-          <Link href={openInMaps.url} target="_blank" rel="noopener noreferrer">
-            <RouteIcon />
-            <span>{addressElement || openInMaps.caption}</span>
-          </Link>
-        </li>
+      {openInMapsUrl && (
+        <CaptionedIconButton
+          href={openInMapsUrl}
+          icon={<RouteIcon />}
+          caption={t`Map`}
+        />
       )}
       {showOnOsmUrl && (
-        <li>
-          <Link href={showOnOsmUrl} target="_blank" rel="noopener noreferrer">
-            <PlaceIcon />
-            <span>{openButtonCaption("OpenStreetMap")}</span>
-          </Link>
-        </li>
+        <CaptionedIconButton
+          href={showOnOsmUrl}
+          icon={<PlaceIcon />}
+          caption={t`OpenStreetMap`}
+        />
       )}
     </>
   );

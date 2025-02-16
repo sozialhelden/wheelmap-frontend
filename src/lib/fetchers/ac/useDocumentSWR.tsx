@@ -12,7 +12,7 @@ type Args<RDFTypeName> = {
   /** The RDF type of the document to fetch {@link AccessibilityCloudRDFType}. */
   type: RDFTypeName;
   /** The ID of the document to fetch. */
-  _id: string;
+  _id?: string;
   /** Additional query parameters to include in the request. */
   params?: URLSearchParams;
   /** Whether to use the CDN-cached version of the document. Defaults to `true`.

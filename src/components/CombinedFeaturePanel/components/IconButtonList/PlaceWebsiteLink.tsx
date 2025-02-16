@@ -1,13 +1,8 @@
-import Link from "next/link";
-import styled from "styled-components";
+import React from "react";
+import { t } from "ttag";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import WorldIcon from "../../../icons/actions/World";
-
-const NonBreakingSpan = styled.span`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
+import { CaptionedIconButton } from "./CaptionedIconButton";
 
 type Props = {
   feature: AnyFeature;
@@ -37,12 +32,18 @@ export default function PlaceWebsiteLink({ feature }: Props) {
     return null;
   }
 
+  const hostname = React.useMemo(
+    () => new URL(placeWebsiteUrl).hostname.replace(/^www\./, ""),
+    [placeWebsiteUrl],
+  );
+
+  const caption = hostname.length > 20 ? t`Web` : hostname;
+
   return (
-    <li>
-      <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
-        <WorldIcon />
-        <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
-      </Link>
-    </li>
+    <CaptionedIconButton
+      href={placeWebsiteUrl}
+      icon={<WorldIcon />}
+      caption={caption}
+    />
   );
 }

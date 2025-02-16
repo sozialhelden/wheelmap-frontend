@@ -6,7 +6,6 @@ import {
   Flex,
   Grid,
   Text,
-  Tooltip,
   VisuallyHidden,
 } from "@radix-ui/themes";
 import React, { type FC, useContext } from "react";
@@ -24,8 +23,8 @@ const CriteriaListItem = styled.li`
 `;
 
 const CriteriaListIcon = styled(CheckIcon)`
-  fill: var(--green-a10);
-  stroke: var(--green-a10);
+  fill: var(--success-a10);
+  stroke: var(--success-a10);
   width: 1.5rem;
   height: 1.5rem;
   flex-shrink: 0;
