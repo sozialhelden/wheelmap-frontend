@@ -165,6 +165,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
           <div hidden={addNewLanguage ? !hasValueChanged : false}>
             <TextArea
+              dir="auto"
               ref={textAreaRef}
               aria-label={t`Enter a description here`}
               defaultValue={addNewLanguage ? undefined : initialTagValue}
