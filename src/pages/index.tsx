@@ -1,19 +1,39 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { getLayout } from "../components/App/MapLayout";
-import { SearchButtonOrInput } from "../components/SearchPanel/SearchButtonOrInput";
-import { isFirstStart } from "../lib/util/savedState";
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { getLayout } from "~/components/App/MapLayout";
+import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
+import { Search } from "~/domains/search/components/Search";
+import { isFirstStart } from "~/lib/util/savedState";
+
+const Toolbar = styled.div`
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  @media (min-width: 1025px) {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+`;
 
 export default function Page() {
   const router = useRouter();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (isFirstStart()) {
       router.replace("/onboarding");
     }
-  }, [router]);
+  }, []);
 
-  return <SearchButtonOrInput />;
+  return (
+    <Toolbar>
+      <Search />
+      <CategoryFilter />
+    </Toolbar>
+  );
 }
 
 Page.getLayout = getLayout;

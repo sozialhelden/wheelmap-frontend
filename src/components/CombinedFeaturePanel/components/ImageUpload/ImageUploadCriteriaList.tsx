@@ -15,7 +15,7 @@ import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
 const CriteriaList = styled.ul`
-    list-style: none;
+    list-style-type: "";
     padding: 0;
 `;
 

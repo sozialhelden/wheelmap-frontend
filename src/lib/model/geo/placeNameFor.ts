@@ -2,10 +2,10 @@ import { t } from "ttag";
 import getEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription";
 import type { LocalizedString } from "../../i18n/LocalizedString";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type { ACCategory } from "../ac/categories/ACCategory";
-import { getLocalizableCategoryName } from "../ac/categories/Categories";
+import type { ACCategory } from "../../../domains/categories/types/ACCategory";
 import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
 import type { AnyFeature } from "./AnyFeature";
+import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
 
 export function placeNameFor(
   feature: AnyFeature,

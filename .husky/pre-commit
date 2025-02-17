@@ -10,7 +10,7 @@
 npx biome lint --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
 
 # Fix formatting in applicable files
-biome format --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
+npx biome format --write --files-ignore-unknown=true --no-errors-on-unmatched --staged
 
 # Include changes from automatic fixes in the current commit
 git update-index --again
