@@ -1,9 +1,8 @@
 import { Button } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { t } from "ttag";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
@@ -46,7 +45,6 @@ export const AutoEditor = ({
   addNewLanguage,
   onClose,
 }: BaseEditorProps) => {
-  const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const accessToken = useSession().data?.accessToken;
   const env = useEnvContext();
@@ -71,41 +69,19 @@ export const AutoEditor = ({
   const [finalTagName, setFinalTagName] = useState(tagName);
   const [newTagValue, setEditedTagValue] = useState<string>("");
 
-  const handleSuccess = React.useCallback(() => {
+  function handleSuccess() {
     toast.success(
       t`Thank you for contributing. Your edit will be visible soon.`,
     );
-    const newPath = router.asPath.replace(
-      new RegExp(`/edit/${finalTagName}`),
-      "",
+  }
+
+  function handleError() {
+    toast.error(
+      t`Something went wrong. Please let us know if the error persists.`,
     );
-    router.push(newPath);
-  }, [router, finalTagName]);
-
-  const handleOSMSuccessDBError = React.useCallback(() => {
-    const message = [
-      t`Thank you for contributing.`,
-      t` There was an error while trying to save your changes to our database.`,
-      t` Your changes will still be visible on Open Street Map.`,
-    ];
-    toast.warning(message);
-    // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    // router.push(newPath)
-  }, []);
-
-  const handleError = React.useCallback((error: Error, message?: string) => {
-    const defaultMessage = [
-      t`Your contribution could not be saved completely.`,
-      t`Please try again later or let us know if the error persists. Error: ${error}`,
-    ].join(" ");
-
-    toast.error(message || defaultMessage);
-  }, []);
+  }
 
   const submitNewValue = useSubmitNewValueCallback({
-    handleSuccess,
-    handleOSMSuccessDBError,
-    handleError,
     accessToken,
     baseUrl: remoteOSMAPIBaseUrl,
     osmType,
@@ -113,41 +89,30 @@ export const AutoEditor = ({
     tagName: finalTagName,
     newTagValue,
     currentOSMObjectOnServer: currentOSMObjectOnServer.data,
+    handleSuccess,
+    handleError,
   });
 
-  const handleSubmitButtonClick = async () => {
+  const onSubmit = async () => {
     if (accessToken) {
       await submitNewValue();
       return;
     }
-    if (!newTagValue || !osmId) {
-      handleError(
-        new Error("Missing Information"),
-        t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
-      );
-      return;
-    }
+
     try {
       await makeChangeRequestToInhouseApi({
         baseUrl: inhouseOSMAPIBaseURL,
-        osmId,
+        osmType: osmType,
+        osmId: osmId,
         tagName: finalTagName,
-        newTagValue,
+        newTagValue: newTagValue,
+        postSuccessMessage: handleSuccess,
+        postErrorMessage: handleError,
       });
-      handleSuccess();
     } catch (error) {
-      handleError(
-        error,
-        t`Something went wrong. Please let us know if the error persists.`,
-      );
+      // TODO: handle error somehow
     }
   };
-
-  const onUrlMutationSuccess = React.useCallback((urls: string[]) => {
-    mutate((key: string) => urls.includes(key), undefined, {
-      revalidate: true,
-    });
-  }, []);
 
   const handleTagKeyChange = React.useCallback(
     (newPickerValue: string) => {
@@ -157,15 +122,9 @@ export const AutoEditor = ({
 
       if (updatedTagName !== finalTagName) {
         setFinalTagName(updatedTagName);
-
-        const newUrl = router.asPath.replace(
-          `/edit/${tagKey}`,
-          `/edit/${updatedTagName}`,
-        );
-        router.replace(newUrl, undefined, { shallow: true });
       }
     },
-    [tagName, tagKey, router, finalTagName],
+    [tagName, finalTagName],
   );
 
   const Editor = getEditorForKey(tagKey);
@@ -175,8 +134,7 @@ export const AutoEditor = ({
         feature={feature}
         tagKey={finalTagName}
         onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        onSubmit={handleSubmitButtonClick}
+        onSubmit={onSubmit}
         addNewLanguage={addNewLanguage}
         onLanguageChange={handleTagKeyChange}
         onClose={onClose}
