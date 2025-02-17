@@ -18,7 +18,7 @@ const StyledSearchDropdown = styled.div<{ $visible: boolean }>`
   z-index: 20;
 `;
 const SearchResultList = styled.ul`
-  list-style: none;
+  list-style-type: "";
   margin: 0;
   padding: 0;
 `;

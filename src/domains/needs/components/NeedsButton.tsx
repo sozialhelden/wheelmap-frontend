@@ -54,20 +54,24 @@ export const NeedsButton = forwardRef(function NeedsButton(
         ref={ref}
         variant="soft"
         size="3"
-        aria-label={t`Select your needs`}
+        aria-label={
+          needs.length === 0
+            ? t`Select your needs`
+            : t`You have ${needs.length} needs selected: ${needs.map(({ label }) => `"${label()}"`).join(", ")}`
+        }
       >
         {needs.length > 0 && (
-          <NumberBadge aria-label={t`You have ${needs.length} needs selected`}>
-            <span aria-hidden>{needs.length}</span>
+          <NumberBadge aria-hidden>
+            <span>{needs.length}</span>
           </NumberBadge>
         )}
         {needs.length === 0 && <Text ml="3">{t`What do you need?`}</Text>}
         {needsWithIcon.length > 0 && (
-          <Flex gap="2" ml="3">
+          <Flex gap="2" ml="3" aria-hidden>
             {needsWithIcon.map(({ label, icon: Icon }) => (
               <Tooltip content={`${label()}`} key={label()}>
                 {/* @ts-ignore */}
-                <Icon aria-label={label()} />
+                <Icon />
               </Tooltip>
             ))}
           </Flex>
