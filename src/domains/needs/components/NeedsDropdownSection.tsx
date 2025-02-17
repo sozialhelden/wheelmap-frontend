@@ -8,9 +8,9 @@ import {
 } from "@radix-ui/themes";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
-import type { NeedCategory, NeedProperties } from "~/domains/needs/needs";
-import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 import { t } from "ttag";
+import { useNeeds } from "~/domains/needs/hooks/useNeeds";
+import type { NeedCategory, NeedProperties } from "~/domains/needs/needs";
 
 const Wrapper = styled.section<{ $showDivider: boolean }>`
   padding: var(--space-5) var(--space-5) var(--space-5) var(--space-6);
@@ -51,14 +51,15 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
   const { title, needs } = useNeeds().settings[category];
 
   const helpTextBaseId = `needs-help-text-${category}`;
+  const headingId = `needs-heading-${category}`;
+
   const toggleHelp = () => {
     setIsHelpExpanded(!isHelpExpanded);
   };
-  const hasHelpText = Boolean(
-    Object.entries(needs).find(([_, { help }]: [string, NeedProperties]) =>
-      Boolean(help),
-    ),
+  const needsWithHelpText = Object.entries(needs).filter(
+    ([_, { help }]: [string, NeedProperties]) => Boolean(help),
   );
+  const hasHelpText = Boolean(needsWithHelpText.length);
 
   return (
     <Wrapper
@@ -66,7 +67,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
       $showDivider={Boolean(showDivider)}
     >
       <Flex justify="between" align="center" mb="2">
-        <Heading>{title}</Heading>
+        <Heading id={headingId}>{title}</Heading>
         {hasHelpText && (
           <Flex as="span" justify="center" width="40px" aria-hidden>
             <IconButton
@@ -82,7 +83,12 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
         )}
       </Flex>
       <Flex asChild direction="column" gap="2">
-        <RadioGroup.Root size="3" onValueChange={onValueChange} value={value}>
+        <RadioGroup.Root
+          size="3"
+          onValueChange={onValueChange}
+          value={value}
+          aria-labelledby={headingId}
+        >
           {Object.entries(needs).map(
             ([key, { label, help, icon: Icon }]: [string, NeedProperties]) => {
               return (
