@@ -135,7 +135,6 @@ export default function useSubmitNewValueCallback({
   newTagValue,
   currentOSMObjectOnServer,
   handleSuccess,
-  handleOSMSuccessDBError,
   handleError,
 }: {
   accessToken: string;
@@ -146,8 +145,7 @@ export default function useSubmitNewValueCallback({
   newTagValue: string;
   currentOSMObjectOnServer: OSMAPIElement | undefined;
   handleSuccess: () => void;
-  handleOSMSuccessDBError: (error: Error) => void;
-  handleError: (error: Error) => void;
+  handleError: () => void;
 }) {
   const { baseUrl: inhouseBaseUrl } = useInhouseOSMAPI({ cached: false });
 
@@ -159,6 +157,7 @@ export default function useSubmitNewValueCallback({
       !osmType ||
       !osmId
     ) {
+      handleError();
       throw new Error(
         "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.",
       );
@@ -174,8 +173,6 @@ export default function useSubmitNewValueCallback({
         newValue: newTagValue,
       });
 
-      console.log("changeset id: ", changesetId);
-
       await createChange({
         baseUrl,
         accessToken,
@@ -189,19 +186,20 @@ export default function useSubmitNewValueCallback({
 
       changesetComplete = true;
 
+      // user gets a success toast as soon as the changes are successfully made on osm
+      handleSuccess();
+
       await callBackendToUpdateInhouseDb({
         baseUrl: inhouseBaseUrl,
         osmType,
         osmId,
         tagName,
       });
-
-      handleSuccess();
     } catch (error) {
       if (changesetComplete) {
-        handleOSMSuccessDBError(error);
+        // log
       } else {
-        handleError(error);
+        // log
       }
     }
   }, [
@@ -213,8 +211,7 @@ export default function useSubmitNewValueCallback({
     tagName,
     osmId,
     osmType,
-    handleError,
-    handleOSMSuccessDBError,
     handleSuccess,
+    handleError,
   ]);
 }
