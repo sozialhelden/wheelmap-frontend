@@ -52,7 +52,7 @@ const ImageNav = styled.nav`
   transform: translateY(-50%);
 `;
 const ImageNavList = styled.ul`
-  list-style: none;
+  list-style-type: "";
   padding: 0;
   display: flex;
   justify-content: space-between;

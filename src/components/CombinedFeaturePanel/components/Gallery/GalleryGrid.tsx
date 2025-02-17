@@ -2,7 +2,7 @@ import type { FC, ReactNode } from "react";
 import styled from "styled-components";
 
 const ImageList = styled.ul`
-  list-style: none;
+  list-style-type: "";
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.5rem;
