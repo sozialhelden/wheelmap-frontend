@@ -159,7 +159,6 @@ export { default as textiles } from "./textiles";
 export { default as theater } from "./theater";
 export { default as themepark } from "./themepark";
 export { default as tobacco } from "./tobacco";
-export { ToiletIcon as toilet } from "./toilet";
 export { default as toilets } from "./toilets";
 export { default as tools } from "./tools";
 export { default as tourism } from "./tourism";

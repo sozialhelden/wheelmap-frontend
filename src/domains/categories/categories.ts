@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { t } from "ttag";
-import { ToiletIcon } from "~/components/icons/categories/toilet";
+import { default as Toilet } from "~/components/icons/categories/toilets";
 import {
   Accommodation,
   Education,
@@ -80,7 +80,7 @@ export const categories = {
   toilets: {
     // translator: Meta category for any toilet or any place with an accessible toilet
     name: () => t`Toilets`,
-    icon: ToiletIcon,
+    icon: Toilet,
     applyCustomSearchParams: (params: URLSearchParams) => {
       params.set("hasToiletInfo", "true");
     },
