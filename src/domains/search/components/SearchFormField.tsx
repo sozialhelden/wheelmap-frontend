@@ -115,34 +115,32 @@ export function SearchFormField({
   }, [value]);
 
   return (
-    <Theme radius="medium" asChild>
-      <StyledSearchFormField $isDropdownOpen={isDropdownOpen}>
-        <SearchInput
-          value={input}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          type="search"
-          placeholder={t`Search for place or address`}
-          {...props}
-        />
-        {input ? (
-          <Flex width="32px">
-            <IconButton
-              variant="ghost"
-              size="3"
-              color="gray"
-              onClick={reset}
-              aria-label={t`Clear search`}
-            >
-              <Cross1Icon height="16" width="16" aria-hidden />
-            </IconButton>
-          </Flex>
-        ) : (
-          <IconOverlay>
-            <MagnifyingGlassIcon height="16" width="16" />
-          </IconOverlay>
-        )}
-      </StyledSearchFormField>
-    </Theme>
+    <StyledSearchFormField $isDropdownOpen={isDropdownOpen}>
+      <SearchInput
+        value={input}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        type="search"
+        placeholder={t`Search for place or address`}
+        {...props}
+      />
+      {input ? (
+        <Flex width="32px">
+          <IconButton
+            variant="ghost"
+            size="3"
+            color="gray"
+            onClick={reset}
+            aria-label={t`Clear search`}
+          >
+            <Cross1Icon height="16" width="16" aria-hidden />
+          </IconButton>
+        </Flex>
+      ) : (
+        <IconOverlay>
+          <MagnifyingGlassIcon height="16" width="16" />
+        </IconOverlay>
+      )}
+    </StyledSearchFormField>
   );
 }
