@@ -23,6 +23,7 @@ import "~/app/app.css";
 import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
 import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
+import { SidebarContextProvider } from "~/domains/sidebar/SidebarContext.ts";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {
@@ -83,7 +84,9 @@ export default function MyApp(
                         >
                           <NeedsContextProvider>
                             <AppContextProvider>
-                              {getLayout(<Component />)}
+                              <SidebarContextProvider>
+                                {getLayout(<Component />)}
+                              </SidebarContextProvider>
                             </AppContextProvider>
                           </NeedsContextProvider>
                         </LanguageCodeContextProvider>

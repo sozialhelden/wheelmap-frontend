@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import "normalize.css";
-import React, { useState } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
-import { CaretLeftIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Theme, ThemePanel } from "@radix-ui/themes";
+import { Flex, Theme, ThemePanel } from "@radix-ui/themes";
 import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
+import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
 import { AppContext } from "../../lib/context/AppContext";
 import { useExpertMode } from "../../lib/useExpertMode";
 import { isFirstStart } from "../../lib/util/savedState";
@@ -93,7 +93,7 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { isOpen, toggle } = useSidebarContext();
 
   return (
     <ThemeProvider attribute="class">
@@ -114,19 +114,9 @@ export default function MapLayout({
               )}
               {isOnboardingVisible && <Onboarding />}
               <main style={{ height: "100%" }} ref={containerRef}>
-                <SidebarContainer $isOpen={isSidebarOpen}>
+                <SidebarContainer $isOpen={isOpen}>
                   <Sidebar>
-                    <Flex justify="end">
-                      <Button
-                        size="3"
-                        variant="surface"
-                        color="gray"
-                        highContrast={true}
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                      >
-                        <CaretLeftIcon />
-                      </Button>
-                    </Flex>
+                    <Flex justify="end"></Flex>
                   </Sidebar>
                   <LoadableMapView width={width} height={height} key="map" />
                 </SidebarContainer>
