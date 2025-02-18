@@ -36,20 +36,34 @@ function loadIcon(
   const wasInCache = !!dataUrl;
   if (!dataUrl) {
     const div = document.createElement("div");
+
     const root = createRoot(div);
-    flushSync(() => {
-      const [categoryIconName, accessibilityGrade] = finalIconName.split("-");
-      const IconComponent =
-        categoryIconName && accessibilityGrade
-          ? icons[categoryIconName]
-          : icons[iconName];
-      const element = accessibilityGrade ? (
-        <ColoredIconMarker accessibilityGrade={accessibilityGrade}>
-          <IconComponent />
-        </ColoredIconMarker>
-      ) : (
+    const [categoryIconName, accessibilityGrade] = finalIconName.split("-");
+    const IconComponent =
+      categoryIconName && accessibilityGrade
+        ? icons[categoryIconName]
+        : icons[iconName];
+
+    // Marker color originates from a CSS variable value like `var(--rating-good)`
+    const style = getComputedStyle(document.documentElement);
+    const backgroundColor = style.getPropertyValue(
+      `--rating-${accessibilityGrade}`,
+    );
+    const foregroundColor = style.getPropertyValue(
+      `--rating-${accessibilityGrade}-contrast`,
+    );
+    const element = accessibilityGrade ? (
+      <ColoredIconMarker
+        accessibilityGrade={accessibilityGrade}
+        backgroundColor={backgroundColor}
+      >
         <IconComponent />
-      );
+      </ColoredIconMarker>
+    ) : (
+      <IconComponent />
+    );
+
+    flushSync(() => {
       root.render(element);
     });
     const svgElement = div.querySelector("svg");
@@ -76,13 +90,12 @@ function loadIcon(
         `scale(${options.iconSize}, ${options.iconSize})`,
       );
     }
-    if (options?.fill) {
-      const filledElements = iconElement.querySelectorAll(
+    const filledElements =
+      iconElement?.querySelectorAll(
         "path, rect, circle, ellipse, line, polyline, polygon",
-      );
-      for (const e of filledElements) {
-        e.setAttribute("fill", options.fill);
-      }
+      ) ?? [];
+    for (const e of filledElements) {
+      e.setAttribute("fill", options.fill ?? foregroundColor);
     }
 
     if (options.addShadow) {
@@ -147,13 +160,11 @@ export function loadIconsInMapInstance(mapInstance: MapBoxMap): void {
   for (const iconName of Object.keys(categoryIcons)) {
     for (const accessibilityGrade of ["yes", "no", "limited"]) {
       loadIcon(mapInstance, categoryIcons, iconName, {
-        fill: "white",
         addShadow: true,
         suffix: `-${accessibilityGrade}`,
       });
     }
     loadIcon(mapInstance, categoryIcons, iconName, {
-      fill: "#666",
       addShadow: true,
       suffix: "-unknown",
       iconSize: 0.8,

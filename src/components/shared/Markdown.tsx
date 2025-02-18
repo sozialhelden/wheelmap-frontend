@@ -1,8 +1,10 @@
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Callout } from "@radix-ui/themes";
 import { omit } from "lodash";
 import { type MarkedOptions, parse, parseInline } from "marked";
 import type * as React from "react";
+import { t } from "ttag";
 import unindent from "../../lib/util/strings/unindent";
-import NotificationText from "./NotificationText";
 
 interface IProps extends React.HTMLProps<HTMLDivElement> {
   children?: string | null | false;
@@ -20,9 +22,12 @@ export function MarkdownDiv(props: IProps) {
   }
   if (typeof props.children !== "string") {
     return (
-      <NotificationText type="negative">
-        Markdown content must be a string.
-      </NotificationText>
+      <Callout.Root color="gray" variant="soft">
+        <Callout.Icon>
+          <ExclamationTriangleIcon />
+        </Callout.Icon>
+        <Callout.Text>{t`Markdown must be a string.`}</Callout.Text>
+      </Callout.Root>
     );
   }
 

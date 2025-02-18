@@ -2,14 +2,13 @@ import type * as React from "react";
 import styled, { css } from "styled-components";
 import { t } from "ttag";
 
+import { Button } from "@radix-ui/themes";
 import type {
   YesNoLimitedUnknown,
   YesNoUnknown,
 } from "../../lib/model/ac/Feature";
-import colors from "../../lib/util/colors";
 import { AppStateLink } from "../App/AppStateLink";
 import CloseIcon from "../icons/actions/Close";
-import Button from "../shared/Button";
 import CombinedIcon from "./CombinedIcon";
 
 type Props = {
@@ -63,6 +62,8 @@ function AccessibilityFilterButton(props: Props) {
         onKeyDown={props.onKeyDown}
         tabIndex={0}
         aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
+        variant="ghost"
+        size="3"
       >
         <CombinedIcon
           {...{

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import colors from "../../lib/util/colors";
 import Toolbar from "../shared/Toolbar";
 import CategoryMenu from "./CategoryMenu";
 
@@ -29,7 +28,7 @@ export const StyledToolbar = styled(Toolbar)`
         height: 50px;
         min-height: 50px;
         z-index: 5;
-        border-bottom: 1px ${colors.borderColor} solid;
+        border-bottom: 1px var(--gray-4) solid;
         background: white;
 
         > form {
