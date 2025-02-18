@@ -1,5 +1,5 @@
 import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Flex, IconButton, Theme } from "@radix-ui/themes";
+import { Flex, IconButton } from "@radix-ui/themes";
 import {
   type ChangeEventHandler,
   type KeyboardEventHandler,
@@ -17,9 +17,9 @@ const StyledSearchFormField = styled.div<{
   background: var(--color-panel-solid);
   border: 1px solid var(--gray-7);
   box-shadow: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "none" : "rgba(0,0,0,0.2) 0 .025rem .2rem")};
-  border-radius: var(--radius-4);
-  border-bottom-right-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "var(--radius-4)")};
-  border-bottom-left-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "var(--radius-4)")};
+  border-radius: max(var(--radius-3), var(--radius-full));
+  border-bottom-right-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "max(var(--radius-3), var(--radius-full))")};
+  border-bottom-left-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "max(var(--radius-3), var(--radius-full))")};
   display: flex;
   justify-content: space-between;
   align-items: center;

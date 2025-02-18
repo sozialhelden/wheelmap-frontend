@@ -1,5 +1,5 @@
 import { CaretLeftIcon, CaretRightIcon } from "@radix-ui/react-icons";
-import { Button } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
@@ -25,9 +25,14 @@ const CategoryFilterContainer = styled.div`
     margin-left: 1rem;
 `;
 const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
+    height: 100%;
     background: var(--color-panel-solid);
     border: 1px solid var(--gray-7);
     box-shadow: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "none" : "rgba(0,0,0,0.2) 0 .025rem .2rem")};
+    &:hover {
+        border-color: var(--gray-8);
+    }
+    
 `;
 
 export default function Page() {
@@ -43,18 +48,22 @@ export default function Page() {
 
   return (
     <Toolbar>
-      <Search />
-      <SidebarToggleButton
-        size="3"
-        variant="surface"
-        color="gray"
-        highContrast={true}
-        onClick={toggle}
-        $isSidebarOpen={isOpen}
-      >
-        {isOpen && <CaretLeftIcon />}
-        {!isOpen && <CaretRightIcon />}
-      </SidebarToggleButton>
+      <Flex align="stretch" gap="4" mx="4">
+        <Search />
+        <div>
+          <SidebarToggleButton
+            size="3"
+            variant="surface"
+            color="gray"
+            highContrast={true}
+            onClick={toggle}
+            $isSidebarOpen={isOpen}
+          >
+            {isOpen && <CaretLeftIcon />}
+            {!isOpen && <CaretRightIcon />}
+          </SidebarToggleButton>
+        </div>
+      </Flex>
       <CategoryFilterContainer>
         <CategoryFilter />
       </CategoryFilterContainer>
