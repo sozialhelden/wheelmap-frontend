@@ -44,7 +44,7 @@ function loadIcon(
         ? icons[categoryIconName]
         : icons[iconName];
 
-    // Marker color originates from a CSS variable value like `var(--rating-yes)`
+    // Marker color originates from a CSS variable value like `var(--rating-good)`
     const style = getComputedStyle(document.documentElement);
     const backgroundColor = style.getPropertyValue(
       `--rating-${accessibilityGrade}`,
