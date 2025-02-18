@@ -1,4 +1,3 @@
-import { Card } from "@radix-ui/themes";
 import includes from "lodash/includes";
 import minBy from "lodash/minBy";
 import uniq from "lodash/uniq";
@@ -70,6 +69,9 @@ const StyledSection = styled.section`
   position: fixed;
   overscroll-behavior-y: contain;
   touch-action: pan-y;
+  max-height: calc(100dvh - var(--topbar-height)) ;
+    
+  background-color: var(--color-panel-solid);
 
   /* user-select: none; */
   -webkit-user-drag: none;
@@ -78,7 +80,7 @@ const StyledSection = styled.section`
   left: 0;
   left: constant(safe-area-inset-left);
   left: env(safe-area-inset-left);
-  @media (max-height: 512px), (max-width: 1024px) {
+  @media (max-width: 1024px) {
     bottom: 0;
   }
   /* Sizing (more sizing for different viewports below) */
@@ -86,7 +88,7 @@ const StyledSection = styled.section`
   width: calc(calc(var(--search-bar-width) + calc(2 * var(--space-2))) + 5rem);
   max-width: 100%;
   z-index: 10;
-  padding-top: 4.5rem;
+  padding: 4.5rem var(--space-4) var(--space-4) var(--space-4) ;
   
   @media (min-width: 1025px) {
     height: 100%;
@@ -293,7 +295,7 @@ export default function Toolbar({
   const transformY = React.useMemo(() => {
     const isToolbarFittingOnScreenCompletely =
       viewportHeight - toolbarHeight - stops[0] > 0;
-    const isBigViewport = viewportWidth > 1024 && viewportHeight > 1024;
+    const isBigViewport = viewportWidth > 1024 && viewportHeight > 512;
     const transformY =
       isBigViewport && isToolbarFittingOnScreenCompletely
         ? 0
@@ -507,49 +509,41 @@ export default function Toolbar({
   );
 
   return (
-    <Card asChild={true} size="1">
-      <StyledSection
-        className={filteredClassNames}
+    <StyledSection
+      className={filteredClassNames}
+      style={{
+        touchAction,
+        transition,
+        overflowY: topOffset > 0 ? "hidden" : "auto",
+        transform: `translate3d(0, ${transformY}px, 0)`,
+        top:
+          isModal || viewportHeight <= 512 || viewportWidth <= 1024
+            ? undefined
+            : `calc(var(--topbar-height) - 1px)`,
+      }}
+      ref={scrollElementRef}
+      aria-hidden={inert || hidden}
+      role={role}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      data-minimal-top-position={minimalTopPosition}
+      data-top-offset={topOffset}
+      data-dimensions-viewport-height={viewportHeight}
+      data-dimensions-height={toolbarHeight}
+      data-stops={stops.toString()}
+      onTouchMoveCapture={handleTouchMove}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onScroll={onScroll}
+    >
+      <div
         style={{
-          touchAction,
-          transition,
-          overflowY: topOffset > 0 ? "hidden" : "auto",
-          transform: `translate3d(0, ${transformY}px, 0)`,
-          top:
-            isModal || viewportHeight <= 1024 || viewportWidth <= 1024
-              ? undefined
-              : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
-          maxHeight: getMaxHeight(
-            minimalTopPosition,
-            viewportWidth,
-            viewportHeight,
-            isModal || false,
-          ),
+          transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)`,
         }}
-        ref={scrollElementRef}
-        aria-hidden={inert || hidden}
-        role={role}
-        aria-label={ariaLabel}
-        aria-describedby={ariaDescribedBy}
-        data-minimal-top-position={minimalTopPosition}
-        data-top-offset={topOffset}
-        data-dimensions-viewport-height={viewportHeight}
-        data-dimensions-height={toolbarHeight}
-        data-stops={stops.toString()}
-        onTouchMoveCapture={handleTouchMove}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onScroll={onScroll}
       >
-        <div
-          style={{
-            transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)`,
-          }}
-        >
-          {isSwipeable && !isModal ? grabHandleButton : null}
-          {children}
-        </div>
-      </StyledSection>
-    </Card>
+        {isSwipeable && !isModal ? grabHandleButton : null}
+        {children}
+      </div>
+    </StyledSection>
   );
 }

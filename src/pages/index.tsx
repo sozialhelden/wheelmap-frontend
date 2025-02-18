@@ -74,7 +74,7 @@ export default function Page() {
           <CategoryFilter />
         </CategoryFilterContainer>
       </SearchToolbar>
-      <Toolbar>asdf</Toolbar>
+      <Toolbar hidden={!isOpen}>asdf</Toolbar>
     </>
   );
 }
