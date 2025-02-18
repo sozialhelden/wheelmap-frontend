@@ -29,19 +29,39 @@ const Onboarding = dynamic(() => import("../Onboarding/OnboardingView"), {
 const SidebarContainer = styled.div<{ $isOpen?: boolean }>`
   --toggle-button-width: 5.25rem;
   --sidebar-width: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2));
+  --sidebar-drag-handle-height: var(--space-6);
   
   box-sizing: border-box;
   padding-top: var(--topbar-height);
   display: grid;
-  grid-template-columns: ${({ $isOpen }) => ($isOpen ? "var(--sidebar-width) auto" : "0 100%")};
   height: 100%;
-  transition: grid-template-columns 400ms ease-in-out;
+  grid-template-rows: ${({ $isOpen }) => ($isOpen ? "auto auto" : "auto var(--sidebar-drag-handle-height)")};
+  
+  @media (min-width: 1025px) {
+      transition: grid-template-columns 400ms ease-in-out;
+      grid-template-columns: ${({ $isOpen }) => ($isOpen ? "var(--sidebar-width) auto" : "0 100%")};
+  }
 `;
 const Sidebar = styled.div`
   padding: var(--space-2);
   box-sizing: border-box;
   height: 100%;
   background: var(--color-panel-solid);
+  order: 2;
+`;
+const DragHandle = styled.div`
+    cursor: grab;
+    height: var(--sidebar-drag-handle-height);
+    text-align: center;
+    margin-top: calc(var(--space-2) * -1);
+    &::before {
+      content: "";
+      display: inline-block;
+      height: .25rem;
+      width: 4rem;
+      background: var(--gray-8);
+      border-radius: 99px;
+    }  
 `;
 
 const BlurLayer = styled.div<{ active: boolean }>`
@@ -94,7 +114,7 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
-  const { isOpen, toggle } = useSidebarContext();
+  const { isOpen } = useSidebarContext();
 
   return (
     <ThemeProvider attribute="class">
@@ -117,7 +137,7 @@ export default function MapLayout({
               <main style={{ height: "100%" }} ref={containerRef}>
                 <SidebarContainer $isOpen={isOpen}>
                   <Sidebar>
-                    <Flex justify="end"></Flex>
+                    <DragHandle />
                   </Sidebar>
                   <LoadableMapView width={width} height={height} key="map" />
                 </SidebarContainer>

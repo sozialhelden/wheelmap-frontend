@@ -12,6 +12,7 @@ import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 const SearchWrapper = styled.div`
     position: relative;
     flex-shrink: 0;
+    width: 100%;
     @media (max-width: 1024px) {
         margin-bottom: var(--space-2);
     }

@@ -29,10 +29,13 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     background: var(--color-panel-solid);
     border: 1px solid var(--gray-7);
     box-shadow: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "none" : "rgba(0,0,0,0.2) 0 .025rem .2rem")};
+    display: none;
     &:hover {
         border-color: var(--gray-8);
     }
-    
+    @media (min-width: 1025px) {
+        display: inline-flex;
+    }
 `;
 
 export default function Page() {
