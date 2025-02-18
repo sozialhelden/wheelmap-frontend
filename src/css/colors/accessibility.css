@@ -7,13 +7,13 @@
  */
 
 :root {
-  --rating-yes: var(--grass-9);
-  --rating-limited: var(--orange-9);
-  --rating-no: var(--ruby-9);
+  --rating-good: var(--grass-9);
+  --rating-mediocre: var(--orange-9);
+  --rating-bad: var(--ruby-9);
   --rating-unknown: var(--gray-9);
 
-  --rating-yes-contrast: var(--grass-contrast);
-  --rating-limited-contrast: var(--orange-contrast);
-  --rating-no-contrast: var(--ruby-contrast);
+  --rating-good-contrast: var(--grass-contrast);
+  --rating-mediocre-contrast: var(--orange-contrast);
+  --rating-bad-contrast: var(--ruby-contrast);
   --rating-unknown-contrast: var(--gray-contrast);
 }
