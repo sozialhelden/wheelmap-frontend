@@ -127,7 +127,7 @@ function loadImageFromDataURL(
   map: MapBoxMap,
   mapboxIconName: string,
   dataUrl: string,
-  wasInCache: boolean,
+  logErrors: boolean,
 ): void {
   const existingImage = imageCache.get(mapboxIconName);
   if (existingImage) {
@@ -149,7 +149,7 @@ function loadImageFromDataURL(
     colno?: number,
     error?: Error,
   ) => {
-    if (!wasInCache) {
+    if (logErrors) {
       console.error(`Could not load icon ${mapboxIconName}:`, error);
     }
   };
@@ -171,19 +171,16 @@ function loadIcon({
   if (map.hasImage(mapboxIconName)) {
     return;
   }
-
   let dataUrl = renderCache.get(mapboxIconName);
   const wasInCache = !!dataUrl;
-
   if (!dataUrl) {
     dataUrl = renderIconAsDataUrl(element, styling);
-    if (!dataUrl) {
-      return;
-    }
-    renderCache.set(mapboxIconName, dataUrl);
   }
-
-  loadImageFromDataURL(map, mapboxIconName, dataUrl, wasInCache);
+  if (!dataUrl) {
+    return;
+  }
+  renderCache.set(mapboxIconName, dataUrl);
+  loadImageFromDataURL(map, mapboxIconName, dataUrl, !wasInCache);
 }
 
 async function processTasksInBatches(tasks: (() => void)[], batchSize: number) {
