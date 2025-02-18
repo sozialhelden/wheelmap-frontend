@@ -502,7 +502,6 @@ export default function Toolbar({
             isModal || false,
           ),
           backgroundColor: "var(--card-background-color)",
-          WebkitBackdropFilter: "var(--backdrop-filter-panel)",
           backdropFilter: "var(--backdrop-filter-panel)",
         }}
         ref={scrollElementRef}
