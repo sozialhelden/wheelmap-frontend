@@ -27,7 +27,7 @@ const Onboarding = dynamic(() => import("../Onboarding/OnboardingView"), {
 });
 
 const SidebarContainer = styled.div<{ $isOpen?: boolean }>`
-  --toggle-button-width: 7rem;
+  --toggle-button-width: 5.25rem;
   --sidebar-width: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2));
   
   box-sizing: border-box;
@@ -39,8 +39,9 @@ const SidebarContainer = styled.div<{ $isOpen?: boolean }>`
 `;
 const Sidebar = styled.div`
   padding: var(--space-2);
-  margin-top: 4rem;
   box-sizing: border-box;
+  height: 100%;
+  background: var(--color-panel-solid);
 `;
 
 const BlurLayer = styled.div<{ active: boolean }>`

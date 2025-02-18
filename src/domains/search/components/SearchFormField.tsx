@@ -8,11 +8,15 @@ import {
 } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
+import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
 
-const StyledSearchFormField = styled.div<{ $isDropdownOpen: boolean }>`
+const StyledSearchFormField = styled.div<{
+  $isDropdownOpen: boolean;
+  $isSidebarOpen: boolean;
+}>`
   background: var(--color-panel-solid);
   border: 1px solid var(--gray-7);
-  box-shadow: rgba(0,0,0,0.2) 0 .025rem .2rem;
+  box-shadow: ${({ $isSidebarOpen }) => ($isSidebarOpen ? "none" : "rgba(0,0,0,0.2) 0 .025rem .2rem")};
   border-radius: var(--radius-4);
   border-bottom-right-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "var(--radius-4)")};
   border-bottom-left-radius: ${({ $isDropdownOpen }) => ($isDropdownOpen ? "0" : "var(--radius-4)")};
@@ -74,6 +78,7 @@ export function SearchFormField({
 }) {
   const [input, setInput] = useState<string>(value);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
+  const { isOpen: isSidebarOpen } = useSidebarContext();
 
   const reset = () => {
     setInput("");
@@ -115,7 +120,10 @@ export function SearchFormField({
   }, [value]);
 
   return (
-    <StyledSearchFormField $isDropdownOpen={isDropdownOpen}>
+    <StyledSearchFormField
+      $isDropdownOpen={isDropdownOpen}
+      $isSidebarOpen={isSidebarOpen}
+    >
       <SearchInput
         value={input}
         onChange={handleInputChange}
