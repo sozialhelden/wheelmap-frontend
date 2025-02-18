@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
+import { useMap } from "~/components/Map/useMap";
 
 type SidebarContextType = {
   isOpen: boolean;
@@ -23,14 +24,17 @@ export function SidebarContextProvider({ children }) {
   const close = () => setIsOpen(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const values = {
-    isOpen,
-    open,
-    close,
-    toggle,
-  };
   return (
-    <SidebarContext.Provider value={values}>{children}</SidebarContext.Provider>
+    <SidebarContext.Provider
+      value={{
+        isOpen,
+        open,
+        close,
+        toggle,
+      }}
+    >
+      {children}
+    </SidebarContext.Provider>
   );
 }
 

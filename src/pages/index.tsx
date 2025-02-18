@@ -4,16 +4,18 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
+import Toolbar from "~/components/shared/Toolbar";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
 import { Search } from "~/domains/search/components/Search";
 import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
 import { isFirstStart } from "~/lib/util/savedState";
 
-const Toolbar = styled.div`
+const SearchToolbar = styled.div`
   position: fixed;
   top: calc(var(--topbar-height) + var(--space-3));
   left: 0;
   right: 0;
+  z-index: 20;
   @media (min-width: 1025px) {
     display: flex;  
     gap: var(--space-1);
@@ -50,27 +52,30 @@ export default function Page() {
   }, []);
 
   return (
-    <Toolbar>
-      <Flex align="stretch" gap="4" mx="4">
-        <Search />
-        <div>
-          <SidebarToggleButton
-            size="3"
-            variant="surface"
-            color="gray"
-            highContrast={true}
-            onClick={toggle}
-            $isSidebarOpen={isOpen}
-          >
-            {isOpen && <CaretLeftIcon />}
-            {!isOpen && <CaretRightIcon />}
-          </SidebarToggleButton>
-        </div>
-      </Flex>
-      <CategoryFilterContainer>
-        <CategoryFilter />
-      </CategoryFilterContainer>
-    </Toolbar>
+    <>
+      <SearchToolbar>
+        <Flex align="stretch" gap="4" mx="4">
+          <Search />
+          <div>
+            <SidebarToggleButton
+              size="3"
+              variant="surface"
+              color="gray"
+              highContrast={true}
+              onClick={toggle}
+              $isSidebarOpen={isOpen}
+            >
+              {isOpen && <CaretLeftIcon />}
+              {!isOpen && <CaretRightIcon />}
+            </SidebarToggleButton>
+          </div>
+        </Flex>
+        <CategoryFilterContainer>
+          <CategoryFilter />
+        </CategoryFilterContainer>
+      </SearchToolbar>
+      <Toolbar>asdf</Toolbar>
+    </>
   );
 }
 

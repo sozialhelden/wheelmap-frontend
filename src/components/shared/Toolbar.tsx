@@ -78,30 +78,35 @@ const StyledSection = styled.section`
   left: 0;
   left: constant(safe-area-inset-left);
   left: env(safe-area-inset-left);
-  @media (max-height: 512px), (max-width: 512px) {
+  @media (max-height: 512px), (max-width: 1024px) {
     bottom: 0;
   }
   /* Sizing (more sizing for different viewports below) */
   box-sizing: border-box;
-  width: 600px;
+  width: calc(calc(var(--search-bar-width) + calc(2 * var(--space-2))) + 5rem);
   max-width: 100%;
-  min-width: 320px;
-
-  &.toolbar-is-modal {
-    z-index: 1000;
-    padding-bottom: calc(constant(safe-area-inset-bottom) + 8px);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
-
-    @media (max-height: 512px), (max-width: 512px) {
-      margin-bottom: 0px;
-    }
-
-    @media (min-width: 513px) and (min-height: 513px) {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) !important;
-    }
+  z-index: 10;
+  padding-top: 4.5rem;
+  
+  @media (min-width: 1025px) {
+    height: 100%;
   }
+
+  //&.toolbar-is-modal {
+  //  z-index: 1000;
+  //  padding-bottom: calc(constant(safe-area-inset-bottom) + 8px);
+  //  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+  //
+  //  @media (max-height: 512px), (max-width: 1024px) {
+  //    margin-bottom: 0px;
+  //  }
+  //
+  //  @media (min-width: 1025px) and (min-height: 513px) {
+  //    top: 50%;
+  //    left: 50%;
+  //    transform: translate(-50%, -50%) !important;
+  //  }
+  //}
 
   outline: none;
   overflow: auto;
@@ -117,9 +122,7 @@ const StyledSection = styled.section`
     outline: none;
   }
 
-  border-radius: 8px;
-
-  @media (max-width: 512px) {
+  @media (max-width: 1024px) {
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
     border-bottom-left-radius: 0px;
@@ -290,7 +293,7 @@ export default function Toolbar({
   const transformY = React.useMemo(() => {
     const isToolbarFittingOnScreenCompletely =
       viewportHeight - toolbarHeight - stops[0] > 0;
-    const isBigViewport = viewportWidth > 512 && viewportHeight > 512;
+    const isBigViewport = viewportWidth > 1024 && viewportHeight > 1024;
     const transformY =
       isBigViewport && isToolbarFittingOnScreenCompletely
         ? 0
@@ -513,7 +516,7 @@ export default function Toolbar({
           overflowY: topOffset > 0 ? "hidden" : "auto",
           transform: `translate3d(0, ${transformY}px, 0)`,
           top:
-            isModal || viewportHeight <= 512 || viewportWidth <= 512
+            isModal || viewportHeight <= 1024 || viewportWidth <= 1024
               ? undefined
               : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
           maxHeight: getMaxHeight(

@@ -26,44 +26,6 @@ const Onboarding = dynamic(() => import("../Onboarding/OnboardingView"), {
   ssr: false,
 });
 
-const SidebarContainer = styled.div<{ $isOpen?: boolean }>`
-  --toggle-button-width: 5.25rem;
-  --sidebar-width: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2));
-  --sidebar-drag-handle-height: var(--space-6);
-  
-  box-sizing: border-box;
-  padding-top: var(--topbar-height);
-  display: grid;
-  height: 100%;
-  grid-template-rows: ${({ $isOpen }) => ($isOpen ? "auto auto" : "auto var(--sidebar-drag-handle-height)")};
-  
-  @media (min-width: 1025px) {
-      transition: grid-template-columns 400ms ease-in-out;
-      grid-template-columns: ${({ $isOpen }) => ($isOpen ? "var(--sidebar-width) auto" : "0 100%")};
-  }
-`;
-const Sidebar = styled.div`
-  padding: var(--space-2);
-  box-sizing: border-box;
-  height: 100%;
-  background: var(--color-panel-solid);
-  order: 2;
-`;
-const DragHandle = styled.div`
-    cursor: grab;
-    height: var(--sidebar-drag-handle-height);
-    text-align: center;
-    margin-top: calc(var(--space-2) * -1);
-    &::before {
-      content: "";
-      display: inline-block;
-      height: .25rem;
-      width: 4rem;
-      background: var(--gray-8);
-      border-radius: 99px;
-    }  
-`;
-
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
   top: 0;
@@ -114,8 +76,6 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
-  const { isOpen } = useSidebarContext();
-
   return (
     <ThemeProvider attribute="class">
       <Theme
@@ -135,13 +95,7 @@ export default function MapLayout({
               )}
               {isOnboardingVisible && <Onboarding />}
               <main style={{ height: "100%" }} ref={containerRef}>
-                <SidebarContainer $isOpen={isOpen}>
-                  <Sidebar>
-                    <DragHandle />
-                  </Sidebar>
-                  <LoadableMapView width={width} height={height} key="map" />
-                </SidebarContainer>
-
+                <LoadableMapView width={width} height={height} key="map" />
                 <BlurLayer active={blur} style={{ zIndex: 1000 }} />
                 <div style={{ zIndex: 2000 }}>{children}</div>
                 <StyledToastContainer position="bottom-center" stacked />
