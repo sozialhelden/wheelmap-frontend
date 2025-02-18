@@ -1,15 +1,13 @@
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { unknownCategory } from "~/lib/model/ac/categories/Categories";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import { AppStateLink } from "../../App/AppStateLink";
 import Icon from "../../shared/Icon";
-import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
@@ -20,9 +18,13 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   onSubmit,
+  onClose,
 }: BaseEditorProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
+    useState<boolean>(true);
+
   const languageTags = useCurrentLanguageTagStrings();
-  const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const { category, categoryTagKeys } = useFeatureLabel({
     feature,
@@ -38,15 +40,13 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   const [editedTagValue, setEditedTagValue] = useState<
     YesNoLimitedUnknown | undefined
   >(current);
-  const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
-    useState<boolean>(true);
 
   useEffect(() => {
     setSaveButtonDoesNothing(current === editedTagValue);
   }, [current, editedTagValue]);
 
   return (
-    <Dialog.Root open>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content
         aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
@@ -110,23 +110,18 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
               </AccessibilityView>
             </form>
 
-            <Flex gap="3" mt="3" justify="end">
-              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-                <Button variant="soft" size="2" aria-label={t`Cancel`}>
-                  {t`Cancel`}
-                </Button>
-              </AppStateLink>
+            <Flex gap="3" mt="4" justify="end">
+              <Button variant="soft" size="2" onClick={onClose}>
+                {t`Cancel`}
+              </Button>
 
-              <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-                <Button
-                  variant="solid"
-                  size="2"
-                  aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
-                  onClick={saveButtonDoesNothing ? undefined : onSubmit}
-                >
-                  {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-                </Button>
-              </AppStateLink>
+              <Button
+                variant="solid"
+                size="2"
+                onClick={saveButtonDoesNothing ? onClose : onSubmit}
+              >
+                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              </Button>
             </Flex>
           </StyledReportView>
         </Flex>

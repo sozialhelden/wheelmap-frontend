@@ -9,7 +9,7 @@ import {
   VisuallyHidden,
 } from "@radix-ui/themes";
 import type React from "react";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "ttag";
 import {
   getAvailableLangTags,
@@ -17,8 +17,6 @@ import {
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import SearchableSelect from "~/components/shared/SearchableSelect";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
@@ -26,15 +24,17 @@ import type { BaseEditorProps } from "./BaseEditor";
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,
   tagKey,
-  addingNewLanguage,
+  addNewLanguage,
   onChange,
   onSubmit,
   onLanguageChange,
+  onClose,
 }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+
   if (!tagKey) {
     throw new Error("Editing a tag value works only with a defined tag key.");
   }
-  const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
   const { normalizedOSMTagKey: tagKeyWithoutLangTag } =
     normalizeAndExtractLanguageTagsIfPresent(tagKey);
@@ -55,7 +55,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] = useState(true);
   const [hasValueChanged, setHasValueChanged] = useState(false);
 
-  const dialogDescription = addingNewLanguage
+  const dialogDescription = addNewLanguage
     ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
     : t`Please edit this description in the same language.`;
 
@@ -94,17 +94,17 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   // TODO: find a better way to keep the focus on the text area, this approach causes flickering
   useEffect(() => {
-    if (!addingNewLanguage || hasValueChanged) {
+    if (!addNewLanguage || hasValueChanged) {
       setTimeout(() => {
         if (textAreaRef.current) {
           textAreaRef.current.focus();
         }
       }, 0);
     }
-  }, [addingNewLanguage, hasValueChanged]);
+  }, [addNewLanguage, hasValueChanged]);
 
   return (
-    <Dialog.Root open>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content>
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
@@ -119,7 +119,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           <Dialog.Description size="3" mb="4" as="div">
             <Flex direction="column" gap="3">
               {dialogDescription}
-              {addingNewLanguage && (
+              {addNewLanguage && (
                 <Flex gap="2">
                   <Callout.Root>
                     <Callout.Icon>
@@ -138,7 +138,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
         </Flex>
 
         <Flex direction="column" gap="3" style={{ width: "100%" }}>
-          {addingNewLanguage && (
+          {addNewLanguage && (
             <Flex align="center" gap="3" style={{ width: "100%" }}>
               <Text as="label" size="2">
                 Select a language:
@@ -163,12 +163,13 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
             </Flex>
           )}
 
-          <div hidden={addingNewLanguage ? !hasValueChanged : false}>
+          <div hidden={addNewLanguage ? !hasValueChanged : false}>
             <TextArea
+              dir="auto"
               ref={textAreaRef}
               aria-label={t`Enter a description here`}
-              defaultValue={addingNewLanguage ? undefined : initialTagValue}
-              value={addingNewLanguage ? textAreaValue : undefined}
+              defaultValue={addNewLanguage ? undefined : initialTagValue}
+              value={addNewLanguage ? textAreaValue : undefined}
               placeholder={t`Enter a description here`}
               onChange={(evt) => handleTextAreaChange(evt.target.value)}
               size="2"
@@ -178,21 +179,17 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </div>
 
           <Flex gap="3" mt="4" justify="end">
-            <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-              <Button variant="soft" size="2">
-                {t`Cancel`}
-              </Button>
-            </AppStateLink>
+            <Button variant="soft" size="2" onClick={onClose}>
+              {t`Cancel`}
+            </Button>
 
-            <AppStateLink href={baseFeatureUrl} tabIndex={-1}>
-              <Button
-                variant="solid"
-                size="2"
-                onClick={saveButtonDoesNothing ? undefined : onSubmit}
-              >
-                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              </Button>
-            </AppStateLink>
+            <Button
+              variant="solid"
+              size="2"
+              onClick={saveButtonDoesNothing ? onClose : onSubmit}
+            >
+              {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+            </Button>
           </Flex>
         </Flex>
       </Dialog.Content>
