@@ -25,6 +25,14 @@ const Onboarding = dynamic(() => import("../Onboarding/OnboardingView"), {
   ssr: false,
 });
 
+const SidebarContainer = styled.div`
+  
+  display: grid;
+    --toggle-button-width: 7rem;
+    grid-template-columns: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2)) auto;
+    height: 100%;
+`;
+
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
   top: 0;
@@ -94,7 +102,11 @@ export default function MapLayout({
               )}
               {isOnboardingVisible && <Onboarding />}
               <main style={{ height: "100%" }} ref={containerRef}>
-                <LoadableMapView width={width} height={height} key="map" />
+                <SidebarContainer>
+                  <div>hallo</div>
+                  <LoadableMapView width={width} height={height} key="map" />
+                </SidebarContainer>
+
                 <BlurLayer active={blur} style={{ zIndex: 1000 }} />
                 <div style={{ zIndex: 2000 }}>{children}</div>
                 <StyledToastContainer position="bottom-center" stacked />
