@@ -23,6 +23,7 @@ body,
 
 :root {
   --search-bar-width: 20rem;
+  --topbar-height: 3.75rem;
 }
 
 .radix-themes {

@@ -11,7 +11,8 @@ const StyledTopBar = styled.header`
     top: -1px;
     left: -1px;
     right: -1px;
-    height: auto;
+    height: var(--topbar-height);
+    box-sizing: border-box;
     z-index: 1;
     padding: var(--space-2);
     border-bottom: 2px solid var(--gray-5);

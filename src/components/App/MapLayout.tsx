@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import "normalize.css";
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { CaretLeftIcon } from "@radix-ui/react-icons";
+import { Button, Flex, Theme, ThemePanel } from "@radix-ui/themes";
 import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
@@ -25,12 +26,21 @@ const Onboarding = dynamic(() => import("../Onboarding/OnboardingView"), {
   ssr: false,
 });
 
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ $isOpen?: boolean }>`
+  --toggle-button-width: 7rem;
+  --sidebar-width: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2));
   
+  box-sizing: border-box;
+  padding-top: var(--topbar-height);
   display: grid;
-    --toggle-button-width: 7rem;
-    grid-template-columns: calc(calc(var(--search-bar-width) + var(--toggle-button-width)) + calc(var(--space-2) * 2)) auto;
-    height: 100%;
+  grid-template-columns: ${({ $isOpen }) => ($isOpen ? "var(--sidebar-width) auto" : "0 100%")};
+  height: 100%;
+  transition: grid-template-columns 400ms ease-in-out;
+`;
+const Sidebar = styled.div`
+  padding: var(--space-2);
+  margin-top: 4rem;
+  box-sizing: border-box;
 `;
 
 const BlurLayer = styled.div<{ active: boolean }>`
@@ -83,6 +93,8 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
     <ThemeProvider attribute="class">
       <Theme
@@ -102,8 +114,20 @@ export default function MapLayout({
               )}
               {isOnboardingVisible && <Onboarding />}
               <main style={{ height: "100%" }} ref={containerRef}>
-                <SidebarContainer>
-                  <div>hallo</div>
+                <SidebarContainer $isOpen={isSidebarOpen}>
+                  <Sidebar>
+                    <Flex justify="end">
+                      <Button
+                        size="3"
+                        variant="surface"
+                        color="gray"
+                        highContrast={true}
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                      >
+                        <CaretLeftIcon />
+                      </Button>
+                    </Flex>
+                  </Sidebar>
                   <LoadableMapView width={width} height={height} key="map" />
                 </SidebarContainer>
 
