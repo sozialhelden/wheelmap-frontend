@@ -1,42 +1,54 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import { IconButton } from "@radix-ui/themes";
-import { DropdownMenu } from "@radix-ui/themes";
-import React from "react";
+import { DropdownMenu, IconButton } from "@radix-ui/themes";
+import React, { useContext, useState } from "react";
 import { t } from "ttag";
-import { AppStateLink } from "../../../App/AppStateLink";
+import { FeaturePanelContext } from "../../FeaturePanelContext";
+import { AutoEditor } from "../../editors/AutoEditor";
 
-function addQueryParamToURL(
-  baseURL: string,
-  key: string,
-  value: string,
-): string {
-  const url = new URL(baseURL, window.location.origin);
-  url.searchParams.set(key, value);
-  return url.toString();
-}
+export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
+  const { features } = useContext(FeaturePanelContext);
+  const feature = features[0].feature?.requestedFeature;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [addNewLanguage, setAddNewLanguage] = useState(false);
 
-export function EditDropdownMenu({ editURL }: { editURL: string }) {
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <IconButton variant="soft" size="2">
-          <Pencil1Icon width="18" height="18" />
-        </IconButton>
-      </DropdownMenu.Trigger>
+    <>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <IconButton variant="soft" size="2">
+            <Pencil1Icon width="18" height="18" />
+          </IconButton>
+        </DropdownMenu.Trigger>
 
-      <DropdownMenu.Content>
-        <DropdownMenu.Item asChild>
-          <AppStateLink href={addQueryParamToURL(editURL, "newLang", "false")}>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item
+            onSelect={() => {
+              setIsDialogOpen(true);
+              setAddNewLanguage(false);
+            }}
+          >
             {t`Edit this description`}
-          </AppStateLink>
-        </DropdownMenu.Item>
+          </DropdownMenu.Item>
 
-        <DropdownMenu.Item asChild>
-          <AppStateLink href={addQueryParamToURL(editURL, "newLang", "true")}>
+          <DropdownMenu.Item
+            onSelect={() => {
+              setIsDialogOpen(true);
+              setAddNewLanguage(true);
+            }}
+          >
             {t`Add a description in another language`}
-          </AppStateLink>
-        </DropdownMenu.Item>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      {isDialogOpen && feature && (
+        <AutoEditor
+          feature={feature}
+          tagKey={tagKey}
+          addNewLanguage={addNewLanguage}
+          onClose={() => setIsDialogOpen(false)}
+        />
+      )}
+    </>
   );
 }
