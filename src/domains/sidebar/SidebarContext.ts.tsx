@@ -1,8 +1,8 @@
 import React, { useEffect, useLayoutEffect } from "react";
-import { useMap } from "~/components/Map/useMap";
 
 type SidebarContextType = {
   isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   open: () => void;
   close: () => void;
   toggle: () => void;
@@ -10,6 +10,7 @@ type SidebarContextType = {
 
 const SidebarContext = React.createContext<SidebarContextType>({
   isOpen: true,
+  setIsOpen() {},
   open() {},
   close() {},
   toggle() {},
@@ -28,6 +29,7 @@ export function SidebarContextProvider({ children }) {
     <SidebarContext.Provider
       value={{
         isOpen,
+        setIsOpen,
         open,
         close,
         toggle,

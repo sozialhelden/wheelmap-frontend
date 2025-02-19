@@ -8,7 +8,7 @@ import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 const Container = styled.div`
   display: flex;
   gap: 0.5rem;
-  padding: 0 .5rem;
+  padding: 0 var(--space-3);
   @media (max-width: 768px) {
     margin-bottom: .75rem;
   }

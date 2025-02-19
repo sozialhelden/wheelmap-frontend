@@ -2,6 +2,7 @@ import includes from "lodash/includes";
 import minBy from "lodash/minBy";
 import uniq from "lodash/uniq";
 import * as React from "react";
+import { Sheet } from "react-modal-sheet";
 import ResizeObserverPolyfill from "resize-observer-polyfill";
 import styled from "styled-components";
 import { t } from "ttag";

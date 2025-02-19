@@ -8,9 +8,9 @@ import Navigation from "./TopBar/Navigation";
 
 const StyledTopBar = styled.header`
     position: fixed;
-    top: -1px;
-    left: -1px;
-    right: -1px;
+    top: 0;
+    left: 0;
+    right: 0;
     height: var(--topbar-height);
     box-sizing: border-box;
     z-index: 1;

@@ -5,7 +5,7 @@
 * [x] Sidebar component
     * [x] Toggle
     * [x] Mobile gestures
-    * [ ] fix all other toolbar users
+    * [x] fix all other toolbar users
     * [ ] make wider on big viewports
 * [ ] Place list component
 * [ ] Place Item component
@@ -20,6 +20,12 @@
 * Distance to current location
 * Places found text
 * Info dialog
+
+// sheet
+
+* Map bottom padding bei sheet mobile
+* sheet auf mobile einfahren, wenn interaktion mit karte
+* Sidebar und Sheet ein einziger container oder per javascript ein und ausblenden, damit keine dom changes passieren
 
 ## Für später
 

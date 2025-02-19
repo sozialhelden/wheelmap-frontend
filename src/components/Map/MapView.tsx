@@ -33,6 +33,7 @@ import { useMapViewInternals } from "./useMapInternals";
 import { uriFriendlyPosition } from "./utils";
 
 import "./mapbox-dark-mode.css";
+import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -64,11 +65,10 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `;
 
-export default function MapView(props: IProps) {
+export default function MapView({ width, height, ...props }: IProps) {
   const router = useAppStateAwareRouter();
   const featureIds = getFeatureIdsFromLocation(router.pathname);
 
-  const { width, height } = props;
   const { query } = router;
   const { setMapRef, initialViewport, onViewportUpdate, map, saveMapLocation } =
     useMapViewInternals(query);
@@ -122,6 +122,8 @@ export default function MapView(props: IProps) {
     },
     [updateViewportQuery],
   );
+
+  const { close } = useSidebarContext();
 
   const onMouseClick = useCallback(
     (evt: MapLayerMouseEvent | MapLayerTouchEvent) => {

@@ -22,8 +22,9 @@ body,
 }
 
 :root {
-  --search-bar-width: 20rem;
   --topbar-height: 3.75rem;
+  --sheet-height-collapsed: 3rem;
+  --search-bar-width: 20rem;
 }
 
 .radix-themes {

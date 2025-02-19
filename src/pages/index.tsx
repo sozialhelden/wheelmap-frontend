@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
-import Toolbar from "~/components/shared/Toolbar";
+import { Sheet } from "~/components/Sheet/Sheet";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
 import { Search } from "~/domains/search/components/Search";
 import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
@@ -23,9 +23,6 @@ const SearchToolbar = styled.div`
     align-items: center;
   }
 `;
-const CategoryFilterContainer = styled.div`
-    margin-left: 1rem;
-`;
 const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     height: 100%;
     background: var(--color-panel-solid);
@@ -35,14 +32,14 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     &:hover {
         border-color: var(--gray-8);
     }
-    @media (min-width: 1025px) {
+    @media (min-width: 769px) {
         display: inline-flex;
     }
 `;
 
 export default function Page() {
   const router = useRouter();
-  const { toggle, isOpen } = useSidebarContext();
+  const { toggle, isOpen, setIsOpen } = useSidebarContext();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -54,7 +51,7 @@ export default function Page() {
   return (
     <>
       <SearchToolbar>
-        <Flex align="stretch" gap="4" mx="4">
+        <Flex align="stretch" gap="4" px="3">
           <Search />
           <div>
             <SidebarToggleButton
@@ -70,11 +67,19 @@ export default function Page() {
             </SidebarToggleButton>
           </div>
         </Flex>
-        <CategoryFilterContainer>
-          <CategoryFilter />
-        </CategoryFilterContainer>
+        <CategoryFilter />
       </SearchToolbar>
-      <Toolbar hidden={!isOpen}>asdf</Toolbar>
+      <Sheet
+        scrollStops={[0.5]}
+        isExpanded={isOpen}
+        onIsExpandedChanged={setIsOpen}
+      >
+        {[...Array(50).keys()].map((i) => (
+          <p key={i} style={{ margin: "1rem 0" }}>
+            Hallo was geht?
+          </p>
+        ))}
+      </Sheet>
     </>
   );
 }
