@@ -1,23 +1,24 @@
 import {
-  createContext,
   type ReactNode,
+  createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import {
-  categories,
-  emptyNeeds,
+  useSelectionFromLegacyA11yQueryParams,
+  useSyncWithLegacyA11yQueryParams,
+} from "~/domains/needs/hooks/useLegacyA11yFilterQueryParams";
+import {
   type NeedCategory,
-  type Needs,
   type NeedSelection,
   type NeedSettings,
+  type Needs,
+  categories,
+  emptyNeeds,
   settings,
 } from "~/domains/needs/needs";
-import {
-  useSyncWithLegacyA11yFilterQueryParams,
-  useLegacyA11yFilterQueryParamsDefaultSelection,
-} from "~/domains/needs/hooks/useLegacyA11yFilterQueryParams";
 
 type NeedsContext = {
   needs: Needs;
@@ -33,9 +34,26 @@ const NeedsContext = createContext<NeedsContext>({
   settings,
   categories,
 });
+
+const localStorageKey = "a11ymap-needs";
+
+function persistSelection(selection: NeedSelection) {
+  localStorage.setItem(localStorageKey, JSON.stringify(selection));
+}
+function getSelectionFromPersistence(): NeedSelection {
+  return (
+    JSON.parse(
+      (typeof localStorage !== "undefined" ? localStorage : null)?.getItem(
+        localStorageKey,
+      ) || "null",
+    ) || emptyNeeds
+  );
+}
+
 export function NeedsContextProvider({ children }: { children: ReactNode }) {
-  const { defaultSelection } = useLegacyA11yFilterQueryParamsDefaultSelection();
-  const [selection, setSelection] = useState(defaultSelection);
+  const [selection, setSelection] = useState(
+    useSelectionFromLegacyA11yQueryParams() || getSelectionFromPersistence(),
+  );
 
   const needs = useMemo(
     () =>
@@ -49,7 +67,8 @@ export function NeedsContextProvider({ children }: { children: ReactNode }) {
     [selection],
   );
 
-  useSyncWithLegacyA11yFilterQueryParams({ needs });
+  useSyncWithLegacyA11yQueryParams({ needs });
+  useEffect(() => persistSelection(selection), [selection]);
 
   return (
     <NeedsContext.Provider

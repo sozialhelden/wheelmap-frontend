@@ -21,28 +21,28 @@ export const settings = {
         help: () =>
           t`Entrance has no steps, and all rooms are accessible without steps.`,
         icon: FullyWheelchairAccessibleIcon,
-        legacyQueryParams: ["yes"],
+        legacyQueryParamValues: ["yes"],
       },
       "partially-wheelchair-accessible": {
         label: () => t`Partially wheelchair accessible`,
         help: () =>
           t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
         icon: PartiallyWheelchairAccessibleCombinationIcon,
-        legacyQueryParams: ["limited", "yes"],
+        legacyQueryParamValues: ["limited", "yes"],
       },
       "not-wheelchair-accessible": {
         label: () => t`Not wheelchair accessible`,
         help: () =>
           t`Entrance has a high step or several steps, none of the rooms are accessible.`,
         icon: NotWheelchairAccessibleIcon,
-        legacyQueryParams: ["no"],
+        legacyQueryParamValues: ["no"],
       },
       "no-data": {
         label: () => t`No wheelchair info yet`,
         help: () =>
           t`There is no information available about wheelchair accessibility.`,
         icon: NoDataIcon,
-        legacyQueryParams: ["unknown"],
+        legacyQueryParamValues: ["unknown"],
       },
     },
   },
@@ -56,7 +56,7 @@ export const settings = {
       "fully-wheelchair-accessible": {
         label: () => t`Fully wheelchair accessible toilet`,
         icon: FullyWheelchairAccessibleToiletIcon,
-        legacyQueryParams: ["yes"],
+        legacyQueryParamValues: ["yes"],
       },
       // Would be nice, but we currently have no way to filter for it
       // "toilet-present": {
@@ -79,7 +79,7 @@ export type NeedProperties = {
   label: () => string;
   help?: () => string;
   icon?: FC;
-  legacyQueryParams?: Readonly<string[]>;
+  legacyQueryParamValues?: Readonly<string[]>;
 };
 // A map that contains what need has been selected for each available category
 export type NeedSelection = {
