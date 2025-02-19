@@ -1,22 +1,20 @@
+import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
-import { t } from "ttag";
-import useCategory from "../../../lib/fetchers/ac/refactor-this/useCategory";
+import { getCategoryForFeature } from "~/domains/categories/functions/cache";
+import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import useCategory from "../../../domains/categories/hooks/useCategory";
 import useAccessibilityAttributesIdMap from "../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "../../../lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "../../../lib/fetchers/wikidata/useWikidataName";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import {
-  getCategoryForFeature,
-  getLocalizableCategoryName,
-} from "../../../lib/model/ac/categories/Categories";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
 import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
 import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 
 function getRoomNumberString(roomNumber: string) {
-  return t`Room ${roomNumber}`;
+  return t("Room {roomNumber}", { roomNumber });
 }
 
 function getAcParentPlaceId(feature: AnyFeature) {
@@ -123,7 +121,7 @@ export function useFeatureLabel({
   ) {
     placeName =
       getEquipmentInfoDescription(feature, "shortDescription") ||
-      t`Unnamed facility`;
+      t("Unnamed facility");
     ariaLabel = getEquipmentInfoDescription(feature, "longDescription");
   } else if (acFeature) {
     placeName = placeNameFor(acFeature, category, languageTags) || roomName;

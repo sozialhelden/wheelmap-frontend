@@ -1,5 +1,5 @@
 import type { LocalizedString } from "@sozialhelden/a11yjson";
-import { translatedStringFromObject } from "../../i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "../../i18n/useTranslatedStringFromObject";
 import type { IBranding } from "./IBranding";
 
 export interface TwitterConfiguration {
@@ -64,10 +64,10 @@ export function getProductTitle(
   const { name, claim } = product;
 
   if (!title) {
-    return `${translatedStringFromObject(name)} – ${translatedStringFromObject(
+    return `${useTranslatedStringFromObject(name)} – ${useTranslatedStringFromObject(
       claim,
     )}`;
   }
 
-  return `${title} – ${translatedStringFromObject(name)}`;
+  return `${title} – ${useTranslatedStringFromObject(name)}`;
 }

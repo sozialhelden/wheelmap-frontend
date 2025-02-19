@@ -1,5 +1,5 @@
 import type { PlaceInfo } from "@sozialhelden/a11yjson";
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import type {
   TypeTaggedOSMFeature,
   TypeTaggedPlaceInfo,
@@ -55,7 +55,10 @@ export const genericFetcher = async <Result = unknown>(
   const request = await fetch(fetchUri);
   if (!request.ok) {
     const errorResponse = await request.json();
-    const defaultReason = t`Sorry! Could not fetch from data from ${fetchUri}`;
+    const defaultReason = t(
+      "Sorry! Could not fetch from data from {fetchUri}",
+      { fetchUri },
+    );
 
     throw new ResourceError(
       errorResponse.reason || defaultReason,

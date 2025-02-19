@@ -1,11 +1,7 @@
 import type { BackgroundLayout } from "mapbox-gl";
 import type { FC } from "react";
-import { Layer, type LayerProps } from "react-map-gl";
-import {
-  composeAndFilter,
-  filterForLayer,
-  useMapFilterContext,
-} from "./filter";
+import { Layer, type LayerProps } from "react-map-gl/mapbox";
+import { filterForLayer, useMapFilterContext } from "./filter";
 
 /**
  * If there are no filters passed as argument, a filter expression will be built from the map filter context

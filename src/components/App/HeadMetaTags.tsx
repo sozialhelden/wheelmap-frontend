@@ -1,9 +1,9 @@
+import { t } from "@transifex/native";
 import { encode } from "js-base64";
 import Head from "next/head";
-import { t } from "ttag";
 import { useAppContext } from "../../lib/context/AppContext";
 import useHostnameContext from "../../lib/context/HostnameContext";
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "../../lib/i18n/useTranslatedStringFromObject";
 import { getProductTitle } from "../../lib/model/ac/ClientSideConfiguration";
 import FacebookMeta from "./FacebookMeta";
 import OpenGraph from "./OpenGraph";
@@ -17,8 +17,8 @@ export default function HeadMetaTags() {
     description: undefined,
   };
   const { twitter, facebook } = meta || {};
-  const translatedDescription = translatedStringFromObject(description);
-  const translatedProductName = translatedStringFromObject(productName);
+  const translatedDescription = useTranslatedStringFromObject(description);
+  const translatedProductName = useTranslatedStringFromObject(productName);
   const pageTitle = translatedProductName;
   const facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
   const hostName = useHostnameContext();
@@ -48,12 +48,12 @@ export default function HeadMetaTags() {
   )} */}
 
       {/* Relations */}
-      <link href="/search" rel="search" title={t`Search`} />
-      <link href="/" rel="home" title={t`Homepage`} />
+      <link href="/search" rel="search" title={t("Search")} />
+      <link href="/" rel="home" title={t("Homepage")} />
 
       {/* Misc */}
       <meta
-        content={translatedStringFromObject(description)}
+        content={useTranslatedStringFromObject(description)}
         name="description"
         key="description"
       />

@@ -1,7 +1,7 @@
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { Flex, Strong, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React from "react";
-import { t } from "ttag";
 
 export function ErrorScreen({
   heading,
@@ -20,7 +20,7 @@ export function ErrorScreen({
       </Text>
       <Text>{text}</Text>
       <Text color="gray" align="center" mt="6">
-        {t`Error: ${error}`}
+        {t("Error: {error}", { error })}
       </Text>
     </Flex>
   );

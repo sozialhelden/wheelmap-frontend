@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { GeolocateControl } from "react-map-gl";
+import { GeolocateControl } from "react-map-gl/mapbox";
 import { createGlobalStyle } from "styled-components";
 import useUserAgent from "../../lib/context/UserAgentContext";
 import LocateIcon from "../icons/actions/LocateOff.svg";
@@ -53,6 +53,7 @@ export const GeolocateButton: FC = () => {
       <GeolocateControl
         positionOptions={{ enableHighAccuracy: true }}
         trackUserLocation
+        position="bottom-right"
       />
     </>
   );

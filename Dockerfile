@@ -50,11 +50,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # copy production node_modules to /usr/app
 
 COPY --from=buildenv /usr/app/package.json .
-COPY --from=buildenv /usr/app/dist ./dist
 COPY --from=buildenv /usr/app/.next ./.next
 COPY --from=buildenv /usr/app/public ./public
 COPY --from=buildenv /usr/app/node_modules ./node_modules
-COPY --from=buildenv /usr/app/e2e ./e2e
+COPY --from=buildenv /usr/app/tests ./tests
 COPY --from=buildenv /usr/app/run_tests.sh ./run_tests.sh
 COPY --from=buildenv /usr/app/playwright.config.ts ./playwright.config.ts
 

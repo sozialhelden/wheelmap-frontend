@@ -1,7 +1,7 @@
 import { AspectRatio, Card, Inset, VisuallyHidden } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { type FC, type MouseEventHandler, useContext, useMemo } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import Image from "~/components/Image";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
@@ -35,7 +35,7 @@ export const GalleryGridItem: FC<{
           onClick={onClickHandler}
           data-image-id={image._id}
         >
-          <VisuallyHidden>{t`Open image`}</VisuallyHidden>
+          <VisuallyHidden>{t("Open image")}</VisuallyHidden>
           <Inset asChild aria-hidden>
             <AspectRatio ratio={2 / 3}>
               <StyledImage image={image} height={210} alt="" />

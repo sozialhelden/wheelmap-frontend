@@ -1,7 +1,7 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { useContext, useState } from "react";
-import { t } from "ttag";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 import { AutoEditor } from "../../editors/AutoEditor";
 
@@ -27,7 +27,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
               setAddNewLanguage(false);
             }}
           >
-            {t`Edit this description`}
+            {t("Edit this description")}
           </DropdownMenu.Item>
 
           <DropdownMenu.Item
@@ -36,7 +36,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
               setAddNewLanguage(true);
             }}
           >
-            {t`Add a description in another language`}
+            {t("Add a description in another language")}
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>

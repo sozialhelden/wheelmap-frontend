@@ -1,7 +1,8 @@
-import { Button, Dialog, Flex } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { t } from "ttag";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
@@ -34,7 +35,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content
-        aria-label={t`Toilet Accessibility Editor`}
+        aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
@@ -45,7 +46,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
           </FeatureNameHeader>
 
           <Dialog.Description id="dialog-description" size="3">
-            {t`Is this toilet wheelchair accessible?`}
+            {t("Is this toilet wheelchair accessible?")}
           </Dialog.Description>
 
           <StyledReportView className="_view">
@@ -82,23 +83,12 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
             </form>
 
             <Flex gap="3" mt="3" justify="end">
-              <Button
-                variant="soft"
-                size="2"
-                aria-label={t`Cancel`}
-                onClick={onClose}
-              >
-                {t`Cancel`}
-              </Button>
-
-              <Button
-                variant="solid"
-                size="2"
-                aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
+              <PrimaryButton
                 onClick={saveButtonDoesNothing ? onClose : onSubmit}
               >
-                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              </Button>
+                {saveButtonDoesNothing ? t("Confirm") : t("Send")}
+              </PrimaryButton>
             </Flex>
           </StyledReportView>
         </Flex>

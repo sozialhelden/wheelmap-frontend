@@ -2,8 +2,8 @@ import {
   EquipmentInfo,
   type EquipmentProperties,
 } from "@sozialhelden/a11yjson";
+import { t } from "@transifex/native";
 import type { FeatureCollection, Point } from "geojson";
-import { t } from "ttag";
 import { currentLocales } from "../../i18n/i18n";
 import type { YesNoLimitedUnknown, YesNoUnknown } from "./Feature";
 
@@ -15,11 +15,11 @@ export type EquipmentInfoFeatureCollection = FeatureCollection<
 export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
   return {
     // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
-    true: t`In operation`,
+    true: t("In operation"),
     // translator: An equipment or facility status. This does not mean the facility is broken: It might just be in maintenance! The facility might be an elevator, escalator, switch, sitemap, …
-    false: t`Out of order`,
+    false: t("Out of order"),
     // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
-    undefined: t`Unknown operational status`,
+    undefined: t("Unknown operational status"),
   }[String(isOutdated ? undefined : isWorking)];
 }
 
@@ -67,15 +67,15 @@ export function lastUpdateString({
   }
 
   const translatedEquipmentCategory = {
-    escalator: t`Escalator`,
-    elevator: t`Elevator`,
+    escalator: t("Escalator"),
+    elevator: t("Elevator"),
     // translator: An equipment or facility whose category we don't know. It might be an elevator, escalator, switch, sitemap, …
-    undefined: t`Facility`,
+    undefined: t("Facility"),
   }[String(category)];
 
   const now = new Date();
-  const today = t`today`;
-  const yesterday = t`yesterday`;
+  const today = t("today");
+  const yesterday = t("yesterday");
   const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
   const isShortAgo =
     now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
@@ -96,7 +96,9 @@ export function lastUpdateString({
   ) {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
-    return t`Last known operational status: ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;
+    return t(
+      `Last known operational status: ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`,
+    );
   }
   if (isShortAgo) {
     dateString = `${
@@ -110,5 +112,5 @@ export function lastUpdateString({
     )}`;
   }
   // translator: Shown next to equipment status.
-  return t`Last update: ${dateString}`;
+  return t("Last update: {dateString}", { dateString });
 }

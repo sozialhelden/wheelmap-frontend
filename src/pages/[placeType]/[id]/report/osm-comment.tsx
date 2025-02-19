@@ -1,12 +1,14 @@
+import { t } from "@transifex/native";
 import type { ReactElement } from "react";
-import { t } from "ttag";
 import PlaceLayout from "../../../../components/CombinedFeaturePanel/PlaceLayout";
 import { useAppContext } from "../../../../lib/context/AppContext";
 import { ReportOSM } from "./osm-position";
 
 const makeTitle = (appName: string) =>
-  t`Most places on ${appName} come from OpenStreetMap.`;
-const subtitle = t`You can change this place's information on OpenStreetMap directly`;
+  t("Most places on {appName} come from OpenStreetMap.", { appName });
+const subtitle = t(
+  `You can change this place's information on OpenStreetMap directly`,
+);
 
 function ReportOSMComment() {
   const app = useAppContext();

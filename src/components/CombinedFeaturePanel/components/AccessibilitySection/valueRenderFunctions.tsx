@@ -1,7 +1,7 @@
+import { t } from "@transifex/native";
 import Color from "colorjs.io";
 // biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
 import React from "react";
-import { t } from "ttag";
 import type {
   TypeTaggedOSMFeature,
   TypeTaggedPlaceInfo,
@@ -44,16 +44,17 @@ function BuildingLevel({
   const isUnderground = valueAsNumber < 0;
   if (isUnderground) {
     if (valueAsNumber === -1) {
-      return <>{t`Basement floor`}</>;
+      return <>{t("Basement floor")}</>;
     }
-    return <>{t`Basement ${-1 * valueAsNumber}`}</>;
+    const basementFloorNumber = -1 * valueAsNumber;
+    return <>{t("Basement {basementFloorNumber}", { basementFloorNumber })}</>;
   }
 
   const skipZerothLevel = determineIfZerothLevelIsSkippedHere(languageTags);
   const localGroundFloorLevelDesignation = skipZerothLevel ? 1 : 0;
   const isGroundFloor = valueAsNumber === localGroundFloorLevelDesignation;
   if (isGroundFloor) {
-    return <>{t`Ground floor`}</>;
+    return <>{t("Ground floor")}</>;
   }
   const displayedLevel = skipZerothLevel ? valueAsNumber + 1 : valueAsNumber;
 
@@ -148,7 +149,7 @@ export const valueRenderFunctions: Record<
     }[targetGroup];
     return (
       <StyledMarkdown lang={lang}>
-        {t`${targetGroupMarker} “${text}”`}
+        {t("{targetGroupMarker} “{text}”", { targetGroupMarker, text })}
       </StyledMarkdown>
     );
   },
@@ -187,14 +188,14 @@ export const valueRenderFunctions: Record<
     <DisplayedQuantity value={value} defaultUnit="m" prefix={<>↕</>} />
   ),
   ":?depth$": ({ value }) => (
-    <DisplayedQuantity value={value} defaultUnit="m" suffix={t`depth`} />
+    <DisplayedQuantity value={value} defaultUnit="m" suffix={t("depth")} />
   ),
   ":?levels$": ({ value }) => (
     <DisplayedQuantity
       value={value}
       defaultUnit=""
       prefix={<>↕</>}
-      suffix={t`levels`}
+      suffix={t("levels")}
     />
   ),
   "^level$": (props) => <BuildingLevel {...props} />,

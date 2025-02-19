@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import Link from "next/link";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useAppContext } from "../../lib/context/AppContext";
 import useCollectionSWR from "../../lib/fetchers/ac/useCollectionSWR";
 import type { MappingEvent } from "../../lib/model/ac/MappingEvent";
@@ -108,17 +108,25 @@ export default function MappingEventListPanel() {
   const eventCount = mappingEvents?.length || 0;
 
   // translator: Screenreader description for the mapping events list
-  const mappingEventsListAriaLabel = t`Mapping events list`;
+  const mappingEventsListAriaLabel = t("Mapping events list");
   // translator: Screenreader description for the number of active mapping events in the shown list
-  const activeMappingEventsCountAriaLabel = t`${eventCount} active mapping events`;
+  const activeMappingEventsCountAriaLabel = t(
+    `${eventCount} active mapping events`,
+  );
   // translator: Generic name for mapping events
-  const eventsText = t`Events`;
+  const eventsText = t("Events");
   // translator: Tagline describing the purpose of mapping events (supports Markdown)
-  const mapathonFeatureClaim = t`Meet the community and map the accessibility of places around you!`;
+  const mapathonFeatureClaim = t(
+    "Meet the community and map the accessibility of places around you!",
+  );
   // translator: Link for further infos about how to organize mapping events
-  const mapathonExplanationLinkCaption = t`Learn how to organize a mapping event`;
+  const mapathonExplanationLinkCaption = t(
+    "Learn how to organize a mapping event",
+  );
   // translator: Link for further infos about how to organize mapping events
-  const mapathonExplanationLinkURL = t`https://news.wheelmap.org/en/organize-a-mapping-event/`;
+  const mapathonExplanationLinkURL = t(
+    "https://news.wheelmap.org/en/organize-a-mapping-event/",
+  );
 
   return (
     <StyledMappingEventsToolbar

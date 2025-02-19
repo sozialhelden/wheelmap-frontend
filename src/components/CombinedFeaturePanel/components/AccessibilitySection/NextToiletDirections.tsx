@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import Link from "next/link";
-import { t } from "ttag";
 import { useNearbyFeatures } from "../../../../lib/fetchers/osm-api/fetchNearbyFeatures";
 import { hasAccessibleToilet } from "../../../../lib/model/ac/Feature";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
@@ -17,7 +17,7 @@ export default function NextToiletDirections({
   } = useNearbyFeatures(shouldShowNextToilets && feature, {
     wheelchair: "yes",
   });
-  const caption = t`Next wheelchair-accessible WC`;
+  const caption = t("Next wheelchair-accessible WC");
 
   if (isLoading) {
     return (

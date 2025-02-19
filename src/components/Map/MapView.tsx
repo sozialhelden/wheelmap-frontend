@@ -10,30 +10,28 @@ import {
   NavigationControl,
   Map as ReactMapGL,
   type ViewStateChangeEvent,
-} from "react-map-gl";
+} from "react-map-gl/mapbox";
 
 import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLocation";
-import { FixedHelpButton } from "../CombinedFeaturePanel/components/HelpButton";
 
-import { useEnvContext } from "../../lib/context/EnvContext";
+import { useEnvContext } from "~/lib/context/EnvContext";
 import { StyledLoadingIndicator } from "./LoadingIndictor";
 
-import { log } from "../../lib/util/logger";
-import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
+import { log } from "~/lib/util/logger";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import { useDarkMode } from "../shared/useDarkMode";
 import { AcPoiLayers } from "./AcPoiLayers";
 import { GeolocateButton } from "./GeolocateButton";
 import { MapLayers } from "./MapLayers";
 import { MapSources } from "./MapSources";
+import { loadIconsInMapInstance } from "./loadIconsInMapInstance";
 import { useApplyMapPadding } from "./useApplyMapPadding";
-import { loadIconsInMapInstance } from "./useMapIconLoader";
 import { useMapViewInternals } from "./useMapInternals";
 import { uriFriendlyPosition } from "./utils";
 
-import "./mapbox-dark-mode.css";
 import { feature } from "@turf/turf";
 import { isOSMFeature } from "../../lib/model/geo/AnyFeature";
 
@@ -212,11 +210,15 @@ export default function MapView(props: IProps) {
             <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
           )}
           {mapLoaded && <AcPoiLayers />}
-          <NavigationControl style={{ right: "1rem", top: "1rem" }} />
           <GeolocateButton />
+          <NavigationControl
+            position="bottom-right"
+            showZoom={true}
+            visualizePitch={true}
+            showCompass={true}
+          />
         </ReactMapGL>
       </MapProvider>
-      <FixedHelpButton />
       <StyledLoadingIndicator />
     </>
   );

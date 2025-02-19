@@ -1,5 +1,4 @@
 import { HotkeysProvider } from "@blueprintjs/core";
-import "@radix-ui/themes/styles.css";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -7,8 +6,27 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import * as React from "react";
-import { ExpertModeContextProvider } from "~/components/App/MainMenu/useExpertMode";
+import { AppContextProvider } from "~/lib/context/AppContext";
+import CountryContext from "~/lib/context/CountryContext";
+import {
+  EnvContextProvider,
+  type EnvironmentVariables,
+} from "~/lib/context/EnvContext";
+import { HostnameContextProvider } from "~/lib/context/HostnameContext";
+import { LanguageCodeContextProvider } from "~/lib/context/LanguageTagContext";
+import { UserAgentContextProvider } from "~/lib/context/UserAgentContext";
+import { patchFetcher } from "~/lib/util/patchClientFetch";
+import "@radix-ui/themes/styles.css";
+import StyledComponentsRegistry from "~/lib/context/Registry";
+import "~/app/reset.css";
+import "~/app/app.css";
+import "~/app/inter.css";
+import "~/app/pointer-cursor.css";
+import { Theme, ThemePanel } from "@radix-ui/themes";
+import { ThemeProvider } from "next-themes";
+import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
+import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {
   getRequestCountryCode,
   getRequestHostname,
@@ -17,21 +35,6 @@ import {
   getRequestUserAgentString,
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
-import "../app/app.css";
-import "../app/inter.css";
-import "../app/pointer-cursor.css";
-import "../app/reset.css";
-import { AppContextProvider } from "../lib/context/AppContext";
-import CountryContext from "../lib/context/CountryContext";
-import {
-  EnvContextProvider,
-  type EnvironmentVariables,
-} from "../lib/context/EnvContext";
-import { HostnameContextProvider } from "../lib/context/HostnameContext";
-import { LanguageCodeContextProvider } from "../lib/context/LanguageTagContext";
-import StyledComponentsRegistry from "../lib/context/Registry";
-import { UserAgentContextProvider } from "../lib/context/UserAgentContext";
-import { patchFetcher } from "../lib/util/patchClientFetch";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -69,29 +72,46 @@ export default function MyApp(
     <React.StrictMode>
       <Head />
       <StyledComponentsRegistry>
-        <HotkeysProvider>
-          <SessionProvider session={session}>
-            <ExpertModeContextProvider>
-              <SWRConfigProvider>
-                <EnvContextProvider environmentVariables={environmentVariables}>
-                  <HostnameContextProvider hostname={hostname}>
-                    <UserAgentContextProvider userAgentString={userAgentString}>
-                      <CountryContext.Provider value={countryCode}>
-                        <LanguageCodeContextProvider
-                          languageTags={languageTags}
+        <ThemeProvider attribute="class">
+          <Theme
+            accentColor="indigo"
+            grayColor="sand"
+            radius="small"
+            scaling="100%"
+            panelBackground="solid"
+          >
+            <ThemePanel defaultOpen={false} />
+            <HotkeysProvider>
+              <SessionProvider session={session}>
+                <ExpertModeContextProvider>
+                  <SWRConfigProvider>
+                    <EnvContextProvider
+                      environmentVariables={environmentVariables}
+                    >
+                      <HostnameContextProvider hostname={hostname}>
+                        <UserAgentContextProvider
+                          userAgentString={userAgentString}
                         >
-                          <AppContextProvider>
-                            {getLayout(<Component />)}
-                          </AppContextProvider>
-                        </LanguageCodeContextProvider>
-                      </CountryContext.Provider>
-                    </UserAgentContextProvider>
-                  </HostnameContextProvider>
-                </EnvContextProvider>
-              </SWRConfigProvider>
-            </ExpertModeContextProvider>
-          </SessionProvider>
-        </HotkeysProvider>
+                          <CountryContext.Provider value={countryCode}>
+                            <LanguageCodeContextProvider
+                              languageTags={languageTags}
+                            >
+                              <NeedsContextProvider>
+                                <AppContextProvider>
+                                  {getLayout(<Component />)}
+                                </AppContextProvider>
+                              </NeedsContextProvider>
+                            </LanguageCodeContextProvider>
+                          </CountryContext.Provider>
+                        </UserAgentContextProvider>
+                      </HostnameContextProvider>
+                    </EnvContextProvider>
+                  </SWRConfigProvider>
+                </ExpertModeContextProvider>
+              </SessionProvider>
+            </HotkeysProvider>
+          </Theme>
+        </ThemeProvider>
       </StyledComponentsRegistry>
     </React.StrictMode>
   );
