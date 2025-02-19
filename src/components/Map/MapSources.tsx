@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import * as React from "react";
-import { Source } from "react-map-gl";
+import { Source } from "react-map-gl/mapbox";
 import { useEnvContext } from "../../lib/context/EnvContext";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";

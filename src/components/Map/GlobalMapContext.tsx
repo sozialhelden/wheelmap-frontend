@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import type { MapRef } from "react-map-gl";
+import type { MapRef } from "react-map-gl/mapbox";
 import { MapOverlaps } from "./MapOverlapPadding";
 
 const mapOverlaps = new MapOverlaps();

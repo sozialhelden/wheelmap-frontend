@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Layer, type LayerProps, Source } from "react-map-gl";
+import { Layer, type LayerProps, Source } from "react-map-gl/mapbox";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useEnvContext } from "../../lib/context/EnvContext";
 import { getAccessibilityCloudAPI } from "../../lib/fetchers/ac/useAccessibilityCloudAPI";

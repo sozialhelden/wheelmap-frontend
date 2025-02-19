@@ -1,6 +1,6 @@
 import type { ParsedUrlQuery } from "node:querystring";
 import { useCallback, useMemo, useRef, useState } from "react";
-import type { ViewState } from "react-map-gl";
+import type { ViewState } from "react-map-gl/mapbox";
 import { useMap } from "./useMap";
 
 const localStorageLocation = "wheelmap.location" as const;
