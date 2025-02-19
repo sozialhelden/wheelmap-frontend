@@ -28,38 +28,41 @@ function matchesCurrentQuery(
   );
 }
 
-// get default need-selection from legacy a11y-filter query params wheelchair and toilet
-export function useLegacyA11yFilterQueryParamsDefaultSelection(): {
-  defaultSelection: NeedSelection;
-} {
-  const defaultSelection = Object.fromEntries(
-    Object.entries(settings).map(
-      ([category, { legacyQueryParamName, needs: categoryNeedList }]) => {
-        const value = Object.entries(categoryNeedList).find(
-          ([_, { legacyQueryParams }]: [string, NeedProperties]) =>
-            matchesCurrentQuery(legacyQueryParamName, legacyQueryParams ?? []),
-        );
-        return [category, value?.[0]];
-      },
-    ),
-  ) as NeedSelection;
-
-  return { defaultSelection };
+// get need-selection from legacy a11y query params wheelchair and toilet
+export function useSelectionFromLegacyA11yQueryParams():
+  | NeedSelection
+  | undefined {
+  const selection = Object.entries(settings).reduce(
+    (acc, [category, { legacyQueryParamName, needs }]) => {
+      acc[category] = Object.entries(needs)
+        .find(([_, { legacyQueryParamValues }]: [string, NeedProperties]) =>
+          matchesCurrentQuery(
+            legacyQueryParamName,
+            legacyQueryParamValues ?? [],
+          ),
+        )
+        ?.shift();
+      return acc;
+    },
+    {} as NeedSelection,
+  );
+  if (Object.values(selection).filter(Boolean).length > 0) {
+    return selection;
+  }
+  return undefined;
 }
 
-// sync the given needs with the legacy a11y-filter query params wheelchair and toilet
-export function useSyncWithLegacyA11yFilterQueryParams({
-  needs,
-}: { needs: Needs }) {
+// sync the given needs with the legacy a11y query params wheelchair and toilet
+export function useSyncWithLegacyA11yQueryParams({ needs }: { needs: Needs }) {
   const router = useAppStateAwareRouter();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     const queryParams = Object.fromEntries(
-      Object.entries(needs).map(([category, { legacyQueryParams }]) => {
+      Object.entries(needs).map(([category, { legacyQueryParamValues }]) => {
         return [
           settings[category].legacyQueryParamName,
-          legacyQueryParams ?? "",
+          legacyQueryParamValues ?? "",
         ];
       }),
     );
