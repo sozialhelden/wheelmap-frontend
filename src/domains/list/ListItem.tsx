@@ -1,5 +1,3 @@
-import { VisuallyHidden } from "@radix-ui/themes";
-import { type Ref, useRef } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
@@ -10,11 +8,17 @@ import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 const Container = styled.div`
     display: grid;
     grid-template-columns: auto max-content;
+    box-sizing: border-box;
     gap: 1rem;
     width: 100%;
     position: relative;
+    &:hover {
+        background-color: var(--accent-2);
+    }
+    padding: var(--space-3)
 `;
 const TextContainer = styled.div`
+    
   
 `;
 const Image = styled(WikidataEntityImage)`
@@ -26,6 +30,16 @@ const Image = styled(WikidataEntityImage)`
 const PlaceName = styled.a`
     font-size: 1.1rem;
     word-break: break-word;
+    &::before{
+        position: absolute;
+        inset: 0;
+        content: "";
+        
+    }
+    text-decoration: none !important;
+    color: var(--gray-12) !important;
+    
+    
 `;
 const Category = styled.p`
     font-size: .9rem;

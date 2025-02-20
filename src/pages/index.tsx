@@ -38,6 +38,11 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     }
 `;
 
+const StyledList = styled.ul`
+    box-sizing: border-box;
+    margin: 0 calc(var(--space-3) * -1) 0 calc(var(--space-3) * -1) ;
+`;
+
 export default function Page() {
   const router = useRouter();
   const { toggle, isExpanded } = useSheetContext();
@@ -94,7 +99,11 @@ export default function Page() {
         <CategoryFilter />
       </SearchToolbar>
       <Sheet scrollStops={[0.5]}>
-        <ListItem feature={testFeature} />
+        <StyledList>
+          <li>
+            <ListItem feature={testFeature} />
+          </li>
+        </StyledList>
       </Sheet>
     </>
   );
