@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { t } from "ttag";
+import { AppStateLink } from "~/components/App/AppStateLink";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { FullyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
@@ -34,7 +35,7 @@ const Image = styled(WikidataEntityImage)`
     object-fit: cover;
     border-radius: var(--radius-3)
 `;
-const PlaceName = styled.a`
+const PlaceName = styled(AppStateLink)`
     font-size: 1.1rem;
     word-break: break-word;
     &::before{
@@ -64,10 +65,28 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
   const wheelchair = isWheelchairAccessible(feature);
   const toilet = isOrHasAccessibleToilet(feature);
 
+  console.log("feature: ", feature);
+
+  /* map?.jumpTo({
+    center: [lon, lat],
+    zoom: 20,
+    padding: calculateDefaultPadding(),
+  });*/
+
+  const assembleUrl = () => {
+    const [lon, lat] = feature.geometry.coordinates;
+
+    //url = `/amenities/${feature._id.replace("/", ":")}?zoom=20&lat=52.525505003&lon=13.367067565`;
+    return "#";
+  };
+
   return (
     <Container>
       <TextContainer>
-        <PlaceName href="#" aria-label={t`Open place ${ariaLabel}`}>
+        <PlaceName
+          href={`/amenities/${feature._id.replace("/", ":")}`}
+          aria-label={t`Open place ${ariaLabel}`}
+        >
           {placeName}
         </PlaceName>
         <Category>{categoryName}</Category>
