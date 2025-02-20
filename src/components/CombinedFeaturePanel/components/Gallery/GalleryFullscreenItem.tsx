@@ -52,6 +52,8 @@ const ImageNav = styled.nav`
   transform: translateY(-50%);
 `;
 const ImageNavList = styled.ul`
+  // this keeps the implicit list role in voice-over on macos 
+  // changing it to none will remove its list semantics
   list-style-type: "";
   padding: 0;
   display: flex;

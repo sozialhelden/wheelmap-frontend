@@ -15,6 +15,8 @@ import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
 const CriteriaList = styled.ul`
+    // this keeps the implicit list role in voice-over on macos 
+    // changing it to none will remove its list semantics
     list-style-type: "";
     padding: 0;
 `;
