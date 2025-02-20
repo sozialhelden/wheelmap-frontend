@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import "normalize.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
 import { Flex, Theme, ThemePanel } from "@radix-ui/themes";
 import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
+import { useMap } from "react-map-gl";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
-import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
 import { AppContext } from "../../lib/context/AppContext";
 import { useExpertMode } from "../../lib/useExpertMode";
 import { isFirstStart } from "../../lib/util/savedState";
@@ -46,6 +47,12 @@ width: min(400px, 80vw);
   }
 `;
 
+const Main = styled.main<{ $enablePaddingForSheet: boolean }>`
+  height: 100%;
+  box-sizing: border-box;
+  padding-bottom: ${({ $enablePaddingForSheet }) => ($enablePaddingForSheet ? "var(--sheet-height-collapsed)" : "0")}
+`;
+
 export default function MapLayout({
   children,
   blur,
@@ -76,6 +83,11 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
+  const { showSidebar } = useSheetContext();
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [showSidebar]);
+
   return (
     <ThemeProvider attribute="class">
       <Theme
@@ -94,12 +106,12 @@ export default function MapLayout({
                 <TopBar clientSideConfiguration={clientSideConfiguration} />
               )}
               {isOnboardingVisible && <Onboarding />}
-              <main style={{ height: "100%" }} ref={containerRef}>
+              <Main ref={containerRef} $enablePaddingForSheet={!showSidebar}>
                 <LoadableMapView width={width} height={height} key="map" />
                 <BlurLayer active={blur} style={{ zIndex: 1000 }} />
                 <div style={{ zIndex: 2000 }}>{children}</div>
                 <StyledToastContainer position="bottom-center" stacked />
-              </main>
+              </Main>
             </GlobalMapContextProvider>
           </MapFilterContextProvider>
         </ErrorBoundary>

@@ -3,12 +3,12 @@ import { type MutableRefObject, useEffect, useState } from "react";
 export function useCollapsableSheet({
   container,
   content,
-  isExpanded: givenIsExpanded,
+  isExpanded: externalIsExpanded,
   onIsExpandedChanged,
 }: {
   container: MutableRefObject<HTMLDivElement | undefined>;
   content: MutableRefObject<HTMLDivElement | undefined>;
-  isExpanded: boolean;
+  isExpanded?: boolean;
   onIsExpandedChanged?: (isExpanded: boolean) => void;
 }): {
   isExpanded: boolean;
@@ -41,14 +41,12 @@ export function useCollapsableSheet({
   }, []);
 
   const collapse = () => {
-    setIsExpanded(false);
     container.current?.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
   const expand = () => {
-    setIsExpanded(true);
     container.current?.scrollTo({
       top: content.current?.offsetTop,
       behavior: "smooth",
@@ -65,13 +63,13 @@ export function useCollapsableSheet({
   // sync the internal state with the external once and vice versa, so
   // this component can be controlled, but also works on its own.
   useEffect(() => {
-    if (givenIsExpanded && !isExpanded) {
+    if (externalIsExpanded && !isExpanded) {
       expand();
     }
-    if (!givenIsExpanded && isExpanded) {
+    if (!externalIsExpanded && isExpanded) {
       collapse();
     }
-  }, [givenIsExpanded]);
+  }, [externalIsExpanded]);
   useEffect(() => onIsExpandedChanged?.(isExpanded), [isExpanded]);
 
   return {

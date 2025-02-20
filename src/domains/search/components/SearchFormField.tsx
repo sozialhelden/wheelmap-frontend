@@ -8,7 +8,7 @@ import {
 } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
 
 const StyledSearchFormField = styled.div<{
   $isDropdownOpen: boolean;
@@ -78,7 +78,7 @@ export function SearchFormField({
 }) {
   const [input, setInput] = useState<string>(value);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
-  const { isOpen: isSidebarOpen } = useSidebarContext();
+  const { isExpanded: isSidebarOpen } = useSheetContext();
 
   const reset = () => {
     setInput("");

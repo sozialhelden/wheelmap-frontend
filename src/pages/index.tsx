@@ -7,7 +7,7 @@ import { getLayout } from "~/components/App/MapLayout";
 import { Sheet } from "~/components/Sheet/Sheet";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
 import { Search } from "~/domains/search/components/Search";
-import { useSidebarContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
 import { isFirstStart } from "~/lib/util/savedState";
 
 const SearchToolbar = styled.div`
@@ -39,7 +39,8 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
 
 export default function Page() {
   const router = useRouter();
-  const { toggle, isOpen, setIsOpen } = useSidebarContext();
+  const { toggle, isExpanded, setIsExpanded, setShowSidebar } =
+    useSheetContext();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -60,10 +61,10 @@ export default function Page() {
               color="gray"
               highContrast={true}
               onClick={toggle}
-              $isSidebarOpen={isOpen}
+              $isSidebarOpen={isExpanded}
             >
-              {isOpen && <CaretLeftIcon />}
-              {!isOpen && <CaretRightIcon />}
+              {isExpanded && <CaretLeftIcon />}
+              {!isExpanded && <CaretRightIcon />}
             </SidebarToggleButton>
           </div>
         </Flex>
@@ -71,8 +72,9 @@ export default function Page() {
       </SearchToolbar>
       <Sheet
         scrollStops={[0.5]}
-        isExpanded={isOpen}
-        onIsExpandedChanged={setIsOpen}
+        isExpanded={isExpanded}
+        onIsExpandedChanged={setIsExpanded}
+        onShowSidebarChanged={setShowSidebar}
       >
         {[...Array(50).keys()].map((i) => (
           <p key={i} style={{ margin: "1rem 0" }}>
