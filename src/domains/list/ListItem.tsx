@@ -2,7 +2,14 @@ import styled from "styled-components";
 import { t } from "ttag";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import { FullyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
+import { NoDataIcon } from "~/domains/needs/components/icons/mobility/NoDataIcon";
+import { NotWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
+import { PartiallyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/PartiallyWheelchairAccessibleIcon";
+import { FullyWheelchairAccessibleToiletIcon } from "~/domains/needs/components/icons/toilets/FullyWheelchairAccessibleToiletIcon";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
+import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 
 const Container = styled.div`
@@ -12,10 +19,10 @@ const Container = styled.div`
     gap: 1rem;
     width: 100%;
     position: relative;
+    padding: var(--space-5) var(--space-3);
     &:hover {
         background-color: var(--accent-2);
     }
-    padding: var(--space-3)
 `;
 const TextContainer = styled.div`
     
@@ -49,23 +56,13 @@ const Category = styled.p`
 export function ListItem({ feature }: { feature: AnyFeature }) {
   const languageTags = useCurrentLanguageTagStrings();
 
-  // ariaLabel: "Siegessäule, Viewpoint"
-  // buildingName: undefined
-  // buildingNumber: undefined
-  // category: Object { _id: "viewpoint", icon: "viewpoint", parentIds: (1) […], … }
-  // categoryName: "Viewpoint"
-  // categoryTagKeys: Array []
-  // hasLongName: false
-  // levelName: undefined
-  // localRef: undefined
-  // parentPlaceName: undefined
-  // placeName: "Siegessäule"
-  // ref: undefined
-  // roomNameAndNumber: " "
   const { placeName, categoryName, ariaLabel } = useFeatureLabel({
     feature,
     languageTags,
   });
+
+  const wheelchair = isWheelchairAccessible(feature);
+  const toilet = isOrHasAccessibleToilet(feature);
 
   return (
     <Container>
@@ -74,6 +71,11 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
           {placeName}
         </PlaceName>
         <Category>{categoryName}</Category>
+        {wheelchair === "yes" && <FullyWheelchairAccessibleIcon />}
+        {wheelchair === "limited" && <PartiallyWheelchairAccessibleIcon />}
+        {wheelchair === "no" && <NotWheelchairAccessibleIcon />}
+        {wheelchair === "unknown" && <NoDataIcon />}
+        {toilet === "yes" && <FullyWheelchairAccessibleToiletIcon />}
       </TextContainer>
       <Image feature={feature} verb="P18" />
     </Container>

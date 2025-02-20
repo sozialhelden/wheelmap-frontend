@@ -9,6 +9,9 @@ import { ListItem } from "~/domains/list/ListItem";
 import { Search } from "~/domains/search/components/Search";
 import { useSheetContext } from "~/domains/sheet/SheetContext.tsx";
 import { Sheet } from "~/domains/sheet/components/Sheet";
+import { useExpandedFeatures, useFeatures } from "~/lib/fetchers/useFeatures";
+import { collectExpandedFeaturesResult } from "~/lib/fetchers/useFeatures/collectExpandedFeatures";
+import type { FeatureId } from "~/lib/fetchers/useFeatures/types";
 import { isFirstStart } from "~/lib/util/savedState";
 
 const SearchToolbar = styled.div`
@@ -40,7 +43,14 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
 
 const StyledList = styled.ul`
     box-sizing: border-box;
-    margin: 0 calc(var(--space-3) * -1) 0 calc(var(--space-3) * -1) ;
+    margin: 0 calc(var(--space-3) * -1) calc(var(--space-3) * -1) calc(var(--space-3) * -1);
+
+    li {
+        border-bottom: 2px solid var(--gray-3);
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 `;
 
 export default function Page() {
@@ -54,28 +64,21 @@ export default function Page() {
     }
   }, []);
 
-  const testFeature = {
-    "@type": "osm:Feature",
-    type: "Feature",
-    _id: "node/1097191894",
-    geometry: { type: "Point", coordinates: [13.350111, 52.514507] },
-    centroid: { type: "Point", coordinates: [13.350111, 52.514507] },
-    properties: {
-      fee: "yes",
-      icon: "viewpoint",
-      name: "Siegessäule",
-      image: "https://photos.app.goo.gl/5NQPGfqqGtigyk517",
-      charge: "4 EUR",
-      height: 58.6,
-      noname: "yes",
-      tourism: "viewpoint",
-      direction: "0-360",
-      wheelchair: "no",
-      opening_hours:
-        "Nov-Mar: Mo-Fr 10:00-17:00; Nov-Mar: Sa,Su 10:00-17:30; Apr-Oct: Mo-Fr 09:30-18:30; Apr-Oct: Sa,Su 09:30-19:00",
-      wikidata: "Q151897",
-    },
-  };
+  const testFeatureIds: FeatureId[] = [
+    "osm:amenities/node/1097191894",
+    "osm:amenities/node/4544823443",
+    "osm:amenities/way/195086492",
+    "osm:amenities/way/38383464",
+    "osm:amenities/relation/910651",
+    "osm:amenities/node/2840615681",
+    "osm:amenities/node/493655311",
+    "osm:amenities/node/615027093",
+  ];
+  const expandedFeatures = useExpandedFeatures(testFeatureIds);
+  const { features } = collectExpandedFeaturesResult(
+    testFeatureIds,
+    expandedFeatures,
+  );
 
   return (
     <>
@@ -100,9 +103,14 @@ export default function Page() {
       </SearchToolbar>
       <Sheet scrollStops={[0.5]}>
         <StyledList>
-          <li>
-            <ListItem feature={testFeature} />
-          </li>
+          {features.map(
+            (feature) =>
+              feature && (
+                <li>
+                  <ListItem feature={feature?.requestedFeature} />
+                </li>
+              ),
+          )}
         </StyledList>
       </Sheet>
     </>

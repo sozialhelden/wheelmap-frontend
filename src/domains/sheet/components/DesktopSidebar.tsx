@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import styled from "styled-components";
 
 const SidebarWrapper = styled.aside<{ $isExpanded: boolean }>`
-    --sidebar-width: calc(calc(var(--search-bar-width) + calc(var(--space-4) * 2)) + 4rem);
+    --sidebar-width: calc(calc(var(--search-bar-width) + calc(var(--space-4) * 2)) + 3.65rem);
 
     position: fixed;
     top: var(--topbar-height);
