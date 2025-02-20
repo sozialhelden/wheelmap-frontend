@@ -18,6 +18,8 @@ const StyledSearchDropdown = styled.div<{ $visible: boolean }>`
   z-index: 20;
 `;
 const SearchResultList = styled.ul`
+  // this keeps the implicit list role in voice-over on macos 
+  // changing it to none will remove its list semantics
   list-style-type: "";
   margin: 0;
   padding: 0;
