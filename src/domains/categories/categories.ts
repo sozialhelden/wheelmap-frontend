@@ -20,67 +20,67 @@ export const categories = {
     // translator: Root category
     name: () => t`Shopping`,
     priority: 10,
-    icon: Shopping,
+    iconComponent: Shopping,
   },
   food: {
     // translator: Root category
     name: () => t`Food & Drinks`,
     priority: 20,
-    icon: Food,
+    iconComponent: Food,
   },
   public_transfer: {
     // translator: Root category
     name: () => t`Transport`,
     priority: 30,
-    icon: PublicTransfer,
+    iconComponent: PublicTransfer,
   },
   leisure: {
     // translator: Root category
     name: () => t`Leisure`,
     priority: 40,
-    icon: Leisure,
+    iconComponent: Leisure,
   },
   accommodation: {
     // translator: Root category
     name: () => t`Hotels`,
     priority: 40,
-    icon: Accommodation,
+    iconComponent: Accommodation,
   },
   tourism: {
     // translator: Root category
     name: () => t`Tourism`,
-    icon: Tourism,
+    iconComponent: Tourism,
   },
   education: {
     // translator: Root category
     name: () => t`Education`,
-    icon: Education,
+    iconComponent: Education,
   },
   government: {
     // translator: Root category
     name: () => t`Authorities`,
-    icon: Government,
+    iconComponent: Government,
   },
   health: {
     // translator: Root category
     name: () => t`Health`,
-    icon: Health,
+    iconComponent: Health,
   },
   money_post: {
     // translator: Root category
     name: () => t`Money`,
-    icon: MoneyPost,
+    iconComponent: MoneyPost,
   },
   sport: {
     // translator: Root category
     name: () => t`Sports`,
-    icon: Sport,
+    iconComponent: Sport,
   },
   // This returns all places that either ARE a toilet, or HAVE an accessible toilet
   toilets: {
     // translator: Meta category for any toilet or any place with an accessible toilet
     name: () => t`Toilets`,
-    icon: Toilet,
+    iconComponent: Toilet,
     applyCustomSearchParams: (params: URLSearchParams) => {
       params.set("hasToiletInfo", "true");
     },
@@ -90,7 +90,7 @@ export const categories = {
 export type Category = keyof typeof categories;
 export type CategoryProperties = {
   name: () => string;
-  icon?: FC;
+  iconComponent?: FC;
   priority?: number;
   applyCustomSearchParams?: (params: URLSearchParams) => void;
 };

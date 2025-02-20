@@ -85,6 +85,7 @@ export type NeedProperties = {
 export type NeedSelection = {
   [key in NeedCategory]: keyof (typeof settings)[key]["needs"] | undefined;
 };
+
 // A map that contains all the properties of the selected need for each
 // available category
 export type Needs = {
