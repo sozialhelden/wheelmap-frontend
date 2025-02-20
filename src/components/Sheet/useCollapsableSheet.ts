@@ -3,9 +3,13 @@ import { type MutableRefObject, useEffect, useState } from "react";
 export function useCollapsableSheet({
   container,
   content,
+  isExpanded: givenIsExpanded,
+  onIsExpandedChanged,
 }: {
   container: MutableRefObject<HTMLDivElement | undefined>;
   content: MutableRefObject<HTMLDivElement | undefined>;
+  isExpanded: boolean;
+  onIsExpandedChanged?: (isExpanded: boolean) => void;
 }): {
   isExpanded: boolean;
   collapse: () => void;
@@ -14,16 +18,27 @@ export function useCollapsableSheet({
 } {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const getScrollPosition = () => container.current?.scrollTop ?? 0;
+  const scrollPositionCloseToZero = () => {
+    const position = container.current?.scrollTop ?? 0;
+    const height = container.current?.getBoundingClientRect().height ?? 0;
+    return position <= height * 0.1;
+  };
 
   const handleScrollEvent = () => {
-    if (getScrollPosition() === 0) {
+    if (scrollPositionCloseToZero()) {
       setIsExpanded(false);
     }
-    if (getScrollPosition() > 0 && !isExpanded) {
+    if (!scrollPositionCloseToZero()) {
       setIsExpanded(true);
     }
   };
+
+  useEffect(() => {
+    container.current?.addEventListener("scroll", handleScrollEvent);
+    return () => {
+      container.current?.removeEventListener("scroll", handleScrollEvent);
+    };
+  }, []);
 
   const collapse = () => {
     setIsExpanded(false);
@@ -47,12 +62,17 @@ export function useCollapsableSheet({
     }
   };
 
+  // sync the internal state with the external once and vice versa, so
+  // this component can be controlled, but also works on its own.
   useEffect(() => {
-    container.current?.addEventListener("scroll", handleScrollEvent);
-    return () => {
-      container.current?.removeEventListener("scroll", handleScrollEvent);
-    };
-  }, []);
+    if (givenIsExpanded && !isExpanded) {
+      expand();
+    }
+    if (!givenIsExpanded && isExpanded) {
+      collapse();
+    }
+  }, [givenIsExpanded]);
+  useEffect(() => onIsExpandedChanged?.(isExpanded), [isExpanded]);
 
   return {
     isExpanded,

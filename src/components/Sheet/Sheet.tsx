@@ -1,14 +1,9 @@
 import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
 import { IconButton, ScrollArea } from "@radix-ui/themes";
-import React, {
-  type ReactNode,
-  type Ref,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { type ReactNode, type Ref, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useCollapsableSheet } from "~/components/Sheet/useCollapsableSheet";
+import { useSidebarOnDesktop } from "~/components/Sheet/useSidebarOnDesktop";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;
@@ -20,9 +15,6 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     pointer-events: none;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
-    @media (min-width: 769px) {
-        display: none;
-    }
 `;
 const SheetContent = styled.div`
     pointer-events: all;
@@ -37,7 +29,7 @@ const ScrollStop = styled.div`
     scroll-snap-align: start;
     scroll-snap-stop: always;
 `;
-const ExpandArea = styled.div`
+const SheetCollapsedControlArea = styled.div`
   height: var(--sheet-height-collapsed);
   justify-content: center;
   align-items: center;
@@ -69,22 +61,19 @@ const SidebarWrapper = styled.aside<{ $isExpanded: boolean }>`
     width: var(--sidebar-width);
     z-index: 10;
     box-sizing: border-box;
-    display: none;
+    display: block;
     background: var(--color-panel);
     backdrop-filter: var(--backdrop-filter-panel);
     transition: left 400ms ease;
     height: calc(100dvh - var(--topbar-height));
     padding-top: 4.25rem;
-    @media (min-width: 769px) {
-        display: block;
-    }
 `;
 const SidebarContainer = styled.div`
   padding: 0 var(--space-3) var(--space-3) var(--space-3);
 `;
 
 // The available vertical space is the viewport height minus the top bar height
-// and the space the sheet should still be visible when completely collapsed
+// and the space the sheet should still be visible when completely collapsed.
 const availableSpace =
   "calc(calc(100dvh - var(--topbar-height)) - var(--sheet-height-collapsed))";
 
@@ -93,20 +82,17 @@ export function Sheet({
   scrollStops: scrollStopPositions = [],
   isExpanded: givenIsExpanded = false,
   onIsExpandedChanged,
+  onShowSidebarChanged,
 }: {
   children: ReactNode;
   scrollStops?: number[];
   isExpanded?: boolean;
   onIsExpandedChanged?: (isExpanded: boolean) => void;
+  onShowSidebarChanged?: (showSidebar: boolean) => void;
 }) {
-  const container = useRef<HTMLDivElement>();
-  const content = useRef<HTMLDivElement>();
-
-  const { isExpanded, toggle, expand, collapse } = useCollapsableSheet({
-    container,
-    content,
-  });
-
+  // This component uses css scroll stops to create a visible sheet that snaps to the
+  // given percentage positions. This is done using invisible (and non-interactive)
+  // div containers inside the scroll area that the browser snaps to while scrolling.
   const scrollStops: string[] = useMemo(() => {
     const stops = scrollStopPositions.map((position, index) => {
       // All the scroll-stop containers need to add up to a 100% of the available
@@ -120,42 +106,46 @@ export function Sheet({
     return stops;
   }, [scrollStopPositions]);
 
-  useEffect(() => {
-    if (givenIsExpanded && !isExpanded) {
-      expand();
-    }
-    if (!givenIsExpanded && isExpanded) {
-      collapse();
-    }
-  }, [givenIsExpanded]);
+  const container = useRef<HTMLDivElement>();
+  const content = useRef<HTMLDivElement>();
 
-  useEffect(() => onIsExpandedChanged?.(isExpanded), [isExpanded]);
+  const { showSidebar } = useSidebarOnDesktop({ onShowSidebarChanged });
+  const { isExpanded, toggle } = useCollapsableSheet({
+    container,
+    content,
+    isExpanded: givenIsExpanded,
+    onIsExpandedChanged,
+  });
 
   return (
     <>
-      <SheetContainer
-        ref={container as Ref<HTMLDivElement>}
-        $isExpanded={isExpanded}
-      >
-        {scrollStops.map((height, index) => (
-          <ScrollStop key={index} style={{ height }} />
-        ))}
-        <SheetContent ref={content as Ref<HTMLDivElement>}>
-          <ExpandArea>
-            <DragHandle />
-            <ExpandButton variant="ghost" size="2" onClick={toggle}>
-              {!isExpanded && <CaretUpIcon width="1.5rem" height="1.5rem" />}
-              {isExpanded && <CaretDownIcon width="1.5rem" height="1.5rem" />}
-            </ExpandButton>
-          </ExpandArea>
-          {children}
-        </SheetContent>
-      </SheetContainer>
-      <SidebarWrapper $isExpanded={isExpanded}>
-        <ScrollArea>
-          <SidebarContainer>{children}</SidebarContainer>
-        </ScrollArea>
-      </SidebarWrapper>
+      {showSidebar && (
+        <SidebarWrapper $isExpanded={isExpanded}>
+          <ScrollArea>
+            <SidebarContainer>{children}</SidebarContainer>
+          </ScrollArea>
+        </SidebarWrapper>
+      )}
+      {!showSidebar && (
+        <SheetContainer
+          $isExpanded={isExpanded}
+          ref={container as Ref<HTMLDivElement>}
+        >
+          {scrollStops.map((height, index) => (
+            <ScrollStop key={index} style={{ height }} />
+          ))}
+          <SheetContent ref={content as Ref<HTMLDivElement>}>
+            <SheetCollapsedControlArea>
+              <DragHandle />
+              <ExpandButton variant="ghost" size="2" onClick={toggle}>
+                {!isExpanded && <CaretUpIcon width="1.5rem" height="1.5rem" />}
+                {isExpanded && <CaretDownIcon width="1.5rem" height="1.5rem" />}
+              </ExpandButton>
+            </SheetCollapsedControlArea>
+            {children}
+          </SheetContent>
+        </SheetContainer>
+      )}
     </>
   );
 }
