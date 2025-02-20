@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
-import { Sheet } from "~/components/Sheet/Sheet";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
 import { Search } from "~/domains/search/components/Search";
-import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sheet/SheetContext.tsx";
+import { Sheet } from "~/domains/sheet/components/Sheet";
 import { isFirstStart } from "~/lib/util/savedState";
 
 const SearchToolbar = styled.div`
@@ -39,8 +39,7 @@ const SidebarToggleButton = styled(Button)<{ $isSidebarOpen: boolean }>`
 
 export default function Page() {
   const router = useRouter();
-  const { toggle, isExpanded, setIsExpanded, setShowSidebar } =
-    useSheetContext();
+  const { toggle, isExpanded } = useSheetContext();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -70,12 +69,7 @@ export default function Page() {
         </Flex>
         <CategoryFilter />
       </SearchToolbar>
-      <Sheet
-        scrollStops={[0.5]}
-        isExpanded={isExpanded}
-        onIsExpandedChanged={setIsExpanded}
-        onShowSidebarChanged={setShowSidebar}
-      >
+      <Sheet scrollStops={[0.5]}>
         {[...Array(50).keys()].map((i) => (
           <p key={i} style={{ margin: "1rem 0" }}>
             Hallo was geht?

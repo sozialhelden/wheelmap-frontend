@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import { useMap } from "react-map-gl";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
-import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sheet/SheetContext.tsx";
 import { AppContext } from "../../lib/context/AppContext";
 import { useExpertMode } from "../../lib/useExpertMode";
 import { isFirstStart } from "../../lib/util/savedState";
@@ -83,10 +83,10 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
-  const { showSidebar } = useSheetContext();
+  const { showSidebar, isMounted } = useSheetContext();
   useEffect(() => {
     window.dispatchEvent(new Event("resize"));
-  }, [showSidebar]);
+  }, [isMounted, showSidebar]);
 
   return (
     <ThemeProvider attribute="class">
@@ -106,7 +106,10 @@ export default function MapLayout({
                 <TopBar clientSideConfiguration={clientSideConfiguration} />
               )}
               {isOnboardingVisible && <Onboarding />}
-              <Main ref={containerRef} $enablePaddingForSheet={!showSidebar}>
+              <Main
+                ref={containerRef}
+                $enablePaddingForSheet={isMounted && !showSidebar}
+              >
                 <LoadableMapView width={width} height={height} key="map" />
                 <BlurLayer active={blur} style={{ zIndex: 1000 }} />
                 <div style={{ zIndex: 2000 }}>{children}</div>

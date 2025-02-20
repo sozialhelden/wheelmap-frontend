@@ -2,7 +2,7 @@ import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
 import { type ReactNode, type Ref, useMemo, useRef } from "react";
 import styled from "styled-components";
-import { useCollapsableSheet } from "~/components/Sheet/useCollapsableSheet";
+import { useCollapsableSheet } from "~/domains/sheet/components/useCollapsableSheet";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;

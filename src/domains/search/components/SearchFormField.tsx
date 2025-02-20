@@ -8,7 +8,7 @@ import {
 } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { useSheetContext } from "~/domains/sidebar/SidebarContext.ts";
+import { useSheetContext } from "~/domains/sheet/SheetContext.tsx";
 
 const StyledSearchFormField = styled.div<{
   $isDropdownOpen: boolean;

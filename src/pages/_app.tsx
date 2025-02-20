@@ -23,7 +23,7 @@ import "~/app/app.css";
 import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
 import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
-import { SheetContextProvider } from "~/domains/sidebar/SidebarContext.ts";
+import { SheetContextProvider } from "~/domains/sheet/SheetContext.tsx";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {
