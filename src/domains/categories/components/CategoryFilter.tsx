@@ -38,7 +38,7 @@ export function CategoryFilter() {
       <ScrollArea>
         <Theme asChild radius="full">
           <Container>
-            {mainCategories.map(({ id, name, icon: Icon }) => (
+            {mainCategories.map(({ id, name, iconComponent: Icon }) => (
               <StyledButton
                 color="gray"
                 variant="surface"
@@ -65,7 +65,7 @@ export function CategoryFilter() {
                   </StyledButton>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
-                  {categoriesInMenu.map(({ id, name, icon: Icon }) => (
+                  {categoriesInMenu.map(({ id, name, iconComponent: Icon }) => (
                     <DropdownMenu.Item key={id} onClick={() => filter(id)}>
                       {Icon && <Icon aria-hidden />}
                       {name()}
