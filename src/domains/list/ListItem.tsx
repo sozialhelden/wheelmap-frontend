@@ -3,6 +3,7 @@ import { t } from "ttag";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import { useMap } from "~/components/Map/useMap";
 import { FullyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
 import { NoDataIcon } from "~/domains/needs/components/icons/mobility/NoDataIcon";
 import { NotWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
@@ -65,26 +66,36 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
   const wheelchair = isWheelchairAccessible(feature);
   const toilet = isOrHasAccessibleToilet(feature);
 
-  console.log("feature: ", feature);
+  const pathname =
+    feature["@type"] === "ac:PlaceInfo"
+      ? `/ac:PlaceInfo/${feature._id}`
+      : `/amenities/${feature._id.replace("/", ":")}`;
 
-  /* map?.jumpTo({
-    center: [lon, lat],
-    zoom: 20,
-    padding: calculateDefaultPadding(),
-  });*/
-
-  const assembleUrl = () => {
-    const [lon, lat] = feature.geometry.coordinates;
-
-    //url = `/amenities/${feature._id.replace("/", ":")}?zoom=20&lat=52.525505003&lon=13.367067565`;
-    return "#";
+  const getLatLon = () => {
+    if (feature.centroid) {
+      const [lon, lat] = feature.centroid.coordinates;
+      return { lat, lon };
+    }
+    if (feature.geometry && feature.geometry.type === "Point") {
+      const [lon, lat] = feature.geometry.coordinates;
+      return { lat, lon };
+    }
+    return { lat: 0, lon: 0 };
   };
+
+  const { lat, lon } = getLatLon();
+
+  const { map } = useMap();
 
   return (
     <Container>
       <TextContainer>
         <PlaceName
-          href={`/amenities/${feature._id.replace("/", ":")}`}
+          href={{
+            pathname,
+            query: { zoom: 17, lat, lon },
+          }}
+          onClick={() => map?.jumpTo({ center: [lon, lat], zoom: 17 })}
           aria-label={t`Open place ${ariaLabel}`}
         >
           {placeName}

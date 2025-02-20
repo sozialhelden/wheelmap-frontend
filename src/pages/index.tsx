@@ -66,13 +66,14 @@ export default function Page() {
 
   const testFeatureIds: FeatureId[] = [
     "osm:amenities/node/1097191894",
-    "osm:amenities/node/4544823443",
+    // "osm:amenities/node/4544823443",
     "osm:amenities/way/195086492",
     "osm:amenities/way/38383464",
     "osm:amenities/relation/910651",
     "osm:amenities/node/2840615681",
     "osm:amenities/node/493655311",
     "osm:amenities/node/615027093",
+    "ac:PlaceInfo/7hRz9qhHP2adCTLDt",
   ];
   const expandedFeatures = useExpandedFeatures(testFeatureIds);
   const { features } = collectExpandedFeaturesResult(
