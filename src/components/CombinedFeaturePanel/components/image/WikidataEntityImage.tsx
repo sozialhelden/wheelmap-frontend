@@ -28,7 +28,6 @@ WHERE {
 export default function WikidataEntityImage(props: Props) {
   const { [props.prefix ? `${props.prefix}:wikidata` : "wikidata"]: entityId } =
     props.feature.properties;
-  console.debug("props: ", props.feature.properties);
 
   // eslint-disable-next-line react/destructuring-assignment
   const url = `https://query.wikidata.org/sparql?query=${makeWikiQuery(
@@ -44,7 +43,6 @@ export default function WikidataEntityImage(props: Props) {
     const { o } = bindings[0];
     const { value } = o;
     const logoUrl = `${value.replace(/^http:/, "https:")}?width=200`;
-    console.debug("logoUrl: ", logoUrl);
 
     const image = (
       <img

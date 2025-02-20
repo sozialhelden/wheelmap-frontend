@@ -1,4 +1,7 @@
+import { VisuallyHidden } from "@radix-ui/themes";
+import { type Ref, useRef } from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
@@ -8,18 +11,25 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: auto max-content;
     gap: 1rem;
-    
+    width: 100%;
+    position: relative;
 `;
-
 const TextContainer = styled.div`
   
 `;
-
 const Image = styled(WikidataEntityImage)`
-  height: 3.75rem;
+    height: 3.75rem;
     width: 3.75rem;
     object-fit: cover;
     border-radius: var(--radius-3)
+`;
+const PlaceName = styled.a`
+    font-size: 1.1rem;
+    word-break: break-word;
+`;
+const Category = styled.p`
+    font-size: .9rem;
+    color: var(--gray-10);
 `;
 
 export function ListItem({ feature }: { feature: AnyFeature }) {
@@ -38,7 +48,7 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
   // placeName: "Siegessäule"
   // ref: undefined
   // roomNameAndNumber: " "
-  const { placeName, categoryName } = useFeatureLabel({
+  const { placeName, categoryName, ariaLabel } = useFeatureLabel({
     feature,
     languageTags,
   });
@@ -46,8 +56,10 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
   return (
     <Container>
       <TextContainer>
-        <p>{placeName}sdfagdfa ksdhgfasdkjf hasdfkasdhfgsdfhdg</p>
-        <p>{categoryName}</p>
+        <PlaceName href="#" aria-label={t`Open place ${ariaLabel}`}>
+          {placeName}
+        </PlaceName>
+        <Category>{categoryName}</Category>
       </TextContainer>
       <Image feature={feature} verb="P18" />
     </Container>
