@@ -13,12 +13,12 @@ const StyledTopBar = styled.header`
     right: 0;
     height: var(--topbar-height);
     box-sizing: border-box;
-    z-index: 1;
     padding: var(--space-2);
     border-bottom: 2px solid var(--gray-5);
     background: var(--color-panel);
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
+    z-index: 20;
     
     @media (max-width: 768px) {
         grid-template-columns: 65px 1fr 65px;

@@ -16,7 +16,7 @@ const SearchToolbar = styled.div`
   left: 0;
   right: 0;
   z-index: 20;
-  @media (min-width: 1025px) {
+  @media (min-width: 769px) {
     display: flex;  
     gap: var(--space-1);
     justify-content: start;
@@ -70,10 +70,13 @@ export default function Page() {
         <CategoryFilter />
       </SearchToolbar>
       <Sheet scrollStops={[0.5]}>
-        {[...Array(50).keys()].map((i) => (
-          <p key={i} style={{ margin: "1rem 0" }}>
-            Hallo was geht?
-          </p>
+        {[...Array(10).keys()].map((i) => (
+          <Flex key={i} style={{ margin: "0 0 1rem 0" }}>
+            <img
+              src="https://shop.joinmastodon.org/cdn/shop/files/IMG_0145.jpg?v=1726292615&width=1100"
+              style={{ maxWidth: "100%" }}
+            />
+          </Flex>
         ))}
       </Sheet>
     </>

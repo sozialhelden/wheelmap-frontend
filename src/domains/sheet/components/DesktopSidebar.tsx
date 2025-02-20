@@ -17,6 +17,7 @@ const SidebarWrapper = styled.aside<{ $isExpanded: boolean }>`
     transition: left 400ms ease;
     height: calc(100dvh - var(--topbar-height));
     padding-top: 4.25rem;
+    box-shadow: ${({ $isExpanded }) => ($isExpanded ? "rgba(0,0,0,0.2) .25rem 0 .25rem" : "none")};
 `;
 const SidebarContainer = styled.div`
   padding: 0 var(--space-3) var(--space-3) var(--space-3);

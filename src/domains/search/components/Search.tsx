@@ -13,10 +13,10 @@ const SearchWrapper = styled.div`
     position: relative;
     flex-shrink: 0;
     width: 100%;
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
         margin-bottom: var(--space-2);
     }
-    @media (min-width: 1025px) {
+    @media (min-width: 769px) {
         width: var(--search-bar-width);
     }
 `;
