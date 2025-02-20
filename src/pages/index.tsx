@@ -4,14 +4,11 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
-import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
-import useCategory from "~/domains/categories/hooks/useCategory";
 import { ListItem } from "~/domains/list/ListItem";
 import { Search } from "~/domains/search/components/Search";
 import { useSheetContext } from "~/domains/sheet/SheetContext.tsx";
 import { Sheet } from "~/domains/sheet/components/Sheet";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import { isFirstStart } from "~/lib/util/savedState";
 
 const SearchToolbar = styled.div`
@@ -71,6 +68,7 @@ export default function Page() {
       wheelchair: "no",
       opening_hours:
         "Nov-Mar: Mo-Fr 10:00-17:00; Nov-Mar: Sa,Su 10:00-17:30; Apr-Oct: Mo-Fr 09:30-18:30; Apr-Oct: Sa,Su 09:30-19:00",
+      wikidata: "Q151897",
     },
   };
 

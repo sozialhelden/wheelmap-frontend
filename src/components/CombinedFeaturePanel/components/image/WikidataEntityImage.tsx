@@ -2,6 +2,7 @@
 import { omit } from "lodash";
 import type { HTMLAttributes } from "react";
 import useSWR from "swr";
+import { t } from "ttag";
 import type OSMFeature from "../../../../lib/model/osm/OSMFeature";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -27,6 +28,7 @@ WHERE {
 export default function WikidataEntityImage(props: Props) {
   const { [props.prefix ? `${props.prefix}:wikidata` : "wikidata"]: entityId } =
     props.feature.properties;
+  console.debug("props: ", props.feature.properties);
 
   // eslint-disable-next-line react/destructuring-assignment
   const url = `https://query.wikidata.org/sparql?query=${makeWikiQuery(
@@ -42,6 +44,7 @@ export default function WikidataEntityImage(props: Props) {
     const { o } = bindings[0];
     const { value } = o;
     const logoUrl = `${value.replace(/^http:/, "https:")}?width=200`;
+    console.debug("logoUrl: ", logoUrl);
 
     const image = (
       <img

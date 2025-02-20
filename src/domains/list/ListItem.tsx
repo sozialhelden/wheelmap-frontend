@@ -5,7 +5,21 @@ import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 
 const Container = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: auto max-content;
+    gap: 1rem;
+    
+`;
+
+const TextContainer = styled.div`
+  
+`;
+
+const Image = styled(WikidataEntityImage)`
+  height: 3.75rem;
+    width: 3.75rem;
+    object-fit: cover;
+    border-radius: var(--radius-3)
 `;
 
 export function ListItem({ feature }: { feature: AnyFeature }) {
@@ -31,11 +45,11 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
 
   return (
     <Container>
-      <div>
-        <p>{placeName}</p>
+      <TextContainer>
+        <p>{placeName}sdfagdfa ksdhgfasdkjf hasdfkasdhfgsdfhdg</p>
         <p>{categoryName}</p>
-      </div>
-      <WikidataEntityImage feature={feature} />
+      </TextContainer>
+      <Image feature={feature} verb="P18" />
     </Container>
   );
 }
