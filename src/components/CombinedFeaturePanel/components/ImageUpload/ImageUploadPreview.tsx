@@ -1,8 +1,6 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
   AspectRatio,
   Box,
-  Button,
   Card,
   Flex,
   Inset,
@@ -14,6 +12,7 @@ import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import { ErrorScreen } from "~/components/shared/ErrorScreen";
 import uploadPhotoForFeature from "~/lib/fetchers/ac/refactor-this/postImageUpload";
 import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
@@ -112,17 +111,16 @@ export const ImageUploadPreview: FC<{
         </Card>
       </PreviewWrapper>
       <Flex mt="4" justify="between" wrap="wrap" gap="3">
-        <Button
-          color="gray"
+        <SecondaryButton
+          text={t`Choose a different image`}
           onClick={reset}
-          variant="soft"
           disabled={isUploading}
-        >
-          {t`Choose a different image`}
-        </Button>
-        <Button loading={isUploading} onClick={upload}>
-          {t`Upload image`}
-        </Button>
+        />
+        <PrimaryButton
+          text={t`Upload image`}
+          loading={isUploading}
+          onClick={upload}
+        />
       </Flex>
     </>
   );
