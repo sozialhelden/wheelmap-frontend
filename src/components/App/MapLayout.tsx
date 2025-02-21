@@ -80,7 +80,7 @@ export default function MapLayout({
       <Theme
         accentColor="indigo"
         grayColor="sand"
-        radius="medium"
+        radius="small"
         scaling="100%"
         panelBackground="solid"
       >
