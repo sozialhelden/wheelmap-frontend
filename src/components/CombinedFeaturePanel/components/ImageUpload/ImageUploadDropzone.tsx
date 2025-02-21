@@ -1,9 +1,10 @@
 import { Box, Button, Strong, Text } from "@radix-ui/themes";
-import React, { type FC, useCallback, useContext, useState } from "react";
+import React, { type FC, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import { SecondaryButton } from "~/components/shared/Buttons";
 
 const Dropzone = styled.div<{ $isDragActive?: boolean }>`
     padding: 3rem 4rem;
@@ -79,9 +80,7 @@ export const ImageUploadDropzone: FC = () => {
       </Dropzone>
 
       <Box mt="4">
-        <Button variant="soft" color="gray" size="3" onClick={previousStep}>
-          {t`Back`}
-        </Button>
+        <SecondaryButton text={t`Back`} onClick={previousStep} />
       </Box>
     </>
   );
