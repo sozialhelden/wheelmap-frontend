@@ -1,18 +1,10 @@
 import { CheckIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Grid,
-  Text,
-  Tooltip,
-  VisuallyHidden,
-} from "@radix-ui/themes";
+import { Box, Card, Flex, Grid, Text, VisuallyHidden } from "@radix-ui/themes";
 import React, { type FC, useContext } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 
 const CriteriaList = styled.ul`
     list-style-type: "";
@@ -138,13 +130,9 @@ export const ImageUploadCriteriaList: FC = () => {
         </CriteriaList>
       </Flex>
 
-      <Flex justify="between">
-        <Button variant="soft" color="gray" size="3" onClick={close}>
-          {t`Cancel`}
-        </Button>
-        <Button size="3" onClick={nextStep}>
-          {t`Continue`}
-        </Button>
+      <Flex mt="3" justify="between">
+        <SecondaryButton text={t`Cancel`} onClick={close} />
+        <PrimaryButton text={t`Continue`} onClick={nextStep} />
       </Flex>
     </>
   );
