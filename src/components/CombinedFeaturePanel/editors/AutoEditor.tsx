@@ -6,14 +6,15 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
-import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
+import { log } from "~/lib/util/logger";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
-import useSubmitNewValueCallback, {
-  type OSMAPIElement,
-} from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
 import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
+import useUpdateTagValueWithLogInCallback, {
+  type OSMAPIElement,
+} from "../../../lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -69,52 +70,19 @@ export const AutoEditor = ({
   const [finalTagName, setFinalTagName] = useState(tagName);
   const [newTagValue, setEditedTagValue] = useState<string>("");
 
-  function handleSuccess() {
+  function postSuccessMessage() {
     toast.success(
       t`Thank you for contributing. Your edit will be visible soon.`,
     );
   }
 
-  function handleError() {
+  function postErrorMessage() {
     toast.error(
       t`Something went wrong. Please let us know if the error persists.`,
     );
   }
 
-  const submitNewValue = useSubmitNewValueCallback({
-    accessToken,
-    baseUrl: remoteOSMAPIBaseUrl,
-    osmType,
-    osmId,
-    tagName: finalTagName,
-    newTagValue,
-    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
-    handleSuccess,
-    handleError,
-  });
-
-  const onSubmit = async () => {
-    if (accessToken) {
-      await submitNewValue();
-      return;
-    }
-
-    try {
-      await makeChangeRequestToInhouseApi({
-        baseUrl: inhouseOSMAPIBaseURL,
-        osmType: osmType,
-        osmId: osmId,
-        tagName: finalTagName,
-        newTagValue: newTagValue,
-        postSuccessMessage: handleSuccess,
-        postErrorMessage: handleError,
-      });
-    } catch (error) {
-      // TODO: handle error somehow
-    }
-  };
-
-  const handleTagKeyChange = React.useCallback(
+  const onLanguageChange = React.useCallback(
     (newPickerValue: string) => {
       const { normalizedOSMTagKey: baseTag } =
         normalizeAndExtractLanguageTagsIfPresent(tagName);
@@ -127,6 +95,47 @@ export const AutoEditor = ({
     [tagName, finalTagName],
   );
 
+  const updateTagValueWithLogIn = useUpdateTagValueWithLogInCallback({
+    accessToken,
+    baseUrl: remoteOSMAPIBaseUrl,
+    osmType,
+    osmId,
+    tagName: finalTagName,
+    newTagValue,
+    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
+    /* it would be more elegant to handle success or failure cases outside this hook, but in case the request to inhouse db
+    gets stuck, the entire function does not return and the user will not get any feedback for a while */
+    postSuccessMessage: postSuccessMessage,
+    postErrorMessage: postErrorMessage,
+  });
+
+  const onSubmit = async () => {
+    if (accessToken) {
+      try {
+        await updateTagValueWithLogIn();
+      } catch (error) {
+        log.error(error);
+      }
+      return;
+    }
+
+    try {
+      await updateTagValueNoLogIn({
+        baseUrl: inhouseOSMAPIBaseURL,
+        osmType: osmType,
+        osmId: osmId,
+        tagName: finalTagName,
+        newTagValue: newTagValue,
+        /* it would be more elegant to handle success or failure cases outside this function, but in case the request to inhouse db
+        gets stuck, the entire function does not return and the user will not get any feedback for a while */
+        postSuccessMessage: postSuccessMessage,
+        postErrorMessage: postErrorMessage,
+      });
+    } catch (error) {
+      log.error(error);
+    }
+  };
+
   const Editor = getEditorForKey(tagKey);
   if (Editor) {
     return (
@@ -136,7 +145,7 @@ export const AutoEditor = ({
         onChange={setEditedTagValue}
         onSubmit={onSubmit}
         addNewLanguage={addNewLanguage}
-        onLanguageChange={handleTagKeyChange}
+        onLanguageChange={onLanguageChange}
         onClose={onClose}
       />
     );
