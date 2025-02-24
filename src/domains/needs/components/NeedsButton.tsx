@@ -57,7 +57,7 @@ export const NeedsButton = forwardRef(function NeedsButton(
         aria-label={
           needs.length === 0
             ? t`Select your needs`
-            : t`You have ${needs.length} needs selected: ${needs.map(({ label }) => `"${label()}"`).join(", ")}`
+            : t`You have ${needs.length} needs selected: ${needs.map(({ label }) => label()).join(", ")}`
         }
       >
         {needs.length > 0 && (

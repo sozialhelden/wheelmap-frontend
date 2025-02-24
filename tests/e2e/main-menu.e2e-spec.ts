@@ -21,9 +21,9 @@ test.describe("when the menu is closed", () => {
     // On desktops, the greater part of the navigation is always visible.
     await expect(page.getByRole("banner")).toMatchAriaSnapshot(`
       - banner:
-        - link "Home":
-          - img
+        - link "Go to home page"
         - text: Find wheelchair accessible places.
+        - button "Select your needs": What do you need?
         - navigation:
           - list:
             - listitem:
@@ -44,8 +44,8 @@ test.describe("when the menu is closed", () => {
     skipOnDesktops();
     await expect(page.getByRole("banner")).toMatchAriaSnapshot(`
       - banner:
-        - link "Home":
-          - img "Wheelmap logo"
+        - link "Go to home page"
+        - button "Select your needs": What do you need?
         - navigation:
           - button "Show menu"
     `);

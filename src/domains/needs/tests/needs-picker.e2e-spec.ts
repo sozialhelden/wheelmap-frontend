@@ -121,13 +121,9 @@ test.describe("needs-picker", () => {
     page,
   }) => {
     await expect(
-      getButton(page).getByLabel("You have 2 needs selected"),
-    ).toHaveCount(0);
-    await expect(
-      getButton(page).getByLabel("Partially wheelchair accessible"),
-    ).toHaveCount(0);
-    await expect(
-      getButton(page).getByLabel("Fully wheelchair accessible toilet"),
+      page.getByRole("button", {
+        name: "You have 2 needs selected: Partially wheelchair accessible, Fully wheelchair accessible toilet",
+      }),
     ).toHaveCount(0);
 
     await openDropdown(page);
@@ -141,13 +137,9 @@ test.describe("needs-picker", () => {
     await assertDropdownIsNotVisible(page);
 
     await expect(
-      getButton(page).getByLabel("You have 2 needs selected"),
-    ).toBeVisible();
-    await expect(
-      getButton(page).getByLabel("Partially wheelchair accessible"),
-    ).toBeVisible();
-    await expect(
-      getButton(page).getByLabel("Fully wheelchair accessible toilet"),
+      page.getByRole("button", {
+        name: "You have 2 needs selected: Partially wheelchair accessible, Fully wheelchair accessible toilet",
+      }),
     ).toBeVisible();
   });
 
