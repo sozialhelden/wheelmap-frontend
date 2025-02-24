@@ -133,8 +133,8 @@ export const ImageUploadCriteriaList: FC = () => {
       </Flex>
 
       <Flex mt="3" justify="between">
-        <SecondaryButton text={t`Cancel`} onClick={close} />
-        <PrimaryButton text={t`Continue`} onClick={nextStep} />
+        <SecondaryButton onClick={close}>{t`Cancel`}</SecondaryButton>
+        <PrimaryButton onClick={nextStep}>{t`Continue`}</PrimaryButton>
       </Flex>
     </>
   );

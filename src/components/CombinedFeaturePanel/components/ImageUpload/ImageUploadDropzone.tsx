@@ -1,4 +1,4 @@
-import { Box, Button, Strong, Text } from "@radix-ui/themes";
+import { Box, Strong, Text } from "@radix-ui/themes";
 import React, { type FC, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
@@ -76,11 +76,11 @@ export const ImageUploadDropzone: FC = () => {
         <TextForMobile as="p">
           <Strong>{t`Use the following button to select an image:`}</Strong>
         </TextForMobile>
-        <Button variant="soft" mt="2">{t`Select image`}</Button>
+        <SecondaryButton mt="2">{t`Select image`}</SecondaryButton>
       </Dropzone>
 
       <Box mt="4">
-        <SecondaryButton text={t`Back`} onClick={previousStep} />
+        <SecondaryButton onClick={previousStep}>{t`Back`}</SecondaryButton>
       </Box>
     </>
   );

@@ -83,11 +83,12 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
             </form>
 
             <Flex gap="3" mt="3" justify="end">
-              <SecondaryButton text={t`Cancel`} onClick={onClose} />
+              <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
               <PrimaryButton
-                text={saveButtonDoesNothing ? t`Confirm` : t`Send`}
                 onClick={saveButtonDoesNothing ? onClose : onSubmit}
-              />
+              >
+                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              </PrimaryButton>
             </Flex>
           </StyledReportView>
         </Flex>

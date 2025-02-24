@@ -179,11 +179,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </div>
 
           <Flex gap="3" mt="4" justify="end">
-            <SecondaryButton text={t`Cancel`} onClick={onClose} />
-            <PrimaryButton
-              text={saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              onClick={saveButtonDoesNothing ? onClose : onSubmit}
-            />
+            <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
+            <PrimaryButton onClick={saveButtonDoesNothing ? onClose : onSubmit}>
+              {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+            </PrimaryButton>
           </Flex>
         </Flex>
       </Dialog.Content>
