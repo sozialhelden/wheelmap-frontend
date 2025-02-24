@@ -12,7 +12,7 @@ import { NeedsDropdownHighlighterSectionContainer } from "./NeedsDropdownHighlig
 import { NeedsDropdownSection } from "./NeedsDropdownSection";
 
 const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
-  animation: showOverlay 400ms ease-out;
+  animation: showOverlay 400ms var(--easing);
   background-color: var(--black-a4);
   backdrop-filter: blur(.1rem);
   position: fixed;
@@ -28,7 +28,7 @@ const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
 `;
 const NeedsDialogContent = styled(DialogPrimitive.Content)`
   box-sizing: border-box;
-  animation: showContent 400ms ease-out;
+  animation: showContent 400ms var(--easing);
   position: fixed;
   top: var(--space-2);
   left: 50%;
