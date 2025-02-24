@@ -117,7 +117,14 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
               <Button
                 variant="solid"
                 size="2"
-                onClick={saveButtonDoesNothing ? onClose : onSubmit}
+                onClick={() => {
+                  if (saveButtonDoesNothing) {
+                    onClose?.();
+                  } else {
+                    onSubmit?.();
+                    onClose?.();
+                  }
+                }}
               >
                 {saveButtonDoesNothing ? t`Confirm` : t`Send`}
               </Button>

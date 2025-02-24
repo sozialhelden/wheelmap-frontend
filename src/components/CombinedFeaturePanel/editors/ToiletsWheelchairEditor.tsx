@@ -95,7 +95,14 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
                 variant="solid"
                 size="2"
                 aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
-                onClick={saveButtonDoesNothing ? onClose : onSubmit}
+                onClick={() => {
+                  if (saveButtonDoesNothing) {
+                    onClose?.();
+                  } else {
+                    onSubmit?.();
+                    onClose?.();
+                  }
+                }}
               >
                 {saveButtonDoesNothing ? t`Confirm` : t`Send`}
               </Button>
