@@ -19,7 +19,7 @@ export async function updateTagValueNoLogIn({
 }) {
   if (!newTagValue || !osmType || !osmId) {
     // if the request cannot be made at all, the user gets an error toast
-    postErrorMessage();
+    postErrorMessage?.();
     throw new Error("Missing or undefined parameters.");
   }
 
@@ -48,6 +48,5 @@ export async function updateTagValueNoLogIn({
     throw new Error("Could not update");
   }
 
-  const text = response.text();
-  return text;
+  return response.text();
 }
