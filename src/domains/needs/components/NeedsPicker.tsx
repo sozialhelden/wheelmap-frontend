@@ -3,13 +3,13 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NeedsDropdownButtonSection } from "~/domains/needs/components/NeedsDropdownButtonSection";
-import type { NeedSelection } from "~/domains/needs/needs";
+import { useNeedsHighlighterSections } from "~/domains/needs/components/hooks/useNeedsHighlighterSections";
 import { useNeeds } from "~/domains/needs/hooks/useNeeds";
+import { type NeedSelection, emptyNeeds } from "~/domains/needs/needs";
 import { NeedsButton } from "./NeedsButton";
 import { NeedsDropdownHighlighter } from "./NeedsDropdownHighlighter";
 import { NeedsDropdownHighlighterSectionContainer } from "./NeedsDropdownHighlighterSectionContainer";
 import { NeedsDropdownSection } from "./NeedsDropdownSection";
-import { useNeedsHighlighterSections } from "~/domains/needs/components/hooks/useNeedsHighlighterSections";
 
 const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
   animation: showOverlay 400ms ease-out;
@@ -61,7 +61,13 @@ const NeedsDialogContent = styled(DialogPrimitive.Content)`
 export default function NeedsPicker() {
   const { selection: globalSelection, setSelection: setGlobalSelection } =
     useNeeds();
-  const [selection, setSelection] = useState<NeedSelection>(globalSelection);
+
+  const defaultSelection = {
+    ...emptyNeeds,
+    ...globalSelection,
+  };
+
+  const [selection, setSelection] = useState<NeedSelection>(defaultSelection);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { sections, highlightedSection, isGivenOrNextSectionHighlighted } =
@@ -72,7 +78,7 @@ export default function NeedsPicker() {
     setIsOpen(false);
   };
   const reset = () => {
-    setSelection(globalSelection);
+    setSelection(defaultSelection);
     setIsOpen(false);
   };
 
