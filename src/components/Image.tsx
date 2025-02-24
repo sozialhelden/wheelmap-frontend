@@ -78,7 +78,7 @@ export default function Image({
         ? `&angle=${((image.angle % 360) + 360) % 360}`
         : "";
       const { width, height } = getDimensions({ requestedWidth, image });
-      return `${baseUrl}/images/scale/${src}?fit=inside&fitw=${width}&fith=${height}${angle}&${additionalQueryParameter}`;
+      return `${baseUrl}/images/scale/${src.replace("?", "")}?fit=inside&fitw=${width}&fith=${height}${angle}&${additionalQueryParameter}`;
     },
     [baseUrl, image, additionalQueryParameter],
   );
