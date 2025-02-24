@@ -60,7 +60,7 @@ export function CategoryFilter() {
                     highContrast
                     size="1"
                   >
-                    {t`More ...`}
+                    {t`More…`}
                     <DropdownMenu.TriggerIcon />
                   </StyledButton>
                 </DropdownMenu.Trigger>
