@@ -111,16 +111,12 @@ export const ImageUploadPreview: FC<{
         </Card>
       </PreviewWrapper>
       <Flex mt="4" justify="between" wrap="wrap" gap="3">
-        <SecondaryButton
-          text={t`Choose a different image`}
-          onClick={reset}
-          disabled={isUploading}
-        />
-        <PrimaryButton
-          text={t`Upload image`}
-          loading={isUploading}
-          onClick={upload}
-        />
+        <SecondaryButton onClick={reset} disabled={isUploading}>
+          {t`Choose a different image`}
+        </SecondaryButton>
+        <PrimaryButton loading={isUploading} onClick={upload}>
+          {t`Upload image`}
+        </PrimaryButton>
       </Flex>
     </>
   );

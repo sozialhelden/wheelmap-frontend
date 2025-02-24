@@ -22,12 +22,10 @@ export const NeedsDropdownButtonSection = forwardRef(
         justify={{ initial: "between", sm: "center" }}
         direction={{ initial: "row-reverse", sm: "column" }}
       >
-        <PrimaryButton text={t`Save`} onClick={onSaveButtonClick} />
-        <SecondaryButton
-          text={t`Cancel`}
-          size="2"
-          onClick={onResetButtonClick}
-        />
+        <PrimaryButton onClick={onSaveButtonClick}>{t`Save`}</PrimaryButton>
+        <SecondaryButton size="2" onClick={onResetButtonClick}>
+          {t`Cancel`}
+        </SecondaryButton>
       </Flex>
     );
   },

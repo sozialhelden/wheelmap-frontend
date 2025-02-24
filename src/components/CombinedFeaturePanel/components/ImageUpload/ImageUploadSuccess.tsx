@@ -15,7 +15,7 @@ export const ImageUploadSuccess: FC = () => {
         text={t`Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient.`}
       />
       <Flex justify="end">
-        <PrimaryButton text={t`Continue`} onClick={close} />
+        <PrimaryButton onClick={close}>{t`Continue`}</PrimaryButton>
       </Flex>
     </>
   );
