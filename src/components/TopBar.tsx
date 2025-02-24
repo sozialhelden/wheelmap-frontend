@@ -8,12 +8,12 @@ import Navigation from "./TopBar/Navigation";
 
 const StyledTopBar = styled.header`
     position: fixed;
-    top: -1px;
-    left: -1px;
-    right: -1px;
+    top: 0;
+    left: 0;
+    right: 0;
     height: auto;
     z-index: 1;
-    padding: var(--space-2);
+    padding: var(--space-2) var(--space-3);
     border-bottom: 2px solid var(--gray-5);
     background: var(--color-panel);
     display: grid;
@@ -24,25 +24,20 @@ const StyledTopBar = styled.header`
     }
 `;
 
-export default function TopBar(props: {
+export default function TopBar({
+  clientSideConfiguration: { textContent, branding },
+}: {
   clientSideConfiguration: ClientSideConfiguration;
 }) {
-  const { clientSideConfiguration } = props;
-  const { textContent, branding } = clientSideConfiguration;
-  const { product } = textContent || {};
-  const { name, claim } = product || {};
-
-  // The product name is configurable in the app's whitelabel settings.
-  const productName = translatedStringFromObject(name) || "A11yMap";
-  const claimString = translatedStringFromObject(claim);
+  const claim = translatedStringFromObject(textContent?.product?.claim);
 
   return (
     <StyledTopBar role="banner">
-      <Flex justify="start" align="center" overflow="hidden" gap="4">
-        <Logo {...{ branding, productName }} />
+      <Flex justify="start" gap="4" align="center">
+        <Logo branding={branding} />
         <Box asChild display={{ initial: "none", lg: "block" }}>
           <Text as="div" size={{ initial: "2", sm: "2", md: "3", xl: "3" }}>
-            {claimString}
+            {claim}
           </Text>
         </Box>
       </Flex>
