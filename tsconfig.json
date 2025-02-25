@@ -14,7 +14,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["DOM", "dom.iterable", "es2019", "esNext"],
+    "lib": [
+      "DOM",
+      "dom.iterable",
+      "es2019",
+      "esNext"
+    ],
     "downlevelIteration": true,
     "plugins": [
       {
@@ -23,10 +28,21 @@
     ],
     "strictNullChecks": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": [
+        "./src/*"
+      ]
     },
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "**/*Legacy.ts", "**/*Legacy.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*Legacy.ts",
+    "**/*Legacy.tsx"
+  ]
 }
