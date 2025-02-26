@@ -1,0 +1,67 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [13.413635717448294, 52.5219814],
+        "type": "Point"
+      },
+      "type": "Feature",
+      "properties": {
+        "osm_type": "W",
+        "osm_id": 783052052,
+        "extent": [13.4103097, 52.5238113, 13.4160801, 52.5201457],
+        "country": "Germany",
+        "osm_key": "place",
+        "city": "Berlin",
+        "countrycode": "DE",
+        "district": "Mitte",
+        "osm_value": "square",
+        "postcode": "10178",
+        "name": "Alexanderplatz",
+        "type": "locality"
+      }
+    },
+    {
+      "geometry": { "coordinates": [13.4112804, 52.5215661], "type": "Point" },
+      "type": "Feature",
+      "properties": {
+        "osm_type": "N",
+        "osm_id": 3908141014,
+        "country": "Germany",
+        "osm_key": "railway",
+        "city": "Berlin",
+        "street": "Dircksenstraße",
+        "countrycode": "DE",
+        "district": "Mitte",
+        "osm_value": "station",
+        "postcode": "10179",
+        "name": "Alexanderplatz",
+        "type": "house"
+      }
+    },
+    {
+      "geometry": {
+        "coordinates": [13.412789245687765, 52.52284],
+        "type": "Point"
+      },
+      "type": "Feature",
+      "properties": {
+        "osm_id": 23723125,
+        "extent": [13.4117668, 52.5233869, 13.4138229, 52.522297],
+        "country": "Germany",
+        "city": "Berlin",
+        "countrycode": "DE",
+        "postcode": "10178",
+        "locality": "Alexanderplatz",
+        "type": "house",
+        "osm_type": "W",
+        "osm_key": "tourism",
+        "housenumber": "7",
+        "district": "Mitte",
+        "osm_value": "hotel",
+        "name": "Park Inn by Radisson Berlin-Alexanderplatz"
+      }
+    }
+  ],
+  "type": "FeatureCollection"
+}

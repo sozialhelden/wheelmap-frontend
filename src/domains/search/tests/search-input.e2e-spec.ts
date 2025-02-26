@@ -2,6 +2,12 @@ import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "../../../../tests/e2e/setup/test-fixture";
 import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import emptyPhotonMock from "./empty-photon-mock.json";
+import emptyPlaceInfoMock from "./empty-place-infos-mock.json";
+import node3908141014Mock from "./node:3908141014-osm-mock.json";
+import photonMock from "./photon-mock.json";
+import placeInfoMock from "./place-infos-mock.json";
+import way23723125Mock from "./way:23723125-osm-mock.json";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -20,10 +26,31 @@ const getSearchResultItem = (page: Page, hasText: string): Locator => {
     .filter({ hasText })
     .first();
 };
-const searchFor = async (page: Page, query: string): Promise<void> => {
+const searchFor = async (
+  page: Page,
+  query: string,
+  empty = false,
+): Promise<void> => {
+  await page.route(`**/place-infos.json?q=${query}*`, async (route) => {
+    await route.fulfill({ json: empty ? emptyPlaceInfoMock : placeInfoMock });
+  });
+  await page.route(`**/api?q=${query}*`, async (route) => {
+    await route.fulfill({ json: empty ? emptyPhotonMock : photonMock });
+  });
+  await page.route(
+    "**/api/v1/amenities/way/23723125.geojson*",
+    async (route) => {
+      await route.fulfill({ json: way23723125Mock });
+    },
+  );
+  await page.route(
+    "**/api/v1/amenities/node/3908141014.geojson*",
+    async (route) => {
+      await route.fulfill({ json: node3908141014Mock });
+    },
+  );
   await getSearchInput(page).fill(`${query}`);
-  await page.waitForResponse(`**/place-infos.json?q=${query}*`);
-  await page.waitForResponse(`**/api?q=${query}*`);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 };
 
 test.describe("search-input", () => {
@@ -31,17 +58,32 @@ test.describe("search-input", () => {
     await expect(getSearchInput(page)).toBeVisible();
   });
 
-  test("it shows a list of search results when typing", async ({ page }) => {
+  test("it queries the photon api and the a11ycloud place infos api", async ({
+    page,
+  }) => {
     test.slow();
+    const query = "Alexanderplatz";
+    await getSearchInput(page).fill(`${query}`);
+
+    await page.waitForResponse(`**/place-infos.json?q=${query}*`);
+    await page.waitForResponse(`**/api?q=${query}*`);
+
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
+    ).toBeVisible();
+    await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
+  });
+
+  test("it shows a list of search results when typing", async ({ page }) => {
+    await expect(
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toHaveCount(0);
     await expect(getSearchResultItem(page, "Park Inn")).toHaveCount(0);
 
     await searchFor(page, "Alexanderplatz");
 
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toBeVisible();
     await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
   });
@@ -49,24 +91,21 @@ test.describe("search-input", () => {
   test("clicking on a search result navigates to the places detail page", async ({
     page,
   }) => {
-    test.slow();
     await searchFor(page, "Alexanderplatz");
-    await getSearchResultItem(page, "Alexanderplatz Transit station").click();
+    await getSearchResultItem(
+      page,
+      "Park Inn by Radisson Berlin-Alexanderplatz",
+    ).click();
 
-    await page.waitForURL("**/amenities/node:3908141014**");
+    await page.waitForURL("**/amenities/way:23723125**");
   });
 
   test("it shows an empty state if not results are found", async ({ page }) => {
-    test.slow();
     await expect(
       getSearchDropdown(page).getByText("No results found!"),
     ).toHaveCount(0);
 
-    // if a place named like this exists it is well deserved to break our tests 🖖
-    await searchFor(
-      page,
-      "paiX9uz4aivaik2ie8uh2zeTaaghoovei1ahT2agef0quei2IechixeeH2Beiyuu",
-    );
+    await searchFor(page, "Something", true);
 
     await expect(
       getSearchDropdown(page).getByText("No results found!"),
@@ -77,24 +116,22 @@ test.describe("search-input", () => {
   test("the input is cleared when clicking the clear button", async ({
     page,
   }) => {
-    test.slow();
     await searchFor(page, "Alexanderplatz");
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toBeVisible();
 
     await page.getByRole("button", { name: "Clear search" }).click();
 
     await expect(getSearchInput(page)).toHaveValue("");
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toHaveCount(0);
   });
 
   test("it can navigate the search results with the keyboard", async ({
     page,
   }) => {
-    test.slow();
     await searchFor(page, "Alexanderplatz");
 
     let foundItem = false;
@@ -103,7 +140,7 @@ test.describe("search-input", () => {
       await getSearchInput(page).press("ArrowDown");
       foundItem = await getSearchDropdown(page)
         .getByTestId("highlighted-search-result")
-        .filter({ hasText: "Alexanderplatz Transit station" })
+        .filter({ hasText: "Park Inn by Radisson Berlin-Alexanderplatz" })
         .isVisible();
       counter++;
       if (counter > 30) {
@@ -112,7 +149,7 @@ test.describe("search-input", () => {
     }
     await getSearchInput(page).press("Enter");
 
-    await page.waitForURL("**/amenities/node:3908141014**");
+    await page.waitForURL("**/amenities/way:23723125**");
   });
 
   test("filtering by a category displays the category in the search input", async ({
@@ -143,17 +180,16 @@ test.describe("search-input", () => {
   test("filtering by category resets the current search query", async ({
     page,
   }) => {
-    test.slow();
     await searchFor(page, "Alexanderplatz");
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toBeVisible();
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
     await expect(getSearchInput(page)).toHaveValue("Shopping");
     await expect(
-      getSearchResultItem(page, "Alexanderplatz Transit station"),
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toHaveCount(0);
     expect(getQueryParams(page).get("q")).toBe("");
   });
@@ -161,7 +197,6 @@ test.describe("search-input", () => {
   test("typing into the search input resets the active category", async ({
     page,
   }) => {
-    test.slow();
     await page.getByRole("button", { name: "Shopping" }).click();
     await expect(getSearchInput(page)).toHaveValue("Shopping");
 
