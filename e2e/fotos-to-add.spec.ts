@@ -55,7 +55,8 @@ test('upload a photo', async ({ page }) => {
     await page.getByRole('button', { name: 'Select image' }).click();
     await page.getByRole('button', { name: 'Select image' }).setInputFiles('1000015934.jpg');
     await page.getByRole('button', { name: 'Upload image' }).click();
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Test failed with error:', error.message);
     console.error(error.stack);
     throw error;
