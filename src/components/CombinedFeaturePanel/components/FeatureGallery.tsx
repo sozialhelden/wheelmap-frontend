@@ -1,12 +1,12 @@
 import { type FC, useMemo } from "react";
 import useSWR from "swr";
-import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 import { Gallery } from "./Gallery/Gallery";
 import { makeImageIds, makeImageLocation } from "./Gallery/util";
 
-const fetcher = (urls: string[]) => {
+export const imageFetcher = (urls: string[]) => {
   const f = (u) =>
     fetch(u).then((r) => {
       if (r.ok) {
@@ -28,12 +28,12 @@ export const FeatureGallery: FC<{
   activeImageId?: string;
 }> = ({ feature, activeImageId }) => {
   const ids = makeImageIds(feature);
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true });
+  const { baseUrl, appToken } = useAccessibilityCloud({ cached: true });
   const { data, mutate } = useSWR(
     baseUrl && appToken
       ? ids.map((x) => makeImageLocation(baseUrl, appToken, x.context, x.id))
       : null,
-    fetcher,
+    imageFetcher,
   );
   const images = useMemo(() => data?.flatMap((x) => x.images) ?? [], [data]);
 

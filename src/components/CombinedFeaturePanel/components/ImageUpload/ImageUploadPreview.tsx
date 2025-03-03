@@ -15,8 +15,8 @@ import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import { ErrorScreen } from "~/components/shared/ErrorScreen";
 import uploadPhotoForFeature from "~/lib/fetchers/ac/refactor-this/postImageUpload";
-import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 
 const PreviewWrapper = styled.div`
   position: relative;
@@ -43,7 +43,7 @@ const PreviewOverlay = styled(Box)`
 export const ImageUploadPreview: FC<{
   feature: AnyFeature;
 }> = ({ feature }) => {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true });
+  const { baseUrl, appToken } = useAccessibilityCloud({ cached: true });
   const { image, setImage, previousStep, nextStep } =
     useContext(ImageUploadContext);
 

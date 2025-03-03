@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import { Layer, type LayerProps, Source } from "react-map-gl/mapbox";
-import { useAppContext } from "../../lib/context/AppContext";
-import { useEnvContext } from "../../lib/context/EnvContext";
-import { getAccessibilityCloudAPI } from "../../lib/fetchers/ac/useAccessibilityCloudAPI";
+import { useFilteredAccessibilityCloudTileUrl } from "~/modules/accessibility-cloud/hooks/useFilteredAccessibilityCloudTileUrl";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 
 export default function MarkerBackgroundLayer({
@@ -97,43 +95,11 @@ export function MarkerIconLayer({
 }
 
 export const AcPoiLayers = () => {
-  const env = useEnvContext();
-  const app = useAppContext();
-
-  if (!app) {
-    throw new Error("App not found");
-  }
-
-  const { tokenString, clientSideConfiguration } = app;
-
-  const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(
-    env,
-    tokenString,
-    true,
-  );
-
-  const tiles = useMemo(() => {
-    const wheelmapSourceId = "LiBTS67TjmBcXdEmX";
-    const excludeSourceIds = clientSideConfiguration.excludeSourceIds || [];
-    excludeSourceIds.push(wheelmapSourceId);
-    const includeSourceIds = clientSideConfiguration.includeSourceIds || [];
-
-    const urlParams = new URLSearchParams({
-      includePlacesWithoutAccessibility: "1",
-    });
-    if (acAppToken) {
-      urlParams.set("appToken", acAppToken);
-    }
-    if (excludeSourceIds.length > 0) {
-      urlParams.set("excludeSourceIds", excludeSourceIds.join(","));
-    }
-    if (includeSourceIds.length > 0) {
-      urlParams.set("includeSourceIds", includeSourceIds.join(","));
-    }
-    return [
-      `${acBaseUrl}/place-infos.mvt?${urlParams.toString()}&x={x}&y={y}&z={z}`,
-    ];
-  }, [acBaseUrl, acAppToken, clientSideConfiguration]);
+  const tiles = [
+    useFilteredAccessibilityCloudTileUrl({
+      collection: "place-infos",
+    }),
+  ];
 
   return (
     <>

@@ -53,22 +53,23 @@ export const genericFetcher = async <Result = unknown>(
   fetchUri: string,
 ): Promise<Result> => {
   const request = await fetch(fetchUri);
+  const response = await request.json();
+
   if (!request.ok) {
-    const errorResponse = await request.json();
     const defaultReason = t(
       "Sorry! Could not fetch from data from {fetchUri}",
       { fetchUri },
     );
 
     throw new ResourceError(
-      errorResponse.reason || defaultReason,
-      errorResponse.details,
+      response.reason || defaultReason,
+      response.details,
       request.status,
       request.statusText,
     );
   }
-  const feature = (await request.json()) satisfies Result;
-  return feature;
+
+  return response satisfies Result;
 };
 
 /**

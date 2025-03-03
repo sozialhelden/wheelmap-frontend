@@ -2,8 +2,8 @@
 
 import NextImage, { type ImageProps } from "next/image";
 import { useCallback, useMemo } from "react";
-import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 
 const maxImageSize = 1920;
 const defaultPlaceholder =
@@ -61,7 +61,7 @@ export default function Image({
   image: AccessibilityCloudImage;
   forceReload?: boolean; // Useful for testing. Will force a reload of the image from the server on every rerender
 }) {
-  const { baseUrl } = useAccessibilityCloudAPI({ cached: true });
+  const { baseUrl } = useAccessibilityCloud({ cached: true });
 
   const additionalQueryParameter = forceReload
     ? `version=${Math.random().toString().slice(2)}`

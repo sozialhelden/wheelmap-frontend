@@ -1,8 +1,8 @@
 import React from "react";
 import type { SWRResponse } from "swr";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import { log } from "../../util/logger";
 import { callBackendToUpdateInhouseDb } from "../callBackendToUpdateInhouseDb";
-import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 export async function createChangeset({
   baseUrl,
@@ -149,7 +149,7 @@ export default function useSubmitNewValueCallback({
   handleOSMSuccessDBError: (error: Error) => void;
   handleError: (error: Error) => void;
 }) {
-  const { baseUrl: inhouseBaseUrl } = useInhouseOSMAPI({ cached: false });
+  const { baseUrl: inhouseBaseUrl } = useOsmApi({ cached: false });
 
   return React.useCallback(async () => {
     if (

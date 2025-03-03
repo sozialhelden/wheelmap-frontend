@@ -72,8 +72,8 @@ export default function OpeningHoursValue(props: {
           locale: navigator.language.slice(0, 2),
           tag_key: tagKey,
           map_value: true,
-          mode: mode.both,
-          warnings_severity: warnings_severity.info,
+          mode: 2,
+          warnings_severity: 6,
         },
       );
       const isOpen = oh.getState(); // for current date

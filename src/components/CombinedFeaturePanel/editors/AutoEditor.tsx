@@ -10,11 +10,11 @@ import { useEnvContext } from "~/lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
 import useSubmitNewValueCallback, {
   type OSMAPIElement,
 } from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -56,7 +56,7 @@ export const AutoEditor = ({
       "Missing OSM API Base URL. Please set the NEXT_PUBLIC_OSM_API_BASE_URL environment variable.",
     );
   }
-  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
+  const { baseUrl: inhouseOSMAPIBaseURL } = useOsmApi({ cached: false });
 
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
   const currentOSMObjectOnServer = useSWR<OSMAPIElement>(

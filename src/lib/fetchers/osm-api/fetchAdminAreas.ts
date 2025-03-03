@@ -1,9 +1,9 @@
 import React from "react";
 import useSWR from "swr";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import { useEnvContext } from "../../context/EnvContext";
 import type { OSMFeatureCollection } from "../../model/geo/AnyFeature";
 import type OSMFeature from "../../model/osm/OSMFeature";
-import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 export async function fetchOSMFeatures([table, baseUrl, longitude, latitude]: [
   string,
@@ -25,7 +25,7 @@ export function useAdminAreas({
   longitude,
   latitude,
 }: { longitude: number | undefined; latitude: number | undefined }) {
-  const { baseUrl } = useInhouseOSMAPI({ cached: true });
+  const { baseUrl } = useOsmApi({ cached: true });
   const table = "admin_gen0";
   const features = useSWR(
     baseUrl && latitude && longitude
