@@ -70,10 +70,30 @@ export const MapLayers = ({
     secondaryLanguage,
   ]);
 
+  // function displayLayers(layers) {
+  //   return layers
+  //     .sort((a, b) => a.minzoom - b.minzoom)
+  //     .map(({ id, type, minzoom, source, ...rest }) => {
+  //       return {
+  //         type,
+  //         minzoom,
+  //         id,
+  //         source,
+  //         rest,
+  //       };
+  //     });
+  // }
+
+  // console.debug("LAYERS:", displayLayers(layers));
+  // console.debug("HIGHLIGHT-LAYERS:", displayLayers(highlightLayers));
+
   useEffect(() => {
     const layerIds = layers.map((layer) => layer.id);
     onInteractiveLayersChange(layerIds);
   }, [onInteractiveLayersChange, layers]);
+
+  // console.debug(layers.map((layer) => `${layer.id} - ${layer.source}`));
+  // console.debug(layers);
 
   return (
     <>

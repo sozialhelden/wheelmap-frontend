@@ -1,6 +1,7 @@
 import { useHotkeys } from "@blueprintjs/core";
 import { useTheme } from "next-themes";
 import * as React from "react";
+import { useEffect } from "react";
 
 /**
  * A React Hook returning a boolean value that is `true` when the user switched on dark mode,
@@ -22,6 +23,10 @@ export function useDarkMode() {
   );
 
   useHotkeys(hotkeys);
+
+  if (theme === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
 
   return theme === "dark";
 }

@@ -1,5 +1,6 @@
 import type { Geometry, Point } from "geojson";
 import useSWR, { type SWRConfiguration, type SWRResponse } from "swr";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 import type {
   AccessibilityCloudRDFType,
   AccessibilityCloudTypeMapping,
@@ -8,7 +9,6 @@ import type ResourceError from "../ResourceError";
 import type { CollectionResultType } from "./CollectionResultType";
 import type { ListOrFeatureCollection } from "./ListOrFeatureCollection";
 import { fetchCollectionWithTypeTags } from "./fetchCollection";
-import useAccessibilityCloudAPI from "./useAccessibilityCloudAPI";
 
 type Args<Type, TConfig extends SWRConfiguration<unknown>> = {
   /** The RDF type of the document to fetch {@link AccessibilityCloudRDFType}. */
@@ -61,7 +61,7 @@ export default function useCollectionSWR<
   RDFTypeName,
   SWRConfiguration<ListOrFeatureCollection<DataType, R, G>>
 >): SWRResponse<ListOrFeatureCollection<DataType, R, G>, ResourceError> {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached });
+  const { baseUrl, appToken } = useAccessibilityCloud({ cached });
   const paramsWithAppToken = new URLSearchParams(params);
   if (appToken) {
     paramsWithAppToken.append("appToken", appToken);

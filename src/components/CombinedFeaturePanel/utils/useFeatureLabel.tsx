@@ -1,9 +1,8 @@
 import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
-import { getCategoryForFeature } from "~/domains/categories/functions/cache";
-import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
-import useCategory from "../../../domains/categories/hooks/useCategory";
+import { getCategoryForFeature } from "~/modules/categories/functions/cache";
+import { getLocalizableCategoryName } from "~/modules/categories/functions/localization";
 import useAccessibilityAttributesIdMap from "../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "../../../lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "../../../lib/fetchers/wikidata/useWikidataName";
@@ -11,6 +10,7 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
 import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
+import useCategory from "../../../modules/categories/hooks/useCategory";
 import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 
 function getRoomNumberString(roomNumber: string) {

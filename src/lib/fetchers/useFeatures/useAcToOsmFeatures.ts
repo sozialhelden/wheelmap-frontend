@@ -1,11 +1,9 @@
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
-import { useCurrentAppToken } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
+import useAccessibilityCloud, {} from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import type { TypeTaggedPlaceInfo } from "../../model/geo/AnyFeature";
 import type { AccessibilityCloudRDFId } from "../../typing/brands/accessibilityCloudIds";
 import type { OSMIdWithTableAndContextNames } from "../../typing/brands/osmIds";
-import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
-import { getInhouseOSMAPI } from "../osm-api/useInhouseOSMAPI";
 import {
   type FetchOneFeatureProperties,
   type FetchOneFeatureResult,
@@ -45,19 +43,12 @@ export const useAcToOsmFeatures = (
     cache?: boolean;
   },
 ) => {
-  const env = useEnvContext();
-  const currentAppToken = useCurrentAppToken();
-
-  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(
-    env,
-    currentAppToken,
-    options?.cache ?? false,
-  );
-  const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(
-    env,
-    currentAppToken,
-    options?.cache ?? false,
-  );
+  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = useOsmApi({
+    cached: Boolean(options?.cache),
+  });
+  const { baseUrl: acBaseUrl, appToken: acAppToken } = useAccessibilityCloud({
+    cached: Boolean(options?.cache),
+  });
 
   // composing URLs, redirecting the origin feature id
   const osmRelationProperties = {

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import useCategory from "../../../../domains/categories/hooks/useCategory";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
@@ -8,6 +7,7 @@ import { generateMapsUrl } from "../../../../lib/model/geo/generateMapsUrls";
 import { placeNameFor } from "../../../../lib/model/geo/placeNameFor";
 import { generateShowOnOsmUrl } from "../../../../lib/model/osm/generateOsmUrls";
 import openButtonCaption from "../../../../lib/openButtonCaption";
+import useCategory from "../../../../modules/categories/hooks/useCategory";
 import PlaceIcon from "../../../icons/actions/Place";
 import RouteIcon from "../../../icons/actions/Route";
 import FeatureAddressString, {

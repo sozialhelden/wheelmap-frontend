@@ -16,6 +16,10 @@ export const useMapHighlight = (featureId: OSMId | AccessibilityCloudRDFId) => {
   useEffect(() => {
     let mapFeatureId: string | undefined;
 
+    if (!featureId) {
+      return;
+    }
+
     if (isOSMId(featureId)) {
       const id = getOSMRDFComponents(featureId);
       if (id) {

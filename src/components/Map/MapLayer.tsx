@@ -1,6 +1,7 @@
 import type { BackgroundLayout } from "mapbox-gl";
 import type { FC } from "react";
 import { Layer, type LayerProps } from "react-map-gl/mapbox";
+import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { filterForLayer, useMapFilterContext } from "./filter";
 
 /**
@@ -11,6 +12,11 @@ export const MapLayer: FC<LayerProps & { asFilterLayer?: boolean }> = ({
   ...props
 }) => {
   const { filter: mapFilters } = useMapFilterContext();
+  const { isFilteringActive } = useCategoryFilter();
+
+  // if (isFilteringActive && props.id !== "osm-wheelchair-yes-label") {
+  //   return null;
+  // }
 
   if (asFilterLayer) {
     const builtFilters = filterForLayer(props.id, mapFilters);
