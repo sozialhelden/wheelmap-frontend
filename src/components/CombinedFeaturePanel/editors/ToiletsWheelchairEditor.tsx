@@ -1,7 +1,8 @@
-import { Button, Dialog, Flex } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { t } from "ttag";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
@@ -82,23 +83,12 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
             </form>
 
             <Flex gap="3" mt="3" justify="end">
-              <Button
-                variant="soft"
-                size="2"
-                aria-label={t`Cancel`}
-                onClick={onClose}
-              >
-                {t`Cancel`}
-              </Button>
-
-              <Button
-                variant="solid"
-                size="2"
-                aria-label={saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
+              <PrimaryButton
                 onClick={saveButtonDoesNothing ? onClose : onSubmit}
               >
                 {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              </Button>
+              </PrimaryButton>
             </Flex>
           </StyledReportView>
         </Flex>

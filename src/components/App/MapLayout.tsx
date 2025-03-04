@@ -9,9 +9,9 @@ import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
-import { AppContext } from "../../lib/context/AppContext";
-import { useExpertMode } from "../../lib/useExpertMode";
-import { isFirstStart } from "../../lib/util/savedState";
+import { AppContext } from "~/lib/context/AppContext";
+import { useExpertMode } from "~/lib/useExpertMode";
+import { isFirstStart } from "~/lib/util/savedState";
 import { GlobalMapContextProvider } from "../Map/GlobalMapContext";
 import LoadableMapView from "../Map/LoadableMapView";
 import { MapFilterContextProvider } from "../Map/filter/MapFilterContext";
@@ -80,7 +80,7 @@ export default function MapLayout({
       <Theme
         accentColor="indigo"
         grayColor="sand"
-        radius="medium"
+        radius="small"
         scaling="100%"
         panelBackground="solid"
       >

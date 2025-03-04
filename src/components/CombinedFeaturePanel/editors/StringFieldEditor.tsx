@@ -1,6 +1,5 @@
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import {
-  Button,
   Callout,
   Dialog,
   Flex,
@@ -15,6 +14,7 @@ import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import SearchableSelect from "~/components/shared/SearchableSelect";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
 import FeatureNameHeader from "../components/FeatureNameHeader";
@@ -179,17 +179,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </div>
 
           <Flex gap="3" mt="4" justify="end">
-            <Button variant="soft" size="2" onClick={onClose}>
-              {t`Cancel`}
-            </Button>
-
-            <Button
-              variant="solid"
-              size="2"
-              onClick={saveButtonDoesNothing ? onClose : onSubmit}
-            >
+            <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
+            <PrimaryButton onClick={saveButtonDoesNothing ? onClose : onSubmit}>
               {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-            </Button>
+            </PrimaryButton>
           </Flex>
         </Flex>
       </Dialog.Content>
