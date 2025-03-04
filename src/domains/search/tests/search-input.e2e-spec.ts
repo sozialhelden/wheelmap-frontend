@@ -50,7 +50,14 @@ const searchFor = async (
     },
   );
   await getSearchInput(page).fill(`${query}`);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await expect(getSearchDropdown(page).getByTestId("is-searching")).toHaveCount(
+    0,
+  );
+
+  // without a manual wait, some of the tests are quite flaky. there are probably some
+  // race conditions somewhere... 5 seconds seems to be the most reliable value. this
+  // is not ideal, if you find a better solution please change this!
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 };
 
 test.describe("search-input", () => {
@@ -92,6 +99,7 @@ test.describe("search-input", () => {
     page,
   }) => {
     await searchFor(page, "Alexanderplatz");
+
     await getSearchResultItem(
       page,
       "Park Inn by Radisson Berlin-Alexanderplatz",
