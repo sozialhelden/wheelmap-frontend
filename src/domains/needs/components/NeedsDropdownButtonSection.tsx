@@ -1,6 +1,7 @@
-import { Button, Flex, Theme } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 import { type Ref, forwardRef } from "react";
 import { t } from "ttag";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 
 export const NeedsDropdownButtonSection = forwardRef(
   function NeedsDropdownButtonSection(
@@ -21,17 +22,10 @@ export const NeedsDropdownButtonSection = forwardRef(
         justify={{ initial: "between", sm: "center" }}
         direction={{ initial: "row-reverse", sm: "column" }}
       >
-        <Button size="3" onClick={onSaveButtonClick}>
-          {t`Save`}
-        </Button>
-        <Button
-          size="2"
-          variant="soft"
-          color="gray"
-          onClick={onResetButtonClick}
-        >
+        <PrimaryButton onClick={onSaveButtonClick}>{t`Save`}</PrimaryButton>
+        <SecondaryButton size="2" onClick={onResetButtonClick}>
           {t`Cancel`}
-        </Button>
+        </SecondaryButton>
       </Flex>
     );
   },

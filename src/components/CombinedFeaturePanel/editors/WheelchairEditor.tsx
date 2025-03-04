@@ -1,17 +1,19 @@
-import { Button, Link } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
-import type { YesNoLimitedUnknown } from "../../../lib/model/ac/Feature";
-import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "../../../pages/[placeType]/[id]/report/send-report-to-ac";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
+import { unknownCategory } from "~/domains/categories/functions/cache";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
+import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
+import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "../../shared/Icon";
 import { StyledReportView } from "../ReportView";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
-import { unknownCategory } from "~/domains/categories/functions/cache";
+import {t} from "@transifex/native";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -47,7 +49,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content
-        aria-label={t`Toilet Accessibility Editor`}
+        aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
@@ -59,7 +61,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
             </FeatureNameHeader>
 
             <Dialog.Description id="dialog-description" size="3">
-              {t`How wheelchair accessible is this place?`}
+              {t("How wheelchair accessible is this place?")}
             </Dialog.Description>
 
             <form>
@@ -74,7 +76,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 icon={<Icon size="medium" accessibility="yes" category={cat} />}
                 valueName="Fully"
               >
-                {t`Entrance has no steps, and all rooms are accessible without steps.`}
+                {t("Entrance has no steps, and all rooms are accessible without steps.")}
               </AccessibilityView>
               <AccessibilityView
                 onClick={() => {
@@ -89,8 +91,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 }
                 valueName="Partially"
               >
-                {t`Entrance has one step with max. 3 inches height, most rooms are
-                without steps`}
+                {t("Entrance has one step with max. 3 inches height, most rooms are without steps")}
               </AccessibilityView>
 
               <AccessibilityView
@@ -104,30 +105,17 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 icon={<Icon size="medium" accessibility="no" category={cat} />}
                 valueName="Not at all"
               >
-                {t`Entrance has a high step or several steps, none of the rooms are
-                accessible.`}
+                {t("Entrance has a high step or several steps, none of the rooms are accessible.")}
               </AccessibilityView>
             </form>
 
             <Flex gap="3" mt="4" justify="end">
-              <Button variant="soft" size="2" onClick={onClose}>
-                {t`Cancel`}
-              </Button>
-
-              <Button
-                variant="solid"
-                size="2"
-                onClick={() => {
-                  if (saveButtonDoesNothing) {
-                    onClose?.();
-                  } else {
-                    onSubmit?.();
-                    onClose?.();
-                  }
-                }}
+              <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
+              <PrimaryButton
+                onClick={saveButtonDoesNothing ? onClose : onSubmit}
               >
-                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
-              </Button>
+                {saveButtonDoesNothing ? t("Confirm") : t("Send")}
+              </PrimaryButton>
             </Flex>
           </StyledReportView>
         </Flex>
