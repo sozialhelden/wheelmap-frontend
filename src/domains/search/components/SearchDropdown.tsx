@@ -53,7 +53,12 @@ export const SearchDropdown = forwardRef(function SearchDropdown(
       {isOpen && (
         <>
           {isSearching && (
-            <Flex justify="center" align="center" p="4">
+            <Flex
+              justify="center"
+              align="center"
+              p="4"
+              data-testid="is-searching"
+            >
               <Spinner size="3" />
             </Flex>
           )}
