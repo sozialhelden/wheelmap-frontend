@@ -46,14 +46,14 @@ test('upload a photo', async ({ page }) => {
    // await page.getByRole('button', { name: 'Okay, let’s go!' }).click();
   //  await page.getByRole('button', { name: 'I’m in!' }).click();
   //  await page.goto('https://feature-a11ymap.wheelmap.tech/');
-    await page.getByPlaceholder('Search for place or address').click();
-    await page.getByPlaceholder('Search for place or address').fill('Greifswalder Str');
+  //  await page.getByPlaceholder('Search for place or address').click();
+    //await page.getByPlaceholder('Search for place or address').fill('Greifswalder Str');
    // await page.goto('https://feature-a11ymap.wheelmap.tech/search?q=Greifswalder+Str&category=&toilet=&wheelchair=');
-    await page.getByRole('link', { name: 'Greifswalder Straße (' }).click();
+  //  await page.getByRole('link', { name: 'Greifswalder Straße (' }).click();
     await page.getByRole('link', { name: 'Add new image' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+   await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Select image' }).click();
-    await page.getByRole('button', { name: 'Select image' }).setInputFiles('1000015934.jpg');
+    await page.locator('input[type=file]').setInputFiles('./e2e/1000015934.jpg');
     await page.getByRole('button', { name: 'Upload image' }).click();
   }
   catch (error) {

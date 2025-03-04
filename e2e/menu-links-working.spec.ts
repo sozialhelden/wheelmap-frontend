@@ -14,14 +14,24 @@ test.beforeEach(async ({ page }) => {
 test('Get involved', async ({ page }) => {
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
-    await page.getByRole('banner').getByRole('link', { name: 'Get involved' }).click();
    // await expect(page).toHaveURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
-   const locator = page.locator('text=Wheelmap Ambassador Program 2021');
+   //await page.waitForURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
+ 
+   //await page.goto("https://feature-a11ymap.wheelmap.tech/'");
+   const newTabPromise = page.waitForEvent("popup");
+   await page.getByRole('banner').getByRole('link', { name: 'Get involved' }).click();
+   const newTab = await newTabPromise;
+   await newTab.waitForLoadState();
+ 
+   await expect(newTab).toHaveURL("https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/");
+   await expect(newTab).toHaveTitle("Wheelmap Ambassador Program 2021 – Wheelmap.org");
+  
+   //const locator = page.locator('text=Wheelmap Ambassador Program 2021');
    //await expect(locator).toBeVisible();
    //await page.getByText('Wheelmap Ambassador Program 2021').click();
    //await page.waitForURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
   // await expect(page.getByText('Wheelmap Ambassador Program 2021')).toBeVisible();
-   await locator.click();
+  // await locator.click();
   // await page.locator('html').click();
 
   }
