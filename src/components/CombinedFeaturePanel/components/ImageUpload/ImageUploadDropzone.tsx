@@ -4,7 +4,7 @@ import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import { SecondaryButton } from "~/components/shared/Buttons";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 
 const Dropzone = styled.div<{ $isDragActive?: boolean }>`
     padding: 3rem 4rem;
@@ -76,7 +76,7 @@ export const ImageUploadDropzone: FC = () => {
         <TextForMobile as="p">
           <Strong>{t`Use the following button to select an image:`}</Strong>
         </TextForMobile>
-        <SecondaryButton mt="2">{t`Select image`}</SecondaryButton>
+        <PrimaryButton mt="2">{t`Select image`}</PrimaryButton>
       </Dropzone>
 
       <Box mt="4">
