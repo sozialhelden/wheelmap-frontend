@@ -1,3 +1,4 @@
+import { Box, Flex, Spinner, Theme } from "@radix-ui/themes";
 import {
   type ILanguageSubtag,
   parseLanguageTag,
@@ -5,6 +6,7 @@ import {
 import { tx } from "@transifex/native";
 import { compact, uniq } from "lodash";
 import * as React from "react";
+import { useEffect } from "react";
 import { useEnvContext } from "~/lib/context/EnvContext";
 import { getBrowserLanguageTags } from "../i18n/getBrowserLanguageTags";
 import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
@@ -59,24 +61,40 @@ export function normalizeLanguageTag(languageTag: string): string {
 
 export function LanguageCodeContextProvider({ children, languageTags }) {
   const env = useEnvContext();
+  const [translationsLoaded, setTranslationsLoaded] = React.useState(false);
 
-  if (!env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN) {
-    throw new Error(
-      "Environment variable NEXT_PUBLIC_TRANSIFEX_API_TOKEN not set!",
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  useEffect(() => {
+    if (!env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN) {
+      throw new Error(
+        "Environment variable NEXT_PUBLIC_TRANSIFEX_API_TOKEN not set!",
+      );
+    }
+    const normalizedLanguageTag = normalizeLanguageTag(
+      languageTags[0].langtag || languageTags[0].language,
     );
-  }
 
-  tx.init({
-    token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN,
-    filterStatus: "finalized",
-  });
-  tx.setCurrentLocale(
-    normalizeLanguageTag(languageTags[0].langtag || languageTags[0].language),
-  );
+    tx.init({
+      token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN,
+      filterStatus: "reviewed",
+    });
+    tx.setCurrentLocale(normalizedLanguageTag)
+      .then(() => {
+        setTranslationsLoaded(true);
+      })
+      .catch(() => {
+        throw new Error("Could not load translations!");
+      });
+  }, []);
 
   return (
     <LanguageTagContext.Provider value={{ languageTags }}>
-      {children}
+      {translationsLoaded && children}
+      {!translationsLoaded && (
+        <Flex width="100vw" height="100vh" justify="center" align="center">
+          <Spinner size="3" />
+        </Flex>
+      )}
     </LanguageTagContext.Provider>
   );
 }

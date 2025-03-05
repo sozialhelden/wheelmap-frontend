@@ -76,34 +76,23 @@ export default function MapLayout({
   useHotkeys(expertModeHotkeys);
 
   return (
-    <ThemeProvider attribute="class">
-      <Theme
-        accentColor="indigo"
-        grayColor="sand"
-        radius="small"
-        scaling="100%"
-        panelBackground="solid"
-      >
-        <ThemePanel defaultOpen={false} />
-        <ErrorBoundary>
-          <HeadMetaTags />
-          <MapFilterContextProvider>
-            <GlobalMapContextProvider>
-              {clientSideConfiguration && (
-                <TopBar clientSideConfiguration={clientSideConfiguration} />
-              )}
-              {isOnboardingVisible && <Onboarding />}
-              <main style={{ height: "100%" }} ref={containerRef}>
-                <LoadableMapView width={width} height={height} key="map" />
-                <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-                <div style={{ zIndex: 2000 }}>{children}</div>
-                <StyledToastContainer position="bottom-center" stacked />
-              </main>
-            </GlobalMapContextProvider>
-          </MapFilterContextProvider>
-        </ErrorBoundary>
-      </Theme>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <HeadMetaTags />
+      <MapFilterContextProvider>
+        <GlobalMapContextProvider>
+          {clientSideConfiguration && (
+            <TopBar clientSideConfiguration={clientSideConfiguration} />
+          )}
+          {isOnboardingVisible && <Onboarding />}
+          <main style={{ height: "100%" }} ref={containerRef}>
+            <LoadableMapView width={width} height={height} key="map" />
+            <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+            <div style={{ zIndex: 2000 }}>{children}</div>
+            <StyledToastContainer position="bottom-center" stacked />
+          </main>
+        </GlobalMapContextProvider>
+      </MapFilterContextProvider>
+    </ErrorBoundary>
   );
 }
 
