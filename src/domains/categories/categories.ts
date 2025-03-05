@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import type { FC } from "react";
-import { t } from "ttag";
 import { default as Toilet } from "~/components/icons/categories/toilets";
 import {
   Accommodation,
@@ -18,68 +18,68 @@ import {
 export const categories = {
   shopping: {
     // translator: Root category
-    name: () => t`Shopping`,
+    name: () => t("Shopping"),
     priority: 10,
     iconComponent: Shopping,
   },
   food: {
     // translator: Root category
-    name: () => t`Food & Drinks`,
+    name: () => t("Food & Drinks"),
     priority: 20,
     iconComponent: Food,
   },
   public_transfer: {
     // translator: Root category
-    name: () => t`Transport`,
+    name: () => t("Transport"),
     priority: 30,
     iconComponent: PublicTransfer,
   },
   leisure: {
     // translator: Root category
-    name: () => t`Leisure`,
+    name: () => t("Leisure"),
     priority: 40,
     iconComponent: Leisure,
   },
   accommodation: {
     // translator: Root category
-    name: () => t`Hotels`,
+    name: () => t("Hotels"),
     priority: 40,
     iconComponent: Accommodation,
   },
   tourism: {
     // translator: Root category
-    name: () => t`Tourism`,
+    name: () => t("Tourism"),
     iconComponent: Tourism,
   },
   education: {
     // translator: Root category
-    name: () => t`Education`,
+    name: () => t("Education"),
     iconComponent: Education,
   },
   government: {
     // translator: Root category
-    name: () => t`Authorities`,
+    name: () => t("Authorities"),
     iconComponent: Government,
   },
   health: {
     // translator: Root category
-    name: () => t`Health`,
+    name: () => t("Health"),
     iconComponent: Health,
   },
   money_post: {
     // translator: Root category
-    name: () => t`Money`,
+    name: () => t("Money"),
     iconComponent: MoneyPost,
   },
   sport: {
     // translator: Root category
-    name: () => t`Sports`,
+    name: () => t("Sports"),
     iconComponent: Sport,
   },
   // This returns all places that either ARE a toilet, or HAVE an accessible toilet
   toilets: {
     // translator: Meta category for any toilet or any place with an accessible toilet
-    name: () => t`Toilets`,
+    name: () => t("Toilets"),
     iconComponent: Toilet,
     applyCustomSearchParams: (params: URLSearchParams) => {
       params.set("hasToiletInfo", "true");

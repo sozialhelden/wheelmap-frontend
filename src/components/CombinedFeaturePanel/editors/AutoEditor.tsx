@@ -1,9 +1,9 @@
 import { Button } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useSession } from "next-auth/react";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { t } from "ttag";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
@@ -72,13 +72,13 @@ export const AutoEditor = ({
 
   function postSuccessMessage() {
     toast.success(
-      t`Thank you for contributing. Your edit will be visible soon.`,
+      t("Thank you for contributing. Your edit will be visible soon."),
     );
   }
 
   function postErrorMessage() {
     toast.error(
-      t`Something went wrong. Please let us know if the error persists.`,
+      t("Something went wrong. Please let us know if the error persists."),
     );
   }
 
@@ -154,7 +154,9 @@ export const AutoEditor = ({
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
+      <h2 className="_title">
+        {t("No editor available for {tagKey}", { tagKey })}
+      </h2>
       <footer className="_footer">
         <Button asChild>
           <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>

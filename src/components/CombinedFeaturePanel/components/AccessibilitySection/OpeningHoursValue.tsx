@@ -1,8 +1,8 @@
+import { t } from "@transifex/native";
 import intersperse from "intersperse";
 import { DateTime } from "luxon";
 import opening_hours, { mode, warnings_severity } from "opening_hours";
 import * as React from "react";
-import { t } from "ttag";
 import { useAdminAreas } from "../../../../lib/fetchers/osm-api/fetchAdminAreas";
 import {
   type TypeTaggedOSMFeature,
@@ -17,14 +17,14 @@ function getReadableState(oh: opening_hours) {
   const outputs: string[] = [];
   const comment = oh.getComment();
   if (oh.getUnknown()) {
-    const maybeOpen = t`Maybe open`;
-    const maybeOpenBut = t`Maybe open – ${comment}`;
+    const maybeOpen = t("Maybe open");
+    const maybeOpenBut = t("Maybe open – {comment}", { comment });
     outputs.push(comment ? maybeOpenBut : maybeOpen);
   } else {
     const state = oh.getState();
-    outputs.push(state ? t`Now open.` : t`Now closed.`);
+    outputs.push(state ? t("Now open.") : t("Now closed."));
     if (comment) {
-      outputs.push(t`(“${comment}”)`);
+      outputs.push(t("(“{comment}”)"), { comment });
     }
   }
   return outputs;
@@ -81,7 +81,7 @@ export default function OpeningHoursValue(props: {
       const outputs = getReadableState(oh);
 
       if (typeof nextChangeDate === "undefined")
-        outputs.push(t`(indefinitely)`);
+        outputs.push(t("(indefinitely)"));
       else {
         const isUnknown = oh.getUnknown(nextChangeDate);
         const nextChangeDateTime = DateTime.fromJSDate(nextChangeDate);
@@ -90,13 +90,30 @@ export default function OpeningHoursValue(props: {
         });
 
         if (!isUnknown && !isOpen) {
-          outputs.push(t`Will open ${nextChangeDateFormatted}.`);
+          outputs.push(
+            t("Will open {nextChangeDateFormatted}.", {
+              nextChangeDateFormatted,
+            }),
+          );
         } else if (!isUnknown && isOpen) {
-          outputs.push(t`Will close ${nextChangeDateFormatted}.`);
+          outputs.push(
+            t("Will close {nextChangeDateFormatted}.", {
+              nextChangeDateFormatted,
+            }),
+          );
         } else if (isUnknown && !isOpen) {
-          outputs.push(t`Might open ${nextChangeDateFormatted}.`);
+          outputs.push(
+            t("Might open {nextChangeDateFormatted}.", {
+              nextChangeDateFormatted,
+            }),
+          );
         } else if (isUnknown && isOpen) {
-          outputs.push(t`Might close ${nextChangeDateFormatted}.`);
+          outputs.push(
+            t(
+              "Might close {nextChangeDateFormatted}.",
+              nextChangeDateFormatted,
+            ),
+          );
         }
       }
       return { outputs, oh, niceString };
@@ -108,30 +125,30 @@ export default function OpeningHoursValue(props: {
 
   const niceLines = oh?.prettifyValue();
   const shownValue = ((niceString as string) || value)
-    .replace(/\bMo\b/g, t`Monday`)
-    .replace(/\bTu\b/g, t`Tuesday`)
-    .replace(/\bWe\b/g, t`Wednesday`)
-    .replace(/\bTh\b/g, t`Thursday`)
-    .replace(/\bFr\b/g, t`Friday`)
-    .replace(/\bSa\b/g, t`Saturday`)
-    .replace(/\bSu\b/g, t`Sunday`)
+    .replace(/\bMo\b/g, t("Monday"))
+    .replace(/\bTu\b/g, t("Tuesday"))
+    .replace(/\bWe\b/g, t("Wednesday"))
+    .replace(/\bTh\b/g, t("Thursday"))
+    .replace(/\bFr\b/g, t("Friday"))
+    .replace(/\bSa\b/g, t("Saturday"))
+    .replace(/\bSu\b/g, t("Sunday"))
 
-    .replace(/\bJan\b/g, t`January`)
-    .replace(/\bFeb\b/g, t`February`)
-    .replace(/\bMar\b/g, t`March`)
-    .replace(/\bApr\b/g, t`April`)
-    .replace(/\bMay\b/g, t`May`)
-    .replace(/\bJun\b/g, t`June`)
-    .replace(/\bJul\b/g, t`July`)
-    .replace(/\bAug\b/g, t`August`)
-    .replace(/\bSep\b/g, t`September`)
-    .replace(/\bOct\b/g, t`October`)
-    .replace(/\bNov\b/g, t`November`)
-    .replace(/\bDec\b/g, t`December`)
+    .replace(/\bJan\b/g, t("January"))
+    .replace(/\bFeb\b/g, t("February"))
+    .replace(/\bMar\b/g, t("March"))
+    .replace(/\bApr\b/g, t("April"))
+    .replace(/\bMay\b/g, t("May"))
+    .replace(/\bJun\b/g, t("June"))
+    .replace(/\bJul\b/g, t("July"))
+    .replace(/\bAug\b/g, t("August"))
+    .replace(/\bSep\b/g, t("September"))
+    .replace(/\bOct\b/g, t("October"))
+    .replace(/\bNov\b/g, t("November"))
+    .replace(/\bDec\b/g, t("December"))
 
-    .replace(/\bPH\b/g, t`public holiday`)
-    .replace(/\boff\b/g, t`closed`)
-    .replace(/\bSH\b/g, t`school holiday`)
+    .replace(/\bPH\b/g, t("public holiday"))
+    .replace(/\boff\b/g, t("closed"))
+    .replace(/\bSH\b/g, t("school holiday"))
     .replace(/,/g, ", ");
 
   const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />);
@@ -158,7 +175,7 @@ export default function OpeningHoursValue(props: {
       &nbsp;
       {osmFeature?.properties["opening_hours:url"] && (
         <a href={String(osmFeature.properties["opening_hours:url"])}>
-          {t`See website`}.
+          {t("See website")}.
         </a>
       )}
       <div style={{ marginTop: "0.5rem", opacity: 0.8 }}>{shownElements}</div>

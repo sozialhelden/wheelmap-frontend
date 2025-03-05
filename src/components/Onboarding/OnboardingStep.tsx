@@ -9,9 +9,9 @@ import {
   Text,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect } from "react";
-import { t } from "ttag";
 import { AppContext } from "../../lib/context/AppContext";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
@@ -47,7 +47,7 @@ export const OnboardingStep: React.FC<{
   }, [callToActionButton]);
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`;
+  const startButtonCaption = t("Okay, let’s go!");
   const productName = getProductName(clientSideConfiguration);
 
   return (
@@ -62,7 +62,9 @@ export const OnboardingStep: React.FC<{
 
       {/* Hidden because from a purely visual perspective, it's clear what an onboarding dialog is. */}
       <VisuallyHidden>
-        <Dialog.Title>{t`Welcome to ${productName}!`}</Dialog.Title>
+        <Dialog.Title>
+          {t("Welcome to {productName}!", { productName })}
+        </Dialog.Title>
       </VisuallyHidden>
 
       <Dialog.Description>
@@ -101,7 +103,7 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const name = accessibilityName(value);
   const colorName = accessibilityColorName(value);
   // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+  const unknownAccessibilityIncentiveText = t("Help out by marking places!");
 
   return (
     <Card asChild>
@@ -111,7 +113,7 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
             <Box>
               <Icon
                 containerHTMLAttributes={{
-                  "aria-label": t`${colorName} map marker`,
+                  "aria-label": t(`${colorName} map marker`),
                   role: "img",
                 }}
                 markerHTMLAttributes={{ "aria-hidden": "true" }}

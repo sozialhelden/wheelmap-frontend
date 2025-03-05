@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import getEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription";
 import type { LocalizedString } from "../../i18n/LocalizedString";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -43,5 +43,5 @@ export function placeNameFor(
     );
   }
 
-  return t`Unnamed place`;
+  return t("Unnamed place");
 }

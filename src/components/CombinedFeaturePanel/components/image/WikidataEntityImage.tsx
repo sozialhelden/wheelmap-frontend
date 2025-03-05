@@ -1,3 +1,4 @@
+import { t } from "@transifex/native";
 /* eslint-disable @next/next/no-img-element */
 import { omit } from "lodash";
 import type { HTMLAttributes } from "react";
@@ -47,7 +48,7 @@ export default function WikidataEntityImage(props: Props) {
       <img
         {...omit(props, "feature", "prefix", "verb")}
         src={logoUrl}
-        aria-label={t`Place photo`}
+        aria-label={t("Place photo")}
       />
     );
     return image;

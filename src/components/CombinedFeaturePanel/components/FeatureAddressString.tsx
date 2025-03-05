@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import { compact, uniq } from "lodash";
 import styled from "styled-components";
-import { t } from "ttag";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 
 export const addressKeys = {
@@ -84,7 +84,7 @@ export function addressForFeature(feature: AnyFeature) {
         typeof level === "string"
           ? level.replace?.(/[,;]/g, "–")
           : String(level);
-      address.level = t`Level ${levelString}`;
+      address.level = t("Level {levelString}", { levelString });
     }
   }
 

@@ -1,6 +1,6 @@
 import { Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { type FC, useContext } from "react";
-import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import { PrimaryButton } from "~/components/shared/Buttons";
 import { SuccessScreen } from "~/components/shared/SuccessScreen";
@@ -11,11 +11,13 @@ export const ImageUploadSuccess: FC = () => {
   return (
     <>
       <SuccessScreen
-        heading={t`Image uploaded successfully!`}
-        text={t`Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient.`}
+        heading={t("Image uploaded successfully!")}
+        text={t(
+          `Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient.`,
+        )}
       />
       <Flex justify="end">
-        <PrimaryButton onClick={close}>{t`Continue`}</PrimaryButton>
+        <PrimaryButton onClick={close}>{t("Continue")}</PrimaryButton>
       </Flex>
     </>
   );

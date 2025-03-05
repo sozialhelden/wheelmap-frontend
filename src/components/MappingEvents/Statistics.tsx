@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import React from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 
 import BellIcon from "../icons/ui-elements/BellIcon";
 import MapPinWithPlusIcon from "../icons/ui-elements/MapPinWithPlusIcon";
@@ -22,11 +22,11 @@ function Statistics({
   className,
 }: Props) {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
-  const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
+  const statisticsRegionAriaLabel = t("Mapping Event Numbers");
   // translator: Description for number of already mapped places in the mapping event
-  const mappedPlacesLabel = t`Mapped Places`;
+  const mappedPlacesLabel = t("Mapped Places");
   // translator: Description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`Participants`;
+  const inviteesCountAriaLabel = t("Participants");
 
   return (
     <section className={className} aria-label={statisticsRegionAriaLabel}>

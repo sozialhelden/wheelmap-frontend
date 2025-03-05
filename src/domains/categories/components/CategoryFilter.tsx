@@ -1,6 +1,6 @@
 import { Button, DropdownMenu, ScrollArea, Theme } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import styled from "styled-components";
-import { t } from "ttag";
 import type { Category } from "~/domains/categories/categories";
 import { getCategoryList } from "~/domains/categories/functions/display";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
@@ -60,7 +60,7 @@ export function CategoryFilter() {
                     highContrast
                     size="1"
                   >
-                    {t`More…`}
+                    {t("More…")}
                     <DropdownMenu.TriggerIcon />
                   </StyledButton>
                 </DropdownMenu.Trigger>

@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import type { FC } from "react";
-import { t } from "ttag";
 import { FullyWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
 import { NoDataIcon } from "~/domains/needs/components/icons/mobility/NoDataIcon";
 import { NotWheelchairAccessibleIcon } from "~/domains/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
@@ -10,61 +10,69 @@ import { FullyWheelchairAccessibleToiletIcon } from "~/domains/needs/components/
 // everything else including types will be auto-generated based on it.
 export const settings = {
   mobility: {
-    title: t`Mobility`,
+    title: t("Mobility"),
     legacyQueryParamName: "wheelchair",
     needs: {
       "no-need": {
-        label: () => t`I have no mobility needs`,
+        label: () => t("I have no mobility needs"),
       },
       "fully-wheelchair-accessible": {
-        label: () => t`Fully wheelchair accessible`,
+        label: () => t("Fully wheelchair accessible"),
         help: () =>
-          t`Entrance has no steps, and all rooms are accessible without steps.`,
+          t(
+            "Entrance has no steps, and all rooms are accessible without steps.",
+          ),
         icon: FullyWheelchairAccessibleIcon,
         legacyQueryParamValues: ["yes"],
       },
       "partially-wheelchair-accessible": {
-        label: () => t`Partially wheelchair accessible`,
+        label: () => t("Partially wheelchair accessible"),
         help: () =>
-          t`Entrance has one step with max. 3 inches height, most rooms are without steps.`,
+          t(
+            "Entrance has one step with max. 3 inches height, most rooms are without steps.",
+          ),
         icon: PartiallyWheelchairAccessibleCombinationIcon,
         legacyQueryParamValues: ["limited", "yes"],
       },
       "not-wheelchair-accessible": {
-        label: () => t`Not wheelchair accessible`,
+        label: () => t("Not wheelchair accessible"),
         help: () =>
-          t`Entrance has a high step or several steps, none of the rooms are accessible.`,
+          t(
+            "Entrance has a high step or several steps, none of the rooms are accessible.",
+          ),
         icon: NotWheelchairAccessibleIcon,
         legacyQueryParamValues: ["no"],
       },
       "no-data": {
-        label: () => t`No wheelchair info yet`,
+        label: () => t("No wheelchair info yet"),
         help: () =>
-          t`There is no information available about wheelchair accessibility.`,
+          t(
+            "There is no information available about wheelchair accessibility.",
+          ),
         icon: NoDataIcon,
         legacyQueryParamValues: ["unknown"],
       },
     },
   },
   toilet: {
-    title: t`Toilets`,
+    title: t("Toilets"),
     legacyQueryParamName: "toilet",
     needs: {
       "no-need": {
-        label: () => t`I have no toilet needs`,
+        label: () => t("I have no toilet needs"),
       },
       "fully-wheelchair-accessible": {
-        label: () => t`Fully wheelchair accessible toilet`,
+        label: () => t("Fully wheelchair accessible toilet"),
         icon: FullyWheelchairAccessibleToiletIcon,
         legacyQueryParamValues: ["yes"],
       },
       // Would be nice, but we currently have no way to filter for it
       // "toilet-present": {
-      //   label: () => t`Has a toilet`,
+      //   label: () => t(`Has a toilet`),
       //   icon: ToiletPresentIcon,
       // },
       // "no-data": {
-      //   label: () => t`No toilet info yet`,
+      //   label: () => t(`No toilet info yet`),
       // },
     },
   },

@@ -7,8 +7,8 @@ import {
   Strong,
   Text,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { t } from "ttag";
 import { GalleryContext } from "~/components/CombinedFeaturePanel/components/Gallery/Gallery";
 import { ErrorScreen } from "~/components/shared/ErrorScreen";
 import { SuccessScreen } from "~/components/shared/SuccessScreen";
@@ -23,20 +23,24 @@ const reportReasons: Record<
   { title: string; description: string }
 > = {
   "wrong-place": {
-    title: t`Image shows another place.`,
-    description: t`This image does not depict this place.`,
+    title: t("Image shows another place."),
+    description: t("This image does not depict this place."),
   },
   outdated: {
-    title: t`Outdated`,
-    description: t`This image does not show the current state of this place.`,
+    title: t("Outdated"),
+    description: t("This image does not show the current state of this place."),
   },
   offensive: {
-    title: t`Offensive or inappropriate`,
-    description: t`This image shows sexually explicit content, depicts violence or is inappropriate in another way.`,
+    title: t("Offensive or inappropriate"),
+    description: t(
+      "This image shows sexually explicit content, depicts violence or is inappropriate in another way.",
+    ),
   },
   other: {
-    title: t`Other problems`,
-    description: t`This image infringes on my copyright or has other problems.`,
+    title: t("Other problems"),
+    description: t(
+      "This image infringes on my copyright or has other problems.",
+    ),
   },
 };
 
@@ -102,7 +106,7 @@ export default function GalleryReportPopover({
     >
       <Popover.Trigger>
         <Button color="gray" variant="surface">
-          {t`Report Image`}
+          {t("Report Image")}
         </Button>
       </Popover.Trigger>
       <Popover.Content
@@ -112,7 +116,9 @@ export default function GalleryReportPopover({
         {!hasBeenSent && (
           <>
             <Box>
-              <Text>{t`Please select the problem you would like to report:`}</Text>
+              <Text>
+                {t("Please select the problem you would like to report:")}
+              </Text>
               <RadioCards.Root
                 value={selectedReason}
                 onValueChange={setSelectedReason}
@@ -140,11 +146,11 @@ export default function GalleryReportPopover({
             <Flex justify="between" mt="5">
               <Popover.Close>
                 <Button color="gray" variant="soft" size="3">
-                  {t`Cancel`}
+                  {t("Cancel")}
                 </Button>
               </Popover.Close>
               <Button onClick={sendReport} loading={isSending} size="3">
-                {t`Send report`}
+                {t("Send report")}
               </Button>
             </Flex>
           </>
@@ -152,12 +158,14 @@ export default function GalleryReportPopover({
         {hasBeenSent && !sendingError && (
           <>
             <SuccessScreen
-              heading={t`Report sent successfully!`}
-              text={t`Thank you for your report. The image will not be visible anymore until it has been checked by our staff. This can take a while, please be patient.`}
+              heading={t("Report sent successfully!")}
+              text={t(
+                "Thank you for your report. The image will not be visible anymore until it has been checked by our staff. This can take a while, please be patient.",
+              )}
             />
             <Flex justify="end">
               <Button variant="soft" size="3" onClick={close}>
-                {t`Continue`}
+                {t("Continue")}
               </Button>
             </Flex>
           </>
@@ -165,13 +173,13 @@ export default function GalleryReportPopover({
         {hasBeenSent && sendingError && (
           <>
             <ErrorScreen
-              heading={t`Sending report failed!`}
-              text={t`Please try again later.`}
+              heading={t("Sending report failed!")}
+              text={t("Please try again later.")}
               error={sendingError.toString()}
             />
             <Flex justify="start">
               <Button variant="soft" color="gray" size="3" onClick={reset}>
-                {t`Back`}
+                {t("Back")}
               </Button>
             </Flex>
           </>

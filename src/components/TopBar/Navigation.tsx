@@ -1,9 +1,9 @@
 import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import type { TranslatedAppLink } from "~/lib/useAppLink";
 import { useExpertMode } from "~/lib/useExpertMode";
 import { useNavigation } from "~/lib/useNavigation";
@@ -62,7 +62,7 @@ export default function Navigation() {
             variant="soft"
             color="gray"
             size="3"
-            aria-label={isOpen ? t`Close menu` : t`Show menu`}
+            aria-label={isOpen ? t("Close menu") : t("Show menu")}
           >
             {isOpen ? (
               <Cross2Icon width="24" height="24" aria-hidden="true" />

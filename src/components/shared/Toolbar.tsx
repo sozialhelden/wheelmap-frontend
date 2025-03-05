@@ -1,11 +1,11 @@
 import { Card } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import includes from "lodash/includes";
 import minBy from "lodash/minBy";
 import uniq from "lodash/uniq";
 import * as React from "react";
 import ResizeObserverPolyfill from "resize-observer-polyfill";
 import styled from "styled-components";
-import { t } from "ttag";
 import { isOnSmallViewport } from "../../lib/util/ViewportSize";
 import { useMapOverlapRef } from "../Map/GlobalMapContext";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
@@ -487,7 +487,9 @@ export default function Toolbar({
       type="button"
       style={{ transform: "translate3d(-50%, 0px, 0)" }}
       className="grab-handle"
-      aria-label={isAtTopmostPosition ? t`Collapse details` : t`Expand details`}
+      aria-label={
+        isAtTopmostPosition ? t("Collapse details") : t("Expand details")
+      }
       onClick={() => {
         if (isAtTopmostPosition) {
           const offset = stops[stops.length - 1];

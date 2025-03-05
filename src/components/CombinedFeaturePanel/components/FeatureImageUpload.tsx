@@ -1,5 +1,6 @@
 import { CameraIcon } from "@radix-ui/react-icons";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useRouter } from "next/router";
 import React, {
   createContext,
@@ -11,7 +12,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { t } from "ttag";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
 import { ImageUploadCallToAction } from "~/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadCallToAction";
@@ -151,7 +151,7 @@ export const FeatureImageUpload: FC<{
                 href={baseUploadUrl}
                 onClick={handleOnClickAddImageButton}
               >
-                <CameraIcon /> {t`Add new image`}
+                <CameraIcon /> {t("Add new image")}
               </AppStateLink>
             </Button>
           </Dialog.Trigger>
@@ -159,10 +159,10 @@ export const FeatureImageUpload: FC<{
         </Flex>
         <Dialog.Content>
           <Dialog.Title>
-            {step === 1 && t`Add a new image`}
-            {step === 2 && t`Select an image`}
-            {step === 3 && t`Review your selected image`}
-            {step === 4 && t`Upload successful`}
+            {step === 1 && t("Add a new image")}
+            {step === 2 && t("Select an image")}
+            {step === 3 && t("Review your selected image")}
+            {step === 4 && t("Upload successful")}
           </Dialog.Title>
 
           <Dialog.Description>

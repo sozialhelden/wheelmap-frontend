@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import { encode } from "js-base64";
 import Head from "next/head";
-import { t } from "ttag";
 import { useAppContext } from "../../lib/context/AppContext";
 import useHostnameContext from "../../lib/context/HostnameContext";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
@@ -48,8 +48,8 @@ export default function HeadMetaTags() {
   )} */}
 
       {/* Relations */}
-      <link href="/search" rel="search" title={t`Search`} />
-      <link href="/" rel="home" title={t`Homepage`} />
+      <link href="/search" rel="search" title={t("Search")} />
+      <link href="/" rel="home" title={t("Homepage")} />
 
       {/* Misc */}
       <meta

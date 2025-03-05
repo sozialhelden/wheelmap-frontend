@@ -1,7 +1,7 @@
 import { Button } from "@radix-ui/themes";
 import type { LocalizedString } from "@sozialhelden/a11yjson";
+import { t } from "@transifex/native";
 import React, { type FC, useContext } from "react";
-import { t } from "ttag";
 import { AppStateLink } from "../../../../components/App/AppStateLink";
 import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
@@ -19,15 +19,17 @@ const reportSubject = (
 ) => {
   if (placeName) {
     // translator: Report email subject if place name is known
-    return t`[Wheelmap] Problem with ${placeName} on Wheelmap`;
+    return t("[Wheelmap] Problem with {placeName} on Wheelmap", { placeName });
   }
   if (categoryName) {
     // translator: Report email subject if place name is unknown, but place category name (for example ‘toilet’)
     // is known (don't use an indefinite article if it would need to be inflected in the target language)
-    return t`[Wheelmap] Problem with a ${categoryName} on Wheelmap`;
+    return t("[Wheelmap] Problem with a {categoryName} on Wheelmap", {
+      categoryName,
+    });
   }
   // translator: Report email subject if neither place name nor category name is known
-  return t`[Wheelmap] Problem with a place on Wheelmap`;
+  return t("[Wheelmap] Problem with a place on Wheelmap");
 };
 
 // translator: Report email body with place URL
@@ -72,18 +74,22 @@ const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <h1>{t`We're sorry about the inconvenience!`}</h1>
-      <p>{t`To help you best, we kindly ask you to send us an email and our support will personally help you.`}</p>
+      <h1>{t(`We're sorry about the inconvenience!`)}</h1>
+      <p>
+        {t(
+          "To help you best, we kindly ask you to send us an email and our support will personally help you.",
+        )}
+      </p>
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href="../report">{t`Back`}</AppStateLink>
+          <AppStateLink href="../report">{t("Back")}</AppStateLink>
         </Button>
         <Button asChild>
           <a
             className="_option _primary"
             href={makeEmailUri("bugs@wheelmap.org", subject, body)}
           >
-            {t`Send us an email`}
+            {t("Send us an email")}
           </a>
         </Button>
       </footer>

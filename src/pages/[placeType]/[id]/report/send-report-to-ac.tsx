@@ -1,6 +1,6 @@
 import { Button, Spinner } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { type FC, type ReactNode, useContext, useState } from "react";
-import { t } from "ttag";
 import { AppStateLink } from "../../../../components/App/AppStateLink";
 import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
@@ -66,7 +66,9 @@ function ReportSendToAC() {
     <StyledReportView className="_view">
       <FeatureNameHeader feature={feature} />
 
-      <h2 className="_title">{t`Is the toilet here wheelchair accessible?`}</h2>
+      <h2 className="_title">
+        {t("Is the toilet here wheelchair accessible?")}
+      </h2>
 
       <form>
         <AccessibilityView
@@ -80,11 +82,11 @@ function ReportSendToAC() {
           valueName="Yes"
         >
           <ul>
-            <li>{t`Doorways' inner width ≥ 35 inches`}</li>
-            <li>{t`Clear turning space ≥ 59 inches`}</li>
-            <li>{t`Wheelchair-height toilet seat`}</li>
-            <li>{t`Foldable grab rails`}</li>
-            <li>{t`Accessible sink`}</li>
+            <li>{t(`Doorways' inner width ≥ 35 inches`)}</li>
+            <li>{t("Clear turning space ≥ 59 inches")}</li>
+            <li>{t("Wheelchair-height toilet seat")}</li>
+            <li>{t("Foldable grab rails")}</li>
+            <li>{t("Accessible sink")}</li>
           </ul>
         </AccessibilityView>
 

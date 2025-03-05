@@ -2,10 +2,10 @@ import { Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import { unknownCategory } from "~/domains/categories/functions/cache";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import { unknownCategory } from "~/domains/categories/functions/cache";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "../../shared/Icon";
 import { StyledReportView } from "../ReportView";
@@ -76,7 +76,9 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 icon={<Icon size="medium" accessibility="yes" category={cat} />}
                 valueName="Fully"
               >
-                {t("Entrance has no steps, and all rooms are accessible without steps.")}
+                {t(
+                  "Entrance has no steps, and all rooms are accessible without steps.",
+                )}
               </AccessibilityView>
               <AccessibilityView
                 onClick={() => {

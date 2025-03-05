@@ -1,8 +1,8 @@
 import { useHotkeys } from "@blueprintjs/core";
+import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import type { LayerProps } from "react-map-gl/mapbox";
-import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { MapLayer } from "./MapLayer";
 import { filterLayers } from "./filterLayers";
@@ -24,19 +24,19 @@ export const MapLayers = ({
       {
         combo: "1",
         global: true,
-        label: t`Toggle building focus`,
+        label: t("Toggle building focus"),
         onKeyDown: () => setHasBuildings(!hasBuildings),
       },
       {
         combo: "2",
         global: true,
-        label: t`Toggle public transport focus`,
+        label: t("Toggle public transport focus"),
         onKeyDown: () => setHasPublicTransport(!hasPublicTransport),
       },
       {
         combo: "3",
         global: true,
-        label: t`Toggle surfaces`,
+        label: t("Toggle surfaces"),
         onKeyDown: () => setHasSurfaces(!hasSurfaces),
       },
     ],
