@@ -2,8 +2,10 @@ import {
   type ILanguageSubtag,
   parseLanguageTag,
 } from "@sozialhelden/ietf-language-tags";
+import { tx } from "@transifex/native";
 import { compact, uniq } from "lodash";
 import * as React from "react";
+import { useEnvContext } from "~/lib/context/EnvContext";
 import { getBrowserLanguageTags } from "../i18n/getBrowserLanguageTags";
 import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
 
@@ -56,6 +58,19 @@ export function normalizeLanguageTag(languageTag: string): string {
 }
 
 export function LanguageCodeContextProvider({ children, languageTags }) {
+  const env = useEnvContext();
+
+  if (!env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN) {
+    throw new Error(
+      "Environment variable NEXT_PUBLIC_TRANSIFEX_API_TOKEN not set!",
+    );
+  }
+
+  tx.init({ token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN });
+  tx.setCurrentLocale(
+    normalizeLanguageTag(languageTags[0].langtag || languageTags[0].language),
+  );
+
   return (
     <LanguageTagContext.Provider value={{ languageTags }}>
       {children}
