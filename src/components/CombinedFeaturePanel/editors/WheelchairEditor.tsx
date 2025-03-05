@@ -1,4 +1,5 @@
 import { Dialog, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
