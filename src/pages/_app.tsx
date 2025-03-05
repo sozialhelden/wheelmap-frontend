@@ -22,6 +22,8 @@ import "~/app/reset.css";
 import "~/app/app.css";
 import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
+import { Theme, ThemePanel } from "@radix-ui/themes";
+import { ThemeProvider } from "next-themes";
 import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
@@ -70,31 +72,46 @@ export default function MyApp(
     <React.StrictMode>
       <Head />
       <StyledComponentsRegistry>
-        <HotkeysProvider>
-          <SessionProvider session={session}>
-            <ExpertModeContextProvider>
-              <SWRConfigProvider>
-                <EnvContextProvider environmentVariables={environmentVariables}>
-                  <HostnameContextProvider hostname={hostname}>
-                    <UserAgentContextProvider userAgentString={userAgentString}>
-                      <CountryContext.Provider value={countryCode}>
-                        <LanguageCodeContextProvider
-                          languageTags={languageTags}
+        <ThemeProvider attribute="class">
+          <Theme
+            accentColor="indigo"
+            grayColor="sand"
+            radius="small"
+            scaling="100%"
+            panelBackground="solid"
+          >
+            <ThemePanel defaultOpen={false} />
+            <HotkeysProvider>
+              <SessionProvider session={session}>
+                <ExpertModeContextProvider>
+                  <SWRConfigProvider>
+                    <EnvContextProvider
+                      environmentVariables={environmentVariables}
+                    >
+                      <HostnameContextProvider hostname={hostname}>
+                        <UserAgentContextProvider
+                          userAgentString={userAgentString}
                         >
-                          <NeedsContextProvider>
-                            <AppContextProvider>
-                              {getLayout(<Component />)}
-                            </AppContextProvider>
-                          </NeedsContextProvider>
-                        </LanguageCodeContextProvider>
-                      </CountryContext.Provider>
-                    </UserAgentContextProvider>
-                  </HostnameContextProvider>
-                </EnvContextProvider>
-              </SWRConfigProvider>
-            </ExpertModeContextProvider>
-          </SessionProvider>
-        </HotkeysProvider>
+                          <CountryContext.Provider value={countryCode}>
+                            <LanguageCodeContextProvider
+                              languageTags={languageTags}
+                            >
+                              <NeedsContextProvider>
+                                <AppContextProvider>
+                                  {getLayout(<Component />)}
+                                </AppContextProvider>
+                              </NeedsContextProvider>
+                            </LanguageCodeContextProvider>
+                          </CountryContext.Provider>
+                        </UserAgentContextProvider>
+                      </HostnameContextProvider>
+                    </EnvContextProvider>
+                  </SWRConfigProvider>
+                </ExpertModeContextProvider>
+              </SessionProvider>
+            </HotkeysProvider>
+          </Theme>
+        </ThemeProvider>
       </StyledComponentsRegistry>
     </React.StrictMode>
   );
