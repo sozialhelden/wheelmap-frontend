@@ -8,9 +8,9 @@ import {
   Strong,
   Text,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import { ErrorScreen } from "~/components/shared/ErrorScreen";
@@ -82,15 +82,15 @@ export const ImageUploadPreview: FC<{
             <PreviewOverlay>
               <Spinner size="3" />
               <Text>
-                <Strong>{t`Uploading image, please wait...`}</Strong>
+                <Strong>{t("Uploading image, please wait...")}</Strong>
               </Text>
             </PreviewOverlay>
           )}
           {error && (
             <PreviewOverlay>
               <ErrorScreen
-                heading={t`There was an error uploading your image!`}
-                text={t`Please try again later.`}
+                heading={t("There was an error uploading your image!")}
+                text={t("Please try again later.")}
                 error={error.toString()}
               />
             </PreviewOverlay>
@@ -103,7 +103,7 @@ export const ImageUploadPreview: FC<{
                   src={image.preview.toString()}
                   onLoad={cleanUp}
                   // We cannot provide a proper alt-text for something the user just uploaded themselves
-                  alt={t`Preview of the just selected image`}
+                  alt={t("Preview of the just selected image")}
                 />
               )}
             </AspectRatio>
@@ -112,10 +112,10 @@ export const ImageUploadPreview: FC<{
       </PreviewWrapper>
       <Flex mt="4" justify="between" wrap="wrap" gap="3">
         <SecondaryButton onClick={reset} disabled={isUploading}>
-          {t`Choose a different image`}
+          {t("Choose a different image")}
         </SecondaryButton>
         <PrimaryButton loading={isUploading} onClick={upload}>
-          {t`Upload image`}
+          {t("Upload image")}
         </PrimaryButton>
       </Flex>
     </>

@@ -1,6 +1,6 @@
 import { Button } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import styled from "styled-components";
-import { t } from "ttag";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import type { IBranding } from "~/lib/model/ac/IBranding";
 
@@ -35,7 +35,7 @@ const LogoSquare = styled.span`
 export default function Logo({ branding }: { branding?: IBranding }) {
   return (
     <Button variant="ghost" asChild>
-      <AppStateLink href="/onboarding" aria-label={t`Go to home page`}>
+      <AppStateLink href="/onboarding" aria-label={t("Go to home page")}>
         <LogoWide
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
           dangerouslySetInnerHTML={{

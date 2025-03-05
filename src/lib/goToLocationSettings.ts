@@ -1,11 +1,13 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import {
   getUserAgentString,
   parseUserAgentString,
 } from "./context/UserAgentContext";
 import { saveState } from "./util/savedState";
 
-const alertText = t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`;
+const alertText = t(
+  "To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.",
+);
 
 /**
  * Get the URL to the devices location settings.

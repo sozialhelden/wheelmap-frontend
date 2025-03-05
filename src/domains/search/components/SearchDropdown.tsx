@@ -1,7 +1,7 @@
 import { Flex, ScrollArea, Spinner } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { forwardRef, type ReactNode, type Ref } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 
 const StyledSearchDropdown = styled.div<{ $visible: boolean }>`
   position: absolute;
@@ -59,12 +59,12 @@ export const SearchDropdown = forwardRef(function SearchDropdown(
           )}
           {!isSearching && !hasResults && (
             <Flex justify="center" align="center" p="4">
-              {t`No results found!`}
+              {t("No results found!")}
             </Flex>
           )}
           {!isSearching && hasError && (
             <Flex justify="center" align="center" p="4">
-              {t`An error occurred. Please try again later!`}
+              {t("An error occurred. Please try again later!")}
             </Flex>
           )}
           {!isSearching && !hasError && hasResults && (

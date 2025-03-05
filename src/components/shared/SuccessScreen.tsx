@@ -1,7 +1,7 @@
 import { CheckIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Strong, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { type MouseEventHandler } from "react";
-import { t } from "ttag";
 
 export function SuccessScreen({
   heading,

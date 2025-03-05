@@ -7,10 +7,10 @@ import {
   Text,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 import { type FC, useContext, useMemo } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import GalleryReportPopover from "~/components/CombinedFeaturePanel/components/Gallery/GalleryReportPopover";
 import Image from "~/components/Image";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
@@ -87,7 +87,7 @@ export const GalleryFullscreenItem: FC<{
   return (
     <>
       <VisuallyHidden aria-live="polite">
-        {image && t`Image shown: ${imageDescription}`}
+        {image && t("Image shown: {imageDescription}", { imageDescription })}
       </VisuallyHidden>
       <DialogContentWrapper>
         {image && (
@@ -116,16 +116,25 @@ export const GalleryFullscreenItem: FC<{
           aria-hidden
         >
           <ImageLegend align="center" gap="2">
-            <Text color="gray">{t`You can use these keys for navigation:`}</Text>
+            <Text color="gray">
+              {t("You can use these keys for navigation:")}
+            </Text>
             <Kbd>←</Kbd>
             <Kbd>→</Kbd>
             <Kbd>ESC</Kbd>
-            <Text color="gray" ml="4">{t`To report an image:`}</Text>
+            <Text color="gray" ml="4">
+              {t("To report an image:")}
+            </Text>
             <Kbd>R</Kbd>
           </ImageLegend>
           <Box as="span" />
           <Flex as="span" align="center" gap="6">
-            <Text>{t`Image ${numberOfCurrentImage} of ${api.size}`}</Text>{" "}
+            <Text>
+              {t("Image {numberOfCurrentImage} of {size}", {
+                numberOfCurrentImage,
+                size: api.size,
+              })}
+            </Text>{" "}
             <GalleryReportPopover image={image} />
           </Flex>
         </ImageFooter>

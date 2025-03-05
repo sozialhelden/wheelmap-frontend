@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 
 // select a white label product name

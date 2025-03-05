@@ -1,8 +1,8 @@
 import { useHotkeys } from "@blueprintjs/core";
 import { Box, Callout } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { uniqBy } from "lodash";
 import React, { useMemo, useState } from "react";
-import { t } from "ttag";
 import {
   type AnyFeature,
   getKey,
@@ -81,7 +81,7 @@ export function CombinedFeaturePanel(props: Props) {
 
           {(!features || features.length === 0) && (
             <Callout.Root>
-              <Callout.Text>{t`No features found.`}</Callout.Text>
+              <Callout.Text>{t("No features found.")}</Callout.Text>
             </Callout.Root>
           )}
 

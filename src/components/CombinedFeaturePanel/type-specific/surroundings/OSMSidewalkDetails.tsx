@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import type { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { OSMTagPanel } from "../../components/AccessibilitySection/OSMTagPanel";
@@ -15,7 +15,7 @@ export default function OSMSidewalkDetails({
 
   return (
     <section>
-      <h4>{t`Sidewalks & Surroundings`}</h4>
+      <h4>{t("Sidewalks & Surroundings")}</h4>
       <OSMTagPanel feature={feature} />
     </section>
   );

@@ -1,7 +1,7 @@
+import { t } from "@transifex/native";
 import * as React from "react";
 import { toast } from "react-toastify";
 import { SWRConfig, type SWRConfiguration } from "swr";
-import { t } from "ttag";
 import { ErrorMessage } from "~/components/SWRError/ErrorMessage";
 import type ResourceError from "~/lib/fetchers/ResourceError";
 
@@ -27,7 +27,7 @@ const globalSWRConfig: SWRConfiguration<unknown, ResourceError> = {
   },
   onLoadingSlow(key, config) {
     toast.warn(
-      t`Loading seems to take a bit longer than usual. Please hold the line…`,
+      t("Loading seems to take a bit longer than usual. Please hold the line…"),
       {
         toastId: key,
         delay: 2000,

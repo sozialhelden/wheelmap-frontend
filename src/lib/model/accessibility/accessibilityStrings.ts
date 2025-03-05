@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import type { YesNoLimitedUnknown, YesNoUnknown } from "../ac/Feature";
 import shouldPreferImperialUnits from "../geo/shouldPreferImperialUnits";
 
@@ -8,16 +8,16 @@ export function accessibilityName(
   switch (accessibility) {
     // translator: Long accessibility description for full wheelchair accessibility
     case "yes":
-      return t`Fully wheelchair accessible`;
+      return t("Fully wheelchair accessible");
     // translator: Long accessibility description for partial wheelchair accessibility
     case "limited":
-      return t`Partially wheelchair accessible`;
+      return t("Partially wheelchair accessible");
     // translator: Long accessibility description for no wheelchair accessibility
     case "no":
-      return t`Not wheelchair accessible`;
+      return t("Not wheelchair accessible");
     // translator: Long accessibility description for unknown wheelchair accessibility
     case "unknown":
-      return t`Unknown accessibility`;
+      return t("Unknown accessibility");
     default:
       return null;
   }
@@ -29,16 +29,16 @@ export function accessibilityColor(
   switch (accessibility) {
     // translator: color representing full accessibility
     case "yes":
-      return t`green`;
+      return t("green");
     // translator: color representing partial accessibility
     case "limited":
-      return t`orange`;
+      return t("orange");
     // translator: color representing inaccessibility
     case "no":
-      return t`red`;
+      return t("red");
     // translator: color representing unknown accessibility
     case "unknown":
-      return t`gray`;
+      return t("gray");
     default:
       return null;
   }
@@ -50,16 +50,16 @@ export function shortAccessibilityName(
   switch (accessibility) {
     // translator: Shortened accessibility description for full wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
     case "yes":
-      return t`Fully`;
+      return t("Fully");
     // translator: Shortened accessibility description for partial wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
     case "limited":
-      return t`Partially`;
+      return t("Partially");
     // translator: Shortened accessibility description for no wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
     case "no":
-      return t`Not at all`;
+      return t("Not at all");
     // translator: Shortened accessibility description for unknown wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
     case "unknown":
-      return t`Unknown`;
+      return t("Unknown");
     default:
       return null;
   }
@@ -71,16 +71,24 @@ export function accessibilityDescription(
   switch (accessibility) {
     // translator: Describes criteria for marking places as fully wheelchair accessible on Wheelmap
     case "yes":
-      return t`Entrance has no steps, important areas are accessible without steps.`;
+      return t(
+        "Entrance has no steps, important areas are accessible without steps.",
+      );
     case "limited":
       return shouldPreferImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
-          t`Entrance has one step with max. 3 inches height, most areas are without steps.`
+          t(
+            "Entrance has one step with max. 3 inches height, most areas are without steps.",
+          )
         : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
-          t`Entrance has one step with max. 7 cm height, most areas are without steps.`;
+          t(
+            "Entrance has one step with max. 7 cm height, most areas are without steps.",
+          );
     // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
     case "no":
-      return t`Entrance has a high step or several steps, important areas are inaccessible.`;
+      return t(
+        "Entrance has a high step or several steps, important areas are inaccessible.",
+      );
     default:
       return null;
   }
@@ -90,10 +98,10 @@ export function toiletDescription(accessibility: YesNoUnknown): string | null {
   switch (accessibility) {
     // translator: Long toilet accessibility description on place toolbar if the toilet IS accessible
     case "yes":
-      return t`Wheelchair accessible WC`;
+      return t("Wheelchair accessible WC");
     // translator: Long toilet accessibility description on place toolbar if the toilet is NOT accessible
     case "no":
-      return t`No wheelchair accessible WC`;
+      return t("No wheelchair accessible WC");
     default:
       return null;
   }
@@ -101,12 +109,12 @@ export function toiletDescription(accessibility: YesNoUnknown): string | null {
 
 export const accessibleToiletDescription = (useImperialUnits: boolean) => [
   useImperialUnits
-    ? t`Doorways' inner width ≥ 35 inches`
-    : t`Doorways' inner width ≥ 90 cm`,
+    ? t(`Doorways' inner width ≥ 35 inches`)
+    : t(`Doorways' inner width ≥ 90 cm`),
   useImperialUnits
-    ? t`Clear turning space ≥ 59 inches wide`
-    : t`Clear turning space ≥ 150 cm wide`,
-  t`Wheelchair-height WC seat`,
-  t`Foldable grab rails`,
-  t`Accessible sink`,
+    ? t("Clear turning space ≥ 59 inches wide")
+    : t("Clear turning space ≥ 150 cm wide"),
+  t("Wheelchair-height WC seat"),
+  t("Foldable grab rails"),
+  t("Accessible sink"),
 ];

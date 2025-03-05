@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import React, { useContext } from "react";
-import { t } from "ttag";
 import { AppStateLink } from "../../../../components/App/AppStateLink";
 import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
@@ -9,27 +9,31 @@ import FeatureImage from "../../../../components/CombinedFeaturePanel/components
 
 const options = [
   {
-    title: t`The place is rated as 'Not wheelchair accessible', but this is wrong!`,
+    title: t(
+      `The place is rated as 'Not wheelchair accessible', but this is wrong!`,
+    ),
     redirect: "./report/wheelchair-accessibility",
   } as const,
   {
-    title: t`The accessibility to the toilet here is rated incorrectly or is missing.`,
+    title: t(
+      "The accessibility to the toilet here is rated incorrectly or is missing.",
+    ),
     redirect: "./report/toilet-accessibility",
   } as const,
   {
-    title: t`I have more information about this place.`,
+    title: t("I have more information about this place."),
     redirect: "./report/osm-comment",
   } as const,
   {
-    title: t`The place does not exist.`,
+    title: t("The place does not exist."),
     redirect: "./report/osm-non-existing",
   } as const,
   {
-    title: t`The place is at the wrong location.`,
+    title: t("The place is at the wrong location."),
     redirect: "./report/osm-position",
   } as const,
   {
-    title: t`The problem isn't listed here...`,
+    title: t(`The problem isn't listed here...`),
     redirect: "./report/mail-to-support",
   } as const,
 ] as const;
@@ -46,7 +50,7 @@ function ReportPage() {
         )}
       </FeatureNameHeader>
 
-      <h2 className="_title">{t`Is there a problem with this place?`}</h2>
+      <h2 className="_title">{t("Is there a problem with this place?")}</h2>
 
       {options.map((o) => (
         <div className="_option" key={o.redirect}>
@@ -55,7 +59,7 @@ function ReportPage() {
       ))}
 
       <AppStateLink href="./">
-        <div className="_option _back">{t`Back`}</div>
+        <div className="_option _back">{t("Back")}</div>
       </AppStateLink>
     </StyledReportView>
   );

@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import type { Point } from "geojson";
-import { t } from "ttag";
 
 export type PhotonResultProperties = {
   city?: string;
@@ -69,7 +69,7 @@ export default async function fetchPhotonFeatures({
 
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(t`Could not load search results.`);
+    throw new Error(t("Could not load search results."));
   }
 
   return (await response.json()) as PhotonSearchResultCollection;

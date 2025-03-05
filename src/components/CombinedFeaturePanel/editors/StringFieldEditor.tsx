@@ -7,9 +7,9 @@ import {
   TextArea,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { t } from "ttag";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
@@ -56,8 +56,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const [hasValueChanged, setHasValueChanged] = useState(false);
 
   const dialogDescription = addNewLanguage
-    ? t`Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.`
-    : t`Please edit this description in the same language.`;
+    ? t(
+        "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.",
+      )
+    : t("Please edit this description in the same language.");
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -126,9 +128,13 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
                       <InfoCircledIcon />
                     </Callout.Icon>
                     <Callout.Text as="div">
-                      {t`Currently, we support a limited number of languages.`}
+                      {t(
+                        "Currently, we support a limited number of languages.",
+                      )}
                       <br />
-                      {t`More will be added soon! If your language is missing, please contact our support team.`}
+                      {t(
+                        "More will be added soon! If your language is missing, please contact our support team.",
+                      )}
                     </Callout.Text>
                   </Callout.Root>
                 </Flex>
@@ -145,7 +151,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
               </Text>
               <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect
-                  selectPlaceholder={t`Languages`}
+                  selectPlaceholder={t("Languages")}
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {
                     setSelectedLanguage(value);
@@ -156,8 +162,8 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
                       }
                     }
                   }}
-                  ariaLabelForTrigger={t`Select a language`}
-                  ariaLabelForContent={t`List of languages`}
+                  ariaLabelForTrigger={t("Select a language")}
+                  ariaLabelForContent={t("List of languages")}
                 />
               </Flex>
             </Flex>
@@ -167,10 +173,10 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
             <TextArea
               dir="auto"
               ref={textAreaRef}
-              aria-label={t`Enter a description here`}
+              aria-label={t("Enter a description here")}
               defaultValue={addNewLanguage ? undefined : initialTagValue}
               value={addNewLanguage ? textAreaValue : undefined}
-              placeholder={t`Enter a description here`}
+              placeholder={t("Enter a description here")}
               onChange={(evt) => handleTextAreaChange(evt.target.value)}
               size="2"
               radius="small"
@@ -179,9 +185,9 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           </div>
 
           <Flex gap="3" mt="4" justify="end">
-            <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
+            <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
             <PrimaryButton onClick={saveButtonDoesNothing ? onClose : onSubmit}>
-              {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+              {saveButtonDoesNothing ? t("Confirm") : t("Send")}
             </PrimaryButton>
           </Flex>
         </Flex>

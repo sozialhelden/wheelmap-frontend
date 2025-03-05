@@ -1,7 +1,6 @@
-import { humanize, singularize } from "inflection";
-import { t } from "ttag";
+import { humanize } from "inflection";
+import { t } from "@transifex/native";
 import type { OSMFeatureCollection } from "../../model/geo/AnyFeature";
-import OSMFeature from "../../model/osm/OSMFeature";
 import ResourceError from "../ResourceError";
 
 export async function fetchOSMFeatureCollection([
@@ -16,7 +15,9 @@ export async function fetchOSMFeatureCollection([
   if (!response.ok) {
     const errorResponse = await response.json();
     const humanCollectionName = humanize(collectionName);
-    const defaultReason = t`Sorry! There was a problem while ${humanCollectionName} from OpenStreetMap.`;
+    const defaultReason = t(
+      `Sorry! There was a problem while ${humanCollectionName} from OpenStreetMap.`,
+    );
     throw new ResourceError(
       errorResponse.reason || defaultReason,
       errorResponse.details,

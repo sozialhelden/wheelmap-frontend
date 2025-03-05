@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 import { isAccessibilityCloudId } from "../../typing/discriminators/isAccessibilityCloudId";
 import {
   getOSMRDFComponents,
@@ -25,7 +25,7 @@ export const makeFetchProperties = (
   if (isOSMIdWithTableAndContextName(featureId)) {
     if (!osmBaseUrl || !osmAppToken) {
       throw new Error(
-        t`OSM API Configuration incomplete, baseUrl or appToken is missing`,
+        t("OSM API Configuration incomplete, baseUrl or appToken is missing"),
       );
     }
     const {
@@ -40,13 +40,18 @@ export const makeFetchProperties = (
   if (isAccessibilityCloudId(featureId)) {
     if (!acBaseUrl || !acAppToken) {
       throw new Error(
-        t`accessibility.cloud API Configuration incomplete, baseUrl or appToken is missing`,
+        t(
+          "accessibility.cloud API Configuration incomplete, baseUrl or appToken is missing",
+        ),
       );
     }
     const [type, id] = featureId.split("/");
     if (type !== "ac:PlaceInfo") {
       throw new Error(
-        t`Expected an RDF AC string like \`ac:PlaceInfo/[text]\` but received \`${featureId}\``,
+        t(
+          "Expected an RDF AC string like `ac:PlaceInfo/[text]` but received `{featureId}`",
+          { featureId },
+        ),
       );
     }
     // XXX: Despite using RDF-like URIs, we still use the old API endpoint for place infos that doesn't support our URI format.
@@ -57,5 +62,7 @@ export const makeFetchProperties = (
     };
   }
 
-  throw new Error(t`The featureId '${featureId}' is of unknown format`);
+  throw new Error(
+    t(`The featureId '{featureId}' is of unknown format`, { featureId }),
+  );
 };

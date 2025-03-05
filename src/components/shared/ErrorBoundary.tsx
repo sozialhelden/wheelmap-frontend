@@ -1,18 +1,20 @@
 import { LinkBreak1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Callout, Code, Heading, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import Link from "next/link";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
-import { t } from "ttag";
 
 function FallbackComponent({
   error,
   resetErrorBoundary,
 }: { error: Error; resetErrorBoundary: () => void }) {
   // translator: Shown as apology text / description on the error page.
-  const apologyText = t`Sorry, there was an error – that should not have happened!`;
+  const apologyText = t(
+    "Sorry, there was an error – that should not have happened!",
+  );
 
   // translator: Shown on the error page.
-  const returnHomeButtonCaption = t`Return home`;
+  const returnHomeButtonCaption = t("Return home");
 
   return (
     <Callout.Root color="red" highContrast>

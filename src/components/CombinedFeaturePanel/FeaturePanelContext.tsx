@@ -1,3 +1,4 @@
+import { t } from "@transifex/native";
 import React, {
   createContext,
   type FC,
@@ -6,7 +7,6 @@ import React, {
   useRef,
 } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useExpandedFeatures } from "../../lib/fetchers/useFeatures";
 import {
   type CollectedFeature,
@@ -191,7 +191,7 @@ export function FeaturePanelContextProvider({
       {anyLoading && (
         <StyledLoadingDiv className="_loading">
           <Spinner size={50} />
-          <p className="_title">{t`Loading further details…`}</p>
+          <p className="_title">{t("Loading further details…")}</p>
         </StyledLoadingDiv>
       )}
       {children}

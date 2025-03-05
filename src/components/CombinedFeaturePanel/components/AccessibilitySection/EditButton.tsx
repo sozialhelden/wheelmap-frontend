@@ -1,6 +1,6 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
-import { t } from "ttag";
+import { t } from "@transifex/native";
 
 import React, { useContext, useState } from "react";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
@@ -21,7 +21,7 @@ export function EditButton({
   return (
     <>
       <IconButton
-        aria-label={t`Edit`}
+        aria-label={t("Edit")}
         tabIndex={-1}
         variant="soft"
         onClick={handleEditClick}

@@ -1,4 +1,4 @@
-import { t } from "ttag";
+import { t } from "@transifex/native";
 
 import styled from "styled-components";
 
@@ -84,7 +84,7 @@ export const SearchResult = forwardRef(function SearchResult(
 
   const languageTags = useCurrentLanguageTagStrings();
   // translator: Place name shown in search results for places with unknown name / category.
-  const unknownPlaceName = t`Unknown place`;
+  const unknownPlaceName = t("Unknown place");
   const placeName =
     (title
       ? getLocalizedStringTranslationWithMultipleLocales(title, languageTags)

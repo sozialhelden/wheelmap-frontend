@@ -1,9 +1,9 @@
+import { t } from "@transifex/native";
 import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useAppContext } from "../../lib/context/AppContext";
 import {
   getUUID,
@@ -151,12 +151,12 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
       ).format(endDate);
     } else {
       // translator: Prefix for the mapping event start date ("starting 01.12.2019")
-      const startingDatePrefix = t`starting`;
+      const startingDatePrefix = t("starting");
       startDateString = `${startingDatePrefix} ${startDateString}`;
     }
   } else {
     // translator: Prefix for the mapping event end date ("until 01.12.2019")
-    const untilDatePrefix = t`until`;
+    const untilDatePrefix = t("until");
     if (endDate) {
       endDateString = `${untilDatePrefix} ${Intl.DateTimeFormat(
         preferredLanguage,
@@ -172,27 +172,29 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
   const mappingEventName = mappingEvent?.name;
 
   // translator: Screenreader description for a mapping event
-  const toolbarAriaLabel = t`Mapping event ${mappingEventName}`;
+  const toolbarAriaLabel = t("Mapping event {mappingEventName}", {
+    mappingEventName,
+  });
   // translator: Label for clickable mapping event name that makes the map jump to the event's position
-  const centerMapOnMappingEvent = t`Center map on mapping event`;
+  const centerMapOnMappingEvent = t("Center map on mapping event");
   // translator: Label for the meeting point of a mapping event
-  const meetingPointLabel = t`Meeting point`;
+  const meetingPointLabel = t("Meeting point");
   // translator: Label for the area of a mapping event
-  const areaNameLabel = t`Area name`;
+  const areaNameLabel = t("Area name");
   // translator: Label for the date of a mapping event
-  const eventDateLabel = t`Event date`;
+  const eventDateLabel = t("Event date");
   // translator: Label for the start date of a mapping event
-  const eventStartDateLabel = t`Event start date`;
+  const eventStartDateLabel = t("Event start date");
   // translator: Label for the end date of a mapping event
-  const eventEndDateLabel = t`Event end date`;
+  const eventEndDateLabel = t("Event end date");
   // translator: Screenreader description for the back link that leads to the list of mapping events
-  const backLinkAriaLabel = t`Back to the mapping events list`;
+  const backLinkAriaLabel = t("Back to the mapping events list");
   // translator: Button name for social media sharing the current mapping event
-  const shareButtonCaption = t`Share`;
+  const shareButtonCaption = t("Share");
   // translator: Button caption for joining an event
-  const joinButtonCaption = t`Join mapping event`;
+  const joinButtonCaption = t("Join mapping event");
   // translator: Button caption for leaving an event
-  const leaveButtonCaption = t`Leave mapping event`;
+  const leaveButtonCaption = t("Leave mapping event");
 
   const { data: joinedMappingEventId, mutate: mutateMappingEventId } =
     useCurrentMappingEventId();

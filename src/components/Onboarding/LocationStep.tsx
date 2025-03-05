@@ -7,9 +7,9 @@ import {
   Spinner,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { type FC, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import { cx } from "../../lib/util/cx";
 import { CallToActionButton, SecondaryButton } from "../shared/Button";
@@ -82,12 +82,16 @@ export const LocationStep: FC<{
   `;
 
   // translator: A hint that shows up, when acquiring location permissions initially failed
-  const hint = t`If you’re experiencing issues, you may consult [your devices permission configuration](${url}).`;
+  const hint = t(
+    `If you’re experiencing issues, you may consult [your devices permission configuration](${url}).`,
+  );
 
   return (
     <Box>
       <VisuallyHidden>
-        <AlertDialog.Title>{t`Enable location permissions`}</AlertDialog.Title>
+        <AlertDialog.Title>
+          {t("Enable location permissions")}
+        </AlertDialog.Title>
       </VisuallyHidden>
       <AlertDialog.Description>
         <StyledMarkdown>{explanation}</StyledMarkdown>
@@ -97,7 +101,7 @@ export const LocationStep: FC<{
       <Flex gap="3" mt="4" justify="end">
         <AlertDialog.Action>
           <Button onClick={onRejected} size="3" variant="soft">
-            {t`Skip`}
+            {t("Skip")}
           </Button>
         </AlertDialog.Action>
         <AlertDialog.Action>
@@ -106,7 +110,7 @@ export const LocationStep: FC<{
             onClick={requestLocationPermission}
             className={cx("accept", isAcquiring && "active")}
           >
-            <span className="text">{t`I’m in!`}</span>
+            <span className="text">{t("I’m in!")}</span>
             {stage.stage === "acquiring" && <Spinner />}
           </Button>
         </AlertDialog.Action>

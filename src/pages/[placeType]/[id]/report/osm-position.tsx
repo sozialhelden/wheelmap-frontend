@@ -1,9 +1,9 @@
 import { Button } from "@radix-ui/themes";
 import type { PointGeometry } from "@sozialhelden/a11yjson";
+import { t } from "@transifex/native";
 import { center } from "@turf/turf";
 import type { MultiPolygon, Point, Polygon } from "geojson";
 import React, { type FC, type ReactElement, useContext } from "react";
-import { t } from "ttag";
 import { AppStateLink } from "../../../../components/App/AppStateLink";
 import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import PlaceLayout from "../../../../components/CombinedFeaturePanel/PlaceLayout";
@@ -11,10 +11,12 @@ import { StyledReportView } from "../../../../components/CombinedFeaturePanel/Re
 import StyledMarkdown from "../../../../components/shared/StyledMarkdown";
 import { isOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 
-const changeTitle = t`You can change this place's location on OpenStreetMap.`;
-const note = t`Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.`;
-const optionEdit = t`Edit this place on OpenStreetMap`;
-const optionNote = t`Leave a note on OpenStreetMap`;
+const changeTitle = t(`You can change this place's location on OpenStreetMap.`);
+const note = t(
+  "Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.",
+);
+const optionEdit = t("Edit this place on OpenStreetMap");
+const optionNote = t("Leave a note on OpenStreetMap");
 
 const makeOSMEditUrl = (nodeId: string | number) =>
   `https://www.openstreetmap.org/edit?node=${nodeId}`;
@@ -93,7 +95,7 @@ export const ReportOSM: FC<{ title: string; subtitle?: string }> = ({
         </a>
       </Button>
       <Button asChild>
-        <AppStateLink href="../report">{t`Back`}</AppStateLink>
+        <AppStateLink href="../report">{t("Back")}</AppStateLink>
       </Button>
     </StyledReportView>
   );
