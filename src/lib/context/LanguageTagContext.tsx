@@ -66,7 +66,10 @@ export function LanguageCodeContextProvider({ children, languageTags }) {
     );
   }
 
-  tx.init({ token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN });
+  tx.init({
+    token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN,
+    filterStatus: "finalized",
+  });
   tx.setCurrentLocale(
     normalizeLanguageTag(languageTags[0].langtag || languageTags[0].language),
   );

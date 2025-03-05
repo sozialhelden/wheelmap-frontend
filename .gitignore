@@ -31,13 +31,6 @@ Desktop.ini
 !.env.example
 npm-debug.log*
 
-# This contains source translations for transifex.
-# They should always be locally built before pushing and not be commited.
-/public/i18n/translations.pot
-
-# generated retranslate files
-retranslate/babel-plugin-retranslate/dist-plugin.js
-retranslate/rewrite-pos/dist-rewrite-pos.js
 /test/screenshots
 /Preview.html
 .next
