@@ -82,6 +82,7 @@ export const GalleryFullscreenItem: FC<{
 
   // TODO: replace in the near future with actual description
   const imageDescription = image?._id;
+  const numberOfCurrentImage = api.activeIndex + 1;
 
   return (
     <>
@@ -124,7 +125,7 @@ export const GalleryFullscreenItem: FC<{
           </ImageLegend>
           <Box as="span" />
           <Flex as="span" align="center" gap="6">
-            <Text>{t`Image ${api.activeIndex + 1} of ${api.size}`}</Text>{" "}
+            <Text>{t`Image ${numberOfCurrentImage} of ${api.size}`}</Text>{" "}
             <GalleryReportPopover image={image} />
           </Flex>
         </ImageFooter>

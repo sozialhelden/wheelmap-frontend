@@ -46,6 +46,7 @@ export const NeedsButton = forwardRef(function NeedsButton(
 
   const needs = Object.values(needsMap);
   const needsWithIcon = needs.filter(({ icon }) => Boolean(icon));
+  const selectedNeeds = needs.map(({ label }) => label()).join(", ");
 
   return (
     <Theme radius="full" asChild>
@@ -57,7 +58,7 @@ export const NeedsButton = forwardRef(function NeedsButton(
         aria-label={
           needs.length === 0
             ? t`Select your needs`
-            : t`You have ${needs.length} needs selected: ${needs.map(({ label }) => label()).join(", ")}`
+            : t`You have ${needs.length} needs selected: ${selectedNeeds}`
         }
       >
         {needs.length > 0 && (
