@@ -41,7 +41,7 @@ export const ImageUploadCriteriaList: FC = () => {
   const { nextStep, close } = useContext(ImageUploadContext);
 
   return (
-    <>
+    <Flex direction="column" gap="2">
       <Text as="p">
         {t(
           "Before uploading a new image, please make sure that the image meets the following criteria:",
@@ -142,6 +142,6 @@ export const ImageUploadCriteriaList: FC = () => {
         <SecondaryButton onClick={close}>{t("Cancel")}</SecondaryButton>
         <PrimaryButton onClick={nextStep}>{t("Continue")}</PrimaryButton>
       </Flex>
-    </>
+    </Flex>
   );
 };
