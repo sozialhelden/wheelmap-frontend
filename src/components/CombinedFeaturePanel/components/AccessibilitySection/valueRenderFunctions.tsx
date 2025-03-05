@@ -46,7 +46,8 @@ function BuildingLevel({
     if (valueAsNumber === -1) {
       return <>{t`Basement floor`}</>;
     }
-    return <>{t`Basement ${-1 * valueAsNumber}`}</>;
+    const basementFloorNumber = -1 * valueAsNumber;
+    return <>{t`Basement ${basementFloorNumber}`}</>;
   }
 
   const skipZerothLevel = determineIfZerothLevelIsSkippedHere(languageTags);
