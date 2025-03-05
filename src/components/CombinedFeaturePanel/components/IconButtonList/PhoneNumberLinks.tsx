@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import { uniq } from "lodash";
 import Link from "next/link";
-import { t } from "ttag";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import PhoneIcon from "../../../icons/actions/Phone";
 
@@ -20,7 +20,7 @@ function SinglePhoneNumberLink({
       <Link href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}>
         <PhoneIcon />
         <span>
-          {t`Call ${phoneNumber}`}
+          {t("Call {phoneNumber}", { phoneNumber })}
           {extraInfo && ` (${extraInfo})`}
         </span>
       </Link>
@@ -58,7 +58,7 @@ export default function PhoneNumberLinks({ feature }: Props) {
         <SinglePhoneNumberLink
           key={mobilePhoneNumber}
           phoneNumber={mobilePhoneNumber}
-          extraInfo={t`Mobile`}
+          extraInfo={t("Mobile")}
         />
       ))}
     </>

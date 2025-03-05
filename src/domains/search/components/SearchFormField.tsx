@@ -1,5 +1,6 @@
 import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Flex, IconButton, Theme } from "@radix-ui/themes";
+import { Flex, IconButton } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import {
   type ChangeEventHandler,
   type KeyboardEventHandler,
@@ -7,7 +8,6 @@ import {
   useState,
 } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 
 const StyledSearchFormField = styled.div<{ $isDropdownOpen: boolean }>`
   background: var(--color-panel-solid);
@@ -121,7 +121,7 @@ export function SearchFormField({
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         type="search"
-        placeholder={t`Search for place or address`}
+        placeholder={t("Search for place or address")}
         {...props}
       />
       {input ? (
@@ -131,7 +131,7 @@ export function SearchFormField({
             size="3"
             color="gray"
             onClick={reset}
-            aria-label={t`Clear search`}
+            aria-label={t("Clear search")}
           >
             <Cross1Icon height="16" width="16" aria-hidden />
           </IconButton>

@@ -1,10 +1,10 @@
 import { Dialog, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as queryString from "query-string";
 import { useCallback } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useAppContext } from "../../lib/context/AppContext";
 import {
   getJoinedMappingEventData,
@@ -28,13 +28,15 @@ export default function MappingEventWelcomeDialog({
 }: Props) {
   const EmailCollectionModeMessages = {
     required: () =>
-      t`To stay in touch with you, you must provide us with your email address.`,
+      t(
+        "To stay in touch with you, you must provide us with your email address.",
+      ),
     optional: () =>
-      t`To stay in touch with you, please share your email address with us.`,
+      t("To stay in touch with you, please share your email address with us."),
     disabled: () => null,
   };
 
-  const dialogAriaLabel = t`Welcome`;
+  const dialogAriaLabel = t("Welcome");
   const app = useAppContext();
   const { tokenString: appToken } = app;
   const { data: mappingEvent } = useDocumentSWR({
@@ -47,7 +49,7 @@ export default function MappingEventWelcomeDialog({
     EmailCollectionModeMessages[collectionMode]();
 
   // translator: Shown on the join mapping event screen, when there is no message defined by the event organizer.
-  const defaultMappingEventWelcomeMessage = t`Great! Thanks for joining us.`;
+  const defaultMappingEventWelcomeMessage = t("Great! Thanks for joining us.");
   const mappingEventWelcomeMessage =
     mappingEvent?.welcomeMessage || defaultMappingEventWelcomeMessage;
 

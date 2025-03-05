@@ -1,8 +1,8 @@
 import { Callout } from "@blueprintjs/core";
+import { t } from "@transifex/native";
 import { bbox } from "@turf/turf";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { t } from "ttag";
 import { FeatureImageUpload } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import {
   type AnyFeature,
@@ -42,10 +42,10 @@ export default function PlaceOfInterestDetails({
   if (!feature.properties) {
     return (
       <Callout>
-        <h2>{t`This place has no known properties.`}</h2>
+        <h2>{t("This place has no known properties.")}</h2>
         <p>
           <Link href={`https://openstreetmap.org/${feature._id}`}>
-            {t`View on OpenStreetMap`}
+            {t("View on OpenStreetMap")}
           </Link>
         </p>
         <FeaturesDebugJSON features={[feature]} />
@@ -103,7 +103,9 @@ export default function PlaceOfInterestDetails({
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
       </StyledIconButtonList>
 
-      <AppStateLink href={`${baseFeatureUrl}/report`}>{t`Report`}</AppStateLink>
+      <AppStateLink href={`${baseFeatureUrl}/report(`}>
+        {t("Report")}
+      </AppStateLink>
     </FeatureContext.Provider>
   );
 }

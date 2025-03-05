@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import * as React from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import colors from "../../lib/util/colors";
 import CloseIcon from "../icons/actions/Close";
 
@@ -38,7 +38,7 @@ const CloseButton = React.forwardRef<HTMLElement, Props>(
     <StyledButton
       {...props}
       className={`close-link ${props.className || ""}`}
-      aria-label={props["aria-label"] || t`Close`}
+      aria-label={props["aria-label"] || t("Close")}
       ref={ref}
     >
       <CloseIcon />

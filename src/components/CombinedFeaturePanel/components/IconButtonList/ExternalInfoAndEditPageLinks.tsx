@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import Link from "next/link";
-import { t } from "ttag";
 import useDocumentSWR from "../../../../lib/fetchers/ac/useDocumentSWR";
 import type ISource from "../../../../lib/model/ac/ISource";
 import type { TypeTaggedPlaceInfo } from "../../../../lib/model/geo/AnyFeature";
@@ -26,7 +26,7 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
           <Link href={infoPageUrl}>
             <WorldIcon />
             {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
-            <span>{t`Open on ${sourceNameString}`}</span>
+            <span>{t("Open on {sourceNameString}", { sourceNameString })}</span>
           </Link>
         </li>
       )}
@@ -36,7 +36,9 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
           <Link href={editPageUrl}>
             <WorldIcon />
             {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
-            <span>{t`Add info on ${sourceNameString}`}</span>
+            <span>
+              {t("Add info on {sourceNameString}", { sourceNameString })}
+            </span>
           </Link>
         </li>
       )}

@@ -1,10 +1,10 @@
 import { Button } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
-import { t } from "ttag";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
@@ -73,7 +73,7 @@ export const AutoEditor = ({
 
   const handleSuccess = React.useCallback(() => {
     toast.success(
-      t`Thank you for contributing. Your edit will be visible soon.`,
+      t("Thank you for contributing. Your edit will be visible soon."),
     );
     const newPath = router.asPath.replace(
       new RegExp(`/edit/${finalTagName}`),
@@ -84,9 +84,11 @@ export const AutoEditor = ({
 
   const handleOSMSuccessDBError = React.useCallback(() => {
     const message = [
-      t`Thank you for contributing.`,
-      t` There was an error while trying to save your changes to our database.`,
-      t` Your changes will still be visible on Open Street Map.`,
+      t("Thank you for contributing."),
+      t(
+        " There was an error while trying to save your changes to our database.",
+      ),
+      t(" Your changes will still be visible on Open Street Map."),
     ];
     toast.warning(message);
     // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
@@ -95,8 +97,10 @@ export const AutoEditor = ({
 
   const handleError = React.useCallback((error: Error, message?: string) => {
     const defaultMessage = [
-      t`Your contribution could not be saved completely.`,
-      t`Please try again later or let us know if the error persists. Error: ${error}`,
+      t("Your contribution could not be saved completely."),
+      t(
+        `Please try again later or let us know if the error persists. Error: ${error}`,
+      ),
     ].join(" ");
 
     toast.error(message || defaultMessage);
@@ -123,7 +127,9 @@ export const AutoEditor = ({
     if (!newTagValue || !osmId) {
       handleError(
         new Error("Missing Information"),
-        t`Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.`,
+        t(
+          "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.",
+        ),
       );
       return;
     }
@@ -138,7 +144,7 @@ export const AutoEditor = ({
     } catch (error) {
       handleError(
         error,
-        t`Something went wrong. Please let us know if the error persists.`,
+        t("Something went wrong. Please let us know if the error persists."),
       );
     }
   };
@@ -191,7 +197,9 @@ export const AutoEditor = ({
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <h2 className="_title">{t`No editor available for ${tagKey}`}</h2>
+      <h2 className="_title">
+        {t("No editor available for {tagKey}", { tagKey })}
+      </h2>
       <footer className="_footer">
         <Button asChild>
           <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>

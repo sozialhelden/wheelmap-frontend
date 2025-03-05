@@ -1,7 +1,7 @@
 import { Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import type { FC } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 
 const CallToActionWrapper = styled.div`
     position: relative;
@@ -59,7 +59,7 @@ const CallToAction = styled.div`
 export const ImageUploadCallToAction: FC = () => (
   <CallToActionWrapper>
     <CallToAction>
-      <Text>{t`Your good deed of the day!`}</Text>
+      <Text>{t("Your good deed of the day!")}</Text>
     </CallToAction>
   </CallToActionWrapper>
 );

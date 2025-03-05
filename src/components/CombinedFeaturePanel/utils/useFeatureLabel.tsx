@@ -1,6 +1,6 @@
+import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
-import { t } from "ttag";
 import { getCategoryForFeature } from "~/domains/categories/functions/cache";
 import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
 import useCategory from "../../../domains/categories/hooks/useCategory";
@@ -14,7 +14,7 @@ import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCate
 import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 
 function getRoomNumberString(roomNumber: string) {
-  return t`Room ${roomNumber}`;
+  return t("Room {roomNumber}", { roomNumber });
 }
 
 function getAcParentPlaceId(feature: AnyFeature) {
@@ -121,7 +121,7 @@ export function useFeatureLabel({
   ) {
     placeName =
       getEquipmentInfoDescription(feature, "shortDescription") ||
-      t`Unnamed facility`;
+      t("Unnamed facility");
     ariaLabel = getEquipmentInfoDescription(feature, "longDescription");
   } else if (acFeature) {
     placeName = placeNameFor(acFeature, category, languageTags) || roomName;

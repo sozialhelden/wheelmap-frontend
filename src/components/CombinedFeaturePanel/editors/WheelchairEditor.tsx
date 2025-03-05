@@ -1,12 +1,12 @@
 import { Dialog, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { t } from "ttag";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import { unknownCategory } from "~/domains/categories/functions/cache";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
+import { unknownCategory } from "~/domains/categories/functions/cache";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "../../shared/Icon";
 import { StyledReportView } from "../ReportView";
@@ -49,7 +49,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content
-        aria-label={t`Toilet Accessibility Editor`}
+        aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
@@ -61,7 +61,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
             </FeatureNameHeader>
 
             <Dialog.Description id="dialog-description" size="3">
-              {t`How wheelchair accessible is this place?`}
+              {t("How wheelchair accessible is this place?")}
             </Dialog.Description>
 
             <form>
@@ -76,7 +76,9 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 icon={<Icon size="medium" accessibility="yes" category={cat} />}
                 valueName="Fully"
               >
-                {t`Entrance has no steps, and all rooms are accessible without steps.`}
+                {t(
+                  "Entrance has no steps, and all rooms are accessible without steps.",
+                )}
               </AccessibilityView>
               <AccessibilityView
                 onClick={() => {
@@ -112,11 +114,11 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
             </form>
 
             <Flex gap="3" mt="4" justify="end">
-              <SecondaryButton onClick={onClose}>{t`Cancel`}</SecondaryButton>
+              <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
               <PrimaryButton
                 onClick={saveButtonDoesNothing ? onClose : onSubmit}
               >
-                {saveButtonDoesNothing ? t`Confirm` : t`Send`}
+                {saveButtonDoesNothing ? t("Confirm") : t("Send")}
               </PrimaryButton>
             </Flex>
           </StyledReportView>

@@ -1,8 +1,8 @@
 import { Box, Strong, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import React, { type FC, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
-import { t } from "ttag";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 
@@ -68,19 +68,19 @@ export const ImageUploadDropzone: FC = () => {
       <Dropzone {...getRootProps()} $isDragActive={isDragActive}>
         <input {...getInputProps()} />
         <TextForDesktop as="p" aria-hidden>
-          <Strong>{t`Drag an image here to select it`}</Strong>
+          <Strong>{t("Drag an image here to select it")}</Strong>
         </TextForDesktop>
         <TextForDesktop as="p" color="gray" aria-hidden>
-          {t`or click the select button.`}
+          {t("or click the select button.")}
         </TextForDesktop>
         <TextForMobile as="p">
-          <Strong>{t`Use the following button to select an image:`}</Strong>
+          <Strong>{t("Use the following button to select an image:")}</Strong>
         </TextForMobile>
-        <PrimaryButton mt="2">{t`Select image`}</PrimaryButton>
+        <PrimaryButton mt="2">{t("Select image")}</PrimaryButton>
       </Dropzone>
 
       <Box mt="4">
-        <SecondaryButton onClick={previousStep}>{t`Back`}</SecondaryButton>
+        <SecondaryButton onClick={previousStep}>{t("Back")}</SecondaryButton>
       </Box>
     </>
   );

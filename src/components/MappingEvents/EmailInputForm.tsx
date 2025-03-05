@@ -1,5 +1,5 @@
+import { t } from "@transifex/native";
 import React from "react";
-import { t } from "ttag";
 import { PrimaryButton } from "../shared/Button";
 
 export const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
@@ -30,23 +30,23 @@ export function EmailInputForm(props: {
       setBusy(true);
       onSubmit();
     } else if (!inputValue) {
-      setError(t`Your email address is required!`);
+      setError(t("Your email address is required!"));
     } else {
       const isValid = EmailRegEx.test(inputValue);
       if (isValid) {
         setBusy(true);
         onSubmit(inputValue);
       } else {
-        setError(t`This email address is not valid.`);
+        setError(t("This email address is not valid."));
       }
     }
   };
 
   const labelSuffix = {
     // translator: Shown next to a form input label for a field where the user must enter a value
-    required: t`(required)`,
+    required: t("(required)"),
     // translator: Shown next to a form input label for a field where the user can optionally enter a value
-    optional: t`(optional)`,
+    optional: t("(optional)"),
   }[collectionMode];
 
   return (
@@ -54,7 +54,7 @@ export function EmailInputForm(props: {
       {showInput && (
         <div className={error ? "form-control is-invalid" : "form-control"}>
           <label>
-            <strong>{t`Email address`}</strong>
+            <strong>{t("Email address")}</strong>
             {labelSuffix && (
               <>
                 &nbsp;
@@ -84,10 +84,14 @@ export function EmailInputForm(props: {
         </div>
       )}
       <PrimaryButton disabled={isBusy} onClick={submitHandler}>
-        {t`Let’s go`}
+        {t("Let’s go")}
       </PrimaryButton>
       {invitationToken && (
-        <footer>{t`You are participating as ${initialEmailAddress}.`}</footer>
+        <footer>
+          {t("You are participating as {initialEmailAddress}.", {
+            initialEmailAddress,
+          })}
+        </footer>
       )}
     </form>
   );

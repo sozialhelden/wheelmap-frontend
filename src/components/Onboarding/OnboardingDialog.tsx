@@ -1,8 +1,8 @@
 import { AlertDialog, Dialog } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 /* eslint-disable @typescript-eslint/indent */
 import type * as React from "react";
 import { useCallback, useMemo, useState } from "react";
-import { t } from "ttag";
 import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
 import { log } from "../../lib/util/logger";
 import { LocationFailedStep } from "./LocationFailedStep";
@@ -102,8 +102,8 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
   return (
     <DialogElement.Root
       open={true}
-      aria-label={t`Start screen`}
-      aria-description={t`Start screen`}
+      aria-label={t("Start screen")}
+      aria-description={t("Start screen")}
     >
       <DialogElement.Content
         maxWidth={{ initial: "100vw", md: "1000px" }}

@@ -1,6 +1,6 @@
 import { AlertDialog, Box, Button, Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { type FC, useContext } from "react";
-import { t } from "ttag";
 import { AppContext } from "../../lib/context/AppContext";
 import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
 import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
@@ -32,7 +32,9 @@ export const LocationNoPermissionStep: FC<{
       </AlertDialog.Description>
       <Flex gap="3" mt="4" justify="end">
         <AlertDialog.Action>
-          <Button size="3" onClick={() => onSubmit()}>{t`Let’s go!`}</Button>
+          <Button size="3" onClick={() => onSubmit()}>
+            {t("Let’s go!")}
+          </Button>
         </AlertDialog.Action>
       </Flex>
     </Box>

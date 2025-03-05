@@ -6,9 +6,9 @@ import {
   Text,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import { useNeeds } from "~/domains/needs/hooks/useNeeds";
 import type { NeedCategory, NeedProperties } from "~/domains/needs/needs";
 
@@ -71,7 +71,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
         {hasHelpText && (
           <Flex as="span" justify="center" width="40px" aria-hidden>
             <IconButton
-              aria-label={t`Show more information about ${title}`}
+              aria-label={t("Show more information about {title}", { title })}
               variant="soft"
               highContrast={true}
               color="gray"

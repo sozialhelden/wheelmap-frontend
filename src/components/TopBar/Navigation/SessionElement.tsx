@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Popover, Skeleton, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
-import { t } from "ttag";
 import Markdown from "../../shared/Markdown";
 import type { IAutoLinkProps } from "./AppLink";
 import MenuItemOrButton from "./MenuItemOrButton";
@@ -22,7 +22,7 @@ function AuthenticatedMenuContent() {
         <Markdown>{signInNotice}</Markdown>
       </Text>
       <Button color="red" onClick={handleSignOut}>
-        {t`Sign out`}
+        {t("Sign out")}
       </Button>
     </Box>
   );
@@ -34,7 +34,7 @@ function AuthenticatedMenuContent() {
           <Popover.Trigger>
             <img
               src={session.user.image}
-              alt={t`Your avatar`}
+              alt={t("Your avatar")}
               width="32"
               height="32"
               style={{ borderRadius: "50%" }}
@@ -51,7 +51,7 @@ function AuthenticatedMenuContent() {
 
 function NonAuthenticatedMenuContent() {
   const handleSignIn = React.useCallback(() => signIn("osm"), []);
-  return <Button onClick={handleSignIn}>{t`Sign in`}</Button>;
+  return <Button onClick={handleSignIn}>{t("Sign in")}</Button>;
 }
 
 function LoadingMenuContent() {
