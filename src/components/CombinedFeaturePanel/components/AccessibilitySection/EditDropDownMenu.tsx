@@ -2,8 +2,8 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import React, { useContext, useState } from "react";
 import { t } from "ttag";
+import { AutoEditor } from "~/domains/edit/components/AutoEditor";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
-import { AutoEditor } from "../../editors/AutoEditor";
 
 export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
   const { features } = useContext(FeaturePanelContext);
@@ -15,7 +15,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
     <>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <IconButton variant="soft" size="2">
+          <IconButton variant="soft" size="2" data-testid={`${tagKey}`}>
             <Pencil1Icon width="18" height="18" />
           </IconButton>
         </DropdownMenu.Trigger>
@@ -26,6 +26,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
               setIsDialogOpen(true);
               setAddNewLanguage(false);
             }}
+            data-testid="this-language"
           >
             {t`Edit this description`}
           </DropdownMenu.Item>
@@ -35,6 +36,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
               setIsDialogOpen(true);
               setAddNewLanguage(true);
             }}
+            data-testid="new-language"
           >
             {t`Add a description in another language`}
           </DropdownMenu.Item>
