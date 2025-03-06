@@ -1,0 +1,55 @@
+{
+  "type": "Feature",
+  "_id": "way/126125230",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [13.366327, 52.525297],
+        [13.366327, 52.525304],
+        [13.366529, 52.525366],
+        [13.366544, 52.52535],
+        [13.366557, 52.525337],
+        [13.366772, 52.525402],
+        [13.366772, 52.525419],
+        [13.366772, 52.525439],
+        [13.367119, 52.525546],
+        [13.367119, 52.525524],
+        [13.367121, 52.525308],
+        [13.367063, 52.525293],
+        [13.367061, 52.525164],
+        [13.367122, 52.525159],
+        [13.367122, 52.525031],
+        [13.367067, 52.525014],
+        [13.366919, 52.524968],
+        [13.366667, 52.52489],
+        [13.36633, 52.524768],
+        [13.366329, 52.525009],
+        [13.366328, 52.525163],
+        [13.366327, 52.525264],
+        [13.366327, 52.525297]
+      ]
+    ]
+  },
+  "centroid": {
+    "type": "Point",
+    "coordinates": [13.366716, 52.525158]
+  },
+  "properties": {
+    "icon": "circle",
+    "name": "Edge Grand Central Berlin",
+    "image": "https://dtn9rutquaj3g.cloudfront.net/production/images/portfolios/f23ecd5fdc6b17ce8cae3d6f2b528235.jpeg",
+    "image:0": "https://photos.app.goo.gl/1yEDaW2Aeh2GwiML7",
+    "website": "https://edge.tech/de/developments/edge-grand-central-berlin",
+    "building": "commercial",
+    "addr:city": "Berlin",
+    "architect": "Bolwin Wulf Architekten",
+    "roof:shape": "flat",
+    "start_date": 2020,
+    "addr:street": "Invalidenstraße",
+    "addr:postcode": 10557,
+    "building:levels": 8,
+    "addr:housenumber": 55,
+    "wikimedia_commons": "File:ImmoScout24 Office in EDGE Grand Central Berlin.jpg"
+  }
+}
