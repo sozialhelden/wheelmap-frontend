@@ -6,11 +6,11 @@ import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import type { YesNoUnknown } from "~/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import { ToiletStatusNotAccessible } from "../../icons/accessibility";
-import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+import { StyledReportView } from "../../../components/CombinedFeaturePanel/ReportView";
+import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
+import { ToiletStatusNotAccessible } from "../../../components/icons/accessibility";
+import ToiletStatusAccessibleIcon from "../../../components/icons/accessibility/ToiletStatusAccessible";
 import type { BaseEditorProps } from "./BaseEditor";
 
 export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
@@ -37,6 +37,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content
         aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
+        data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureNameHeader feature={feature}>

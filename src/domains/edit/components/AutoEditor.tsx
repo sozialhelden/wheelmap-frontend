@@ -10,16 +10,16 @@ import { useEnvContext } from "~/lib/context/EnvContext";
 import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
+import { AppStateLink } from "../../../components/App/AppStateLink";
+import { FeaturePanelContext } from "../../../components/CombinedFeaturePanel/FeaturePanelContext";
+import { StyledReportView } from "../../../components/CombinedFeaturePanel/ReportView";
+import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
 import useSubmitNewValueCallback, {
   type OSMAPIElement,
 } from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
 import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";

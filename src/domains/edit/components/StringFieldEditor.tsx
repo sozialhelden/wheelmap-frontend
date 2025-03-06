@@ -17,8 +17,8 @@ import {
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import SearchableSelect from "~/components/shared/SearchableSelect";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
@@ -105,7 +105,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Dialog.Content>
+      <Dialog.Content data-testid={`dialog_${tagKey}`}>
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
             {feature["@type"] === "osm:Feature" && (
@@ -145,6 +145,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
               </Text>
               <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect
+                  data-testid="searchable-select"
                   selectPlaceholder={t`Languages`}
                   items={languageTagMapForStringFieldEditor}
                   onSelect={(value) => {
