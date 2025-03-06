@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
+import { WheelchairEditor } from "~/domains/edit/components/WheelchairEditor";
 import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
-import { WheelchairEditor } from "../../../../components/CombinedFeaturePanel/editors/WheelchairEditor";
 
 function WheelchairAccessibility() {
   const { features } = useContext(FeaturePanelContext);
