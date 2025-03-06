@@ -3,8 +3,8 @@ import { IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 
 import React, { useContext, useState } from "react";
+import { AutoEditor } from "~/domains/edit/components/AutoEditor";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
-import { AutoEditor } from "../../editors/AutoEditor";
 
 export function EditButton({
   tagKey,
@@ -25,6 +25,7 @@ export function EditButton({
         tabIndex={-1}
         variant="soft"
         onClick={handleEditClick}
+        data-testid={tagKey}
       >
         <Pencil1Icon width="18" height="18" />
       </IconButton>
