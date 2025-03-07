@@ -13,11 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Get involved', async ({ page }) => {
   try {
-    await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
-   // await expect(page).toHaveURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
-   //await page.waitForURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
- 
-   //await page.goto("https://feature-a11ymap.wheelmap.tech/'");
+   await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
    const newTabPromise = page.waitForEvent("popup");
    await page.getByRole('banner').getByRole('link', { name: 'Get involved' }).click();
    const newTab = await newTabPromise;
@@ -25,15 +21,6 @@ test('Get involved', async ({ page }) => {
  
    await expect(newTab).toHaveURL("https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/");
    await expect(newTab).toHaveTitle("Wheelmap Ambassador Program 2021 – Wheelmap.org");
-  
-   //const locator = page.locator('text=Wheelmap Ambassador Program 2021');
-   //await expect(locator).toBeVisible();
-   //await page.getByText('Wheelmap Ambassador Program 2021').click();
-   //await page.waitForURL('https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/');
-  // await expect(page.getByText('Wheelmap Ambassador Program 2021')).toBeVisible();
-  // await locator.click();
-  // await page.locator('html').click();
-
   }
   catch (error) {
     console.error('Test failed with error:', error.message);
@@ -45,11 +32,13 @@ test('Get involved', async ({ page }) => {
 test('News', async ({ page }) => {
 
   try {
-    await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
-    await page.getByRole('banner').getByRole('link', { name: 'News' }).click();
-    await expect(page).toHaveURL('https://news.wheelmap.org/en/#news');
+   await page.waitForURL('https://feature-a11ymap.wheelmap.tech/'); 
+   const newTabPromise = page.waitForEvent('popup');
+   await page.getByRole('banner').getByRole('link', { name: 'News' }).click();
+   const newTab = await newTabPromise;
+   await newTab.waitForLoadState();
+   await expect(newTab).toHaveURL('https://news.wheelmap.org/en/#news');
   }
-
   catch (error) {
     console.error('Test failed with error:', error.message);
     console.error(error.stack);
@@ -61,11 +50,12 @@ test('Press', async ({ page }) => {
 
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
+    const newTabPromise = page.waitForEvent('popup');
     await page.getByRole('banner').getByRole('link', { name: 'Press' }).click();
-    await expect(page).toHaveURL('https://news.wheelmap.org/en/press/');
+    const newTab = await newTabPromise;
+    await newTab.waitForLoadState();
+    await expect(newTab).toHaveURL('https://news.wheelmap.org/en/press/');
   }
-
-
   catch (error) {
     console.error('Test failed with error:', error.message);
     console.error(error.stack);
@@ -78,9 +68,8 @@ test('Events', async ({ page }) => {
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
     await page.getByRole('banner').getByRole('link', { name: 'Events' }).click();
-    await expect(page).toHaveURL('https://feature-a11ymap.wheelmap.tech/events?q=');
+    await expect(page).toHaveURL('https://feature-a11ymap.wheelmap.tech/events');
   }
-  
   catch (error) {
     console.error('Test failed with error:', error.message);
     console.error(error.stack);
@@ -92,8 +81,11 @@ test('Add a new place', async ({ page }) => {
 
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
+    const newTabPromise = page.waitForEvent('popup');
     await page.getByRole('banner').getByRole('link', { name: 'Add a new place' }).click();
-    await expect(page).toHaveURL('https://wheelmap.pro/organizations/LPb4y2ri7b6fLxLFa/survey-projects/wx4mM8xFiQAsB5aLi/show?step=data.osm_place');
+    const newTab = await newTabPromise;
+    await newTab.waitForLoadState();
+    await expect(newTab).toHaveURL('https://wheelmap.pro/organizations/LPb4y2ri7b6fLxLFa/survey-projects/wx4mM8xFiQAsB5aLi/show?step=data.osm_place');
   }
   
   catch (error) {
