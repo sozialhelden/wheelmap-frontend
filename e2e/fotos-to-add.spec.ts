@@ -21,9 +21,11 @@ test('upload a photo', async ({ page }) => {
     await page.goto(baseURL);
     await skipOnboarding(page);
     await page.goto(baseURL + '/amenities/way:30050297');
+    // Click on the "Add new image" link
     await page.getByRole('link', { name: 'Add new image' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Select image' }).click();
+    // Upload an image
     await page.locator('input[type=file]').setInputFiles('./e2e/1000015934.jpg');
     await page.getByRole('button', { name: 'Upload image' }).click();
   }

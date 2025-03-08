@@ -14,11 +14,12 @@ test.beforeEach(async ({ page }) => {
 test('Get involved', async ({ page }) => {
   try {
    await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
-   const newTabPromise = page.waitForEvent("popup");
+   // Wait for the new tab to open
+   const newTabPromise = page.waitForEvent("popup"); 
    await page.getByRole('banner').getByRole('link', { name: 'Get involved' }).click();
    const newTab = await newTabPromise;
    await newTab.waitForLoadState();
- 
+  // Check if the URL and title of the new tab are correct
    await expect(newTab).toHaveURL("https://news.wheelmap.org/en/wheelmap-ambassador-program-2021/");
    await expect(newTab).toHaveTitle("Wheelmap Ambassador Program 2021 – Wheelmap.org");
   }
@@ -32,11 +33,13 @@ test('Get involved', async ({ page }) => {
 test('News', async ({ page }) => {
 
   try {
-   await page.waitForURL('https://feature-a11ymap.wheelmap.tech/'); 
+   await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
+   // Wait for the new tab to open
    const newTabPromise = page.waitForEvent('popup');
    await page.getByRole('banner').getByRole('link', { name: 'News' }).click();
    const newTab = await newTabPromise;
    await newTab.waitForLoadState();
+    // Check if the URL of the new tab is correct
    await expect(newTab).toHaveURL('https://news.wheelmap.org/en/#news');
   }
   catch (error) {
@@ -50,10 +53,12 @@ test('Press', async ({ page }) => {
 
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
+    // Wait for the new tab to open
     const newTabPromise = page.waitForEvent('popup');
     await page.getByRole('banner').getByRole('link', { name: 'Press' }).click();
     const newTab = await newTabPromise;
     await newTab.waitForLoadState();
+    // Check if the URL of the new tab is correct
     await expect(newTab).toHaveURL('https://news.wheelmap.org/en/press/');
   }
   catch (error) {
@@ -68,6 +73,7 @@ test('Events', async ({ page }) => {
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
     await page.getByRole('banner').getByRole('link', { name: 'Events' }).click();
+    // Check if the URL is correct
     await expect(page).toHaveURL('https://feature-a11ymap.wheelmap.tech/events');
   }
   catch (error) {
@@ -81,10 +87,12 @@ test('Add a new place', async ({ page }) => {
 
   try {
     await page.waitForURL('https://feature-a11ymap.wheelmap.tech/');
+    // Wait for the new tab to open
     const newTabPromise = page.waitForEvent('popup');
     await page.getByRole('banner').getByRole('link', { name: 'Add a new place' }).click();
     const newTab = await newTabPromise;
     await newTab.waitForLoadState();
+    // Check if the URL of the new tab is correct
     await expect(newTab).toHaveURL('https://wheelmap.pro/organizations/LPb4y2ri7b6fLxLFa/survey-projects/wx4mM8xFiQAsB5aLi/show?step=data.osm_place');
   }
   
