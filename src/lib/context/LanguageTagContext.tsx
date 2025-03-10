@@ -76,7 +76,7 @@ export function LanguageCodeContextProvider({ children, languageTags }) {
 
     tx.init({
       token: env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN,
-      filterStatus: "reviewed",
+      // filterStatus: "reviewed",
     });
     tx.setCurrentLocale(normalizedLanguageTag)
       .then(() => {
