@@ -65,9 +65,9 @@ export function LanguageCodeContextProvider({ children, languageTags }) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    if (!env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN) {
+    if (!env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN) {
       throw new Error(
-        "Environment variable NEXT_PUBLIC_TRANSIFEX_API_TOKEN not set!",
+        "Environment variable NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN not set!",
       );
     }
     const normalizedLanguageTag = normalizeLanguageTag(
@@ -75,7 +75,7 @@ export function LanguageCodeContextProvider({ children, languageTags }) {
     );
 
     tx.init({
-      token: env.NEXT_PUBLIC_TRANSIFEX_API_TOKEN,
+      token: env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN,
       filterStatus: "reviewed",
     });
     tx.setCurrentLocale(normalizedLanguageTag)
