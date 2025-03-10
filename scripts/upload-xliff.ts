@@ -1,18 +1,29 @@
 /*
- * This script allows you to upload xliff files to transifex. It was originally
- * created to migrate from a file-based translation project to a transifex native
+ * This script allows you to upload xliff files to Transifex. It was originally
+ * created to migrate from a file-based translation project to a Transifex Native
  * project. You can create xliff files from po files using the `po2xliff` command,
  * that's part of the translate toolkit:
  * http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/xliff2po.html
  *
- * 1. Make sure the `TRANSIFEX_API_TOKEN` environment variable is set and valid
- * 2. Run the script with the following command:
+ * 1. Run `npm run transifex:install` and choose TypeScript. You need to discard
+ *    the changes to the `package.json` and `package-lock.json` files afterwards.
+ *    We don't want to include the Transifex API SDK in our project, as it is only
+ *    used temporarily for this script.
+ * 2. Make sure the `TRANSIFEX_API_TOKEN` environment variable is set and valid
+ * 3. Run the script:
+ *
+ *    Upload a single xliff file:
  *    `npm run transifex:upload -- path/to/xliff/file.xliff "l:de_DE"`
- *    or to upload multiple xliff files
+ *
+ *    Upload multiple xliff files at once:
  *   `npm run transifex:upload -- path/to/xliff/files`
  *
- * When uploading multiple files, the language id is inferred from the file name.
- * So make sure your files are properly named. For example: `de.xliff` or `pt_BR.xliff`.
+ * !Important notes:
+ *
+ * - "l:de_DE" is the language identifier in Transifex. When uploading a single file, replace
+ *   it with the correct one.
+ * - When uploading multiple files, the language id is inferred from the file name.
+ *   So make sure your files are properly named. For example: `de.xliff` or `pt_BR.xliff`.
  */
 
 import { readFileSync, readdirSync } from "fs";
@@ -96,6 +107,7 @@ async function uploadXliffFile({
   }
   console.info(`Uploading ${languageId}`);
   await uploadTranslations({ languageId, xml });
+  console.info(`${languageId} successfully uploaded!`);
 }
 
 async function main() {
@@ -103,7 +115,9 @@ async function main() {
   const languageId = process.argv[3];
 
   if (input.endsWith(".xliff")) {
-    return await uploadXliffFile({ filePath: input, languageId });
+    await uploadXliffFile({ filePath: input, languageId });
+    console.info("Finished! 🎉");
+    return;
   }
 
   const files = readdirSync(input);
@@ -111,13 +125,20 @@ async function main() {
     if (!file.endsWith(".xliff")) {
       continue;
     }
-    await uploadXliffFile({ filePath: join(input, file) });
+    try {
+      await uploadXliffFile({ filePath: join(input, file) });
+      console.info();
+    } catch (error) {
+      console.error(error);
+      console.error(JSON.stringify(error, null, 2));
+    }
   }
+  console.info("Finished! 🎉");
 }
 
 main()
   .then(() => {})
-  .catch((err) => {
-    console.error(err);
-    console.error(JSON.stringify(err, null, 2));
+  .catch((error) => {
+    console.error(error);
+    console.error(JSON.stringify(error, null, 2));
   });
