@@ -1,6 +1,6 @@
 import type { EquipmentInfo } from "@sozialhelden/a11yjson";
 import type { LocalizedString } from "../../../lib/i18n/LocalizedString";
-import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "../../../lib/i18n/useTranslatedStringFromObject";
 
 export default function getEquipmentInfoDescription(
   equipmentInfo: EquipmentInfo | null | undefined,
@@ -24,5 +24,5 @@ export default function getEquipmentInfoDescription(
       break;
     }
   }
-  return description && translatedStringFromObject(description);
+  return description && useTranslatedStringFromObject(description);
 }

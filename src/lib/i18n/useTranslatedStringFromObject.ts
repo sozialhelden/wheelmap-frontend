@@ -1,10 +1,10 @@
 import compact from "lodash/compact";
 import uniq from "lodash/uniq";
+import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { LocalizedString } from "./LocalizedString";
-import { currentLocales } from "./i18n";
 import { normalizeLanguageCode } from "./normalizeLanguageCode";
 
-export function translatedStringFromObject(
+export function useTranslatedStringFromObject(
   string: LocalizedString | null | undefined,
 ): string | undefined {
   if (typeof string === "undefined" || string === null) {
@@ -15,9 +15,7 @@ export function translatedStringFromObject(
   if (typeof string === "object") {
     const firstAvailableLocale = Object.keys(string)[0];
 
-    const normalizedRequestedLanguageTags = currentLocales.map(
-      (locale) => locale.transifexLanguageIdentifier,
-    );
+    const normalizedRequestedLanguageTags = useCurrentLanguageTagStrings();
 
     const normalizedLanguageTags = normalizedRequestedLanguageTags.map(
       normalizeLanguageCode,

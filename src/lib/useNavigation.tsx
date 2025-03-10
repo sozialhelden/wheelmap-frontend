@@ -23,12 +23,8 @@ export function useNavigation() {
   const app = useAppContext();
   const appLinks = app.related?.appLinks;
   const uniqueSurveyId = useUniqueSurveyId();
-  const translatedAppLinks = React.useMemo(
-    () =>
-      Object.values(appLinks ?? {}).map((link) =>
-        useAppLink(link, app, uniqueSurveyId, joinedMappingEvent),
-      ),
-    [app, appLinks, joinedMappingEvent, uniqueSurveyId],
+  const translatedAppLinks = Object.values(appLinks ?? {}).map((link) =>
+    useAppLink(link, app, uniqueSurveyId, joinedMappingEvent),
   );
 
   return React.useMemo(() => {
