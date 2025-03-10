@@ -1,4 +1,4 @@
-import { translatedStringFromObject } from "~/lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
 import type { IApp } from "~/lib/model/ac/App";
 import type IAppLink from "~/lib/model/ac/IAppLink";
 import type { MappingEvent } from "~/lib/model/ac/MappingEvent";
@@ -11,9 +11,9 @@ export function useAppLink(
   joinedMappingEvent?: MappingEvent,
 ) {
   const baseUrl = `https://${app._id}/`;
-  const localizedUrl = translatedStringFromObject(link.url);
-  const label = translatedStringFromObject(link.label);
-  const badgeLabel = translatedStringFromObject(link.badgeLabel);
+  const localizedUrl = useTranslatedStringFromObject(link.url);
+  const label = useTranslatedStringFromObject(link.label);
+  const badgeLabel = useTranslatedStringFromObject(link.badgeLabel);
   const isExternal = localizedUrl?.startsWith("http");
 
   /** Insert values of template variables into the link's URL */

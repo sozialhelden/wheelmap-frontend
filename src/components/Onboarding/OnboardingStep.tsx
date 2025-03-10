@@ -13,7 +13,7 @@ import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect } from "react";
 import { AppContext } from "../../lib/context/AppContext";
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "../../lib/i18n/useTranslatedStringFromObject";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import {
   accessibilityColor as accessibilityColorName,
@@ -29,7 +29,7 @@ export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose = () => {} }) => {
   const { clientSideConfiguration } = React.useContext(AppContext) ?? {};
-  const headerMarkdown = translatedStringFromObject(
+  const headerMarkdown = useTranslatedStringFromObject(
     clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
   );
 
