@@ -26,7 +26,9 @@
  *   So make sure your files are properly named. For example: `de.xliff` or `pt_BR.xliff`.
  */
 
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import { readFileSync, readdirSync } from "fs";
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import { join } from "path";
 import transifex from "@api/transifex";
 
