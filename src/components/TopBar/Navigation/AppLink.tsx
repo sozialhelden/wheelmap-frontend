@@ -50,6 +50,8 @@ export default function AppLink({
     Element = ErroneousLink;
   }
 
+  console.log("Element", label);
+
   return (
     Element && (
       <Element {...{ label, badgeLabel, url, asMenuItem, buttonProps }} />

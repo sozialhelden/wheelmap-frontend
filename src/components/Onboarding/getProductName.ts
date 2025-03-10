@@ -1,10 +1,10 @@
 import { t } from "@transifex/native";
-import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "../../lib/i18n/useTranslatedStringFromObject";
 
 // select a white label product name
 export const getProductName = (
   clientSideConfiguration: ClientSideConfiguration | undefined,
 ) =>
-  translatedStringFromObject(
+  useTranslatedStringFromObject(
     clientSideConfiguration?.textContent?.product?.name,
   ) || "Wheelmap";

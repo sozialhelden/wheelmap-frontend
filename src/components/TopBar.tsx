@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import styled from "styled-components";
 import NeedsPicker from "~/domains/needs/components/NeedsPicker";
-import { translatedStringFromObject } from "~/lib/i18n/translatedStringFromObject";
+import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
 import type { ClientSideConfiguration } from "~/lib/model/ac/ClientSideConfiguration";
 import Logo from "./TopBar/Logo";
 import Navigation from "./TopBar/Navigation";
@@ -29,7 +29,7 @@ export default function TopBar({
 }: {
   clientSideConfiguration: ClientSideConfiguration;
 }) {
-  const claim = translatedStringFromObject(textContent?.product?.claim);
+  const claim = useTranslatedStringFromObject(textContent?.product?.claim);
 
   return (
     <StyledTopBar role="banner">
