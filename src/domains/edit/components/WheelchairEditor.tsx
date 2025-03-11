@@ -2,17 +2,17 @@ import { Dialog, Flex } from "@radix-ui/themes";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { t } from "ttag";
+import { StyledReportView } from "~/components/CombinedFeaturePanel/ReportView";
+import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import { unknownCategory } from "~/domains/categories/functions/cache";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import Icon from "../../shared/Icon";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
-import { useFeatureLabel } from "../utils/useFeatureLabel";
+import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
+import Icon from "../../../components/shared/Icon";
 import type { BaseEditorProps } from "./BaseEditor";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
@@ -51,6 +51,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content
         aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
+        data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <StyledReportView className="_view">

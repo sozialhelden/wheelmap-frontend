@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { FeaturePanelContext } from "../../../../components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "../../../../components/CombinedFeaturePanel/PlaceLayout";
-import { ToiletsWheelchairEditor } from "../../../../components/CombinedFeaturePanel/editors/ToiletsWheelchairEditor";
+import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "~/components/CombinedFeaturePanel/PlaceLayout";
+import { ToiletsWheelchairEditor } from "~/domains/edit/components/ToiletsWheelchairEditor";
 
 function ToiletAccessibility() {
   const { features } = useContext(FeaturePanelContext);

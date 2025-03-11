@@ -1,0 +1,64 @@
+{
+  "type": "FeatureCollection",
+  "featureCount": 1,
+  "totalFeatureCount": 1,
+  "related": {
+    "licenses": {
+      "ns5HmC6xFrakRdoJ5": {
+        "_id": "ns5HmC6xFrakRdoJ5",
+        "name": "CC-BY 4.0 International",
+        "shortName": "CC-BY 4.0 Int.",
+        "websiteURL": "https://creativecommons.org/licenses/by/4.0/",
+        "fullTextURL": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "consideredAs": "CCBY",
+        "organizationId": "6ZhFGZ97omm6uKyfn"
+      }
+    },
+    "images": {}
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "coordinates": [13.366371, 52.524975],
+        "type": "Point"
+      },
+      "properties": {
+        "_id": "23DmWQ58EpHN3Ccr6",
+        "sourceId": "sPSreQtMg8Soy5TDr",
+        "surveyResultId": "SyxmKLka5eY28QPjD",
+        "accessibility": {
+          "entrances": [
+            {
+              "properties": {
+                "isLevel": true
+              }
+            }
+          ],
+          "hasInductionLoop": false,
+          "media": [null, null, null],
+          "wheelchairPlaces": {
+            "wheelchairUserCapacity": 3
+          }
+        },
+        "address": {
+          "levelName": {
+            "de": "7. Obergeschoss"
+          }
+        },
+        "category": "ngo",
+        "description": {
+          "de": "Anmeldung erforderlich"
+        },
+        "lastUpdate": "2022-11-16T12:56:05.475Z",
+        "name": {
+          "de": "Sozialhelden e.V."
+        },
+        "organizationId": "LPb4y2ri7b6fLxLFa",
+        "parentPlaceInfoId": "KrYHjKBHNvEWGQK7D",
+        "sameAs": ["https://openstreetmap.org/node/4544823443"],
+        "surveyProjectId": "XFQwXSmTc5KGn29k6"
+      }
+    }
+  ]
+}

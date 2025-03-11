@@ -1,0 +1,40 @@
+{
+  "type": "Feature",
+  "_id": "node/4544823443",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [13.367068, 52.525489]
+  },
+  "centroid": {
+    "type": "Point",
+    "coordinates": [13.367068, 52.525489]
+  },
+  "properties": {
+    "icon": "ngo",
+    "name": "Sozialhelden e.V.",
+    "email": "info@sozialhelden.de",
+    "level": 7,
+    "office": "ngo",
+    "smoking": "no",
+    "website": "https://sozialhelden.de",
+    "wikidata": "Q2305714",
+    "addr:city": "Berlin",
+    "wikipedia": "en:Sozialhelden",
+    "wheelchair": "yes",
+    "addr:street": "Invalidenstraße",
+    "addr:country": "DE",
+    "addr:postcode": 10557,
+    "tactile_paving": "yes",
+    "addr:housenumber": 65,
+    "wikimedia_commons": "Category:Sozialhelden",
+    "toilets:wheelchair": "no",
+    "wheelchair:description": "Rollstuhlgerechtes Gebäude, rollstuhlgerechte Kantine, geräumige weitere WCs (mit 'genderneutral'-Symbol gekennzeichnet).",
+    "wheelchair:description:ar": "مبنى يمكن الوصول إليه بواسطة الكراسي المتحركة، ومقصف يمكن الوصول إليه بواسطة الكراسي المتحركة، ومراحيض إضافية واسعة (مميزة برمز \"محايد جنسانيا\").",
+    "wheelchair:description:de": "Rollstuhlgerechtes Gebäude, rollstuhlgerechte Kantine, geräumige weitere WCs (mit 'genderneutral'-Symbol gekennzeichnet).",
+    "wheelchair:description:en": "Wheelchair-accessible building, wheelchair-accessible canteen, spacious additional toilets (marked with a 'gender-neutral' symbol).",
+    "wheelchair:description:es": "Edificio accesible para sillas de ruedas, comedor accesible para sillas de ruedas, baños adicionales espaciosos (marcados con un símbolo de género neutral)",
+    "wheelchair:description:fr": "Bâtiment en fauteuil roulant, cantine adaptée aux fauteuils roulants, autres toilettes spacieuses (marquées de symbole «neutre»).",
+    "wheelchair:description:pt": "Edifício acessível a cadeiras de rodas, cantina acessível a cadeiras de rodas, sanitários adicionais espaçosos (marcados com um símbolo de “neutro em termos de género”).",
+    "wheelchair:description:zh-Hans": "适合轮椅使用者的建筑、适合轮椅使用者的食堂、宽敞的额外卫生间（标有“性别中立”符号）。"
+  }
+}
