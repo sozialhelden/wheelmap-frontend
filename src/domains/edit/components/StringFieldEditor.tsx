@@ -10,13 +10,13 @@ import {
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { t } from "ttag";
-import {
-  getAvailableLangTags,
-  normalizeAndExtractLanguageTagsIfPresent,
-} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import SearchableSelect from "~/components/shared/SearchableSelect";
 import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent,
+} from "~/lib/util/TagKeyUtils";
 import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
