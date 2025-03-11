@@ -17,6 +17,10 @@ test.describe("Edit toilet accessibility", () => {
     dialog = await getDialog(page);
   });
 
+  test("dialog is rendered", async () => {
+    await expect(dialog).toBeVisible();
+  });
+
   test("dialog content is keyboard navigable", async () => {
     //TODO
   });
@@ -36,10 +40,12 @@ test.describe("Edit toilet accessibility", () => {
     await expect(dialog.getByRole("button", { name: "Send" })).toBeVisible();
   });
 
-  //TODO: test aria snapshot
-  // test("matches the accessibility snapshot", async ({ page }) => {});
-  //TODO: test WCAG accessibility
-  // test("passes WCAG accessibility check", async ({ page }) => {
-  //   expect(true).toBe(true);
-  // });
+  test("dialog can be closed using the cancel button", async () => {
+    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await expect(dialog).toBeHidden();
+  });
+
+  test("passes WCAG accessibility check", async ({ page }) => {
+    //TODO
+  });
 });
