@@ -1,4 +1,5 @@
 import { type Locator, expect, test } from "@playwright/test";
+import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getDialog,
   getEditButton,
@@ -19,40 +20,44 @@ test.describe("Edit wheelchair description", () => {
     dialog = await getDialog(page);
   });
 
+  test("dialog is rendered", async () => {
+    await expect(dialog).toBeVisible();
+  });
+
   test("dialog has textarea and buttons", async () => {
     await expect(dialog.getByRole("textbox")).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Cancel" })).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
   });
 
+  test("dialog does not have select box when editing current description", async () => {
+    await expect(dialog.getByRole("combobox")).toBeHidden();
+  });
+
+  test("dialog content is key board navigable", async () => {
+    //TODO
+  });
+
   test("text area contains description", async () => {
-    await expect(dialog.getByRole("textbox")).toBeVisible();
-    await expect(dialog.getByRole("button", { name: "Cancel" })).toBeVisible();
-    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
+    const mockedDefaultDescription =
+      node4544823443Mock.properties["wheelchair:description"];
+    const textArea = dialog.getByRole("textbox");
+    await expect(textArea).toHaveText(mockedDefaultDescription);
   });
 
   test("confirm button changes to send after input changes", async () => {
-    const textArea = dialog.getByRole("textbox");
-    const confirmButton = dialog.getByRole("button", { name: "Confirm" });
+    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
 
-    await expect(confirmButton).toBeVisible();
-    await expect(confirmButton).toHaveText("Confirm");
-
-    await textArea.fill("New text input");
+    await dialog.getByRole("textbox").fill("New text input");
     await expect(dialog.getByRole("button", { name: "Send" })).toBeVisible();
   });
 
-  //TODO: test aria snapshot
-  // test("matches the accessibility snapshot", async ({ page }) => {});
-  //TODO: test WCAG accessibility
-  // test("passes WCAG accessibility check", async ({ page }) => {
-  //   expect(true).toBe(true);
-  // });
-
-  test("can be closed using the cancel button", async () => {
-    const cancelButton = dialog.getByRole("button", { name: "Cancel" });
-    await expect(cancelButton).toBeVisible();
-    await cancelButton.click();
+  test("dialog can be closed using the cancel button", async () => {
+    await dialog.getByRole("button", { name: "Cancel" }).click();
     await expect(dialog).toBeHidden();
+  });
+
+  test("passes WCAG accessibility check", async ({ page }) => {
+    //TODO
   });
 });
