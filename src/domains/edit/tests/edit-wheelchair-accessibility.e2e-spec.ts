@@ -13,25 +13,40 @@ test.describe("Edit wheelchair accessibility", () => {
     await page.goto("/");
     await skipOnboarding(page);
     await mockPlaceInfo(page);
-    await getEditButton(page, "wheelchair:description").click();
+    await getEditButton(page, "wheelchair").click();
     dialog = await getDialog(page);
+  });
+
+  test("dialog is rendered", async () => {
+    await expect(dialog).toBeVisible();
   });
 
   test("dialog content is key board navigable", async () => {
     //TODO
   });
 
-  test("confirm button changes to send after input changes", async () => {
-    //TODO:
+  test("confirm button changes to send after input changes", async ({
+    page,
+  }) => {
     await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
-    // select a new radio button
+    const yesRadio = page.locator("form svg").first();
+    const limitedRadio = page.locator("form svg").nth(2);
+    const noRadio = page.locator("form svg").nth(3);
+
+    await expect(yesRadio).toBeVisible();
+    await expect(limitedRadio).toBeVisible();
+    await expect(noRadio).toBeVisible();
+
+    await noRadio.click();
     await expect(dialog.getByRole("button", { name: "Send" })).toBeVisible();
   });
 
-  //TODO: test aria snapshot
-  // test("matches the accessibility snapshot", async ({ page }) => {});
-  //TODO: test WCAG accessibility
-  // test("passes WCAG accessibility check", async ({ page }) => {
-  //   expect(true).toBe(true);
-  // });
+  test("dialog can be closed using the cancel button", async () => {
+    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await expect(dialog).toBeHidden();
+  });
+
+  test("passes WCAG accessibility check", async ({ page }) => {
+    //TODO
+  });
 });

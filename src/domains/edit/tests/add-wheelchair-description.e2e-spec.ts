@@ -1,4 +1,5 @@
 import { type Locator, expect, test } from "@playwright/test";
+import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getDialog,
   getEditButton,
@@ -19,23 +20,55 @@ test.describe("Add wheelchair description in new language", () => {
     dialog = await getDialog(page);
   });
 
+  test("dialog is rendered", async () => {
+    await expect(dialog).toBeVisible();
+  });
+
   test("dialog has select box when adding a new language", async () => {
     await expect(dialog.getByRole("combobox")).toBeVisible();
   });
 
-  test("text area is hidden before language is selected", async () => {
-    const combobox = dialog.getByRole("combobox");
+  test("dialog content is key board navigable", async () => {
+    //TODO
+  });
+
+  test("text area is hidden before language is selected", async ({ page }) => {
     const textArea = dialog.getByRole("textbox");
     await expect(textArea).toBeHidden();
 
-    await combobox.click();
-    //TODO: await expect(textArea).toBeVisible();
+    await dialog.getByRole("combobox").click();
+    await page.locator("text=English").click();
+    await expect(textArea).toBeVisible();
   });
 
-  //TODO: test aria snapshot
-  // test("matches the accessibility snapshot", async ({ page }) => {});
-  //TODO: test WCAG accessibility
-  // test("passes WCAG accessibility check", async ({ page }) => {
-  //   expect(true).toBe(true);
-  // });
+  test("correct description is displayed when another language is selected", async ({
+    page,
+  }) => {
+    const mockedEnglishDescription =
+      node4544823443Mock.properties["wheelchair:description:en"];
+    const mockedPortugeseDescription =
+      node4544823443Mock.properties["wheelchair:description:pt"];
+
+    const comboboxTrigger = dialog.getByRole("combobox");
+    const textArea = dialog.getByRole("textbox");
+
+    await comboboxTrigger.click();
+    await page.locator("text=/^English$/ ").click();
+    await expect(comboboxTrigger).toHaveText("English");
+    await expect(textArea).toHaveText(mockedEnglishDescription);
+
+    await comboboxTrigger.click();
+    await page.locator("text=/^Portuguese$/").click();
+    await expect(comboboxTrigger).toHaveText("Portuguese");
+    await expect(textArea).toHaveText(mockedPortugeseDescription);
+  });
+
+  test("dialog can be closed using the cancel button", async () => {
+    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await expect(dialog).toBeHidden();
+  });
+
+  test("passes WCAG accessibility check", async ({ page }) => {
+    //TODO
+  });
 });
