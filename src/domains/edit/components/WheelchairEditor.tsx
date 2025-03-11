@@ -51,6 +51,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content
         aria-label={t`Toilet Accessibility Editor`}
         aria-describedby="dialog-description"
+        data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <StyledReportView className="_view">
