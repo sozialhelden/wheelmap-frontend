@@ -1,4 +1,3 @@
-import { getFeatureId } from "../../model/ac/Feature";
 import { getOSMType } from "../../model/osm/generateOsmUrls";
 
 export default function getOsmParametersFromFeature(feature, tagKey) {
