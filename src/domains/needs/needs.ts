@@ -10,7 +10,7 @@ import { FullyWheelchairAccessibleToiletIcon } from "~/domains/needs/components/
 // everything else including types will be auto-generated based on it.
 export const settings = {
   mobility: {
-    title: t("Mobility"),
+    title: () => t("Mobility"),
     legacyQueryParamName: "wheelchair",
     needs: {
       "no-need": {
@@ -55,7 +55,7 @@ export const settings = {
     },
   },
   toilet: {
-    title: t("Toilets"),
+    title: () => t("Toilets"),
     legacyQueryParamName: "toilet",
     needs: {
       "no-need": {
@@ -110,7 +110,7 @@ export type Needs = {
 const validatedSettings: Record<
   string,
   {
-    title: string;
+    title: () => string;
     legacyQueryParamName?: string;
     needs: Record<string, NeedProperties>;
   }
