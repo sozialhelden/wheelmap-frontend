@@ -1,9 +1,9 @@
 import { Flex, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import intersperse from "intersperse";
 import { DateTime } from "luxon";
 import opening_hours from "opening_hours";
 import * as React from "react";
-import { t } from "ttag";
 import FeatureContext from "~/components/CombinedFeaturePanel/components/FeatureContext";
 import { useAdminAreas } from "~/lib/fetchers/osm-api/fetchAdminAreas";
 import {

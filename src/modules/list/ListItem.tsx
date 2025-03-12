@@ -1,7 +1,7 @@
 import { Flex } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useState } from "react";
 import styled from "styled-components";
-import { t } from "ttag";
 import AccessibilityCloudEntityImage from "~/components/AccessibilityCloudEntityImage";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
