@@ -1,9 +1,9 @@
 import { Flex, Spinner, Text } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { useEffect, useState } from "react";
 import type { LngLatBounds } from "react-map-gl/mapbox";
 import styled from "styled-components";
 import useSWR from "swr";
-import { t } from "ttag";
 import {
   makeFilterById,
   useMapFilterContext,
