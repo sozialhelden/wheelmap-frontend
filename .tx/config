@@ -1,9 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[wheelmap-react-frontend.translationspot]
-file_filter = public/i18n/<lang>.txt
-source_file = public/i18n/translations.pot
-source_lang = en
-type = PO
-
