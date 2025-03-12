@@ -49,13 +49,6 @@ const configuration = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  // Disabling file-system routing to always use custom server.
-  // useFileSystemPublicRoutes: false,
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   compiler: {
     styledComponents: true,
   },

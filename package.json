@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "homepage": "https://wheelmap.org",
   "repository": "https://github.com/sozialhelden/wheelmap-frontend",
-  "main": "lib/App.js",
+  "private": true,
   "license": "MIT",
   "dependencies": {
     "@blueprintjs/core": "^5.16.4",
@@ -21,7 +21,6 @@
     "d3-interpolate": "^3.0.1",
     "d3-scale": "^4.0.2",
     "dotenv": "^16.4.7",
-    "full-icu": "^1.5.0",
     "geojson": "^0.5.0",
     "humanize-string": "^2.1.0",
     "inflection": "^2.0.1",
@@ -49,7 +48,6 @@
     "styled-components": "^5.3.11",
     "svgo": "^3.3.2",
     "swr": "^2.3.1",
-    "ttag": "^1.8.7",
     "ua-parser-js": "^0.7.40",
     "uuid": "^8.3.2",
     "webpack": "^5.97.1",
@@ -87,32 +85,19 @@
     "@types/ua-parser-js": "^0.7.39",
     "@types/uuid": "^3.4.13",
     "browserslist": "^4.24.4",
-    "browserstack-local": "^1.5.6",
-    "copyfiles": "^2.4.1",
     "dotenv-cli": "^8.0.0",
     "env-cmd": "^10.1.0",
     "expect": "^26.6.2",
-    "express": "^4.21.2",
     "husky": "^9.1.7",
     "next-transpile-modules": "^10.0.1",
-    "npm-force-resolutions": "0.0.3",
-    "npmignore": "^0.2.0",
-    "react-test-renderer": "^18.3.1",
     "rimraf": "^2.7.1",
-    "source-map-explorer": "^2.5.3",
-    "ttag-cli": "^1.10.18",
     "typescript": "^5.7.3"
   },
   "scripts": {
     "dev": "next dev",
-    "lint": "next lint",
-    "build": "rm -rf dist/ && rm -rf .next/ && rm -rf src/.next/ && npm run copy-files && NEXT_TELEMETRY_DISABLED=1 next build src && tsc -p src/server/ --outDir dist/ --noEmit false && mv src/.next .",
-    "start": "pwd; NODE_ENV=production NODE_OPTIONS=--icu-data-dir=node_modules/full-icu next start",
-    "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist && copyfiles ./public ./dist",
-    "analyze": "source-map-explorer build/static/js/main.*",
+    "build": "rimraf dist/ && rimraf .next/ && NEXT_TELEMETRY_DISABLED=1 next build",
+    "start": "NODE_ENV=production next start",
     "test": "playwright test",
-    "version": "echo TODO: Add version syncing to bundle configurations for native apps + git commit -am 'Version bump' to package.json",
-    "server": "server",
     "transifex:push": "rm -rf src/.next/ && npx env-cmd -- txjs-cli push ./src --token=$NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN --secret=$TRANSIFEX_NATIVE_SECRET",
     "transifex:install": "npx api install \"@transifex/v1.0#a442qlw7q5q6u\"",
     "transifex:upload": "npx env-cmd -- npx tsx scripts/upload-xliff.ts",
@@ -125,8 +110,6 @@
     "compile-main-categories": "basedir=src/components/icons/mainCategories npm run compile-svg-directory",
     "compile-svgs": "npm run compile-main-categories && npm run compile-action-icons && npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
-    "format": "eslint \"src/**/*.js\" --write",
-    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
     "docs:build": "typedoc src --options typedoc.json --out dist/docs/typescript --json dist/typedoc-output.json && npx esrun ./tools/generate-overview.ts",
     "docs:install": "docker pull squidfunk/mkdocs-material",
     "prepare": "husky"
@@ -148,10 +131,6 @@
     "> 0.25%",
     "not dead"
   ],
-  "resolutions": {
-    "https-proxy-agent": "^3.0.0",
-    "styled-components": "^6.1.11"
-  },
   "optionalDependencies": {
     "@biomejs/cli-darwin-arm64": "^1.9.4"
   }
