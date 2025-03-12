@@ -67,11 +67,13 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
       $showDivider={Boolean(showDivider)}
     >
       <Flex justify="between" align="center" mb="2">
-        <Heading id={headingId}>{title}</Heading>
+        <Heading id={headingId}>{title()}</Heading>
         {hasHelpText && (
           <Flex as="span" justify="center" width="40px" aria-hidden>
             <IconButton
-              aria-label={t("Show more information about {title}", { title })}
+              aria-label={t("Show more information about {title}", {
+                title: title(),
+              })}
               variant="soft"
               highContrast={true}
               color="gray"
