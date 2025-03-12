@@ -50,7 +50,7 @@ function getDimensions({
   return { width, height };
 }
 
-export default function Image({
+export default function AccessibilityCloudEntityImage({
   image,
   width: requestedWidth,
   height: requestedHeight,

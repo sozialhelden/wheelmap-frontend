@@ -2,6 +2,7 @@ import { Flex } from "@radix-ui/themes";
 import { useState } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
+import AccessibilityCloudEntityImage from "~/components/AccessibilityCloudEntityImage";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import WikidataEntityImage from "~/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
@@ -13,6 +14,7 @@ import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAc
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 import type { OSMId } from "~/lib/typing/brands/osmIds";
 import OpeningHoursValueListItem from "~/modules/list/OpeningHoursListItem";
+import useImage from "~/modules/list/useImage";
 import { FullyWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
 import { NoDataIcon } from "~/modules/needs/components/icons/mobility/NoDataIcon";
 import { NotWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
@@ -66,6 +68,10 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
   const { placeName, categoryName, ariaLabel } = useFeatureLabel({
     feature,
     languageTags,
+  });
+
+  const { wikidataImageUrl, acImage } = useImage({
+    feature: feature,
   });
 
   const wheelchair = isWheelchairAccessible(feature);
@@ -129,7 +135,15 @@ export function ListItem({ feature }: { feature: AnyFeature }) {
           {toilet === "yes" && <FullyWheelchairAccessibleToiletIcon />}
         </Flex>
       </TextContainer>
-      <WikidataImage feature={feature} verb="P18" />
+      {wikidataImageUrl && <WikidataImage url={wikidataImageUrl} />}
+      {acImage && (
+        <AccessibilityCloudEntityImage
+          image={acImage}
+          width={60}
+          height={60}
+          alt=""
+        />
+      )}
     </Container>
   );
 }

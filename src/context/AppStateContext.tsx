@@ -17,7 +17,7 @@ export function AppStateContext({ children }) {
         <Theme
           accentColor="indigo"
           grayColor="sand"
-          radius="small"
+          radius="medium"
           scaling="100%"
           panelBackground="solid"
         >
