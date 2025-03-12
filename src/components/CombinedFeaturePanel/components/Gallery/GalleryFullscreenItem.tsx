@@ -9,10 +9,10 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
-import { type FC, useContext, useMemo } from "react";
+import { type FC, useContext } from "react";
 import styled from "styled-components";
+import AccessibilityCloudEntityImage from "~/components/AccessibilityCloudEntityImage";
 import GalleryReportPopover from "~/components/CombinedFeaturePanel/components/Gallery/GalleryReportPopover";
-import Image from "~/components/Image";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import { GalleryContext } from "./Gallery";
 
@@ -95,7 +95,7 @@ export const GalleryFullscreenItem: FC<{
             $height={image.dimensions.height}
             $width={image.dimensions.width}
           >
-            <Image
+            <AccessibilityCloudEntityImage
               image={image}
               key={image._id}
               width={1600}

@@ -1,11 +1,11 @@
 import useSWR from "swr";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import {
   type AnyFeature,
   type OSMFeatureCollection,
   isOSMFeature,
 } from "../../model/geo/AnyFeature";
 import { fetchOSMFeatureCollection } from "./fetchOSMFeatureCollection";
-import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 // Example: http://127.0.0.1:3001/api/v1/buildings.geojson?next=toilets&lon=13.389506863843508&lat=52.51441791024004
 
@@ -34,7 +34,7 @@ export function useNearbyFeatures(
   const osmFeature = feature?.["@type"] === "osm:Feature" ? feature : undefined;
   const acFeature = feature?.["@type"] === "ac:PlaceInfo" ? feature : undefined;
 
-  const { baseUrl } = useInhouseOSMAPI({ cached: true });
+  const { baseUrl } = useOsmApi({ cached: true });
   const {
     coordinates: [longitude, latitude],
   } = osmFeature?.centroid ||

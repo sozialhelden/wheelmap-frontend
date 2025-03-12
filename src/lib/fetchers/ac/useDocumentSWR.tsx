@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import useSWR, { type SWRResponse } from "swr";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 import type {
   AccessibilityCloudRDFType,
   AccessibilityCloudTypeMapping,
 } from "../../model/typing/AccessibilityCloudTypeMapping";
 import type ResourceError from "../ResourceError";
 import { fetchDocumentWithTypeTag } from "./fetchDocument";
-import useAccessibilityCloudAPI from "./useAccessibilityCloudAPI";
 
 type Args<RDFTypeName> = {
   /** The RDF type of the document to fetch {@link AccessibilityCloudRDFType}. */
@@ -61,7 +61,7 @@ export default function useDocumentSWR<
   DataType & ExtraAPIResultFields,
   ResourceError
 > {
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached });
+  const { baseUrl, appToken } = useAccessibilityCloud({ cached });
   const paramsWithAppToken = new URLSearchParams(params);
   if (!appToken) {
     throw new Error(

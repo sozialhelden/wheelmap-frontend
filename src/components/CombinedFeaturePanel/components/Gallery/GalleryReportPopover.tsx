@@ -13,8 +13,8 @@ import { GalleryContext } from "~/components/CombinedFeaturePanel/components/Gal
 import { ErrorScreen } from "~/components/shared/ErrorScreen";
 import { SuccessScreen } from "~/components/shared/SuccessScreen";
 import postImageReport from "~/lib/fetchers/ac/refactor-this/postImageReport";
-import useAccessibilityCloudAPI from "~/lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
+import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 
 type ReportType = "wrong-place" | "outdated" | "offensive" | "other";
 
@@ -50,7 +50,7 @@ export default function GalleryReportPopover({
   image: AccessibilityCloudImage;
 }) {
   const api = useContext(GalleryContext);
-  const { baseUrl, appToken } = useAccessibilityCloudAPI({ cached: true });
+  const { baseUrl, appToken } = useAccessibilityCloud({ cached: true });
 
   const defaultValue = Object.keys(reportReasons)[0];
   const [isSending, setIsSending] = useState(false);

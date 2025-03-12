@@ -1,5 +1,6 @@
 import { uniqBy } from "lodash";
 import React from "react";
+import { useWikidataImage } from "~/lib/fetchers/wikidata/useWikidataImage";
 import type OSMFeature from "../../../../lib/model/osm/OSMFeature";
 import { getWikipediaLemma } from "../../../../lib/model/osm/getWikipediaLemma";
 import WikipediaLink from "../WikipediaLink";
@@ -39,20 +40,21 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
     [feature],
   );
 
+  const imageUrl = useWikidataImage({ feature: feature, verb: "P18" });
+
   return (
     <>
       <WikipediaLink feature={feature}>
         <WikidataEntityImage
-          feature={feature}
+          url={imageUrl}
           style={imageStyle({ prefix: "subject" })}
-          verb="P18"
         />
       </WikipediaLink>
 
       {links.map((link) => (
         <WikipediaLink feature={feature} prefix={link.prefix} key={link.prefix}>
           <WikidataEntityImage
-            feature={feature}
+            url={imageUrl}
             style={imageStyle(link)}
             {...link}
           />
