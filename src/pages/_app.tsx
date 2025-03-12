@@ -68,15 +68,15 @@ export default function MyApp(
       <Head />
       <SessionProvider session={session}>
         <EnvContextProvider environmentVariables={environmentVariables}>
-          <HostnameContextProvider hostname={hostname}>
-            <UserAgentContextProvider userAgentString={userAgentString}>
-              <CountryContext.Provider value={countryCode}>
-                <LanguageCodeContextProvider languageTags={languageTags}>
+          <LanguageCodeContextProvider languageTags={languageTags}>
+            <HostnameContextProvider hostname={hostname}>
+              <UserAgentContextProvider userAgentString={userAgentString}>
+                <CountryContext.Provider value={countryCode}>
                   <AppStateContext>{getLayout(<Component />)}</AppStateContext>
-                </LanguageCodeContextProvider>
-              </CountryContext.Provider>
-            </UserAgentContextProvider>
-          </HostnameContextProvider>
+                </CountryContext.Provider>
+              </UserAgentContextProvider>
+            </HostnameContextProvider>
+          </LanguageCodeContextProvider>
         </EnvContextProvider>
       </SessionProvider>
     </React.StrictMode>
