@@ -88,7 +88,7 @@ export default function MapLayout({
             <LoadableMapView width={width} height={height} key="map" />
             <BlurLayer active={blur} style={{ zIndex: 1000 }} />
             <div style={{ zIndex: 2000 }}>{children}</div>
-            <StyledToastContainer position="bottom-center" stacked />
+            {/*<StyledToastContainer position="bottom-center" stacked />*/}
           </main>
         </GlobalMapContextProvider>
       </MapFilterContextProvider>

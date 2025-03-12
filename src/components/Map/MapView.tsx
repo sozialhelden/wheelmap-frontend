@@ -209,7 +209,7 @@ export default function MapView(props: IProps) {
           {mapLoaded && (
             <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
           )}
-          {mapLoaded && <AcPoiLayers />}
+          {/*{mapLoaded && <AcPoiLayers />}*/}
           <GeolocateButton />
           <NavigationControl
             position="bottom-right"
