@@ -22,7 +22,7 @@
 * [ ] Refactoring
   * [x] url und coordinates in funktionen auslagern
   * [ ] Opening Hours: Komplexe Öffnungszeiten handlen. "Wahrscheinlich offen" sollte checken, ob der nächste Change am 
-  * selben Tag stattfindet oder nicht. Saisonale Öffnungszeiten: Einige Orte sind evtl. saisonal geschlossen. "Next Change" sollte auf Monatsebene abgeglichen werden.
+selben Tag stattfindet oder nicht. Saisonale Öffnungszeiten: Einige Orte sind evtl. saisonal geschlossen. "Next Change" sollte auf Monatsebene abgeglichen werden.
   * [ ] Der Opening-Hours-Komponenten Code ist gedoppelt
   * [ ] Die Lokalisierung in der OH-Komponente sollte den Kontext benutzen
   * [ ] Die WikidaraEntityImage Komponente evtl in einen Hook und eine Renderfunction splitten
