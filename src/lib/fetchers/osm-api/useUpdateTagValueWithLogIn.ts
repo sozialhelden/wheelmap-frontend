@@ -45,7 +45,6 @@ export default function useUpdateTagValueWithLogInCallback({
       !osmType ||
       !osmId
     ) {
-      // changes will not be visible
       postErrorMessage();
       throw new Error("Missing or undefined parameters.");
     }
@@ -69,16 +68,13 @@ export default function useUpdateTagValueWithLogInCallback({
         currentOSMObjectOnServer,
       });
     } catch (error) {
-      /* changes will not be visible */
       postErrorMessage();
       throw new Error(error);
     }
 
-    /* changes will be visible after import from osm (once per hour) */
     postSuccessMessage();
 
     try {
-      /* this gets stuck when the imposm process is running at the same time */
       await callBackendToUpdateInhouseDb({
         baseUrl: inhouseBaseUrl,
         osmType,

@@ -103,8 +103,6 @@ export const AutoEditor = ({
     tagName: finalTagName,
     newTagValue,
     currentOSMObjectOnServer: currentOSMObjectOnServer.data,
-    /* it would be more elegant to handle success or failure cases outside this hook, but in case the request to inhouse db
-    gets stuck, the entire function does not return and the user will not get any feedback for a while */
     postSuccessMessage: postSuccessMessage,
     postErrorMessage: postErrorMessage,
   });
@@ -126,8 +124,6 @@ export const AutoEditor = ({
         osmId: osmId,
         tagName: finalTagName,
         newTagValue: newTagValue,
-        /* it would be more elegant to handle success or failure cases outside this function, but in case the request to inhouse db
-        gets stuck, the entire function does not return and the user will not get any feedback for a while */
         postSuccessMessage: postSuccessMessage,
         postErrorMessage: postErrorMessage,
       });

@@ -18,17 +18,12 @@ export async function updateTagValueNoLogIn({
   postErrorMessage?: () => void;
 }) {
   if (!newTagValue || !osmType || !osmId) {
-    // if the request cannot be made at all, the user gets an error toast
     postErrorMessage?.();
     throw new Error("Missing or undefined parameters.");
   }
 
   log.log("makeChangeRequestToApi", osmId, tagName, newTagValue);
 
-  // user gets success message regardless of actual success
-  // problem: the call to osm backend happens in the api
-  // if there is an error in the osm route, the user can not be notified in the frontend
-  // and will falsely think the edit was successful
   postSuccessMessage();
 
   const response = await fetch(
