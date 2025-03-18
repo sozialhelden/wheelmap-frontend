@@ -9,7 +9,6 @@ import { StyledReportView } from "../../../../components/CombinedFeaturePanel/Re
 import FeatureNameHeader from "../../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "../../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import { useFeatureLabel } from "../../../../components/CombinedFeaturePanel/utils/useFeatureLabel";
-import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 
@@ -56,11 +55,7 @@ const makeEmailUri = (
 const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
   const userAgent = useUserAgent();
 
-  const languageTags = useCurrentLanguageTagStrings();
-  const { placeName, categoryName } = useFeatureLabel({
-    feature,
-    languageTags,
-  });
+  const { placeName, categoryName } = useFeatureLabel({ feature });
   const subject = reportSubject(placeName, categoryName);
   const body = reportBody(
     global?.window?.location.href,

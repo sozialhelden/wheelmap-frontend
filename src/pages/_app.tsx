@@ -1,5 +1,5 @@
 import { HotkeysProvider } from "@blueprintjs/core";
-import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
+import { type ILanguageSubtag, getTag } from "@sozialhelden/ietf-language-tags";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -35,6 +35,9 @@ import {
   getRequestUserAgentString,
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
+import { I18nContextProvider } from "~/modules/i18n/context/I18nContext";
+import type { LanguageTag } from "~/modules/i18n/i18n";
+import { getMostPreferableLanguageTag } from "~/modules/i18n/utils/language-tags";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -47,6 +50,7 @@ type AppPropsWithLayout = AppProps & {
 interface ExtraProps {
   userAgentString?: string;
   languageTags: ILanguageSubtag[];
+  languageTag: LanguageTag;
   countryCode?: string;
   environmentVariables: Record<string, string | undefined>;
   hostname: string;
@@ -60,6 +64,7 @@ export default function MyApp(
     userAgentString,
     session,
     languageTags,
+    languageTag,
     countryCode,
     environmentVariables,
     hostname,
@@ -92,15 +97,13 @@ export default function MyApp(
                           userAgentString={userAgentString}
                         >
                           <CountryContext.Provider value={countryCode}>
-                            <LanguageCodeContextProvider
-                              languageTags={languageTags}
-                            >
+                            <I18nContextProvider languageTag={languageTag}>
                               <NeedsContextProvider>
                                 <AppContextProvider>
                                   {getLayout(<Component />)}
                                 </AppContextProvider>
                               </NeedsContextProvider>
-                            </LanguageCodeContextProvider>
+                            </I18nContextProvider>
                           </CountryContext.Provider>
                         </UserAgentContextProvider>
                       </HostnameContextProvider>
@@ -136,6 +139,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const countryCode = queriedCountryCode || getRequestCountryCode(request);
   const userAgentString = getRequestUserAgentString(request);
   const languageTags = getRequestILanguageTags(request);
+  const languageTag = getMostPreferableLanguageTag(languageTags);
 
   // Needs to be server-side to enable runtime client configuration
   const environmentVariables: EnvironmentVariables = Object.fromEntries(
@@ -147,12 +151,13 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const pageProps: ExtraProps = {
     userAgentString,
     languageTags,
+    languageTag,
     countryCode,
     environmentVariables,
     hostname,
   };
 
-  setResponseLanguageHeaders(languageTags, response);
+  setResponseLanguageHeaders(languageTag, response);
 
   return { ...(await NextApp.getInitialProps(appContext)), pageProps };
 };

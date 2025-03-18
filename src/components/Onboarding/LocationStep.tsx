@@ -18,7 +18,7 @@ import {
   DenyLocationPermissionText,
   GrantLocationPermissionText,
   LocationStepPrimaryText,
-} from "./getProductName";
+} from "./useProductName";
 
 type Stage = "idle" | "acquiring" | "failed-not-exited";
 

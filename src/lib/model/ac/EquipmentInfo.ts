@@ -1,10 +1,6 @@
-import {
-  EquipmentInfo,
-  type EquipmentProperties,
-} from "@sozialhelden/a11yjson";
+import type { EquipmentProperties } from "@sozialhelden/a11yjson";
 import { t } from "@transifex/native";
 import type { FeatureCollection, Point } from "geojson";
-import { currentLocales } from "../../i18n/i18n";
 import type { YesNoLimitedUnknown, YesNoUnknown } from "./Feature";
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<
@@ -81,7 +77,8 @@ export function lastUpdateString({
     now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
   let dateString = lastUpdate.toLocaleDateString(
-    currentLocales.map((l) => l.string),
+    "en", // TODO: make this dynamic once this is used again
+    // currentLocales.map((l) => l.string),
     {
       weekday: "long",
       month: "long",
@@ -104,7 +101,8 @@ export function lastUpdateString({
     dateString = `${
       isToday ? today : yesterday
     }, ${lastUpdate.toLocaleTimeString(
-      currentLocales.map((l) => l.string),
+      "en", // TODO: make this dynamic once this is used again
+      // currentLocales.map((l) => l.string),
       {
         hour: "2-digit",
         minute: "2-digit",

@@ -1,17 +1,14 @@
 import type { ServerResponse } from "node:http";
-import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
+import type { LanguageTag } from "~/modules/i18n/i18n";
 
 export function setResponseLanguageHeaders(
-  languageTags: ILanguageSubtag[],
+  locale: LanguageTag,
   response?: ServerResponse,
 ): void {
-  if (!response || languageTags.length === 0) {
+  if (!response || !locale) {
     return;
   }
   response.setHeader("Vary", "X-Lang, Content-Language");
-  response.setHeader("X-Lang", languageTags[0].langtag);
-  response.setHeader(
-    "Content-Language",
-    languageTags.reduce((acc, tag) => `${acc}, ${tag.langTag}`, ""),
-  );
+  response.setHeader("X-Lang", locale);
+  response.setHeader("Content-Language", locale);
 }
