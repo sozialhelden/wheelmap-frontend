@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import { fallbackLanguageTag } from "~/modules/i18n/i18n";
-import { getExtendedFuzzyLocales } from "~/modules/i18n/utils/locales";
+import { getFuzzilyExtendedLocales } from "~/modules/i18n/utils/locales";
 import type IAccessibilityAttribute from "../../model/ac/IAccessibilityAttribute";
 import useCollectionSWR from "./useCollectionSWR";
 
@@ -13,8 +13,8 @@ export function generateSearchParams() {
 
   const { languageTag } = useI18nContext();
   const preferredLocales = [
-    ...getExtendedFuzzyLocales(languageTag),
-    ...getExtendedFuzzyLocales(fallbackLanguageTag),
+    ...getFuzzilyExtendedLocales(languageTag),
+    ...getFuzzilyExtendedLocales(fallbackLanguageTag),
   ];
 
   const localizedFields = preferredLocales.flatMap((l) => [
