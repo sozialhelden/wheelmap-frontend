@@ -13,23 +13,23 @@ import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect } from "react";
 import { AppContext } from "../../lib/context/AppContext";
-import { useTranslatedStringFromObject } from "../../lib/i18n/useTranslatedStringFromObject";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import {
   accessibilityColor as accessibilityColorName,
-  accessibilityDescription,
   accessibilityName,
+  useAccessibilityDescription,
 } from "../../lib/model/accessibility/accessibilityStrings";
+import { useTranslations } from "../../modules/i18n/hooks/useTranslations";
 import Icon from "../shared/Icon";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import VectorImage from "../shared/VectorImage";
-import { getProductName, selectHeaderMarkdownHTML } from "./getProductName";
+import { selectHeaderMarkdownHTML, useProductName } from "./useProductName";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose = () => {} }) => {
   const { clientSideConfiguration } = React.useContext(AppContext) ?? {};
-  const headerMarkdown = useTranslatedStringFromObject(
+  const headerMarkdown = useTranslations(
     clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
   );
 
@@ -48,7 +48,7 @@ export const OnboardingStep: React.FC<{
 
   // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
   const startButtonCaption = t("Okay, let’s go!");
-  const productName = getProductName(clientSideConfiguration);
+  const productName = useProductName(clientSideConfiguration);
 
   return (
     <>
@@ -135,7 +135,7 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
                 </Text>
                 {/* biome-ignore lint/a11y/useSemanticElements: See above */}
                 <Text as="p" color="gray" role="definition">
-                  {accessibilityDescription(value) ||
+                  {useAccessibilityDescription(value) ||
                     unknownAccessibilityIncentiveText}
                 </Text>
               </figcaption>

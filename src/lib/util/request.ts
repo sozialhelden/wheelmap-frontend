@@ -2,7 +2,8 @@ import type { IncomingMessage } from "node:http";
 import { parseLanguageTag } from "@sozialhelden/ietf-language-tags";
 import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import { type ParsedQuery, parseUrl } from "query-string";
-import { parseAcceptLanguageString } from "~/lib/i18n/parseAcceptLanguageString";
+
+import { parseAcceptLanguageString } from "~/modules/i18n/utils/headers";
 
 export function getRequestUrl(request?: IncomingMessage): string {
   return request?.url ?? window.location.href;

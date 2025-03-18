@@ -1,5 +1,4 @@
 import { type FC, useContext } from "react";
-import { useCurrentLanguageTagStrings } from "../../../../../lib/context/LanguageTagContext";
 import useAccessibilityAttributesIdMap from "../../../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import type IAccessibilityAttribute from "../../../../../lib/model/ac/IAccessibilityAttribute";
 import type { AnyFeature } from "../../../../../lib/model/geo/AnyFeature";
@@ -13,8 +12,8 @@ export const AccessibilityItems: FC<{ feature: AnyFeature }> = () => {
   const acAccessibility =
     context.features[0]?.feature?.acFeature?.properties.accessibility ?? {};
 
-  const languageTags = useCurrentLanguageTagStrings();
-  const { map } = useAccessibilityAttributesIdMap(languageTags);
+  const { map } = useAccessibilityAttributesIdMap();
+
   return (
     <AccessibilityDetailsTree
       accessibilityAttributes={

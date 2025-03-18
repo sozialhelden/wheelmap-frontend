@@ -5,9 +5,9 @@ import isPlainObject from "lodash/isPlainObject";
 import * as React from "react";
 import { type FC, Fragment } from "react";
 import styled from "styled-components";
-import { useTranslatedStringFromObject } from "../../../../../lib/i18n/useTranslatedStringFromObject";
 import type IAccessibilityAttribute from "../../../../../lib/model/ac/IAccessibilityAttribute";
 import { cx } from "../../../../../lib/util/cx";
+import { useTranslations } from "../../../../../modules/i18n/hooks/useTranslations";
 
 type AccessibilityAttributesMap = Map<
   string,
@@ -26,9 +26,7 @@ const formatName = (
 ): string => {
   const string =
     (accessibilityAttributes &&
-      useTranslatedStringFromObject(
-        accessibilityAttributes.get(name)?.label,
-      )) ||
+      useTranslations(accessibilityAttributes.get(name)?.label)) ||
     humanizeString(name);
   return string.replace(/^Rating /, "");
 };

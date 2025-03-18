@@ -4,7 +4,6 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import { unknownCategory } from "~/domains/categories/functions/cache";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
@@ -25,12 +24,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
     useState<boolean>(true);
 
-  const languageTags = useCurrentLanguageTagStrings();
-
-  const { category, categoryTagKeys } = useFeatureLabel({
-    feature,
-    languageTags,
-  });
+  const { category, categoryTagKeys } = useFeatureLabel({ feature });
 
   const current = isWheelchairAccessible(feature);
 

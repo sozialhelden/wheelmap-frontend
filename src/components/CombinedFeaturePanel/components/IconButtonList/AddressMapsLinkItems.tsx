@@ -1,11 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import useCategory from "../../../../domains/categories/hooks/useCategory";
-import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import { generateMapsUrl } from "../../../../lib/model/geo/generateMapsUrls";
-import { placeNameFor } from "../../../../lib/model/geo/placeNameFor";
+import { usePlaceNameFor } from "../../../../lib/model/geo/usePlaceNameFor";
 import { generateShowOnOsmUrl } from "../../../../lib/model/osm/generateOsmUrls";
 import openButtonCaption from "../../../../lib/openButtonCaption";
 import PlaceIcon from "../../../icons/actions/Place";
@@ -21,15 +20,11 @@ type Props = {
 export default function AddressMapsLinkItems(props: Props) {
   const { feature } = props;
   const userAgent = useUserAgent();
-  const languageTags = useCurrentLanguageTagStrings();
   const { category } = useCategory(feature);
 
   if (!feature || !feature.properties) return null;
 
-  const placeName = React.useMemo(
-    () => placeNameFor(feature, category, languageTags),
-    [feature, category, languageTags],
-  );
+  const placeName = usePlaceNameFor(feature, category);
 
   const openInMaps = React.useMemo(
     () => generateMapsUrl(userAgent, feature, placeName),

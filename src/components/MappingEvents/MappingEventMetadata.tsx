@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useAppContext } from "../../lib/context/AppContext";
 import useHostnameContext from "../../lib/context/HostnameContext";
-import { useTranslatedStringFromObject } from "../../lib/i18n/useTranslatedStringFromObject";
 import { buildFullImageUrl } from "../../lib/model/ac/Image";
 import type { MappingEvent } from "../../lib/model/ac/MappingEvent";
+import { useTranslations } from "../../modules/i18n/hooks/useTranslations";
 import FacebookMeta from "../App/FacebookMeta";
 import OpenGraph from "../App/OpenGraph";
 import TwitterMeta from "../App/TwitterMeta";
@@ -14,7 +14,7 @@ export function MappingEventMetadata({
   const { clientSideConfiguration } = useAppContext();
   const productName =
     clientSideConfiguration?.textContent?.product?.name || "Wheelmap";
-  const translatedProductName = useTranslatedStringFromObject(productName);
+  const translatedProductName = useTranslations(productName);
 
   const pageTitle = translatedProductName
     ? `${mappingEvent.name} - ${translatedProductName}`

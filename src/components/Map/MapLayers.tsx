@@ -3,7 +3,9 @@ import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import type { LayerProps } from "react-map-gl/mapbox";
-import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { fallbackLanguageTag } from "~/modules/i18n/i18n";
+import { getLanguage } from "~/modules/i18n/utils/language-tags";
 import { MapLayer } from "./MapLayer";
 import { filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
@@ -45,9 +47,9 @@ export const MapLayers = ({
 
   useHotkeys(hotkeys);
 
-  const languageTags = useCurrentLanguageTagStrings();
-  const primaryLanguage = languageTags[0];
-  const secondaryLanguage = languageTags[1] ?? "en";
+  const { language } = useI18nContext();
+  const primaryLanguage = language;
+  const secondaryLanguage = getLanguage(fallbackLanguageTag);
 
   const [layers, highlightLayers] = React.useMemo(() => {
     if (mapStyle.data?.layers) {

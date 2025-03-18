@@ -3,15 +3,15 @@ import { compact } from "lodash";
 import * as React from "react";
 import { getCategoryForFeature } from "~/domains/categories/functions/cache";
 import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import useCategory from "../../../domains/categories/hooks/useCategory";
 import useAccessibilityAttributesIdMap from "../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "../../../lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "../../../lib/fetchers/wikidata/useWikidataName";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
-import { placeNameFor } from "../../../lib/model/geo/placeNameFor";
+import { usePlaceNameFor } from "../../../lib/model/geo/usePlaceNameFor";
 import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
-import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
+import useEquipmentInfoDescription from "../../NodeToolbar/Equipment/useEquipmentInfoDescription";
 
 function getRoomNumberString(roomNumber: string) {
   return t("Room {roomNumber}", { roomNumber });
@@ -35,10 +35,8 @@ function getAcParentPlaceId(feature: AnyFeature) {
 
 export function useFeatureLabel({
   feature,
-  languageTags,
 }: {
   feature: AnyFeature;
-  languageTags: string[];
 }) {
   let categoryTagKeys: string[] = [];
   const { categorySynonymCache, category } = useCategory(feature);
@@ -62,38 +60,20 @@ export function useFeatureLabel({
   const osmFeature = feature["@type"] === "osm:Feature" ? feature : null;
   const parentPlaceName =
     parentPlaceInfo.data &&
-    placeNameFor(parentPlaceInfo.data, parentPlaceInfoCategory, languageTags);
+    usePlaceNameFor(parentPlaceInfo.data, parentPlaceInfoCategory);
 
   const address = acFeature?.properties.address;
   const addressObject = typeof address === "object" ? address : undefined;
-  const levelName =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
-      addressObject?.levelName,
-      languageTags,
-    );
+  const levelName = addressObject && useTranslations(addressObject?.levelName);
   const roomNumber =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
-      addressObject?.roomNumber,
-      languageTags,
-    );
-  const roomName =
-    addressObject &&
-    getLocalizedStringTranslationWithMultipleLocales(
-      addressObject?.room,
-      languageTags,
-    );
+    addressObject && useTranslations(addressObject?.roomNumber);
+  const roomName = addressObject && useTranslations(addressObject?.room);
   const localizableCategoryName =
     category && getLocalizableCategoryName(category);
   let categoryName =
-    localizableCategoryName &&
-    getLocalizedStringTranslationWithMultipleLocales(
-      localizableCategoryName,
-      languageTags,
-    );
+    localizableCategoryName && useTranslations(localizableCategoryName);
 
-  const { map: attributesById } = useAccessibilityAttributesIdMap(languageTags);
+  const { map: attributesById } = useAccessibilityAttributesIdMap();
 
   if (
     (!category || category?._id === "unknown") &&
@@ -102,7 +82,6 @@ export function useFeatureLabel({
     const { displayName, tagKeys } = getGenericCategoryDisplayName(
       feature,
       attributesById,
-      languageTags,
     );
     categoryName = displayName;
     categoryTagKeys = tagKeys;
@@ -120,14 +99,14 @@ export function useFeatureLabel({
     feature["@type"] === "ac:EquipmentInfo"
   ) {
     placeName =
-      getEquipmentInfoDescription(feature, "shortDescription") ||
+      useEquipmentInfoDescription(feature, "shortDescription") ||
       t("Unnamed facility");
-    ariaLabel = getEquipmentInfoDescription(feature, "longDescription");
+    ariaLabel = useEquipmentInfoDescription(feature, "longDescription");
   } else if (acFeature) {
-    placeName = placeNameFor(acFeature, category, languageTags) || roomName;
+    placeName = usePlaceNameFor(acFeature, category) || roomName;
     ariaLabel = compact([placeName, categoryName]).join(", ");
   } else if (osmFeature) {
-    placeName = placeNameFor(osmFeature, category, languageTags);
+    placeName = usePlaceNameFor(osmFeature, category);
     buildingNumber = osmFeature?.properties?.["building:number"]
       ? String(osmFeature?.properties?.["building:number"])
       : undefined;
@@ -146,10 +125,7 @@ export function useFeatureLabel({
   const localizedNameFromWikidata = useWikidataName(
     !placeName && wikidataEntityId,
   );
-  const nameFromWikidata = getLocalizedStringTranslationWithMultipleLocales(
-    localizedNameFromWikidata,
-    languageTags,
-  );
+  const nameFromWikidata = useTranslations(localizedNameFromWikidata);
   placeName ||= nameFromWikidata;
 
   const roomNumberString =

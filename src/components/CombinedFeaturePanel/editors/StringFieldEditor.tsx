@@ -16,7 +16,7 @@ import {
 } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
 import SearchableSelect from "~/components/shared/SearchableSelect";
-import { languageTagMapForStringFieldEditor } from "~/lib/i18n/languageTagsForStringFieldEditor";
+import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 import FeatureNameHeader from "../components/FeatureNameHeader";
 import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
@@ -152,7 +152,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
               <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect
                   selectPlaceholder={t("Languages")}
-                  items={languageTagMapForStringFieldEditor}
+                  items={supportedLanguageTagsOptions}
                   onSelect={(value) => {
                     setSelectedLanguage(value);
                     if (onLanguageChange) {
