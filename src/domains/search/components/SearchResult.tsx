@@ -11,11 +11,11 @@ import { getLocalizedCategoryName } from "~/domains/categories/functions/localiz
 import useCategory from "~/domains/categories/hooks/useCategory";
 import type { ACCategory } from "~/domains/categories/types/ACCategory";
 import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
-import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { AppStateLink } from "../../../components/App/AppStateLink";
 import { calculateDefaultPadding } from "../../../components/Map/MapOverlapPadding";
 import { useMap } from "../../../components/Map/useMap";
@@ -53,21 +53,21 @@ const useFeatureCategoryLabel = (
   placeName: string,
   category: ACCategory | null | undefined,
 ) => {
-  const languageTags = useCurrentLanguageTagStrings();
+  const { languageTag } = useI18nContext();
 
   if (!category || category === unknownCategory) {
     return undefined;
   }
 
-  const categoryLabel = getLocalizedCategoryName(category, languageTags);
+  const categoryLabel = getLocalizedCategoryName(category);
 
   if (!categoryLabel) {
     return undefined;
   }
 
   const isCategoryLabelInPlaceName = placeName
-    .toLocaleLowerCase(languageTags)
-    .includes(categoryLabel.toLocaleLowerCase(languageTags));
+    .toLocaleLowerCase(languageTag)
+    .includes(categoryLabel.toLocaleLowerCase(languageTag));
 
   if (isCategoryLabelInPlaceName) {
     return undefined;
@@ -82,16 +82,11 @@ export const SearchResult = forwardRef(function SearchResult(
 ) {
   const { title, address } = feature.displayData;
 
-  const languageTags = useCurrentLanguageTagStrings();
   // translator: Place name shown in search results for places with unknown name / category.
   const unknownPlaceName = t("Unknown place");
   const placeName =
-    (title
-      ? getLocalizedStringTranslationWithMultipleLocales(title, languageTags)
-      : unknownPlaceName) ?? unknownPlaceName;
-  const addressString = address
-    ? getLocalizedStringTranslationWithMultipleLocales(address, languageTags)
-    : undefined;
+    (title ? useTranslations(title) : unknownPlaceName) ?? unknownPlaceName;
+  const addressString = address ? useTranslations(address) : undefined;
 
   const { category } = useCategory(
     feature.placeInfo,

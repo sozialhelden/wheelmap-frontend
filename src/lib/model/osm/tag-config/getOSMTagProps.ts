@@ -2,7 +2,7 @@ import type React from "react";
 import type { OSMTagProps } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import { valueRenderFunctions } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {
   type AnyFeature,
@@ -48,14 +48,12 @@ export function getOSMTagProps({
   matchedKey,
   singleValue,
   attributesById,
-  languageTags,
   feature,
 }: {
   key: string;
   matchedKey: string;
   singleValue: string;
   attributesById: Map<string, IAccessibilityAttribute>;
-  languageTags: string[];
   feature: AnyFeature;
   baseFeatureUrl: string;
 }): OSMTagProps {
@@ -64,6 +62,7 @@ export function getOSMTagProps({
     findAttribute(attributesById, key) ||
     (languageTaggedKeys.has(keyWithoutLanguageTag) &&
       findAttribute(attributesById, keyWithoutLanguageTag));
+
   const valueAttribute = findAttribute(attributesById, key, singleValue);
   let valueLabel: string | React.ReactNode | undefined;
 
@@ -71,8 +70,8 @@ export function getOSMTagProps({
 
   const valueRenderFn = valueRenderFunctions[matchedKey];
   const defaultValueLabel =
-    localize(valueAttribute?.label, languageTags) ||
-    localize(valueAttribute?.shortLabel, languageTags) ||
+    useTranslations(valueAttribute?.label) ||
+    useTranslations(valueAttribute?.shortLabel) ||
     singleValue;
 
   if (valueRenderFn) {
@@ -81,7 +80,6 @@ export function getOSMTagProps({
     valueLabel = valueRenderFn({
       value: singleValue,
       matches,
-      languageTags,
       osmFeature,
       accessibilityCloudFeature,
       defaultValueLabel,
@@ -89,18 +87,18 @@ export function getOSMTagProps({
   } else {
     valueLabel = defaultValueLabel;
   }
-  const valueSummary = localize(valueAttribute?.summary, languageTags);
+  const valueSummary = useTranslations(valueAttribute?.summary);
   const valueDetails =
-    localize(valueAttribute?.details, languageTags) ||
-    (!valueLabel && valueSummary);
+    useTranslations(valueAttribute?.details) || (!valueLabel && valueSummary);
 
   const keyLabel =
-    localize(keyAttribute?.shortLabel, languageTags) ||
-    localize(keyAttribute?.label, languageTags) ||
+    useTranslations(keyAttribute?.shortLabel) ||
+    useTranslations(keyAttribute?.label) ||
     key;
-  const keySummary = localize(keyAttribute?.summary, languageTags);
+
+  const keySummary = useTranslations(keyAttribute?.summary);
   const keyDetails =
-    localize(keyAttribute?.details, languageTags) || (!keyLabel && keySummary);
+    useTranslations(keyAttribute?.details) || (!keyLabel && keySummary);
   const suffix = key.match("[^:]+$")?.[0];
   const hasDisplayedKey =
     !!keyLabel &&

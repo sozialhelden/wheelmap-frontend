@@ -12,13 +12,12 @@ import { useDarkMode } from "../../../shared/useDarkMode";
 import AddWheelchairDescription from "./AddWheelchairDescription";
 import DisplayedQuantity from "./DisplayedQuantity";
 import OpeningHoursValue from "./OpeningHoursValue";
-import { determineIfZerothLevelIsSkippedHere } from "./determineIfZerothLevelIsSkippedHere";
+import { determineIfZerothLevelShouldBeSkipped } from "./determineIfZerothLevelShouldBeSkipped";
 
 export type ValueRenderProps = {
   key: string;
   value: string | number;
   matches: RegExpMatchArray;
-  languageTags: string[];
   osmFeature: TypeTaggedOSMFeature | undefined;
   accessibilityCloudFeature: TypeTaggedPlaceInfo | undefined;
   defaultValueLabel: string | undefined;
@@ -28,7 +27,6 @@ function BuildingLevel({
   defaultValueLabel,
   value,
   osmFeature,
-  languageTags,
 }: ValueRenderProps) {
   const featureProperties = osmFeature?.properties;
   // https://wiki.openstreetmap.org/wiki/Key:level#Level_designations
@@ -50,7 +48,7 @@ function BuildingLevel({
     return <>{t("Basement {basementFloorNumber}", { basementFloorNumber })}</>;
   }
 
-  const skipZerothLevel = determineIfZerothLevelIsSkippedHere(languageTags);
+  const skipZerothLevel = determineIfZerothLevelShouldBeSkipped();
   const localGroundFloorLevelDesignation = skipZerothLevel ? 1 : 0;
   const isGroundFloor = valueAsNumber === localGroundFloorLevelDesignation;
   if (isGroundFloor) {

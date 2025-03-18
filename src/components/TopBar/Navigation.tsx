@@ -4,9 +4,15 @@ import { t } from "@transifex/native";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import { SecondaryButton } from "~/components/shared/Buttons";
 import type { TranslatedAppLink } from "~/lib/useAppLink";
 import { useExpertMode } from "~/lib/useExpertMode";
 import { useNavigation } from "~/lib/useNavigation";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import {
+  supportedLanguageTags,
+  supportedLanguageTagsOptions,
+} from "~/modules/i18n/i18n";
 import AppLink from "./Navigation/AppLink";
 
 function filterExpertModeLinks(
@@ -54,6 +60,8 @@ export default function Navigation() {
     [linksInToolbar, isExpertMode],
   );
 
+  const { languageLabel, setLanguageTag } = useI18nContext();
+
   const dropdownMenuButton = menuLinkElements.length > 0 && (
     <Theme radius="small">
       <DropdownMenu.Root onOpenChange={setIsOpen}>
@@ -71,7 +79,29 @@ export default function Navigation() {
             )}
           </IconButton>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content>{menuLinkElements}</DropdownMenu.Content>
+        <DropdownMenu.Content>
+          {isExpertMode && (
+            <>
+              <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger>
+                  {languageLabel}
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                  {supportedLanguageTagsOptions.map(({ value, label }) => (
+                    <DropdownMenu.Item
+                      onClick={() => setLanguageTag(value)}
+                      key={value}
+                    >
+                      {label}
+                    </DropdownMenu.Item>
+                  ))}
+                </DropdownMenu.SubContent>
+              </DropdownMenu.Sub>
+              <DropdownMenu.Separator />
+            </>
+          )}
+          {menuLinkElements}
+        </DropdownMenu.Content>
       </DropdownMenu.Root>
     </Theme>
   );

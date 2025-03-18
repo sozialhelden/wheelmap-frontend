@@ -1,5 +1,5 @@
 import { humanize } from "inflection";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "../ac/IAccessibilityAttribute";
 import type OSMFeature from "./OSMFeature";
 
@@ -26,7 +26,6 @@ import type OSMFeature from "./OSMFeature";
 export default function getGenericCategoryDisplayName(
   feature: OSMFeature,
   attributeMap: Map<string, IAccessibilityAttribute>,
-  languageTags: string[],
 ) {
   const { properties } = feature;
   if (!properties) return { tagKeys: [], displayName: undefined };
@@ -64,12 +63,7 @@ export default function getGenericCategoryDisplayName(
   const getLabel = (id: string, fallback: string) => {
     const attr = attributeMap?.get(id);
     if (!attr) return fallback;
-    return (
-      getLocalizedStringTranslationWithMultipleLocales(
-        attr.shortLabel || attr.label,
-        languageTags,
-      ) || fallback
-    );
+    return useTranslations(attr.shortLabel || attr.label) || fallback;
   };
 
   for (const key of allKeys) {

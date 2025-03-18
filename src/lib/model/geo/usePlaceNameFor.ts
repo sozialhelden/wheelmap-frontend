@@ -1,23 +1,25 @@
 import { t } from "@transifex/native";
-import getEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/getEquipmentInfoDescription";
-import type { LocalizedString } from "../../i18n/LocalizedString";
-import { getLocalizedStringTranslationWithMultipleLocales } from "../../i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { useMemo } from "react";
+import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import {
+  type Translations,
+  useTranslations,
+} from "~/modules/i18n/hooks/useTranslations";
+import useEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/useEquipmentInfoDescription";
 import type { ACCategory } from "../../../domains/categories/types/ACCategory";
 import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
 import type { AnyFeature } from "./AnyFeature";
-import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
 
-export function placeNameFor(
+export function usePlaceNameFor(
   feature: AnyFeature,
   category: ACCategory | null,
-  requestedLanguageTags: string[],
 ): string {
   const { properties } = feature;
   if (!properties) return "";
-  let localizedString: LocalizedString | undefined;
+  let localizedString: Translations | undefined;
 
   if (feature["@type"] === "a11yjson:EquipmentInfo") {
-    localizedString = getEquipmentInfoDescription(feature, "shortDescription");
+    localizedString = useEquipmentInfoDescription(feature, "shortDescription");
   } else if (
     feature["@type"] === "a11yjson:PlaceInfo" ||
     feature["@type"] === "ac:PlaceInfo"
@@ -37,10 +39,7 @@ export function placeNameFor(
   }
 
   if (localizedString) {
-    return getLocalizedStringTranslationWithMultipleLocales(
-      localizedString,
-      requestedLanguageTags,
-    );
+    return useTranslations(localizedString) ?? "";
   }
 
   return t("Unnamed place");

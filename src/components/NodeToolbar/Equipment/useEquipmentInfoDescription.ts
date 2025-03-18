@@ -1,8 +1,10 @@
 import type { EquipmentInfo } from "@sozialhelden/a11yjson";
-import type { LocalizedString } from "../../../lib/i18n/LocalizedString";
-import { useTranslatedStringFromObject } from "../../../lib/i18n/useTranslatedStringFromObject";
+import {
+  type Translations,
+  useTranslations,
+} from "../../../modules/i18n/hooks/useTranslations";
 
-export default function getEquipmentInfoDescription(
+export default function useEquipmentInfoDescription(
   equipmentInfo: EquipmentInfo | null | undefined,
   variant: "shortDescription" | "longDescription" | "description",
 ) {
@@ -16,7 +18,7 @@ export default function getEquipmentInfoDescription(
     "description",
     "longDescription",
   ];
-  let description: LocalizedString | undefined;
+  let description: Translations | undefined;
   for (const variant of variantsToTry) {
     const d = equipmentInfo.properties?.[variant];
     if (d) {
@@ -24,5 +26,5 @@ export default function getEquipmentInfoDescription(
       break;
     }
   }
-  return description && useTranslatedStringFromObject(description);
+  return description && useTranslations(description);
 }

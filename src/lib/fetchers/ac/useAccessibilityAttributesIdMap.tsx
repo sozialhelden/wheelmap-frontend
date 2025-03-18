@@ -1,29 +1,28 @@
 import { useMemo } from "react";
-import { expandedPreferredLocales } from "../../i18n/expandedPreferredLocales";
-import { localeFromString } from "../../i18n/localeFromString";
-import { normalizeLanguageCode } from "../../i18n/normalizeLanguageCode";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { fallbackLanguageTag } from "~/modules/i18n/i18n";
+import { getExtendedFuzzyLocales } from "~/modules/i18n/utils/locales";
 import type IAccessibilityAttribute from "../../model/ac/IAccessibilityAttribute";
 import useCollectionSWR from "./useCollectionSWR";
 
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
-export function generateSearchParams(languageTags: string[]) {
+export function generateSearchParams() {
   // either fetches a response over the network,
   // or returns a cached promise with the same URL (if available)
-  const preferredLocales = expandedPreferredLocales(
-    languageTags
-      .map(normalizeLanguageCode)
-      .map(localeFromString),
-    // overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
-  );
-  const localizedFields = preferredLocales
-    .map((l) => l.string.replace(/-/, "_"))
-    .flatMap((l) => [
-      `label.${l}`,
-      `shortLabel.${l}`,
-      `summary.${l}`,
-      `details.${l}`,
-    ]);
+
+  const { languageTag } = useI18nContext();
+  const preferredLocales = [
+    ...getExtendedFuzzyLocales(languageTag),
+    ...getExtendedFuzzyLocales(fallbackLanguageTag),
+  ];
+
+  const localizedFields = preferredLocales.flatMap((l) => [
+    `label.${l}`,
+    `shortLabel.${l}`,
+    `summary.${l}`,
+    `details.${l}`,
+  ]);
 
   const params = {
     limit: "10000",
@@ -34,10 +33,8 @@ export function generateSearchParams(languageTags: string[]) {
   return new URLSearchParams(params);
 }
 
-export default function useAccessibilityAttributesIdMap(
-  languageTags: string[],
-) {
-  const params = generateSearchParams(languageTags);
+export default function useAccessibilityAttributesIdMap() {
+  const params = generateSearchParams();
   const response = useCollectionSWR({
     type: "ac:AccessibilityAttribute",
     params,

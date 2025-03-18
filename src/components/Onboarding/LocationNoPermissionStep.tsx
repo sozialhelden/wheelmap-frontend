@@ -7,14 +7,14 @@ import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationNoPermissionPrimaryText,
-  getProductName,
-} from "./getProductName";
+  useProductName,
+} from "./useProductName";
 
 export const LocationNoPermissionStep: FC<{
   onSubmit: (location?: PhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext) ?? {};
-  const productName = getProductName(clientSideConfiguration);
+  const productName = useProductName(clientSideConfiguration);
   const [url] = getLocationSettingsUrl();
 
   return (

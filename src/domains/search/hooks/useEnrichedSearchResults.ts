@@ -4,7 +4,6 @@ import useSWR from "swr";
 import { useMap } from "~/components/Map/useMap";
 import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
 import { AppContext } from "~/lib/context/AppContext";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import useCollectionSWR from "~/lib/fetchers/ac/useCollectionSWR";
 import { useSameAsOSMIdPlaceInfos } from "~/lib/fetchers/ac/useSameAsOSMIdPlaceInfos";
 import fetchPhotonFeatures from "~/lib/fetchers/fetchPhotonFeatures";
@@ -12,6 +11,7 @@ import { useFeatures } from "~/lib/fetchers/useFeatures";
 import type { TypeTaggedPlaceInfo } from "~/lib/model/geo/AnyFeature";
 import { getLocalizedAddressString } from "~/lib/model/geo/getAddressString";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import {
   buildId,
   buildOSMUri,
@@ -30,7 +30,7 @@ export function useEnrichedSearchResults(
   const { clientSideConfiguration } = useContext(AppContext) ?? {
     clientSideConfiguration: undefined,
   };
-  const languageTag = useCurrentLanguageTagStrings()?.[0] || "en";
+  const { languageTag } = useI18nContext();
 
   const photonQuery = useMemo(
     () => ({
