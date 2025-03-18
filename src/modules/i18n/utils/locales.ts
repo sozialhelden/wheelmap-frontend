@@ -13,12 +13,7 @@ export function getLocale(languageTag: LanguageTag): Locale {
     : languageTag.replace(/-/g, "_");
 }
 
-/**
- * Especially a11ycloud, but also OSM has sometimes translations for en_US or en-US but
- * not en, or de_DE or de-DE but not de. As we currently only support en and de, this
- * function is used to find similar locales that usually have working translations.
- */
-export function getSimilarLocalesWithMatchingTranslations(
+function getSimilarLocalesWithMatchingTranslations(
   languageTag: LanguageTag,
 ): Locale[] {
   if (languageTag === "de") {
@@ -32,10 +27,11 @@ export function getSimilarLocalesWithMatchingTranslations(
 
 /**
  * This returns an array of locales based on the given language tag. It will include
- * the ietf language tag as well as a matching locale, the language itself and similar
- * locales that usually provide matching translations.
+ * the ietf language tag as well as a matching locale, the actual language and similar
+ * locales that usually provide matching translations as especially a11ycloud, but also OSM
+ * has sometimes translations for en_US or en-US but not en, or de_DE or de-DE but not de.
  */
-export function getExtendedFuzzyLocales(languageTag: LanguageTag): Locale[] {
+export function getFuzzilyExtendedLocales(languageTag: LanguageTag): Locale[] {
   return Array.from(
     new Set([
       // direct matches first with the language tag, locale and language

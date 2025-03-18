@@ -56,7 +56,6 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@babel/preset-env": "^7.26.7",
-    "@babel/preset-typescript": "^7.26.0",
     "@biomejs/biome": "^1.9.4",
     "@playwright/test": "^1.50.1",
     "@svgr/cli": "^8.1.0",
@@ -77,7 +76,6 @@
     "@types/luxon": "^3.4.2",
     "@types/marked": "^1.2.2",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.20.55",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@types/react-share": "^3.0.3",
@@ -91,13 +89,16 @@
     "husky": "^9.1.7",
     "next-transpile-modules": "^10.0.1",
     "rimraf": "^2.7.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
   },
   "scripts": {
     "dev": "next dev",
     "build": "rimraf dist/ && rimraf .next/ && NEXT_TELEMETRY_DISABLED=1 next build",
     "start": "NODE_ENV=production next start",
-    "test": "playwright test",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
     "lint": "npx biome lint",
     "lint:fix": "npx biome lint --write",
     "format": "npx biome format",

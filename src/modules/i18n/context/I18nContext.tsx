@@ -16,7 +16,7 @@ import {
 } from "~/modules/i18n/utils/language-tags";
 import { getLocale } from "~/modules/i18n/utils/locales";
 
-type I18nContext = {
+export type I18nContext = {
   languageTag: LanguageTag;
   setLanguageTag: (languageTag: LanguageTag) => void;
   languageLabel: string;

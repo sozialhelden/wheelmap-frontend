@@ -2,7 +2,7 @@ import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import {
   type Locale,
-  getExtendedFuzzyLocales,
+  getFuzzilyExtendedLocales,
 } from "~/modules/i18n/utils/locales";
 
 export type Translations = Record<Locale, string>;
@@ -12,7 +12,7 @@ function findSuitableTranslation(
   languageTag: LanguageTag,
 ): string | undefined {
   return translations[
-    getExtendedFuzzyLocales(languageTag).find(
+    getFuzzilyExtendedLocales(languageTag).find(
       (locale) => translations[locale],
     ) ?? ""
   ];
