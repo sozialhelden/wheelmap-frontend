@@ -17,12 +17,14 @@ export function getMostPreferableLanguageTag(
     if (supportedLanguageTags.includes(languageTag.langtag as LanguageTag)) {
       return languageTag.language as LanguageTag;
     }
+  }
 
+  for (const languageTag of languageTags) {
     // match chinese script variants
     if (languageTag.language === "zh") {
-      // The string contains no country code or script - 90% of our readers will
+      // The string contains no country code and script - 90% of our readers will
       // prefer Simplified Chinese so we fall back to it
-      if (!languageTag.script || !languageTag.region) {
+      if (!languageTag.script && !languageTag.region) {
         return "zh-Hans";
       }
       // Countries using simplified script: Mainland China, Singapore, Malaysia
