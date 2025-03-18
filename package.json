@@ -7,7 +7,7 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime-corejs3": "^7.12.1",
+    "@babel/runtime-corejs3": "^7.26.10",
     "@elastic/apm-rum": "^4.9.1",
     "@sozialhelden/a11yjson": "^20.3.0",
     "@sozialhelden/ietf-language-tags": "^5.4.2",
