@@ -46,12 +46,12 @@ export function useEnrichedSearchResults(
   );
 
   const {
-    data: searchResults,
+    data: photonSearchResults,
     isLoading: isPhotonLoading,
     isValidating: isPhotonValidating,
-    error: searchError,
+    error: photonSearchError,
   } = useSWR(photonQuery, fetchPhotonFeatures, {
-    keepPreviousData: false,
+    keepPreviousData: true,
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -100,7 +100,7 @@ export function useEnrichedSearchResults(
     isAcSearchLoading ||
     isAcSearchValidating;
 
-  const featureIds = searchResults?.features.map(buildId) || [];
+  const featureIds = photonSearchResults?.features.map(buildId) || [];
 
   const {
     isLoading: isOsmLoading,
@@ -118,7 +118,7 @@ export function useEnrichedSearchResults(
 
   const isFetchingOsmDetails = isOsmLoading || isOsmValidating;
 
-  const osmUris = searchResults?.features.map(buildOSMUri) || [];
+  const osmUris = photonSearchResults?.features.map(buildOSMUri) || [];
   const {
     isLoading: isLoadingPlaceInfos,
     isValidating: isValidatingPlaceInfos,
@@ -127,7 +127,7 @@ export function useEnrichedSearchResults(
     osmUris.filter((uri) => typeof uri === "string"),
     {
       errorRetryCount: 0,
-      keepPreviousData: false,
+      keepPreviousData: true,
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -135,12 +135,12 @@ export function useEnrichedSearchResults(
   );
 
   const enrichedSearchResults = useMemo(() => {
-    if (!searchResults || !searchResults.features) {
+    if (!photonSearchResults || !photonSearchResults.features) {
       return undefined;
     }
 
     const allOsmUrls = new Set(
-      searchResults.features.map((f) => buildOSMUri(f)),
+      photonSearchResults.features.map((f) => buildOSMUri(f)),
     );
     // remove all osm features that are already in the search results
     const filteredAcSearchResults =
@@ -184,7 +184,7 @@ export function useEnrichedSearchResults(
         }),
       );
 
-    const extendedPhotonSearchResults = searchResults.features.map(
+    const extendedPhotonSearchResults = photonSearchResults.features.map(
       (feature): EnrichedSearchResult => ({
         "@type": "wheelmap:EnrichedSearchResult",
         displayData: makeDisplayDataFromPhotonResult(feature),
@@ -199,25 +199,33 @@ export function useEnrichedSearchResults(
       }),
     );
 
+    const osmMergedPhotonSearchResults: EnrichedSearchResult[] =
+      osmFeatureResults
+        ? // merge photonSearchResults with osmFeatureResults
+          extendedPhotonSearchResults.map((photonResult) => {
+            const match = osmFeatureResults.find((osmResult) => {
+              const numericId = Number.parseInt(
+                osmResult?.feature._id.split("/")[1],
+              );
+              return photonResult.photonResult?.properties.osm_id === numericId;
+            });
+            return match
+              ? {
+                  ...photonResult,
+                  osmFeature: { ...match.feature },
+                }
+              : { ...photonResult };
+          })
+        : extendedPhotonSearchResults;
+
     if (osmFeatureResults) {
-      // merge searchResults with osmFeatureResults
       for (let i = 0; i < osmFeatureResults.length; i++) {
-        const osmFeatureResult = osmFeatureResults[i];
-
-        if (!osmFeatureResult) {
-          continue;
-        }
-
-        const osmFeature = osmFeatureResult.feature;
-        if (osmFeature) {
-          extendedPhotonSearchResults[i].osmFeature = osmFeature;
-          extendedPhotonSearchResults[i].featureId = featureIds[i];
-        }
+        osmMergedPhotonSearchResults[i].featureId = featureIds[i];
       }
     }
 
     if (placeInfoResults?.features) {
-      // merge searchResults with placeInfoResults
+      // merge photonSearchResults with placeInfoResults
       for (const placeInfoResult of placeInfoResults.features) {
         if (!placeInfoResult.properties.sameAs) {
           continue;
@@ -226,7 +234,7 @@ export function useEnrichedSearchResults(
         for (const uri of placeInfoResult.properties.sameAs) {
           const index = osmUris.indexOf(uri);
           if (index !== -1) {
-            extendedPhotonSearchResults[index].placeInfo = {
+            osmMergedPhotonSearchResults[index].placeInfo = {
               "@type": "ac:PlaceInfo",
               ...placeInfoResult,
             } as TypeTaggedPlaceInfo;
@@ -236,9 +244,9 @@ export function useEnrichedSearchResults(
       }
     }
 
-    return [...extendedPhotonSearchResults, ...extendedAcSearchResults];
+    return [...osmMergedPhotonSearchResults, ...extendedAcSearchResults];
   }, [
-    searchResults,
+    photonSearchResults,
     featureIds,
     osmFeatureResults,
     osmUris,
@@ -251,7 +259,7 @@ export function useEnrichedSearchResults(
   return {
     searchResults: enrichedSearchResults,
     isSearching,
-    searchError,
+    searchError: photonSearchError,
     isFetchingOsmDetails,
     isFetchingPlaceInfos,
   };
