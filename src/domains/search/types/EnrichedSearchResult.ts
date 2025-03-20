@@ -1,4 +1,5 @@
 import type { LocalizedString } from "@sozialhelden/a11yjson";
+import type { FetchOneFeatureResult } from "~/lib/fetchers/useFeatures/fetchers";
 import type {
   AnyFeature,
   TypeTaggedPhotonSearchResultFeature,
@@ -19,7 +20,7 @@ export interface EnrichedSearchResult {
   photonResult: TypeTaggedPhotonSearchResultFeature | null;
   featureId?: string;
   osmFeatureLoading: boolean;
-  osmFeature: AnyFeature | null;
+  osmFeature: AnyFeature | FetchOneFeatureResult | null;
   placeInfoLoading: boolean;
   placeInfo: TypeTaggedPlaceInfo | null;
 }
