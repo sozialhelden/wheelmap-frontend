@@ -80,30 +80,35 @@ export const composeFetchOneFeature = (
   const featureFetcher = async (
     fetchUri: string,
   ): Promise<FetchOneFeatureResult> => {
-    const result = await genericFetcher<OSMFeature | PlaceInfo>(fetchUri);
-    // the type tag will be injected into the data result
-    const { typeTag, ...extraProperties } = keyProperties[fetchUri];
+    try {
+      const result = await genericFetcher<OSMFeature | PlaceInfo>(fetchUri);
+      // the type tag will be injected into the data result
+      const { typeTag, ...extraProperties } = keyProperties[fetchUri];
 
-    if (typeTag === "osm:Feature") {
+      if (typeTag === "osm:Feature") {
+        return {
+          feature: { "@type": typeTag, ...(result as OSMFeature) },
+          ...extraProperties,
+        };
+      }
+      // @TODO: PlaceInfo and TypeTaggedPlaceInfo have different structural layouts, faking it in here
+      const placeInfo = result as PlaceInfo;
       return {
-        feature: { "@type": typeTag, ...(result as OSMFeature) },
-        ...extraProperties,
-      };
-    }
-    // @TODO: PlaceInfo and TypeTaggedPlaceInfo have different structural layouts, faking it in here
-    const placeInfo = result as PlaceInfo;
-    return {
-      feature: {
-        _id: extraProperties.originId,
-        "@type": typeTag,
-        ...placeInfo,
-        properties: {
+        feature: {
           _id: extraProperties.originId,
-          ...placeInfo.properties,
+          "@type": typeTag,
+          ...placeInfo,
+          properties: {
+            _id: extraProperties.originId,
+            ...placeInfo.properties,
+          },
         },
-      },
-      ...extraProperties,
-    } satisfies FetchOneFeatureResultInternal<TypeTaggedPlaceInfo>;
+        ...extraProperties,
+      } satisfies FetchOneFeatureResultInternal<TypeTaggedPlaceInfo>;
+    } catch (error) {
+      console.warn("No feature found for uri", fetchUri);
+      return undefined;
+    }
   };
   return featureFetcher;
 };
