@@ -82,7 +82,7 @@ export const useExpandedFeatures = (
         x,
       ): x is Omit<FetchOnePlaceInfoResult, "originId"> & {
         originId: AccessibilityCloudRDFId;
-      } => isAccessibilityCloudId(x.originId) && !!x.feature,
+      } => !!x && isAccessibilityCloudId(x.originId) && !!x.feature,
     )
     .map((x) => ({ feature: x.feature, originId: x.originId }));
   const additionalOSMFeaturesResult = useAcToOsmFeatures(feats, {
