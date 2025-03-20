@@ -4,8 +4,7 @@ import styled from "styled-components";
 
 import { Flex } from "@radix-ui/themes";
 import type { MouseEvent, Ref } from "react";
-import { forwardRef } from "react";
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { unknownCategory } from "~/domains/categories/functions/cache";
 import { getLocalizedCategoryName } from "~/domains/categories/functions/localization";
 import useCategory from "~/domains/categories/hooks/useCategory";
@@ -26,6 +25,7 @@ type Props = {
   className?: string;
   feature: EnrichedSearchResult;
   isHighlighted?: boolean;
+  resetSearchTerm: (term: string) => void;
 };
 
 const StyledListItem = styled.li<{ $isHighlighted?: boolean }>`
@@ -77,7 +77,7 @@ const useFeatureCategoryLabel = (
 };
 
 export const SearchResult = forwardRef(function SearchResult(
-  { feature, isHighlighted, ...props }: Props,
+  { feature, isHighlighted, resetSearchTerm, ...props }: Props,
   ref: Ref<HTMLLIElement>,
 ) {
   const { title, address } = feature.displayData;
@@ -104,10 +104,12 @@ export const SearchResult = forwardRef(function SearchResult(
 
   const detailedFeature = (feature.placeInfo ||
     feature.osmFeature) as AnyFeature | null;
-  const accessibility =
-    detailedFeature && isWheelchairAccessible(detailedFeature);
 
-  const { push } = useAppStateAwareRouter();
+  const accessibility = detailedFeature
+    ? isWheelchairAccessible(detailedFeature)
+    : undefined;
+
+  const { push, replace } = useAppStateAwareRouter();
   const { map } = useMap();
   const clickHandler = useCallback(
     (evt: MouseEvent) => {
@@ -138,11 +140,17 @@ export const SearchResult = forwardRef(function SearchResult(
         });
       }
 
-      if (urlObject?.pathname) {
+      if (
+        urlObject?.pathname &&
+        (feature.osmFeature !== null || feature.placeInfo !== null)
+      ) {
         push(urlObject);
+      } else {
+        replace({ pathname: "/" });
+        resetSearchTerm("");
       }
     },
-    [push, feature, map],
+    [push, replace, resetSearchTerm, feature, map],
   );
 
   return (
