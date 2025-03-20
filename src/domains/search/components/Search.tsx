@@ -100,6 +100,7 @@ export function Search() {
             feature={result}
             isHighlighted={index === highlightedIndex}
             data-highlight-index={index}
+            resetSearchTerm={setSearchTerm}
           />
         ))}
       </SearchDropdown>
