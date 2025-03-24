@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Layer, type LayerProps, Source } from "react-map-gl/mapbox";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { useAppContext } from "../../lib/context/AppContext";
-import { useEnvContext } from "../../lib/context/EnvContext";
 import { getAccessibilityCloudAPI } from "../../lib/fetchers/ac/useAccessibilityCloudAPI";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 
@@ -97,7 +97,7 @@ export function MarkerIconLayer({
 }
 
 export const AcPoiLayers = () => {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const app = useAppContext();
 
   if (!app) {

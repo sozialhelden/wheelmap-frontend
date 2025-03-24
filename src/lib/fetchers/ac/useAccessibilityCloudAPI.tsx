@@ -1,8 +1,8 @@
-import { useCurrentAppToken } from "../../context/AppContext";
 import {
   type EnvironmentVariables,
-  useEnvContext,
-} from "../../context/EnvContext";
+  useEnvironmentContext,
+} from "~/modules/app/context/EnvironmentContext";
+import { useCurrentAppToken } from "../../context/AppContext";
 
 export function getAccessibilityCloudAPI(
   env: EnvironmentVariables,
@@ -28,7 +28,7 @@ export function getAccessibilityCloudAPI(
 export default function useAccessibilityCloudAPI({
   cached = true,
 }: { cached: boolean }) {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const currentAppToken = useCurrentAppToken();
   return getAccessibilityCloudAPI(env, currentAppToken, cached);
 }

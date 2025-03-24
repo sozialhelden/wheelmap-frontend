@@ -1,6 +1,6 @@
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { useCurrentAppToken } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
 import type { TypeTaggedPlaceInfo } from "../../model/geo/AnyFeature";
 import type { AccessibilityCloudRDFId } from "../../typing/brands/accessibilityCloudIds";
 import type { OSMIdWithTableAndContextNames } from "../../typing/brands/osmIds";
@@ -45,7 +45,7 @@ export const useAcToOsmFeatures = (
     cache?: boolean;
   },
 ) => {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const currentAppToken = useCurrentAppToken();
 
   const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(

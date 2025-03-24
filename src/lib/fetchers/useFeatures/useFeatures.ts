@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { useCurrentAppToken } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
 import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
 import { getInhouseOSMAPI } from "../osm-api/useInhouseOSMAPI";
 import {
@@ -19,7 +19,7 @@ export const useFeatures = (
     cache?: boolean;
   },
 ) => {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const currentAppToken = useCurrentAppToken();
 
   const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(

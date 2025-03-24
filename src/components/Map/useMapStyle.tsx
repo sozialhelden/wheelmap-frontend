@@ -1,12 +1,12 @@
 import useSWR from "swr";
-import { useEnvContext } from "../../lib/context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { useDarkMode } from "../shared/useDarkMode";
 
 const fetcher = (input: RequestInfo, init?: RequestInit | undefined) =>
   fetch(input, init).then((res) => res.json());
 
 function useMapStyle() {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
 
   const darkMode = useDarkMode();
 
