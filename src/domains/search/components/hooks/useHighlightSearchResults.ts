@@ -4,7 +4,8 @@ import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearch
 export function useHighlightSearchResults({
   searchResults,
   searchTerm,
-}: { searchTerm: string; searchResults?: EnrichedSearchResult[] }) {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+}: { searchTerm: string; searchResults?: any[] }) {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const searchResultsContainer = useRef<HTMLElement | undefined>();
 
