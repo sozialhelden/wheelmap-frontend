@@ -10,7 +10,7 @@ import {
 import { t } from "@transifex/native";
 import { type FC, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
+import { useLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import { cx } from "../../lib/util/cx";
 import { CallToActionButton, SecondaryButton } from "../shared/Button";
 import StyledMarkdown from "../shared/StyledMarkdown";
@@ -70,7 +70,7 @@ export const LocationStep: FC<{
   }, [onAccept, stage, onGeneralError, maxRetries, onFailed]);
 
   const isAcquiring = stage.stage === "acquiring";
-  const [url] = getLocationSettingsUrl();
+  const [url] = useLocationSettingsUrl();
 
   // translator: A description that the app is now asking for location permissions while onboarding
   const explanation = t`

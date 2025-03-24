@@ -1,8 +1,8 @@
-import { useCurrentAppToken } from "../../context/AppContext";
 import {
   type EnvironmentVariables,
-  useEnvContext,
-} from "../../context/EnvContext";
+  useEnvironmentContext,
+} from "~/modules/app/context/EnvironmentContext";
+import { useCurrentAppToken } from "../../context/AppContext";
 
 export function getInhouseOSMAPI(
   env: EnvironmentVariables,
@@ -26,7 +26,7 @@ export function getInhouseOSMAPI(
 export default function useInhouseOSMAPI({
   cached = true,
 }: { cached: boolean }) {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const appToken = useCurrentAppToken();
   return getInhouseOSMAPI(env, appToken, cached);
 }

@@ -9,8 +9,8 @@ import { StyledReportView } from "../../../../components/CombinedFeaturePanel/Re
 import FeatureNameHeader from "../../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "../../../../components/CombinedFeaturePanel/components/image/FeatureImage";
 import { useFeatureLabel } from "../../../../components/CombinedFeaturePanel/utils/useFeatureLabel";
-import useUserAgent from "../../../../lib/context/UserAgentContext";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
+import { useUserAgent } from "../../../../modules/app/context/UserAgentContext";
 
 const reportSubject = (
   placeName: LocalizedString | string | undefined,

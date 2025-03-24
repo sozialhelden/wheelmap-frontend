@@ -6,12 +6,12 @@ import {
 } from "~/domains/categories/functions/cache";
 import { fetchAccessibilityCloudCategorySynonymCache } from "~/domains/categories/functions/fetch";
 import { useCurrentAppToken } from "~/lib/context/AppContext";
-import { useEnvContext } from "~/lib/context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 
 const useCategorySynonymCache = () => {
   const appToken = useCurrentAppToken();
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const baseUrl = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
   return useSWR(
     (appToken && baseUrl && [appToken, baseUrl]) || null,

@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { useAppContext } from "../../lib/context/AppContext";
-import useHostnameContext from "../../lib/context/HostnameContext";
 import { buildFullImageUrl } from "../../lib/model/ac/Image";
 import type { MappingEvent } from "../../lib/model/ac/MappingEvent";
+import useHostnameContext from "../../modules/app/context/HostnameContext";
 import { useTranslations } from "../../modules/i18n/hooks/useTranslations";
 import FacebookMeta from "../App/FacebookMeta";
 import OpenGraph from "../App/OpenGraph";
