@@ -3,11 +3,7 @@ import { expect, test } from "../../../../tests/e2e/setup/test-fixture";
 import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/e2e/utils/url";
 import emptyPhotonMock from "./empty-photon-mock.json";
-import emptyPlaceInfoMock from "./empty-place-infos-mock.json";
-import node3908141014Mock from "./node:3908141014-osm-mock.json";
 import photonMock from "./photon-mock.json";
-import placeInfoMock from "./place-infos-mock.json";
-import way23723125Mock from "./way:23723125-osm-mock.json";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -31,24 +27,9 @@ const searchFor = async (
   query: string,
   empty = false,
 ): Promise<void> => {
-  await page.route(`**/place-infos.json?q=${query}*`, async (route) => {
-    await route.fulfill({ json: empty ? emptyPlaceInfoMock : placeInfoMock });
-  });
   await page.route(`**/api?q=${query}*`, async (route) => {
     await route.fulfill({ json: empty ? emptyPhotonMock : photonMock });
   });
-  await page.route(
-    "**/api/v1/amenities/way/23723125.geojson*",
-    async (route) => {
-      await route.fulfill({ json: way23723125Mock });
-    },
-  );
-  await page.route(
-    "**/api/v1/amenities/node/3908141014.geojson*",
-    async (route) => {
-      await route.fulfill({ json: node3908141014Mock });
-    },
-  );
   await getSearchInput(page).fill(`${query}`);
   await expect(getSearchDropdown(page).getByTestId("is-searching")).toHaveCount(
     0,
@@ -65,14 +46,11 @@ test.describe("search-input", () => {
     await expect(getSearchInput(page)).toBeVisible();
   });
 
-  test("it queries the photon api and the a11ycloud place infos api", async ({
-    page,
-  }) => {
+  test("it queries the photon api", async ({ page }) => {
     test.slow();
     const query = "Alexanderplatz";
     await getSearchInput(page).fill(`${query}`);
 
-    await page.waitForResponse(`**/place-infos.json?q=${query}*`);
     await page.waitForResponse(`**/api?q=${query}*`);
 
     await expect(

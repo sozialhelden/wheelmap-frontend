@@ -8,11 +8,11 @@ import {
 } from "~/domains/needs/needs";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
-function matchesCurrentQuery(
+function matchesQuery(
+  query: Record<string, string | string[] | undefined>,
   paramName: string,
   expected: string[] | Readonly<string[]>,
 ) {
-  const { query } = useRouter();
   let value = query[paramName];
 
   // if a query parameter is present but not set it should match
@@ -32,11 +32,14 @@ function matchesCurrentQuery(
 export function useSelectionFromLegacyA11yQueryParams():
   | NeedSelection
   | undefined {
+  const { query } = useRouter();
+
   const selection = Object.entries(settings).reduce(
     (acc, [category, { legacyQueryParamName, needs }]) => {
       acc[category] = Object.entries(needs)
         .find(([_, { legacyQueryParamValues }]: [string, NeedProperties]) =>
-          matchesCurrentQuery(
+          matchesQuery(
+            query,
             legacyQueryParamName,
             legacyQueryParamValues ?? [],
           ),

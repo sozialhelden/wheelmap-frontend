@@ -1,31 +1,16 @@
-import { t } from "@transifex/native";
-
-import styled from "styled-components";
-
 import { Flex } from "@radix-ui/themes";
-import type { MouseEvent, Ref } from "react";
-import { forwardRef } from "react";
-import { useCallback } from "react";
-import { unknownCategory } from "~/domains/categories/functions/cache";
-import { getLocalizedCategoryName } from "~/domains/categories/functions/localization";
-import useCategory from "~/domains/categories/hooks/useCategory";
-import type { ACCategory } from "~/domains/categories/types/ACCategory";
-import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
-import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
-import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import { useRouter } from "next/router";
+import { type Ref, forwardRef } from "react";
+import styled from "styled-components";
+import { AppStateLink } from "~/components/App/AppStateLink";
+import { calculateDefaultPadding } from "~/components/Map/MapOverlapPadding";
+import { useMap } from "~/components/Map/useMap";
+import type { SearchResult as SearchResultType } from "~/domains/search/types/SearchResult";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
-import { AppStateLink } from "../../../components/App/AppStateLink";
-import { calculateDefaultPadding } from "../../../components/Map/MapOverlapPadding";
-import { useMap } from "../../../components/Map/useMap";
-import Icon from "../../../components/shared/Icon";
-import { mapResultToUrlObject } from "../functions/data-mapping";
 
 type Props = {
-  className?: string;
-  feature: EnrichedSearchResult;
-  isHighlighted?: boolean;
+  result: SearchResultType;
+  isHighlighted: boolean;
 };
 
 const StyledListItem = styled.li<{ $isHighlighted?: boolean }>`
@@ -49,101 +34,41 @@ const StyledListItem = styled.li<{ $isHighlighted?: boolean }>`
   }
 `;
 
-const useFeatureCategoryLabel = (
-  placeName: string,
-  category: ACCategory | null | undefined,
-) => {
-  const languageTags = useCurrentLanguageTagStrings();
-
-  if (!category || category === unknownCategory) {
-    return undefined;
-  }
-
-  const categoryLabel = getLocalizedCategoryName(category, languageTags);
-
-  if (!categoryLabel) {
-    return undefined;
-  }
-
-  const isCategoryLabelInPlaceName = placeName
-    .toLocaleLowerCase(languageTags)
-    .includes(categoryLabel.toLocaleLowerCase(languageTags));
-
-  if (isCategoryLabelInPlaceName) {
-    return undefined;
-  }
-
-  return categoryLabel;
-};
-
 export const SearchResult = forwardRef(function SearchResult(
-  { feature, isHighlighted, ...props }: Props,
+  {
+    result: { extent, lat, lon, title, address, url },
+    isHighlighted,
+    ...props
+  }: Props,
   ref: Ref<HTMLLIElement>,
 ) {
-  const { title, address } = feature.displayData;
-
-  const languageTags = useCurrentLanguageTagStrings();
-  // translator: Place name shown in search results for places with unknown name / category.
-  const unknownPlaceName = t("Unknown place");
-  const placeName =
-    (title
-      ? getLocalizedStringTranslationWithMultipleLocales(title, languageTags)
-      : unknownPlaceName) ?? unknownPlaceName;
-  const addressString = address
-    ? getLocalizedStringTranslationWithMultipleLocales(address, languageTags)
-    : undefined;
-
-  const { category } = useCategory(
-    feature.placeInfo,
-    feature.osmFeature,
-    feature.photonResult,
-  );
-
-  const categoryLabel = useFeatureCategoryLabel(placeName, category);
-  const shownCategoryId = category?._id;
-
-  const detailedFeature = (feature.placeInfo ||
-    feature.osmFeature) as AnyFeature | null;
-  const accessibility =
-    detailedFeature && isWheelchairAccessible(detailedFeature);
-
-  const { push } = useAppStateAwareRouter();
   const { map } = useMap();
-  const clickHandler = useCallback(
-    (evt: MouseEvent) => {
-      if (evt.ctrlKey) {
-        return;
-      }
-      evt.preventDefault();
+  const { push } = useAppStateAwareRouter();
 
-      const { lat, lon, extent } = feature.displayData;
-      const urlObject = mapResultToUrlObject(feature);
+  url = url || "/";
 
-      if (extent) {
-        map?.fitBounds(
-          [
-            [extent[0], extent[1]],
-            [extent[2], extent[3]],
-          ],
-          {
-            padding: calculateDefaultPadding(),
-            maxDuration: 0,
-          },
-        );
-      } else {
-        map?.jumpTo({
-          center: [lon, lat],
-          zoom: 20,
-          padding: calculateDefaultPadding(),
-        });
-      }
-
-      if (urlObject?.pathname) {
-        push(urlObject);
-      }
-    },
-    [push, feature, map],
-  );
+  const openResult = async (event: MouseEvent, url: string) => {
+    if (event.ctrlKey || event.metaKey) {
+      return;
+    }
+    const padding = calculateDefaultPadding();
+    event.preventDefault();
+    if (extent) {
+      map?.fitBounds(
+        [
+          [extent[0], extent[1]],
+          [extent[2], extent[3]],
+        ],
+        {
+          padding,
+          maxDuration: 0,
+        },
+      );
+    } else if (lat && lon) {
+      map?.flyTo({ center: [lon, lat], zoom: 20, padding });
+    }
+    await push({ pathname: url, query: { q: "" } });
+  };
 
   return (
     <StyledListItem
@@ -154,24 +79,12 @@ export const SearchResult = forwardRef(function SearchResult(
     >
       <Flex asChild gap="2">
         <AppStateLink
-          href={mapResultToUrlObject(feature)}
-          onClick={clickHandler}
+          href={url}
+          onClick={(event) => openResult(event as unknown as MouseEvent, url)}
         >
-          {shownCategoryId ? (
-            <Icon
-              accessibility={accessibility || undefined}
-              category={shownCategoryId}
-              size="medium"
-            />
-          ) : null}
           <Flex align="start" direction="column" justify="center">
-            <h3 className={detailedFeature ? "is-on-wheelmap" : undefined}>
-              {placeName}
-              {categoryLabel && (
-                <span className="category-label"> {categoryLabel}</span>
-              )}
-            </h3>
-            {addressString ? <address>{addressString}</address> : null}
+            <h3>{title}</h3>
+            {address ? <address>{address}</address> : null}
           </Flex>
         </AppStateLink>
       </Flex>
