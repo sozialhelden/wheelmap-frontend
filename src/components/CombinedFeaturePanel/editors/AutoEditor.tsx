@@ -5,11 +5,11 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { useEnvContext } from "~/lib/context/EnvContext";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
 import { log } from "~/lib/util/logger";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
 import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
 import useUpdateTagValueWithLogInCallback, {
@@ -48,7 +48,7 @@ export const AutoEditor = ({
 }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const accessToken = useSession().data?.accessToken;
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
   if (!remoteOSMAPIBaseUrl) {
     throw new Error(

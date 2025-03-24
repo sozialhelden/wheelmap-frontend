@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { useCurrentAppToken } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
 import type { OSMIdWithTableAndContextNames } from "../../typing/brands/osmIds";
 import { getOSMRDFComponents } from "../../typing/discriminators/osmDiscriminator";
 import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
@@ -21,7 +21,7 @@ export const useOsmToAcFeature = (
     cache?: boolean;
   },
 ) => {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const currentAppToken = useCurrentAppToken();
   const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(
     env,

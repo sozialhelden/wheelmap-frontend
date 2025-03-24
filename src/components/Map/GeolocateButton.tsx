@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { GeolocateControl } from "react-map-gl/mapbox";
 import { createGlobalStyle } from "styled-components";
-import useUserAgent from "../../lib/context/UserAgentContext";
+import { useUserAgent } from "../../modules/app/context/UserAgentContext";
 import LocateIcon from "../icons/actions/LocateOff.svg";
 import LocateOnIcon from "../icons/actions/LocateOn.svg";
 import LocateUnavailableIcon from "../icons/actions/LocateUnavailable.svg";

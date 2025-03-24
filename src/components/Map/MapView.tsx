@@ -17,8 +17,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/geo/getFeatureIdsFromLocation";
 
-import { useEnvContext } from "~/lib/context/EnvContext";
-import { StyledLoadingIndicator } from "./LoadingIndictor";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 
 import { log } from "~/lib/util/logger";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
@@ -176,7 +175,7 @@ export default function MapView(props: IProps) {
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<string[]>([]);
 
   const { NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken } =
-    useEnvContext();
+    useEnvironmentContext();
 
   const darkMode = useDarkMode();
   const mapStyle = darkMode
@@ -229,7 +228,6 @@ export default function MapView(props: IProps) {
           />
         </ReactMapGL>
       </MapProvider>
-      <StyledLoadingIndicator />
     </>
   );
 }

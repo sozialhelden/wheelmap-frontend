@@ -1,7 +1,5 @@
 import React from "react";
 import useSWR from "swr";
-import { useEnvContext } from "~/lib/context/EnvContext";
-import useHostnameContext from "~/lib/context/HostnameContext";
 import type ResourceError from "~/lib/fetchers/ResourceError";
 import fetchApp, {
   appIdForHostnameOrIPAddress,
@@ -9,6 +7,8 @@ import fetchApp, {
 import { fetchDocumentWithTypeTag } from "~/lib/fetchers/ac/fetchDocument";
 import useDocumentSWR from "~/lib/fetchers/ac/useDocumentSWR";
 import { getAccessibilityCloudCollectionName } from "~/lib/model/typing/AccessibilityCloudTypeMapping";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
+import useHostnameContext from "~/modules/app/context/HostnameContext";
 import type { IApp } from "../model/ac/App";
 
 export const AppContext = React.createContext<IApp | undefined>(undefined);
@@ -30,7 +30,7 @@ export function AppContextProvider({ children }) {
   const {
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken,
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL: baseUrl,
-  } = useEnvContext();
+  } = useEnvironmentContext();
   const hostname = useHostnameContext();
 
   if (!appToken || !baseUrl) {

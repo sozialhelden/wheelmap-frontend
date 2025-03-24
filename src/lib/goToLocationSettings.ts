@@ -1,8 +1,5 @@
 import { t } from "@transifex/native";
-import {
-  getUserAgentString,
-  parseUserAgentString,
-} from "./context/UserAgentContext";
+import { useUserAgent } from "../modules/app/context/UserAgentContext";
 import { saveState } from "./util/savedState";
 
 const alertText = t(
@@ -15,14 +12,14 @@ const alertText = t(
  *
  * @returns [locationUri, isSupportUrl]
  */
-export function getLocationSettingsUrl(): [string, boolean] {
-  const userAgent = parseUserAgentString(getUserAgentString());
+export function useLocationSettingsUrl(): [string, boolean] {
+  const userAgent = useUserAgent();
 
   // @ts-ignore
   let identity = userAgent.browser.name;
-  if (userAgent.os.name === "iOS") {
+  if (userAgent?.os.name === "iOS") {
     identity = "iOS";
-  } else if (userAgent.os.name === "Android") {
+  } else if (userAgent?.os.name === "Android") {
     identity = "Android";
   }
 
@@ -47,7 +44,7 @@ export function getLocationSettingsUrl(): [string, boolean] {
 /** Open location settings or show the user how to open them */
 export default function goToLocationSettings() {
   saveState({ hasOpenedLocationHelp: "true" });
-  const [url, isSupportUrl] = getLocationSettingsUrl();
+  const [url, isSupportUrl] = useLocationSettingsUrl();
 
   if (isSupportUrl) {
     window.open(url, "_blank");

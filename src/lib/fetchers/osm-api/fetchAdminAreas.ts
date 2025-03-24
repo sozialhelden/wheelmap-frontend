@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import { useEnvContext } from "../../context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import type { OSMFeatureCollection } from "../../model/geo/AnyFeature";
 import type OSMFeature from "../../model/osm/OSMFeature";
 import useInhouseOSMAPI from "./useInhouseOSMAPI";
