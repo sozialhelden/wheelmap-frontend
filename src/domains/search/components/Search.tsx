@@ -5,8 +5,7 @@ import { SearchDropdown } from "~/domains/search/components/SearchDropdown";
 import { SearchFormField } from "~/domains/search/components/SearchFormField";
 import { SearchResult } from "~/domains/search/components/SearchResult";
 import { useHighlightSearchResults } from "~/domains/search/components/hooks/useHighlightSearchResults";
-import { makeFeatureId } from "~/domains/search/functions/data-mapping";
-import { useEnrichedSearchResults } from "~/domains/search/hooks/useEnrichedSearchResults";
+import { useSearchResults } from "~/domains/search/hooks/useSearchResults";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 
 const SearchWrapper = styled.div`
@@ -36,7 +35,7 @@ export function Search() {
   );
 
   const { searchResults, searchError, isSearching } =
-    useEnrichedSearchResults(searchTerm);
+    useSearchResults(searchTerm);
 
   const {
     highlightNext,
@@ -76,6 +75,10 @@ export function Search() {
     router.replace({ query: { q: searchTerm } });
   }, [searchTerm]);
 
+  useEffect(() => {
+    setSearchTerm(searchTermFromQueryParameter);
+  }, [searchTermFromQueryParameter]);
+
   return (
     <SearchWrapper>
       <SearchFormField
@@ -96,8 +99,8 @@ export function Search() {
       >
         {searchResults?.map((result, index) => (
           <SearchResult
-            key={makeFeatureId(result)}
-            feature={result}
+            key={result.id}
+            result={result}
             isHighlighted={index === highlightedIndex}
             data-highlight-index={index}
           />
