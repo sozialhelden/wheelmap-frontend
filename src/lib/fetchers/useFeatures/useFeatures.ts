@@ -1,9 +1,7 @@
 import { useMemo } from "react";
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
-import { useCurrentAppToken } from "../../context/AppContext";
-import { useEnvContext } from "../../context/EnvContext";
-import { getAccessibilityCloudAPI } from "../ac/useAccessibilityCloudAPI";
-import { getInhouseOSMAPI } from "../osm-api/useInhouseOSMAPI";
+import useAccessibilityCloud, {} from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
+import useOsmApi, {} from "~/modules/osm-api/hooks/useOsmApi";
 import {
   type FetchOneFeatureProperties,
   type FetchOneFeatureResult,
@@ -19,19 +17,12 @@ export const useFeatures = (
     cache?: boolean;
   },
 ) => {
-  const env = useEnvContext();
-  const currentAppToken = useCurrentAppToken();
-
-  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = getInhouseOSMAPI(
-    env,
-    currentAppToken,
-    options?.cache ?? false,
-  );
-  const { baseUrl: acBaseUrl, appToken: acAppToken } = getAccessibilityCloudAPI(
-    env,
-    currentAppToken,
-    options?.cache ?? false,
-  );
+  const { baseUrl: osmBaseUrl, appToken: osmAppToken } = useOsmApi({
+    cached: Boolean(options?.cache),
+  });
+  const { baseUrl: acBaseUrl, appToken: acAppToken } = useAccessibilityCloud({
+    cached: Boolean(options?.cache),
+  });
 
   const [properties, uris] = useMemo(() => {
     // building additional properties, such as the fetcher can add additional attributes
