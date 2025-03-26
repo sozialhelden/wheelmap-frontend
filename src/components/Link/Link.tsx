@@ -83,7 +83,7 @@ class Link extends React.Component<Props> {
   render() {
     const { to } = this.props;
 
-    if (isUrl(to)) {
+    if (to?.match(/https?:\/\//)) {
       return this.renderExternalLink(to);
     } else if (typeof to === 'string') {
       return this.renderInternalLink(to);
