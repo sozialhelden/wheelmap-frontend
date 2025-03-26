@@ -1,6 +1,8 @@
 import * as React from "react";
+import { useMemo } from "react";
 import useSWR from "swr";
 import {
+  getCategory,
   getCategoryForFeature,
   unknownCategory,
 } from "~/domains/categories/functions/cache";
@@ -9,7 +11,7 @@ import { useCurrentAppToken } from "~/lib/context/AppContext";
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 
-const useCategorySynonymCache = () => {
+export const useCategorySynonymCache = () => {
   const appToken = useCurrentAppToken();
   const env = useEnvironmentContext();
   const baseUrl = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
@@ -41,6 +43,19 @@ export default function useCategory(
 
     return unknownCategory;
   }, [categorySynonymCache.data, features]);
+
+  return { categorySynonymCache, category };
+}
+
+export function useCategoryString(input?: string) {
+  const categorySynonymCache = useCategorySynonymCache();
+
+  const category = useMemo(() => {
+    if (!input || !categorySynonymCache.data) {
+      return unknownCategory;
+    }
+    return getCategory(categorySynonymCache.data, input);
+  }, [input, categorySynonymCache.data]);
 
   return { categorySynonymCache, category };
 }

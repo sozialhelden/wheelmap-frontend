@@ -1,14 +1,14 @@
 import { t } from "@transifex/native";
 import intersperse from "intersperse";
 import { DateTime } from "luxon";
-import opening_hours, { mode, warnings_severity } from "opening_hours";
+import opening_hours from "opening_hours";
 import * as React from "react";
-import { useAdminAreas } from "../../../../lib/fetchers/osm-api/fetchAdminAreas";
+import { useAdminAreas } from "~/lib/fetchers/osm-api/fetchAdminAreas";
 import {
   type TypeTaggedOSMFeature,
   isOSMFeature,
-} from "../../../../lib/model/geo/AnyFeature";
-import { log } from "../../../../lib/util/logger";
+} from "~/lib/model/geo/AnyFeature";
+import { log } from "~/lib/util/logger";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
 import FeatureContext from "../FeatureContext";
 
@@ -72,8 +72,8 @@ export default function OpeningHoursValue(props: {
           locale: navigator.language.slice(0, 2),
           tag_key: tagKey,
           map_value: true,
-          mode: mode.both,
-          warnings_severity: warnings_severity.info,
+          mode: 2, //mode.both
+          warnings_severity: 6, //warnings_severity.info
         },
       );
       const isOpen = oh.getState(); // for current date
