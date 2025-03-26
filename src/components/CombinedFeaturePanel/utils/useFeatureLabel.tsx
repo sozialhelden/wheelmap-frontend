@@ -1,10 +1,10 @@
 import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
-import { getCategoryForFeature } from "~/domains/categories/functions/cache";
-import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import { getCategoryForFeature } from "~/modules/categories/utils/cache";
+import { getLocalizableCategoryName } from "~/modules/categories/utils/localization";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import useCategory from "../../../domains/categories/hooks/useCategory";
+import useCategory from "../../../modules/categories/hooks/useCategory";
 import useAccessibilityAttributesIdMap from "../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "../../../lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "../../../lib/fetchers/wikidata/useWikidataName";

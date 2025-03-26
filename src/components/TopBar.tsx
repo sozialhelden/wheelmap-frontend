@@ -1,8 +1,8 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import styled from "styled-components";
-import NeedsPicker from "~/domains/needs/components/NeedsPicker";
 import type { ClientSideConfiguration } from "~/lib/model/ac/ClientSideConfiguration";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+import NeedsPicker from "~/modules/needs/components/NeedsPicker";
 import Logo from "./TopBar/Logo";
 import Navigation from "./TopBar/Navigation";
 

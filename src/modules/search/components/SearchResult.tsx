@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/components/Map/MapOverlapPadding";
 import { useMap } from "~/components/Map/useMap";
-import { useCategoryString } from "~/domains/categories/hooks/useCategory";
+import { useCategoryString } from "~/modules/categories/hooks/useCategory";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";

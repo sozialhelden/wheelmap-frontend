@@ -9,9 +9,9 @@ import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefi
 import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
 import { log } from "~/lib/util/logger";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
 import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
 } from "../../../lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
@@ -57,7 +57,7 @@ export const AutoEditor = ({
       "Missing OSM API Base URL. Please set the NEXT_PUBLIC_OSM_API_BASE_URL environment variable.",
     );
   }
-  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
+  const { baseUrl: inhouseOSMAPIBaseURL } = useOsmApi({ cached: false });
 
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
   const currentOSMObjectOnServer = useSWR<OSMAPIElement>(
