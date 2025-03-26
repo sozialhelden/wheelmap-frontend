@@ -3,7 +3,7 @@ import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { unknownCategory } from "~/domains/categories/functions/cache";
+import { unknownCategory } from "~/modules/categories/utils/cache";
 import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 import ChevronRight from "../../shared/ChevronRight";

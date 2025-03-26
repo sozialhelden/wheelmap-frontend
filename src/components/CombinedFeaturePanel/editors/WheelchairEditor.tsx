@@ -3,7 +3,7 @@ import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import { unknownCategory } from "~/domains/categories/functions/cache";
+import { unknownCategory } from "~/modules/categories/utils/cache";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";

@@ -2,8 +2,8 @@ import React from "react";
 import type { SWRResponse } from "swr";
 import { createChange } from "~/lib/fetchers/osm-api/createChange";
 import { createChangeset } from "~/lib/fetchers/osm-api/createChangeset";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import { callBackendToUpdateInhouseDb } from "../callBackendToUpdateInhouseDb";
-import useInhouseOSMAPI from "./useInhouseOSMAPI";
 
 export type OSMAPIElement = {
   version: string;
@@ -35,7 +35,7 @@ export default function useUpdateTagValueWithLogInCallback({
   postSuccessMessage: () => void;
   postErrorMessage: () => void;
 }) {
-  const { baseUrl: inhouseBaseUrl } = useInhouseOSMAPI({ cached: false });
+  const { baseUrl: inhouseBaseUrl } = useOsmApi({ cached: false });
 
   return React.useCallback(async () => {
     if (

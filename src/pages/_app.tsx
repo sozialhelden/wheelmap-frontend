@@ -5,18 +5,17 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import type * as React from "react";
-import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
+import { NeedsContextProvider } from "~/modules/needs/hooks/useNeeds";
 import { AppContextProvider } from "~/lib/context/AppContext";
 import StyledComponentsRegistry from "~/lib/context/StyledComponentsRegistry";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {
   getRequestHostname,
-  getRequestQuery,
   getRequestUserAgent,
 } from "~/lib/util/request";
 import { App } from "~/modules/app/components/App";
-import { UserAgentContextProvider } from "~/modules/app/context/UserAgentContext";
+import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getEnvironmentVariables } from "~/modules/app/utils/environment";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 
@@ -51,9 +50,11 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
             <ExpertModeContextProvider>
               <SWRConfigProvider>
                 <NeedsContextProvider>
-                  <AppContextProvider>
-                    {getLayout(<Component />)}
-                  </AppContextProvider>
+                  <CategoryFilterContextProvider>
+                    <AppContextProvider>
+                      {getLayout(<Component />)}
+                    </AppContextProvider>
+                  </CategoryFilterContextProvider>
                 </NeedsContextProvider>
               </SWRConfigProvider>
             </ExpertModeContextProvider>
