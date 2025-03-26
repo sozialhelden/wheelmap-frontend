@@ -1,7 +1,7 @@
 import React, { type Ref, useEffect, useState } from "react";
 import styled from "styled-components";
-import { type Category, categories } from "~/domains/categories/categories";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { type Category, categories } from "~/modules/categories/categories";
 import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
 import { SearchFormField } from "~/modules/search/components/SearchFormField";
 import { SearchResult } from "~/modules/search/components/SearchResult";

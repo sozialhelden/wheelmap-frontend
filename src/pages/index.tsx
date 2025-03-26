@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
-import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
 import { isFirstStart } from "~/lib/util/savedState";
+import { CategoryFilter } from "~/modules/categories/components/CategoryFilter";
 import { Search } from "~/modules/search/components/Search";
 
 const Toolbar = styled.div`
