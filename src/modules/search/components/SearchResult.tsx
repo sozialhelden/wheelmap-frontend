@@ -1,12 +1,23 @@
-import { Flex } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
+import { T } from "@transifex/react";
 import { useRouter } from "next/router";
-import { type Ref, forwardRef } from "react";
+import { type Ref, forwardRef, useMemo } from "react";
 import styled from "styled-components";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/components/Map/MapOverlapPadding";
 import { useMap } from "~/components/Map/useMap";
-import type { SearchResult as SearchResultType } from "~/domains/search/types/SearchResult";
+import {
+  getCategory,
+  unknownCategory,
+} from "~/domains/categories/functions/cache";
+import { getMostPreferableCategory } from "~/domains/categories/functions/display";
+import useCategory, {
+  useCategoryString,
+  useCategorySynonymCache,
+} from "~/domains/categories/hooks/useCategory";
+import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 
 type Props = {
   result: SearchResultType;
@@ -36,7 +47,7 @@ const StyledListItem = styled.li<{ $isHighlighted?: boolean }>`
 
 export const SearchResult = forwardRef(function SearchResult(
   {
-    result: { extent, lat, lon, title, address, url },
+    result: { extent, lat, lon, title, address, url, category },
     isHighlighted,
     ...props
   }: Props,
@@ -45,14 +56,23 @@ export const SearchResult = forwardRef(function SearchResult(
   const { map } = useMap();
   const { push } = useAppStateAwareRouter();
 
+  const { category: acCategory } = useCategoryString(category);
+
+  // TODO: replace after i18n is merged
+  const categoryLabel = useTranslatedStringFromObject(
+    acCategory?.translations?._id,
+  );
+
   url = url || "/";
 
   const openResult = async (event: MouseEvent, url: string) => {
     if (event.ctrlKey || event.metaKey) {
       return;
     }
-    const padding = calculateDefaultPadding();
     event.preventDefault();
+    await push({ pathname: url, query: { q: "" } });
+    const padding = calculateDefaultPadding();
+
     if (extent) {
       map?.fitBounds(
         [
@@ -67,7 +87,6 @@ export const SearchResult = forwardRef(function SearchResult(
     } else if (lat && lon) {
       map?.flyTo({ center: [lon, lat], zoom: 20, padding });
     }
-    await push({ pathname: url, query: { q: "" } });
   };
 
   return (
@@ -83,7 +102,10 @@ export const SearchResult = forwardRef(function SearchResult(
           onClick={(event) => openResult(event as unknown as MouseEvent, url)}
         >
           <Flex align="start" direction="column" justify="center">
-            <h3>{title}</h3>
+            <h3>
+              {title}
+              {categoryLabel && <Text ml="1">({categoryLabel})</Text>}
+            </h3>
             {address ? <address>{address}</address> : null}
           </Flex>
         </AppStateLink>

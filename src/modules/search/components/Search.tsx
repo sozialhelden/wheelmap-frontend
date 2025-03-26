@@ -1,12 +1,12 @@
 import React, { type Ref, useEffect, useState } from "react";
 import styled from "styled-components";
 import { type Category, categories } from "~/domains/categories/categories";
-import { SearchDropdown } from "~/domains/search/components/SearchDropdown";
-import { SearchFormField } from "~/domains/search/components/SearchFormField";
-import { SearchResult } from "~/domains/search/components/SearchResult";
-import { useHighlightSearchResults } from "~/domains/search/components/hooks/useHighlightSearchResults";
-import { useSearchResults } from "~/domains/search/hooks/useSearchResults";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
+import { SearchFormField } from "~/modules/search/components/SearchFormField";
+import { SearchResult } from "~/modules/search/components/SearchResult";
+import { useHighlightSearchResults } from "~/modules/search/components/hooks/useHighlightSearchResults";
+import { useSearchResults } from "~/modules/search/hooks/useSearchResults";
 
 const SearchWrapper = styled.div`
     position: relative;

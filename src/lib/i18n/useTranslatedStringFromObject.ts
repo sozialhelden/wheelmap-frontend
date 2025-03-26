@@ -7,6 +7,8 @@ import { normalizeLanguageCode } from "./normalizeLanguageCode";
 export function useTranslatedStringFromObject(
   string: LocalizedString | null | undefined,
 ): string | undefined {
+  const normalizedRequestedLanguageTags = useCurrentLanguageTagStrings();
+
   if (typeof string === "undefined" || string === null) {
     return undefined;
   }
@@ -14,8 +16,6 @@ export function useTranslatedStringFromObject(
   if (typeof string === "string") return string;
   if (typeof string === "object") {
     const firstAvailableLocale = Object.keys(string)[0];
-
-    const normalizedRequestedLanguageTags = useCurrentLanguageTagStrings();
 
     const normalizedLanguageTags = normalizedRequestedLanguageTags.map(
       normalizeLanguageCode,

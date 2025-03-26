@@ -6,4 +6,5 @@ export type SearchResult = {
   url?: string;
   address?: string;
   extent?: number[];
+  category?: string;
 };
