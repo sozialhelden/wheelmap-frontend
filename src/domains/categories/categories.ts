@@ -15,7 +15,7 @@ import {
   Tourism,
 } from "~/components/icons/mainCategories";
 
-export const categories = {
+const configuredCategories = {
   shopping: {
     // translator: Root category
     name: () => t("Shopping"),
@@ -87,7 +87,7 @@ export const categories = {
   },
 } as const;
 
-export type Category = keyof typeof categories;
+export type Category = keyof typeof configuredCategories;
 export type CategoryProperties = {
   name: () => string;
   iconComponent?: FC;
@@ -102,4 +102,5 @@ export type CategoryProperties = {
 // error on this validatedSettings variable instead, even though it's not
 // in use anywhere. this is not ideal, but it ensures type-safety and allows
 // for auto-type magic.
-const validatedCategories: Record<Category, CategoryProperties> = categories;
+export const categories: Record<Category, CategoryProperties> =
+  configuredCategories;

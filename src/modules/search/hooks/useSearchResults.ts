@@ -1,11 +1,12 @@
 import { useMemo } from "react";
 import useSWR from "swr";
 import { useMap } from "~/components/Map/useMap";
-import type { SearchResult } from "~/domains/search/types/SearchResult";
-import { getOsmId, getUrl } from "~/domains/search/utils/data-mapping";
+import { getMostPreferableCategory } from "~/domains/categories/functions/display";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import fetchPhotonFeatures, {} from "~/lib/fetchers/fetchPhotonFeatures";
 import getAddressString from "~/lib/model/geo/getAddressString";
+import type { SearchResult } from "~/modules/search/types/SearchResult";
+import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";
 
 const swrConfigNoRevalidation = {
   keepPreviousData: false,
@@ -45,7 +46,7 @@ export function useSearchResults(givenQuery: string) {
       return [];
     }
 
-    return photonSearchQuery.data.features.map((feature) => {
+    const results = photonSearchQuery.data.features.map((feature) => {
       const { properties, geometry } = feature;
 
       const address = getAddressString({
@@ -64,7 +65,16 @@ export function useSearchResults(givenQuery: string) {
         lat: geometry.coordinates[1],
         lon: geometry.coordinates[0],
         extent: properties.extent,
+        category: properties.osm_value,
       };
+    });
+
+    // filters duplicates with the same id
+    return results.filter(({ id }, index) => {
+      const lastIndex = results.findLastIndex(
+        ({ id: otherId }) => id === otherId,
+      );
+      return lastIndex === index;
     });
   }, [photonSearchQuery.data]);
 

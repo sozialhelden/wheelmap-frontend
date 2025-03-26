@@ -1,5 +1,4 @@
 import { t } from "@transifex/native";
-import { useMemo } from "react";
 import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
 import {
   type Translations,
