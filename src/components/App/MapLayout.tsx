@@ -1,20 +1,18 @@
 import { useRouter } from "next/router";
 import "normalize.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import { ThemeProvider } from "next-themes";
+import { ThemePanel } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import { AppContext } from "~/lib/context/AppContext";
 import { useExpertMode } from "~/lib/useExpertMode";
 import { isFirstStart } from "~/lib/util/savedState";
-import { GlobalMapContextProvider } from "../Map/GlobalMapContext";
+import { useSheetContext } from "~/modules/sheet/SheetContext";
 import LoadableMapView from "../Map/LoadableMapView";
-import { MapFilterContextProvider } from "../Map/filter/MapFilterContext";
 import TopBar from "../TopBar";
 import ErrorBoundary from "../shared/ErrorBoundary";
 import HeadMetaTags from "./HeadMetaTags";
@@ -43,6 +41,12 @@ width: min(400px, 80vw);
       width: 0;
     }
   }
+`;
+
+const Main = styled.main<{ $enablePaddingForSheet: boolean }>`
+  height: 100%;
+  box-sizing: border-box;
+  padding-bottom: ${({ $enablePaddingForSheet }) => ($enablePaddingForSheet ? "var(--sheet-height-collapsed)" : "0")}
 `;
 
 export default function MapLayout({
@@ -75,23 +79,30 @@ export default function MapLayout({
   );
   useHotkeys(expertModeHotkeys);
 
+  const { showSidebar, isMounted } = useSheetContext();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [isMounted, showSidebar]);
+
   return (
     <ErrorBoundary>
+      <ThemePanel defaultOpen={false} />
       <HeadMetaTags />
-      <MapFilterContextProvider>
-        <GlobalMapContextProvider>
-          {clientSideConfiguration && (
-            <TopBar clientSideConfiguration={clientSideConfiguration} />
-          )}
-          {isOnboardingVisible && <Onboarding />}
-          <main style={{ height: "100%" }} ref={containerRef}>
-            <LoadableMapView width={width} height={height} key="map" />
-            <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-            <div style={{ zIndex: 2000 }}>{children}</div>
-            <StyledToastContainer position="bottom-center" stacked />
-          </main>
-        </GlobalMapContextProvider>
-      </MapFilterContextProvider>
+
+      {clientSideConfiguration && (
+        <TopBar clientSideConfiguration={clientSideConfiguration} />
+      )}
+      {isOnboardingVisible && <Onboarding />}
+      <Main
+        ref={containerRef}
+        $enablePaddingForSheet={isMounted && !showSidebar}
+      >
+        <LoadableMapView width={width} height={height} key="map" />
+        <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+        <div style={{ zIndex: 2000 }}>{children}</div>
+        <StyledToastContainer position="bottom-center" stacked />
+      </Main>
     </ErrorBoundary>
   );
 }

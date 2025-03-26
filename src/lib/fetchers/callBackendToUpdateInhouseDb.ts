@@ -21,7 +21,7 @@ export async function callBackendToUpdateInhouseDb({
       },
       method: "POST",
       mode: "cors",
-      body: tagName,
+      body: JSON.stringify({ value: tagName }),
     },
   );
 

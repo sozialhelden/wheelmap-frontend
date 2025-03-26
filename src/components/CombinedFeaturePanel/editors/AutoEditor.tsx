@@ -1,20 +1,20 @@
 import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { useEnvContext } from "~/lib/context/EnvContext";
-import { makeChangeRequestToInhouseApi } from "~/lib/fetchers/makeChangeRequestToInhouseApi";
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
+import { log } from "~/lib/util/logger";
+import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
-import useSubmitNewValueCallback, {
+import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
-} from "../../../lib/fetchers/osm-api/makeChangeRequestToOsmApi";
-import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
+} from "../../../lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
 import { AppStateLink } from "../../App/AppStateLink";
 import { FeaturePanelContext } from "../FeaturePanelContext";
 import { StyledReportView } from "../ReportView";
@@ -46,7 +46,6 @@ export const AutoEditor = ({
   addNewLanguage,
   onClose,
 }: BaseEditorProps) => {
-  const router = useRouter();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const accessToken = useSession().data?.accessToken;
   const env = useEnvContext();
@@ -56,7 +55,7 @@ export const AutoEditor = ({
       "Missing OSM API Base URL. Please set the NEXT_PUBLIC_OSM_API_BASE_URL environment variable.",
     );
   }
-  const { baseUrl: inhouseOSMAPIBaseURL } = useInhouseOSMAPI({ cached: false });
+  const { baseUrl: inhouseOSMAPIBaseURL } = useOsmApi({ cached: false });
 
   const osmFeature = isOSMFeature(feature) ? feature : undefined;
   const currentOSMObjectOnServer = useSWR<OSMAPIElement>(
@@ -71,91 +70,19 @@ export const AutoEditor = ({
   const [finalTagName, setFinalTagName] = useState(tagName);
   const [newTagValue, setEditedTagValue] = useState<string>("");
 
-  const handleSuccess = React.useCallback(() => {
+  function postSuccessMessage() {
     toast.success(
       t("Thank you for contributing. Your edit will be visible soon."),
     );
-    const newPath = router.asPath.replace(
-      new RegExp(`/edit/${finalTagName}`),
-      "",
+  }
+
+  function postErrorMessage() {
+    toast.error(
+      t("Something went wrong. Please let us know if the error persists."),
     );
-    router.push(newPath);
-  }, [router, finalTagName]);
+  }
 
-  const handleOSMSuccessDBError = React.useCallback(() => {
-    const message = [
-      t("Thank you for contributing."),
-      t(
-        " There was an error while trying to save your changes to our database.",
-      ),
-      t(" Your changes will still be visible on Open Street Map."),
-    ];
-    toast.warning(message);
-    // const newPath = router.asPath.replace(new RegExp(`/edit/${tagName}`), '')
-    // router.push(newPath)
-  }, []);
-
-  const handleError = React.useCallback((error: Error, message?: string) => {
-    const defaultMessage = [
-      t("Your contribution could not be saved completely."),
-      t(
-        `Please try again later or let us know if the error persists. Error: ${error}`,
-      ),
-    ].join(" ");
-
-    toast.error(message || defaultMessage);
-  }, []);
-
-  const submitNewValue = useSubmitNewValueCallback({
-    handleSuccess,
-    handleOSMSuccessDBError,
-    handleError,
-    accessToken,
-    baseUrl: remoteOSMAPIBaseUrl,
-    osmType,
-    osmId,
-    tagName: finalTagName,
-    newTagValue,
-    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
-  });
-
-  const handleSubmitButtonClick = async () => {
-    if (accessToken) {
-      await submitNewValue();
-      return;
-    }
-    if (!newTagValue || !osmId) {
-      handleError(
-        new Error("Missing Information"),
-        t(
-          "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.",
-        ),
-      );
-      return;
-    }
-    try {
-      await makeChangeRequestToInhouseApi({
-        baseUrl: inhouseOSMAPIBaseURL,
-        osmId,
-        tagName: finalTagName,
-        newTagValue,
-      });
-      handleSuccess();
-    } catch (error) {
-      handleError(
-        error,
-        t("Something went wrong. Please let us know if the error persists."),
-      );
-    }
-  };
-
-  const onUrlMutationSuccess = React.useCallback((urls: string[]) => {
-    mutate((key: string) => urls.includes(key), undefined, {
-      revalidate: true,
-    });
-  }, []);
-
-  const handleTagKeyChange = React.useCallback(
+  const onLanguageChange = React.useCallback(
     (newPickerValue: string) => {
       const { normalizedOSMTagKey: baseTag } =
         normalizeAndExtractLanguageTagsIfPresent(tagName);
@@ -163,16 +90,47 @@ export const AutoEditor = ({
 
       if (updatedTagName !== finalTagName) {
         setFinalTagName(updatedTagName);
-
-        const newUrl = router.asPath.replace(
-          `/edit/${tagKey}`,
-          `/edit/${updatedTagName}`,
-        );
-        router.replace(newUrl, undefined, { shallow: true });
       }
     },
-    [tagName, tagKey, router, finalTagName],
+    [tagName, finalTagName],
   );
+
+  const updateTagValueWithLogIn = useUpdateTagValueWithLogInCallback({
+    accessToken,
+    baseUrl: remoteOSMAPIBaseUrl,
+    osmType,
+    osmId,
+    tagName: finalTagName,
+    newTagValue,
+    currentOSMObjectOnServer: currentOSMObjectOnServer.data,
+    postSuccessMessage: postSuccessMessage,
+    postErrorMessage: postErrorMessage,
+  });
+
+  const onSubmit = async () => {
+    if (accessToken) {
+      try {
+        await updateTagValueWithLogIn();
+      } catch (error) {
+        log.error(error);
+      }
+      return;
+    }
+
+    try {
+      await updateTagValueNoLogIn({
+        baseUrl: inhouseOSMAPIBaseURL,
+        osmType: osmType,
+        osmId: osmId,
+        tagName: finalTagName,
+        newTagValue: newTagValue,
+        postSuccessMessage: postSuccessMessage,
+        postErrorMessage: postErrorMessage,
+      });
+    } catch (error) {
+      log.error(error);
+    }
+  };
 
   const Editor = getEditorForKey(tagKey);
   if (Editor) {
@@ -181,10 +139,9 @@ export const AutoEditor = ({
         feature={feature}
         tagKey={finalTagName}
         onChange={setEditedTagValue}
-        onUrlMutationSuccess={onUrlMutationSuccess}
-        onSubmit={handleSubmitButtonClick}
+        onSubmit={onSubmit}
         addNewLanguage={addNewLanguage}
-        onLanguageChange={handleTagKeyChange}
+        onLanguageChange={onLanguageChange}
         onClose={onClose}
       />
     );

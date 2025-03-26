@@ -2,12 +2,12 @@ import { AspectRatio, Card, Inset, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, type MouseEventHandler, useContext, useMemo } from "react";
 import styled from "styled-components";
+import AccessibilityCloudEntityImage from "~/components/AccessibilityCloudEntityImage";
 import { AppStateLink } from "~/components/App/AppStateLink";
-import Image from "~/components/Image";
 import type { AccessibilityCloudImage } from "~/lib/model/ac/Feature";
 import { GalleryContext } from "./Gallery";
 
-const StyledImage = styled(Image)`
+const StyledImage = styled(AccessibilityCloudEntityImage)`
   display: block;
   width: 100%;
   height: 100%;

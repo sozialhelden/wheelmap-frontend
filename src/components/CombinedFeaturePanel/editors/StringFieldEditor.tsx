@@ -147,7 +147,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
           {addNewLanguage && (
             <Flex align="center" gap="3" style={{ width: "100%" }}>
               <Text as="label" size="2">
-                Select a language:
+                {t("Select a language:")}
               </Text>
               <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect

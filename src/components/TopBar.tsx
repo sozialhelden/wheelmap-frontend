@@ -1,8 +1,8 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import styled from "styled-components";
-import NeedsPicker from "~/domains/needs/components/NeedsPicker";
 import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
 import type { ClientSideConfiguration } from "~/lib/model/ac/ClientSideConfiguration";
+import NeedsPicker from "~/modules/needs/components/NeedsPicker";
 import Logo from "./TopBar/Logo";
 import Navigation from "./TopBar/Navigation";
 
@@ -11,13 +11,14 @@ const StyledTopBar = styled.header`
     top: 0;
     left: 0;
     right: 0;
-    height: auto;
-    z-index: 1;
-    padding: var(--space-2) var(--space-3);
+    height: var(--topbar-height);
+    box-sizing: border-box;
+    padding: var(--space-2) var(--space-3);;
     border-bottom: 2px solid var(--gray-5);
     background: var(--color-panel);
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
+    z-index: 20;
     
     @media (max-width: 768px) {
         grid-template-columns: 65px 1fr 65px;
