@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { StyledReportView } from "~/components/CombinedFeaturePanel/ReportView";
 import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import { unknownCategory } from "~/domains/categories/functions/cache";
+import { unknownCategory } from "~/modules/categories/utils/cache";
 import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
 import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";

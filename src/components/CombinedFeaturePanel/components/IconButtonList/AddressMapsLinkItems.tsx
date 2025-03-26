@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import useCategory from "../../../../domains/categories/hooks/useCategory";
+import useCategory from "~/modules/categories/hooks/useCategory";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import { generateMapsUrl } from "../../../../lib/model/geo/generateMapsUrls";
 import { usePlaceNameFor } from "../../../../lib/model/geo/usePlaceNameFor";

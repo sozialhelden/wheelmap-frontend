@@ -1,11 +1,11 @@
 import { t } from "@transifex/native";
-import { getLocalizableCategoryName } from "~/domains/categories/functions/localization";
+import { getLocalizableCategoryName } from "~/modules/categories/utils/localization";
 import {
   type Translations,
   useTranslations,
 } from "~/modules/i18n/hooks/useTranslations";
 import useEquipmentInfoDescription from "../../../components/NodeToolbar/Equipment/useEquipmentInfoDescription";
-import type { ACCategory } from "../../../domains/categories/types/ACCategory";
+import type { ACCategory } from "../../../modules/categories/types/ACCategory";
 import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
 import type { AnyFeature } from "./AnyFeature";
 
