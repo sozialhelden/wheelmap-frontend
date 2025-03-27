@@ -2,6 +2,10 @@ import { useAppContext } from "~/lib/context/AppContext";
 import useAccessibilityCloud, {
   type AccessibilityCloudApiProps,
 } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
+import {
+  type NestedRecord,
+  flattenToSearchParams,
+} from "~/utils/search-params";
 
 function getExcludedSourceIds(): Record<string, string> {
   const { clientSideConfiguration } = useAppContext();
@@ -30,10 +34,10 @@ function getIncludedSourceIds(): Record<string, string> {
   };
 }
 
-export type AccessibilityCloudCollectionProps = {
+export type AccessibilityCloudCollectionUrlProps = {
   collection: string;
   format?: "mvt" | "json" | "geojson";
-  params?: Record<string, string>;
+  params?: NestedRecord<string>;
   suffix?: string;
 } & AccessibilityCloudApiProps;
 
@@ -43,11 +47,11 @@ export function useAccessibilityCloudCollectionUrl({
   params = {},
   cached = false,
   suffix = "",
-}: AccessibilityCloudCollectionProps): string {
+}: AccessibilityCloudCollectionUrlProps): string {
   const { baseUrl, appToken } = useAccessibilityCloud({ cached });
 
   const queryString = new URLSearchParams({
-    ...params,
+    ...flattenToSearchParams(params),
     ...getExcludedSourceIds(),
     ...getIncludedSourceIds(),
     appToken,

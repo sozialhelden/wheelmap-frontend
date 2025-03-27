@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Layer, type LayerProps, Source } from "react-map-gl/mapbox";
 import { useAccessibilityCloudCollectionTileUrl } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloudCollectionTileUrl";
+import { useAccessibilityCloudFilterQuery } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloudFilterQuery";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 
 export default function MarkerBackgroundLayer({
@@ -95,9 +96,12 @@ export function MarkerIconLayer({
 }
 
 export const AcPoiLayers = () => {
+  const params = useAccessibilityCloudFilterQuery();
+
   const tiles = [
     useAccessibilityCloudCollectionTileUrl({
       collection: "place-infos",
+      params,
     }),
   ];
 
