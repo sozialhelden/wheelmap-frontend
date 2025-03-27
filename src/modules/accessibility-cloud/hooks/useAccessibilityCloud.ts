@@ -1,5 +1,5 @@
 import { useCurrentAppToken } from "~/lib/context/AppContext";
-import { useEnvContext } from "~/lib/context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 
 export type AccessibilityCloudApiProps = {
   cached?: boolean;
@@ -8,7 +8,7 @@ export type AccessibilityCloudApiProps = {
 export default function useAccessibilityCloud({
   cached = true,
 }: AccessibilityCloudApiProps = {}) {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
   const appToken = useCurrentAppToken();
 
   const baseUrl = cached
