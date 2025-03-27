@@ -5,6 +5,7 @@ import { NoDataIcon } from "~/modules/needs/components/icons/mobility/NoDataIcon
 import { NotWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
 import { PartiallyWheelchairAccessibleCombinationIcon } from "~/modules/needs/components/icons/mobility/PartiallyWheelchairAccessibleCombinationIcon";
 import { FullyWheelchairAccessibleToiletIcon } from "~/modules/needs/components/icons/toilets/FullyWheelchairAccessibleToiletIcon";
+import { ToiletPresentIcon } from "~/modules/needs/components/icons/toilets/ToiletPresentIcon";
 
 // add additional need categories and needs to this settings object,
 // everything else including types will be auto-generated based on it.
@@ -66,11 +67,11 @@ export const settings = {
         icon: FullyWheelchairAccessibleToiletIcon,
         legacyQueryParamValues: ["yes"],
       },
+      "toilet-present": {
+        label: () => t("Has a toilet"),
+        icon: ToiletPresentIcon,
+      },
       // Would be nice, but we currently have no way to filter for it
-      // "toilet-present": {
-      //   label: () => t(`Has a toilet`),
-      //   icon: ToiletPresentIcon,
-      // },
       // "no-data": {
       //   label: () => t(`No toilet info yet`),
       // },

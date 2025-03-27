@@ -37,13 +37,19 @@ function useToiletFilterParams(): Record<string, string> {
     selection: { toilet },
   } = useNeeds();
 
-  if (toilet === "fully-wheelchair-accessible") {
-    return {
-      hasAccessibleToilet: "yes",
-    };
+  if (!toilet) {
+    return {};
   }
 
-  return {};
+  return {
+    "no-need": {},
+    "fully-wheelchair-accessible": {
+      hasAccessibleToilet: "yes",
+    },
+    "toilet-present": {
+      hasToiletInfo: true,
+    },
+  }[toilet];
 }
 
 export function useOsmApiFilterQuery(): Record<string, string> {
