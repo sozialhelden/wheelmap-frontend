@@ -10,16 +10,17 @@ import {
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import SearchableSelect from "~/components/shared/SearchableSelect";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
-} from "~/lib/util/TagKeyUtils";
+} from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
 import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
-import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,

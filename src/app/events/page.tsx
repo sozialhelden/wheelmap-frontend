@@ -4,7 +4,8 @@ import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
 
 export default function NotFoundPage() {
   const { back } = useRouter();

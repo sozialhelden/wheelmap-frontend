@@ -1,0 +1,71 @@
+import { describeIETFLanguageTag } from "@sozialhelden/ietf-language-tags";
+import { languageTaggedKeys } from "~/needs-refactoring/lib/model/osm/tag-config/languageTaggedKeys";
+
+/*
+ * Checks whether an OSM tag has language tag support and if a language tag is present.
+ * @returns the non-language-tagged OSM tag, a flag and the language tag itself if the input tag is in the list of language tagged osm tags.
+ * If the input tag is not language tagged the flag is returned as false.
+ * If the input tag is generally language tagged (in the list of language tags) but no language is appended on this instance,
+ * the flag is returned as true and the language tag as null.
+ * @example
+ * Input: `wheelchair:description:es`, Output: `{ wheelchair:description, true, es }`
+ * Input: `wheelchair:description`, Output: `{ wheelchair:description, true, null }`
+ * Input: `an:other:tag`, Output: `{ an:other:tag, false, null }`
+ */
+
+export const normalizeAndExtractLanguageTagsIfPresent = (osmTagKey: string) => {
+  if (languageTaggedKeys.has(osmTagKey)) {
+    return {
+      normalizedOSMTagKey: osmTagKey,
+      hasLanguageTagSupport: true,
+      languageTag: null,
+    };
+  }
+
+  const parts: string[] = osmTagKey.split(":");
+  let assembledString: string = parts.slice(0, parts.length - 1).join(":");
+
+  for (let i = 1; i < parts.length; i++) {
+    if (languageTaggedKeys.has(assembledString)) {
+      const languageTag = parts[parts.length - i];
+      const isValidTag =
+        describeIETFLanguageTag(languageTag, false) !== "undefined tag";
+      if (isValidTag) {
+        return {
+          normalizedOSMTagKey: assembledString,
+          hasLanguageTagSupport: true,
+          languageTag,
+        };
+      }
+      console.warn("Tag ", assembledString, "is appended with an unknown tag.");
+      return {
+        normalizedOSMTagKey: assembledString,
+        hasLanguageTagSupport: true,
+        languageTag: null,
+      };
+    }
+    assembledString = parts.slice(0, parts.length - (1 + i)).join(":");
+  }
+
+  return {
+    normalizedOSMTagKey: osmTagKey,
+    hasLanguageTagSupport: false,
+    languageTag: null,
+  };
+};
+
+/*
+ * @returns a set of available lang tags for a list of language tagged OSM tags.
+ * The OSM tags must share the same base tag since the extraction of the language tags is based on the length of the
+ * base tag.
+ */
+export const getAvailableLangTags = (
+  langTaggedKeys: string[],
+  lengthOfBaseTag: number,
+) => {
+  return new Set(
+    langTaggedKeys
+      .filter((tagKey) => tagKey.split(":").length > lengthOfBaseTag)
+      .map((tagKey) => tagKey.split(":").at(-1) || ""),
+  );
+};

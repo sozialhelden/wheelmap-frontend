@@ -1,11 +1,11 @@
-import { getLayout } from "~/components/App/MapLayout";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { getLayout } from "~/components/layouts/BaseMapLayout";
+import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 
+// @legacy-route
 export default function Page() {
   const router = useAppStateAwareRouter();
   router.replace("/");
-
-  return <></>;
+  return null;
 }
 
 Page.getLayout = getLayout;

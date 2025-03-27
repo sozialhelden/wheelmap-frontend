@@ -1,4 +1,4 @@
-import { useCurrentAppToken } from "~/lib/context/AppContext";
+import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 
 export type OsmApiProps = {
@@ -11,7 +11,7 @@ export default function useOsmApi({
   cached = false,
 }: OsmApiProps = {}) {
   const env = useEnvironmentContext();
-  const appToken = useCurrentAppToken();
+  const { tokenString: appToken } = useAppContext();
 
   const baseUrl =
     cached || tileNumber

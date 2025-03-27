@@ -1,5 +1,5 @@
 import type React from "react";
-import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 export type BaseEditorProps = {
   feature: AnyFeature;
