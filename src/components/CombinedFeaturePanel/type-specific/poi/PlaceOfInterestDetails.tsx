@@ -103,9 +103,9 @@ export default function PlaceOfInterestDetails({
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
       </StyledIconButtonList>
 
-      <AppStateLink href={`${baseFeatureUrl}/report(`}>
-        {t("Report")}
-      </AppStateLink>
+      {/*<AppStateLink href={`${baseFeatureUrl}/report(`}>*/}
+      {/*  {t("Report")}*/}
+      {/*</AppStateLink>*/}
     </FeatureContext.Provider>
   );
 }
