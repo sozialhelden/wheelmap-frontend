@@ -186,7 +186,12 @@ export default function MapView(props: IProps) {
   const onMouseEnter = React.useCallback(() => setCursor("pointer"), []);
   const onMouseLeave = React.useCallback(() => setCursor("auto"), []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // When toggling dark mode aka the map style, the map itself will be reloaded.
+  // While in loading state, you cannot add sources or layers to the map, that's
+  // why they only get rendered after the map was loaded completely (mapLoaded = true).
+  // In case the dark mode is toggled, we need to reset the loading state to prevent
+  // the app from breaking.
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     setMapLoaded(false);
   }, [darkMode]);
