@@ -1,16 +1,15 @@
+import { Box, Button } from "@radix-ui/themes";
 import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import { unknownCategory } from "~/domains/categories/functions/cache";
 import { isWheelchairAccessible } from "../../../lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "../../../lib/model/geo/AnyFeature";
 import ChevronRight from "../../shared/ChevronRight";
 import Icon from "../../shared/Icon";
 import { PlaceNameH1, PlaceNameH2 } from "../../shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
-import { Box, Button } from "@radix-ui/themes";
-import { unknownCategory } from "~/domains/categories/functions/cache";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -41,8 +40,6 @@ export default function FeatureNameHeader(props: Props) {
     }
   }, [feature, onClickCurrentMarkerIcon]);
 
-  const languageTags = useCurrentLanguageTagStrings();
-
   const {
     parentPlaceName,
     levelName,
@@ -59,7 +56,6 @@ export default function FeatureNameHeader(props: Props) {
     localRef,
   } = useFeatureLabel({
     feature,
-    languageTags,
   });
 
   if (!feature) return null;

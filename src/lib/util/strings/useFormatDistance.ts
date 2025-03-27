@@ -1,4 +1,4 @@
-import shouldPreferImperialUnits from "../../model/geo/shouldPreferImperialUnits";
+import usePreferImperialUnits from "../../../modules/i18n/hooks/usePreferImperialUnits";
 
 const unitSets = {
   metric: [
@@ -41,11 +41,11 @@ const unitSets = {
 //    254.1234 becomes 250m
 //    2123.12 becomes  2.1km
 //    12123.12 becomes  12km
-export function formatDistance(
+export function useFormatDistance(
   distanceInMeters: number,
   precision = 2,
 ): { unit: string | number; distance: string | number } {
-  const unitSet = shouldPreferImperialUnits()
+  const unitSet = usePreferImperialUnits()
     ? unitSets.imperialYard
     : unitSets.metric;
 

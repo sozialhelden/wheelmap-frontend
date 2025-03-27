@@ -1,6 +1,6 @@
 import { t } from "@transifex/native";
+import usePreferImperialUnits from "../../../modules/i18n/hooks/usePreferImperialUnits";
 import type { YesNoLimitedUnknown, YesNoUnknown } from "../ac/Feature";
-import shouldPreferImperialUnits from "../geo/shouldPreferImperialUnits";
 
 export function accessibilityName(
   accessibility: YesNoLimitedUnknown,
@@ -65,7 +65,7 @@ export function shortAccessibilityName(
   }
 }
 
-export function accessibilityDescription(
+export function useAccessibilityDescription(
   accessibility: YesNoLimitedUnknown,
 ): string | null {
   switch (accessibility) {
@@ -75,7 +75,7 @@ export function accessibilityDescription(
         "Entrance has no steps, important areas are accessible without steps.",
       );
     case "limited":
-      return shouldPreferImperialUnits()
+      return usePreferImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
           t(
             "Entrance has one step with max. 3 inches height, most areas are without steps.",

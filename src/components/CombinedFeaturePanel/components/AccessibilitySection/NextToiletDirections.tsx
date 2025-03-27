@@ -4,7 +4,7 @@ import { useNearbyFeatures } from "../../../../lib/fetchers/osm-api/fetchNearbyF
 import { hasAccessibleToilet } from "../../../../lib/model/ac/Feature";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";
 import colors from "../../../../lib/util/colors";
-import { formatDistance } from "../../../../lib/util/strings/formatDistance";
+import { useFormatDistance } from "../../../../lib/util/strings/useFormatDistance";
 import { PlaceholderSpan } from "../../../shared/Placeholder";
 
 export default function NextToiletDirections({
@@ -35,7 +35,7 @@ export default function NextToiletDirections({
     typeof nextToilet.properties.distance === "number"
       ? nextToilet.properties.distance
       : Number.parseFloat(nextToilet.properties.distance);
-  const formattedDistance = formatDistance(distanceInMeters);
+  const formattedDistance = useFormatDistance(distanceInMeters);
   const { distance, unit } = formattedDistance;
 
   const distanceElement = (

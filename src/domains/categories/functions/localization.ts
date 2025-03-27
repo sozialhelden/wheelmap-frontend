@@ -1,16 +1,18 @@
 import type { ACCategory } from "~/domains/categories/types/ACCategory";
-import { getLocalizedStringTranslationWithMultipleLocales } from "~/lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import type { LocalizedString } from "~/lib/i18n/LocalizedString";
+
+import {
+  type Translations,
+  useTranslations,
+} from "~/modules/i18n/hooks/useTranslations";
 
 export function getLocalizableCategoryName(
   category: ACCategory,
-): LocalizedString | undefined {
+): Translations | undefined {
   return category.translations?._id;
 }
 
 export function getLocalizedCategoryName(
   category: ACCategory | undefined | null,
-  requestedLanguageTags: string[],
 ) {
   if (!category) {
     return undefined;
@@ -21,8 +23,5 @@ export function getLocalizedCategoryName(
     return undefined;
   }
 
-  return getLocalizedStringTranslationWithMultipleLocales(
-    localizedString,
-    requestedLanguageTags,
-  );
+  return useTranslations(localizedString);
 }

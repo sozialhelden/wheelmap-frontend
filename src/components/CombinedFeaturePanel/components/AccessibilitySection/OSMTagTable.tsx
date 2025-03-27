@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useAccessibilityAttributesIdMap from "../../../../lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import type { TypeTaggedOSMFeature } from "../../../../lib/model/geo/AnyFeature";
 import { getOSMTagProps } from "../../../../lib/model/osm/tag-config/getOSMTagProps";
@@ -46,8 +45,7 @@ export default function OSMTagTable({
 }) {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
 
-  const languageTags = useCurrentLanguageTagStrings();
-  const { map: attributesById } = useAccessibilityAttributesIdMap(languageTags);
+  const { map: attributesById } = useAccessibilityAttributesIdMap();
 
   const listItems = nestedTags.map(({ key, children }) => {
     const tagValues = getTagValues(feature, key);
@@ -60,7 +58,6 @@ export default function OSMTagTable({
         key,
         matchedKey,
         singleValue,
-        languageTags,
         attributesById,
         feature,
         baseFeatureUrl,

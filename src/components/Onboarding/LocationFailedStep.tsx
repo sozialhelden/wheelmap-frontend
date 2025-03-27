@@ -5,14 +5,14 @@ import { AppContext } from "../../lib/context/AppContext";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationFailedStepPrimaryText,
-  getProductName,
-} from "./getProductName";
+  useProductName,
+} from "./useProductName";
 
 export const LocationFailedStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext) ?? {};
-  const productName = getProductName(clientSideConfiguration);
+  const productName = useProductName(clientSideConfiguration);
 
   return (
     <Box>
