@@ -1,7 +1,7 @@
 import React, { type Ref, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
-import { type Category, categories } from "~/modules/categories/categories";
+import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
 import { SearchFormField } from "~/modules/search/components/SearchFormField";
 import { SearchResult } from "~/modules/search/components/SearchResult";
@@ -9,20 +9,14 @@ import { useHighlightSearchResults } from "~/modules/search/components/hooks/use
 import { useSearchResults } from "~/modules/search/hooks/useSearchResults";
 
 const SearchWrapper = styled.div`
+    flex-basis: 100%;
     position: relative;
-    margin: 0 .5rem;
-    flex-shrink: 0;
-    @media (max-width: 1024px) {
-        margin-bottom: .5rem;
-    }
-    @media (min-width: 1025px) {
-        width: 350px;
-    }
 `;
 
-export function Search() {
+export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
   const router = useAppStateAwareRouter();
-  const category = categories[router.query.category as Category]?.name();
+  const { categoryProperties } = useCategoryFilter();
+  const category = categoryProperties?.name();
 
   const searchTermFromQueryParameter = Array.isArray(router.query.q)
     ? router.query.q[0]
@@ -83,6 +77,7 @@ export function Search() {
     <SearchWrapper>
       <SearchFormField
         isDropdownOpen={isDropdownOpen}
+        isOnBackground={isOnBackground}
         value={category || searchTerm}
         onChange={handleInputChange}
         onReset={resetCategoryFilter}

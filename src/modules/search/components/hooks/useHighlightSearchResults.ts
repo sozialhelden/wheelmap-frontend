@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import type { EnrichedSearchResult } from "~/modules/search/types/EnrichedSearchResult";
 
 export function useHighlightSearchResults({
   searchResults,

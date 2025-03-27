@@ -1,11 +1,11 @@
 import { Flex, Text } from "@radix-ui/themes";
 import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
-import { AppStateLink } from "~/components/App/AppStateLink";
-import { calculateDefaultPadding } from "~/components/Map/MapOverlapPadding";
-import { useMap } from "~/components/Map/useMap";
+import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
+import { useMap } from "~/needs-refactoring/components/Map/useMap";
+import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import { useCategoryString } from "~/modules/categories/hooks/useCategory";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 

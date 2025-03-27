@@ -1,4 +1,4 @@
-import { expect, test } from "./setup/test-fixture";
+import { test, expect } from "./setup/test-fixture";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test("has title", async ({ page }) => {
@@ -8,7 +8,7 @@ test("has title", async ({ page }) => {
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Wheelmap/);
 });
-
+//
 // const dialogSelector = 'dialog[data-state="open"]';
 //
 // async function waitForDialogToBeStable(page) {
@@ -49,10 +49,10 @@ test("has title", async ({ page }) => {
 //                 - term: Fully wheelchair accessible
 //                 - definition: Entrance has no steps, important areas are accessible without steps.
 //             - listitem:
-//               - figure "Partially wheelchair accessible Entrance has one step with max. 7 cm height, most areas are without steps.":
+//               - figure "Partially wheelchair accessible Entrance has one step with max. 3 inches height, most areas are without steps.":
 //                 - img "orange map marker"
 //                 - term: Partially wheelchair accessible
-//                 - definition: Entrance has one step with max. 7 cm height, most areas are without steps.
+//                 - definition: Entrance has one step with max. 3 inches height, most areas are without steps.
 //             - listitem:
 //               - figure "Not wheelchair accessible Entrance has a high step or several steps, important areas are inaccessible.":
 //                 - img "red map marker"

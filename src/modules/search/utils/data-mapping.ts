@@ -1,4 +1,4 @@
-import type { PhotonResultFeature } from "../../../lib/fetchers/fetchPhotonFeatures";
+import type { PhotonResultFeature } from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";
 
 const typeMap = {
   N: "node",

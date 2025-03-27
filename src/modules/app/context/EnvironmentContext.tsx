@@ -1,5 +1,8 @@
 import { type ReactNode, createContext, useContext } from "react";
-import { addToEnvironment, getEnvironment } from "~/lib/util/globalEnvironment";
+import {
+  addToEnvironment,
+  getEnvironment,
+} from "~/needs-refactoring/lib/util/globalEnvironment";
 
 export type EnvironmentVariables = Record<string, string | undefined>;
 

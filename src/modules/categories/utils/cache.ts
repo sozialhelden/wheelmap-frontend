@@ -1,4 +1,4 @@
-import type { AnyFeature } from "~/lib/model/geo/AnyFeature";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import type { ACCategory } from "~/modules/categories/types/ACCategory";
 
 type SynonymCache = Map<string, ACCategory>;
