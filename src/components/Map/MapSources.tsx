@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import * as React from "react";
 import { Source } from "react-map-gl/mapbox";
 import { categories } from "~/domains/categories/categories";
-import { useEnvContext } from "../../lib/context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import type { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import { useAppStateAwareRouter } from "../../lib/util/useAppStateAwareRouter";
 import { databaseTableNames } from "./filterLayers";
@@ -39,7 +39,7 @@ export const MapSources = () => {
   } = useAppStateAwareRouter();
 
   const { NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL: tileBackendUrl } =
-    useEnvContext();
+    useEnvironmentContext();
 
   const mvtParams = useMemo(() => {
     const baseParams = new URLSearchParams({

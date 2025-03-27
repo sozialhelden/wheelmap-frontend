@@ -3,7 +3,7 @@ import { t } from "@transifex/native";
 import { type FC, useContext } from "react";
 import { AppContext } from "../../lib/context/AppContext";
 import type { PhotonResultFeature } from "../../lib/fetchers/fetchPhotonFeatures";
-import { getLocationSettingsUrl } from "../../lib/goToLocationSettings";
+import { useLocationSettingsUrl } from "../../lib/goToLocationSettings";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationNoPermissionPrimaryText,
@@ -15,7 +15,7 @@ export const LocationNoPermissionStep: FC<{
 }> = ({ onSubmit }) => {
   const { clientSideConfiguration } = useContext(AppContext) ?? {};
   const productName = useProductName(clientSideConfiguration);
-  const [url] = getLocationSettingsUrl();
+  const [url] = useLocationSettingsUrl();
 
   return (
     <Box>

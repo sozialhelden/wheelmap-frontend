@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useEnvContext } from "~/lib/context/EnvContext";
+import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import {
   getLabel,
@@ -43,7 +43,7 @@ export function I18nContextProvider({
   languageTag: LanguageTag;
   children: ReactNode;
 }) {
-  const env = useEnvContext();
+  const env = useEnvironmentContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [currentLanguageTag, setCurrentLanguageTag] =
@@ -53,16 +53,16 @@ export function I18nContextProvider({
   const region = getRegion(currentLanguageTag);
   const languageLabel = getLabel(currentLanguageTag);
 
-  const setTransifexLocale = async (languageTag: LanguageTag) => {
+  const setTransifexLocale = (languageTag: LanguageTag) => {
     setIsLoading(true);
     const locale = getLocale(languageTag);
-    try {
-      await tx.setCurrentLocale(locale);
-    } catch (error) {
-      console.error(`Error setting Transifex locale to "${locale}"`, error);
-    } finally {
-      setIsLoading(false);
-    }
+    tx.setCurrentLocale(locale)
+      .catch((error) => {
+        console.error(`Error setting Transifex locale to "${locale}"`, error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const setLanguageTag = (languageTag: LanguageTag) => {

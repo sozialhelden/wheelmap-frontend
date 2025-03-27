@@ -28,7 +28,7 @@ export function getMostPreferableLanguageTag(
         return "zh-Hans";
       }
       // Countries using simplified script: Mainland China, Singapore, Malaysia
-      if (["CN", "SG", "MY"].includes(languageTag.region)) {
+      if (["CN", "SG", "MY"].includes(String(languageTag.region))) {
         return "zh-Hans";
       }
       // Rest and overseas Chinese uses traditional script in most cases
