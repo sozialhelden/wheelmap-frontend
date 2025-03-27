@@ -5,15 +5,12 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import type * as React from "react";
-import { NeedsContextProvider } from "~/modules/needs/hooks/useNeeds";
+import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import { AppContextProvider } from "~/lib/context/AppContext";
 import StyledComponentsRegistry from "~/lib/context/StyledComponentsRegistry";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
-import {
-  getRequestHostname,
-  getRequestUserAgent,
-} from "~/lib/util/request";
+import { getRequestHostname, getRequestUserAgent } from "~/lib/util/request";
 import { App } from "~/modules/app/components/App";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getEnvironmentVariables } from "~/modules/app/utils/environment";
