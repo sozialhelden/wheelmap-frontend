@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import type { EnrichedSearchResult } from "~/domains/search/types/EnrichedSearchResult";
+import type { EnrichedSearchResult } from "~/modules/search/types/EnrichedSearchResult";
 
 export function useHighlightSearchResults({
   searchResults,
   searchTerm,
-}: { searchTerm: string; searchResults?: EnrichedSearchResult[] }) {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+}: { searchTerm: string; searchResults?: any[] }) {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const searchResultsContainer = useRef<HTMLElement | undefined>();
 

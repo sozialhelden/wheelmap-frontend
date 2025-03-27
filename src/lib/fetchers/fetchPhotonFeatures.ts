@@ -49,6 +49,7 @@ export default async function fetchPhotonFeatures({
   const queryParameters = new URLSearchParams([
     ["q", query],
     ["limit", "30"],
+    ["location_bias_scale", "0.3"],
     ...Object.entries(additionalQueryParameters).flatMap(
       ([key, stringOrStringArray]) => {
         if (stringOrStringArray === undefined) {

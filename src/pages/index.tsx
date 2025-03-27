@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { getLayout } from "~/components/App/MapLayout";
 import { CategoryFilter } from "~/domains/categories/components/CategoryFilter";
-import { Search } from "~/domains/search/components/Search";
 import { isFirstStart } from "~/lib/util/savedState";
+import { Search } from "~/modules/search/components/Search";
 
 const Toolbar = styled.div`
   position: fixed;

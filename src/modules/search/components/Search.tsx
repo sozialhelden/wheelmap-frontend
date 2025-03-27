@@ -1,13 +1,12 @@
 import React, { type Ref, useEffect, useState } from "react";
 import styled from "styled-components";
 import { type Category, categories } from "~/domains/categories/categories";
-import { SearchDropdown } from "~/domains/search/components/SearchDropdown";
-import { SearchFormField } from "~/domains/search/components/SearchFormField";
-import { SearchResult } from "~/domains/search/components/SearchResult";
-import { useHighlightSearchResults } from "~/domains/search/components/hooks/useHighlightSearchResults";
-import { makeFeatureId } from "~/domains/search/functions/data-mapping";
-import { useEnrichedSearchResults } from "~/domains/search/hooks/useEnrichedSearchResults";
 import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
+import { SearchFormField } from "~/modules/search/components/SearchFormField";
+import { SearchResult } from "~/modules/search/components/SearchResult";
+import { useHighlightSearchResults } from "~/modules/search/components/hooks/useHighlightSearchResults";
+import { useSearchResults } from "~/modules/search/hooks/useSearchResults";
 
 const SearchWrapper = styled.div`
     position: relative;
@@ -36,7 +35,7 @@ export function Search() {
   );
 
   const { searchResults, searchError, isSearching } =
-    useEnrichedSearchResults(searchTerm);
+    useSearchResults(searchTerm);
 
   const {
     highlightNext,
@@ -76,6 +75,10 @@ export function Search() {
     router.replace({ query: { q: searchTerm } });
   }, [searchTerm]);
 
+  useEffect(() => {
+    setSearchTerm(searchTermFromQueryParameter);
+  }, [searchTermFromQueryParameter]);
+
   return (
     <SearchWrapper>
       <SearchFormField
@@ -96,8 +99,8 @@ export function Search() {
       >
         {searchResults?.map((result, index) => (
           <SearchResult
-            key={makeFeatureId(result)}
-            feature={result}
+            key={result.id}
+            result={result}
             isHighlighted={index === highlightedIndex}
             data-highlight-index={index}
           />
