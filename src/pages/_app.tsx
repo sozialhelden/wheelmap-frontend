@@ -9,10 +9,6 @@ import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
 import * as React from "react";
-import "~/app/app.css";
-import "~/app/inter.css";
-import "~/app/pointer-cursor.css";
-import "~/app/reset.css";
 import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import { AppContextProvider } from "~/lib/context/AppContext";
 import CountryContext from "~/lib/context/CountryContext";
@@ -45,7 +41,6 @@ import "../css/fonts.css";
 import "../css/inter.css";
 import "../css/pointer-cursor.css";
 import "../css/reset.css";
-
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
