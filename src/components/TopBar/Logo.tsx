@@ -4,10 +4,24 @@ import styled from "styled-components";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import type { IBranding } from "~/lib/model/ac/IBranding";
 
-const Wrapper = styled.div`
-    height: 100%;
-    display: flex;
-    align-items: center;
+const StyledButton = styled<{ $beta?: boolean }>(Button)`
+    position: relative;
+    &:before {
+        display: ${({ $beta }) => ($beta ? "block" : "none")};
+        content: "beta";
+        position: absolute;
+        bottom: .1rem;
+        right: .1rem;
+        background-color: var(--accent-10);
+        color: var(--gray-contrast);
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        font-weight: 600;
+        padding: .1rem .2rem;
+        line-height: 1;
+        border-radius: var(--radius-3);
+        font-size: .7rem;
+    }
 `;
 const LogoWide = styled.span`
     display: inline-flex;
@@ -33,8 +47,10 @@ const LogoSquare = styled.span`
 `;
 
 export default function Logo({ branding }: { branding?: IBranding }) {
+  const beta = true;
+
   return (
-    <Button variant="ghost" asChild>
+    <StyledButton $beta={beta} variant="ghost" asChild>
       <AppStateLink href="/onboarding" aria-label={t("Go to home page")}>
         <LogoWide
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
@@ -51,6 +67,6 @@ export default function Logo({ branding }: { branding?: IBranding }) {
           aria-hidden
         />
       </AppStateLink>
-    </Button>
+    </StyledButton>
   );
 }
