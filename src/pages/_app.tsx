@@ -80,7 +80,6 @@ export default function MyApp(
             scaling="100%"
             panelBackground="solid"
           >
-            <ThemePanel defaultOpen={false} />
             <HotkeysProvider>
               <SessionProvider session={session}>
                 <ExpertModeContextProvider>

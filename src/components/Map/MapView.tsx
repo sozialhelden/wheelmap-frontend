@@ -3,7 +3,7 @@ import mapboxgl, {
   type MapLayerTouchEvent,
 } from "mapbox-gl";
 import * as React from "react";
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
   type MapEvent,
   MapProvider,
@@ -185,6 +185,11 @@ export default function MapView(props: IProps) {
   const [cursor, setCursor] = useState<string>("auto");
   const onMouseEnter = React.useCallback(() => setCursor("pointer"), []);
   const onMouseLeave = React.useCallback(() => setCursor("auto"), []);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    setMapLoaded(false);
+  }, [darkMode]);
 
   return (
     <>
