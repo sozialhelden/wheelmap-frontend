@@ -235,7 +235,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     <StyledMappingEventToolbar ariaLabel={toolbarAriaLabel} minimalHeight={205}>
       <header style={{ marginTop: "24px" }}>
         {!joinedMappingEventId && (
-          <Link href="/events" aria-label={backLinkAriaLabel}>
+          <Link href="/_events" aria-label={backLinkAriaLabel}>
             <ChevronLeft />
           </Link>
         )}
