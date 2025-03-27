@@ -19,7 +19,7 @@ export default function ColoredIconMarker(
       viewBox="0 0 25 25"
       {...props}
     >
-      {accessibilityGrade === "yes" && (
+      {accessibilityGrade === "good" && (
         <circle
           cx={12.5}
           cy={12.5}
@@ -30,7 +30,7 @@ export default function ColoredIconMarker(
         />
       )}
 
-      {accessibilityGrade === "limited" && (
+      {accessibilityGrade === "mediocre" && (
         <path
           fill={backgroundColor}
           d="M6.743 2.364h11.55l5.776 10.003-5.775 10.003H6.743L.967 12.367z"
@@ -39,7 +39,7 @@ export default function ColoredIconMarker(
         />
       )}
 
-      {accessibilityGrade === "no" && (
+      {accessibilityGrade === "bad" && (
         <path
           d="M22 22V3.072H3v19z"
           fill={backgroundColor}
