@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import useCategory from "../../../../domains/categories/hooks/useCategory";
+import useCategory from "~/modules/categories/hooks/useCategory";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import type { AnyFeature } from "../../../../lib/model/geo/AnyFeature";

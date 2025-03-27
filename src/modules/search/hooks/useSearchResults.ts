@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import useSWR from "swr";
 import { useMap } from "~/components/Map/useMap";
-import { getMostPreferableCategory } from "~/domains/categories/functions/display";
 import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import fetchPhotonFeatures, {} from "~/lib/fetchers/fetchPhotonFeatures";
 import getAddressString from "~/lib/model/geo/getAddressString";
+import { getMostPreferableCategory } from "~/modules/categories/utils/display";
 import type { SearchResult } from "~/modules/search/types/SearchResult";
 import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";
 

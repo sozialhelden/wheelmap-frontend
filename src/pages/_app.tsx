@@ -24,7 +24,6 @@ import "~/app/inter.css";
 import "~/app/pointer-cursor.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 import { ThemeProvider } from "next-themes";
-import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
 import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/lib/useExpertMode";
 import {
@@ -35,6 +34,9 @@ import {
   getRequestUserAgentString,
 } from "~/lib/util/request";
 import { setResponseLanguageHeaders } from "~/lib/util/response";
+import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
+
+import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -98,7 +100,9 @@ export default function MyApp(
                             >
                               <NeedsContextProvider>
                                 <AppContextProvider>
-                                  {getLayout(<Component />)}
+                                  <CategoryFilterContextProvider>
+                                    {getLayout(<Component />)}
+                                  </CategoryFilterContextProvider>
                                 </AppContextProvider>
                               </NeedsContextProvider>
                             </LanguageCodeContextProvider>

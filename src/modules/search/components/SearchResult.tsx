@@ -6,17 +6,14 @@ import styled from "styled-components";
 import { AppStateLink } from "~/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/components/Map/MapOverlapPadding";
 import { useMap } from "~/components/Map/useMap";
-import {
-  getCategory,
-  unknownCategory,
-} from "~/domains/categories/functions/cache";
-import { getMostPreferableCategory } from "~/domains/categories/functions/display";
+import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
+import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
 import useCategory, {
   useCategoryString,
   useCategorySynonymCache,
-} from "~/domains/categories/hooks/useCategory";
-import { useTranslatedStringFromObject } from "~/lib/i18n/useTranslatedStringFromObject";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+} from "~/modules/categories/hooks/useCategory";
+import { getCategory, unknownCategory } from "~/modules/categories/utils/cache";
+import { getMostPreferableCategory } from "~/modules/categories/utils/display";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 
 type Props = {
