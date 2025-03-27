@@ -4,24 +4,22 @@ import { useSession } from "next-auth/react";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-
-import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
-import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
-import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
-import { log } from "~/lib/util/logger";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTagValueNoLogIn";
+import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { log } from "~/needs-refactoring/lib/util/logger";
 import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
+import getOsmParametersFromFeature from "~/needs-refactoring/lib/fetchers/osm-api/getOsmParametersFromFeature";
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
-import getOsmParametersFromFeature from "../../../lib/fetchers/osm-api/getOsmParametersFromFeature";
 import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
-} from "../../../lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
-
-import { AppStateLink } from "~/components/App/AppStateLink";
-import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
-import { StyledReportView } from "~/components/CombinedFeaturePanel/ReportView";
-import FeatureNameHeader from "~/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "~/components/CombinedFeaturePanel/components/image/FeatureImage";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/lib/util/TagKeyUtils";
+} from "~/needs-refactoring/lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
+import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { FeaturePanelContext } from "../FeaturePanelContext";
+import { StyledReportView } from "../ReportView";
+import FeatureNameHeader from "../components/FeatureNameHeader";
+import FeatureImage from "../components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";

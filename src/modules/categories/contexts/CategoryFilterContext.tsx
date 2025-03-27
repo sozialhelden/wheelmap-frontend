@@ -1,5 +1,5 @@
 import { type ReactNode, createContext, useContext, useMemo } from "react";
-import { useAppStateAwareRouter } from "~/lib/util/useAppStateAwareRouter";
+import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import {
   type Category,
   type CategoryProperties,
@@ -30,7 +30,7 @@ export function CategoryFilterContextProvider({
   const isFilteringActive = Boolean(categoryProperties);
 
   const filter = async (category: Category) => {
-    await router.push({ query: { category } });
+    await router.push({ pathname: "/", query: { category } });
   };
   const reset = async () => {
     await router.replace({ query: { category: "" } });

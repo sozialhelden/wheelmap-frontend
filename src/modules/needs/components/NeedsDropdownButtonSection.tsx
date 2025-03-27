@@ -1,7 +1,8 @@
 import { Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type Ref, forwardRef } from "react";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
 
 export const NeedsDropdownButtonSection = forwardRef(
   function NeedsDropdownButtonSection(

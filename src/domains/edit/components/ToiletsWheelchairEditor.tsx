@@ -2,16 +2,17 @@ import { Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import type { YesNoUnknown } from "~/lib/model/ac/Feature";
-import { isOrHasAccessibleToilet } from "~/lib/model/accessibility/isOrHasAccessibleToilet";
-import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import { StyledReportView } from "../../../components/CombinedFeaturePanel/ReportView";
-import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
-import { ToiletStatusNotAccessible } from "../../../components/icons/accessibility";
-import ToiletStatusAccessibleIcon from "../../../components/icons/accessibility/ToiletStatusAccessible";
+import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
+import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
+import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
+import { ToiletStatusNotAccessible } from "~/components/icons/accessibility";
+import ToiletStatusAccessibleIcon from "~/components/icons/accessibility/ToiletStatusAccessible";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 
 export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,

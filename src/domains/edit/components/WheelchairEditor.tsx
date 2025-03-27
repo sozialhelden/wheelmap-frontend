@@ -2,17 +2,18 @@ import { Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { StyledReportView } from "~/components/CombinedFeaturePanel/ReportView";
-import { useFeatureLabel } from "~/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
+import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
+import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import { unknownCategory } from "~/modules/categories/utils/cache";
-import type { YesNoLimitedUnknown } from "~/lib/model/ac/Feature";
-import { isWheelchairAccessible } from "~/lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "~/pages/[placeType]/[id]/report/send-report-to-ac";
-import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";
-import Icon from "../../../components/shared/Icon";
+import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
+import Icon from "~/needs-refactoring/components/shared/Icon";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
