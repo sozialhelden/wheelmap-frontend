@@ -4,6 +4,7 @@
     {
       "preset-env": {
         "useBuiltIns": "entry",
+        "loose": true,
         "corejs": 3
       },
       "transform-runtime": {
