@@ -104,8 +104,8 @@ const UnstyledMappingEventWelcomeDialog = ({
   invitationToken,
 }: Props) => {
   const EmailCollectionModeMessages = {
-    required: () => t`To stay in touch with you, you must provide us with your email address.`,
-    optional: () => t`To stay in touch with you, please share your email address with us.`,
+    required: () => t`To stay in touch with you, you must provide the Wheelmap team with your email address.`,
+    optional: () => t`To stay in touch with you, please share your email address with the Wheelmap team.`,
     disabled: () => null,
   };
 
