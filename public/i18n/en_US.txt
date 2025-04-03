@@ -2,12 +2,12 @@
 # Translators:
 # framefield_henrik, 2020
 # Silke Georgi <silkemariageorgi@gmail.com>, 2021
-# Developers, 2021
 # Sebastian Felix Zappe <hypo@me.com>, 2022
+# Developers, 2025
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
+"Last-Translator: Developers, 2025\n"
 "Language-Team: English (United States) (https://app.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "Leisure"
 #. translator: Root category
 #: src/lib/Categories.ts:111
 msgid "Culture"
-msgstr ""
+msgstr "Culture"
 
 #. translator: Root category
 #: src/lib/Categories.ts:115
@@ -652,7 +652,7 @@ msgstr "Places"
 #: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
-msgstr ""
+msgstr "Room ${ roomNumber }"
 
 #: src/components/NodeToolbar/NodeHeader.tsx:118
 msgid "Unnamed facility"
@@ -660,7 +660,7 @@ msgstr "Unnamed facility"
 
 #: src/components/NodeToolbar/NodeHeader.tsx:144
 msgid "Part of"
-msgstr ""
+msgstr "Part of"
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
@@ -1089,22 +1089,22 @@ msgstr "All elevators and escalators"
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:26
 #, javascript-format
 msgid "${ valueAndUnit } or less"
-msgstr ""
+msgstr "${ valueAndUnit } or less"
 
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:28
 #, javascript-format
 msgid "${ valueAndUnit } or more"
-msgstr ""
+msgstr "${ valueAndUnit } or more"
 
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:30
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
-msgstr ""
+msgstr "less than ${ valueAndUnit }"
 
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
 #, javascript-format
 msgid "greater than ${ valueAndUnit }"
-msgstr ""
+msgstr "greater than ${ valueAndUnit }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
@@ -1120,22 +1120,23 @@ msgstr "No"
 msgid ""
 "This is a private parking facility, but public access is usually allowed."
 msgstr ""
+"This is a private parking facility, but public access is usually allowed."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
 msgid "This is a public parking facility."
-msgstr ""
+msgstr "This is a public parking facility."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
 msgid "You need a permit to park here."
-msgstr ""
+msgstr "You need a permit to park here."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
 msgid "Only customers are allowed to park here."
-msgstr ""
+msgstr "Only customers are allowed to park here."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
 msgid "Only residents are allowed to park here."
-msgstr ""
+msgstr "Only residents are allowed to park here."
 
 #. translator: Button caption, shown in the place toolbar
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:70
@@ -1150,21 +1151,21 @@ msgstr "Nearest WC"
 #, javascript-format
 msgid "${ capacityNumeric } parking lot available."
 msgid_plural "${ capacityNumeric } parking lots available."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ capacityNumeric } parking lot available."
+msgstr[1] "${ capacityNumeric } parking lots available."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:212
 msgid "Parking available (accessibility unknown)."
-msgstr ""
+msgstr "Parking available (accessibility unknown)."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:213
 msgid "No accessible parking lots available."
-msgstr ""
+msgstr "No accessible parking lots available."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:214
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:215
 msgid "No parking available."
-msgstr ""
+msgstr "No parking available."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:216
 #, javascript-format
@@ -1172,25 +1173,27 @@ msgid "${ capacityNumeric } parking lot available, but no accessible parking."
 msgid_plural ""
 "${ capacityNumeric } parking lots available, but no accessible parking."
 msgstr[0] ""
+"${ capacityNumeric } parking lot available, but no accessible parking."
 msgstr[1] ""
+"${ capacityNumeric } parking lots available, but no accessible parking."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:221
 msgid "Parking available, but no accessible parking."
-msgstr ""
+msgstr "Parking available, but no accessible parking."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:222
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:236
 #, javascript-format
 msgid "${ disabledCapacityNumeric } accessible parking lot available."
 msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ disabledCapacityNumeric } accessible parking lot available."
+msgstr[1] "${ disabledCapacityNumeric } accessible parking lots available."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:227
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:228
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:229
 msgid "Accessible parking available."
-msgstr ""
+msgstr "Accessible parking available."
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
 #, javascript-format
@@ -1201,7 +1204,11 @@ msgid_plural ""
 "${ disabledCapacityNumeric } accessible parking lots available (${ "
 "capacityNumeric } total)."
 msgstr[0] ""
+"${ disabledCapacityNumeric } accessible parking lot available (${ "
+"capacityNumeric } total)."
 msgstr[1] ""
+"${ disabledCapacityNumeric } accessible parking lots available (${ "
+"capacityNumeric } total)."
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:101
 msgid "Add more details"
@@ -1257,6 +1264,13 @@ msgid ""
 "\n"
 "See you there!"
 msgstr ""
+"Hi 👋\n"
+"\n"
+"Help us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n"
+"\n"
+"${ url }\n"
+"\n"
+"See you there!"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
 #: src/components/MappingEvents/MappingEventToolbar.tsx:91
@@ -1333,13 +1347,13 @@ msgstr "This email address is not valid."
 #. must enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
 msgid "(required)"
-msgstr ""
+msgstr "(required)"
 
 #. translator: Shown next to a form input label for a field where the user can
 #. optionally enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
-msgstr ""
+msgstr "(optional)"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
@@ -1359,12 +1373,16 @@ msgid ""
 "To stay in touch with you, you must provide the Wheelmap team with your "
 "email address."
 msgstr ""
+"To stay in touch with you, you must provide the Wheelmap team with your "
+"email address."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
 msgid ""
 "To stay in touch with you, please share your email address with the Wheelmap"
 " team."
 msgstr ""
+"To stay in touch with you, please share your email address with the Wheelmap"
+" team."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
 msgid "Welcome"
