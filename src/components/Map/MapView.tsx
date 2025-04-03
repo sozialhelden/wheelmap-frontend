@@ -3,7 +3,7 @@ import mapboxgl, {
   type MapLayerTouchEvent,
 } from "mapbox-gl";
 import * as React from "react";
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
   type MapEvent,
   MapProvider,
@@ -185,6 +185,16 @@ export default function MapView(props: IProps) {
   const [cursor, setCursor] = useState<string>("auto");
   const onMouseEnter = React.useCallback(() => setCursor("pointer"), []);
   const onMouseLeave = React.useCallback(() => setCursor("auto"), []);
+
+  // When toggling dark mode aka the map style, the map itself will be reloaded.
+  // While in loading state, you cannot add sources or layers to the map, that's
+  // why they only get rendered after the map was loaded completely (mapLoaded = true).
+  // In case the dark mode is toggled, we need to reset the loading state to prevent
+  // the app from breaking.
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  useEffect(() => {
+    setMapLoaded(false);
+  }, [darkMode]);
 
   return (
     <>

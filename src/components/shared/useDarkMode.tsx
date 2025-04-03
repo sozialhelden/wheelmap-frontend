@@ -23,5 +23,9 @@ export function useDarkMode() {
 
   useHotkeys(hotkeys);
 
+  if (theme === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
   return theme === "dark";
 }

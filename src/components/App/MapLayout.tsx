@@ -4,8 +4,6 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
