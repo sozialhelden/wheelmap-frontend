@@ -17527,7 +17527,7 @@
   "en_US": {
     "charset": "utf-8",
     "headers": {
-      "last-translator": "Sebastian Felix Zappe <hypo@me.com>, 2022",
+      "last-translator": "Developers, 2025",
       "language-team": "English (United States) (https://app.transifex.com/sozialhelden/teams/16671/en_US/)",
       "mime-version": "1.0",
       "content-type": "text/plain; charset=UTF-8",
@@ -17540,10 +17540,10 @@
         "": {
           "msgid": "",
           "comments": {
-            "translator": "\nTranslators:\nframefield_henrik, 2020\nSilke Georgi <silkemariageorgi@gmail.com>, 2021\nDevelopers, 2021\nSebastian Felix Zappe <hypo@me.com>, 2022\n"
+            "translator": "\nTranslators:\nframefield_henrik, 2020\nSilke Georgi <silkemariageorgi@gmail.com>, 2021\nSebastian Felix Zappe <hypo@me.com>, 2022\nDevelopers, 2025\n"
           },
           "msgstr": [
-            "Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\nLanguage-Team: English (United States) (https://app.transifex.com/sozialhelden/teams/16671/en_US/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: en_US\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+            "Last-Translator: Developers, 2025\nLanguage-Team: English (United States) (https://app.transifex.com/sozialhelden/teams/16671/en_US/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: en_US\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
           ]
         },
         "Search": {
@@ -17602,6 +17602,16 @@
           },
           "msgstr": [
             "Leisure"
+          ]
+        },
+        "Culture": {
+          "msgid": "Culture",
+          "comments": {
+            "extracted": "translator: Root category",
+            "reference": "src/lib/Categories.ts:111"
+          },
+          "msgstr": [
+            "Culture"
           ]
         },
         "Hotels": {
@@ -18648,6 +18658,16 @@
             "Places"
           ]
         },
+        "Room ${ roomNumber }": {
+          "msgid": "Room ${ roomNumber }",
+          "comments": {
+            "reference": "src/components/NodeToolbar/NodeHeader.tsx:67",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "Room ${ roomNumber }"
+          ]
+        },
         "Unnamed facility": {
           "msgid": "Unnamed facility",
           "comments": {
@@ -18655,6 +18675,15 @@
           },
           "msgstr": [
             "Unnamed facility"
+          ]
+        },
+        "Part of": {
+          "msgid": "Part of",
+          "comments": {
+            "reference": "src/components/NodeToolbar/NodeHeader.tsx:144"
+          },
+          "msgstr": [
+            "Part of"
           ]
         },
         "How wheelchair accessible is this place?": {
@@ -19320,6 +19349,46 @@
             "All elevators and escalators"
           ]
         },
+        "${ valueAndUnit } or less": {
+          "msgid": "${ valueAndUnit } or less",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:26",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "${ valueAndUnit } or less"
+          ]
+        },
+        "${ valueAndUnit } or more": {
+          "msgid": "${ valueAndUnit } or more",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:28",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "${ valueAndUnit } or more"
+          ]
+        },
+        "less than ${ valueAndUnit }": {
+          "msgid": "less than ${ valueAndUnit }",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:30",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "less than ${ valueAndUnit }"
+          ]
+        },
+        "greater than ${ valueAndUnit }": {
+          "msgid": "greater than ${ valueAndUnit }",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "greater than ${ valueAndUnit }"
+          ]
+        },
         "Yes": {
           "msgid": "Yes",
           "comments": {
@@ -19336,6 +19405,51 @@
           },
           "msgstr": [
             "No"
+          ]
+        },
+        "This is a private parking facility, but public access is usually allowed.": {
+          "msgid": "This is a private parking facility, but public access is usually allowed.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36"
+          },
+          "msgstr": [
+            "This is a private parking facility, but public access is usually allowed."
+          ]
+        },
+        "This is a public parking facility.": {
+          "msgid": "This is a public parking facility.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37"
+          },
+          "msgstr": [
+            "This is a public parking facility."
+          ]
+        },
+        "You need a permit to park here.": {
+          "msgid": "You need a permit to park here.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38"
+          },
+          "msgstr": [
+            "You need a permit to park here."
+          ]
+        },
+        "Only customers are allowed to park here.": {
+          "msgid": "Only customers are allowed to park here.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39"
+          },
+          "msgstr": [
+            "Only customers are allowed to park here."
+          ]
+        },
+        "Only residents are allowed to park here.": {
+          "msgid": "Only residents are allowed to park here.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40"
+          },
+          "msgstr": [
+            "Only residents are allowed to park here."
           ]
         },
         "Mark wheelchair accessibility of WC": {
@@ -19365,8 +19479,35 @@
           },
           "msgid_plural": "${ capacityNumeric } parking lots available.",
           "msgstr": [
-            "",
-            ""
+            "${ capacityNumeric } parking lot available.",
+            "${ capacityNumeric } parking lots available."
+          ]
+        },
+        "Parking available (accessibility unknown).": {
+          "msgid": "Parking available (accessibility unknown).",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:212"
+          },
+          "msgstr": [
+            "Parking available (accessibility unknown)."
+          ]
+        },
+        "No accessible parking lots available.": {
+          "msgid": "No accessible parking lots available.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:213"
+          },
+          "msgstr": [
+            "No accessible parking lots available."
+          ]
+        },
+        "No parking available.": {
+          "msgid": "No parking available.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:214\nsrc/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:215"
+          },
+          "msgstr": [
+            "No parking available."
           ]
         },
         "${ capacityNumeric } parking lot available, but no accessible parking.": {
@@ -19377,8 +19518,17 @@
           },
           "msgid_plural": "${ capacityNumeric } parking lots available, but no accessible parking.",
           "msgstr": [
-            "",
-            ""
+            "${ capacityNumeric } parking lot available, but no accessible parking.",
+            "${ capacityNumeric } parking lots available, but no accessible parking."
+          ]
+        },
+        "Parking available, but no accessible parking.": {
+          "msgid": "Parking available, but no accessible parking.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:221"
+          },
+          "msgstr": [
+            "Parking available, but no accessible parking."
           ]
         },
         "${ disabledCapacityNumeric } accessible parking lot available.": {
@@ -19389,8 +19539,17 @@
           },
           "msgid_plural": "${ disabledCapacityNumeric } accessible parking lots available.",
           "msgstr": [
-            "",
-            ""
+            "${ disabledCapacityNumeric } accessible parking lot available.",
+            "${ disabledCapacityNumeric } accessible parking lots available."
+          ]
+        },
+        "Accessible parking available.": {
+          "msgid": "Accessible parking available.",
+          "comments": {
+            "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:227\nsrc/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:228\nsrc/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:229"
+          },
+          "msgstr": [
+            "Accessible parking available."
           ]
         },
         "${ disabledCapacityNumeric } accessible parking lot available (${ capacityNumeric } total).": {
@@ -19401,8 +19560,8 @@
           },
           "msgid_plural": "${ disabledCapacityNumeric } accessible parking lots available (${ capacityNumeric } total).",
           "msgstr": [
-            "",
-            ""
+            "${ disabledCapacityNumeric } accessible parking lot available (${ capacityNumeric } total).",
+            "${ disabledCapacityNumeric } accessible parking lots available (${ capacityNumeric } total)."
           ]
         },
         "Add more details": {
@@ -19472,6 +19631,17 @@
           },
           "msgstr": [
             "Sorry, this place could not be rated because of an error: ${ e }"
+          ]
+        },
+        "Hi 👋\n\nHelp us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n\n${ url }\n\nSee you there!": {
+          "msgid": "Hi 👋\n\nHelp us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n\n${ url }\n\nSee you there!",
+          "comments": {
+            "extracted": "translator: Email text used when sharing a mapping event via email.",
+            "reference": "src/components/MappingEvents/MappingEventShareBar.tsx:34",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "Hi 👋\n\nHelp us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n\n${ url }\n\nSee you there!"
           ]
         },
         "starting": {
@@ -19613,6 +19783,26 @@
             "This email address is not valid."
           ]
         },
+        "(required)": {
+          "msgid": "(required)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user\nmust enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65"
+          },
+          "msgstr": [
+            "(required)"
+          ]
+        },
+        "(optional)": {
+          "msgid": "(optional)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user can\noptionally enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+          },
+          "msgstr": [
+            "(optional)"
+          ]
+        },
         "Email address": {
           "msgid": "Email address",
           "comments": {
@@ -19639,6 +19829,24 @@
           },
           "msgstr": [
             "You are participating as ${ initialEmailAddress }."
+          ]
+        },
+        "To stay in touch with you, you must provide the Wheelmap team with your email address.": {
+          "msgid": "To stay in touch with you, you must provide the Wheelmap team with your email address.",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
+          },
+          "msgstr": [
+            "To stay in touch with you, you must provide the Wheelmap team with your email address."
+          ]
+        },
+        "To stay in touch with you, please share your email address with the Wheelmap team.": {
+          "msgid": "To stay in touch with you, please share your email address with the Wheelmap team.",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108"
+          },
+          "msgstr": [
+            "To stay in touch with you, please share your email address with the Wheelmap team."
           ]
         },
         "Welcome": {
