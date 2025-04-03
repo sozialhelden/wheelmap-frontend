@@ -1,26 +1,3 @@
-body {
-  position: fixed;
-  overscroll-behavior: none;
-}
-
-html,
-body {
-  -webkit-tap-highlight-color: transparent;
-}
-
-html,
-body,
-#__next,
-#__next > *,
-.main-view {
-  top: 0;
-  bottom: 0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-
 :root {
   --easing: cubic-bezier(0.23, 0.72, 0.3, 1);
 }

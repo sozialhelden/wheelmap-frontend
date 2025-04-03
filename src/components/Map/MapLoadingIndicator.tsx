@@ -1,6 +1,4 @@
 import styled from "styled-components";
-
-import colors from "../../lib/util/colors";
 import Spinner from "../ActivityIndicator/Spinner";
 
 const StyledDiv = styled.div`
@@ -9,7 +7,6 @@ const StyledDiv = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${colors.neutralBackgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,6 +1,6 @@
+import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
-import { PrimaryButton } from "../shared/Button";
 
 export const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
 
@@ -83,9 +83,9 @@ export function EmailInputForm(props: {
           {error && <p className="form-text text-danger">{error}</p>}
         </div>
       )}
-      <PrimaryButton disabled={isBusy} onClick={submitHandler}>
-        {t("Let’s go")}
-      </PrimaryButton>
+      <Button disabled={isBusy} onClick={submitHandler}>
+        {t`Let’s go`}
+      </Button>
       {invitationToken && (
         <footer>
           {t("You are participating as {initialEmailAddress}.", {

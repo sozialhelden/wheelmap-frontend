@@ -1,7 +1,7 @@
 import { CheckIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Box, Card, Flex, Grid, Text, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import React, { type FC, useContext } from "react";
+import { type FC, useContext } from "react";
 import styled from "styled-components";
 import { ImageUploadContext } from "~/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
@@ -18,8 +18,8 @@ const CriteriaListItem = styled.li`
 `;
 
 const CriteriaListIcon = styled(CheckIcon)`
-  fill: var(--green-a10);
-  stroke: var(--green-a10);
+  fill: var(--success-a10);
+  stroke: var(--success-a10);
   width: 1.5rem;
   height: 1.5rem;
   flex-shrink: 0;

@@ -2,7 +2,6 @@ import { t } from "@transifex/native";
 import React from "react";
 import styled from "styled-components";
 
-import BellIcon from "../icons/ui-elements/BellIcon";
 import MapPinWithPlusIcon from "../icons/ui-elements/MapPinWithPlusIcon";
 import { UserIcon } from "../icons/ui-elements/index";
 
@@ -14,13 +13,7 @@ type Props = {
   className?: string;
 };
 
-function Statistics({
-  mappedPlacesCount,
-  participantCount,
-  startDate,
-  endDate,
-  className,
-}: Props) {
+function Statistics({ mappedPlacesCount, participantCount, className }: Props) {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t("Mapping Event Numbers");
   // translator: Description for number of already mapped places in the mapping event
@@ -65,7 +58,6 @@ const StyledStatistics = styled(Statistics)`
   .statistic-count {
     font-size: 27px;
     font-weight: 300;
-    color: #37404d;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +65,6 @@ const StyledStatistics = styled(Statistics)`
 
   .statistic-description {
     font-size: 14px;
-    color: #22262d;
   }
 `;
 

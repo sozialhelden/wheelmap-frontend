@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import colors from "../../lib/util/colors";
 import Markdown from "./Markdown";
 
 const StyledMarkdown = styled(Markdown)`
@@ -17,7 +16,6 @@ const StyledMarkdown = styled(Markdown)`
   pre {
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
       monospace;
-    color: ${colors.secondaryColor};
   }
 
   pre {

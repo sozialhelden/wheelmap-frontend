@@ -1,6 +1,5 @@
 import type * as React from "react";
 import styled from "styled-components";
-import colors, { alpha, coloredWhite, darker } from "../../lib/util/colors";
 
 interface IProps {
   className?: string;
@@ -22,8 +21,6 @@ function UnstyledNotificationText(props: IProps) {
 }
 
 const NotificationText = styled(UnstyledNotificationText)`
-  background-color: ${(props) => alpha(coloredWhite(colors[props.type], 0.8), 0.5)};
-  color: ${(props) => darker(colors[props.type], 0.5)};
   padding: 1rem;
   max-width: 30rem;
   border-radius: 4px;
