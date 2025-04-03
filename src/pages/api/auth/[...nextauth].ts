@@ -1,6 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import type { OAuthConfig } from "next-auth/providers/oauth";
-import { log } from "../../../lib/util/logger";
+import { log } from "~/needs-refactoring/lib/util/logger";
 
 interface IOSMProfile {
   version: "0.6";

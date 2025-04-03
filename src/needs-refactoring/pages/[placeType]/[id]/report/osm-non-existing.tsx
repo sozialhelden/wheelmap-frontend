@@ -1,0 +1,20 @@
+import { t } from "@transifex/native";
+import type { ReactElement } from "react";
+import { DefaultLayout } from "~/components/layouts/DefaultLayout";
+import { ReportOSM } from "./osm-position";
+
+const disusedUrl = "https://wiki.openstreetmap.org/wiki/Key:disused:*";
+const title = t("You can remove non-existent places on OpenStreetMap.");
+const sub = t(
+  `If the place has closed permanently, you can tag the place as 'disused' on OpenStreetMap. ([Find out how](${disusedUrl}))`,
+);
+
+function ReportOSMNonExisting() {
+  return <ReportOSM title={title} subtitle={sub} />;
+}
+
+ReportOSMNonExisting.getLayout = function getLayout(page: ReactElement) {
+  return <SidebarLayout>{page}</SidebarLayout>;
+};
+
+export default ReportOSMNonExisting;

@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "~/components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "~/components/CombinedFeaturePanel/PlaceLayout";
+import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "~/components/layouts/PlaceDetailsLayout";
 
 export default function ShowImageUploadPage() {
   const { features } = useContext(FeaturePanelContext);

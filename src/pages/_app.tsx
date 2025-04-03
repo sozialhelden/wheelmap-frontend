@@ -1,46 +1,27 @@
 import { HotkeysProvider } from "@blueprintjs/core";
-import { Theme, ThemePanel } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
-import type { ILanguageSubtag } from "@sozialhelden/ietf-language-tags";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
-import * as React from "react";
-import { NeedsContextProvider } from "~/domains/needs/hooks/useNeeds";
-import { AppContextProvider } from "~/lib/context/AppContext";
-import CountryContext from "~/lib/context/CountryContext";
+import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
+import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
+import { ExpertModeContextProvider } from "~/needs-refactoring/lib/useExpertMode";
 import {
-  EnvContextProvider,
-  type EnvironmentVariables,
-} from "~/lib/context/EnvContext";
-import { HostnameContextProvider } from "~/lib/context/HostnameContext";
-import { LanguageCodeContextProvider } from "~/lib/context/LanguageTagContext";
-import StyledComponentsRegistry from "~/lib/context/Registry";
-import { UserAgentContextProvider } from "~/lib/context/UserAgentContext";
-import SWRConfigProvider from "~/lib/fetchers/SWRConfigProvider";
-import { ExpertModeContextProvider } from "~/lib/useExpertMode";
-import { patchFetcher } from "~/lib/util/patchClientFetch";
-import {
-  getRequestCountryCode,
   getRequestHostname,
-  getRequestILanguageTags,
-  getRequestQuery,
-  getRequestUserAgentString,
-} from "~/lib/util/request";
-import { setResponseLanguageHeaders } from "~/lib/util/response";
-
-import "../components/Map/mapbox-dark-mode.css";
-import "../css/app.css";
-import "../css/colors/accessibility.css";
-import "../css/colors/base.css";
-import "../css/colors/link.css";
-import "../css/fonts.css";
-import "../css/inter.css";
-import "../css/pointer-cursor.css";
-import "../css/reset.css";
+  getRequestUserAgent,
+} from "~/needs-refactoring/lib/util/request";
+import type * as React from "react";
+import { App } from "~/modules/app/components/App";
+import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
+import { GlobalMapContextProvider } from "~/needs-refactoring/components/Map/GlobalMapContext";
+import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
+import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
+import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
+import { getEnvironmentVariables } from "~/modules/app/utils/environment";
+import type { LanguageTag } from "~/modules/i18n/i18n";
+import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
+import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -50,118 +31,77 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-interface ExtraProps {
+export interface PageProps {
   userAgentString?: string;
-  languageTags: ILanguageSubtag[];
-  countryCode?: string;
-  environmentVariables: Record<string, string | undefined>;
+  languageTag: LanguageTag;
+  environment: Record<string, string | undefined>;
   hostname: string;
 }
 
-export default function MyApp(
-  props: AppProps<ExtraProps> & AppPropsWithLayout,
-) {
+export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const {
-    userAgentString,
-    session,
-    languageTags,
-    countryCode,
-    environmentVariables,
-    hostname,
-  } = pageProps;
+  const { userAgent, session, languageTag, environment, hostname } = pageProps;
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <React.StrictMode>
+    <App context={{ languageTag, environment, hostname, userAgent }}>
       <Head />
       <StyledComponentsRegistry>
-        <ThemeProvider attribute="class">
-          <Theme
-            accentColor="indigo"
-            grayColor="sand"
-            radius="small"
-            scaling="100%"
-            panelBackground="solid"
-          >
-            <ThemePanel defaultOpen={false} />
-            <HotkeysProvider>
-              <SessionProvider session={session}>
-                <ExpertModeContextProvider>
-                  <SWRConfigProvider>
-                    <EnvContextProvider
-                      environmentVariables={environmentVariables}
-                    >
-                      <HostnameContextProvider hostname={hostname}>
-                        <UserAgentContextProvider
-                          userAgentString={userAgentString}
-                        >
-                          <CountryContext.Provider value={countryCode}>
-                            <LanguageCodeContextProvider
-                              languageTags={languageTags}
-                            >
-                              <NeedsContextProvider>
-                                <AppContextProvider>
-                                  {getLayout(<Component />)}
-                                </AppContextProvider>
-                              </NeedsContextProvider>
-                            </LanguageCodeContextProvider>
-                          </CountryContext.Provider>
-                        </UserAgentContextProvider>
-                      </HostnameContextProvider>
-                    </EnvContextProvider>
-                  </SWRConfigProvider>
-                </ExpertModeContextProvider>
-              </SessionProvider>
-            </HotkeysProvider>
-          </Theme>
-        </ThemeProvider>
+        <HotkeysProvider>
+          <SessionProvider session={session}>
+            <ExpertModeContextProvider>
+              <SWRConfigProvider>
+                <NeedsContextProvider>
+                  <CategoryFilterContextProvider>
+                    <AppContextProvider>
+                      <GlobalMapContextProvider>
+                        <MapFilterContextProvider>
+                          <BreakpointContextProvider>
+                            <SheetMountedContextProvider>
+                              {getLayout(<Component />)}
+                            </SheetMountedContextProvider>
+                          </BreakpointContextProvider>
+                        </MapFilterContextProvider>
+                      </GlobalMapContextProvider>
+                    </AppContextProvider>
+                  </CategoryFilterContextProvider>
+                </NeedsContextProvider>
+              </SWRConfigProvider>
+            </ExpertModeContextProvider>
+          </SessionProvider>
+        </HotkeysProvider>
       </StyledComponentsRegistry>
-    </React.StrictMode>
+    </App>
   );
 }
 
-patchFetcher();
-
 const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
-  const { ctx: httpContext } = appContext;
-  const { req: request, res: response } = httpContext;
+  const request = appContext.ctx.req;
 
-  const { appId: queriedAppId, countryCode: queriedCountryCode } =
-    getRequestQuery(request);
-
-  if (Array.isArray(queriedAppId)) {
-    throw new Error("Please supply only one appId query parameter.");
-  }
-  if (Array.isArray(queriedCountryCode)) {
-    throw new Error("Please supply only one countryCode query parameter.");
-  }
-
-  const hostname = queriedAppId || getRequestHostname(request);
-  const countryCode = queriedCountryCode || getRequestCountryCode(request);
-  const userAgentString = getRequestUserAgentString(request);
-  const languageTags = getRequestILanguageTags(request);
+  const hostname = getRequestHostname(request);
+  const userAgent = getRequestUserAgent(request);
 
   // Needs to be server-side to enable runtime client configuration
-  const environmentVariables: EnvironmentVariables = Object.fromEntries(
-    Object.entries(process.env).filter(([key]) =>
-      key.startsWith("NEXT_PUBLIC_"),
-    ),
-  );
+  const environment = getEnvironmentVariables();
 
-  const pageProps: ExtraProps = {
-    userAgentString,
-    languageTags,
-    countryCode,
-    environmentVariables,
+  // this is set by a custom middleware that handles language headers
+  const languageTag = request?.headers[
+    "x-preferred-language-tag"
+  ] as LanguageTag;
+
+  const pageProps = {
+    userAgent,
+    languageTag,
+    environment,
     hostname,
   };
 
-  setResponseLanguageHeaders(languageTags, response);
-
-  return { ...(await NextApp.getInitialProps(appContext)), pageProps };
+  return {
+    ...(await NextApp.getInitialProps(appContext)),
+    pageProps,
+  };
 };
 
 MyApp.getInitialProps = getInitialProps;

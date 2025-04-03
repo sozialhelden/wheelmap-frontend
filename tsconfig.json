@@ -15,6 +15,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "~/tests/*": ["./tests/*"],
       "~/*": ["./src/*"]
     },
     "plugins": [

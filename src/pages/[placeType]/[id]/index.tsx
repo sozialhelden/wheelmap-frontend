@@ -1,9 +1,9 @@
 import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { FeaturePanelContext } from "../../../components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "../../../components/CombinedFeaturePanel/PlaceLayout";
+import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { getLayout } from "~/components/layouts/PlaceDetailsLayout";
 
-export default function PlaceFeaturePage() {
+export default function PlaceDetailPage() {
   const { features } = useContext(FeaturePanelContext);
   const resolvedFeatures = useMemo(
     () => features.map((x) => x.feature?.requestedFeature).filter((x) => !!x),
@@ -13,4 +13,4 @@ export default function PlaceFeaturePage() {
   return <CombinedFeaturePanel features={resolvedFeatures} />;
 }
 
-PlaceFeaturePage.getLayout = getLayout;
+PlaceDetailPage.getLayout = getLayout;
