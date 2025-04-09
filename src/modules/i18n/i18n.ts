@@ -16,12 +16,12 @@ export const configuredLanguageTags = {
   },
   // czech
   cs: {
-    label: "česky",
+    label: "Český Jazyk",
     active: true,
   },
   // danish
   da: {
-    label: "dansk",
+    label: "Dansk",
     active: true,
   },
   // german
@@ -41,7 +41,7 @@ export const configuredLanguageTags = {
   },
   // spanish
   es: {
-    label: "español",
+    label: "Español",
     active: true,
   },
   // persian
@@ -51,12 +51,12 @@ export const configuredLanguageTags = {
   },
   // finnish
   fi: {
-    label: "suomi",
+    label: "Suomi",
     active: true,
   },
   // french
   fr: {
-    label: "français",
+    label: "Français",
     active: true,
   },
   // western frisian
@@ -76,7 +76,7 @@ export const configuredLanguageTags = {
   },
   // hindi
   hi: {
-    label: "हन",
+    label: "हिन्दी",
     active: true,
   },
   // hungarian
@@ -101,27 +101,27 @@ export const configuredLanguageTags = {
   },
   // korean
   ko: {
-    label: "한국어",
+    label: "조선말",
     active: true,
   },
   // lithuanian
   lt: {
-    label: "lietuvių kalba",
+    label: "Lietuvių",
     active: true,
   },
   // latvian
   lv: {
-    label: "latviešu valoda",
+    label: "latviešu",
     active: true,
   },
   //  mongolian
   mn: {
-    label: "Монгол",
+    label: "Монгол Хэл",
     active: true,
   },
   // burmese
   my: {
-    label: "ဗမာစာ",
+    label: "မြန်မာစာ",
     active: true,
   },
   // norwegian
@@ -181,12 +181,12 @@ export const configuredLanguageTags = {
   },
   // russian
   ru: {
-    label: "русский",
+    label: "Русский",
     active: true,
   },
   // slovak
   sk: {
-    label: "slovenčina",
+    label: "Slovenčina",
     active: true,
   },
   // albanian
@@ -196,7 +196,7 @@ export const configuredLanguageTags = {
   },
   // swedish
   sv: {
-    label: "svenska",
+    label: "Svenska",
     active: true,
   },
   // swahili
@@ -216,17 +216,17 @@ export const configuredLanguageTags = {
   },
   // ukrainian
   uk: {
-    label: "українська",
+    label: "Українська",
     active: true,
   },
   // vietnamese
   vi: {
-    label: "Tiếng Việt",
+    label: "tiếng Việt",
     active: true,
   },
   // vietnamese vietnam
   "vi-VN": {
-    label: "Tiếng Việt (Việt Nam)",
+    label: "tiếng Việt (Việt Nam)",
     active: true,
   },
   // chinese simplified
