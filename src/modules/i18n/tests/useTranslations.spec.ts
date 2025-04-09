@@ -12,7 +12,7 @@ vi.mock("~/modules/i18n/context/I18nContext");
 describe("useTranslations", () => {
   test.each<{
     test: string;
-    languageTag: LanguageTag;
+    languageTag: LanguageTag | string;
     translations?: string | Record<Locale, string> | null;
     expected?: string;
   }>([
