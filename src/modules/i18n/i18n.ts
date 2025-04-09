@@ -261,6 +261,12 @@ export type LanguageTagProperties = {
   script?: boolean;
 };
 
+// we're using const assertions in order to automatically infer the LanguageTag
+// type using keyof from the configured language tags above. but in order to make
+// sure the configuration above is also typesafe, we type the config separately
+// here. if something is off with the config above, typescript will show an error
+// on this languageTags variable instead. this is not ideal, but it ensures
+// type-safety and allows for auto-type magic.
 export const languageTags: Record<LanguageTag, LanguageTagProperties> =
   configuredLanguageTags;
 
