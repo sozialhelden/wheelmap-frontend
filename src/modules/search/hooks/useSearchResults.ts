@@ -1,12 +1,11 @@
 import { useMemo } from "react";
 import useSWR from "swr";
 import { useMap } from "~/components/Map/useMap";
-import { getMostPreferableCategory } from "~/domains/categories/functions/display";
-import { useCurrentLanguageTagStrings } from "~/lib/context/LanguageTagContext";
 import fetchPhotonFeatures, {} from "~/lib/fetchers/fetchPhotonFeatures";
 import getAddressString from "~/lib/model/geo/getAddressString";
 import type { SearchResult } from "~/modules/search/types/SearchResult";
 import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 
 const swrConfigNoRevalidation = {
   keepPreviousData: false,
@@ -16,7 +15,7 @@ const swrConfigNoRevalidation = {
 };
 
 function usePhotonSearchResults(query: string) {
-  const languageTag = useCurrentLanguageTagStrings()?.[0] || "en";
+  const { languageTag } = useI18nContext();
 
   const { map } = useMap();
   const lat = map?.getCenter().lat;
