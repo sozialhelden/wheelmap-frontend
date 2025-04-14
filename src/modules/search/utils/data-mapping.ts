@@ -28,8 +28,9 @@ export function getOsmCollection(feature: PhotonResultFeature) {
 
 export function getUrl(feature: PhotonResultFeature) {
   if (
-    feature.properties.osm_key === "place" &&
-    feature.properties.osm_value !== "house"
+    (feature.properties.osm_key === "place" &&
+      feature.properties.osm_value !== "house") ||
+    feature.properties.osm_key === "highway"
   ) {
     return undefined;
   }
