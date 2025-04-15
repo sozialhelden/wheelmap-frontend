@@ -4,15 +4,15 @@ import {
   getEditButton,
   mockPlaceInfo,
 } from "~/domains/edit/tests/testUtils";
-import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 
 test.describe("Edit wheelchair accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await skipOnboarding(page);
+    //await skipOnboarding(page);
     await mockPlaceInfo(page);
+    await page.waitForTimeout(3000);
     await getEditButton(page, "wheelchair").click();
     dialog = await getDialog(page);
   });

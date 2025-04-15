@@ -80,7 +80,7 @@ export default function MapLayout({
           {clientSideConfiguration && (
             <TopBar clientSideConfiguration={clientSideConfiguration} />
           )}
-          {isOnboardingVisible && <Onboarding />}
+          {/*{isOnboardingVisible && <Onboarding />}*/}
           <main style={{ height: "100%" }} ref={containerRef}>
             <LoadableMapView width={width} height={height} key="map" />
             <BlurLayer active={blur} style={{ zIndex: 1000 }} />
