@@ -28,7 +28,6 @@ export function OSMTagTableRowOrListElement({
   keyLabel,
   valueElement,
   isEditable,
-  isLanguageTagged,
   isDescription,
   keyDetails,
   valueDetails,
