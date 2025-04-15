@@ -56,9 +56,13 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const [hasValueChanged, setHasValueChanged] = useState(false);
 
   const dialogDescription = addNewLanguage
-    ? t(
-        "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.",
-      )
+    ? tagKey.includes("wheelchair:description")
+      ? t(
+          "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.",
+        )
+      : t(
+          "Please describe this place. Start by selecting the language for your description.",
+        )
     : t("Please edit this description in the same language.");
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
