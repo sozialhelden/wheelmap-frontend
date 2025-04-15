@@ -67,11 +67,11 @@ export const SearchResult = forwardRef(function SearchResult(
         ],
         {
           padding,
-          maxDuration: 0,
+          speed: 3,
         },
       );
     } else if (lat && lon) {
-      map?.flyTo({ center: [lon, lat], zoom: 20, padding });
+      map?.flyTo({ center: [lon, lat], zoom: 20, padding, speed: 3 });
     }
   };
 

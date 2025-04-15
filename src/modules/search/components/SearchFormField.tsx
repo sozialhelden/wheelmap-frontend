@@ -36,6 +36,7 @@ const SearchInput = styled.input`
   padding: .7rem .8rem;
   flex-basis: 100%;
   background: transparent;
+  font-size: 1rem;
   &::-webkit-search-decoration,
   &::-webkit-search-cancel-button,
   &::-webkit-search-results-button,

@@ -27,10 +27,15 @@ export function getOsmCollection(feature: PhotonResultFeature) {
 }
 
 export function getUrl(feature: PhotonResultFeature) {
+  const { osm_key, osm_value, type } = feature.properties;
+
+  // these are places we don't import using the osm sync
+  // and thus, don't have a detail page for.
   if (
-    (feature.properties.osm_key === "place" &&
-      feature.properties.osm_value !== "house") ||
-    feature.properties.osm_key === "highway"
+    (osm_key === "place" && osm_value !== "house") ||
+    (osm_key === "historic" && osm_value === "memorial") ||
+    (osm_key === "historic" && osm_value === "battlefield") ||
+    type === "street"
   ) {
     return undefined;
   }
