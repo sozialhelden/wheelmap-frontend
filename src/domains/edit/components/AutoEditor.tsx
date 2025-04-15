@@ -29,7 +29,7 @@ import { WheelchairEditor } from "./WheelchairEditor";
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
-    case key.startsWith("wheelchair:description"):
+    case key.includes("description"):
       return StringFieldEditor;
 
     case key === "wheelchair":
