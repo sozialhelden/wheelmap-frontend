@@ -15,7 +15,7 @@ export const getDialog = (page: Page) => {
   return page.locator(`[data-testid^="dialog"]`).first();
 };
 
-export const mockPlaceInfo = async (page: Page) => {
+export const mockOSMFeature = async (page: Page) => {
   await page.route(
     "**/api/v1/amenities/node/4544823443.geojson*",
     async (route) => {

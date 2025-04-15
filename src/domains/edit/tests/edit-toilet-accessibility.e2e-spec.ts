@@ -2,7 +2,7 @@ import { type Locator, expect, test } from "@playwright/test";
 import {
   getDialog,
   getEditButton,
-  mockPlaceInfo,
+  mockOSMFeature,
 } from "~/domains/edit/tests/testUtils";
 
 test.describe("Edit toilet accessibility", () => {
@@ -11,7 +11,7 @@ test.describe("Edit toilet accessibility", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     //await skipOnboarding(page);
-    await mockPlaceInfo(page);
+    await mockOSMFeature(page);
     await page.waitForTimeout(3000);
     await getEditButton(page, "toilets:wheelchair").click();
     dialog = await getDialog(page);
