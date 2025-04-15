@@ -8,6 +8,7 @@ export type OSMTagProps = {
   valueElement: React.ReactNode;
   isEditable: boolean;
   isLanguageTagged: boolean;
+  isDescription: boolean;
   valueDetails?: string;
   keyDetails?: string;
   keyAttribute?: IAccessibilityAttribute;
