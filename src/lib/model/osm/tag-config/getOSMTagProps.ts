@@ -1,7 +1,7 @@
 import type React from "react";
 import type { OSMTagProps } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import { valueRenderFunctions } from "~/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/lib/util/TagKeyUtils";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {

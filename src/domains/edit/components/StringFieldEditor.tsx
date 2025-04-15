@@ -10,12 +10,12 @@ import {
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
+import SearchableSelect from "~/components/shared/SearchableSelect";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
-} from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import { PrimaryButton, SecondaryButton } from "~/components/shared/Buttons";
-import SearchableSelect from "~/components/shared/SearchableSelect";
+} from "~/lib/util/TagKeyUtils";
 import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 import FeatureNameHeader from "../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "../../../components/CombinedFeaturePanel/components/image/FeatureImage";

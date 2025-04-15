@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/components/CombinedFeaturePanel/utils/TagKeyUtils";
+
 import { fetchFeaturePrefixedId } from "~/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { updateTagValueNoLogIn } from "~/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/lib/model/geo/AnyFeature";
@@ -15,11 +15,13 @@ import useInhouseOSMAPI from "../../../lib/fetchers/osm-api/useInhouseOSMAPI";
 import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
 } from "../../../lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
-import { AppStateLink } from "../../App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+
+import { AppStateLink } from "~/components/App/AppStateLink";
+import { FeaturePanelContext } from "~/components/CombinedFeaturePanel/FeaturePanelContext";
+import { StyledReportView } from "~/components/CombinedFeaturePanel/ReportView";
+import FeatureNameHeader from "~/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/lib/util/TagKeyUtils";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
