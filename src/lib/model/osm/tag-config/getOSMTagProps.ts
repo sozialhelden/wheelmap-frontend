@@ -111,6 +111,7 @@ export function getOSMTagProps({
   const isEditable = editableKeys.has(key);
   const { hasLanguageTagSupport } =
     normalizeAndExtractLanguageTagsIfPresent(key);
+  const isDescription = key.includes("description");
 
   return {
     tagKey: key,
@@ -120,6 +121,7 @@ export function getOSMTagProps({
     valueAttribute,
     valueElement: valueLabel,
     isEditable,
+    isDescription,
     isLanguageTagged: hasLanguageTagSupport,
     valueDetails,
     keyDetails,
