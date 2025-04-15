@@ -1,10 +1,10 @@
-import { type Locator, expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getDialog,
   getEditButton,
   getMenuItem,
-  mockPlaceInfo,
+  mockOSMFeature,
 } from "~/domains/edit/tests/testUtils";
 
 test.describe("Add wheelchair description in new language", () => {
@@ -13,7 +13,7 @@ test.describe("Add wheelchair description in new language", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     //await skipOnboarding(page);
-    await mockPlaceInfo(page);
+    await mockOSMFeature(page);
     await page.waitForTimeout(3000);
     await getEditButton(page, "wheelchair:description").click();
     await getMenuItem(page, "new-language").click();
