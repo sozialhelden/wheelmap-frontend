@@ -1,4 +1,4 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
 import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getDialog,
