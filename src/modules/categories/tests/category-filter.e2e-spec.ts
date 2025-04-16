@@ -3,8 +3,10 @@ import { getCategoryList } from "~/modules/categories/utils/display";
 import { expect } from "../../../../tests/e2e/setup/test-fixture";
 import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {
+  await mockTranslations(page);
   await page.goto("/");
   await skipOnboarding(page);
 });
@@ -61,6 +63,7 @@ test.describe("category-filter", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
+    await page.waitForTimeout(1000);
     expect(getQueryParams(page).get("category")).toBe("shopping");
   });
 
@@ -74,6 +77,7 @@ test.describe("category-filter", () => {
     await expect(page.getByRole("menuitem", { name: "Money" })).toBeVisible();
     await page.getByRole("menuitem", { name: "Money" }).click();
 
+    await page.waitForTimeout(1000);
     expect(getQueryParams(page).get("category")).toBe("money_post");
   });
 });

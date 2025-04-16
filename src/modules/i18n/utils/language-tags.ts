@@ -53,5 +53,5 @@ export function getRegion(languageTag: LanguageTag): string | undefined {
 }
 
 export function getLabel(languageTag: LanguageTag): string {
-  return languageTags[languageTag].label;
+  return languageTags[languageTag]?.label;
 }
