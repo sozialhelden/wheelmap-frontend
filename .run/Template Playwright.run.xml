@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="JavaScriptTestRunnerPlaywright">
+    <config value="$PROJECT_DIR$/playwright.config.ts" />
+    <node-interpreter value="project" />
+    <cli-options value="--reporter=line --project=chromium" />
+    <envs />
+    <scope-kind value="ALL" />
+    <method v="2" />
+  </configuration>
+</component>
