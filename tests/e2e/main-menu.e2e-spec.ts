@@ -1,6 +1,6 @@
 import { expect, test } from "./setup/test-fixture";
 import { skipOnDesktops, skipOnMobiles } from "./utils/device";
-import { skipOnboarding } from "./utils/skipOnboarding";
+import { skipOnboarding } from "./utils/onboarding";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {

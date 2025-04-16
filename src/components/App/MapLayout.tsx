@@ -51,9 +51,9 @@ export default function MapLayout({
 }) {
   const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app || {};
-  const firstStart = isFirstStart();
-  const router = useRouter();
-  const isOnboardingVisible = firstStart || router.pathname === "/onboarding";
+  // const firstStart = isFirstStart();
+  // const router = useRouter();
+  // const isOnboardingVisible = firstStart || router.pathname === "/onboarding";
 
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
 
@@ -80,7 +80,7 @@ export default function MapLayout({
           {clientSideConfiguration && (
             <TopBar clientSideConfiguration={clientSideConfiguration} />
           )}
-          {isOnboardingVisible && <Onboarding />}
+          {/*{isOnboardingVisible && <Onboarding />}*/}
           <main style={{ height: "100%" }} ref={containerRef}>
             <LoadableMapView width={width} height={height} key="map" />
             <BlurLayer active={blur} style={{ zIndex: 1000 }} />

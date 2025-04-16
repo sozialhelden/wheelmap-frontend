@@ -1,14 +1,16 @@
 import { test } from "@playwright/test";
 import { getCategoryList } from "~/modules/categories/utils/display";
-import { expect } from "../../../../tests/e2e/setup/test-fixture";
-import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
-import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import { expect } from "~/tests/e2e/setup/test-fixture";
+import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
+import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
-  await skipOnboarding(page);
+
+  // still some race conditions...
+  await page.waitForTimeout(1000);
 });
 
 test.describe("category-filter", () => {
@@ -63,7 +65,7 @@ test.describe("category-filter", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "shopping");
     expect(getQueryParams(page).get("category")).toBe("shopping");
   });
 
@@ -77,7 +79,7 @@ test.describe("category-filter", () => {
     await expect(page.getByRole("menuitem", { name: "Money" })).toBeVisible();
     await page.getByRole("menuitem", { name: "Money" }).click();
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "money_post");
     expect(getQueryParams(page).get("category")).toBe("money_post");
   });
 });
