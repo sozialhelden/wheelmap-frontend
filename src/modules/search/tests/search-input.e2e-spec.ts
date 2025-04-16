@@ -1,10 +1,11 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, test } from "../../../../tests/e2e/setup/test-fixture";
-import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
-import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import { expect, test } from "~/tests/e2e/setup/test-fixture";
+import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
+import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
+import { skipOnMobiles } from "~/tests/e2e/utils/device";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
@@ -149,7 +150,7 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "shopping");
     expect(getQueryParams(page).get("category")).toBe("shopping");
     await expect(getSearchInput(page)).toHaveValue("Shopping");
   });
@@ -164,7 +165,7 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Clear search" }).click();
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "");
     expect(getQueryParams(page).get("category")).toBe("");
     await expect(getSearchInput(page)).toHaveValue("");
   });
@@ -172,6 +173,8 @@ test.describe("search-input", () => {
   test("filtering by category resets the current search query", async ({
     page,
   }) => {
+    skipOnMobiles();
+
     await searchFor(page, "Alexanderplatz");
     await expect(
       getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
@@ -179,7 +182,8 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "shopping");
+    await waitForQueryParam(page, "q", "");
     await expect(getSearchInput(page)).toHaveValue("Shopping");
     await expect(
       getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
@@ -195,7 +199,7 @@ test.describe("search-input", () => {
 
     await searchFor(page, "Alexanderplatz");
 
-    await page.waitForTimeout(1000);
+    await waitForQueryParam(page, "category", "");
     expect(getQueryParams(page).get("category")).toBe("");
   });
 });

@@ -51,9 +51,9 @@ export default function MapLayout({
 }) {
   const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app || {};
-  const firstStart = isFirstStart();
-  const router = useRouter();
-  const isOnboardingVisible = firstStart || router.pathname === "/onboarding";
+  // const firstStart = isFirstStart();
+  // const router = useRouter();
+  // const isOnboardingVisible = firstStart || router.pathname === "/onboarding";
 
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
 
