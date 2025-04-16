@@ -14,9 +14,14 @@ type Props = {
   ariaLabel: string,
   ariaDescribedBy: string,
   children: React.ReactNode,
+  focusTrapActiveFromStart?: boolean
 };
 
 function ModalDialog(props: Props) {
+  const [focusTrapActive, setFocusTrapActive] = React.useState(
+      props.focusTrapActiveFromStart === undefined ? true : props.focusTrapActiveFromStart
+  );
+
   const isVisible = props.isVisible;
 
   if (!isVisible) {
@@ -24,7 +29,7 @@ function ModalDialog(props: Props) {
   }
 
   return (
-    <FocusTrap>
+    <FocusTrap active={focusTrapActive} onClick={() => !focusTrapActive && setFocusTrapActive(true)}>
       <section
         className={`modal-dialog ${props.className ? props.className : ''} ${
           !isVisible ? 'modal-dialog-hidden' : ''

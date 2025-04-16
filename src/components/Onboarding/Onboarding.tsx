@@ -47,10 +47,6 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
 
   const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
 
-  useEffect(() => {setTimeout(() => {
-    callToActionButton.current?.focus();
-  }, 100)}, [callToActionButton]);
-
   return (
     <ModalDialog
       className={className}
@@ -58,6 +54,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
       onClose={handleClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
       ariaLabel={t`Start screen`}
+      focusTrapActiveFromStart={false}
     >
       <header>
         <VectorImage
@@ -150,7 +147,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
       </footer>
       <Version>{env.npm_package_version}</Version>
     </ModalDialog>
-  ); 
+  );
 }
 
 const Version = styled.div`
