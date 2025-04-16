@@ -7,6 +7,7 @@ import {
 } from "~/modules/needs/needs";
 import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 const getDropdown = (page: Page): Locator => {
   return page
@@ -41,6 +42,7 @@ const assertDropdownIsNotVisible = async (page: Page) => {
 };
 
 test.beforeEach(async ({ page }) => {
+  await mockTranslations(page);
   await page.goto("/");
   await skipOnboarding(page);
 });
@@ -91,7 +93,7 @@ test.describe("needs-picker", () => {
         return;
       }
       await getDropdown(page)
-        .getByLabel(`Show more information about ${title}`)
+        .getByLabel(`Show more information about ${title()}`)
         .click();
       await forEachNeed(needs, async (need: NeedProperties) => {
         if (!need.help) {

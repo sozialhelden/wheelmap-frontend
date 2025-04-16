@@ -1,6 +1,8 @@
 import { expect, test } from "./setup/test-fixture";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test("has title", async ({ page }) => {
+  await mockTranslations(page);
   await page.goto("/");
 
   // Expect a title "to contain" a substring.

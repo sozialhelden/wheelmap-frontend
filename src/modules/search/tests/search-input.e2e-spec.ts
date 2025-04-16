@@ -4,10 +4,18 @@ import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
 import { getQueryParams } from "../../../../tests/e2e/utils/url";
 import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {
+  await mockTranslations(page);
   await page.goto("/");
   await skipOnboarding(page);
+
+  // when the search input is visible, wait another second before
+  // interacting with it. there is some kind of race kondition, that
+  // resets the input otherwise.
+  getSearchInput(page);
+  await page.waitForTimeout(1000);
 });
 
 const getSearchInput = (page: Page): Locator => {
@@ -34,11 +42,6 @@ const searchFor = async (
   await expect(getSearchDropdown(page).getByTestId("is-searching")).toHaveCount(
     0,
   );
-
-  // without a manual wait, some of the tests are quite flaky. there are probably some
-  // race conditions somewhere... 5 seconds seems to be the most reliable value. this
-  // is not ideal, if you find a better solution please change this!
-  await new Promise((resolve) => setTimeout(resolve, 5000));
 };
 
 test.describe("search-input", () => {
@@ -123,6 +126,7 @@ test.describe("search-input", () => {
     let foundItem = false;
     let counter = 0;
     while (!foundItem) {
+      await page.waitForTimeout(500);
       await getSearchInput(page).press("ArrowDown");
       foundItem = await getSearchDropdown(page)
         .getByTestId("highlighted-search-result")
@@ -145,6 +149,7 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
+    await page.waitForTimeout(1000);
     expect(getQueryParams(page).get("category")).toBe("shopping");
     await expect(getSearchInput(page)).toHaveValue("Shopping");
   });
@@ -159,6 +164,7 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Clear search" }).click();
 
+    await page.waitForTimeout(1000);
     expect(getQueryParams(page).get("category")).toBe("");
     await expect(getSearchInput(page)).toHaveValue("");
   });
@@ -173,6 +179,7 @@ test.describe("search-input", () => {
 
     await page.getByRole("button", { name: "Shopping" }).click();
 
+    await page.waitForTimeout(1000);
     await expect(getSearchInput(page)).toHaveValue("Shopping");
     await expect(
       getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
@@ -188,6 +195,7 @@ test.describe("search-input", () => {
 
     await searchFor(page, "Alexanderplatz");
 
+    await page.waitForTimeout(1000);
     expect(getQueryParams(page).get("category")).toBe("");
   });
 });
