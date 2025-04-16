@@ -1,6 +1,6 @@
 import type { BrowserContext } from "playwright-core";
 import { expect, test } from "~/tests/e2e/setup/test-fixture";
-import { skipOnboarding } from "~/tests/e2e/utils/skipOnboarding";
+import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 async function setAcceptLanguageHeader(
@@ -23,16 +23,17 @@ test("uses the accept-language header to set the resulting locale", async ({
 }) => {
   await setAcceptLanguageHeader(context, "de-DE,de;q=0.9,en;q=0.8");
 
-  await mockTranslations(page);
   await page.goto("/");
   await skipOnboarding(page);
 
   await expect(
-    page.getByRole("banner").getByRole("link", { name: "Get involved" }),
-  ).toHaveCount(0);
-  await expect(
-    page.getByRole("banner").getByRole("link", { name: "Mitmachen" }),
+    page
+      .getByRole("banner")
+      .getByRole("button", { name: "Wähle deine Bedürfnisse aus" }),
   ).toHaveCount(1);
+  await expect(
+    page.getByRole("banner").getByRole("button", { name: "Select your needs" }),
+  ).toHaveCount(0);
 });
 
 test("it sets the correct language response headers", async ({

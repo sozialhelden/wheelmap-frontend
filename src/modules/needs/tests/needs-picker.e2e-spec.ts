@@ -5,8 +5,8 @@ import {
   type NeedSettings,
   settings as needSettings,
 } from "~/modules/needs/needs";
-import { skipOnboarding } from "../../../../tests/e2e/utils/skipOnboarding";
-import { getQueryParams } from "../../../../tests/e2e/utils/url";
+import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
+import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 const getDropdown = (page: Page): Locator => {
@@ -161,6 +161,7 @@ test.describe("needs-picker", () => {
     await getDropdown(page).getByRole("button", { name: "Save" }).click();
     await assertDropdownIsNotVisible(page);
 
+    await waitForQueryParam(page, "wheelchair", "yes");
     expect(getQueryParams(page).getAll("wheelchair")).toEqual([
       "limited",
       "yes",
