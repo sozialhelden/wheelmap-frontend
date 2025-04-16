@@ -5,8 +5,9 @@
 #
 # More infos: http://manual.i.wheelmap.tech/infrastructure/argo/2-ci/#inside-the-ci-workflow
 
+cd /usr/tests
+
 echo "Installing dev dependencies..."
-npm install
 npx playwright install --with-deps
 
 echo "Running unit tests..."
