@@ -1,8 +1,9 @@
 import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
 import { IconButton } from "@radix-ui/themes";
-import { type ReactNode, type Ref, useMemo, useRef } from "react";
+import { type ReactNode, type Ref, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
+import { useSheetMounted } from "~/components/sheet/useSheetMounted";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;
@@ -93,6 +94,15 @@ export function Sheet({
     isExpanded: externalIsExpanded,
     onIsExpandedChanged,
   });
+
+  const { setIsSheetMounted } = useSheetMounted();
+
+  useEffect(() => {
+    setIsSheetMounted(true);
+    return () => {
+      setIsSheetMounted(false);
+    };
+  }, []);
 
   return (
     <SheetContainer

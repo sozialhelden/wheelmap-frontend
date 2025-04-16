@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import { getLayout } from "../../_components/PlaceDetailsLayout";
+import { getLayout } from "~/components/layouts/DefaultLayout";
 
 // @legacy-route
 export default function ShowReportPage() {
