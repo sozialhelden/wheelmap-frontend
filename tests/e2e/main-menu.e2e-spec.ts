@@ -1,9 +1,10 @@
 import { expect, test } from "./setup/test-fixture";
 import { skipOnDesktops, skipOnMobiles } from "./utils/device";
 import { skipOnboarding } from "./utils/onboarding";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {
-  // Go to the starting url before each test.
+  await mockTranslations(page);
   await page.goto("/");
   await skipOnboarding(page);
 });
