@@ -42,7 +42,6 @@ COPY --from=build /usr/app/package.json .
 COPY --from=build /usr/app/run_tests.sh .
 
 RUN mkdir -p /usr/tests
-COPY --from=install /tmp/dev/node_modules /usr/tests/node_modules
 COPY --from=build /usr/app/tsconfig.json /usr/tests/
 COPY --from=build /usr/app/vitest.config.ts /usr/tests/
 COPY --from=build /usr/app/playwright.config.ts /usr/tests/
