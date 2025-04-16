@@ -31,7 +31,6 @@ const SidebarToggleButton = styled.button`
     left: 100%;
     transform: translateY(-100%);
     padding: var(--space-3) var(--space-1) var(--space-3) 0;
-    background: var(--color-panel);
     border: none;
     border-top-right-radius: var(--radius-4);
     border-bottom-right-radius: var(--radius-4);
@@ -40,8 +39,47 @@ const SidebarToggleButton = styled.button`
     transition: all 300ms ease;
     cursor: pointer;
     &:hover {
-        background: var(--accent-2);
         padding: var(--space-3) var(--space-1);
+        &:before {
+            background: var(--accent-2);
+        }
+    }
+    & > * {
+        z-index: 1;
+    }
+    &:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: var(--color-panel);
+        border-top-right-radius: var(--radius-4);
+        border-bottom-right-radius: var(--radius-4);
+    }
+`;
+const SidebarToggleButtonHighlight = styled.div`
+    position: absolute;
+    inset: 0;
+    background: var(--accent-a5);
+    animation: buttonHighlight 5.5s linear infinite;
+    z-index: -1;
+    border-top-right-radius: var(--radius-4);
+    border-bottom-right-radius: var(--radius-4);
+    @keyframes buttonHighlight {
+        25 % {
+            opacity: 1;
+            filter: blur(0);
+        }
+        30% {
+            opacity: 0;
+            transform: scaleX(4) scaleY(3);
+            filter: blur(.1rem);
+        }
+        100% {
+            opacity: 0;
+            transform: scaleX(4) scaleY(3);
+            filter: blur(.1rem);
+        }
     }
 `;
 
@@ -60,6 +98,22 @@ export function Sidebar({
     <SidebarWrapper $isExpanded={isExpanded} $hasPadding={hasPadding}>
       <SidebarToggleButton onClick={() => onIsExpandedChange(!isExpanded)}>
         {isExpanded ? <CaretLeftIcon /> : <CaretRightIcon />}
+        {!isExpanded && (
+          <>
+            <SidebarToggleButtonHighlight
+              style={{ animationDelay: "7000ms" }}
+            />
+            <SidebarToggleButtonHighlight
+              style={{ animationDelay: "7300ms" }}
+            />
+            <SidebarToggleButtonHighlight
+              style={{ animationDelay: "7600ms" }}
+            />
+            <SidebarToggleButtonHighlight
+              style={{ animationDelay: "7900ms" }}
+            />
+          </>
+        )}
       </SidebarToggleButton>
       <ScrollArea>
         <SidebarContainer>{children}</SidebarContainer>
