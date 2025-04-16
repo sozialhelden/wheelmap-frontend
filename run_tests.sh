@@ -8,6 +8,7 @@
 cd /usr/tests
 
 echo "Installing dev dependencies..."
+npm install
 npx playwright install --with-deps
 
 echo "Running unit tests..."
