@@ -66,7 +66,11 @@ export const PlaceDetailsLayout = ({ children }: { children: ReactNode }) => {
           {children}
         </SidebarComponent>
       ) : (
-        <Sheet isExpanded={isExpanded} onIsExpandedChanged={setIsExpanded}>
+        <Sheet
+          isExpanded={isExpanded}
+          onIsExpandedChanged={setIsExpanded}
+          scrollStops={[0, 0.5]}
+        >
           {children}
         </Sheet>
       )}

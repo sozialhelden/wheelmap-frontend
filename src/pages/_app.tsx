@@ -21,6 +21,7 @@ import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import { getEnvironmentVariables } from "~/modules/app/utils/environment";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
+import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -58,7 +59,9 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
                       <GlobalMapContextProvider>
                         <MapFilterContextProvider>
                           <BreakpointContextProvider>
-                            {getLayout(<Component />)}
+                            <SheetMountedContextProvider>
+                              {getLayout(<Component />)}
+                            </SheetMountedContextProvider>
                           </BreakpointContextProvider>
                         </MapFilterContextProvider>
                       </GlobalMapContextProvider>

@@ -1,7 +1,13 @@
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { type ReactNode, useMemo } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
@@ -11,6 +17,10 @@ import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 import LoadableMapView from "~/needs-refactoring/components/Map/LoadableMapView";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
+import {
+  SheetMountedContextProvider,
+  useSheetMounted,
+} from "~/components/sheet/useSheetMounted";
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -31,14 +41,13 @@ export default function BaseMapLayout({
   children,
 }: {
   children?: ReactNode;
+  enablePaddingForSheet?: boolean;
 }) {
   // const firstStart = isFirstStart();
   // const router = useRouter();
   // const isOnboardingVisible = firstStart || router.pathname === "/onboarding";
 
-  const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
-
-  // TODO: move this to a better place
+  // TODO: find a better place...
   const { toggleExpertMode } = useExpertMode();
   const expertModeHotkeys: HotkeyConfig[] = useMemo(
     () => [
@@ -55,14 +64,18 @@ export default function BaseMapLayout({
 
   useHotkeys(expertModeHotkeys);
 
+  const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
+  const { isSheetMounted } = useSheetMounted();
+
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [isSheetMounted]);
+
   return (
     <ErrorBoundary>
       <HeadMetaTags />
       <TopBar />
-      <Main
-        ref={containerRef}
-        // $enablePaddingForSheet={showSidebarToggleButton && !isDesktop}
-      >
+      <Main ref={containerRef} $enablePaddingForSheet={isSheetMounted}>
         <LoadableMapView width={width} height={height} key="map" />
         <div style={{ zIndex: 2000 }}>{children}</div>
       </Main>
