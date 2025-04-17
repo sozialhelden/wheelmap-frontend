@@ -35,6 +35,11 @@ RUN touch .env && npm run build
 
 FROM base AS release
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  dumb-init \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY --from=install /tmp/prod/node_modules node_modules
 COPY --from=build /usr/app/.next ./.next
 COPY --from=build /usr/app/public ./public
@@ -48,6 +53,9 @@ COPY --from=build /usr/app/playwright.config.ts /usr/tests/
 COPY --from=build /usr/app/package.json /usr/tests/
 COPY --from=build /usr/app/tests /usr/tests/tests
 COPY --from=build /usr/app/src /usr/tests/src
+
+# Runs "/usr/bin/dumb-init -- /my/script --with --args"
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]
