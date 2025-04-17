@@ -1,8 +1,5 @@
 // biome-ignore lint/style/useImportType: React is used in JSX
 import * as React from "react";
-import colors from "~/needs-refactoring/lib/util/colors";
-
-const color = colors.markers.background.yes;
 
 export default function ToiletStatusAccessibleIcon(
   props: React.SVGAttributes<SVGElement>,

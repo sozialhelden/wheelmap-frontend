@@ -19,8 +19,6 @@ import {
 } from "~/needs-refactoring/lib/model/ac/MappingEvent";
 import GlobeIcon from "~/components/icons/ui-elements/GlobeIcon";
 import MapPinIcon from "~/components/icons/ui-elements/MapPinIcon";
-import Button, {
-} from "../shared/Button";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import ChevronLeft from "./ChevronLeft";
