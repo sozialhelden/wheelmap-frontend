@@ -1,7 +1,6 @@
 import type * as React from "react";
 import styled from "styled-components";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
-import colors from "~/needs-refactoring/lib/util/colors";
 import { log } from "~/needs-refactoring/lib/util/logger";
 import * as categoryIcons from "~/components/icons/categories";
 import * as mainCategoryIcons from "~/components/icons/mainCategories";
@@ -44,6 +43,15 @@ function fontSize(size: Size = "medium") {
   }[size];
 }
 
+function convertYesNoLimitedToRating(yesNoLimited: YesNoLimitedUnknown) {
+  return {
+    yes: "good",
+    no: "bad",
+    limited: "mediocre",
+    unknown: "unknown",
+  }[yesNoLimited];
+}
+
 export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
   position: relative;
   margin: 0;
@@ -60,10 +68,7 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
   > .foreground {
     z-index: 300;
     font-size: ${(props) => fontSize(props.size)}px;
-    color: ${(props) =>
-      props.accessibility
-        ? colors.markers.foreground[props.accessibility]
-        : props.foregroundColor || "#496394"};
+    color: var(${(props) => (props.accessibility ? `--rating-${convertYesNoLimitedToRating(props.accessibility)}` : "--accent")});
   } 
 
   > small {
@@ -88,8 +93,8 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
       rect {
         fill: ${(props) =>
           props.accessibility
-            ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || "#FFF"};
+            ? `var(--rating-${convertYesNoLimitedToRating(props.accessibility)})`
+            : props.backgroundColor || "var(--accent-a3)"};
       }
     }
 
@@ -105,8 +110,8 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
       rect {
         fill: ${(props) =>
           props.accessibility
-            ? colors.markers.foreground[props.accessibility]
-            : props.foregroundColor || "#496394"};
+            ? `var(--rating-${convertYesNoLimitedToRating(props.accessibility)}-contrast)`
+            : props.foregroundColor || "var(--accent-12)"};
       }
     }
   }
@@ -116,7 +121,7 @@ export const StyledIconContainer = styled.div.attrs({})<ContainerProps>`
 export default function Icon({
   accessibility,
   children,
-  backgroundColor = accessibility && colors.markers.background[accessibility],
+  backgroundColor,
   foregroundColor,
   category,
   isMainCategory,

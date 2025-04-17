@@ -1,3 +1,4 @@
+import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { omit } from "lodash";
 import Link from "next/link";
@@ -16,14 +17,8 @@ import {
   type MappingEvent,
   canMappingEventBeJoined,
 } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import colors from "~/needs-refactoring/lib/util/colors";
 import GlobeIcon from "~/components/icons/ui-elements/GlobeIcon";
 import MapPinIcon from "~/components/icons/ui-elements/MapPinIcon";
-import Button, {
-  ChromelessButton,
-  DangerButton,
-  PrimaryButton,
-} from "../shared/Button";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import ChevronLeft from "./ChevronLeft";
@@ -41,7 +36,6 @@ type Props = {
 
 const StyledMappingEventToolbar = styled.div`
   padding-top: 0;
-  color: #22262d;
   line-height: 1.2;
 
   header {
@@ -59,7 +53,6 @@ const StyledMappingEventToolbar = styled.div`
   }
 
   p {
-    color: ${colors.textColorTonedDown};
     font-size: 16px;
     font-weight: 400;
   }
@@ -79,20 +72,6 @@ const StyledMappingEventToolbar = styled.div`
   .meeting-point-icon,
   .area-name-icon {
     margin-right: 4px;
-  }
-
-  ${ChromelessButton}.expand-button {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-
-    > svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      margin-right: 0.5rem;
-      fill: #89939e;
-    }
   }
 
   .mapping-event-image {
@@ -233,7 +212,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     <StyledMappingEventToolbar ariaLabel={toolbarAriaLabel} minimalHeight={205}>
       <header style={{ marginTop: "24px" }}>
         {!joinedMappingEventId && (
-          <Link href="/_events" aria-label={backLinkAriaLabel}>
+          <Link href="/events" aria-label={backLinkAriaLabel}>
             <ChevronLeft />
           </Link>
         )}
@@ -316,15 +295,13 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
 
       <div className="actions" style={{ marginBottom: "1rem" }}>
         {!joinedMappingEventId && canMappingEventBeJoined(mappingEvent) && (
-          <PrimaryButton onClick={joinMappingEventAndShowWelcomeDialog}>
+          <Button onClick={joinMappingEventAndShowWelcomeDialog}>
             {joinButtonCaption}
-          </PrimaryButton>
+          </Button>
         )}
 
         {userJoinedMappingEvent && (
-          <DangerButton onClick={leaveMappingEvent}>
-            {leaveButtonCaption}
-          </DangerButton>
+          <Button onClick={leaveMappingEvent}>{leaveButtonCaption}</Button>
         )}
       </div>
     </StyledMappingEventToolbar>

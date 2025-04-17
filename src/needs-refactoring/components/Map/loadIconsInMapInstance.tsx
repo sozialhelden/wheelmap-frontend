@@ -206,10 +206,16 @@ async function processTasksInBatches(tasks: (() => void)[], batchSize: number) {
 export async function loadIconsInMapInstance(map: MapBoxMap): Promise<void> {
   const tasks: Array<() => void> = [];
   // Queue tasks for category icons.
-  for (const [categoryIconName, IconComponent] of Object.entries(
-    categoryIcons,
-  )) {
-    for (const accessibilityGrade of ["yes", "no", "limited", "unknown"]) {
+  for (const accessibilityGrade of ["good", "mediocre", "bad", "unknown"]) {
+    // Marker color originates from a CSS variable value like `var(--rating-good)`
+    const style = getComputedStyle(document.documentElement);
+    const foregroundColor = style.getPropertyValue(
+      `--rating-${accessibilityGrade}-contrast`,
+    );
+
+    for (const [categoryIconName, IconComponent] of Object.entries(
+      categoryIcons,
+    )) {
       tasks.push(() => {
         loadIcon({
           map,
@@ -220,7 +226,7 @@ export async function loadIconsInMapInstance(map: MapBoxMap): Promise<void> {
             </ColoredIconMarker>
           ),
           styling: {
-            fill: accessibilityGrade === "unknown" ? "#666" : "white",
+            fill: foregroundColor,
             iconSize: accessibilityGrade === "unknown" ? 0.8 : 1.0,
             addShadow: true,
           },

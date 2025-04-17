@@ -1,6 +1,7 @@
 "use client";
 
 import { Theme } from "@radix-ui/themes";
+import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { useSearchParams } from "next/navigation";
 import { type ReactNode, StrictMode } from "react";
 import {
@@ -15,9 +16,8 @@ import type { LanguageTag } from "~/modules/i18n/i18n";
 // global styling
 import "@radix-ui/themes/styles.css";
 import "~/assets/css/reset.css";
-import "~/assets/css/app.css";
 import "~/assets/css/inter.css";
-import "~/assets/css/pointer-cursor.css";
+import "~/assets/css/app.css";
 
 export type AppContext = {
   environment: EnvironmentVariables;
@@ -43,23 +43,25 @@ export function App({
 
   return (
     <StrictMode>
-      <Theme
-        accentColor="indigo"
-        grayColor="sand"
-        radius="small"
-        scaling="100%"
-        panelBackground="solid"
-      >
-        <EnvironmentContextProvider environmentVariables={environment}>
-          <HostnameContextProvider hostname={appId || hostname}>
-            <UserAgentContextProvider userAgent={userAgent}>
-              <I18nContextProvider languageTag={languageTag}>
-                {children}
-              </I18nContextProvider>
-            </UserAgentContextProvider>
-          </HostnameContextProvider>
-        </EnvironmentContextProvider>
-      </Theme>
+      <NextThemeProvider attribute="class">
+        <Theme
+          accentColor="indigo"
+          grayColor="sand"
+          radius="small"
+          scaling="100%"
+          panelBackground="solid"
+        >
+          <EnvironmentContextProvider environmentVariables={environment}>
+            <HostnameContextProvider hostname={appId || hostname}>
+              <UserAgentContextProvider userAgent={userAgent}>
+                <I18nContextProvider languageTag={languageTag}>
+                  {children}
+                </I18nContextProvider>
+              </UserAgentContextProvider>
+            </HostnameContextProvider>
+          </EnvironmentContextProvider>
+        </Theme>
+      </NextThemeProvider>
     </StrictMode>
   );
 }

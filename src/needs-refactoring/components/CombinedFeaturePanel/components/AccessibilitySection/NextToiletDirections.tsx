@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useNearbyFeatures } from "~/needs-refactoring/lib/fetchers/osm-api/fetchNearbyFeatures";
 import { hasAccessibleToilet } from "~/needs-refactoring/lib/model/ac/Feature";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import colors from "~/needs-refactoring/lib/util/colors";
 import { useFormatDistance } from "~/needs-refactoring/lib/util/strings/useFormatDistance";
 import { PlaceholderSpan } from "~/needs-refactoring/components/shared/Placeholder";
 
@@ -20,11 +19,7 @@ export default function NextToiletDirections({
   const caption = t("Next wheelchair-accessible WC");
 
   if (isLoading) {
-    return (
-      <PlaceholderSpan color={colors.linkColor}>
-        {caption} 100 m →
-      </PlaceholderSpan>
-    );
+    return <PlaceholderSpan>{caption} 100 m →</PlaceholderSpan>;
   }
   const nextToilet = nearbyFeatures?.[0];
   if (!nextToilet) {

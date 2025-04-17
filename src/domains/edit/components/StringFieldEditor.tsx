@@ -10,8 +10,6 @@ import {
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
-import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
@@ -21,6 +19,8 @@ import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/needs-refactoring/lib/util/TagKeyUtils";
+import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
+import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,

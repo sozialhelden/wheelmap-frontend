@@ -22,23 +22,116 @@ body,
 }
 
 :root {
-  --easing: cubic-bezier(0.23, 0.72, 0.3, 1);
+  /* Sizes */
   --topbar-height: 3.75rem;
   --sheet-height-collapsed: 3rem;
   --sidebar-width: 28rem;
   --search-bar-height: 2.8rem;
+
+  /* Animation */
+  --easing: cubic-bezier(0.23, 0.72, 0.3, 1);
+
+  /* Semantic colors */
+  --success-1: var(--green-1);
+  --success-2: var(--green-2);
+  --success-3: var(--green-3);
+  --success-4: var(--green-4);
+  --success-5: var(--green-5);
+  --success-6: var(--green-6);
+  --success-7: var(--green-7);
+  --success-8: var(--green-8);
+  --success-9: var(--green-9);
+  --success-10: var(--green-10);
+  --success-11: var(--green-11);
+
+  --success-a1: var(--green-a1);
+  --success-a2: var(--green-a2);
+  --success-a3: var(--green-a3);
+  --success-a4: var(--green-a4);
+  --success-a5: var(--green-a5);
+  --success-a6: var(--green-a6);
+  --success-a7: var(--green-a7);
+  --success-a8: var(--green-a8);
+  --success-a9: var(--green-a9);
+  --success-a10: var(--green-a10);
+  --success-a11: var(--green-a11);
+
+  --warning-1: var(--amber-1);
+  --warning-2: var(--amber-2);
+  --warning-3: var(--amber-3);
+  --warning-4: var(--amber-4);
+  --warning-5: var(--amber-5);
+  --warning-6: var(--amber-6);
+  --warning-7: var(--amber-7);
+  --warning-8: var(--amber-8);
+  --warning-9: var(--amber-9);
+  --warning-10: var(--amber-10);
+  --warning-11: var(--amber-11);
+
+  --warning-a1: var(--amber-a1);
+  --warning-a2: var(--amber-a2);
+  --warning-a3: var(--amber-a3);
+  --warning-a4: var(--amber-a4);
+  --warning-a5: var(--amber-a5);
+  --warning-a6: var(--amber-a6);
+  --warning-a7: var(--amber-a7);
+  --warning-a8: var(--amber-a8);
+  --warning-a9: var(--amber-a9);
+  --warning-a10: var(--amber-a10);
+  --warning-a11: var(--amber-a11);
+
+  --danger-1: var(--red-1);
+  --danger-2: var(--red-2);
+  --danger-3: var(--red-3);
+  --danger-4: var(--red-4);
+  --danger-5: var(--red-5);
+  --danger-6: var(--red-6);
+  --danger-7: var(--red-7);
+  --danger-8: var(--red-8);
+  --danger-9: var(--red-9);
+  --danger-10: var(--red-10);
+  --danger-11: var(--red-11);
+
+  --danger-a1: var(--red-a1);
+  --danger-a2: var(--red-a2);
+  --danger-a3: var(--red-a3);
+  --danger-a4: var(--red-a4);
+  --danger-a5: var(--red-a5);
+  --danger-a6: var(--red-a6);
+  --danger-a7: var(--red-a7);
+  --danger-a8: var(--red-a8);
+  --danger-a9: var(--red-a9);
+  --danger-a10: var(--red-a10);
+  --danger-a11: var(--red-a11);
+
+  /* Rating/traffic-light-scheme colors */
+  --rating-good: var(--grass-9);
+  --rating-mediocre: var(--orange-9);
+  --rating-bad: var(--ruby-9);
+  --rating-unknown: var(--gray-9);
+
+  --rating-good-contrast: var(--grass-contrast);
+  --rating-mediocre-contrast: var(--orange-contrast);
+  --rating-bad-contrast: var(--ruby-contrast);
+  --rating-unknown-contrast: var(--gray-contrast);
 }
 
 .radix-themes {
+  /* Change default font-family */
   --default-font-family:
     "Inter", -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen, Ubuntu, Cantarell, \'Open Sans\', \'Helvetica Neue\', Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -moz-font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
   -webkit-font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
   font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
 
-  /* --heading-font-family: Your custom font for <Heading> components */
-  /* --code-font-family:Your custom font for <Code> components */
-  /* --strong-font-family:Your custom font for <Strong> components */
-  /* --em-font-family:Your custom font for <Em> components */
-  /* --quote-font-family:Your custom font for <Quote> components */
+  /* Set cursors */
+  --cursor-button: pointer;
+  --cursor-checkbox: pointer;
+  --cursor-disabled: default;
+  --cursor-link: pointer;
+  --cursor-menu-item: pointer;
+  --cursor-radio: pointer;
+  --cursor-slider-thumb: grab;
+  --cursor-slider-thumb-active: grabbing;
+  --cursor-switch: pointer;
 }

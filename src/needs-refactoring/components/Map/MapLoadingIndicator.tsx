@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 import { Spinner } from "@radix-ui/themes";
-import colors from "~/needs-refactoring/lib/util/colors";
 
 const StyledDiv = styled.div`
   position: absolute;
@@ -9,7 +8,6 @@ const StyledDiv = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${colors.neutralBackgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;

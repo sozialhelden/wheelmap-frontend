@@ -1,10 +1,17 @@
 import { t } from "@transifex/native";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import {
+  Badge,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
 import Link from "next/link";
 import styled from "styled-components";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import useCollectionSWR from "~/needs-refactoring/lib/fetchers/ac/useCollectionSWR";
 import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import colors from "~/needs-refactoring/lib/util/colors";
 import { mappingEvent as MappingEventMarkerIcon } from "~/components/icons/markers";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
@@ -14,12 +21,7 @@ export const StyledCloseButton = styled(CloseButton)``;
 const StyledMappingEventsToolbar = styled.div`
   padding-top: 0;
   padding-bottom: 1rem;
-  color: #22262d;
   line-height: 1.2;
-
-  .explanation-link {
-    margin: 2.5rem 0 1rem;
-  }
 
   header {
     position: sticky;
@@ -29,59 +31,6 @@ const StyledMappingEventsToolbar = styled.div`
     z-index: 1;
     margin: -1rem;
     padding: 0.75rem 1rem;
-    background: ${colors.colorizedBackgroundColor};
-  }
-
-  h2 {
-    font-size: 20px;
-    margin: 0;
-  }
-
-  h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  p {
-    color: #676b72;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.2;
-    margin: 0;
-  }
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    padding: 0;
-
-    .link-button {
-      display: flex;
-      align-items: center;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.25rem;
-      }
-    }
-  }
-
-  .number-badge {
-    background-color: #2e6ce0;
-    border-radius: 100%;
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    padding: 4px 0;
-    margin-right: 10px;
-    min-width: 30px;
-    line-height: 22px;
   }
 `;
 
@@ -94,7 +43,6 @@ function getMappingEventLink(event: MappingEvent): string {
 }
 
 export default function MappingEventListPanel() {
-  const app = useAppContext();
   const { data, isValidating, error } = useCollectionSWR({
     type: "ac:MappingEvent",
     params: new URLSearchParams({
@@ -132,40 +80,52 @@ export default function MappingEventListPanel() {
       ariaLabel={mappingEventsListAriaLabel}
       minimalHeight={180}
     >
-      <header>
-        <span className="number-badge" aria-hidden>
-          {eventCount}
-        </span>
-        <div className="header-title">
-          <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
-          <StyledMarkdown>{mapathonFeatureClaim}</StyledMarkdown>
-        </div>
-        <Link href="/public" legacyBehavior>
+      <Flex align="center" gap="3">
+        <Heading as="h1" aria-label={activeMappingEventsCountAriaLabel}>
+          <StyledMarkdown inline>{mapathonFeatureClaim}</StyledMarkdown>
+        </Heading>
+        <Link href="/" legacyBehavior>
           <CloseButton />
         </Link>
-      </header>
-      <a
-        className="link-button explanation-link"
-        href={mapathonExplanationLinkURL}
-      >
-        👉 {mapathonExplanationLinkCaption}
-      </a>
-      <ul>
-        {mappingEvents?.map((event) => (
-          <li key={event._id}>
-            <Link href={getMappingEventLink(event)} className="link-button">
-              <div>
-                <MappingEventMarkerIcon />
-              </div>
-              <div>
-                <h3>{event.name}</h3>
-                {event.area && <p>{event.area.properties.name}</p>}
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <footer />
+      </Flex>
+
+      <Flex gap="3" align="center" justify="between" my="5">
+        <Badge size="3" aria-hidden color="bronze">
+          {eventCount} {eventsText}
+        </Badge>
+        <Button size="3" asChild variant="ghost">
+          <a href={mapathonExplanationLinkURL}>
+            {mapathonExplanationLinkCaption}
+            <ChevronRightIcon />
+          </a>
+        </Button>
+      </Flex>
+
+      <Flex asChild direction="column" gap="3" my="5">
+        <ul>
+          {mappingEvents?.map((event) => (
+            <li key={event._id}>
+              <Card asChild variant="surface">
+                <Link href={getMappingEventLink(event)}>
+                  <Flex gap="2" align="center" justify="between">
+                    <MappingEventMarkerIcon
+                      aria-hidden
+                      width="2em"
+                      height="2em"
+                    />
+                    <Text weight="bold" style={{ flex: "1" }}>
+                      {event.name}
+                    </Text>
+                    <Text weight="medium" color="bronze">
+                      {event.area && <p>{event.area.properties.name}</p>}
+                    </Text>
+                  </Flex>
+                </Link>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      </Flex>
     </StyledMappingEventsToolbar>
   );
 }
