@@ -1,20 +1,19 @@
 import { type Locator, expect, test } from "@playwright/test";
 import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
+  getButton,
   getDialog,
   getEditButton,
   getMenuItem,
-  mockOSMFeature,
-} from "~/domains/edit/tests/testUtils";
+  selectLanguage,
+  setupPage,
+} from "~/domains/edit/tests/utils";
 
 test.describe("Add wheelchair description in new language", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    //await skipOnboarding(page);
-    await mockOSMFeature(page);
-    await page.waitForTimeout(3000);
+    await setupPage(page);
     await getEditButton(page, "wheelchair:description").click();
     await getMenuItem(page, "new-language").click();
     dialog = await getDialog(page);
@@ -36,8 +35,7 @@ test.describe("Add wheelchair description in new language", () => {
     const textArea = dialog.getByRole("textbox");
     await expect(textArea).toBeHidden();
 
-    await dialog.getByRole("combobox").click();
-    await page.locator("text=English").click();
+    await selectLanguage(page, dialog, "English");
     await expect(textArea).toBeVisible();
   });
 
@@ -46,25 +44,27 @@ test.describe("Add wheelchair description in new language", () => {
   }) => {
     const mockedEnglishDescription =
       node4544823443Mock.properties["wheelchair:description:en"];
-    const mockedPortugeseDescription =
-      node4544823443Mock.properties["wheelchair:description:pt"];
+    const mockedSpanishDescription =
+      node4544823443Mock.properties["wheelchair:description:es"];
 
     const comboboxTrigger = dialog.getByRole("combobox");
     const textArea = dialog.getByRole("textbox");
 
-    await comboboxTrigger.click();
-    await page.locator("text=/^English$/ ").click();
+    await selectLanguage(page, dialog, "English");
     await expect(comboboxTrigger).toHaveText("English");
     await expect(textArea).toHaveText(mockedEnglishDescription);
 
-    await comboboxTrigger.click();
-    await page.locator("text=/^Portuguese$/").click();
-    await expect(comboboxTrigger).toHaveText("Portuguese");
-    await expect(textArea).toHaveText(mockedPortugeseDescription);
+    await selectLanguage(page, dialog, "Español");
+    await expect(comboboxTrigger).toHaveText("Español");
+    await expect(textArea).toHaveText(mockedSpanishDescription);
+  });
+
+  test("changes are made using the send button", async () => {
+    //TODO
   });
 
   test("dialog can be closed using the cancel button", async () => {
-    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
