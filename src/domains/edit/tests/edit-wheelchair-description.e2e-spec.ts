@@ -1,20 +1,18 @@
 import { type Locator, expect, test } from "@playwright/test";
 import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
+  getButton,
   getDialog,
   getEditButton,
   getMenuItem,
-  mockOSMFeature,
-} from "~/domains/edit/tests/testUtils";
+  setupPage,
+} from "~/domains/edit/tests/utils";
 
 test.describe("Edit wheelchair description", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    //await skipOnboarding(page);
-    await mockOSMFeature(page);
-    await page.waitForTimeout(3000);
+    await setupPage(page);
     await getEditButton(page, "wheelchair:description").click();
     await getMenuItem(page, "this-language").click();
     dialog = await getDialog(page);
@@ -26,8 +24,8 @@ test.describe("Edit wheelchair description", () => {
 
   test("dialog has textarea and buttons", async () => {
     await expect(dialog.getByRole("textbox")).toBeVisible();
-    await expect(dialog.getByRole("button", { name: "Cancel" })).toBeVisible();
-    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
+    await expect(getButton(dialog, "Cancel")).toBeVisible();
+    await expect(getButton(dialog, "Confirm")).toBeVisible();
   });
 
   test("dialog does not have select box when editing current description", async () => {
@@ -39,21 +37,25 @@ test.describe("Edit wheelchair description", () => {
   });
 
   test("text area contains description", async () => {
-    const mockedDefaultDescription =
-      node4544823443Mock.properties["wheelchair:description"];
+    const mockedEnglishDescription =
+      node4544823443Mock.properties["wheelchair:description:en"];
     const textArea = dialog.getByRole("textbox");
-    await expect(textArea).toHaveText(mockedDefaultDescription);
+    await expect(textArea).toHaveText(mockedEnglishDescription);
   });
 
   test("confirm button changes to send after input changes", async () => {
-    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
+    await expect(getButton(dialog, "Confirm")).toBeVisible();
 
     await dialog.getByRole("textbox").fill("New text input");
-    await expect(dialog.getByRole("button", { name: "Send" })).toBeVisible();
+    await expect(getButton(dialog, "Send")).toBeVisible();
+  });
+
+  test("changes are made using the send button", async () => {
+    //TODO
   });
 
   test("dialog can be closed using the cancel button", async () => {
-    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 

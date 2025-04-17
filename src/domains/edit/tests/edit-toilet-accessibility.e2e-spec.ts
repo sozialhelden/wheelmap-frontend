@@ -1,18 +1,16 @@
 import { type Locator, expect, test } from "@playwright/test";
 import {
+  getButton,
   getDialog,
   getEditButton,
-  mockOSMFeature,
-} from "~/domains/edit/tests/testUtils";
+  setupPage,
+} from "~/domains/edit/tests/utils";
 
 test.describe("Edit toilet accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    //await skipOnboarding(page);
-    await mockOSMFeature(page);
-    await page.waitForTimeout(3000);
+    await setupPage(page);
     await getEditButton(page, "toilets:wheelchair").click();
     dialog = await getDialog(page);
   });
@@ -28,7 +26,7 @@ test.describe("Edit toilet accessibility", () => {
   test("radios are clickable & confirm button changes to send after input changes", async ({
     page,
   }) => {
-    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
+    await expect(getButton(dialog, "Confirm")).toBeVisible();
 
     const yesRadio = page.locator("form svg").first();
     const noRadio = page.locator("form svg").nth(2);
@@ -37,11 +35,15 @@ test.describe("Edit toilet accessibility", () => {
     await expect(noRadio).toBeVisible();
 
     await noRadio.click();
-    await expect(dialog.getByRole("button", { name: "Send" })).toBeVisible();
+    await expect(getButton(dialog, "Send")).toBeVisible();
+  });
+
+  test("changes are made using the send button", async () => {
+    //TODO
   });
 
   test("dialog can be closed using the cancel button", async () => {
-    await dialog.getByRole("button", { name: "Cancel" }).click();
+    await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
