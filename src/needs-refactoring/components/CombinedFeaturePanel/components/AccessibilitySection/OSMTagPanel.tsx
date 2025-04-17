@@ -3,7 +3,7 @@ import * as React from "react";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
-} from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
+} from "~/needs-refactoring/lib/util/TagKeyUtils";
 import type { TypeTaggedOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { omittedKeyPrefixes } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeyPrefixes";
 import { omittedKeySuffixes } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeySuffixes";
