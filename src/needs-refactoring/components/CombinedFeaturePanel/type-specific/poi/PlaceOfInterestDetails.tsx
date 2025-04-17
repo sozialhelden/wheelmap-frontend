@@ -1,5 +1,4 @@
 import { Callout } from "@blueprintjs/core";
-import { Inset } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { bbox } from "@turf/turf";
 import Link from "next/link";
@@ -74,9 +73,7 @@ export default function PlaceOfInterestDetails({
         }}
       >
         {feature["@type"] === "osm:Feature" && (
-          <Inset>
-            <FeatureImage feature={feature} />
-          </Inset>
+          <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
 
