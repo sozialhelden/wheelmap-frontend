@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
 import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
-import { ToiletStatusNotAccessible } from "../../../../components/icons/accessibility";
-import ToiletStatusAccessibleIcon from "../../../../components/icons/accessibility/ToiletStatusAccessible";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+import { ToiletStatusNotAccessible } from "~/components/icons/accessibility";
+import ToiletStatusAccessibleIcon from "~/components/icons/accessibility/ToiletStatusAccessible";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 
 export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -38,6 +38,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content
         aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
+        data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureNameHeader feature={feature}>

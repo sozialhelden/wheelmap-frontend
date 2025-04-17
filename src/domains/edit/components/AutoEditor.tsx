@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
 import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
 import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTagValueNoLogIn";
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
@@ -16,18 +15,19 @@ import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
 } from "~/needs-refactoring/lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
-import { FeaturePanelContext } from "../FeaturePanelContext";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
 import { WheelchairEditor } from "./WheelchairEditor";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
-    case key.startsWith("wheelchair:description"):
+    case key.includes("description"):
       return StringFieldEditor;
 
     case key === "wheelchair":

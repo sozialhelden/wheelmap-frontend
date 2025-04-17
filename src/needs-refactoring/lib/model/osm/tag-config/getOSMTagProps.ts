@@ -1,7 +1,7 @@
 import type React from "react";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import { valueRenderFunctions } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {
@@ -111,6 +111,7 @@ export function getOSMTagProps({
   const isEditable = editableKeys.has(key);
   const { hasLanguageTagSupport } =
     normalizeAndExtractLanguageTagsIfPresent(key);
+  const isDescription = key.includes("description");
 
   return {
     tagKey: key,
@@ -120,6 +121,7 @@ export function getOSMTagProps({
     valueAttribute,
     valueElement: valueLabel,
     isEditable,
+    isDescription,
     isLanguageTagged: hasLanguageTagSupport,
     valueDetails,
     keyDetails,

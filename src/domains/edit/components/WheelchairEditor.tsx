@@ -7,13 +7,13 @@ import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibil
 import { unknownCategory } from "~/modules/categories/utils/cache";
 import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "~/needs-refactoring/components/shared/Icon";
-import { StyledReportView } from "../ReportView";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
-import { useFeatureLabel } from "../utils/useFeatureLabel";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -46,6 +46,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content
         aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
+        data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <StyledReportView className="_view">

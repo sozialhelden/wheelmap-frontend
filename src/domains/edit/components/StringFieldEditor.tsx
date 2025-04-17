@@ -10,17 +10,17 @@ import {
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  getAvailableLangTags,
-  normalizeAndExtractLanguageTagsIfPresent,
-} from "~/needs-refactoring/components/CombinedFeaturePanel/utils/TagKeyUtils";
-import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
-import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
-import FeatureNameHeader from "../components/FeatureNameHeader";
-import FeatureImage from "../components/image/FeatureImage";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent,
+} from "~/needs-refactoring/lib/util/TagKeyUtils";
+import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
+import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -57,9 +57,13 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   const [hasValueChanged, setHasValueChanged] = useState(false);
 
   const dialogDescription = addNewLanguage
-    ? t(
-        "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.",
-      )
+    ? tagKey.includes("wheelchair:description")
+      ? t(
+          "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.",
+        )
+      : t(
+          "Please describe this place. Start by selecting the language for your description.",
+        )
     : t("Please edit this description in the same language.");
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -108,7 +112,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
 
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Dialog.Content>
+      <Dialog.Content data-testid={`dialog_${tagKey}`}>
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
             {feature["@type"] === "osm:Feature" && (
@@ -152,6 +156,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
               </Text>
               <Flex style={{ flexGrow: 1 }}>
                 <SearchableSelect
+                  data-testid="searchable-select"
                   selectPlaceholder={t("Languages")}
                   items={supportedLanguageTagsOptions}
                   onSelect={(value) => {
