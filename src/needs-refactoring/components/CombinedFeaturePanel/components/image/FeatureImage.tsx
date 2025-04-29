@@ -7,8 +7,8 @@ import WikidataEntityImage from "./WikidataEntityImage";
 import WikimediaCommonsImage from "./WikimediaCommonsImage";
 
 const imageStyle = (link) => ({
-  maxHeight: link.prefix === "subject" ? "8rem" : "3rem",
-  maxWidth: link.prefix === "subject" ? "8rem" : "3rem",
+  maxHeight: link.prefix === "subject" ? "100%" : "3rem",
+  maxWidth: link.prefix === "subject" ? "100%" : "3rem",
   borderRadius: "0.125rem",
 });
 

@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { getLayout } from "~/components/layouts/PlaceDetailsLayout";
+import FeaturePanel from "~/modules/feature-panel/components/FeaturePanel";
 
 export default function PlaceDetailPage() {
   const { features } = useContext(FeaturePanelContext);
@@ -10,7 +10,8 @@ export default function PlaceDetailPage() {
     [features],
   );
 
-  return <CombinedFeaturePanel features={resolvedFeatures} />;
+  // return <CombinedFeaturePanel features={resolvedFeatures} />;
+  return <FeaturePanel features={resolvedFeatures} />;
 }
 
 PlaceDetailPage.getLayout = getLayout;
