@@ -97,7 +97,7 @@
     "lint:fix": "npx biome lint --write",
     "format": "npx biome format",
     "format:fix": "npx biome format --write",
-    "transifex:push": "rm -rf src/.next/ && npx env-cmd -- txjs-cli push ./src --token=$NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN --secret=$TRANSIFEX_NATIVE_SECRET",
+    "transifex:push": "rm -rf src/.next/ && npx env-cmd --use-shell -- txjs-cli push ./src --token=\\$NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN --secret=\\$TRANSIFEX_NATIVE_SECRET",
     "transifex:install": "npx api install \"@transifex/v1.0#a442qlw7q5q6u\"",
     "transifex:upload": "npx env-cmd -- npx tsx scripts/upload-xliff.ts",
     "compile-svg-directory": "npx @svgr/cli --out-dir ${basedir} -- ${basedir}",
