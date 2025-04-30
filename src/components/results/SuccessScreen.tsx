@@ -1,7 +1,5 @@
-import { CheckIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Strong, Text } from "@radix-ui/themes";
-import { t } from "@transifex/native";
-import React, { type MouseEventHandler } from "react";
+import { Check } from "lucide-react";
+import { Flex, Strong, Text } from "@radix-ui/themes";
 
 export function SuccessScreen({
   heading,
@@ -12,7 +10,7 @@ export function SuccessScreen({
 }) {
   return (
     <Flex direction="column" align="center" justify="center" py="9" px="4">
-      <CheckIcon color="green" width="50" height="50" aria-hidden />
+      <Check color="green" size={48} aria-hidden />
       <Text size="4" align="center">
         <Strong>{heading}</Strong>
       </Text>

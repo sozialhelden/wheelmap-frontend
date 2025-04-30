@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil } from "lucide-react";
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { useContext, useState } from "react";
@@ -16,7 +16,7 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <IconButton variant="soft" size="2" data-testid={`${tagKey}`}>
-            <Pencil1Icon width="18" height="18" />
+            <Pencil size={18} aria-hidden />
           </IconButton>
         </DropdownMenu.Trigger>
 

@@ -10,8 +10,8 @@ import {
 import { t } from "@transifex/native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GalleryContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/Gallery/Gallery";
-import { ErrorScreen } from "~/needs-refactoring/components/shared/ErrorScreen";
-import { SuccessScreen } from "~/needs-refactoring/components/shared/SuccessScreen";
+import { ErrorScreen } from "~/components/results/ErrorScreen";
+import { SuccessScreen } from "~/components/results/SuccessScreen";
 import postImageReport from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageReport";
 import type { AccessibilityCloudImage } from "~/needs-refactoring/lib/model/ac/Feature";
 import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";

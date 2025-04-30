@@ -1,5 +1,10 @@
 export type NestedRecord<T> = { [key: string]: T | NestedRecord<T> };
 
+/**
+ * Converts a nested object into a flat object suitable for URL search parameters.
+ * The keys of the flat object are constructed by concatenating the keys of the
+ * nested object, using square brackets to indicate nesting.
+ */
 export function flattenToSearchParams(
   object: NestedRecord<string> | string,
   prefix = "",

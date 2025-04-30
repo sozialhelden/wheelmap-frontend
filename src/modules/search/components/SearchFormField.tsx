@@ -1,4 +1,5 @@
-import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { X, Search } from "lucide-react";
+
 import { Flex, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import {
@@ -143,12 +144,12 @@ export function SearchFormField({
             onClick={reset}
             aria-label={t("Clear search")}
           >
-            <Cross1Icon height="16" width="16" aria-hidden />
+            <X size={18} aria-hidden />
           </IconButton>
         </Flex>
       ) : (
         <IconOverlay>
-          <MagnifyingGlassIcon height="16" width="16" />
+          <Search size={18} aria-hidden />
         </IconOverlay>
       )}
     </StyledSearchFormField>

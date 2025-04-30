@@ -1,4 +1,4 @@
-import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import { IconButton } from "@radix-ui/themes";
 import { type ReactNode, type Ref, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
@@ -116,8 +116,8 @@ export function Sheet({
         <SheetCollapsedControlArea>
           <DragHandle />
           <ExpandButton variant="ghost" size="2" onClick={toggle}>
-            {!isExpanded && <CaretUpIcon width="1.5rem" height="1.5rem" />}
-            {isExpanded && <CaretDownIcon width="1.5rem" height="1.5rem" />}
+            {!isExpanded && <ChevronUp width="1.5rem" height="1.5rem" />}
+            {isExpanded && <ChevronDown width="1.5rem" height="1.5rem" />}
           </ExpandButton>
         </SheetCollapsedControlArea>
         {children}
