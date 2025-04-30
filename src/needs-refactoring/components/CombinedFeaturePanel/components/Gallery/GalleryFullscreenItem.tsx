@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import {
   Box,
   Flex,
@@ -8,8 +8,7 @@ import {
   VisuallyHidden,
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { CloseIcon } from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
-import { type FC, useContext, useMemo } from "react";
+import { type FC, useContext } from "react";
 import styled from "styled-components";
 import GalleryReportPopover from "~/needs-refactoring/components/CombinedFeaturePanel/components/Gallery/GalleryReportPopover";
 import AccessibilityCloudImage from "~/components/image/AccessibilityCloudImage";
@@ -143,19 +142,19 @@ export const GalleryFullscreenItem: FC<{
           <ImageNavList>
             <li>
               <IconButton color="gray" size="4" onClick={api.previous}>
-                <ArrowLeftIcon />
+                <ArrowLeft size={18} aria-hidden />
               </IconButton>
             </li>
             <li>
               <IconButton color="gray" size="4" onClick={api.next}>
-                <ArrowRightIcon />
+                <ArrowRight size={18} aria-hidden />
               </IconButton>
             </li>
           </ImageNavList>
         </ImageNav>
 
         <ImageCloseButton color="gray" size="3" onClick={api.close}>
-          <CloseIcon />
+          <X size={18} aria-hidden />
         </ImageCloseButton>
       </DialogContentWrapper>
     </>

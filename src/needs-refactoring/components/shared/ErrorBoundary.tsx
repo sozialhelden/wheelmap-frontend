@@ -1,5 +1,5 @@
-import { LinkBreak1Icon } from "@radix-ui/react-icons";
-import { Box, Button, Callout, Code, Heading, Text } from "@radix-ui/themes";
+import { Link2Off } from "lucide-react";
+import { Box, Button, Callout, Code, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import Link from "next/link";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
@@ -19,7 +19,7 @@ function FallbackComponent({
   return (
     <Callout.Root color="red" highContrast>
       <Callout.Icon>
-        <LinkBreak1Icon />
+        <Link2Off />
       </Callout.Icon>
       <Callout.Text>
         <Text as="p">{apologyText}</Text>

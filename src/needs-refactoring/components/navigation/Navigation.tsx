@@ -1,4 +1,4 @@
-import { Cross2Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { Menu, X } from "lucide-react";
 import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { useRouter } from "next/router";
@@ -33,7 +33,6 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const { isExpertMode } = useExpertMode();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: when pathname changes, close the main menu.
   useEffect(() => setIsOpen(false), [pathname]);
 
   const { linksInToolbar, linksInDropdownMenu } = useNavigation();
@@ -68,11 +67,7 @@ export default function Navigation() {
             size="3"
             aria-label={isOpen ? t("Close menu") : t("Show menu")}
           >
-            {isOpen ? (
-              <Cross2Icon width="24" height="24" aria-hidden="true" />
-            ) : (
-              <HamburgerMenuIcon width="24" height="24" aria-hidden="true" />
-            )}
+            {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </IconButton>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>

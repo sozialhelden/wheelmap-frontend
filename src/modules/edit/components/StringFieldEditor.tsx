@@ -1,4 +1,4 @@
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Info } from "lucide-react";
 import {
   Callout,
   Dialog,
@@ -125,7 +125,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
                 <Flex gap="2">
                   <Callout.Root>
                     <Callout.Icon>
-                      <InfoCircledIcon />
+                      <Info size={18} />
                     </Callout.Icon>
                     <Callout.Text as="div">
                       {t(
