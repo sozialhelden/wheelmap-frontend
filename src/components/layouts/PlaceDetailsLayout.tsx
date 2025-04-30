@@ -7,7 +7,7 @@ import { Sidebar as SidebarComponent } from "~/components/sidebar/Sidebar";
 import { Sheet } from "~/components/sheet/Sheet";
 import { useBreakpoints } from "~/hooks/useBreakpoints";
 import styled from "styled-components";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { X } from "lucide-react";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 
 const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
@@ -46,7 +46,7 @@ export const PlaceDetailsLayout = ({ children }: { children: ReactNode }) => {
         $isSidebarOpen={isExpanded}
         onClick={() => push("/")}
       >
-        <Cross1Icon />
+        <X size={18} />
       </SidebarButton>
     </div>
   );

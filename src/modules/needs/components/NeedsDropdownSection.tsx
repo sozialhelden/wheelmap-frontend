@@ -1,11 +1,4 @@
-import { QuestionMarkIcon } from "@radix-ui/react-icons";
-import {
-  Flex,
-  IconButton,
-  RadioGroup,
-  Text,
-  VisuallyHidden,
-} from "@radix-ui/themes";
+import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type RefObject, forwardRef, useState } from "react";
 import styled from "styled-components";
@@ -79,7 +72,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
               color="gray"
               onClick={toggleHelp}
             >
-              <QuestionMarkIcon />
+              ?
             </IconButton>
           </Flex>
         )}

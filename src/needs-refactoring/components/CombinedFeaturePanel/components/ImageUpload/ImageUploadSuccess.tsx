@@ -2,7 +2,7 @@ import { Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { type FC, useContext } from "react";
 import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import { SuccessScreen } from "~/needs-refactoring/components/shared/SuccessScreen";
+import { SuccessScreen } from "~/components/results/SuccessScreen";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 
 export const ImageUploadSuccess: FC = () => {

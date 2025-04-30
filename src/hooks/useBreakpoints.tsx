@@ -58,7 +58,6 @@ export function BreakpointContextProvider({
     );
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     calculate();
     window.addEventListener("resize", calculate);

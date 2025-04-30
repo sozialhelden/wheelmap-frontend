@@ -1,7 +1,6 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { TriangleAlert } from "lucide-react";
 import { Flex, Strong, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import React from "react";
 
 export function ErrorScreen({
   heading,
@@ -14,7 +13,7 @@ export function ErrorScreen({
 }) {
   return (
     <Flex direction="column" align="center" justify="center" py="9" px="4">
-      <ExclamationTriangleIcon color="red" width="40" height="40" />
+      <TriangleAlert color="red" size={48} aria-hidden />
       <Text>
         <Strong>{heading}</Strong>
       </Text>

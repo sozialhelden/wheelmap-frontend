@@ -3,6 +3,7 @@ import { t } from "@transifex/native";
 import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getCategoryList } from "~/modules/categories/utils/display";
+import { ChevronDown } from "lucide-react";
 
 const Container = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ export function CategoryFilter() {
                     size="1"
                   >
                     {t("More…")}
-                    <DropdownMenu.TriggerIcon />
+                    <ChevronDown size={16} aria-hidden />
                   </StyledButton>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>

@@ -9,6 +9,7 @@ import * as React from "react";
 export function useDarkMode() {
   const { theme, setTheme } = useTheme();
 
+  // TODO: move this to an appropriate place
   const hotkeys = React.useMemo(
     () => [
       {
