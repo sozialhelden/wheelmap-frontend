@@ -9,7 +9,7 @@ const baseURL = getBaseURL();
 test.beforeEach(async ({ page }) => {
   // Go to the starting url before each test.
   await page.goto(baseURL);
-  await skipOnboarding(page);
+  //await skipOnboarding(page);
 });
 
 test('Goto Access ER University', async ({ page }) => {

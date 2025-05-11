@@ -19,7 +19,7 @@ test('has base URL', async ({ page }) => {
 test('upload a photo', async ({ page }) => {
   try {
     await page.goto(baseURL);
-    await skipOnboarding(page);
+ //   await skipOnboarding(page);
     await page.goto(baseURL + '/amenities/way:30050297');
     // Click on the "Add new image" link
     await page.getByRole('link', { name: 'Add new image' }).click();
@@ -42,7 +42,7 @@ test.describe("when the menu is closed", () => {
     
     skipOnMobiles();
     await page.goto(baseURL);
-    await skipOnboarding(page);
+  //  await skipOnboarding(page);
     // On desktops, the greater part of the navigation is always visible.
     await expect(page.getByRole('banner')).toMatchAriaSnapshot(`
       - banner:
