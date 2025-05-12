@@ -1,0 +1,43 @@
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import * as React from "react";
+import { useContext } from "react";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
+import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
+import { generateTree } from "~/modules/feature-panel/utils/generateTree";
+import { nestTree } from "~/modules/feature-panel/utils/nestTree";
+import { selectWheelchairDescription } from "~/modules/feature-panel/utils/selectWheelchairDescription";
+import { attachTagPropsRecursively } from "~/modules/feature-panel/utils/attachPropsRecursively";
+import { filterKeys } from "~/modules/feature-panel/utils/filterKeys";
+
+export type TagOrTagGroup = {
+  key: string;
+  value?: string | number;
+  children: TagOrTagGroup[];
+  tagProps?: OSMTagProps;
+};
+
+export function useOsmTags(feature) {
+  const { languageTag } = useI18nContext();
+  const { baseFeatureUrl } = useContext(FeaturePanelContext);
+  const { map: attributesById } = useAccessibilityAttributesIdMap();
+
+  const nestedTags: TagOrTagGroup[] = React.useMemo(() => {
+    const filteredKeys = filterKeys(feature);
+    const finalKeys = selectWheelchairDescription(filteredKeys, languageTag);
+    const tree = generateTree(finalKeys);
+    return nestTree(tree);
+  }, [feature, languageTag]);
+
+  nestedTags.map((tagOrGroup) =>
+    attachTagPropsRecursively(
+      tagOrGroup,
+      feature,
+      attributesById,
+      baseFeatureUrl,
+    ),
+  );
+  const topLevelKeys = new Set(nestedTags.map(({ key }) => key));
+
+  return { nestedTags, topLevelKeys };
+}
