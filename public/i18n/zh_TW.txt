@@ -607,7 +607,7 @@ msgstr "通過標記地方得到幫助！"
 msgid "Okay, let’s go!"
 msgstr "好的，出發"
 
-#: src/components/Onboarding/Onboarding.tsx:60
+#: src/components/Onboarding/Onboarding.tsx:56
 msgid "Start screen"
 msgstr "輪椅地圖"
 
@@ -1322,25 +1322,20 @@ msgstr "開始吧"
 msgid "You are participating as ${ initialEmailAddress }."
 msgstr "你以 ${ initialEmailAddress } 身份參與。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106
 msgid ""
-"To stay in touch with you, you must provide the Wheelmap team with your "
-"email address."
+"Your email address will be used by Wheelmap (Sozialhelden e.V.) and the "
+"event organizer for event-related communication. You can unsubscribe at any "
+"time."
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
-msgid ""
-"To stay in touch with you, please share your email address with the Wheelmap"
-" team."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114
 msgid "Welcome"
 msgstr "歡迎"
 
 #. translator: Shown on the join mapping event screen, when there is no
 #. message defined by the event organizer.
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120
 msgid "Great! Thanks for joining us."
 msgstr "很好！謝謝你加入我們。"
 

@@ -103,9 +103,11 @@ const UnstyledMappingEventWelcomeDialog = ({
   onClose,
   invitationToken,
 }: Props) => {
+  const message = t`Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.`;
+
   const EmailCollectionModeMessages = {
-    required: () => t`To stay in touch with you, you must provide the Wheelmap team with your email address.`,
-    optional: () => t`To stay in touch with you, please share your email address with the Wheelmap team.`,
+    required: () => message,
+    optional: () => message,
     disabled: () => null,
   };
 
