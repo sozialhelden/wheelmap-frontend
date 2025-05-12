@@ -1,4 +1,9 @@
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
+  ["wheelchair_accessibility.wheelchair", /^wheelchair$/],
+  [
+    "wheelchair_accessibility.description",
+    /^wheelchair:description(?:[:\w-]+)?$/,
+  ],
   ["location.indoor", /^indoor$/],
   ["location.level", /^level$/],
   ["location.level_ref", /^level:ref$/],
