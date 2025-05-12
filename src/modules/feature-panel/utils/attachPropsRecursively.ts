@@ -17,15 +17,15 @@ export function attachTagPropsRecursively(
   const matchedKey = Object.keys(valueRenderFunctions).find(
     (renderFunctionKey) => key.match(renderFunctionKey),
   );
+  tagOrGroup.tagProps = getOSMTagProps({
+    key,
+    matchedKey,
+    singleValue,
+    attributesById,
+    feature,
+    baseFeatureUrl,
+  });
   if (singleValue !== "") {
-    tagOrGroup.tagProps = getOSMTagProps({
-      key,
-      matchedKey,
-      singleValue,
-      attributesById,
-      feature,
-      baseFeatureUrl,
-    });
     tagOrGroup.value = singleValue;
   } else {
     tagOrGroup.children.map((child) =>
