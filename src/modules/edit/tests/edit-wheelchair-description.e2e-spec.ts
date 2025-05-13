@@ -1,12 +1,12 @@
-import { type Locator, expect, test } from "@playwright/test";
-import node4544823443Mock from "~/domains/edit/tests/mocks/node-4544823443-osm-mock.json";
+import { expect, type Locator, test } from "@playwright/test";
+import node4544823443Mock from "~/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getButton,
   getDialog,
   getEditButton,
   getMenuItem,
   setupPage,
-} from "~/domains/edit/tests/utils";
+} from "~/modules/edit/tests/utils";
 
 test.describe("Edit wheelchair description", () => {
   let dialog: Locator;
