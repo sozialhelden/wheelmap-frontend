@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { ToiletsWheelchairEditor } from "~/domains/edit/components/ToiletsWheelchairEditor";
+import { ToiletsWheelchairEditor } from "~/modules/edit/components/ToiletsWheelchairEditor";
 import { getLayout } from "~/components/layouts/DefaultLayout";
 
 function ToiletAccessibility() {
