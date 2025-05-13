@@ -80,7 +80,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-images": "^1.2.0-beta.7",
-    "react-map-gl": "^5.2.10",
+    "react-map-gl": "^7.0.1",
     "react-measure": "^2.5.2",
     "react-photo-album": "^1.13.2",
     "react-radio-group": "^3.0.3",
