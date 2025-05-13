@@ -1,6 +1,6 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import React, { type ReactNode, useContext, useState } from "react";
-import { AutoEditor } from "~/domains/edit/components/AutoEditor";
+import { AutoEditor } from "~/modules/edit/components/AutoEditor";
 
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
