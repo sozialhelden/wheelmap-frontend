@@ -11,7 +11,6 @@ import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
@@ -115,9 +114,9 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
       <Dialog.Content data-testid={`dialog_${tagKey}`}>
         <Flex direction="column" gap="3">
           <FeatureNameHeader feature={feature}>
-            {feature["@type"] === "osm:Feature" && (
-              <FeatureImage feature={feature} />
-            )}
+            {/*{feature["@type"] === "osm:Feature" && (*/}
+            {/*  <FeatureImage feature={feature} />*/}
+            {/*)}*/}
           </FeatureNameHeader>
           <VisuallyHidden asChild>
             <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>

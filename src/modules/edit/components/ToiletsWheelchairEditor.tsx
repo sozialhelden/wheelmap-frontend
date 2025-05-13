@@ -8,7 +8,6 @@ import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/re
 import { ToiletStatusNotAccessible } from "~/components/icons/accessibility";
 import ToiletStatusAccessibleIcon from "~/components/icons/accessibility/ToiletStatusAccessible";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
@@ -42,9 +41,9 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureNameHeader feature={feature}>
-            {feature["@type"] === "osm:Feature" && (
-              <FeatureImage feature={feature} />
-            )}
+            {/*{feature["@type"] === "osm:Feature" && (*/}
+            {/*  <FeatureImage feature={feature} />*/}
+            {/*)}*/}
           </FeatureNameHeader>
 
           <Dialog.Description id="dialog-description" size="3">

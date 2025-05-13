@@ -1,10 +1,10 @@
-import { type Locator, expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import {
   getButton,
   getDialog,
   getEditButton,
   setupPage,
-} from "~/domains/edit/tests/utils";
+} from "~/modules/edit/tests/utils";
 
 test.describe("Edit toilet accessibility", () => {
   let dialog: Locator;
