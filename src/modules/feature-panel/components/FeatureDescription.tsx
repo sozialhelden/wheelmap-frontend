@@ -7,7 +7,7 @@ interface Props {
 }
 
 const DescriptionContainer = styled.div`
-    padding: var(--space-3);
+    padding: var(--space-4);
 `;
 
 const FeatureDescription = ({ children }: Props) => {
