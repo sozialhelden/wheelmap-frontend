@@ -1,20 +1,18 @@
-import { useHotkeys } from "@blueprintjs/core";
 import { Box, Callout } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { uniqBy } from "lodash";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
 import {
   type AnyFeature,
-  getKey,
   isOSMFeature,
   isSearchResultFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import OSMBuildingDetails from "./type-specific/building/OSMBuildingDetails";
-import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
 import OSMSidewalkDetails from "./type-specific/surroundings/OSMSidewalkDetails";
+import FeaturePanel from "~/modules/feature-panel/components/FeaturePanel";
 
 type Props = {
   features: AnyFeature[];
@@ -22,7 +20,7 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
-function FeatureSection({ feature }: { feature: AnyFeature }) {
+export function FeatureSection({ feature }: { feature: AnyFeature }) {
   if (!isOSMFeature(feature)) {
     return <section>Feature type not supported</section>;
   }
@@ -59,15 +57,15 @@ export function CombinedFeaturePanel(props: Props) {
       <ErrorBoundary>
         <Box>
           {features[0] && (
-            <PlaceOfInterestDetails
+            <FeaturePanel
               feature={features[0]}
               activeImageId={props.activeImageId}
               isUploadDialogOpen={props.isUploadDialogOpen}
             />
           )}
-          {surroundings?.map((feature) => (
-            <FeatureSection key={getKey(feature)} feature={feature} />
-          ))}
+          {/*{surroundings?.map((feature) => (*/}
+          {/*  <FeatureSection key={getKey(feature)} feature={feature} />*/}
+          {/*))}*/}
 
           {(!features || features.length === 0) && (
             <Callout.Root>
