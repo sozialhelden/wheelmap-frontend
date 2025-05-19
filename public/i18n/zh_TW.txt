@@ -2,11 +2,11 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2021
-# Supaplex <bejokeup@gmail.com>, 2024
+# Supaplex <bejokeup@gmail.com>, 2025
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Supaplex <bejokeup@gmail.com>, 2024\n"
+"Last-Translator: Supaplex <bejokeup@gmail.com>, 2025\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1327,7 +1327,7 @@ msgid ""
 "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the "
 "event organizer for event-related communication. You can unsubscribe at any "
 "time."
-msgstr ""
+msgstr "你的電子郵件會被 Wheelmap (Sozialhelden e.V.) 以及其他活動主辦人用在聯繫用途，你可以在任何時間退訂。"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114
 msgid "Welcome"

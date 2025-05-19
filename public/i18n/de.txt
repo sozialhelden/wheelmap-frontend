@@ -1381,8 +1381,9 @@ msgid ""
 "event organizer for event-related communication. You can unsubscribe at any "
 "time."
 msgstr ""
-"Deine E-Mail nutzen Wheelmap (Sozialhelden e.V.) und der Veranstalter für "
-"Event-Infos. Du kannst dich jederzeit abmelden."
+"Wheelmap (Sozialhelden e.V.) und der Veranstalter nutzen deine E-Mail-"
+"Adresse um Infos zu Events mit dir zu teilen. Du kannst dich jederzeit "
+"abmelden."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114
 msgid "Welcome"
