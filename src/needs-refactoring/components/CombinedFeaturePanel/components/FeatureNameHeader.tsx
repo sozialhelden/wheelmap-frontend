@@ -25,7 +25,7 @@ const PlaceNameDetail = styled.div`
   }
 `;
 
-type Props = {
+type Props = BoxProps & {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
   onHeaderClicked?: () => void;
@@ -132,7 +132,7 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   return (
-    <Box onClick={onHeaderClicked}>
+    <Box onClick={onHeaderClicked} mb={props.marginBottom || "0"}>
       {placeNameElement}
       {children}
     </Box>
