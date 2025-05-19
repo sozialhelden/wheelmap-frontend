@@ -1,25 +1,20 @@
 import React from "react";
-import { Card, Flex, Strong, Text } from "@radix-ui/themes";
-import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
+import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
-import styled from "styled-components";
 import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
-import { SecondaryButton } from "~/components/button/SecondaryButton";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import TagGroup from "~/modules/feature-panel/components/TagGroup";
+import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
+import TagRenderer from "~/modules/feature-panel/components/TagRenderer";
+import { t } from "@transifex/native";
 
 type Props = {
   tags: TagOrTagGroup;
 };
 
-const StyledSection = styled.div`
-    padding: var(--space-3);
-    display: flex; flex-direction: column; gap: var(--space-3);
-`;
-
 const ToiletsSection = ({ tags }: Props) => {
-  const toiletInfo = tags.children.find(
+  const toiletWheelchairInfo = tags.children.find(
     (tag) => tag.key === "toilets:wheelchair",
   );
 
@@ -36,36 +31,62 @@ const ToiletsSection = ({ tags }: Props) => {
   console.log("otherChildren", otherChildren);
 
   return (
-    <Card variant="surface" size="1" mt="30px">
-      <StyledSection>
-        {toiletInfo && (
-          <Flex direction="row" gap="7" justify="between">
-            <Text size="3">
-              <Strong>{toiletInfo.tagProps?.keyLabel}</Strong>
+    <>
+      {toiletWheelchairInfo && (
+        <Grid columns="25% 65% 10%" mb="3">
+          <Box>
+            <Text size="3" color="gray">
+              {toiletWheelchairInfo.tagProps?.keyLabel}
             </Text>
+          </Box>
+
+          <Box>
             <Text size="3">
-              {useTranslations(toiletInfo.tagProps?.valueAttribute.label)}
+              <StyledMarkdown inline>
+                {useTranslations(
+                  toiletWheelchairInfo.tagProps?.valueAttribute?.label,
+                )}
+              </StyledMarkdown>
             </Text>
-            <EditButton addNewLanguage={false} tagKey={toiletInfo.key} />
-          </Flex>
+          </Box>
+          <Box>
+            <EditButton
+              addNewLanguage={false}
+              tagKey={toiletWheelchairInfo.key}
+            />
+          </Box>
+        </Grid>
+      )}
+      {otherChildren?.map((child) => (
+        <TagRenderer
+          tagOrTagGroup={child}
+          key={child.key}
+          color="gray"
+          mt="2.75rem"
+        />
+      ))}
+
+      <Flex direction="row" justify="between">
+        {toiletsDescription ? (
+          <>
+            <Grid columns="95% 5%" mb="3">
+              <Box>
+                <Text>{toiletsDescription.value}</Text>
+              </Box>
+              <Box>
+                <EditDropdownMenu tagKey={toiletsDescription.key} />
+              </Box>
+            </Grid>
+            {/*<Text>{toiletsDescription.value}</Text>*/}
+            {/*<EditDropdownMenu tagKey={toiletsDescription.key} />*/}
+          </>
+        ) : (
+          <AddDescriptionButton tagKey="toilets:wheelchair:description">
+            {t("Add a description")}
+          </AddDescriptionButton>
         )}
-        <Flex direction="row" justify="between">
-          {toiletsDescription ? (
-            <>
-              <Text>{toiletsDescription.value}</Text>
-              <EditDropdownMenu tagKey={toiletsDescription.key} />
-            </>
-          ) : (
-            <SecondaryButton size="2">
-              <Pencil1Icon width="18" height="18" />
-              {/*TODO: make button clickable */}
-              Add a description for this toilet
-            </SecondaryButton>
-          )}
-        </Flex>
-        {otherChildren && <TagGroup tags={otherChildren} />}
-      </StyledSection>
-    </Card>
+      </Flex>
+    </>
   );
 };
 export default ToiletsSection;

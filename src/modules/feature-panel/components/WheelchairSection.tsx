@@ -1,61 +1,65 @@
 import React from "react";
-import { Card, Flex, Strong, Text } from "@radix-ui/themes";
+import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
-import styled from "styled-components";
 import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
-import { SecondaryButton } from "~/components/button/SecondaryButton";
-import { Pencil1Icon } from "@radix-ui/react-icons";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
+import { t } from "@transifex/native";
 
 type Props = {
   tags: TagOrTagGroup;
 };
 
-const StyledSection = styled.div`
-    padding: var(--space-3);
-    display: flex; flex-direction: column; gap: var(--space-3);
-`;
-
 const WheelchairSection = ({ tags }: Props) => {
-  const wheelchair_info = tags.children.find((tag) => tag.key === "wheelchair");
+  const wheelchairInfo = tags.children.find((tag) => tag.key === "wheelchair");
 
-  const wheelchair_description = tags.children.find((tag) =>
+  const wheelchairDescription = tags.children.find((tag) =>
     tag.key.startsWith("wheelchair:description"),
   );
 
   return (
-    <Card variant="surface" size="1" mt="30px">
-      <StyledSection>
-        {wheelchair_info && (
+    <>
+      <Grid columns="25% 70% 5%" mb="3">
+        <Box>
+          <Text size="3" color="gray">
+            {wheelchairInfo.tagProps?.keyLabel}
+          </Text>
+        </Box>
+        {wheelchairInfo && (
           <Flex direction="row" gap="7" justify="between">
             <Text size="3">
-              <Strong>{wheelchair_info.tagProps?.keyLabel}</Strong>
+              <StyledMarkdown inline>
+                {useTranslations(
+                  wheelchairInfo.tagProps?.valueAttribute?.label,
+                )}
+              </StyledMarkdown>
             </Text>
-            <Text size="3">
-              {" "}
-              {useTranslations(wheelchair_info.tagProps?.valueAttribute.label)}
-            </Text>
-            <EditButton addNewLanguage={false} tagKey={wheelchair_info.key} />
+            <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
           </Flex>
         )}
+      </Grid>
 
-        {wheelchair_description ? (
-          <Flex direction="row" justify="between">
-            <Text>{wheelchair_description.value}</Text>
-            <EditDropdownMenu tagKey={wheelchair_description.key} />
-          </Flex>
-        ) : (
-          <Flex direction="row" gap="8">
-            <SecondaryButton size="2">
-              <Pencil1Icon width="18" height="18" />
-              {/*TODO: make button clickable */}
-              Add a wheelchair description for this place
-            </SecondaryButton>
-          </Flex>
-        )}
-      </StyledSection>
-    </Card>
+      {wheelchairDescription ? (
+        <Grid columns="95% 5%" mb="3">
+          <Box>
+            {" "}
+            <Text size="3">{wheelchairDescription.value}</Text>
+          </Box>
+          <Box>
+            {" "}
+            <EditDropdownMenu tagKey={wheelchairDescription.key} />
+          </Box>
+        </Grid>
+      ) : (
+        <Flex direction="row" gap="8">
+          <AddDescriptionButton tagKey="wheelchair:description">
+            {t("Add a description")}
+          </AddDescriptionButton>
+        </Flex>
+      )}
+    </>
   );
 };
 export default WheelchairSection;
