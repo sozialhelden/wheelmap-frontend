@@ -4,6 +4,7 @@ import { useNearbyFeatures } from "~/needs-refactoring/lib/fetchers/osm-api/fetc
 import { hasAccessibleToilet } from "~/needs-refactoring/lib/model/ac/Feature";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { useFormatDistance } from "~/needs-refactoring/lib/util/strings/useFormatDistance";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { PlaceholderSpan } from "~/needs-refactoring/components/shared/Placeholder";
 
 export default function NextToiletDirections({
@@ -46,9 +47,11 @@ export default function NextToiletDirections({
   return (
     // TODO this is not a very good solution. In the future, we should take a look
     // at routing and make sure that something like '/amenities/way/1234" also works
-    <Link href={`/amenities/${nextToilet.properties._id?.replace("/", ":")}`}>
-      {caption}
-      {distanceElement}
-    </Link>
+    <SecondaryButton asChild>
+      <Link href={`/amenities/${nextToilet.properties._id?.replace("/", ":")}`}>
+        {caption}
+        {distanceElement}
+      </Link>
+    </SecondaryButton>
   );
 }
