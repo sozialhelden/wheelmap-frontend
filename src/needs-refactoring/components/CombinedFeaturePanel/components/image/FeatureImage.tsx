@@ -4,7 +4,7 @@ import type OSMFeature from "~/needs-refactoring/lib/model/osm/OSMFeature";
 import { getWikipediaLemma } from "~/needs-refactoring/lib/model/osm/getWikipediaLemma";
 import WikipediaLink from "../WikipediaLink";
 import WikidataEntityImage from "./WikidataEntityImage";
-import WikimediaCommonsImage from "./WikimediaCommonsImage";
+import WikimediaCommonsImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/WikimediaCommonsImage";
 
 const imageStyle = (link) => ({
   maxHeight: link.prefix === "subject" ? "100%" : "3rem",
@@ -49,15 +49,17 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
         />
       </WikipediaLink>
 
-      {links.map((link) => (
-        <WikipediaLink feature={feature} prefix={link.prefix} key={link.prefix}>
-          <WikidataEntityImage
-            feature={feature}
-            style={imageStyle(link)}
-            {...link}
-          />
-        </WikipediaLink>
-      ))}
+      {/*TODO: refactor this into a speparate logo component and add it back in */}
+
+      {/*{links.map((link) => (*/}
+      {/*  <WikipediaLink feature={feature} key={link.prefix}>*/}
+      {/*    <WikidataEntityImage*/}
+      {/*      feature={feature}*/}
+      {/*      style={imageStyle(link)}*/}
+      {/*      {...link}*/}
+      {/*    />*/}
+      {/*  </WikipediaLink>*/}
+      {/*))}*/}
 
       <WikimediaCommonsImage
         fileName={feature.properties.image}
