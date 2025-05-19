@@ -14645,7 +14645,7 @@
             "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
-            "Deine E-Mail nutzen Wheelmap (Sozialhelden e.V.) und der Veranstalter für Event-Infos. Du kannst dich jederzeit abmelden."
+            "Wheelmap (Sozialhelden e.V.) und der Veranstalter nutzen deine E-Mail-Adresse um Infos zu Events mit dir zu teilen. Du kannst dich jederzeit abmelden."
           ]
         },
         "Welcome": {
@@ -79213,7 +79213,7 @@
   "zh_TW": {
     "charset": "utf-8",
     "headers": {
-      "last-translator": "Supaplex <bejokeup@gmail.com>, 2024",
+      "last-translator": "Supaplex <bejokeup@gmail.com>, 2025",
       "language-team": "Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)",
       "mime-version": "1.0",
       "content-type": "text/plain; charset=UTF-8",
@@ -79226,10 +79226,10 @@
         "": {
           "msgid": "",
           "comments": {
-            "translator": "\nTranslators:\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2021\nSupaplex <bejokeup@gmail.com>, 2024\n"
+            "translator": "\nTranslators:\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2021\nSupaplex <bejokeup@gmail.com>, 2025\n"
           },
           "msgstr": [
-            "Last-Translator: Supaplex <bejokeup@gmail.com>, 2024\nLanguage-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: zh_TW\nPlural-Forms: nplurals=1; plural=0;\n"
+            "Last-Translator: Supaplex <bejokeup@gmail.com>, 2025\nLanguage-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: zh_TW\nPlural-Forms: nplurals=1; plural=0;\n"
           ]
         },
         "Search": {
@@ -81505,6 +81505,15 @@
           },
           "msgstr": [
             "你以 ${ initialEmailAddress } 身份參與。"
+          ]
+        },
+        "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.": {
+          "msgid": "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
+          },
+          "msgstr": [
+            "你的電子郵件會被 Wheelmap (Sozialhelden e.V.) 以及其他活動主辦人用在聯繫用途，你可以在任何時間退訂。"
           ]
         },
         "Welcome": {
