@@ -1068,7 +1068,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "شاشة البدء في Wheelmap "
@@ -2086,7 +2086,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "مرحبًا بك"
@@ -3421,7 +3421,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Начален екран на Wheelmap"
@@ -4399,7 +4399,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Добре дошли"
@@ -5734,7 +5734,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Començar pantalla"
@@ -6808,7 +6808,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Benvingut/da"
@@ -8226,7 +8226,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Úvodní obrazovka aplikace Wheelmap"
@@ -9468,7 +9468,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Vítejte"
@@ -9478,7 +9478,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Skvělé! Děkujeme, že jste se k nám připojili."
@@ -11088,7 +11088,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap startskærm"
@@ -12066,7 +12066,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Velkommen"
@@ -13420,7 +13420,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Startbildschirm"
@@ -14639,28 +14639,19 @@
             "Du nimmst als ${ initialEmailAddress } teil."
           ]
         },
-        "To stay in touch with you, you must provide the Wheelmap team with your email address.": {
-          "msgid": "To stay in touch with you, you must provide the Wheelmap team with your email address.",
+        "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.": {
+          "msgid": "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
-            "Du musst deine E-Mail-Adresse mit uns teilen, damit das Wheelmap Team mit Dir in Kontakt bleiben kann"
-          ]
-        },
-        "To stay in touch with you, please share your email address with the Wheelmap team.": {
-          "msgid": "To stay in touch with you, please share your email address with the Wheelmap team.",
-          "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108"
-          },
-          "msgstr": [
-            "Bitte teile deine E-Mail-Adresse mit uns, damit das Wheelmap Team mit Dir in Kontakt bleiben kann."
+            "Wheelmap (Sozialhelden e.V.) und der Veranstalter nutzen deine E-Mail-Adresse um Infos zu Events mit dir zu teilen. Du kannst dich jederzeit abmelden."
           ]
         },
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Willkommen"
@@ -14670,7 +14661,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Klasse! Vielen Dank dass du mitmachst!"
@@ -16280,7 +16271,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Οθόνη εκκίνησης Wheelmap"
@@ -17258,7 +17249,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Καλώς ήλθατε"
@@ -18612,7 +18603,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Start screen"
@@ -19831,28 +19822,19 @@
             "You are participating as ${ initialEmailAddress }."
           ]
         },
-        "To stay in touch with you, you must provide the Wheelmap team with your email address.": {
-          "msgid": "To stay in touch with you, you must provide the Wheelmap team with your email address.",
+        "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.": {
+          "msgid": "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
-            "To stay in touch with you, you must provide the Wheelmap team with your email address."
-          ]
-        },
-        "To stay in touch with you, please share your email address with the Wheelmap team.": {
-          "msgid": "To stay in touch with you, please share your email address with the Wheelmap team.",
-          "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108"
-          },
-          "msgstr": [
-            "To stay in touch with you, please share your email address with the Wheelmap team."
+            "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time."
           ]
         },
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Welcome"
@@ -19862,7 +19844,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Great! Thanks for joining us."
@@ -21472,7 +21454,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Pantalla de inicio de Wheelmap"
@@ -22478,7 +22460,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Bienvenido/a"
@@ -24047,7 +24029,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmapin alkunäyttö"
@@ -25025,7 +25007,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Tervetuloa"
@@ -26360,7 +26342,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Écran de démarrage Wheelmap"
@@ -27348,7 +27330,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Bienvenue"
@@ -28915,7 +28897,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "מסך התחלה Wheelmap"
@@ -29903,7 +29885,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "ברוכים הבאים"
@@ -31238,7 +31220,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "शुरुआत स्क्रीन"
@@ -32216,7 +32198,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "स्वागत है"
@@ -33570,7 +33552,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap kezdőképernyő"
@@ -34792,7 +34774,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Üdvözlünk"
@@ -34802,7 +34784,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Remek! Köszönjük, hogy velünk tartasz."
@@ -36565,7 +36547,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Schermata iniziale di Wheelmap"
@@ -37698,7 +37680,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Benvenuto"
@@ -37708,7 +37690,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Fantastico! Grazie per esserti unito a noi."
@@ -39318,7 +39300,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "ホイールマップスタート画面"
@@ -40242,7 +40224,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "ようこそ"
@@ -41577,7 +41559,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap 시작 화면"
@@ -42501,7 +42483,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "환영합니다 "
@@ -43724,7 +43706,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap эхлэл"
@@ -45534,7 +45516,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap-startscherm"
@@ -46617,7 +46599,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Welkom"
@@ -46627,7 +46609,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Fantastisch! Bedankt voor het deelnemen."
@@ -48325,7 +48307,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap startskjerm"
@@ -49303,7 +49285,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Velkommen"
@@ -50669,7 +50651,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Ekran startowy Wheelmap"
@@ -51812,7 +51794,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Witamy"
@@ -51822,7 +51804,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Świetnie! Dziękujemy za dołączenie do nas."
@@ -53432,7 +53414,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Ecrã inicial"
@@ -54420,7 +54402,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Bem-vindo"
@@ -55764,7 +55746,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Tela de início"
@@ -56779,7 +56761,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Bem-vindo"
@@ -58277,7 +58259,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Ecran de pornire Wheelmap"
@@ -59265,7 +59247,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Bine ai venit"
@@ -60754,7 +60736,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Начальный экран Wheelmap"
@@ -61761,7 +61743,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Добро пожаловать"
@@ -63204,7 +63186,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Začiatočná obrazovka na stránke wheelmap"
@@ -64202,7 +64184,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Vitajte"
@@ -65681,7 +65663,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmaps startsida"
@@ -66659,7 +66641,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Välkommen"
@@ -68301,7 +68283,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Wheelmap başlangıç ekranı"
@@ -69523,7 +69505,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Hoşgeldiniz"
@@ -69533,7 +69515,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "Yaşasın! Topluluğumuza katıldığınız için çok teşekkürler."
@@ -71143,7 +71125,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Початковий екран"
@@ -72141,7 +72123,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Ласкаво просимо"
@@ -73476,7 +73458,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "Màn hình khởi động"
@@ -74400,7 +74382,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "Chào mừng bạn!"
@@ -75757,7 +75739,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "开始页"
@@ -76681,7 +76663,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "欢迎"
@@ -78016,7 +77998,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "開始畫面"
@@ -78940,7 +78922,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "歡迎"
@@ -79231,7 +79213,7 @@
   "zh_TW": {
     "charset": "utf-8",
     "headers": {
-      "last-translator": "Supaplex <bejokeup@gmail.com>, 2024",
+      "last-translator": "Supaplex <bejokeup@gmail.com>, 2025",
       "language-team": "Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)",
       "mime-version": "1.0",
       "content-type": "text/plain; charset=UTF-8",
@@ -79244,10 +79226,10 @@
         "": {
           "msgid": "",
           "comments": {
-            "translator": "\nTranslators:\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2021\nSupaplex <bejokeup@gmail.com>, 2024\n"
+            "translator": "\nTranslators:\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2021\nSupaplex <bejokeup@gmail.com>, 2025\n"
           },
           "msgstr": [
-            "Last-Translator: Supaplex <bejokeup@gmail.com>, 2024\nLanguage-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: zh_TW\nPlural-Forms: nplurals=1; plural=0;\n"
+            "Last-Translator: Supaplex <bejokeup@gmail.com>, 2025\nLanguage-Team: Chinese (Taiwan) (https://app.transifex.com/sozialhelden/teams/16671/zh_TW/)\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nLanguage: zh_TW\nPlural-Forms: nplurals=1; plural=0;\n"
           ]
         },
         "Search": {
@@ -80316,7 +80298,7 @@
         "Start screen": {
           "msgid": "Start screen",
           "comments": {
-            "reference": "src/components/Onboarding/Onboarding.tsx:60"
+            "reference": "src/components/Onboarding/Onboarding.tsx:56"
           },
           "msgstr": [
             "輪椅地圖"
@@ -81525,10 +81507,19 @@
             "你以 ${ initialEmailAddress } 身份參與。"
           ]
         },
+        "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.": {
+          "msgid": "Your email address will be used by Wheelmap (Sozialhelden e.V.) and the event organizer for event-related communication. You can unsubscribe at any time.",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
+          },
+          "msgstr": [
+            "你的電子郵件會被 Wheelmap (Sozialhelden e.V.) 以及其他活動主辦人用在聯繫用途，你可以在任何時間退訂。"
+          ]
+        },
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:114"
           },
           "msgstr": [
             "歡迎"
@@ -81538,7 +81529,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:120"
           },
           "msgstr": [
             "很好！謝謝你加入我們。"
