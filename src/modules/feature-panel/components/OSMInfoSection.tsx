@@ -11,7 +11,7 @@ const OsmInfoSection = ({ tags }: Props) => {
   return (
     <div>
       {tags?.map((tagOrTagGroup) => (
-        <Grid key={tagOrTagGroup.key} columns="25% 75%" gap="3" mb="3">
+        <Grid key={tagOrTagGroup.key} columns="6rem auto" gap="3" mb="3">
           <Box>
             <Text size="3" color="gray">
               {tagOrTagGroup.tagProps?.keyLabel}

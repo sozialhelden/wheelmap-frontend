@@ -5,10 +5,11 @@ import {
   isOSMFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import OSMBuildingDetails from "~/needs-refactoring/components/CombinedFeaturePanel/type-specific/building/OSMBuildingDetails";
-import OSMSidewalkDetails from "~/needs-refactoring/components/CombinedFeaturePanel/type-specific/surroundings/OSMSidewalkDetails";
+import { t } from "@transifex/native";
+import { Heading } from "@radix-ui/themes";
 
 interface Props {
-  features: AnyFeature[];
+  surroundings: AnyFeature[];
 }
 
 export function SurroundingsSection({ feature }: { feature: AnyFeature }) {
@@ -20,25 +21,25 @@ export function SurroundingsSection({ feature }: { feature: AnyFeature }) {
     return <OSMBuildingDetails feature={feature} />;
   }
 
-  if (
-    feature.properties.highway === "footway" ||
-    feature.properties.highway === "pedestrian"
-  ) {
-    return <OSMSidewalkDetails feature={feature} />;
-  }
-
-  return (
-    <section>
-      <h2>Feature type not supported</h2>
-    </section>
-  );
+  // sidewalks and surroundings need a proper concept
+  // if (
+  //   feature.properties.highway === "footway" ||
+  //   feature.properties.highway === "pedestrian"
+  // ) {
+  //   return <OSMSidewalkDetails feature={feature} />;
+  // }
 }
 
-const PartOf = ({ features }: Props) => {
-  const surroundings = features?.length > 1 ? features.slice(1) : undefined;
-
-  return surroundings?.map((feature) => (
-    <SurroundingsSection key={getKey(feature)} feature={feature} />
-  ));
+const PartOf = ({ surroundings }: Props) => {
+  return (
+    <>
+      <Heading size="2" mb="0.25rem">
+        {t("Part of")}
+      </Heading>
+      {surroundings?.map((feature) => (
+        <SurroundingsSection key={getKey(feature)} feature={feature} />
+      ))}
+    </>
+  );
 };
 export default PartOf;
