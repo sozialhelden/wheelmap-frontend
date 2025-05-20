@@ -5,43 +5,17 @@ import React from "react";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
 import {
   type AnyFeature,
-  isOSMFeature,
   isSearchResultFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
-import OSMBuildingDetails from "./type-specific/building/OSMBuildingDetails";
-import OSMSidewalkDetails from "./type-specific/surroundings/OSMSidewalkDetails";
-import FeaturePanel from "~/modules/feature-panel/components/FeaturePanel";
+import FeatureDetails from "~/modules/feature-panel/components/FeatureDetails";
 
 type Props = {
   features: AnyFeature[];
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
 };
-
-export function FeatureSection({ feature }: { feature: AnyFeature }) {
-  if (!isOSMFeature(feature)) {
-    return <section>Feature type not supported</section>;
-  }
-
-  if (feature.properties.building) {
-    return <OSMBuildingDetails feature={feature} />;
-  }
-
-  if (
-    feature.properties.highway === "footway" ||
-    feature.properties.highway === "pedestrian"
-  ) {
-    return <OSMSidewalkDetails feature={feature} />;
-  }
-
-  return (
-    <section>
-      <h2>Feature type not supported</h2>
-    </section>
-  );
-}
 
 export function CombinedFeaturePanel(props: Props) {
   const features = uniqBy(props.features, (feature) =>
@@ -50,22 +24,17 @@ export function CombinedFeaturePanel(props: Props) {
 
   const { isExpertMode } = useExpertMode();
 
-  const surroundings = features?.length > 1 ? features.slice(1) : undefined;
-
   return (
     <React.StrictMode>
       <ErrorBoundary>
         <Box>
           {features[0] && (
-            <FeaturePanel
-              feature={features[0]}
+            <FeatureDetails
+              features={features}
               activeImageId={props.activeImageId}
               isUploadDialogOpen={props.isUploadDialogOpen}
             />
           )}
-          {/*{surroundings?.map((feature) => (*/}
-          {/*  <FeatureSection key={getKey(feature)} feature={feature} />*/}
-          {/*))}*/}
 
           {(!features || features.length === 0) && (
             <Callout.Root>
