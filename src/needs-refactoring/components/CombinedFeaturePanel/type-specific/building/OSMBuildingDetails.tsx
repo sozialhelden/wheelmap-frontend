@@ -1,10 +1,8 @@
-import { t } from "@transifex/native";
 import { isEqual } from "lodash";
 import type { TypeTaggedOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "~/needs-refactoring/lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
 import { useOsmTags } from "~/modules/feature-panel/hooks/useOsmTags";
-import { Heading } from "@radix-ui/themes";
 
 export default function OSMBuildingDetails({
   feature,
@@ -14,17 +12,16 @@ export default function OSMBuildingDetails({
   );
 
   const { nestedTags } = useOsmTags(feature);
-  console.log("nestedTags", nestedTags);
+  console.log("feature in building", feature);
   if (keys.length === 0 || isEqual(keys, ["building:levels"])) {
     return null;
   }
 
   return (
     <>
-      <Heading size="2" mb="0.25rem">
-        {t("Part of")}
-      </Heading>
+      {/*<Link href={`/amenities/${feature._id?.replace("/", ":")}`} asChild>*/}
       <FeatureNameHeader feature={feature} size="small" iconSize="medium" />
+      {/*</Link>*/}
     </>
   );
 }
