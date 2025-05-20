@@ -31,6 +31,7 @@ type Props = BoxProps & {
   onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: "small" | "medium" | "big";
+  iconSize?: "small" | "medium" | "big";
 };
 
 export default function FeatureNameHeader(props: Props) {
@@ -73,7 +74,7 @@ export default function FeatureNameHeader(props: Props) {
           ? category._id
           : categoryTagKeys[0]) || "undefined"
       }
-      size={props.size || "medium"}
+      size={props.iconSize || "medium"}
     />
   );
 
