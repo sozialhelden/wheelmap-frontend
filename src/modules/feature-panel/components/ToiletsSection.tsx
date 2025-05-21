@@ -8,35 +8,37 @@ import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import TagRenderer from "~/modules/feature-panel/components/TagRenderer";
 import { t } from "@transifex/native";
+import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
+import type { NextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
 
 type Props = {
-  tags: TagOrTagGroup;
+  nextToilet?: NextToilet;
+  isLoading?: boolean;
+  tags?: TagOrTagGroup;
 };
 
-const ToiletsSection = ({ tags }: Props) => {
-  const toiletWheelchairInfo = tags.children.find(
+const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
+  const wheelchairInfo = tags?.children.find(
     (tag) => tag.key === "toilets:wheelchair",
   );
 
-  const toiletsDescription = tags.children.find((tag) =>
+  const description = tags?.children.find((tag) =>
     tag.key.startsWith("toilets:wheelchair:description"),
   );
 
-  const otherChildren = tags.children.filter(
+  const otherTags = tags?.children.filter(
     (tag) =>
       tag.key !== "toilets:wheelchair" &&
       tag.key !== "toilets:wheelchair:description",
   );
 
-  console.log("otherChildren", otherChildren);
-
   return (
     <>
-      {toiletWheelchairInfo && (
-        <Grid columns="25% 65% 10%" mb="3">
+      {wheelchairInfo && (
+        <Grid columns="6rem auto min-content" mb="3">
           <Box>
             <Text size="3" color="gray">
-              {toiletWheelchairInfo.tagProps?.keyLabel}
+              {wheelchairInfo.tagProps?.keyLabel}
             </Text>
           </Box>
 
@@ -44,20 +46,17 @@ const ToiletsSection = ({ tags }: Props) => {
             <Text size="3">
               <StyledMarkdown inline>
                 {useTranslations(
-                  toiletWheelchairInfo.tagProps?.valueAttribute?.label,
+                  wheelchairInfo.tagProps?.valueAttribute?.label,
                 )}
               </StyledMarkdown>
             </Text>
           </Box>
           <Box>
-            <EditButton
-              addNewLanguage={false}
-              tagKey={toiletWheelchairInfo.key}
-            />
+            <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
           </Box>
         </Grid>
       )}
-      {otherChildren?.map((child) => (
+      {otherTags?.map((child) => (
         <TagRenderer
           tagOrTagGroup={child}
           key={child.key}
@@ -66,26 +65,27 @@ const ToiletsSection = ({ tags }: Props) => {
         />
       ))}
 
-      <Flex direction="row" justify="between">
-        {toiletsDescription ? (
-          <>
-            <Grid columns="95% 5%" mb="3">
-              <Box>
-                <Text>{toiletsDescription.value}</Text>
-              </Box>
-              <Box>
-                <EditDropdownMenu tagKey={toiletsDescription.key} />
-              </Box>
-            </Grid>
-            {/*<Text>{toiletsDescription.value}</Text>*/}
-            {/*<EditDropdownMenu tagKey={toiletsDescription.key} />*/}
-          </>
+      {wheelchairInfo &&
+        (description ? (
+          <Grid columns="auto min-content" mb="3" gap="1rem">
+            <Box>
+              <Text>{description.value}</Text>
+            </Box>
+            <Box>
+              <EditDropdownMenu tagKey={description.key} />
+            </Box>
+          </Grid>
         ) : (
-          <AddDescriptionButton tagKey="toilets:wheelchair:description">
-            {t("Add a description")}
-          </AddDescriptionButton>
-        )}
-      </Flex>
+          <Flex direction="row" justify="between">
+            <AddDescriptionButton tagKey="toilets:wheelchair:description">
+              {t("Add a description for this toilet")}
+            </AddDescriptionButton>
+          </Flex>
+        ))}
+
+      {(wheelchairInfo?.value === "no" || !wheelchairInfo) && (
+        <NextToiletDirections nextToilet={nextToilet} isLoading={isLoading} />
+      )}
     </>
   );
 };
