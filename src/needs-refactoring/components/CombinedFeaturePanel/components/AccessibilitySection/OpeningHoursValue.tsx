@@ -5,12 +5,12 @@ import opening_hours from "opening_hours";
 import * as React from "react";
 import { useAdminAreas } from "~/needs-refactoring/lib/fetchers/osm-api/fetchAdminAreas";
 import {
-  type TypeTaggedOSMFeature,
   isOSMFeature,
+  type TypeTaggedOSMFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { log } from "~/needs-refactoring/lib/util/logger";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import FeatureContext from "../FeatureContext";
+import FeatureContext from "../FeatureContext"; // helper function
 
 // helper function
 function getReadableState(oh: opening_hours) {
@@ -154,11 +154,11 @@ export default function OpeningHoursValue(props: {
   const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />);
 
   if (!outputs.length) {
-    return <>{shownElements}</>;
+    return <div style={{ padding: "0.3rem" }}>{shownElements}</div>;
   }
 
   return (
-    <>
+    <div style={{ padding: "0.3rem" }}>
       <strong>
         <StyledMarkdown inline element="span">
           {outputs[0]}
@@ -179,6 +179,6 @@ export default function OpeningHoursValue(props: {
         </a>
       )}
       <div style={{ marginTop: "0.5rem", opacity: 0.8 }}>{shownElements}</div>
-    </>
+    </div>
   );
 }

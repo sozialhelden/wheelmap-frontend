@@ -1,5 +1,4 @@
-import { t } from "@transifex/native";
-/* eslint-disable @next/next/no-img-element */
+import { t } from "@transifex/native"; /* eslint-disable @next/next/no-img-element */
 import { omit } from "lodash";
 import type { HTMLAttributes } from "react";
 import useSWR from "swr";
@@ -42,7 +41,7 @@ export default function WikidataEntityImage(props: Props) {
     const { bindings } = results;
     const { o } = bindings[0];
     const { value } = o;
-    const logoUrl = `${value.replace(/^http:/, "https:")}?width=200`;
+    const logoUrl = `${value.replace(/^http:/, "https:")}?width=600`;
 
     const image = (
       <img

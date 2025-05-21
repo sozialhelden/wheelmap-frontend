@@ -25,12 +25,13 @@ const PlaceNameDetail = styled.div`
   }
 `;
 
-type Props = {
+type Props = BoxProps & {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
   onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: "small" | "medium" | "big";
+  iconSize?: "small" | "medium" | "big";
 };
 
 export default function FeatureNameHeader(props: Props) {
@@ -73,7 +74,7 @@ export default function FeatureNameHeader(props: Props) {
           ? category._id
           : categoryTagKeys[0]) || "undefined"
       }
-      size={props.size || "medium"}
+      size={props.iconSize || "medium"}
     />
   );
 
@@ -132,7 +133,7 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   return (
-    <Box onClick={onHeaderClicked}>
+    <Box onClick={onHeaderClicked} mb={props.marginBottom || "0"}>
       {placeNameElement}
       {children}
     </Box>
