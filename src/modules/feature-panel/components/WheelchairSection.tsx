@@ -21,7 +21,7 @@ const WheelchairSection = ({ tags }: Props) => {
 
   return (
     <>
-      <Grid columns="25% 70% 5%" mb="3">
+      <Grid columns="6rem auto min-content" mb="3">
         <Box>
           <Text size="3" color="gray">
             {wheelchairInfo.tagProps?.keyLabel}
@@ -42,7 +42,7 @@ const WheelchairSection = ({ tags }: Props) => {
       </Grid>
 
       {wheelchairDescription ? (
-        <Grid columns="95% 5%" mb="3">
+        <Grid columns="auto min-content" mb="3" gap="1rem">
           <Box>
             {" "}
             <Text size="3">{wheelchairDescription.value}</Text>

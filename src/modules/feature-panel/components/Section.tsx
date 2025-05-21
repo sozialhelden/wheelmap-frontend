@@ -7,7 +7,9 @@ interface Props {
 
 const StyledSection = styled.div`
     padding: var(--space-4);
-    display: flex; flex-direction: column; gap: var(--space-3);
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--space-3);
 `;
 
 const Section = ({ children }: Props) => {

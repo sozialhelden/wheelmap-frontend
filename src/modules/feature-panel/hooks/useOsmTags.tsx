@@ -9,6 +9,7 @@ import { nestTree } from "~/modules/feature-panel/utils/nestTree";
 import { selectWheelchairDescription } from "~/modules/feature-panel/utils/selectWheelchairDescription";
 import { attachTagPropsRecursively } from "~/modules/feature-panel/utils/attachPropsRecursively";
 import { filterKeys } from "~/modules/feature-panel/utils/filterKeys";
+import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 export type TagOrTagGroup = {
   key: string;
@@ -17,27 +18,38 @@ export type TagOrTagGroup = {
   tagProps?: OSMTagProps;
 };
 
-export function useOsmTags(feature) {
+export function useOsmTags(feature: unknown) {
+  const osmFeature = isOSMFeature(feature) ? feature : null;
+
   const { languageTag } = useI18nContext();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const { map: attributesById } = useAccessibilityAttributesIdMap();
 
   const nestedTags: TagOrTagGroup[] = React.useMemo(() => {
-    const filteredKeys = filterKeys(feature);
+    if (!osmFeature) {
+      return [];
+    }
+    const filteredKeys = filterKeys(osmFeature);
     const finalKeys = selectWheelchairDescription(filteredKeys, languageTag);
     const tree = generateTree(finalKeys);
     return nestTree(tree);
-  }, [feature, languageTag]);
+  }, [osmFeature, languageTag]);
 
-  nestedTags.map((tagOrGroup) =>
-    attachTagPropsRecursively(
-      tagOrGroup,
-      feature,
-      attributesById,
-      baseFeatureUrl,
-    ),
+  if (osmFeature) {
+    // biome-ignore lint/complexity/noForEach: <explanation>
+    nestedTags.forEach((tagOrGroup) =>
+      attachTagPropsRecursively(
+        tagOrGroup,
+        osmFeature,
+        attributesById,
+        baseFeatureUrl,
+      ),
+    );
+  }
+
+  const topLevelKeys = new Set(
+    osmFeature ? nestedTags.map(({ key }) => key) : [],
   );
-  const topLevelKeys = new Set(nestedTags.map(({ key }) => key));
 
   return { nestedTags, topLevelKeys };
 }
