@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import {
   type AnyFeature,
-  isOSMFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { bbox } from "@turf/turf";
@@ -24,9 +23,10 @@ import Section from "~/modules/feature-panel/components/Section";
 import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { Separator } from "@radix-ui/themes";
-import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
+
 import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImage";
 import PartOf from "~/modules/feature-panel/components/PartOf";
+import { useNextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
 
 type Props = {
   features: AnyFeature[];
@@ -40,16 +40,14 @@ const FeatureDetails = ({
   isUploadDialogOpen,
 }: Props) => {
   const feature = features[0];
+
   const map = useMap();
   const context = useContext(FeaturePanelContext);
+  const { nestedTags } = useOsmTags(feature);
+  const { nextToilet, isLoadingNextToilet } = useNextToilet(feature);
   const acAccessibility =
     context.features[0]?.feature?.acFeature?.properties.accessibility ?? null;
-  console.log("acAccessibility", acAccessibility);
-  const { nestedTags } = isOSMFeature(feature)
-    ? useOsmTags(feature)
-    : { nestedTags: [], topLevelKeys: new Set() };
-
-  console.log("nestedTags", nestedTags);
+  const surroundings = features?.length > 1 ? features.slice(1) : undefined;
 
   const generalDescription = nestedTags.find(
     (tag) => tag.key === "description",
@@ -64,17 +62,12 @@ const FeatureDetails = ({
       tag.key !== "restrooms" &&
       tag.key !== "description",
   );
-  const surroundings = features?.length > 1 ? features.slice(1) : undefined;
-
-  console.log("surroundings", surroundings);
 
   const handleHeaderClick = () => {
-    console.log(feature.geometry?.coordinates);
     const coordinates = feature.geometry?.coordinates;
     if (!coordinates) {
       return;
     }
-
     const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
       maxZoom: 19,
     });
@@ -92,11 +85,13 @@ const FeatureDetails = ({
     osmWheelchairInfo && (
       <WheelchairSection key="osm_wheelchair" tags={osmWheelchairInfo} />
     ),
-    osmToiletInfo ? (
-      <ToiletsSection key="osm_toilets" tags={osmToiletInfo} />
-    ) : (
-      // this component needs refactoring and should also be shown when there is toilet info but negative one
-      <NextToiletDirections key="next_toilet_dir" feature={feature} />
+    (osmToiletInfo || nextToilet) && (
+      <ToiletsSection
+        key="osm_toilets"
+        tags={osmToiletInfo}
+        nextToilet={nextToilet}
+        isLoading={isLoadingNextToilet}
+      />
     ),
     acAccessibility && (
       <AccessibilityItems key="ac_accessibility" feature={feature} />
