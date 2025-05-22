@@ -1,7 +1,7 @@
 import { t } from "@transifex/native";
 import * as React from "react";
 import styled from "styled-components";
-import CloseIcon from "~/components/icons/actions/Close";
+import { X } from "lucide-react";
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -34,7 +34,7 @@ const CloseButton = React.forwardRef<HTMLElement, Props>(
       aria-label={props["aria-label"] || t("Close")}
       ref={ref}
     >
-      <CloseIcon />
+      <X />
     </StyledButton>
   ),
 );

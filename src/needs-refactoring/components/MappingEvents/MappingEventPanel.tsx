@@ -17,8 +17,7 @@ import {
   type MappingEvent,
   canMappingEventBeJoined,
 } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import GlobeIcon from "~/components/icons/ui-elements/GlobeIcon";
-import MapPinIcon from "~/components/icons/ui-elements/MapPinIcon";
+import { Globe, MapPin } from "lucide-react";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import ChevronLeft from "./ChevronLeft";
@@ -255,14 +254,14 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
 
           {meetingPointName && (
             <div className="meeting-point" title={meetingPointLabel}>
-              <MapPinIcon className="meeting-point-icon" />
+              <MapPin className="meeting-point-icon" />
               {meetingPointName}
             </div>
           )}
 
           {areaName && (
             <div className="area-name" title={areaNameLabel}>
-              <GlobeIcon className="area-name-icon" />
+              <Globe className="area-name-icon" />
               {areaName}
             </div>
           )}

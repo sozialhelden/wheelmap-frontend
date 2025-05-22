@@ -8,5 +8,6 @@
    2. [Project structure](./contributing/02.project-structure.md)
    3. [Icons](./contributing/03.icons.md)
    4. [Internationalization](./contributing/04.internationalization.md)
-   5. [Testing](./contributing/05.testing.md)
+   5. [Map styles](contributing/05.map-styles.md)
+   6. [Testing](contributing/06.testing.md)
 3. [Embedding the app](./03.embedding.md)

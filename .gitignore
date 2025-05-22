@@ -36,3 +36,6 @@ env/*
 
 # Transifex api package
 .api
+
+# Mapbox styles
+.mapbox

@@ -1,17 +1,17 @@
 import Link from "next/link";
 import React from "react";
-import useCategory from "~/modules/categories/hooks/useCategory";
 import { useUserAgent } from "~/modules/app/context/UserAgentContext";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { generateMapsUrl } from "~/needs-refactoring/lib/model/geo/generateMapsUrls";
 import { usePlaceNameFor } from "~/needs-refactoring/lib/model/geo/usePlaceNameFor";
 import { generateShowOnOsmUrl } from "~/needs-refactoring/lib/model/osm/generateOsmUrls";
 import openButtonCaption from "~/needs-refactoring/lib/openButtonCaption";
-import PlaceIcon from "../../../../../components/icons/actions/Place";
-import RouteIcon from "../../../../../components/icons/actions/Route";
+import { MapPinned, Navigation } from "lucide-react";
 import FeatureAddressString, {
   addressForFeature,
 } from "../FeatureAddressString";
+
+import { findCategory } from "~/modules/categories/utils/synonyms";
 
 type Props = {
   feature?: AnyFeature;
@@ -20,7 +20,7 @@ type Props = {
 export default function AddressMapsLinkItems(props: Props) {
   const { feature } = props;
   const userAgent = useUserAgent();
-  const { category } = useCategory(feature);
+  const category = findCategory(feature);
 
   if (!feature || !feature.properties) return null;
 
@@ -44,7 +44,7 @@ export default function AddressMapsLinkItems(props: Props) {
       {openInMaps && (
         <li>
           <Link href={openInMaps.url} target="_blank" rel="noopener noreferrer">
-            <RouteIcon />
+            <Navigation />
             <span>{addressElement || openInMaps.caption}</span>
           </Link>
         </li>
@@ -52,7 +52,7 @@ export default function AddressMapsLinkItems(props: Props) {
       {showOnOsmUrl && (
         <li>
           <Link href={showOnOsmUrl} target="_blank" rel="noopener noreferrer">
-            <PlaceIcon />
+            <MapPinned />
             <span>{openButtonCaption("OpenStreetMap")}</span>
           </Link>
         </li>
