@@ -1,9 +1,27 @@
-const withTranspileModules = require("next-transpile-modules");
+const withSvgr = require("next-plugin-svgr");
 
 /**
  * @type {import('next').NextConfig}
  * */
-const configuration = {
+module.exports = withSvgr({
+  svgrOptions: {
+    typescript: true,
+    ext: "tsx",
+    ref: true,
+    svgoConfig: {
+      plugins: [
+        {
+          name: "preset-default",
+          params: {
+            overrides: {
+              removeViewBox: false,
+              removeUselessStrokeAndFill: false,
+            },
+          },
+        },
+      ],
+    },
+  },
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,
@@ -55,6 +73,4 @@ const configuration = {
   images: {
     deviceSizes: [375, 480, 640, 750, 828, 1080, 1200, 1920],
   },
-};
-
-module.exports = configuration;
+});

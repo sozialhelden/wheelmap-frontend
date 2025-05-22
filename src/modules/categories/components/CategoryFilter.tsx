@@ -2,8 +2,9 @@ import { Button, DropdownMenu, ScrollArea, Theme } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
-import { getCategoryList } from "~/modules/categories/utils/display";
+import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { ChevronDown } from "lucide-react";
+import type { FC, SVGAttributes } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ const StyledButton = styled(Button)`
 const numberOfMainCategories = 5;
 
 export function CategoryFilter() {
-  const categories = getCategoryList();
+  const categories = getTopLevelCategoryList();
 
   const mainCategories = categories.slice(0, numberOfMainCategories);
   const categoriesInMenu = categories.slice(numberOfMainCategories);
@@ -33,19 +34,22 @@ export function CategoryFilter() {
       <ScrollArea>
         <Theme asChild radius="full">
           <Container>
-            {mainCategories.map(({ id, name, iconComponent: Icon }) => (
-              <StyledButton
-                color="gray"
-                variant="surface"
-                highContrast
-                size="1"
-                key={id}
-                onClick={() => filter(id)}
-              >
-                {Icon && <Icon aria-hidden />}
-                {name()}
-              </StyledButton>
-            ))}
+            {mainCategories.map(({ id, name, icon }) => {
+              const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
+              return (
+                <StyledButton
+                  color="gray"
+                  variant="surface"
+                  highContrast
+                  size="1"
+                  key={id}
+                  onClick={() => filter(id)}
+                >
+                  {Icon && <Icon fill="currentColor" aria-hidden />}
+                  {name()}
+                </StyledButton>
+              );
+            })}
             {categoriesInMenu.length > 0 && (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
@@ -60,12 +64,15 @@ export function CategoryFilter() {
                   </StyledButton>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
-                  {categoriesInMenu.map(({ id, name, iconComponent: Icon }) => (
-                    <DropdownMenu.Item key={id} onClick={() => filter(id)}>
-                      {Icon && <Icon aria-hidden />}
-                      {name()}
-                    </DropdownMenu.Item>
-                  ))}
+                  {categoriesInMenu.map(({ id, name, icon }) => {
+                    const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
+                    return (
+                      <DropdownMenu.Item key={id} onClick={() => filter(id)}>
+                        {Icon && <Icon fill="currentColor" aria-hidden />}
+                        {name()}
+                      </DropdownMenu.Item>
+                    );
+                  })}
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             )}

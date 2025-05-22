@@ -5,7 +5,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import useCollectionSWR from "~/needs-refactoring/lib/fetchers/ac/useCollectionSWR";
 import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import { mappingEvent as MappingEventMarkerIcon } from "~/components/icons/markers";
+import { mappingEvent as MappingEventMarkerIcon } from "src/needs-refactoring/components/icons/markers";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 

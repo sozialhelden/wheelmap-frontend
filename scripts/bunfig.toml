@@ -1,0 +1,2 @@
+# bunfig.toml
+preload = ["./utils/bun-svgr-plugin.ts"]

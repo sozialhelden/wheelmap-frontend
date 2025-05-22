@@ -1,15 +1,15 @@
-import { type ReactNode, createContext, useContext, useMemo } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import {
   type Category,
-  type CategoryProperties,
+  type CategoryBaseProperties,
   categories,
 } from "~/modules/categories/categories";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
   category?: Category;
-  categoryProperties?: CategoryProperties;
+  categoryProperties?: CategoryBaseProperties;
   filter: (category: Category) => Promise<void>;
   reset: () => Promise<void>;
 };

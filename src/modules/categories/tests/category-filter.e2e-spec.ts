@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { getCategoryList } from "~/modules/categories/utils/display";
+import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { expect } from "~/tests/e2e/setup/test-fixture";
 import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test.describe("category-filter", () => {
   test("it shows only the first 5 configured categories", async ({ page }) => {
     await Promise.all(
-      getCategoryList()
+      getTopLevelCategoryList()
         .slice(0, 5)
         .map(async ({ name }) => {
           await expect(
@@ -25,7 +25,7 @@ test.describe("category-filter", () => {
         }),
     );
     await Promise.all(
-      getCategoryList()
+      getTopLevelCategoryList()
         .slice(5)
         .map(async ({ name }) => {
           await expect(page.getByRole("button", { name: name() })).toHaveCount(
@@ -38,7 +38,7 @@ test.describe("category-filter", () => {
   test("it opens a dropdown with the remaining categories when clicking the more button", async ({
     page,
   }) => {
-    const dropdownCategories = getCategoryList().slice(5);
+    const dropdownCategories = getTopLevelCategoryList().slice(5);
     await Promise.all(
       dropdownCategories.map(async ({ name }) => {
         await expect(page.getByRole("menuitem", { name: name() })).toHaveCount(
