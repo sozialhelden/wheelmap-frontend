@@ -1,17 +1,15 @@
 import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
-import { getCategoryForFeature } from "~/modules/categories/utils/cache";
-import { getLocalizableCategoryName } from "~/modules/categories/utils/localization";
 import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "~/needs-refactoring/lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "~/needs-refactoring/lib/fetchers/wikidata/useWikidataName";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { usePlaceNameFor } from "~/needs-refactoring/lib/model/geo/usePlaceNameFor";
-import getGenericCategoryDisplayName from "~/needs-refactoring/lib/model/osm/getFeatureCategoryDisplayName";
 import useEquipmentInfoDescription from "~/needs-refactoring/lib/useEquipmentInfoDescription";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import useCategory from "~/modules/categories/hooks/useCategory";
+
+import { findCategory } from "~/modules/categories/utils/synonyms";
 
 function getRoomNumberString(roomNumber: string) {
   return t("Room {roomNumber}", { roomNumber });
@@ -38,18 +36,14 @@ export function useFeatureLabel({
 }: {
   feature: AnyFeature;
 }) {
-  let categoryTagKeys: string[] = [];
-  const { categorySynonymCache, category } = useCategory(feature);
+  const category = findCategory(feature);
 
   const acParentPlaceInfoId = getAcParentPlaceId(feature);
   const parentPlaceInfo = usePlaceInfo(acParentPlaceInfoId);
 
   const parentPlaceInfoCategory = React.useMemo(
-    () =>
-      categorySynonymCache.data &&
-      parentPlaceInfo.data &&
-      getCategoryForFeature(categorySynonymCache.data, parentPlaceInfo.data),
-    [categorySynonymCache.data, parentPlaceInfo],
+    () => parentPlaceInfo.data && findCategory(parentPlaceInfo.data),
+    [parentPlaceInfo],
   );
 
   const acFeature =
@@ -68,24 +62,9 @@ export function useFeatureLabel({
   const roomNumber =
     addressObject && useTranslations(addressObject?.roomNumber);
   const roomName = addressObject && useTranslations(addressObject?.room);
-  const localizableCategoryName =
-    category && getLocalizableCategoryName(category);
-  let categoryName =
-    localizableCategoryName && useTranslations(localizableCategoryName);
+  const categoryName = category.name();
 
   const { map: attributesById } = useAccessibilityAttributesIdMap();
-
-  if (
-    (!category || category?._id === "unknown") &&
-    feature["@type"] === "osm:Feature"
-  ) {
-    const { displayName, tagKeys } = getGenericCategoryDisplayName(
-      feature,
-      attributesById,
-    );
-    categoryName = displayName;
-    categoryTagKeys = tagKeys;
-  }
 
   let placeName: string | undefined;
   let ref: string | undefined;
@@ -152,6 +131,5 @@ export function useFeatureLabel({
     ariaLabel,
     categoryName,
     category,
-    categoryTagKeys,
   } as const;
 }

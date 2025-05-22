@@ -5,10 +5,10 @@ import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import ToiletStatusAccessible from "../../../../../components/icons/accessibility/ToiletStatusAccessible";
-import ToiletStatusNotAccessible from "../../../../../components/icons/accessibility/ToiletStatusNotAccessible";
-import RadioButtonOn from "../../../../../components/icons/ui-elements/RadioButtonSelected";
-import RadioButtonOff from "../../../../../components/icons/ui-elements/RadioButtonUnselected";
+import ToiletStatusAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusAccessible";
+import ToiletStatusNotAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusNotAccessible";
+// import RadioButtonOn from "../../../../../components/icons/ui-elements/RadioButtonSelected";
+// import RadioButtonOff from "../../../../../components/icons/ui-elements/RadioButtonUnselected";
 import { cx } from "~/needs-refactoring/lib/util/cx";
 import { getLayout } from "~/components/layouts/DefaultLayout";
 
@@ -44,7 +44,7 @@ export const AccessibilityView: FC<{
         name="accessibility"
         value="yes"
       />
-      {selected ? <RadioButtonOn /> : <RadioButtonOff />}
+      {/*{selected ? <RadioButtonOn /> : <RadioButtonOff />}*/}
       {icon}
       <span className="_caption" aria-hidden="true">
         {valueName}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import WorldIcon from "../../../../../components/icons/actions/World";
+import { Globe } from "lucide-react";
 
 const NonBreakingSpan = styled.span`
   word-break: break-word;
@@ -41,7 +41,7 @@ export default function PlaceWebsiteLink({ feature }: Props) {
   return (
     <li>
       <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
-        <WorldIcon />
+        <Globe />
         <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
       </Link>
     </li>

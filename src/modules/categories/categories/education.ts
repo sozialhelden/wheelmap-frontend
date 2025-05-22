@@ -1,0 +1,125 @@
+import { t } from "@transifex/native";
+import * as icons from "~/modules/categories/icons";
+
+export const education = {
+  education: {
+    name: () => t("Education"),
+    icon: icons.college,
+    synonyms: [
+      "training_center",
+      "education",
+      "Education Facility",
+      "800-8200-0000",
+      "Grund- oder Mittel- oder Berufs- oder Fach- oder Hochschule",
+    ],
+  },
+
+  music_school: {
+    name: () => t("Music School"),
+    icon: icons.music,
+    parents: ["education"],
+    synonyms: ["Music School", "amenity=music_school"],
+  },
+
+  driving_school: {
+    name: () => t("Driving School"),
+    icon: icons.car,
+    parents: ["education"],
+    synonyms: ["amenity=driving_school", "driving_school", "Driving School"],
+  },
+
+  school: {
+    name: () => t("School"),
+    icon: icons.school,
+    parents: ["education"],
+    synonyms: [
+      "amenity=school",
+      "school",
+      "elementary_school",
+      "Trade School",
+      "School",
+      "Elementary School",
+      "Preschool",
+      "School",
+      "Training & Development",
+      "Coaching Centre",
+      "Fine Arts Training",
+      "Language Education",
+      "800-8200-0174",
+      "800-8200-0295",
+      "800-8200-0360",
+      "800-8200-0361",
+      "800-8200-0362",
+      "Schulen",
+    ],
+  },
+
+  kindergarten: {
+    name: () => t("Daycare"),
+    icon: icons.school,
+    parents: ["education"],
+    synonyms: [
+      "amenity=kindergarten",
+      "child_care_agency",
+      "Child Care Service",
+      "Daycare",
+      "Nursery & Childcare",
+      "700-7400-0286",
+      "Kinderbetreuung",
+      "Kindergärten",
+      "amenity=kindergarten",
+      "amenity=childcare",
+    ],
+  },
+
+  // TODO: does it make sense to separate college and university?
+  university: {
+    name: () => t("University"),
+    icon: icons.college,
+    parents: ["education"],
+    synonyms: [
+      "amenity=university",
+      "university",
+      "General College & University",
+      "University",
+      "Higher Education",
+      "800-8200-0173",
+    ],
+  },
+
+  college: {
+    name: () => t("College/University"),
+    icon: icons.college,
+    parents: ["education"],
+    synonyms: [
+      "amenity=college",
+      "college",
+      "middle_school",
+      "college",
+      "high_school",
+      "College & University",
+      "College Academic Building",
+      "College Arts Building",
+      "College Communications Building",
+      "College Engineering Building",
+      "College History Building",
+      "College Math Building",
+      "College Science Building",
+      "College Technology Building",
+      "College Auditorium",
+      "College Classroom",
+      "College Lab",
+      "College Quad",
+      "Student Center",
+      "Auditorium",
+      "Adult Education Center",
+      "Cooking School",
+      "Flight School",
+      "High School",
+      "Language School",
+      "Middle School",
+      "Nursery School",
+      "Private School",
+    ],
+  },
+} as const;

@@ -5,9 +5,9 @@ import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import { useCategoryString } from "~/modules/categories/hooks/useCategory";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+
+import { findCategoryBySynonym } from "~/modules/categories/utils/synonyms";
 
 type Props = {
   result: SearchResultType;
@@ -46,8 +46,7 @@ export const SearchResult = forwardRef(function SearchResult(
   const { map } = useMap();
   const { push } = useAppStateAwareRouter();
 
-  const { category: acCategory } = useCategoryString(category);
-  const categoryLabel = useTranslations(acCategory?.translations?._id);
+  const categoryLabel = category && findCategoryBySynonym(category).name();
 
   url = url || "/";
 
