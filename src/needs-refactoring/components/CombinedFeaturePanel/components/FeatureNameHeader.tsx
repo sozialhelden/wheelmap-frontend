@@ -3,16 +3,16 @@ import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { unknownCategory } from "~/modules/categories/utils/cache";
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import ChevronRight from "~/needs-refactoring/components/shared/ChevronRight";
-import Icon from "~/needs-refactoring/components/shared/Icon";
+// import Icon from "~/needs-refactoring/components/shared/Icon";
 import {
   PlaceNameH1,
   PlaceNameH2,
 } from "~/needs-refactoring/components/shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
+import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -62,7 +62,6 @@ export default function FeatureNameHeader(props: Props) {
     buildingName,
     buildingNumber,
     category,
-    categoryTagKeys,
     ref,
     localRef,
   } = useFeatureLabel({
@@ -74,14 +73,16 @@ export default function FeatureNameHeader(props: Props) {
   if (!properties) return null;
 
   const icon = (
-    <Icon
-      accessibility={isWheelchairAccessible(feature)}
-      category={
-        (category && category !== unknownCategory
-          ? category._id
-          : categoryTagKeys[0]) || "undefined"
+    <AccessibleIconMarker
+      accessibilityGrade={
+        { yes: "good", no: "bad", limited: "mediocre", unknown: "unknown" }[
+          isWheelchairAccessible(feature)
+        ]
       }
-      size={iconSize || "medium"}
+      category={category.id}
+      width="2.5rem"
+      height="2.5rem"
+      shadow={false}
     />
   );
 

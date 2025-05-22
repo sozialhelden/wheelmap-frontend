@@ -4,15 +4,14 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import { unknownCategory } from "~/modules/categories/utils/cache";
 import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
-import Icon from "~/needs-refactoring/components/shared/Icon";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
+import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -24,14 +23,10 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
     useState<boolean>(true);
 
-  const { category, categoryTagKeys } = useFeatureLabel({ feature });
+  const { category } = useFeatureLabel({ feature });
 
   const current = isWheelchairAccessible(feature);
 
-  const cat =
-    (category && category !== unknownCategory
-      ? category._id
-      : categoryTagKeys[0]) || "undefined";
   const [editedTagValue, setEditedTagValue] = useState<
     YesNoLimitedUnknown | undefined
   >(current);
@@ -64,7 +59,14 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 className="_yes"
                 inputLabel="accessibility-fully"
                 selected={editedTagValue === "yes"}
-                icon={<Icon size="medium" accessibility="yes" category={cat} />}
+                icon={
+                  <AccessibleIconMarker
+                    accessibilityGrade="good"
+                    category={category.id}
+                    width="30"
+                    height="30"
+                  />
+                }
                 valueName="Fully"
               >
                 {t(
@@ -80,7 +82,12 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 inputLabel="accessibility-partially"
                 selected={editedTagValue === "limited"}
                 icon={
-                  <Icon size="medium" accessibility="limited" category={cat} />
+                  <AccessibleIconMarker
+                    accessibilityGrade="mediocre"
+                    category={category.id}
+                    width="30"
+                    height="30"
+                  />
                 }
                 valueName="Partially"
               >
@@ -97,7 +104,14 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
                 className="_no"
                 inputLabel="accessibility-not-at-all"
                 selected={editedTagValue === "no"}
-                icon={<Icon size="medium" accessibility="no" category={cat} />}
+                icon={
+                  <AccessibleIconMarker
+                    accessibilityGrade="bad"
+                    category={category.id}
+                    width="30"
+                    height="30"
+                  />
+                }
                 valueName="Not at all"
               >
                 {t(

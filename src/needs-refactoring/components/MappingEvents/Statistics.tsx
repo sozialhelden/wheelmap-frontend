@@ -2,8 +2,7 @@ import { t } from "@transifex/native";
 import React from "react";
 import styled from "styled-components";
 
-import MapPinWithPlusIcon from "~/components/icons/ui-elements/MapPinWithPlusIcon";
-import { UserIcon } from "~/components/icons/ui-elements";
+import { MapPinPlus, User } from "lucide-react";
 
 type Props = {
   mappedPlacesCount: number;
@@ -25,14 +24,14 @@ function Statistics({ mappedPlacesCount, participantCount, className }: Props) {
     <section className={className} aria-label={statisticsRegionAriaLabel}>
       <div className="statistic">
         <div className="statistic-count">
-          <MapPinWithPlusIcon />
+          <MapPinPlus />
           <span>{mappedPlacesCount}</span>
         </div>
         <div className="statistic-description">{mappedPlacesLabel}</div>
       </div>
       <div className="statistic">
         <div className="statistic-count">
-          <UserIcon />
+          <User />
           <span>{participantCount}</span>
         </div>
         <div className="statistic-description">{inviteesCountAriaLabel}</div>
