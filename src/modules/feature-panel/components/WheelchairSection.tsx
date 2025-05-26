@@ -1,14 +1,15 @@
-import React from "react";
+import type React from "react";
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
+
 import { t } from "@transifex/native";
 
-type Props = {
+type Props = React.HTMLProps<HTMLDivElement> & {
   tags: TagOrTagGroup;
 };
 

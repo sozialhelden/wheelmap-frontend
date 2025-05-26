@@ -19,20 +19,38 @@ import FeatureDescription from "~/modules/feature-panel/components/FeatureDescri
 import { useOsmTags } from "~/modules/feature-panel/hooks/useOsmTags";
 import WheelchairSection from "~/modules/feature-panel/components/WheelchairSection";
 import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
-import Section from "~/modules/feature-panel/components/Section";
 import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { Separator } from "@radix-ui/themes";
 
 import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImage";
 import PartOf from "~/modules/feature-panel/components/PartOf";
 import { useNextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
+import styled from "styled-components";
 
 type Props = {
   features: AnyFeature[];
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
 };
+
+const SectionsContainer = styled.div`
+    > div {
+        padding: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        border-bottom: 1px solid #eeeeee;
+    }
+    > div:first-child {
+        border-top: 1px solid #eeeeee;
+    }
+    > div:last-child {
+        border-bottom: none;
+    }
+    > div.empty {
+        border-bottom: none;
+    }
+    `;
 
 const FeatureDetails = ({
   features,
@@ -81,50 +99,6 @@ const FeatureDetails = ({
     // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
   };
 
-  const sectionItems = [
-    osmWheelchairInfo && (
-      <WheelchairSection key="osm_wheelchair" tags={osmWheelchairInfo} />
-    ),
-    (osmToiletInfo || nextToilet) && (
-      <ToiletsSection
-        key="osm_toilets"
-        tags={osmToiletInfo}
-        nextToilet={nextToilet}
-        isLoading={isLoadingNextToilet}
-      />
-    ),
-    acAccessibility && (
-      <AccessibilityItems key="ac_accessibility" feature={feature} />
-    ),
-    generalOSMInfo.length > 0 && (
-      <OsmInfoSection key="osm_info" tags={generalOSMInfo} />
-    ),
-    <>
-      <FeatureGallery
-        key="feature_gallery"
-        feature={feature}
-        activeImageId={activeImageId}
-      />
-      <FeatureImageUpload
-        key="feature_image_upload"
-        feature={feature}
-        isUploadDialogOpen={isUploadDialogOpen}
-      />
-    </>,
-    <StyledIconButtonList key="styled_icon_button_list">
-      <AddressMapsLinkItems feature={feature} />
-      <PlaceWebsiteLink feature={feature} />
-      <PhoneNumberLinks feature={feature} />
-      {isPlaceInfo(feature) && (
-        <ExternalInfoAndEditPageLinks
-          key="external_info_links"
-          feature={feature}
-        />
-      )}
-    </StyledIconButtonList>,
-    surroundings && <PartOf key="part_of" surroundings={surroundings} />,
-  ];
-
   return (
     <>
       {feature && (
@@ -135,24 +109,79 @@ const FeatureDetails = ({
               <FeatureImage feature={feature} />
             )}
           </LargeHeaderImage>
-
           <FeatureNameHeader
             feature={feature}
             size="big"
             onHeaderClicked={handleHeaderClick}
             marginBottom="1rem"
           />
-
           {generalDescription && (
-            <FeatureDescription>{generalDescription.value}</FeatureDescription>
+            <FeatureDescription style={{ borderBottom: "2px solid black" }}>
+              {generalDescription.value}
+            </FeatureDescription>
           )}
 
-          {sectionItems.filter(Boolean).map((item) => (
-            <React.Fragment key={Math.random().toString(36)}>
-              <Separator orientation="horizontal" size="4" />
-              <Section>{item}</Section>
-            </React.Fragment>
-          ))}
+          <SectionsContainer>
+            {osmWheelchairInfo && (
+              <div>
+                <WheelchairSection
+                  key="osm_wheelchair"
+                  tags={osmWheelchairInfo}
+                />
+              </div>
+            )}
+            {(osmToiletInfo || nextToilet) && (
+              <div>
+                <ToiletsSection
+                  key="osm_toilets"
+                  tags={osmToiletInfo}
+                  nextToilet={nextToilet}
+                  isLoading={isLoadingNextToilet}
+                />
+              </div>
+            )}
+            {acAccessibility && (
+              <div>
+                <AccessibilityItems key="ac_accessibility" feature={feature} />
+              </div>
+            )}
+
+            {generalOSMInfo.length > 0 && (
+              <div>
+                <OsmInfoSection key="osm_info" tags={generalOSMInfo} />
+              </div>
+            )}
+            <div>
+              <FeatureGallery
+                key="feature_gallery"
+                feature={feature}
+                activeImageId={activeImageId}
+              />
+              <FeatureImageUpload
+                key="feature_image_upload"
+                feature={feature}
+                isUploadDialogOpen={isUploadDialogOpen}
+              />
+            </div>
+            <div>
+              <StyledIconButtonList key="styled_icon_button_list">
+                <AddressMapsLinkItems feature={feature} />
+                <PlaceWebsiteLink feature={feature} />
+                <PhoneNumberLinks feature={feature} />
+                {isPlaceInfo(feature) && (
+                  <ExternalInfoAndEditPageLinks
+                    key="external_info_links"
+                    feature={feature}
+                  />
+                )}
+              </StyledIconButtonList>
+            </div>
+            {surroundings && (
+              <div>
+                <PartOf key="part_of" surroundings={surroundings} />
+              </div>
+            )}
+          </SectionsContainer>
         </>
       )}
     </>
