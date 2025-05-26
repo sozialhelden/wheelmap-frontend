@@ -14,17 +14,13 @@ export function EditButton({
   const feature = features[0].feature?.requestedFeature;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleEditClick = () => {
-    setIsDialogOpen(true);
-  };
-
   return (
     <>
       <IconButton
         aria-label={t("Edit")}
         tabIndex={-1}
         variant="soft"
-        onClick={handleEditClick}
+        onClick={() => setIsDialogOpen(true)}
         data-testid={tagKey}
       >
         <Pencil1Icon width="18" height="18" />
