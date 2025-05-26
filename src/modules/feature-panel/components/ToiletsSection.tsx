@@ -6,10 +6,11 @@ import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDesc
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import TagRenderer from "~/modules/feature-panel/components/TagRenderer";
 import { t } from "@transifex/native";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import type { NextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
+import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
+import { getValueLabel } from "~/modules/feature-panel/utils/getValueLabel";
 
 type Props = {
   nextToilet?: NextToilet;
@@ -56,14 +57,26 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
           </Box>
         </Grid>
       )}
-      {otherTags?.map((child) => (
-        <TagRenderer
-          tagOrTagGroup={child}
-          key={child.key}
-          color="gray"
-          mt="2.75rem"
-        />
-      ))}
+      <Flex
+        direction="row"
+        gap="0.4rem"
+        wrap="wrap"
+        style={{ rowGap: ".75rem" }}
+      >
+        {otherTags?.map((child) =>
+          typeof child.tagProps?.valueElement === "object" &&
+          child.tagProps?.valueElement !== null ? (
+            <StyledTag size="4" radius="full" highContrast key={child.key}>
+              {React.cloneElement(child.tagProps.valueElement)}
+            </StyledTag>
+          ) : (
+            // otherwise render the plain value label inside a tag
+            <StyledTag size="4" radius="full" highContrast key={child.key}>
+              <StyledMarkdown inline>{getValueLabel(child)}</StyledMarkdown>
+            </StyledTag>
+          ),
+        )}
+      </Flex>
 
       {wheelchairInfo &&
         (description ? (
@@ -76,7 +89,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
             </Box>
           </Grid>
         ) : (
-          <Flex direction="row" justify="between">
+          <Flex direction="row" justify="between" mb="3">
             <AddDescriptionButton tagKey="toilets:wheelchair:description">
               {t("Add a description for this toilet")}
             </AddDescriptionButton>

@@ -9,7 +9,7 @@ interface Props extends React.ComponentProps<typeof Badge> {
   tagOrTagGroup: TagOrTagGroup;
 }
 
-const TagRenderer = ({ tagOrTagGroup }: Props) => {
+const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
   const hasChildren = Object.prototype.hasOwnProperty.call(
     tagOrTagGroup,
     "children",
@@ -18,7 +18,7 @@ const TagRenderer = ({ tagOrTagGroup }: Props) => {
     <Flex direction="row" gap="0.4rem" wrap="wrap" style={{ rowGap: ".75rem" }}>
       {hasChildren ? (
         tagOrTagGroup.children.map((child) => (
-          <TagRenderer key={child.key} tagOrTagGroup={child} />
+          <TagGroupRenderer key={child.key} tagOrTagGroup={child} />
         ))
       ) : (
         <>
@@ -42,4 +42,4 @@ const TagRenderer = ({ tagOrTagGroup }: Props) => {
   );
 };
 
-export default TagRenderer;
+export default TagGroupRenderer;
