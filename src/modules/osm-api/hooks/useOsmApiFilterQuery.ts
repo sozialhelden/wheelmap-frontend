@@ -2,8 +2,11 @@ import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterC
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
 
 function useCategoryFilterParams(): Record<string, string> {
-  const { category, categoryProperties } = useCategoryFilter();
-  return categoryProperties?.queryParams || { category: String(category) };
+  const { category } = useCategoryFilter();
+  if (category === "toilets") {
+    return { hasToiletInfo: "true" };
+  }
+  return { category: String(category) };
 }
 
 function useWheelchairFilterParams(): Record<string, string> {

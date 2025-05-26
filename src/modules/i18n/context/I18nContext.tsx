@@ -1,5 +1,5 @@
 import { Flex, Spinner } from "@radix-ui/themes";
-import { tx } from "@transifex/native";
+import { tx, t } from "@transifex/native";
 import {
   type ReactNode,
   createContext,
@@ -15,6 +15,7 @@ import {
   getRegion,
 } from "~/modules/i18n/utils/language-tags";
 import { getLocale } from "~/modules/i18n/utils/locales";
+import { setTranslator } from "@sozialhelden/core";
 
 export type I18nContext = {
   languageTag: LanguageTag;
@@ -80,6 +81,7 @@ export function I18nContextProvider({
       token: env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN,
       // filterStatus: "reviewed",
     });
+    setTranslator(t);
     setTransifexLocale(currentLanguageTag);
   }, []);
 
