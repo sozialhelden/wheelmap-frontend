@@ -1,6 +1,6 @@
 import React from "react";
 import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
-import TagRenderer from "~/modules/feature-panel/components/TagRenderer";
+import TagGroupRenderer from "~/modules/feature-panel/components/TagGroupRenderer";
 import { Box, Grid, Text } from "@radix-ui/themes";
 
 interface Props {
@@ -18,7 +18,7 @@ const OsmInfoSection = ({ tags }: Props) => {
             </Text>
           </Box>
           <Box>
-            <TagRenderer
+            <TagGroupRenderer
               key={tagOrTagGroup.key}
               tagOrTagGroup={tagOrTagGroup}
             />
