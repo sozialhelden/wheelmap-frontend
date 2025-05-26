@@ -1,6 +1,6 @@
 import type { SVGAttributes } from "react";
 import AccessibleIconMarkerBase from "./AccessibleIconMarkerBase";
-import type { Category } from "~/modules/categories/categories";
+import type { Category } from "@sozialhelden/core";
 
 export default function AccessibleIconMarker(
   props: SVGAttributes<SVGElement> & {

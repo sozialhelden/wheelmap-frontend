@@ -6,7 +6,7 @@ import {
 import useEquipmentInfoDescription from "~/needs-refactoring/lib/useEquipmentInfoDescription";
 import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
 import type { AnyFeature } from "./AnyFeature";
-import type { CategoryProperties } from "~/modules/categories/categories";
+import type { CategoryProperties } from "@sozialhelden/core";
 
 export function usePlaceNameFor(
   feature: AnyFeature,

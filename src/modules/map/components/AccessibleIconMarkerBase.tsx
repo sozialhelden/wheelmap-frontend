@@ -1,5 +1,5 @@
 import type { FC, SVGAttributes } from "react";
-import { categories, type Category } from "~/modules/categories/categories";
+import { getCategories, type Category } from "@sozialhelden/core";
 
 export default function AccessibleIconMarkerBase(
   props: SVGAttributes<SVGElement> & {
@@ -24,7 +24,7 @@ export default function AccessibleIconMarkerBase(
   const halo = hasHalo ? "url(#halo)" : "";
   const shadow = hasShadow ? "url(#shadow)" : "";
   const size = accessibilityGrade === "unknown" ? 0.8 : 1.0;
-  const Icon = categories[category].icon as FC<SVGAttributes<SVGElement>>;
+  const Icon = getCategories()[category].icon as FC<SVGAttributes<SVGElement>>;
 
   return (
     <svg
