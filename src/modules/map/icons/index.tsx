@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { categories, type Category } from "~/modules/categories/categories";
+import { getCategories, type Category } from "@sozialhelden/core";
 
 import ElevatorIcon from "~/modules/map/icons/elevators/elevator.svg";
 import GoodEntranceIcon from "~/modules/map/icons/entrances/house-entrance-good.svg";
@@ -44,7 +44,7 @@ export const index: Record<string, MapIcon> = {
 
   ...(["good", "mediocre", "bad", "unknown"] as AccessibilityGrade[]).reduce(
     (acc, accessibilityGrade) => {
-      for (const category of Object.keys(categories) as Category[]) {
+      for (const category of Object.keys(getCategories()) as Category[]) {
         acc[`${category}-${accessibilityGrade}`] = {
           type: "category",
           category,

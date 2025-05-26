@@ -1,18 +1,9 @@
-import {
-  categories,
-  type Category,
-  type CategoryProperties,
-} from "~/modules/categories/categories";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-
-export const synonymMap: Map<string, Category> = Object.entries(
-  categories,
-).reduce((acc, [category, properties]) => {
-  for (const synonym of properties.synonyms ?? []) {
-    acc.set(synonym, category as Category);
-  }
-  return acc;
-}, new Map<string, Category>());
+import {
+  getSynonymMap,
+  findCategoryBySynonym,
+  type CategoryProperties,
+} from "@sozialhelden/core";
 
 function getSynonyms(
   feature: AnyFeature & { properties?: { category?: string } },
@@ -52,12 +43,8 @@ function getSynonyms(
   });
 }
 
-export function findCategoryBySynonym(synonym?: string): CategoryProperties {
-  const id = synonymMap.get(synonym ?? "") || "unknown";
-  return { id, ...categories[id] };
-}
-
 export function findCategory(feature: AnyFeature): CategoryProperties {
+  const synonymMap = getSynonymMap();
   return findCategoryBySynonym(
     getSynonyms(feature).find((synonym) => synonymMap.has(synonym)),
   );

@@ -1,11 +1,11 @@
 import {
+  getTopLevelCategories,
   type CategoryBaseProperties,
   type CategoryProperties,
-  topLevelCategories,
-} from "~/modules/categories/categories";
+} from "@sozialhelden/core";
 
 export function getTopLevelCategoryList() {
-  return Object.entries(topLevelCategories)
+  return Object.entries(getTopLevelCategories())
     .map(([id, category]) => {
       return {
         ...category,

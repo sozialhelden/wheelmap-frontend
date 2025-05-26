@@ -3,8 +3,8 @@ import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppState
 import {
   type Category,
   type CategoryBaseProperties,
-  categories,
-} from "~/modules/categories/categories";
+  getCategories,
+} from "@sozialhelden/core";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
@@ -26,7 +26,7 @@ export function CategoryFilterContextProvider({
   const router = useAppStateAwareRouter();
 
   const category = router.query.category as Category;
-  const categoryProperties = categories[category];
+  const categoryProperties = getCategories()[category];
   const isFilteringActive = Boolean(categoryProperties);
 
   const filter = async (category: Category) => {
