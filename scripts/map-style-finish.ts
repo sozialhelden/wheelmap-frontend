@@ -1,3 +1,9 @@
+/**
+ * This script downloads the latest map styles from Mapbox Studio, replaces
+ * the local styles with the downloaded ones, and deletes the temporary
+ * styles in Mapbox Studio.
+ */
+
 import { consola } from "consola";
 
 import { deleteStyle } from "./utils/mapbox-api";

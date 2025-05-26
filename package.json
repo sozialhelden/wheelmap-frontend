@@ -103,7 +103,7 @@
     "lint:fix": "npx biome lint --write",
     "format": "npx biome format",
     "format:fix": "npx biome format --write",
-    "transifex:push": "rm -rf src/.next/ && npx env-cmd --use-shell -- txjs-cli push ./src --token=\\$NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN --secret=\\$TRANSIFEX_NATIVE_SECRET",
+    "transifex:push": "rm src/external-translation-strings.ts && rm -rf src/.next/ && npx bun scripts/translation-strings-from-libraries.ts && npx env-cmd --use-shell -- txjs-cli push ./src --token=\\$NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN --secret=\\$TRANSIFEX_NATIVE_SECRET && rm src/external-translation-strings.ts",
     "transifex:install": "npx api install \"@transifex/v1.0#a442qlw7q5q6u\"",
     "transifex:upload": "cd scripts && npx env-cmd -f ../.env -- npx bun upload-xliff.ts",
     "docs:build": "typedoc src --options typedoc.json --out dist/docs/typescript --json dist/typedoc-output.json && npx esrun ./tools/generate-overview.ts",

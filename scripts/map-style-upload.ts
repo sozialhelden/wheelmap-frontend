@@ -1,3 +1,7 @@
+/**
+ * This script uploads the local map styles to Mapbox Studio.
+ */
+
 import { consola } from "consola";
 
 import brightStyle from "../src/modules/map/styles/bright.json";

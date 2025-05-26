@@ -1,3 +1,8 @@
+/**
+ * This script downloads the latest map styles from Mapbox Studio and overrides
+ * the local styles.
+ */
+
 import { consola } from "consola";
 
 import { getStylesFromConfig } from "./utils/mapbox-config";

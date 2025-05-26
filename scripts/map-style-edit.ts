@@ -1,3 +1,8 @@
+/**
+ * This script starts an editing process of map styles, by creating temporary
+ * styles on Mapbox Studio based on the current configuration.
+ */
+
 import { consola } from "consola";
 import { account } from "./utils/mapbox-api";
 import { getStylesFromConfig } from "./utils/mapbox-config";
