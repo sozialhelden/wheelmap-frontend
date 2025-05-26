@@ -19,9 +19,9 @@ test.describe("Edit toilet accessibility", () => {
     await expect(dialog).toBeVisible();
   });
 
-  test("dialog content is keyboard navigable", async () => {
-    //TODO
-  });
+  // test("dialog content is keyboard navigable", async () => {
+  //   //TODO
+  // });
 
   test("radios are clickable & confirm button changes to send after input changes", async ({
     page,
@@ -38,16 +38,16 @@ test.describe("Edit toilet accessibility", () => {
     await expect(getButton(dialog, "Send")).toBeVisible();
   });
 
-  test("changes are made using the send button", async () => {
-    //TODO
-  });
+  // test("changes are made using the send button", async () => {
+  //   //TODO
+  // });
 
   test("dialog can be closed using the cancel button", async () => {
     await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
-  test("passes WCAG accessibility check", async ({ page }) => {
-    //TODO
-  });
+  // test("passes WCAG accessibility check", async ({ page }) => {
+  //   //TODO
+  // });
 });

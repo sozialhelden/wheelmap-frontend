@@ -27,9 +27,9 @@ test.describe("Add wheelchair description in new language", () => {
     await expect(dialog.getByRole("combobox")).toBeVisible();
   });
 
-  test("dialog content is key board navigable", async () => {
-    //TODO
-  });
+  // test("dialog content is key board navigable", async () => {
+  //   //TODO
+  // });
 
   test("text area is hidden before language is selected", async ({ page }) => {
     const textArea = dialog.getByRole("textbox");
@@ -59,16 +59,16 @@ test.describe("Add wheelchair description in new language", () => {
     await expect(textArea).toHaveText(mockedSpanishDescription);
   });
 
-  test("changes are made using the send button", async () => {
-    //TODO
-  });
+  // test("changes are made using the send button", async () => {
+  //   //TODO
+  // });
 
   test("dialog can be closed using the cancel button", async () => {
     await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
-  test("passes WCAG accessibility check", async ({ page }) => {
-    //TODO
-  });
+  // test("passes WCAG accessibility check", async ({ page }) => {
+  //   //TODO
+  // });
 });
