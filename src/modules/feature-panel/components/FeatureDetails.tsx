@@ -26,7 +26,7 @@ import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImag
 import PartOf from "~/modules/feature-panel/components/PartOf";
 import { useNextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
 import styled from "styled-components";
-import { useDarkMode } from "~/hooks/useDarkMode";
+import { Flex } from "@radix-ui/themes";
 
 type Props = {
   features: AnyFeature[];
@@ -41,9 +41,6 @@ const SectionsContainer = styled.div`
         flex-direction: column;
         gap: var(--space-3);
         border-bottom: 1px solid var(--gray-5);
-    }
-    > div:first-child {
-        border-top: 1px solid var(--gray-5);
     }
     > div:last-child {
         border-bottom: none;
@@ -62,7 +59,6 @@ const FeatureDetails = ({
 
   const map = useMap();
   const context = useContext(FeaturePanelContext);
-  const isDarkMode = useDarkMode();
   const { nestedTags } = useOsmTags(feature);
   const { nextToilet, isLoadingNextToilet } = useNextToilet(feature);
   const acAccessibility =
@@ -104,26 +100,27 @@ const FeatureDetails = ({
   return (
     <>
       {feature && (
-        <>
+        <Flex direction="column">
           <LargeHeaderImage>
             {/*TODO: add Logo component*/}
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
             )}
           </LargeHeaderImage>
+
           <FeatureNameHeader
             feature={feature}
             size="big"
             onHeaderClicked={handleHeaderClick}
-            marginBottom="1rem"
+            mb="1rem"
           />
-          {generalDescription && (
-            <FeatureDescription style={{ borderBottom: "2px solid black" }}>
-              {generalDescription.value}
-            </FeatureDescription>
-          )}
 
-          <SectionsContainer darkMode={isDarkMode}>
+          <SectionsContainer style={{ order: 3 }}>
+            {generalDescription && (
+              <FeatureDescription>
+                {generalDescription.value}
+              </FeatureDescription>
+            )}
             {osmWheelchairInfo && (
               <div>
                 <WheelchairSection
@@ -184,7 +181,7 @@ const FeatureDetails = ({
               </div>
             )}
           </SectionsContainer>
-        </>
+        </Flex>
       )}
     </>
   );
