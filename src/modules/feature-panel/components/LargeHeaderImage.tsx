@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const LargeHeaderImage = styled.div`
+    display: flex;
     width: calc(100% + var(--space-3) * 2); 
     height: 15rem; 
     margin-left: calc(-1 * var(--space-3)); 
@@ -8,6 +9,10 @@ const LargeHeaderImage = styled.div`
     margin-bottom: var(--space-5);
     background: var(--gray-4);
     img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    order: 2;
+    @media (min-width: 576px) { 
+        order: 1; 
+    }
   `;
 
 export default LargeHeaderImage;

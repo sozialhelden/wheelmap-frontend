@@ -7,6 +7,7 @@ interface Props {
 }
 
 const DescriptionContainer = styled.div`
+    display: flex;
     padding: var(--space-4);
 `;
 
