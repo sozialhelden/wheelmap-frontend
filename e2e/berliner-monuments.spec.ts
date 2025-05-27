@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   //await skipOnboarding(page);
 });
 
-test('Goto Open on OpenStreetMap', async ({ page }) => {
+test('Goto Open on OpenStreetMap to Victory Column', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/ac:PlaceInfo:WcdW6a8tJumrqsswk,buildings:way:718035022');
   await page.waitForLoadState();
   //goto Open Street Map
@@ -25,7 +25,7 @@ test('Goto Open on OpenStreetMap', async ({ page }) => {
   
 });
  
-  test('Goto Open on Bing Maps', async ({ page }) => {
+  test('Goto Open on Bing Maps to Victory Column', async ({ page }) => {
   //test('Goto Open on Apple Maps', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/ac:PlaceInfo:WcdW6a8tJumrqsswk,buildings:way:718035022');
   await page.waitForLoadState();

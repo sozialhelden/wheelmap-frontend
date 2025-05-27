@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   //await skipOnboarding(page);
 });
 
-test('Goto Access Techninal University', async ({ page }) => {
+test('Goto Access ER University', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.getByText('ER',{ exact: true}).click();
@@ -26,7 +26,7 @@ test('Goto Access Techninal University', async ({ page }) => {
   
   });
 
-test('Goto Look Technical University', async ({ page }) => {
+test('Goto Look ER University', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.click('text="Look"');
@@ -36,7 +36,7 @@ test('Goto Look Technical University', async ({ page }) => {
 });  
 
 
-test('Goto Operator Technical University', async ({ page }) => {
+test('Goto Operator ER University', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.click('text="Operator"');
@@ -47,7 +47,7 @@ test('Goto Operator Technical University', async ({ page }) => {
   await page.waitForLoadState();
 });
 
-test('Goto MySmiley Technical University', async ({ page }) => {
+test('Goto MySmiley ER University', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await expect(page.getByRole('cell', { name: '🧑 “Es gibt auf der' })).toBeVisible();
