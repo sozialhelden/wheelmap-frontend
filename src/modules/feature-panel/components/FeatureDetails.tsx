@@ -34,20 +34,16 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
-interface SectionsContainerProps {
-  darkMode: boolean;
-}
-
-const SectionsContainer = styled.div<SectionsContainerProps>`
+const SectionsContainer = styled.div`
     > div {
         padding: var(--space-4);
         display: flex;
         flex-direction: column;
         gap: var(--space-3);
-        border-bottom: 1px solid ${(props) => (props.darkMode ? "var(--gray-10)" : "#eeeeee")};
+        border-bottom: 1px solid var(--gray-5);
     }
     > div:first-child {
-        border-top: 1px solid ${(props) => (props.darkMode ? "var(--gray-10)" : "#eeeeee")};
+        border-top: 1px solid var(--gray-5);
     }
     > div:last-child {
         border-bottom: none;
@@ -109,7 +105,7 @@ const FeatureDetails = ({
     <>
       {feature && (
         <>
-          <LargeHeaderImage darkMode={isDarkMode}>
+          <LargeHeaderImage>
             {/*TODO: add Logo component*/}
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
