@@ -26,6 +26,7 @@ import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImag
 import PartOf from "~/modules/feature-panel/components/PartOf";
 import { useNextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
 import styled from "styled-components";
+import { useDarkMode } from "~/hooks/useDarkMode";
 
 type Props = {
   features: AnyFeature[];
@@ -33,16 +34,20 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
-const SectionsContainer = styled.div`
+interface SectionsContainerProps {
+  darkMode: boolean;
+}
+
+const SectionsContainer = styled.div<SectionsContainerProps>`
     > div {
         padding: var(--space-4);
         display: flex;
         flex-direction: column;
         gap: var(--space-3);
-        border-bottom: 1px solid #eeeeee;
+        border-bottom: 1px solid ${(props) => (props.darkMode ? "var(--gray-10)" : "#eeeeee")};
     }
     > div:first-child {
-        border-top: 1px solid #eeeeee;
+        border-top: 1px solid ${(props) => (props.darkMode ? "var(--gray-10)" : "#eeeeee")};
     }
     > div:last-child {
         border-bottom: none;
@@ -61,6 +66,7 @@ const FeatureDetails = ({
 
   const map = useMap();
   const context = useContext(FeaturePanelContext);
+  const isDarkMode = useDarkMode();
   const { nestedTags } = useOsmTags(feature);
   const { nextToilet, isLoadingNextToilet } = useNextToilet(feature);
   const acAccessibility =
@@ -103,7 +109,7 @@ const FeatureDetails = ({
     <>
       {feature && (
         <>
-          <LargeHeaderImage>
+          <LargeHeaderImage darkMode={isDarkMode}>
             {/*TODO: add Logo component*/}
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
@@ -121,7 +127,7 @@ const FeatureDetails = ({
             </FeatureDescription>
           )}
 
-          <SectionsContainer>
+          <SectionsContainer darkMode={isDarkMode}>
             {osmWheelchairInfo && (
               <div>
                 <WheelchairSection
