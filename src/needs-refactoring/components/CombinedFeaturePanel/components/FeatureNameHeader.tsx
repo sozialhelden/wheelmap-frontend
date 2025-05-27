@@ -1,4 +1,4 @@
-import { Box, Button } from "@radix-ui/themes";
+import { type BoxProps, Button, Flex } from "@radix-ui/themes";
 import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
@@ -14,6 +14,15 @@ import {
 } from "~/needs-refactoring/components/shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 
+const Container = styled(Flex)`
+    display: flex;
+    flex-direction: column;
+    order: 1;
+    @media (min-width: 576px) {
+        order: 2;
+    }
+`;
+
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
   height: 0.9rem;
@@ -25,12 +34,13 @@ const PlaceNameDetail = styled.div`
   }
 `;
 
-type Props = {
+type Props = BoxProps & {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
   onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: "small" | "medium" | "big";
+  iconSize?: "small" | "medium" | "big";
 };
 
 export default function FeatureNameHeader(props: Props) {
@@ -73,7 +83,7 @@ export default function FeatureNameHeader(props: Props) {
           ? category._id
           : categoryTagKeys[0]) || "undefined"
       }
-      size={props.size || "medium"}
+      size={props.iconSize || "medium"}
     />
   );
 
@@ -132,9 +142,9 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   return (
-    <Box onClick={onHeaderClicked}>
+    <Container onClick={onHeaderClicked} mb={props.mb || "0"}>
       {placeNameElement}
       {children}
-    </Box>
+    </Container>
   );
 }

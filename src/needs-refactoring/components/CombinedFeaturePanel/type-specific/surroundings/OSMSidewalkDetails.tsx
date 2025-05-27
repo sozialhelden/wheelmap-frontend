@@ -2,6 +2,7 @@ import { t } from "@transifex/native";
 import type { TypeTaggedOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "~/needs-refactoring/lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { OSMTagPanel } from "../../components/AccessibilitySection/OSMTagPanel";
+import { Heading } from "@radix-ui/themes";
 
 export default function OSMSidewalkDetails({
   feature,
@@ -15,7 +16,9 @@ export default function OSMSidewalkDetails({
 
   return (
     <section>
-      <h4>{t("Sidewalks & Surroundings")}</h4>
+      <Heading size="2" mb="0.25rem">
+        {t("Sidewalks and Surroundings")}
+      </Heading>
       <OSMTagPanel feature={feature} />
     </section>
   );

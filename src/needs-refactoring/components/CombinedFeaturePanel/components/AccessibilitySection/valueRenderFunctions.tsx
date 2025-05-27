@@ -1,6 +1,5 @@
 import { t } from "@transifex/native";
-import Color from "colorjs.io";
-// biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
+import Color from "colorjs.io"; // biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
 import React from "react";
 import type {
   TypeTaggedOSMFeature,
@@ -9,7 +8,6 @@ import type {
 import { classifyHSLColor } from "~/needs-refactoring/lib/util/classifyHSLColor";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import { useDarkMode } from "~/hooks/useDarkMode";
-import AddWheelchairDescription from "./AddWheelchairDescription";
 import DisplayedQuantity from "./DisplayedQuantity";
 import OpeningHoursValue from "./OpeningHoursValue";
 import { determineIfZerothLevelShouldBeSkipped } from "./determineIfZerothLevelShouldBeSkipped";
@@ -42,23 +40,27 @@ function BuildingLevel({
   const isUnderground = valueAsNumber < 0;
   if (isUnderground) {
     if (valueAsNumber === -1) {
-      return <>{t("Basement floor")}</>;
+      return <span>{t("Basement floor")}</span>;
     }
     const basementFloorNumber = -1 * valueAsNumber;
-    return <>{t("Basement {basementFloorNumber}", { basementFloorNumber })}</>;
+    return (
+      <span>
+        {t("Basement {basementFloorNumber}", { basementFloorNumber })}
+      </span>
+    );
   }
 
   const skipZerothLevel = determineIfZerothLevelShouldBeSkipped();
   const localGroundFloorLevelDesignation = skipZerothLevel ? 1 : 0;
   const isGroundFloor = valueAsNumber === localGroundFloorLevelDesignation;
   if (isGroundFloor) {
-    return <>{t("Ground floor")}</>;
+    return <span>{t("Ground floor")}</span>;
   }
   const displayedLevel = skipZerothLevel ? valueAsNumber + 1 : valueAsNumber;
 
   return (
     <span>
-      {defaultValueLabel} {displayedLevel}
+      {defaultValueLabel} ({displayedLevel})
     </span>
   );
 }
@@ -135,7 +137,6 @@ export const valueRenderFunctions: Record<
   (props: ValueRenderProps) => React.ReactNode
 > = {
   "^wheelchair$": ({ defaultValueLabel }) => <div>{defaultValueLabel}</div>,
-  "^addWheelchairDescription$": () => <AddWheelchairDescription />,
   "^(?:([\\w_]+):)?description(?::([\\w\\-]+))?$": ({ value, matches }) => {
     const text = value;
     const targetGroup = matches[1];

@@ -8,7 +8,7 @@ const SidebarWrapper = styled.aside<{
   $hasPadding: boolean;
 }>`
     position: fixed;
-    top: var(--topbar-height);
+    top: 0;
     left: ${({ $isExpanded }) => ($isExpanded ? "0" : "calc(var(--sidebar-width) * -1)")};
     width: var(--sidebar-width);
     z-index: 10;
@@ -17,8 +17,8 @@ const SidebarWrapper = styled.aside<{
     background: var(--color-panel);
     backdrop-filter: var(--backdrop-filter-panel);
     transition: left 400ms ease;
-    height: calc(100dvh - var(--topbar-height));
-    padding-top: ${({ $hasPadding }) => ($hasPadding ? "calc(var(--search-bar-height) + calc(var(--space-3) * 2))" : "0")};
+    height: 100dvh;
+    padding-top: ${({ $hasPadding }) => ($hasPadding ? "var(--topbar-height)" : "0")};
     box-shadow: ${({ $isExpanded }) => ($isExpanded ? "rgba(0,0,0,0.2) .25rem 0 .25rem" : "none")};
 `;
 const SidebarContainer = styled.div`

@@ -1,10 +1,10 @@
-import { type Locator, expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import {
   getButton,
   getDialog,
   getEditButton,
   setupPage,
-} from "~/domains/edit/tests/utils";
+} from "~/modules/edit/tests/utils";
 
 test.describe("Edit wheelchair accessibility", () => {
   let dialog: Locator;
@@ -19,9 +19,9 @@ test.describe("Edit wheelchair accessibility", () => {
     await expect(dialog).toBeVisible();
   });
 
-  test("dialog content is key board navigable", async () => {
-    //TODO
-  });
+  // test("dialog content is key board navigable", async () => {
+  //   //TODO
+  // });
 
   test("confirm button changes to send after input changes", async ({
     page,
@@ -39,16 +39,16 @@ test.describe("Edit wheelchair accessibility", () => {
     await expect(getButton(dialog, "Send")).toBeVisible();
   });
 
-  test("changes are made using the send button", async () => {
-    //TODO
-  });
+  // test("changes are made using the send button", async () => {
+  //   //TODO
+  // });
 
   test("dialog can be closed using the cancel button", async () => {
     await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
-  test("passes WCAG accessibility check", async ({ page }) => {
-    //TODO
-  });
+  // test("passes WCAG accessibility check", async ({ page }) => {
+  //   //TODO
+  // });
 });

@@ -40,6 +40,9 @@ const StyledMarkdown = styled(Markdown)`
   ol {
     margin: 1em 1.25em;
   }
+  strong {
+      font-weight: bold;
+  }
 `;
 
 export default StyledMarkdown;

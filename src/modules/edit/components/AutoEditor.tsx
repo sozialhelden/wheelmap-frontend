@@ -18,7 +18,6 @@ import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
@@ -150,9 +149,9 @@ export const AutoEditor = ({
   return (
     <StyledReportView>
       <FeatureNameHeader feature={feature}>
-        {feature["@type"] === "osm:Feature" && (
-          <FeatureImage feature={feature} />
-        )}
+        {/*{feature["@type"] === "osm:Feature" && (*/}
+        {/*  <FeatureImage feature={feature} />*/}
+        {/*)}*/}
       </FeatureNameHeader>
       <h2 className="_title">
         {t("No editor available for {tagKey}", { tagKey })}
