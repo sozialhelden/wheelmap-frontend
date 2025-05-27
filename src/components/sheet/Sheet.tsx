@@ -15,14 +15,22 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     pointer-events: none;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
 `;
-const SheetContent = styled.div`
-    pointer-events: all;
+const SheetContent = styled.div<{ $isSafari?: boolean }>`
+    pointer-events: auto;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     background: var(--color-panel);
     backdrop-filter: var(--backdrop-filter-panel);
     padding: 0 var(--space-3) var(--space-3) var(--space-3);
+    
+    overflow-x: ${({ $isSafari }) => ($isSafari ? "scroll" : "hidden")};
+    overscroll-behavior: none;
+`;
+const SheetSpacer = styled.div`
+  height: 1px;
+  margin: 0 calc(-1 * calc(var(--space-3) + 0.5px));
 `;
 const ScrollStop = styled.div`
     pointer-events: none;
@@ -88,6 +96,23 @@ export function Sheet({
   const container = useRef<HTMLDivElement>();
   const content = useRef<HTMLDivElement>();
 
+  // There's a bug on Safari where a scrolling container is not recognized as such
+  // when it's pointer-events are set to none. This means, that the whole container
+  // is not scrollable and thus the Sheet doesn't work. Also see this bugticket:
+  // https://bugs.webkit.org/show_bug.cgi?id=183870
+  //
+  // There's a workaround though. When a child is scrollable in the other dimension
+  // in this case horizontally, Safari recognizes the parent as a scrollable. This
+  // is why we added overflow-x: scroll to the content container and removed the
+  // overscroll-behavior to hide the fact that it is horizontally scrollable. In
+  // order to actually be scrollable, there's a space element that is exactly 1px
+  // wider than the content container, so it becomes a scrollable element.
+  // This breaks scrolling in all other brothers though, so we need to activate
+  // this behavior only for Safari. As Safari on Desktop doesn't experience this
+  // bug, we only apply this workaround for iOS devices.
+  const isSafari =
+    navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i);
+
   const { isExpanded, toggle } = useCollapsableSheet({
     container,
     content,
@@ -112,7 +137,8 @@ export function Sheet({
       {scrollStops.map((height, index) => (
         <ScrollStop key={index + height} style={{ height }} />
       ))}
-      <SheetContent ref={content as Ref<HTMLDivElement>}>
+      <SheetContent ref={content as Ref<HTMLDivElement>} $isSafari={isSafari}>
+        {isSafari && <SheetSpacer />}
         <SheetCollapsedControlArea>
           <DragHandle />
           <ExpandButton variant="ghost" size="2" onClick={toggle}>
