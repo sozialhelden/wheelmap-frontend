@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "A11yMap Dev Dark - 17:49:09 GMT+0200 (Central European Summer Time)",
+  "name": "A11yMap Dev Bright - 17:49:09 GMT+0200 (Central European Summer Time)",
   "metadata": {
     "mapbox:type": "default",
     "mapbox:origin": "streets-v11",
@@ -16,7 +16,7 @@
       "android": "not configured",
       "ios": "not configured"
     },
-    "mapbox:uiExpandedImports": []
+    "mapbox:uiExpandedImports": ["basemap"]
   },
   "center": [6.99613819186186, 49.2310271876685],
   "zoom": 17.612931080742396,
@@ -28,13 +28,13 @@
       "url": "mapbox://styles/mapbox/standard",
       "config": {
         "theme": "default",
-        "showPlaceLabels": false,
+        "showPlaceLabels": true,
         "showPointOfInterestLabels": false,
         "showTransitLabels": false,
         "showPedestrianRoads": true,
         "showRoadLabels": true,
         "show3dObjects": true,
-        "lightPreset": "night"
+        "showLandmarkIcons": false
       },
       "data": {
         "version": 8,
@@ -13580,7 +13580,7 @@
       "type": "vector"
     }
   },
-  "sprite": "mapbox://sprites/sozialhelden/cmazizqyl00cg01s6e33vg8mr/draft",
+  "sprite": "mapbox://sprites/sozialhelden/cmaziz94600cf01s6h0q21dbj/draft",
   "glyphs": "mapbox://fonts/sozialhelden/{fontstack}/{range}.pbf",
   "projection": {
     "name": "globe"
@@ -13874,7 +13874,6 @@
     },
     {
       "minzoom": 12,
-      "layout": {},
       "filter": [
         "all",
         ["!=", ["get", "type"], "boundary"],
@@ -13886,7 +13885,7 @@
       "source": "composite",
       "id": "osm-ac-dots",
       "paint": {
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 12.5, 0, 18, 1],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 17, 1],
         "circle-color": [
           "match",
           ["get", "wheelchair"],
@@ -13898,7 +13897,15 @@
           "#e54666",
           "#6e6e6e"
         ],
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 12.5, 0.5, 16, 3]
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12.5,
+          0.75,
+          16,
+          3
+        ]
       },
       "slot": "",
       "source-layer": "amenities_with_icons-816g39"
@@ -14738,9 +14745,9 @@
       "source-layer": "amenities_with_icons-816g39"
     }
   ],
-  "created": "2025-05-22T15:27:30.621Z",
-  "modified": "2025-05-22T15:51:15.831Z",
-  "id": "cmazizqyl00cg01s6e33vg8mr",
+  "created": "2025-05-22T15:27:07.494Z",
+  "modified": "2025-05-22T15:58:06.957Z",
+  "id": "cmaziz94600cf01s6h0q21dbj",
   "owner": "sozialhelden",
   "visibility": "private",
   "protected": false,
