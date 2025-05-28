@@ -6,6 +6,7 @@ import {
 
 export function getTopLevelCategoryList() {
   return Object.entries(getTopLevelCategories())
+    .filter(([, category]) => !category.hide)
     .map(([id, category]) => {
       return {
         ...category,

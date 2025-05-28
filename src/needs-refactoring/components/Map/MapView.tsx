@@ -20,7 +20,7 @@ import {
 
 import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "~/needs-refactoring/lib/model/geo/getFeatureIdsFromLocation";
 
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
@@ -46,6 +46,7 @@ mapboxgl.workerClass =
 interface IProps {
   width: number;
   height: number;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
 const MapboxExtraStyles = createGlobalStyle`
@@ -66,9 +67,15 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `;
 
-export default function MapView({ width, height, ...props }: IProps) {
+export default function MapView({
+  width,
+  height,
+  onLoadingChange,
+  ...props
+}: IProps) {
   const router = useAppStateAwareRouter();
   const featureIds = getFeatureIdsFromLocation(router.pathname);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { query } = router;
   const { setMapRef, initialViewport, onViewportUpdate, map, saveMapLocation } =
@@ -175,6 +182,7 @@ export default function MapView({ width, height, ...props }: IProps) {
 
     await loadIcons(mapInstance);
     setMapLoaded(true);
+    setIsLoading(false);
     window.map = mapInstance; // for debugging purposes
   }, []);
 
@@ -196,9 +204,18 @@ export default function MapView({ width, height, ...props }: IProps) {
   // In case the dark mode is toggled, we need to reset the loading state to prevent
   // the app from breaking.
   // biome-ignore lint/correctness/useExhaustiveDependencies:
-  // useEffect(() => {
-  //   setMapLoaded(false);
-  // }, [darkMode]);
+  useEffect(() => {
+    if (map) {
+      setIsLoading(true);
+      loadIcons(map).finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [darkMode]);
+
+  useEffect(() => {
+    onLoadingChange?.(isLoading);
+  }, [isLoading]);
 
   return (
     <>

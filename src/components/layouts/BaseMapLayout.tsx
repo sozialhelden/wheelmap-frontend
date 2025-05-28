@@ -21,6 +21,7 @@ import {
   SheetMountedContextProvider,
   useSheetMounted,
 } from "~/components/sheet/useSheetMounted";
+import { Spinner } from "@radix-ui/themes";
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -32,9 +33,32 @@ const Onboarding = dynamic(
 );
 
 const Main = styled.main<{ $enablePaddingForSheet: boolean }>`
+  position: relative;
   height: 100%;
   box-sizing: border-box;
   padding-bottom: ${({ $enablePaddingForSheet }) => ($enablePaddingForSheet ? "var(--sheet-height-collapsed)" : "0")}
+`;
+const SpinnerOverlay = styled.div`
+    inset: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    & > * {
+        position: relative;
+        z-index: 1;
+    }
+    
+    &:after {
+        position: absolute;
+        display: block;
+        content: "";
+        inset: 0;
+        background: var(--gray-a10);
+        filter: invert(1);
+        z-index: 0 !important;
+    }
 `;
 
 export default function BaseMapLayout({
@@ -64,6 +88,8 @@ export default function BaseMapLayout({
 
   useHotkeys(expertModeHotkeys);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
   const { isSheetMounted } = useSheetMounted();
 
@@ -76,7 +102,17 @@ export default function BaseMapLayout({
       <HeadMetaTags />
       <TopBar />
       <Main ref={containerRef} $enablePaddingForSheet={isSheetMounted}>
-        <LoadableMapView width={width} height={height} key="map" />
+        <LoadableMapView
+          width={width}
+          height={height}
+          onLoadingChange={setIsLoading}
+          key="map"
+        />
+        {isLoading && (
+          <SpinnerOverlay>
+            <Spinner size="3" />
+          </SpinnerOverlay>
+        )}
         <div style={{ zIndex: 2000 }}>{children}</div>
       </Main>
       <ToastContainer />
