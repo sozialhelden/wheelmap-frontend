@@ -3,7 +3,7 @@ import { Source } from "react-map-gl/mapbox";
 import { useOsmApiFilterQuery } from "~/modules/osm-api/hooks/useOsmApiFilterQuery";
 import { useOsmApiTileUrl } from "~/modules/osm-api/hooks/useOsmApiTileUrl";
 
-export const osmApiSources = [
+export const osmApiCollections = [
   "admin",
   "amenities",
   "buildings",
@@ -28,7 +28,7 @@ export const osmApiSources = [
 export const OsmApiSources = () => {
   const params = useOsmApiFilterQuery();
 
-  const sources = osmApiSources.map((collection) => {
+  const sources = osmApiCollections.map((collection) => {
     return {
       name: collection,
       tiles: [0, 1, 2, 3].map((tileNumber) => {

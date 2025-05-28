@@ -4,18 +4,18 @@ import { flushSync } from "react-dom";
 import type { MapIcon } from "~/modules/map/icons";
 import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 
-// When changing/adding to this function, make sure to also change
-// the getIconComponent function in ~/scripts/utils/mapbox-icons.tsx
-// which does the same but in a server context, so we can render icons
-// on the command line to use them in mapbox studio.
-// Also see: docs/contributing/05.map-styles.md
-export const getIconComponent = (icon: MapIcon): ReactNode => {
+export const getIconComponent = (
+  icon: MapIcon,
+  darkMode: boolean,
+): ReactNode => {
   if (icon.type === "default") {
-    return icon.component;
+    return darkMode && icon.componentDarkMode
+      ? icon.componentDarkMode
+      : icon.component;
   }
   if (icon.type === "category") {
     const { type, ...properties } = icon;
-    return <AccessibleIconMarker {...properties} />;
+    return <AccessibleIconMarker darkMode={darkMode} {...properties} />;
   }
   throw new Error(`Unknown icon type: ${(icon as MapIcon).type}`);
 };

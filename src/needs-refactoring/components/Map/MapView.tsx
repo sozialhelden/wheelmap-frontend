@@ -1,6 +1,8 @@
 import mapboxgl, {
+  type Map as MapBoxMap,
   type MapLayerMouseEvent,
   type MapLayerTouchEvent,
+  type MapStyleDataEvent,
 } from "mapbox-gl";
 import * as React from "react";
 import {
@@ -30,7 +32,7 @@ import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppState
 import { useDarkMode } from "~/hooks/useDarkMode";
 import { GeolocateButton } from "./GeolocateButton";
 import { MapLayers } from "../../../modules/map/components/MapLayers";
-import { OsmApiSources } from "~/modules/map/components/OsmApiSources";
+import { OsmApiSources } from "~/modules/map/components/OsmApiCollections";
 import { useMapViewInternals } from "./useMapInternals";
 import { uriFriendlyPosition } from "./utils";
 import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";
@@ -75,7 +77,7 @@ export default function MapView({
 }: IProps) {
   const router = useAppStateAwareRouter();
   const featureIds = getFeatureIdsFromLocation(router.pathname);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingIcons, setIsLoadingIcons] = useState(true);
 
   const { query } = router;
   const { setMapRef, initialViewport, onViewportUpdate, map, saveMapLocation } =
@@ -88,10 +90,6 @@ export default function MapView({
     onViewportUpdate(newViewport);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
-
-  useEffect(() => {
-    window.map = map;
-  }, []);
 
   // useApplyMapPadding();
 
@@ -171,51 +169,51 @@ export default function MapView({
     [router, updateViewportQuery, initialViewport.zoom],
   );
 
+  const darkMode = useDarkMode();
+
   const [mapLoaded, setMapLoaded] = useState(false);
-  const onLoadCallback = useCallback(async (e: MapEvent) => {
-    const mapInstance = e.target;
+  const onLoadCallback = useCallback(
+    async (e: MapEvent) => {
+      const mapInstance = e.target;
 
-    if (!mapInstance) {
-      log.warn("Expected a map instance but got nothing");
-      return;
-    }
+      if (!mapInstance) {
+        log.warn("Expected a map instance but got nothing");
+        return;
+      }
 
-    await loadIcons(mapInstance);
-    setMapLoaded(true);
-    setIsLoading(false);
-    window.map = mapInstance; // for debugging purposes
-  }, []);
+      await loadIcons(mapInstance, darkMode);
+      setMapLoaded(true);
+      setIsLoadingIcons(false);
+      window.map = mapInstance; // for debugging purposes
+    },
+    [darkMode],
+  );
 
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<string[]>([]);
 
   const { NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken } =
     useEnvironmentContext();
 
-  const darkMode = useDarkMode();
   const mapStyle = useMemo(() => getBaseStyle(darkMode), [darkMode]);
 
   const [cursor, setCursor] = useState<string>("auto");
   const onMouseEnter = React.useCallback(() => setCursor("pointer"), []);
   const onMouseLeave = React.useCallback(() => setCursor("auto"), []);
 
-  // When toggling dark mode aka the map style, the map itself will be reloaded.
-  // While in loading state, you cannot add sources or layers to the map, that's
-  // why they only get rendered after the map was loaded completely (mapLoaded = true).
-  // In case the dark mode is toggled, we need to reset the loading state to prevent
-  // the app from breaking.
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    if (map) {
-      setIsLoading(true);
-      loadIcons(map).finally(() => {
-        setIsLoading(false);
-      });
-    }
-  }, [darkMode]);
+    onLoadingChange?.(isLoadingIcons);
+  }, [isLoadingIcons]);
 
   useEffect(() => {
-    onLoadingChange?.(isLoading);
-  }, [isLoading]);
+    if (map && mapLoaded && !isLoadingIcons) {
+      setIsLoadingIcons(true);
+      setTimeout(() => {
+        loadIcons(map, darkMode).finally(() => {
+          setIsLoadingIcons(false);
+        });
+      }, 500);
+    }
+  }, [darkMode]);
 
   return (
     <>
