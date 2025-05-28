@@ -1,20 +1,19 @@
 import {
-  type Category,
+  getTopLevelCategories,
+  type CategoryBaseProperties,
   type CategoryProperties,
-  categories,
-} from "~/modules/categories/categories";
+} from "@sozialhelden/core";
 
-export type CategoryListItem = CategoryProperties & { id: Category };
-
-export function getCategoryList() {
-  return Object.entries(categories)
+export function getTopLevelCategoryList() {
+  return Object.entries(getTopLevelCategories())
+    .filter(([, category]) => !category.hide)
     .map(([id, category]) => {
       return {
         ...category,
         id,
       };
     })
-    .sort((a: CategoryProperties, b: CategoryProperties) => {
+    .sort((a: CategoryBaseProperties, b: CategoryBaseProperties) => {
       return (a.priority ?? 9999) - (b.priority ?? 9999);
-    }) as CategoryListItem[];
+    }) as CategoryProperties[];
 }

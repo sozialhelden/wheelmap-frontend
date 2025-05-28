@@ -3,7 +3,7 @@ import Link from "next/link";
 import useDocumentSWR from "~/needs-refactoring/lib/fetchers/ac/useDocumentSWR";
 import type ISource from "~/needs-refactoring/lib/model/ac/ISource";
 import type { TypeTaggedPlaceInfo } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import WorldIcon from "../../../../../components/icons/actions/World";
+import { Globe } from "lucide-react";
 
 type Props = {
   feature?: TypeTaggedPlaceInfo;
@@ -24,7 +24,7 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
       {infoPageUrl && sourceNameString && (
         <li>
           <Link href={infoPageUrl}>
-            <WorldIcon />
+            <Globe />
             {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
             <span>{t("Open on {sourceNameString}", { sourceNameString })}</span>
           </Link>
@@ -34,7 +34,7 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
       {editPageUrl && editPageUrl !== infoPageUrl && (
         <li>
           <Link href={editPageUrl}>
-            <WorldIcon />
+            <Globe />
             {/* translator: Button caption in the place toolbar. Navigates to a place's details on an external page. */}
             <span>
               {t("Add info on {sourceNameString}", { sourceNameString })}

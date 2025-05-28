@@ -1,7 +1,7 @@
 import { ScrollArea } from "@radix-ui/themes";
 import type { ReactNode } from "react";
 import styled from "styled-components";
-import { CaretLeftIcon, CaretRightIcon } from "@radix-ui/react-icons";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SidebarWrapper = styled.aside<{
   $isExpanded: boolean;
@@ -97,7 +97,7 @@ export function Sidebar({
   return (
     <SidebarWrapper $isExpanded={isExpanded} $hasPadding={hasPadding}>
       <SidebarToggleButton onClick={() => onIsExpandedChange(!isExpanded)}>
-        {isExpanded ? <CaretLeftIcon /> : <CaretRightIcon />}
+        {isExpanded ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
         {!isExpanded && (
           <>
             <SidebarToggleButtonHighlight

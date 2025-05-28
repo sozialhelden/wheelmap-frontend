@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import colors from "~/needs-refactoring/lib/util/colors";
 
 const StyledIconButtonList = styled.ul`
   display: flex;
@@ -29,23 +28,6 @@ const StyledIconButtonList = styled.ul`
       text-overflow: ellipsis;
       font-weight: 500;
       text-decoration: none;
-      color: var(--accent-12);
-    }
-
-    svg {
-      width: 1.5rem;
-      height: 1.5rem;
-      min-width: 1.5rem;
-
-      g,
-      rect,
-      circle,
-      path {
-        fill: var(--accent-12);
-      }
-    }
-
-    &:not(:hover) {
       color: var(--accent-12);
     }
   }

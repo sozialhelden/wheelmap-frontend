@@ -1,15 +1,15 @@
-import { type ReactNode, createContext, useContext, useMemo } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import {
   type Category,
-  type CategoryProperties,
-  categories,
-} from "~/modules/categories/categories";
+  type CategoryBaseProperties,
+  getCategories,
+} from "@sozialhelden/core";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
   category?: Category;
-  categoryProperties?: CategoryProperties;
+  categoryProperties?: CategoryBaseProperties;
   filter: (category: Category) => Promise<void>;
   reset: () => Promise<void>;
 };
@@ -26,7 +26,7 @@ export function CategoryFilterContextProvider({
   const router = useAppStateAwareRouter();
 
   const category = router.query.category as Category;
-  const categoryProperties = categories[category];
+  const categoryProperties = getCategories()[category];
   const isFilteringActive = Boolean(categoryProperties);
 
   const filter = async (category: Category) => {

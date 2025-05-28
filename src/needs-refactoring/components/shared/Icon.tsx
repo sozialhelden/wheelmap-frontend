@@ -2,9 +2,7 @@ import type * as React from "react";
 import styled from "styled-components";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { log } from "~/needs-refactoring/lib/util/logger";
-import * as categoryIcons from "~/components/icons/categories";
-import * as mainCategoryIcons from "~/components/icons/mainCategories";
-import * as markers from "~/components/icons/markers";
+import * as markers from "src/needs-refactoring/components/icons/markers";
 
 type Size = "big" | "medium" | "small";
 
@@ -124,7 +122,6 @@ export default function Icon({
   backgroundColor,
   foregroundColor,
   category,
-  isMainCategory,
   className,
   size,
   withArrow,
@@ -138,9 +135,7 @@ export default function Icon({
     iconName = "second_hand";
   }
 
-  const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
-  const CategoryIconComponent =
-    icons[iconName || "undefined"] || icons.undefined;
+  // const CategoryIconComponent == categories[]
   const MarkerComponent =
     markers[`${String(accessibility)}${withArrow ? "With" : "Without"}Arrow`];
 

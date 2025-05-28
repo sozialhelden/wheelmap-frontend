@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil } from "lucide-react";
 import { IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 
@@ -27,7 +27,7 @@ export function EditButton({
         onClick={handleEditClick}
         data-testid={tagKey}
       >
-        <Pencil1Icon width="18" height="18" />
+        <Pencil size={18} aria-hidden />
       </IconButton>
       {isDialogOpen && feature && (
         <AutoEditor

@@ -1,7 +1,6 @@
-import { CameraIcon } from "@radix-ui/react-icons";
+import { Camera } from "lucide-react";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { useRouter } from "next/router";
 import React, {
   createContext,
   type FC,
@@ -75,7 +74,6 @@ export const FeatureImageUpload: FC<{
     if (step > 1) setStep(step - 1);
   }, [step]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const handleOnClickAddImageButton: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
@@ -99,7 +97,6 @@ export const FeatureImageUpload: FC<{
     event.preventDefault();
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!isDialogOpen && step === 4) {
       setStep(1);
@@ -126,7 +123,6 @@ export const FeatureImageUpload: FC<{
   // nested-routes like image upload or fullscreen image there, without re-rendering
   // the whole FeaturePanel.
   // TODO: replace with catch-all route
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!isDialogOpen && window.location.pathname !== baseFeatureUrl) {
       window.history.replaceState(null, document.title, baseFeatureUrl);
@@ -134,7 +130,6 @@ export const FeatureImageUpload: FC<{
   }, [isDialogOpen]);
 
   // Set the url when opening the dialog
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (isDialogOpen && window.location.pathname !== baseUploadUrl) {
       window.history.replaceState(null, document.title, baseUploadUrl);
@@ -151,7 +146,7 @@ export const FeatureImageUpload: FC<{
                 href={baseUploadUrl}
                 onClick={handleOnClickAddImageButton}
               >
-                <CameraIcon /> {t("Add new image")}
+                <Camera size={18} aria-hidden /> {t("Add new image")}
               </AppStateLink>
             </Button>
           </Dialog.Trigger>

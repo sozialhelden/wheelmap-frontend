@@ -1,18 +1,11 @@
 import { t } from "@transifex/native";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import {
-  Badge,
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Text,
-} from "@radix-ui/themes";
+import { ChevronRight } from "lucide-react";
+import { Badge, Button, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import styled from "styled-components";
 import useCollectionSWR from "~/needs-refactoring/lib/fetchers/ac/useCollectionSWR";
 import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import { mappingEvent as MappingEventMarkerIcon } from "~/components/icons/markers";
+import { mappingEvent as MappingEventMarkerIcon } from "src/needs-refactoring/components/icons/markers";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 
@@ -96,7 +89,7 @@ export default function MappingEventListPanel() {
         <Button size="3" asChild variant="ghost">
           <a href={mapathonExplanationLinkURL}>
             {mapathonExplanationLinkCaption}
-            <ChevronRightIcon />
+            <ChevronRight />
           </a>
         </Button>
       </Flex>

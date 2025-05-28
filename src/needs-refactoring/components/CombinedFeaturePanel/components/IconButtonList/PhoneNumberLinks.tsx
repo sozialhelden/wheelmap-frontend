@@ -2,7 +2,7 @@ import { t } from "@transifex/native";
 import { uniq } from "lodash";
 import Link from "next/link";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import PhoneIcon from "../../../../../components/icons/actions/Phone";
+import { Phone } from "lucide-react";
 
 type Props = {
   feature: AnyFeature;
@@ -18,7 +18,7 @@ function SinglePhoneNumberLink({
   return (
     <li>
       <Link href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}>
-        <PhoneIcon />
+        <Phone />
         <span>
           {t("Call {phoneNumber}", { phoneNumber })}
           {extraInfo && ` (${extraInfo})`}

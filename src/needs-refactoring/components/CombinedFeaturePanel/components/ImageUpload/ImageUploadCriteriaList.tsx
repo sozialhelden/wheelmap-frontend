@@ -1,4 +1,4 @@
-import { CheckIcon, ExternalLinkIcon } from "@radix-ui/react-icons";
+import { Check, ExternalLink } from "lucide-react";
 import { Box, Card, Flex, Grid, Text, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, useContext } from "react";
@@ -18,8 +18,7 @@ const CriteriaListItem = styled.li`
   img { max-width: 100%; }
 `;
 
-const CriteriaListIcon = styled(CheckIcon)`
-  fill: var(--success-a10);
+const CriteriaListIcon = styled(Check)`
   stroke: var(--success-a10);
   width: 1.5rem;
   height: 1.5rem;
@@ -118,7 +117,7 @@ export const ImageUploadCriteriaList: FC = () => {
                   >
                     {t("CC0 1.0 Universal license")}
                   </a>
-                  <ExternalLinkIcon aria-hidden />
+                  <ExternalLink size={18} aria-hidden />
                 </Flex>
                 <VisuallyHidden id="image-upload-license-link-description">
                   {t("This link opens in a new window.")}
