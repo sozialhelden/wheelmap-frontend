@@ -6,6 +6,8 @@ export default function AccessibleIconMarkerBase(
     accessibilityGrade: string;
     backgroundColor: string;
     foregroundColor: string;
+    shadowColor: string;
+    haloColor: string;
     hasShadow: boolean;
     hasHalo: boolean;
     category: Category;
@@ -15,6 +17,8 @@ export default function AccessibleIconMarkerBase(
     accessibilityGrade,
     backgroundColor,
     foregroundColor,
+    shadowColor,
+    haloColor,
     hasShadow,
     hasHalo,
     category,
@@ -90,7 +94,7 @@ export default function AccessibleIconMarkerBase(
             dx={0}
             dy={0}
             stdDeviation={0.5}
-            floodColor="black"
+            floodColor={shadowColor}
             floodOpacity={0.9}
           />
         </filter>
@@ -99,7 +103,7 @@ export default function AccessibleIconMarkerBase(
             dx={0}
             dy={0}
             stdDeviation={2}
-            floodColor="white"
+            floodColor={haloColor}
             floodOpacity={1}
           />
         </filter>

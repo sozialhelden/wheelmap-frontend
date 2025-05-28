@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "A11yMap Dev Bright - 17:49:09 GMT+0200 (Central European Summer Time)",
+  "name": "A11yMap Dev Dark - 18:06:21 GMT+0200 (Central European Summer Time)",
   "metadata": {
     "mapbox:type": "default",
     "mapbox:origin": "streets-v11",
@@ -27,14 +27,15 @@
       "id": "basemap",
       "url": "mapbox://styles/mapbox/standard",
       "config": {
-        "theme": "default",
+        "showLandmarkIcons": false,
+        "show3dObjects": true,
         "showPlaceLabels": true,
+        "theme": "default",
         "showPointOfInterestLabels": false,
+        "lightPreset": "night",
         "showTransitLabels": false,
         "showPedestrianRoads": true,
-        "showRoadLabels": true,
-        "show3dObjects": true,
-        "showLandmarkIcons": false
+        "showRoadLabels": true
       },
       "data": {
         "version": 8,
@@ -13580,7 +13581,7 @@
       "type": "vector"
     }
   },
-  "sprite": "mapbox://sprites/sozialhelden/cmaziz94600cf01s6h0q21dbj/draft",
+  "sprite": "mapbox://sprites/sozialhelden/cmazizqyl00cg01s6e33vg8mr/draft",
   "glyphs": "mapbox://fonts/sozialhelden/{fontstack}/{range}.pbf",
   "projection": {
     "name": "globe"
@@ -13885,12 +13886,22 @@
       "source": "composite",
       "id": "osm-ac-dots",
       "paint": {
-        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 17, 1],
+        "circle-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          0,
+          15,
+          0.8,
+          17,
+          1
+        ],
         "circle-color": [
           "match",
           ["get", "wheelchair"],
           ["yes", "designated"],
-          "#46a758",
+          "#30a46c",
           ["limited", "limited;yes"],
           "#f76b15",
           ["no"],
@@ -13905,7 +13916,9 @@
           0.75,
           16,
           3
-        ]
+        ],
+        "circle-stroke-color": "#ffffff",
+        "circle-emissive-strength": 1
       },
       "slot": "",
       "source-layer": "amenities_with_icons-816g39"
@@ -13948,8 +13961,8 @@
       "paint": {
         "text-opacity": ["step", ["zoom"], 0, 21, 1],
         "text-halo-width": 1.5,
-        "text-halo-color": "hsl(30, 30%, 96%)",
-        "text-color": "#1d3e56"
+        "text-halo-color": "#060504",
+        "text-color": "#9eb1ff"
       },
       "slot": "",
       "source-layer": "entrances_or_exits_saarbrueck-0vxz2q"
@@ -14040,8 +14053,8 @@
       "source": "composite",
       "id": "osm-ac-marker-unknown",
       "paint": {
-        "text-halo-color": "hsl(29, 28%, 96%)",
-        "text-color": "hsl(35, 20%, 24%)",
+        "text-halo-color": "hsl(30, 24%, 3%)",
+        "text-color": "#b4b4b4",
         "text-halo-width": 1
       },
       "source-layer": "amenities_with_icons-816g39"
@@ -14083,9 +14096,9 @@
       "source": "composite",
       "id": "osm-ac-marker-bad",
       "paint": {
-        "text-halo-color": "hsl(29, 28%, 96%)",
+        "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
-        "text-color": "#9e0000"
+        "text-color": "#ff949d"
       },
       "source-layer": "amenities_with_icons-816g39"
     },
@@ -14124,9 +14137,9 @@
       "source": "composite",
       "id": "osm-ac-marker-mediocre",
       "paint": {
-        "text-halo-color": "#f8f5f2",
+        "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
-        "text-color": "#854000"
+        "text-color": "#ffa057"
       },
       "source-layer": "amenities_with_icons-816g39"
     },
@@ -14165,9 +14178,9 @@
       "source": "composite",
       "id": "osm-ac-marker-good",
       "paint": {
-        "text-halo-color": "#f8f5f2",
+        "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
-        "text-color": "hsl(170, 100%, 20%)"
+        "text-color": "#71d083"
       },
       "source-layer": "amenities_with_icons-816g39"
     },
@@ -14220,18 +14233,18 @@
       "source": "composite",
       "id": "osm-marker-prioritized",
       "paint": {
-        "text-halo-color": "#f8f5f2",
+        "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
         "text-color": [
           "match",
           ["get", "wheelchair"],
           ["yes"],
-          "hsl(170, 100%, 20%)",
+          "#71d083",
           ["limited"],
-          "#854000",
+          "#ffa057",
           ["no"],
-          "#9e0000",
-          "#493f31"
+          "#ff9592",
+          "#b4b4b4"
         ],
         "text-opacity": [
           "step",
@@ -14745,9 +14758,9 @@
       "source-layer": "amenities_with_icons-816g39"
     }
   ],
-  "created": "2025-05-22T15:27:07.494Z",
-  "modified": "2025-05-22T15:58:06.957Z",
-  "id": "cmaziz94600cf01s6h0q21dbj",
+  "created": "2025-05-22T15:27:30.621Z",
+  "modified": "2025-05-28T17:45:49.429Z",
+  "id": "cmazizqyl00cg01s6e33vg8mr",
   "owner": "sozialhelden",
   "visibility": "private",
   "protected": false,

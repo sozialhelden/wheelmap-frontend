@@ -13,6 +13,7 @@ import {
 } from "~/needs-refactoring/components/shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
+import { useDarkMode } from "~/hooks/useDarkMode";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -35,7 +36,9 @@ type Props = BoxProps & {
 };
 
 export default function FeatureNameHeader(props: Props) {
-  const {
+    const darkMode = useDarkMode();
+
+    const {
     feature,
     children,
     onClickCurrentMarkerIcon,
@@ -83,6 +86,7 @@ export default function FeatureNameHeader(props: Props) {
       width="2.5rem"
       height="2.5rem"
       shadow={false}
+      darkMode={darkMode}
     />
   );
 
