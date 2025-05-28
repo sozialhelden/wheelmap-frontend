@@ -105,11 +105,13 @@ export function Sheet({
   // in this case horizontally, Safari recognizes the parent as a scrollable. This
   // is why we added overflow-x: scroll to the content container and removed the
   // overscroll-behavior to hide the fact that it is horizontally scrollable. In
-  // order to actually be scrollable, there's a space element that is exactly 1px
+  // order to actually be scrollable, there's a spacer element that is exactly 1px
   // wider than the content container, so it becomes a scrollable element.
-  // This breaks scrolling in all other brothers though, so we need to activate
+  // This breaks scrolling in all other Browsers though, so we need to activate
   // this behavior only for Safari. As Safari on Desktop doesn't experience this
-  // bug, we only apply this workaround for iOS devices.
+  // bug, we only apply this workaround for iOS devices. As other Browsers on iOS
+  // devices also use the Safari/Webkit engine behind the scenes, this should fix
+  // it for them as well.
   const isSafari =
     navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i);
 
