@@ -1,4 +1,6 @@
-import { renderIcons } from "./mapbox-icons";
+import { index } from "../../src/modules/map/icons";
+import { renderToString } from "react-dom/server";
+import { getIconComponent } from "../../src/modules/map/utils/mapbox-icon-renderer";
 
 export const accessToken = process.env.MAPBOX_DEVELOPMENT_ACCESS_TOKEN;
 export const account = process.env.NEXT_PUBLIC_MAPBOX_ACCOUNT_ID;
@@ -88,6 +90,13 @@ export async function deleteStyle(id: string) {
       method: "DELETE",
     },
   );
+}
+
+function renderIcons(darkMode: boolean) {
+  return Object.entries(index).map(([identifier, icon]) => ({
+    html: renderToString(getIconComponent(icon, darkMode)),
+    identifier,
+  }));
 }
 
 export async function uploadIcons(styleId: string, darkMode: boolean) {

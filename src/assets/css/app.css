@@ -105,8 +105,8 @@ body,
   --danger-a11: var(--red-a11);
 
   /*
-    Rating/traffic-light-scheme colors. Make sure to adapt the AccessibleIconMarkerServer
-    component as well when changing these colors.
+    Rating/traffic-light-scheme colors.
+    Make sure to adapt the AccessibleIconMarker component as well when changing these colors.
   */
   --rating-good: var(--grass-9);
   --rating-mediocre: var(--orange-9);

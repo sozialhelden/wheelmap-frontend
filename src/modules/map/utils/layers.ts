@@ -1,5 +1,5 @@
 import type { LayerSpecification } from "mapbox-gl";
-import { osmApiSources } from "~/modules/map/components/OsmApiSources";
+import { osmApiCollections } from "~/modules/map/components/OsmApiCollections";
 import { getLanguage } from "~/modules/i18n/utils/language-tags";
 import { fallbackLanguageTag, type LanguageTag } from "~/modules/i18n/i18n";
 
@@ -84,7 +84,7 @@ export function setLayerSource(
       return acc;
     }
 
-    const source = osmApiSources.find((source) =>
+    const source = osmApiCollections.find((source) =>
       layer["source-layer"]?.startsWith(source),
     );
 

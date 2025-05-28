@@ -3,10 +3,9 @@ import { index } from "~/modules/map/icons";
 import {
   getIconComponent,
   renderSvgAsDataUri,
-} from "~/modules/map/utils/svg-renderer";
+} from "~/modules/map/utils/mapbox-icon-renderer";
 import type { ReactNode } from "react";
 
-const imageCache = new Map<string, HTMLImageElement>();
 const renderCache = new Map<string, string>();
 
 export function addImageToMapboxMap({
@@ -24,22 +23,14 @@ export function addImageToMapboxMap({
 }): void {
   const addImageToMap = (image: HTMLImageElement) => {
     if (map.hasImage(identifier)) {
-      return;
+      map.removeImage(identifier);
     }
     map.addImage(identifier, image, { pixelRatio: 4 });
   };
 
-  const imageFromCache = imageCache.get(identifier);
-
-  if (imageFromCache) {
-    addImageToMap(imageFromCache);
-    return;
-  }
-
   const image = new Image(width * 4, height * 4);
 
   image.onload = () => {
-    imageCache.set(identifier, image);
     addImageToMap(image);
   };
 
@@ -62,18 +53,21 @@ export function addSvgIconToMapboxMap({
   icon,
   height,
   width = 25,
+  darkMode,
 }: {
   map: MapboxMap;
   identifier: string;
   icon: ReactNode;
+  darkMode: boolean;
   width?: number;
   height?: number;
 }): void {
-  let dataUri = renderCache.get(identifier);
+  const cacheKey = `${identifier}-${darkMode ? "dark" : "light"}`;
+  let dataUri = renderCache.get(cacheKey);
 
   try {
     dataUri = dataUri || renderSvgAsDataUri(icon);
-    renderCache.set(identifier, dataUri);
+    renderCache.set(cacheKey, dataUri);
   } catch (error) {
     console.error(`Could not add svg icon ${identifier} to mapbox map:`, error);
     return;
@@ -88,14 +82,18 @@ export function addSvgIconToMapboxMap({
   });
 }
 
-export async function loadIcons(map: MapBoxMap): Promise<void> {
+export async function loadIcons(
+  map: MapBoxMap,
+  darkMode: boolean,
+): Promise<void> {
   const tasks: Array<() => void> = Object.entries(index).map(
     ([identifier, icon]) =>
       () =>
         addSvgIconToMapboxMap({
           map,
           identifier,
-          icon: getIconComponent(icon),
+          darkMode,
+          icon: getIconComponent(icon, darkMode),
         }),
   );
 

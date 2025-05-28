@@ -6,8 +6,7 @@ import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapO
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
-
-import { findCategoryBySynonym } from "~/modules/categories/utils/synonyms";
+import { findCategoryBySynonym } from "@sozialhelden/core";
 
 type Props = {
   result: SearchResultType;
