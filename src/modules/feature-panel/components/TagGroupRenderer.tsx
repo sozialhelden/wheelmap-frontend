@@ -10,13 +10,9 @@ interface Props extends React.ComponentProps<typeof Badge> {
 }
 
 const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
-  const hasChildren = Object.prototype.hasOwnProperty.call(
-    tagOrTagGroup,
-    "children",
-  );
   return (
-    <Flex direction="row" wrap="wrap" gapX="1" gapY="2">
-      {hasChildren ? (
+    <Flex direction="row" gap="0.4rem" wrap="wrap" style={{ rowGap: ".75rem" }}>
+      {(tagOrTagGroup.children ?? false) ? (
         tagOrTagGroup.children.map((child) => (
           <TagGroupRenderer key={child.key} tagOrTagGroup={child} />
         ))
