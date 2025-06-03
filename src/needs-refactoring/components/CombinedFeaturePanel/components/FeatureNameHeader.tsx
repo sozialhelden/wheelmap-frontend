@@ -43,8 +43,15 @@ type Props = BoxProps & {
 };
 
 export default function FeatureNameHeader(props: Props) {
-  const { feature, children, onClickCurrentMarkerIcon, onHeaderClicked } =
-    props;
+  const {
+    feature,
+    children,
+    onClickCurrentMarkerIcon,
+    onHeaderClicked,
+    size,
+    iconSize,
+    ...boxProps
+  } = props;
 
   const handleMarkerClick = React.useCallback(() => {
     if (feature && onClickCurrentMarkerIcon) {
@@ -82,7 +89,7 @@ export default function FeatureNameHeader(props: Props) {
           ? category._id
           : categoryTagKeys[0]) || "undefined"
       }
-      size={props.iconSize || "medium"}
+      size={iconSize || "medium"}
     />
   );
 
@@ -110,9 +117,8 @@ export default function FeatureNameHeader(props: Props) {
     ]),
   );
 
-  const HeaderElement = props.size === "small" ? PlaceNameH2 : PlaceNameH1;
-  const detailFontSize =
-    props.size === "small" || lastNameElement ? "0.9em" : "1em";
+  const HeaderElement = size === "small" ? PlaceNameH2 : PlaceNameH1;
+  const detailFontSize = size === "small" || lastNameElement ? "0.9em" : "1em";
   const categoryElement = categoryName &&
     !lastNameElement
       ?.toLocaleLowerCase()
@@ -141,7 +147,7 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   return (
-    <Container onClick={onHeaderClicked} mb={props.mb || "0"}>
+    <Container onClick={onHeaderClicked} {...boxProps}>
       {placeNameElement}
       {children}
     </Container>
