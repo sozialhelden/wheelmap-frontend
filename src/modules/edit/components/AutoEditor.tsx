@@ -148,11 +148,7 @@ export const AutoEditor = ({
 
   return (
     <StyledReportView>
-      <FeatureNameHeader feature={feature}>
-        {/*{feature["@type"] === "osm:Feature" && (*/}
-        {/*  <FeatureImage feature={feature} />*/}
-        {/*)}*/}
-      </FeatureNameHeader>
+      <FeatureNameHeader feature={feature} />
       <h2 className="_title">
         {t("No editor available for {tagKey}", { tagKey })}
       </h2>

@@ -16,7 +16,7 @@ export default function OSMSidewalkDetails({
 
   return (
     <section>
-      <Heading size="2" mb="0.25rem">
+      <Heading size="2" mb="1">
         {t("Sidewalks and Surroundings")}
       </Heading>
       <OSMTagPanel feature={feature} />

@@ -15,7 +15,12 @@ const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
     "children",
   );
   return (
-    <Flex direction="row" gap="0.4rem" wrap="wrap" style={{ rowGap: ".75rem" }}>
+    <Flex
+      direction="row"
+      gap="var(--space-2)"
+      wrap="wrap"
+      style={{ rowGap: "var(--space-2)" }}
+    >
       {hasChildren ? (
         tagOrTagGroup.children.map((child) => (
           <TagGroupRenderer key={child.key} tagOrTagGroup={child} />
@@ -25,12 +30,12 @@ const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
           {/* if there is a suitable value render function, render it*/}
           {typeof tagOrTagGroup.tagProps?.valueElement === "object" &&
           tagOrTagGroup.tagProps?.valueElement !== null ? (
-            <StyledTag size="4" radius="full" highContrast>
+            <StyledTag>
               {React.cloneElement(tagOrTagGroup.tagProps.valueElement)}
             </StyledTag>
           ) : (
             // otherwise render the plain value label inside a tag
-            <StyledTag size="4" radius="full" highContrast>
+            <StyledTag>
               <StyledMarkdown inline>
                 {getValueLabel(tagOrTagGroup)}
               </StyledMarkdown>

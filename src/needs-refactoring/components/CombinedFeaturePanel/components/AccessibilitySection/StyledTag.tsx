@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledTag = styled.div`
   border-radius: 1rem;
-  font-size: 0.9em;
+  font-size: 0.9rem;
 
   display: flex;
   flex-direction: row;
@@ -10,7 +10,7 @@ const StyledTag = styled.div`
   overflow: hidden;
 
   > * {
-    padding: 0.25rem 0.6666rem;
+    padding: var(--space-1) 0.6666rem;
   }
 
   background-color: var(--gray-3) !important;

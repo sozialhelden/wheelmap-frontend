@@ -40,11 +40,7 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
-          <FeatureNameHeader feature={feature}>
-            {/*{feature["@type"] === "osm:Feature" && (*/}
-            {/*  <FeatureImage feature={feature} />*/}
-            {/*)}*/}
-          </FeatureNameHeader>
+          <FeatureNameHeader feature={feature} />
 
           <Dialog.Description id="dialog-description" size="3">
             {t("Is this toilet wheelchair accessible?")}

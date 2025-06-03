@@ -16,9 +16,7 @@ export default function OSMBuildingDetails({
 
   return (
     <>
-      {/*<Link href={`/amenities/${feature._id?.replace("/", ":")}`} asChild>*/}
       <FeatureNameHeader feature={feature} size="small" iconSize="medium" />
-      {/*</Link>*/}
     </>
   );
 }

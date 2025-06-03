@@ -2,14 +2,14 @@ import { hasAccessibleToilet } from "~/needs-refactoring/lib/model/ac/Feature";
 import { useNearbyFeatures } from "~/needs-refactoring/lib/fetchers/osm-api/fetchNearbyFeatures";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
-export type NextToilet = {
+export type NextAccessibleToilet = {
   properties: {
     _id: string | number;
     distance: string | number;
   };
 };
 
-export function useNextToilet(feature: AnyFeature) {
+export function useNextAccessibleToilet(feature: AnyFeature) {
   const shouldShowNextToilets = hasAccessibleToilet(feature) !== "yes";
   const {
     response: { isLoading },
@@ -17,7 +17,8 @@ export function useNextToilet(feature: AnyFeature) {
   } = useNearbyFeatures(shouldShowNextToilets && feature, {
     wheelchair: "yes",
   });
-  const nextToilet: NextToilet | undefined = nearbyFeatures?.[0];
+  const nextAccessibleToilet: NextAccessibleToilet | undefined =
+    nearbyFeatures?.[0];
 
-  return { nextToilet, isLoadingNextToilet: isLoading };
+  return { nextAccessibleToilet, isLoadingNextToilet: isLoading };
 }

@@ -33,7 +33,7 @@ export function SurroundingsSection({ feature }: { feature: AnyFeature }) {
 const PartOf = ({ surroundings }: Props) => {
   return (
     <>
-      <Heading size="2" mb="0.25rem">
+      <Heading size="2" mb="1">
         {t("Part of")}
       </Heading>
       {surroundings?.map((feature) => (
