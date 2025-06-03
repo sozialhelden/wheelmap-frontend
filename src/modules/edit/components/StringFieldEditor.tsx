@@ -113,11 +113,7 @@ export const StringFieldEditor: React.FC<BaseEditorProps> = ({
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content data-testid={`dialog_${tagKey}`}>
         <Flex direction="column" gap="3">
-          <FeatureNameHeader feature={feature}>
-            {/*{feature["@type"] === "osm:Feature" && (*/}
-            {/*  <FeatureImage feature={feature} />*/}
-            {/*)}*/}
-          </FeatureNameHeader>
+          <FeatureNameHeader feature={feature} />
           <VisuallyHidden asChild>
             <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
           </VisuallyHidden>

@@ -9,7 +9,7 @@ import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDesc
 
 import { t } from "@transifex/native";
 
-type Props = React.HTMLProps<HTMLDivElement> & {
+type Props = {
   tags: TagOrTagGroup;
 };
 
@@ -43,18 +43,16 @@ const WheelchairSection = ({ tags }: Props) => {
       </Grid>
 
       {wheelchairDescription ? (
-        <Grid columns="auto min-content" mb="3" gap="1rem">
+        <Grid columns="auto min-content" mb="3" gap="var(--space-3)">
           <Box>
-            {" "}
             <Text size="3">{wheelchairDescription.value}</Text>
           </Box>
           <Box>
-            {" "}
             <EditDropdownMenu tagKey={wheelchairDescription.key} />
           </Box>
         </Grid>
       ) : (
-        <Flex direction="row" gap="8">
+        <Flex direction="row">
           <AddDescriptionButton tagKey="wheelchair:description">
             {t("Add a description")}
           </AddDescriptionButton>

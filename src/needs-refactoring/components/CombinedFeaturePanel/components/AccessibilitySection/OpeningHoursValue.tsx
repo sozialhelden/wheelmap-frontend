@@ -10,9 +10,8 @@ import {
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { log } from "~/needs-refactoring/lib/util/logger";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import FeatureContext from "../FeatureContext"; // helper function
+import FeatureContext from "../FeatureContext";
 
-// helper function
 function getReadableState(oh: opening_hours) {
   const outputs: string[] = [];
   const comment = oh.getComment();
@@ -154,11 +153,11 @@ export default function OpeningHoursValue(props: {
   const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />);
 
   if (!outputs.length) {
-    return <div style={{ padding: "0.3rem" }}>{shownElements}</div>;
+    return <div style={{ padding: "var(--space-1)" }}>{shownElements}</div>;
   }
 
   return (
-    <div style={{ padding: "0.3rem" }}>
+    <div style={{ padding: "var(--space-1)" }}>
       <strong>
         <StyledMarkdown inline element="span">
           {outputs[0]}
@@ -178,7 +177,9 @@ export default function OpeningHoursValue(props: {
           {t("See website")}.
         </a>
       )}
-      <div style={{ marginTop: "0.5rem", opacity: 0.8 }}>{shownElements}</div>
+      <div style={{ marginTop: "var(--space-2)", opacity: 0.8 }}>
+        {shownElements}
+      </div>
     </div>
   );
 }

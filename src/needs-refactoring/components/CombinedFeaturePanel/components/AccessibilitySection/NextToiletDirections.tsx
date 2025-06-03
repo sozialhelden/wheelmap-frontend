@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useFormatDistance } from "~/needs-refactoring/lib/util/strings/useFormatDistance";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { PlaceholderSpan } from "~/needs-refactoring/components/shared/Placeholder";
-import type { NextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
+import type { NextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
 
 interface Props {
-  nextToilet?: NextToilet;
+  nextToilet?: NextAccessibleToilet;
   isLoading?: boolean;
 }
 

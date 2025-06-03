@@ -8,12 +8,12 @@ import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { t } from "@transifex/native";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
-import type { NextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
+import type { NextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import { getValueLabel } from "~/modules/feature-panel/utils/getValueLabel";
 
 type Props = {
-  nextToilet?: NextToilet;
+  nextToilet?: NextAccessibleToilet;
   isLoading?: boolean;
   tags?: TagOrTagGroup;
 };
@@ -59,19 +59,19 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
       )}
       <Flex
         direction="row"
-        gap="0.4rem"
+        gap="var(--space-2)"
         wrap="wrap"
-        style={{ rowGap: ".75rem" }}
+        style={{ rowGap: "var(--space-2)" }}
       >
         {otherTags?.map((child) =>
           typeof child.tagProps?.valueElement === "object" &&
           child.tagProps?.valueElement !== null ? (
-            <StyledTag size="4" radius="full" highContrast key={child.key}>
+            <StyledTag key={child.key}>
               {React.cloneElement(child.tagProps.valueElement)}
             </StyledTag>
           ) : (
             // otherwise render the plain value label inside a tag
-            <StyledTag size="4" radius="full" highContrast key={child.key}>
+            <StyledTag key={child.key}>
               <StyledMarkdown inline>{getValueLabel(child)}</StyledMarkdown>
             </StyledTag>
           ),
@@ -80,7 +80,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
 
       {wheelchairInfo &&
         (description ? (
-          <Grid columns="auto min-content" mb="3" gap="1rem">
+          <Grid columns="auto min-content" mb="3" gap="var(--space-2)">
             <Box>
               <Text>{description.value}</Text>
             </Box>
