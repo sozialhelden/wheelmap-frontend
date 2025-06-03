@@ -1,4 +1,3 @@
-import type { BackgroundLayout } from "mapbox-gl";
 import type { FC } from "react";
 import { Layer, type LayerProps } from "react-map-gl/mapbox";
 import { filterForLayer, useMapFilterContext } from "./filter";
@@ -23,11 +22,12 @@ export const MapLayer: FC<LayerProps & { asFilterLayer?: boolean }> = ({
       ...(props.filter?.[0] === "all" ? props.filter.slice(1) : [props.filter]),
     ].filter(Boolean);
 
-    const layout: BackgroundLayout = { ...props.layout, visibility: "visible" };
+    const data = {
+      ...props,
+      layout: { ...props.layout, visibility: "visible" },
+    };
 
-    return (
-      <Layer {...props} filter={combinedFilters} minzoom={0} layout={layout} />
-    );
+    return <Layer {...data} filter={combinedFilters} />;
   }
 
   return <Layer {...props} />;

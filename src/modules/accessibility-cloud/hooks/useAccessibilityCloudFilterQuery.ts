@@ -1,8 +1,8 @@
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
+import type { NestedRecord } from "~/utils/search-params";
 
-export function useAccessibilityCloudFilterQuery(): Record<
-  string,
+export function useAccessibilityCloudFilterQuery(): NestedRecord<
   string | undefined
 > {
   return {

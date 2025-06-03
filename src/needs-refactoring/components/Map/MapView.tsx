@@ -27,16 +27,18 @@ import getFeatureIdsFromLocation from "~/needs-refactoring/lib/model/geo/getFeat
 
 import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
 
+import { useDarkMode } from "~/hooks/useDarkMode";
+import { OsmApiSources } from "~/modules/map/components/OsmApiSources";
+import { getBaseStyle } from "~/modules/map/utils/map-styles";
+import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";
+import { AcPoiLayers } from "~/needs-refactoring/components/Map/AcPoiLayers";
+import { useApplyMapPadding } from "~/needs-refactoring/components/Map/useApplyMapPadding";
 import { log } from "~/needs-refactoring/lib/util/logger";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import { useDarkMode } from "~/hooks/useDarkMode";
-import { GeolocateButton } from "./GeolocateButton";
 import { MapLayers } from "../../../modules/map/components/MapLayers";
-import { OsmApiSources } from "~/modules/map/components/OsmApiCollections";
+import { GeolocateButton } from "./GeolocateButton";
 import { useMapViewInternals } from "./useMapInternals";
 import { uriFriendlyPosition } from "./utils";
-import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";
-import { getBaseStyle } from "~/modules/map/utils/map-styles";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -91,7 +93,7 @@ export default function MapView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
 
-  // useApplyMapPadding();
+  useApplyMapPadding();
 
   const updateViewportQuery = useCallback(
     ({
@@ -207,11 +209,12 @@ export default function MapView({
   useEffect(() => {
     if (map && mapLoaded && !isLoadingIcons) {
       setIsLoadingIcons(true);
+      // setTimeout makes sure this runs in a different loop
       setTimeout(() => {
         loadIcons(map, darkMode).finally(() => {
           setIsLoadingIcons(false);
         });
-      }, 500);
+      }, 50);
     }
   }, [darkMode]);
 
@@ -238,7 +241,7 @@ export default function MapView({
           {mapLoaded && (
             <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
           )}
-          {/*{mapLoaded && <AcPoiLayers />}*/}
+          {mapLoaded && <AcPoiLayers />}
           <GeolocateButton />
           <NavigationControl
             position="bottom-right"

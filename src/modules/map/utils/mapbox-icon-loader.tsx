@@ -1,10 +1,10 @@
-import type { Map as MapboxMap, Map as MapBoxMap } from "mapbox-gl";
+import type { Map as MapBoxMap, Map as MapboxMap } from "mapbox-gl";
+import type { ReactNode } from "react";
 import { index } from "~/modules/map/icons";
 import {
   getIconComponent,
   renderSvgAsDataUri,
 } from "~/modules/map/utils/mapbox-icon-renderer";
-import type { ReactNode } from "react";
 
 const renderCache = new Map<string, string>();
 

@@ -1,7 +1,7 @@
 import type { LayerSpecification } from "mapbox-gl";
-import { osmApiCollections } from "~/modules/map/components/OsmApiCollections";
+import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import { getLanguage } from "~/modules/i18n/utils/language-tags";
-import { fallbackLanguageTag, type LanguageTag } from "~/modules/i18n/i18n";
+import { osmApiCollections } from "~/modules/map/components/OsmApiSources";
 
 export function isOsmApiLayer(layer: LayerSpecification): boolean {
   return layer.id.startsWith("osm-") || layer.id.startsWith("ac-osm-");
@@ -22,6 +22,7 @@ export function isSelectionLayer(layer: LayerSpecification): boolean {
 export function localizeLayers(
   layers: LayerSpecification[],
   language?: string,
+  darkMode?: boolean,
 ): LayerSpecification[] {
   const fallback = getLanguage(fallbackLanguageTag);
 
@@ -66,7 +67,7 @@ export function localizeLayers(
                     ["var", "prio2"],
                     ""
                   ],
-                  {"font-scale": 0.9, "text-color": "rgba(0,0,0,0.7)"}
+                  {"font-scale": 0.9, "text-color": "${darkMode ? "rgb(255,255,255)" : "rgba(0,0,0,0.7)"}" }
                 ]
               ]
             ]

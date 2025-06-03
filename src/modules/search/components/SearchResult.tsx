@@ -1,12 +1,12 @@
 import { Flex, Text } from "@radix-ui/themes";
+import { findCategoryBySynonym } from "@sozialhelden/core";
 import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
+import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
-import { findCategoryBySynonym } from "@sozialhelden/core";
 
 type Props = {
   result: SearchResultType;
@@ -45,7 +45,11 @@ export const SearchResult = forwardRef(function SearchResult(
   const { map } = useMap();
   const { push } = useAppStateAwareRouter();
 
-  const categoryLabel = category && findCategoryBySynonym(category).name();
+  const categoryProperties = findCategoryBySynonym(category);
+  const categoryLabel =
+    category &&
+    categoryProperties.id !== "unknown" &&
+    categoryProperties.name();
 
   url = url || "/";
 

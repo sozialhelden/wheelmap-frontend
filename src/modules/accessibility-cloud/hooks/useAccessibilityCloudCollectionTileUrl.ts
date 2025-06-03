@@ -1,11 +1,12 @@
 import { useAccessibilityCloudCollectionUrl } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloudCollectionUrl";
+import type { NestedRecord } from "~/utils/search-params";
 
 export const useAccessibilityCloudCollectionTileUrl = ({
   collection,
   params = {},
 }: {
   collection: string;
-  params?: Record<string, string>;
+  params?: NestedRecord<string | undefined>;
 }) => {
   return useAccessibilityCloudCollectionUrl({
     collection,

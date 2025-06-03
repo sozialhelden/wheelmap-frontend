@@ -3,17 +3,16 @@ import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { useDarkMode } from "~/hooks/useDarkMode";
+import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 import ChevronRight from "~/needs-refactoring/components/shared/ChevronRight";
-// import Icon from "~/needs-refactoring/components/shared/Icon";
 import {
   PlaceNameH1,
   PlaceNameH2,
 } from "~/needs-refactoring/components/shared/PlaceName";
+import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
-import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
-import { useDarkMode } from "~/hooks/useDarkMode";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;

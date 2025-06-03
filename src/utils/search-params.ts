@@ -6,7 +6,7 @@ export type NestedRecord<T> = { [key: string]: T | NestedRecord<T> };
  * nested object, using square brackets to indicate nesting.
  */
 export function flattenToSearchParams(
-  object: NestedRecord<string> | string,
+  object: NestedRecord<string | undefined> | string,
   prefix = "",
 ): Record<string, string> {
   return Object.entries(object).reduce(

@@ -1,27 +1,11 @@
 const withSvgr = require("next-plugin-svgr");
+const svgrOptions = require("./svgr.config.js");
 
 /**
  * @type {import('next').NextConfig}
  * */
 module.exports = withSvgr({
-  svgrOptions: {
-    typescript: true,
-    ext: "tsx",
-    ref: true,
-    svgoConfig: {
-      plugins: [
-        {
-          name: "preset-default",
-          params: {
-            overrides: {
-              removeViewBox: false,
-              removeUselessStrokeAndFill: false,
-            },
-          },
-        },
-      ],
-    },
-  },
+  svgrOptions,
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,

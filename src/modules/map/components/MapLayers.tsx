@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useEffect } from "react";
 import type { LayerProps } from "react-map-gl/mapbox";
-import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
 import { useLayers } from "~/modules/map/hooks/useLayers";
+import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
 
 export const MapLayers = ({
   onInteractiveLayersChange,
