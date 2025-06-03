@@ -61,7 +61,7 @@ export const PlaceDetailsLayout = ({ children }: { children: ReactNode }) => {
         <SidebarComponent
           isExpanded={isExpanded}
           onIsExpandedChange={setIsExpanded}
-          hasPadding={true}
+          hasPadding={false}
         >
           {children}
         </SidebarComponent>
