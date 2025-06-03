@@ -15,12 +15,7 @@ const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
     "children",
   );
   return (
-    <Flex
-      direction="row"
-      gap="var(--space-2)"
-      wrap="wrap"
-      style={{ rowGap: "var(--space-2)" }}
-    >
+    <Flex direction="row" wrap="wrap" gapX="1" gapY="2">
       {hasChildren ? (
         tagOrTagGroup.children.map((child) => (
           <TagGroupRenderer key={child.key} tagOrTagGroup={child} />
