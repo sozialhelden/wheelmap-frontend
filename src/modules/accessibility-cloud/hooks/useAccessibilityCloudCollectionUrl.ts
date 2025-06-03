@@ -1,7 +1,7 @@
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import useAccessibilityCloud, {
   type AccessibilityCloudApiProps,
 } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
+import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import {
   type NestedRecord,
   flattenToSearchParams,
@@ -37,7 +37,7 @@ function getIncludedSourceIds(): Record<string, string> {
 export type AccessibilityCloudCollectionUrlProps = {
   collection: string;
   format?: "mvt" | "json" | "geojson";
-  params?: NestedRecord<string>;
+  params?: NestedRecord<string | undefined>;
   suffix?: string;
 } & AccessibilityCloudApiProps;
 

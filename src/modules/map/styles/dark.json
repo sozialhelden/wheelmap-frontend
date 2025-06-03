@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "A11yMap Dev Dark - 18:06:21 GMT+0200 (Central European Summer Time)",
+  "name": "A11yMap Dev Dark - 15:05:31 GMT+0200 (Central European Summer Time)",
   "metadata": {
     "mapbox:type": "default",
     "mapbox:origin": "streets-v11",
@@ -14669,43 +14669,12 @@
       "source-layer": "pedestrian_highways_saarbruec-7tzrc2"
     },
     {
-      "id": "osm-ac-selected-marker",
-      "type": "symbol",
-      "metadata": {
-        "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
-      },
-      "source": "composite",
-      "source-layer": "amenities_saarbruecken-a8nbob",
-      "filter": ["match", ["get", "type"], ["boundary"], false, true],
       "layout": {
+        "text-optional": true,
         "text-line-height": 1,
-        "text-size": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          0,
-          12,
-          10,
-          12,
-          22,
-          14
-        ],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 10, 12, 22, 14],
         "icon-offset": [0, 0],
-        "icon-image": [
-          "concat",
-          ["get", "icon"],
-          [
-            "match",
-            ["get", "wheelchair"],
-            "yes",
-            "-good",
-            "limited",
-            "-mediocre",
-            "no",
-            "-bad",
-            "unknown"
-          ]
-        ],
+        "icon-image": "selected",
         "text-font": [
           "case",
           ["match", ["get", "access"], ["disabled"], true, false],
@@ -14714,18 +14683,37 @@
           ["literal", ["Inter Medium", "Arial Unicode MS Regular"]],
           ["literal", ["Inter Regular", "Arial Unicode MS Regular"]]
         ],
+        "icon-allow-overlap": true,
         "visibility": "none",
-        "text-offset": [0, 1.1],
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 10, 0.4, 22, 0.5],
+        "text-offset": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          ["literal", [0, 0.8]],
+          22,
+          ["literal", [0, 1.2]]
+        ],
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 10, 0.8, 22, 1],
         "text-anchor": "top",
-        "text-field": ["get", "name"]
+        "text-field": ["get", "name"],
+        "icon-padding": 0
       },
+      "metadata": {
+        "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
+      },
+      "filter": ["match", ["get", "type"], ["boundary"], false, true],
+      "type": "symbol",
+      "source": "composite",
+      "id": "osm-ac-selected-marker",
       "paint": {
-        "text-halo-color": "hsl(29, 28%, 96%)",
-        "text-opacity": ["step", ["zoom"], 0, 15, 1],
+        "text-halo-color": "#000000",
         "text-halo-width": 2,
-        "text-color": "hsl(236, 100%, 35%)"
-      }
+        "text-color": "hsl(236, 99%, 87%)",
+        "text-opacity": ["step", ["zoom"], 0, 15, 1]
+      },
+      "slot": "",
+      "source-layer": "amenities_with_icons-816g39"
     },
     {
       "minzoom": 16,
@@ -14752,14 +14740,14 @@
       "id": "osm-selected-ref",
       "paint": {
         "text-color": "rgb(0, 12, 179)",
-        "text-halo-color": "hsl(35, 28%, 94%)",
+        "text-halo-color": "hsl(35, 5%, 5%)",
         "text-halo-width": 1.8
       },
       "source-layer": "amenities_with_icons-816g39"
     }
   ],
   "created": "2025-05-22T15:27:30.621Z",
-  "modified": "2025-05-28T17:45:49.429Z",
+  "modified": "2025-06-03T13:14:42.099Z",
   "id": "cmazizqyl00cg01s6e33vg8mr",
   "owner": "sozialhelden",
   "visibility": "private",

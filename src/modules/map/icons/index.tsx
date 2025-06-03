@@ -1,15 +1,17 @@
+import { type Category, getCategories } from "@sozialhelden/core";
 import type { ReactNode } from "react";
-import { getCategories, type Category } from "@sozialhelden/core";
 
 import ElevatorIcon from "~/modules/map/icons/elevators/elevator.svg";
-import GoodEntranceIcon from "~/modules/map/icons/entrances/house-entrance-good.svg";
-import GoodEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-good-dark.svg";
-import MediocreEntranceIcon from "~/modules/map/icons/entrances/house-entrance-mediocre.svg";
-import MediocreEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-mediocre-dark.svg";
-import BadEntranceIcon from "~/modules/map/icons/entrances/house-entrance-bad.svg";
 import BadEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-bad-dark.svg";
-import UnknownEntranceIcon from "~/modules/map/icons/entrances/house-entrance-unknown.svg";
+import BadEntranceIcon from "~/modules/map/icons/entrances/house-entrance-bad.svg";
+import GoodEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-good-dark.svg";
+import GoodEntranceIcon from "~/modules/map/icons/entrances/house-entrance-good.svg";
+import MediocreEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-mediocre-dark.svg";
+import MediocreEntranceIcon from "~/modules/map/icons/entrances/house-entrance-mediocre.svg";
 import UnknownEntranceIconDark from "~/modules/map/icons/entrances/house-entrance-unknown-dark.svg";
+import UnknownEntranceIcon from "~/modules/map/icons/entrances/house-entrance-unknown.svg";
+import SelectedDark from "~/modules/map/icons/markers/selected-dark.svg";
+import Selected from "~/modules/map/icons/markers/selected.svg";
 
 export type AccessibilityGrade = "good" | "mediocre" | "bad" | "unknown";
 
@@ -26,6 +28,11 @@ export type MapIcon =
     };
 
 export const index: Record<string, MapIcon> = {
+  selected: {
+    type: "default",
+    component: <Selected />,
+    componentDarkMode: <SelectedDark />,
+  },
   elevator: {
     type: "default",
     component: <ElevatorIcon />,

@@ -1,4 +1,5 @@
 import { plugin } from "bun";
+import * as svgrOptions from "../../svgr.config.js";
 
 /**
  * Loads SVG files as React components using SVGR.
@@ -15,6 +16,8 @@ plugin({
       const contents = await transform(
         text,
         {
+          ...svgrOptions,
+          typescript: false,
           plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
         },
         { componentName: "ReactComponent" },

@@ -1,4 +1,4 @@
-import { getStyle } from "~/modules/map/utils/map-styles";
+import { useMemo } from "react";
 import { useDarkMode } from "~/hooks/useDarkMode";
 import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import {
@@ -6,7 +6,7 @@ import {
   localizeLayers,
   setLayerSource,
 } from "~/modules/map/utils/layers";
-import { useMemo } from "react";
+import { getStyle } from "~/modules/map/utils/map-styles";
 
 export function useLayers() {
   const darkMode = useDarkMode();
@@ -14,7 +14,7 @@ export function useLayers() {
 
   return useMemo(() => {
     let { layers } = getStyle(darkMode);
-    layers = setLayerSource(localizeLayers(layers, language));
+    layers = setLayerSource(localizeLayers(layers, language, darkMode));
 
     const dataLayers = [];
     const selectionLayers = [];

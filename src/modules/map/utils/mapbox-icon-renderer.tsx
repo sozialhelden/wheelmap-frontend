@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
-import { createRoot } from "react-dom/client";
 import { flushSync } from "react-dom";
-import type { MapIcon } from "~/modules/map/icons";
+import { createRoot } from "react-dom/client";
 import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
+import type { MapIcon } from "~/modules/map/icons";
 
 export const getIconComponent = (
   icon: MapIcon,
@@ -20,7 +20,7 @@ export const getIconComponent = (
   throw new Error(`Unknown icon type: ${(icon as MapIcon).type}`);
 };
 
-function renderReactNode(reactNode: ReactNode) {
+export function renderReactNode(reactNode: ReactNode) {
   const container = document.createElement("div");
   const reactRoot = createRoot(container);
 
