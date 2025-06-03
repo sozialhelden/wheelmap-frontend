@@ -15,7 +15,6 @@ import {
 import { useFeatureLabel } from "../utils/useFeatureLabel";
 
 const Container = styled(Flex)`
-    display: flex;
     flex-direction: column;
     order: 1;
     @media (min-width: 576px) {
