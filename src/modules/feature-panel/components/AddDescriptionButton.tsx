@@ -14,7 +14,6 @@ export function AddDescriptionButton({ tagKey, children }: Props) {
   const { features } = useContext(FeaturePanelContext);
   const feature = features[0].feature?.requestedFeature;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [addNewLanguage, setAddNewLanguage] = useState(false);
 
   return (
     <>
@@ -22,7 +21,6 @@ export function AddDescriptionButton({ tagKey, children }: Props) {
         size="2"
         onClick={() => {
           setIsDialogOpen(true);
-          setAddNewLanguage(true);
         }}
       >
         <Pencil1Icon width="18" height="18" />
@@ -33,7 +31,7 @@ export function AddDescriptionButton({ tagKey, children }: Props) {
         <AutoEditor
           feature={feature}
           tagKey={tagKey}
-          addNewLanguage={addNewLanguage}
+          addNewLanguage={true}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
