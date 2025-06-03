@@ -36,15 +36,14 @@ export function useOsmTags(feature: unknown) {
   }, [osmFeature, languageTag]);
 
   if (osmFeature) {
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    nestedTags.forEach((tagOrGroup) =>
+    for (const tagOrGroup of nestedTags) {
       attachTagPropsRecursively(
         tagOrGroup,
         osmFeature,
         attributesById,
         baseFeatureUrl,
-      ),
-    );
+      );
+    }
   }
 
   const topLevelKeys = new Set(
