@@ -24,9 +24,9 @@ import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeat
 
 import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImage";
 import PartOf from "~/modules/feature-panel/components/PartOf";
-import { useNextToilet } from "~/modules/feature-panel/hooks/useNextToilet";
 import styled from "styled-components";
 import { Flex } from "@radix-ui/themes";
+import { useNextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
 
 type Props = {
   features: AnyFeature[];
@@ -60,7 +60,8 @@ const FeatureDetails = ({
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
-  const { nextToilet, isLoadingNextToilet } = useNextToilet(feature);
+  const { nextAccessibleToilet, isLoadingNextToilet } =
+    useNextAccessibleToilet(feature);
   const acAccessibility =
     context.features[0]?.feature?.acFeature?.properties.accessibility ?? null;
   const surroundings = features?.length > 1 ? features.slice(1) : undefined;
@@ -129,12 +130,12 @@ const FeatureDetails = ({
                 />
               </div>
             )}
-            {(osmToiletInfo || nextToilet) && (
+            {(osmToiletInfo || nextAccessibleToilet) && (
               <div>
                 <ToiletsSection
                   key="osm_toilets"
                   tags={osmToiletInfo}
-                  nextToilet={nextToilet}
+                  nextToilet={nextAccessibleToilet}
                   isLoading={isLoadingNextToilet}
                 />
               </div>
