@@ -11,7 +11,7 @@ import FeatureAddressString, {
   addressForFeature,
 } from "../FeatureAddressString";
 
-import { findCategory } from "~/modules/categories/utils/synonyms";
+import { findCategory } from "~/modules/categories/utils/display";
 
 type Props = {
   feature?: AnyFeature;
