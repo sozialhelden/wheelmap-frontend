@@ -9,7 +9,7 @@ import { usePlaceNameFor } from "~/needs-refactoring/lib/model/geo/usePlaceNameF
 import useEquipmentInfoDescription from "~/needs-refactoring/lib/useEquipmentInfoDescription";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 
-import { findCategory } from "~/modules/categories/utils/synonyms";
+import { findCategory } from "~/modules/categories/utils/display";
 
 function getRoomNumberString(roomNumber: string) {
   return t("Room {roomNumber}", { roomNumber });

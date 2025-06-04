@@ -241,7 +241,7 @@ export default function MapView({
           {mapLoaded && (
             <MapLayers onInteractiveLayersChange={setInteractiveLayerIds} />
           )}
-          {mapLoaded && <AcPoiLayers />}
+          {/*{mapLoaded && <AcPoiLayers />}*/}
           <GeolocateButton />
           <NavigationControl
             position="bottom-right"
