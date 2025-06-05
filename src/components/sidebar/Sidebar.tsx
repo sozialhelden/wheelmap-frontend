@@ -18,7 +18,7 @@ const SidebarWrapper = styled.aside<{
     backdrop-filter: var(--backdrop-filter-panel);
     transition: left 400ms ease;
     height: calc(100dvh - var(--topbar-height));
-    padding-top: ${({ $hasPadding }) => ($hasPadding ? "var(--topbar-height)" : "0")};
+    padding-top: ${({ $hasPadding }) => ($hasPadding ? "calc(var(--search-bar-height) + calc(var(--space-3) * 2))" : "0")};    
     box-shadow: ${({ $isExpanded }) => ($isExpanded ? "rgba(0,0,0,0.2) .25rem 0 .25rem" : "none")};
 `;
 const SidebarContainer = styled.div`
