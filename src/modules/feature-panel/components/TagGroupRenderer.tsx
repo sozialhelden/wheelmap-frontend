@@ -18,9 +18,14 @@ const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
         ))
       ) : (
         <>
-          {/* if there is a suitable value render function, render it*/}
-          {typeof tagOrTagGroup.tagProps?.valueElement === "object" &&
-          tagOrTagGroup.tagProps?.valueElement !== null ? (
+          {/*Opening hours are rendered without a tag*/}
+          {tagOrTagGroup.key === "opening_hours" &&
+          typeof tagOrTagGroup.tagProps?.valueElement === "object" &&
+          tagOrTagGroup.tagProps.valueElement !== null ? (
+            React.cloneElement(tagOrTagGroup.tagProps.valueElement)
+          ) : // if there is a suitable value render function render it
+          typeof tagOrTagGroup.tagProps?.valueElement === "object" &&
+            tagOrTagGroup.tagProps.valueElement !== null ? (
             <StyledTag>
               {React.cloneElement(tagOrTagGroup.tagProps.valueElement)}
             </StyledTag>

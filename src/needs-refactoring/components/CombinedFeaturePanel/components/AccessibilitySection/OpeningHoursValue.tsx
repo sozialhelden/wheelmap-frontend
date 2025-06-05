@@ -11,6 +11,7 @@ import {
 import { log } from "~/needs-refactoring/lib/util/logger";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import FeatureContext from "../FeatureContext";
+import { Text } from "@radix-ui/themes";
 
 function getReadableState(oh: opening_hours) {
   const outputs: string[] = [];
@@ -153,7 +154,7 @@ export default function OpeningHoursValue(props: {
   const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />);
 
   if (!outputs.length) {
-    return <div style={{ padding: "var(--space-1)" }}>{shownElements}</div>;
+    return <Text size="2">{shownElements}</Text>;
   }
 
   return (
