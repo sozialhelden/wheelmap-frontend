@@ -16,12 +16,12 @@ RUN npm set progress=false && npm config set depth 0
 
 # install all dependencies
 RUN mkdir -p /tmp/dev
-COPY package.json package-lock.json sozialhelden-core-1.0.0.tgz /tmp/dev/
+COPY package.json package-lock.json /tmp/dev/
 RUN cd /tmp/dev && npm ci --omit=optional --ignore-scripts
 
 # install prod dependencies into a different directory
 RUN mkdir -p /tmp/prod
-COPY package.json package-lock.json sozialhelden-core-1.0.0.tgz /tmp/prod/
+COPY package.json package-lock.json /tmp/prod/
 RUN cd /tmp/prod && npm ci --omit=optional --production --ignore-scripts
 
 FROM base AS build
