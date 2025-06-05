@@ -6,9 +6,7 @@ import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeat
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import ToiletStatusAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusAccessible";
-import ToiletStatusNotAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusNotAccessible";
-// import RadioButtonOn from "../../../../../components/icons/ui-elements/RadioButtonSelected";
-// import RadioButtonOff from "../../../../../components/icons/ui-elements/RadioButtonUnselected";
+import ToiletStatusNotAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusNotAccessible"; // import RadioButtonOn from "../../../../../components/icons/ui-elements/RadioButtonSelected";
 import { cx } from "~/needs-refactoring/lib/util/cx";
 import { getLayout } from "~/components/layouts/DefaultLayout";
 
