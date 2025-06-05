@@ -1,4 +1,4 @@
-import { type BoxProps, Button, Flex } from "@radix-ui/themes";
+import { Box, type BoxProps, Button } from "@radix-ui/themes";
 import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
@@ -13,14 +13,6 @@ import {
   PlaceNameH2,
 } from "~/needs-refactoring/components/shared/PlaceName";
 import { useFeatureLabel } from "../utils/useFeatureLabel";
-
-const Container = styled(Flex)`
-    flex-direction: column;
-    order: 1;
-    @media (min-width: 576px) {
-        order: 2;
-    }
-`;
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -147,9 +139,9 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   return (
-    <Container onClick={onHeaderClicked} {...boxProps}>
+    <Box onClick={onHeaderClicked} {...boxProps}>
       {placeNameElement}
       {children}
-    </Container>
+    </Box>
   );
 }
