@@ -4,14 +4,13 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
-import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
+import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -46,79 +45,18 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
           <StyledReportView className="_view">
             <FeatureNameHeader feature={feature} />
 
-            <Dialog.Description id="dialog-description" size="3">
+            <Dialog.Description id="dialog-description" size="3" mb="1">
               {t("How wheelchair accessible is this place?")}
             </Dialog.Description>
 
-            <form>
-              <AccessibilityView
-                onClick={() => {
-                  setEditedTagValue("yes");
-                  onChange?.("yes");
-                }}
-                className="_yes"
-                inputLabel="accessibility-fully"
-                selected={editedTagValue === "yes"}
-                icon={
-                  <AccessibleIconMarker
-                    accessibilityGrade="good"
-                    category={category.id}
-                    width="30"
-                    height="30"
-                  />
-                }
-                valueName="Fully"
-              >
-                {t(
-                  "Entrance has no steps, and all rooms are accessible without steps.",
-                )}
-              </AccessibilityView>
-              <AccessibilityView
-                onClick={() => {
-                  setEditedTagValue("limited");
-                  onChange?.("limited");
-                }}
-                className="_okay"
-                inputLabel="accessibility-partially"
-                selected={editedTagValue === "limited"}
-                icon={
-                  <AccessibleIconMarker
-                    accessibilityGrade="mediocre"
-                    category={category.id}
-                    width="30"
-                    height="30"
-                  />
-                }
-                valueName="Partially"
-              >
-                {t(
-                  "Entrance has one step with max. 3 inches height, most rooms are without steps",
-                )}
-              </AccessibilityView>
-
-              <AccessibilityView
-                onClick={() => {
-                  setEditedTagValue("no");
-                  onChange?.("no");
-                }}
-                className="_no"
-                inputLabel="accessibility-not-at-all"
-                selected={editedTagValue === "no"}
-                icon={
-                  <AccessibleIconMarker
-                    accessibilityGrade="bad"
-                    category={category.id}
-                    width="30"
-                    height="30"
-                  />
-                }
-                valueName="Not at all"
-              >
-                {t(
-                  "Entrance has a high step or several steps, none of the rooms are accessible.",
-                )}
-              </AccessibilityView>
-            </form>
+            <WheelchairRadioCards
+              category={category}
+              onSelect={(value) => {
+                setEditedTagValue(value);
+                onChange?.(value);
+              }}
+              defaultValue={current}
+            />
 
             <Flex gap="3" mt="4" justify="end">
               <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>

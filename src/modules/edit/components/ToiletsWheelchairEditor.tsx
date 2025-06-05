@@ -4,14 +4,12 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
-import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
-import { ToiletStatusNotAccessible } from "src/needs-refactoring/components/icons/accessibility";
-import ToiletStatusAccessibleIcon from "~/needs-refactoring/components/icons/accessibility/ToiletStatusAccessible";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
+import ToiletRadioCards from "~/modules/edit/components/ToiletRadioCards";
 
 export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
@@ -42,43 +40,19 @@ export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureNameHeader feature={feature} />
 
-          <Dialog.Description id="dialog-description" size="3">
+          <Dialog.Description id="dialog-description" size="3" mb="1">
             {t("Is this toilet wheelchair accessible?")}
           </Dialog.Description>
 
+          <ToiletRadioCards
+            onSelect={(value) => {
+              setEditedTagValue(value);
+              onChange?.(value);
+            }}
+            defaultValue={current}
+          />
+
           <StyledReportView className="_view">
-            <form>
-              <AccessibilityView
-                onClick={() => {
-                  setEditedTagValue("yes");
-                  onChange?.("yes");
-                }}
-                className="_yes"
-                inputLabel="accessibility-fully"
-                selected={editedTagValue === "yes"}
-                icon={<ToiletStatusAccessibleIcon />}
-                valueName="Yes"
-              >
-                {t`Entrance has no steps, and all rooms are accessible without
-                  steps.`}
-              </AccessibilityView>
-
-              <AccessibilityView
-                onClick={() => {
-                  setEditedTagValue("no");
-                  onChange?.("no");
-                }}
-                className="_no"
-                inputLabel="accessibility-not-at-all"
-                selected={editedTagValue === "no"}
-                icon={<ToiletStatusNotAccessible />}
-                valueName="No"
-              >
-                {t`Entrance has a high step or several steps, none of the rooms are
-                  accessible.`}
-              </AccessibilityView>
-            </form>
-
             <Flex gap="3" mt="3" justify="end">
               <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
               <PrimaryButton
