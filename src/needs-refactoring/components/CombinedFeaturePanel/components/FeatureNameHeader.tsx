@@ -31,21 +31,17 @@ type Props = BoxProps & {
   onHeaderClicked?: () => void;
   children?: React.ReactNode;
   size?: "small" | "medium" | "big";
-  iconSize?: "small" | "medium" | "big";
 };
 
-export default function FeatureNameHeader(props: Props) {
-    const darkMode = useDarkMode();
-
-    const {
-    feature,
-    children,
-    onClickCurrentMarkerIcon,
-    onHeaderClicked,
-    size,
-    iconSize,
-    ...boxProps
-  } = props;
+export default function FeatureNameHeader({
+  feature,
+  children,
+  onClickCurrentMarkerIcon,
+  onHeaderClicked,
+  size,
+  ...boxProps
+}: Props) {
+  const darkMode = useDarkMode();
 
   const handleMarkerClick = React.useCallback(() => {
     if (feature && onClickCurrentMarkerIcon) {
@@ -82,8 +78,8 @@ export default function FeatureNameHeader(props: Props) {
         ]
       }
       category={category.id}
-      width="2.5rem"
-      height="2.5rem"
+      width="3.5rem"
+      height="3.5rem"
       shadow={false}
       darkMode={darkMode}
     />
