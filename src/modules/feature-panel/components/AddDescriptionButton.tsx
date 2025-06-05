@@ -1,4 +1,4 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil } from "lucide-react";
 import React, { type ReactNode, useContext, useState } from "react";
 import { AutoEditor } from "~/modules/edit/components/AutoEditor";
 
@@ -23,7 +23,7 @@ export function AddDescriptionButton({ tagKey, children }: Props) {
           setIsDialogOpen(true);
         }}
       >
-        <Pencil1Icon width="18" height="18" />
+        <Pencil size={18} aria-hidden />
         {children}
       </SecondaryButton>
 
