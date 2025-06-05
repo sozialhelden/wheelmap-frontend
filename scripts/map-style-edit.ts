@@ -17,7 +17,7 @@ async function main() {
     "Run `npm run map:style:update` to upload your local changes to mapbox studio! ⬆️",
   );
   consola.info(
-    "When done editing in mapbox studio, run `npm run map:finish` to download the changes! ⬇️",
+    "When done editing in mapbox studio, run `npm run map:style:finish` to download the changes! ⬇️",
   );
 }
 
