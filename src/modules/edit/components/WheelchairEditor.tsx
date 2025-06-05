@@ -8,7 +8,6 @@ import { unknownCategory } from "~/modules/categories/utils/cache";
 import { AccessibilityView } from "~/needs-refactoring/pages/[placeType]/[id]/report/send-report-to-ac";
 import Icon from "~/needs-refactoring/components/shared/Icon";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
@@ -50,11 +49,7 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <StyledReportView className="_view">
-            <FeatureNameHeader feature={feature}>
-              {feature["@type"] === "osm:Feature" && (
-                <FeatureImage feature={feature} />
-              )}
-            </FeatureNameHeader>
+            <FeatureNameHeader feature={feature} />
 
             <Dialog.Description id="dialog-description" size="3">
               {t("How wheelchair accessible is this place?")}
