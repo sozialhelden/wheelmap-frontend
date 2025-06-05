@@ -36,14 +36,14 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
   return (
     <>
       {wheelchairInfo && (
-        <Grid columns="6rem auto min-content" mb="3">
+        <Grid columns="6rem 1fr" mb="3">
           <Box>
             <Text size="3" color="gray">
-              {wheelchairInfo.tagProps?.keyLabel}
+              {useTranslations(wheelchairInfo.tagProps?.keyLabel)}
             </Text>
           </Box>
 
-          <Box>
+          <Flex direction="row" gap="7" justify="between">
             <Text size="3">
               <StyledMarkdown inline>
                 {useTranslations(
@@ -51,16 +51,15 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
                 )}
               </StyledMarkdown>
             </Text>
-          </Box>
-          <Box>
             <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
-          </Box>
+          </Flex>
         </Grid>
       )}
       <Flex direction="row" wrap="wrap" gapX="1" gapY="2">
         {otherTags?.map((child) =>
           typeof child.tagProps?.valueElement === "object" &&
           child.tagProps?.valueElement !== null ? (
+            // if there is a render function render it
             <StyledTag key={child.key}>
               {React.cloneElement(child.tagProps.valueElement)}
             </StyledTag>

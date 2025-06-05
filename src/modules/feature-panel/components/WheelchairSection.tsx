@@ -22,13 +22,13 @@ const WheelchairSection = ({ tags }: Props) => {
 
   return (
     <>
-      <Grid columns="6rem auto min-content" mb="3">
-        <Box>
-          <Text size="3" color="gray">
-            {wheelchairInfo.tagProps?.keyLabel}
-          </Text>
-        </Box>
-        {wheelchairInfo && (
+      {wheelchairInfo && (
+        <Grid columns="6rem 1fr" mb="3">
+          <Box>
+            <Text size="3" color="gray">
+              {useTranslations(wheelchairInfo.tagProps?.keyLabel)}
+            </Text>
+          </Box>
           <Flex direction="row" gap="7" justify="between">
             <Text size="3">
               <StyledMarkdown inline>
@@ -39,8 +39,8 @@ const WheelchairSection = ({ tags }: Props) => {
             </Text>
             <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
           </Flex>
-        )}
-      </Grid>
+        </Grid>
+      )}
 
       {wheelchairDescription ? (
         <Grid columns="auto min-content" mb="3" gap="var(--space-3)">
