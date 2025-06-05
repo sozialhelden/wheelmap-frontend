@@ -22,11 +22,12 @@ import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
 import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 
-import LargeHeaderImage from "~/modules/feature-panel/components/LargeHeaderImage";
+import HeaderImageSection from "~/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/modules/feature-panel/components/PartOf";
 import styled from "styled-components";
 import { Flex } from "@radix-ui/themes";
 import { useNextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
+import { breakpoints } from "~/hooks/useBreakpoints";
 
 type Props = {
   features: AnyFeature[];
@@ -34,22 +35,37 @@ type Props = {
   isUploadDialogOpen?: boolean;
 };
 
-const SectionsContainer = styled.div`
-    > div {
-        padding: var(--space-4);
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
-        border-bottom: 1px solid var(--gray-5);
-    }
-    > div:last-child {
-        border-bottom: none;
-    }
-    > div.empty {
-        border-bottom: none;
-    }
-    `;
+const Section = styled(Flex)`
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: var(--space-3);
+    border-bottom: 1px solid var(--gray-5);
+`;
 
+const HeaderSection = styled(Section)<{
+  $orderDesktop?: number;
+  $orderMobile?: number;
+}>`
+    order: ${(props) => props.$orderMobile};
+    @media (min-width: ${breakpoints.xs}px) {
+        order: ${(props) => props.$orderDesktop};
+    }
+`;
+
+const SectionsContainer = styled(Flex)<{
+  $orderDesktop?: number;
+  $orderMobile?: number;
+}>`
+    //display: flex;
+    flex-direction: column;
+    order: ${(props) => props.$orderMobile};
+    @media (min-width: ${breakpoints.xs}px) {
+        order: ${(props) => props.$orderDesktop};
+    }
+    ${Section}:last-child {
+        border-bottom: none;
+    }
+`;
 const FeatureDetails = ({
   features,
   activeImageId,
@@ -102,56 +118,58 @@ const FeatureDetails = ({
     <>
       {feature && (
         <Flex direction="column">
-          <LargeHeaderImage>
+          <HeaderImageSection $orderDesktop={1} $orderMobile={3}>
             {/*TODO: add Logo component*/}
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
             )}
-          </LargeHeaderImage>
+          </HeaderImageSection>
 
-          <FeatureNameHeader
-            feature={feature}
-            size="big"
-            onHeaderClicked={handleHeaderClick}
-            mb="1rem"
-          />
-
-          <SectionsContainer style={{ order: 3 }}>
+          <HeaderSection $orderDesktop={2} $orderMobile={1}>
+            <FeatureNameHeader
+              feature={feature}
+              size="big"
+              onHeaderClicked={handleHeaderClick}
+              mb="1rem"
+            />
             {generalDescription && (
               <FeatureDescription>
                 {generalDescription.value}
               </FeatureDescription>
             )}
+          </HeaderSection>
+
+          <SectionsContainer $orderDesktop={3} $orderMobile={2}>
             {osmWheelchairInfo && (
-              <div>
+              <Section>
                 <WheelchairSection
                   key="osm_wheelchair"
                   tags={osmWheelchairInfo}
                 />
-              </div>
+              </Section>
             )}
             {(osmToiletInfo || nextAccessibleToilet) && (
-              <div>
+              <Section>
                 <ToiletsSection
                   key="osm_toilets"
                   tags={osmToiletInfo}
                   nextToilet={nextAccessibleToilet}
                   isLoading={isLoadingNextToilet}
                 />
-              </div>
+              </Section>
             )}
             {acAccessibility && (
-              <div>
+              <Section>
                 <AccessibilityItems key="ac_accessibility" feature={feature} />
-              </div>
+              </Section>
             )}
 
             {generalOSMInfo.length > 0 && (
-              <div>
+              <Section>
                 <OsmInfoSection key="osm_info" tags={generalOSMInfo} />
-              </div>
+              </Section>
             )}
-            <div>
+            <Section>
               <FeatureGallery
                 key="feature_gallery"
                 feature={feature}
@@ -162,8 +180,8 @@ const FeatureDetails = ({
                 feature={feature}
                 isUploadDialogOpen={isUploadDialogOpen}
               />
-            </div>
-            <div>
+            </Section>
+            <Section>
               <StyledIconButtonList key="styled_icon_button_list">
                 <AddressMapsLinkItems feature={feature} />
                 <PlaceWebsiteLink feature={feature} />
@@ -175,11 +193,11 @@ const FeatureDetails = ({
                   />
                 )}
               </StyledIconButtonList>
-            </div>
+            </Section>
             {surroundings && (
-              <div>
+              <Section>
                 <PartOf key="part_of" surroundings={surroundings} />
-              </div>
+              </Section>
             )}
           </SectionsContainer>
         </Flex>

@@ -1,12 +1,12 @@
 import {
-  type ReactNode,
   createContext,
+  type ReactNode,
   useContext,
-  useState,
   useEffect,
+  useState,
 } from "react";
 
-const breakpoints = {
+export const breakpoints = {
   initial: 0,
   xs: 520,
   sm: 768,
