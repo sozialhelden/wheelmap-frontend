@@ -11,7 +11,7 @@
     "@mapbox/mapbox-gl-language": "^1.0.1",
     "@radix-ui/themes": "^3.2.0",
     "@sozialhelden/a11yjson": "^31.1.0",
-    "@sozialhelden/core": "file:sozialhelden-core-1.0.0.tgz",
+    "@sozialhelden/core": "^2.0.0",
     "@sozialhelden/ietf-language-tags": "^5.4.2",
     "@transifex/native": "^7.1.3",
     "@transifex/react": "^7.1.3",
