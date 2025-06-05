@@ -138,7 +138,10 @@ export const AutoEditor = ({
         feature={feature}
         tagKey={finalTagName}
         onChange={setEditedTagValue}
-        onSubmit={onSubmit}
+        onSubmit={() => {
+          onSubmit();
+          onClose?.();
+        }}
         addNewLanguage={addNewLanguage}
         onLanguageChange={onLanguageChange}
         onClose={onClose}
