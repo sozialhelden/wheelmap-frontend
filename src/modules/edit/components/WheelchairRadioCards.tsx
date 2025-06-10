@@ -13,13 +13,14 @@ type Props = {
 
 const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
   return (
-    <RadioCards.Root defaultValue={defaultValue} variant="classic">
+    <RadioCards.Root
+      defaultValue={defaultValue}
+      variant="classic"
+      onValueChange={onSelect}
+    >
       <Flex direction="column" gap="1" width="100%">
         <RadioCards.Item
           value="yes"
-          onClick={() => {
-            onSelect("yes");
-          }}
           style={{ backgroundColor: "var(--green-4)" }}
         >
           <Flex direction="column" width="100%">
@@ -44,9 +45,6 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
 
         <RadioCards.Item
           value="limited"
-          onClick={() => {
-            onSelect("limited");
-          }}
           style={{ backgroundColor: "var(--orange-7)" }}
         >
           <Flex direction="column" width="100%">
@@ -62,21 +60,14 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
               </Text>
             </Flex>
             <Text>
-              {" "}
               {t(
-                "Entrance has one step with max. 3 inches height, most rooms are without steps",
+                "Entrance has one step with max. 3 inches height, most rooms are accessible without steps",
               )}
             </Text>
           </Flex>
         </RadioCards.Item>
 
-        <RadioCards.Item
-          value="no"
-          onClick={() => {
-            onSelect("no");
-          }}
-          style={{ backgroundColor: "var(--red-8)" }}
-        >
+        <RadioCards.Item value="no">
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
               <AccessibleIconMarker

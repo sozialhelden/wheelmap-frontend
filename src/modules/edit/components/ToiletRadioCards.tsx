@@ -12,13 +12,14 @@ type Props = {
 
 const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
   return (
-    <RadioCards.Root defaultValue={defaultValue} variant="classic">
+    <RadioCards.Root
+      defaultValue={defaultValue}
+      variant="classic"
+      onValueChange={onSelect}
+    >
       <Flex direction="column" gap="1" width="100%">
         <RadioCards.Item
           value="yes"
-          onClick={() => {
-            onSelect("yes");
-          }}
           style={{ backgroundColor: "var(--green-4)" }}
         >
           <Flex direction="column" width="100%">
@@ -36,13 +37,7 @@ const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
           </Flex>
         </RadioCards.Item>
 
-        <RadioCards.Item
-          value="no"
-          onClick={() => {
-            onSelect("no");
-          }}
-          style={{ backgroundColor: "var(--red-8)" }}
-        >
+        <RadioCards.Item value="no" style={{ backgroundColor: "var(--red-8)" }}>
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
               <ToiletStatusNotAccessible />
