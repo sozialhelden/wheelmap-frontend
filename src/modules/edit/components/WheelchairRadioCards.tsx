@@ -67,7 +67,10 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
           </Flex>
         </RadioCards.Item>
 
-        <RadioCards.Item value="no">
+        <RadioCards.Item
+          value="no"
+          style={{ backgroundColor: "var(--ruby-7)" }}
+        >
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
               <AccessibleIconMarker
