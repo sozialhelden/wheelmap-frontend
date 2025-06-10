@@ -37,7 +37,7 @@ export function CombinedFeaturePanel(props: Props) {
           )}
 
           {(!features || features.length === 0) && (
-            <Callout.Root>
+            <Callout.Root mt="9">
               <Callout.Text>{t("No features found.")}</Callout.Text>
             </Callout.Root>
           )}
