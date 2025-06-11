@@ -24,7 +24,7 @@ const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     }
 `;
 
-export const PlaceDetailsLayout = ({ children }: { children: ReactNode }) => {
+export const FeatureDetailsLayout = ({ children }: { children: ReactNode }) => {
   const { greaterOrEqual } = useBreakpoints();
   const showSidebar = greaterOrEqual("sm");
 
@@ -78,7 +78,7 @@ export const PlaceDetailsLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default PlaceDetailsLayout;
+export default FeatureDetailsLayout;
 
 export const getLayout = (page: ReactNode) =>
-  getBaseMapLayout(<PlaceDetailsLayout>{page}</PlaceDetailsLayout>);
+  getBaseMapLayout(<FeatureDetailsLayout>{page}</FeatureDetailsLayout>);

@@ -4,24 +4,24 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { default as NextApp } from "next/app";
 import Head from "next/head";
+import type * as React from "react";
+import { App } from "~/components/App";
+import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
+import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
+import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
+import type { LanguageTag } from "~/modules/i18n/i18n";
+import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
+import { GlobalMapContextProvider } from "~/needs-refactoring/components/Map/GlobalMapContext";
+import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
 import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
+import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/needs-refactoring/lib/useExpertMode";
 import {
   getRequestHostname,
   getRequestUserAgent,
 } from "~/needs-refactoring/lib/util/request";
-import type * as React from "react";
-import { App } from "~/modules/app/components/App";
-import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
-import { GlobalMapContextProvider } from "~/needs-refactoring/components/Map/GlobalMapContext";
-import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
-import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
-import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
-import { getEnvironmentVariables } from "~/modules/app/utils/environment";
-import type { LanguageTag } from "~/modules/i18n/i18n";
-import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
-import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
+import { getEnvironmentVariables } from "~/utils/environment";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

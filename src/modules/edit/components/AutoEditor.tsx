@@ -4,25 +4,25 @@ import { useSession } from "next-auth/react";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
-import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTagValueNoLogIn";
-import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { log } from "~/needs-refactoring/lib/util/logger";
+import { useEnvironment } from "~/hooks/useEnvironment";
 import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
-import getOsmParametersFromFeature from "~/needs-refactoring/lib/fetchers/osm-api/getOsmParametersFromFeature";
-import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
-import useUpdateTagValueWithLogInCallback, {
-  type OSMAPIElement,
-} from "~/needs-refactoring/lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import getOsmParametersFromFeature from "~/needs-refactoring/lib/fetchers/osm-api/getOsmParametersFromFeature";
+import useUpdateTagValueWithLogInCallback, {
+  type OSMAPIElement,
+} from "~/needs-refactoring/lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
+import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTagValueNoLogIn";
+import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
+import { log } from "~/needs-refactoring/lib/util/logger";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
 import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
 import { WheelchairEditor } from "./WheelchairEditor";
-import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -47,7 +47,7 @@ export const AutoEditor = ({
 }: BaseEditorProps) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const accessToken = useSession().data?.accessToken;
-  const env = useEnvironmentContext();
+  const env = useEnvironment();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
   if (!remoteOSMAPIBaseUrl) {
     throw new Error(

@@ -1,5 +1,5 @@
 import { t } from "@transifex/native";
-import { useUserAgent } from "~/modules/app/context/UserAgentContext";
+import { useUserAgent } from "~/hooks/useUserAgent";
 import { saveState } from "./util/savedState";
 
 const alertText = t(
@@ -13,7 +13,7 @@ const alertText = t(
  * @returns [locationUri, isSupportUrl]
  */
 export function useLocationSettingsUrl(): [string, boolean] {
-  const userAgent = useUserAgent();
+  const { userAgent } = useUserAgent();
 
   // @ts-ignore
   let identity = userAgent.browser.name;

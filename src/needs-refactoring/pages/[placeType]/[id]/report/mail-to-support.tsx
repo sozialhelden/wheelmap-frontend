@@ -2,15 +2,15 @@ import { Button } from "@radix-ui/themes";
 import type { LocalizedString } from "@sozialhelden/a11yjson";
 import { t } from "@transifex/native";
 import React, { type FC, useContext } from "react";
+import { getLayout } from "~/components/layouts/DefaultLayout";
+import { useUserAgent } from "~/hooks/useUserAgent";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import { useUserAgent } from "~/modules/app/context/UserAgentContext";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 const reportSubject = (
   placeName: LocalizedString | string | undefined,
@@ -53,7 +53,7 @@ const makeEmailUri = (
   `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
-  const userAgent = useUserAgent();
+  const { userAgent } = useUserAgent();
 
   const { placeName, categoryName } = useFeatureLabel({ feature });
   const subject = reportSubject(placeName, categoryName);

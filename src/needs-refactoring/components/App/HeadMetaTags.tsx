@@ -1,13 +1,13 @@
 import { t } from "@transifex/native";
 import { encode } from "js-base64";
 import Head from "next/head";
+import useHostname from "~/hooks/useHostname";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { getProductTitle } from "~/needs-refactoring/lib/model/ac/ClientSideConfiguration";
 import FacebookMeta from "./FacebookMeta";
 import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
-import useHostnameContext from "~/modules/app/context/HostnameContext";
 
 export default function HeadMetaTags() {
   const { clientSideConfiguration } = useAppContext();
@@ -21,7 +21,7 @@ export default function HeadMetaTags() {
   const translatedProductName = useTranslations(productName);
   const pageTitle = translatedProductName;
   const facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
-  const hostName = useHostnameContext();
+  const hostName = useHostname();
   const baseUrl = `https://${hostName}`;
   const ogUrl = baseUrl;
   const iconSvg = branding?.vectorIconSVG?.data;

@@ -1,12 +1,12 @@
 import Head from "next/head";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
-import useHostnameContext from "~/modules/app/context/HostnameContext";
+import useHostname from "~/hooks/useHostname";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { buildFullImageUrl } from "~/needs-refactoring/lib/model/ac/Image";
-import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
 import FacebookMeta from "~/needs-refactoring/components/App/FacebookMeta";
 import OpenGraph from "~/needs-refactoring/components/App/OpenGraph";
 import TwitterMeta from "~/needs-refactoring/components/App/TwitterMeta";
+import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { buildFullImageUrl } from "~/needs-refactoring/lib/model/ac/Image";
+import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
 
 export function MappingEventMetadata({
   mappingEvent,
@@ -40,7 +40,7 @@ export function MappingEventMetadata({
   const twitterMetaData = {
     imageURL,
   };
-  const hostName = useHostnameContext();
+  const hostName = useHostname();
   const baseUrl = `https://${hostName}`;
   const ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
   return (
