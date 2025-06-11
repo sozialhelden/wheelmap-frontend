@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import useSWR, { type SWRResponse } from "swr";
-import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
+import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
 import type {
   AccessibilityCloudRDFType,
   AccessibilityCloudTypeMapping,
@@ -61,7 +61,7 @@ export default function useDocumentSWR<
   DataType & ExtraAPIResultFields,
   ResourceError
 > {
-  const { baseUrl, appToken } = useAccessibilityCloud({ cached });
+  const { baseUrl, appToken } = useAccessibilityCloudApi({ cached });
   const paramsWithAppToken = new URLSearchParams(params);
   if (!appToken) {
     throw new Error(

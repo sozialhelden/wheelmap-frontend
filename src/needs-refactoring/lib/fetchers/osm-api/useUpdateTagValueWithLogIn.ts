@@ -1,8 +1,8 @@
 import React from "react";
 import type { SWRResponse } from "swr";
+import useOsmApi from "~/hooks/useOsmApi";
 import { createChange } from "~/needs-refactoring/lib/fetchers/osm-api/createChange";
 import { createChangeset } from "~/needs-refactoring/lib/fetchers/osm-api/createChangeset";
-import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
 import { callBackendToUpdateInhouseDb } from "../callBackendToUpdateInhouseDb";
 
 export type OSMAPIElement = {
