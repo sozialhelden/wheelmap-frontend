@@ -1,13 +1,16 @@
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { Pencil } from "lucide-react";
-import React, { useContext, useState } from "react";
-import { AutoEditor } from "~/modules/edit/components/AutoEditor";
-import { FeaturePanelContext } from "../../FeaturePanelContext";
+import React, { useState } from "react";
+import DescriptionEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/DescriptionEditor";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
-export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
-  const { features } = useContext(FeaturePanelContext);
-  const feature = features[0].feature?.requestedFeature;
+type Props = {
+  tagKey: string;
+  tagValue: string | undefined;
+  feature: AnyFeature;
+};
+const EditDropdownMenu = ({ tagKey, tagValue, feature }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [addNewLanguage, setAddNewLanguage] = useState(false);
 
@@ -44,13 +47,17 @@ export function EditDropdownMenu({ tagKey }: { tagKey: string }) {
       </DropdownMenu.Root>
 
       {isDialogOpen && feature && (
-        <AutoEditor
+        <DescriptionEditor
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
           feature={feature}
           tagKey={tagKey}
+          tagValue={tagValue}
           addNewLanguage={addNewLanguage}
-          onClose={() => setIsDialogOpen(false)}
         />
       )}
     </>
   );
-}
+};
+
+export default EditDropdownMenu;
