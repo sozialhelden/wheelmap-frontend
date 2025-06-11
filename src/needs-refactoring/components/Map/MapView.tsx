@@ -25,7 +25,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import styled, { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "~/needs-refactoring/lib/model/geo/getFeatureIdsFromLocation";
 
-import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
+import { useEnvironment } from "~/hooks/useEnvironment";
 
 import { useDarkMode } from "~/hooks/useDarkMode";
 import { OsmApiSources } from "~/modules/map/components/OsmApiSources";
@@ -139,24 +139,18 @@ export default function MapView({
     (evt: MapLayerMouseEvent | MapLayerTouchEvent) => {
       const features = evt.features ?? [];
       if (features.length <= 0) {
-        updateViewportQuery({
-          latitude: evt.lngLat.lat,
-          longitude: evt.lngLat.lng,
-          zoom: initialViewport.zoom,
-        });
+        // updateViewportQuery({
+        //   latitude: evt.lngLat.lat,
+        //   longitude: evt.lngLat.lng,
+        //   zoom: initialViewport.zoom,
+        // });
         router.replace("/");
         return;
       }
-      const { latitude, longitude, zoom } = uriFriendlyPosition({
-        latitude: evt.target.getCenter().lat,
-        longitude: evt.target.getCenter().lng,
-        zoom: evt.target.getZoom(),
-      });
-
       if (features.length === 1) {
         const feature = features[0];
         router.push(
-          `/${feature.source}/${String(feature?.properties?.id)?.replace("/", ":")}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+          `/${feature.source}/${String(feature?.properties?.id)?.replace("/", ":")}`,
         );
         return;
       }
@@ -165,7 +159,7 @@ export default function MapView({
           features.map((f) =>
             [f.source, String(f.properties?.id).replace("/", ":")].join(":"),
           ),
-        ).join(",")}?lon=${longitude}&lat=${latitude}&zoom=${zoom}`,
+        ).join(",")}`,
       );
     },
     [router, updateViewportQuery, initialViewport.zoom],
@@ -194,7 +188,7 @@ export default function MapView({
   const [interactiveLayerIds, setInteractiveLayerIds] = useState<string[]>([]);
 
   const { NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken } =
-    useEnvironmentContext();
+    useEnvironment();
 
   const mapStyle = useMemo(() => getBaseStyle(darkMode), [darkMode]);
 

@@ -2,7 +2,7 @@ import { type ReactNode, createContext, useContext } from "react";
 
 export const HostnameContext = createContext<string>("");
 
-export default function useHostnameContext() {
+export default function useHostname() {
   return useContext(HostnameContext);
 }
 

@@ -7,9 +7,9 @@ import { type ReactNode, StrictMode } from "react";
 import {
   EnvironmentContextProvider,
   type EnvironmentVariables,
-} from "~/modules/app/context/EnvironmentContext";
-import { HostnameContextProvider } from "~/modules/app/context/HostnameContext";
-import { UserAgentContextProvider } from "~/modules/app/context/UserAgentContext";
+} from "~/hooks/useEnvironment";
+import { HostnameContextProvider } from "~/hooks/useHostname";
+import { UserAgentContextProvider } from "~/hooks/useUserAgent";
 import { I18nContextProvider } from "~/modules/i18n/context/I18nContext";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 
