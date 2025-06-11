@@ -1,5 +1,6 @@
 import { Flex, Spinner } from "@radix-ui/themes";
-import { tx, t } from "@transifex/native";
+import { setTranslator } from "@sozialhelden/core";
+import { t, tx } from "@transifex/native";
 import {
   type ReactNode,
   createContext,
@@ -7,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
+import { useEnvironment } from "~/hooks/useEnvironment";
 import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import {
   getLabel,
@@ -15,7 +16,6 @@ import {
   getRegion,
 } from "~/modules/i18n/utils/language-tags";
 import { getLocale } from "~/modules/i18n/utils/locales";
-import { setTranslator } from "@sozialhelden/core";
 
 export type I18nContext = {
   languageTag: LanguageTag;
@@ -44,7 +44,7 @@ export function I18nContextProvider({
   languageTag: LanguageTag;
   children: ReactNode;
 }) {
-  const env = useEnvironmentContext();
+  const env = useEnvironment();
 
   const [isLoading, setIsLoading] = useState(true);
   const [currentLanguageTag, setCurrentLanguageTag] =

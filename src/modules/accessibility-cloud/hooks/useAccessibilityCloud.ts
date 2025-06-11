@@ -1,4 +1,4 @@
-import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
+import { useEnvironment } from "~/hooks/useEnvironment";
 import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 
 export type AccessibilityCloudApiProps = {
@@ -9,7 +9,7 @@ export default function useAccessibilityCloud({
   cached = true,
 }: AccessibilityCloudApiProps = {}) {
   const { tokenString: appToken } = useAppContext();
-  const env = useEnvironmentContext();
+  const env = useEnvironment();
 
   const baseUrl = cached
     ? env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL

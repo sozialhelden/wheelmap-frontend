@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
 import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "~/components/layouts/PlaceDetailsLayout";
+import { getLayout } from "~/components/layouts/FeatureDetailsLayout";
 
 export default function ShowImageUploadPage() {
   const { features } = useContext(FeaturePanelContext);

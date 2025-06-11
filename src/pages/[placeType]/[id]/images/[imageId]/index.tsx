@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "~/components/layouts/PlaceDetailsLayout";
+import { getLayout } from "~/components/layouts/FeatureDetailsLayout";
 
 export default function ShowImagePage() {
   const { features } = useContext(FeaturePanelContext);

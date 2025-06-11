@@ -1,6 +1,5 @@
 import type { ParsedUrlQuery } from "node:querystring";
 import { omitBy } from "lodash";
-import { useSearchParams } from "next/navigation";
 import { type NextRouter, useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { YesNoUnknown } from "../model/ac/Feature";

@@ -8,7 +8,7 @@ export type EnvironmentVariables = Record<string, string | undefined>;
 
 export const EnvironmentContext = createContext<EnvironmentVariables>({});
 
-export function useEnvironmentContext() {
+export function useEnvironment() {
   return useContext(EnvironmentContext);
 }
 
