@@ -1,7 +1,5 @@
 "use client";
 
-import { Theme } from "@radix-ui/themes";
-import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { useSearchParams } from "next/navigation";
 import { type ReactNode, StrictMode } from "react";
 import {
@@ -9,15 +7,10 @@ import {
   type EnvironmentVariables,
 } from "~/hooks/useEnvironment";
 import { HostnameContextProvider } from "~/hooks/useHostname";
+import { ThemeProvider } from "~/hooks/useTheme";
 import { UserAgentContextProvider } from "~/hooks/useUserAgent";
 import { I18nContextProvider } from "~/modules/i18n/context/I18nContext";
 import type { LanguageTag } from "~/modules/i18n/i18n";
-
-// global styling
-import "@radix-ui/themes/styles.css";
-import "~/assets/css/reset.css";
-import "~/assets/css/inter.css";
-import "~/assets/css/app.css";
 
 export type AppContext = {
   environment: EnvironmentVariables;
@@ -28,7 +21,8 @@ export type AppContext = {
 
 /**
  * Main component that wraps the entire application and includes global
- * styles as well as global contexts that are used throughout the app.
+ * styles (see ThemeProvider) as well as global contexts that are used
+ * throughout the app.
  */
 export function App({
   context: { environment, languageTag, hostname, userAgent },
@@ -43,25 +37,17 @@ export function App({
 
   return (
     <StrictMode>
-      <NextThemeProvider attribute="class">
-        <Theme
-          accentColor="indigo"
-          grayColor="sand"
-          radius="small"
-          scaling="100%"
-          panelBackground="solid"
-        >
-          <EnvironmentContextProvider environmentVariables={environment}>
-            <HostnameContextProvider hostname={appId || hostname}>
-              <UserAgentContextProvider userAgent={userAgent}>
-                <I18nContextProvider languageTag={languageTag}>
-                  {children}
-                </I18nContextProvider>
-              </UserAgentContextProvider>
-            </HostnameContextProvider>
-          </EnvironmentContextProvider>
-        </Theme>
-      </NextThemeProvider>
+      <ThemeProvider>
+        <EnvironmentContextProvider environmentVariables={environment}>
+          <HostnameContextProvider hostname={appId || hostname}>
+            <UserAgentContextProvider userAgent={userAgent}>
+              <I18nContextProvider languageTag={languageTag}>
+                {children}
+              </I18nContextProvider>
+            </UserAgentContextProvider>
+          </HostnameContextProvider>
+        </EnvironmentContextProvider>
+      </ThemeProvider>
     </StrictMode>
   );
 }

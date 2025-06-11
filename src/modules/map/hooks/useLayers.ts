@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useDarkMode } from "~/hooks/useDarkMode";
+import { useDarkMode } from "~/hooks/useTheme";
 import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import {
   isSelectionLayer,
