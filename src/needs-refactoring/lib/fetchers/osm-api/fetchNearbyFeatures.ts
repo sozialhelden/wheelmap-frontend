@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
+import useOsmApi from "~/hooks/useOsmApi";
 import type {
   AnyFeature,
   OSMFeatureCollection,

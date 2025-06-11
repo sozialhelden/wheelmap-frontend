@@ -5,7 +5,7 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { useEnvironment } from "~/hooks/useEnvironment";
-import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
+import useOsmApi from "~/hooks/useOsmApi";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";

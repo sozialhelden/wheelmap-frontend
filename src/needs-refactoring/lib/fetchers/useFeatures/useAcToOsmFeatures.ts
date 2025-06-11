@@ -1,6 +1,6 @@
 import useSWRInfinite, { type SWRInfiniteConfiguration } from "swr/infinite";
-import useAccessibilityCloud, {} from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
-import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
+import useAccessibilityCloudApi, {} from "~/hooks/useAccessibilityCloudApi";
+import useOsmApi from "~/hooks/useOsmApi";
 import type { TypeTaggedPlaceInfo } from "../../model/geo/AnyFeature";
 import type { AccessibilityCloudRDFId } from "../../typing/brands/accessibilityCloudIds";
 import type { OSMIdWithTableAndContextNames } from "../../typing/brands/osmIds";
@@ -46,9 +46,11 @@ export const useAcToOsmFeatures = (
   const { baseUrl: osmBaseUrl, appToken: osmAppToken } = useOsmApi({
     cached: Boolean(options?.cache),
   });
-  const { baseUrl: acBaseUrl, appToken: acAppToken } = useAccessibilityCloud({
-    cached: Boolean(options?.cache),
-  });
+  const { baseUrl: acBaseUrl, appToken: acAppToken } = useAccessibilityCloudApi(
+    {
+      cached: Boolean(options?.cache),
+    },
+  );
 
   // composing URLs, redirecting the origin feature id
   const osmRelationProperties = {
