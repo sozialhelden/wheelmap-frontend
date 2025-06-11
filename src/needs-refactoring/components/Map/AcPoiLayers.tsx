@@ -1,15 +1,9 @@
 import { Source } from "react-map-gl/mapbox";
-import { useAccessibilityCloudCollectionTileUrl } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloudCollectionTileUrl";
-import { useAccessibilityCloudFilterQuery } from "~/modules/accessibility-cloud/hooks/useAccessibilityCloudFilterQuery";
+import { useAccessibilityCloudApiCollectionTileUrl } from "~/hooks/useAccessibilityCloudApi";
 
 export const AcPoiLayers = () => {
-  const params = useAccessibilityCloudFilterQuery();
-
   const tiles = [
-    useAccessibilityCloudCollectionTileUrl({
-      collection: "place-infos",
-      params,
-    }),
+    useAccessibilityCloudApiCollectionTileUrl({ collection: "place-infos" }),
   ];
 
   return (

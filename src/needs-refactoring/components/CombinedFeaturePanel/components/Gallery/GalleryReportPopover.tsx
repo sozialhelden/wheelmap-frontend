@@ -9,12 +9,12 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { GalleryContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/Gallery/Gallery";
 import { ErrorScreen } from "~/components/results/ErrorScreen";
 import { SuccessScreen } from "~/components/results/SuccessScreen";
+import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
+import { GalleryContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/Gallery/Gallery";
 import postImageReport from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageReport";
 import type { AccessibilityCloudImage } from "~/needs-refactoring/lib/model/ac/Feature";
-import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 
 type ReportType = "wrong-place" | "outdated" | "offensive" | "other";
 
@@ -50,7 +50,7 @@ export default function GalleryReportPopover({
   image: AccessibilityCloudImage;
 }) {
   const api = useContext(GalleryContext);
-  const { baseUrl, appToken } = useAccessibilityCloud({ cached: true });
+  const { baseUrl, appToken } = useAccessibilityCloudApi({ cached: true });
 
   const defaultValue = Object.keys(reportReasons)[0];
   const [isSending, setIsSending] = useState(false);

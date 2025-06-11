@@ -11,13 +11,13 @@ import {
 import { t } from "@transifex/native";
 import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
-import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import { ErrorScreen } from "~/components/results/ErrorScreen";
-import uploadPhotoForFeature from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageUpload";
-import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import useAccessibilityCloud from "~/modules/accessibility-cloud/hooks/useAccessibilityCloud";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { ErrorScreen } from "~/components/results/ErrorScreen";
+import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
+import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import uploadPhotoForFeature from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageUpload";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 const PreviewWrapper = styled.div`
   position: relative;
@@ -44,7 +44,7 @@ const PreviewOverlay = styled(Box)`
 export const ImageUploadPreview: FC<{
   feature: AnyFeature;
 }> = ({ feature }) => {
-  const { baseUrl, appToken } = useAccessibilityCloud({ cached: true });
+  const { baseUrl, appToken } = useAccessibilityCloudApi({ cached: true });
   const { image, setImage, previousStep, nextStep } =
     useContext(ImageUploadContext);
 
