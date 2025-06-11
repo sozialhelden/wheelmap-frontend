@@ -4,7 +4,7 @@ import {
   getDialog,
   getEditButton,
   setupPage,
-} from "~/modules/edit/tests/utils";
+} from "~/pages/[placeType]/[id]/_tests/utils";
 
 test.describe("Edit toilet accessibility", () => {
   let dialog: Locator;

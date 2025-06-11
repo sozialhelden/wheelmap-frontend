@@ -2,15 +2,15 @@ import { Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import type React from "react";
 import { useEffect, useState } from "react";
-import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
-import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
-import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
+import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
+import WheelchairRadioCards from "~/pages/[placeType]/[id]/_components/WheelchairRadioCards";
+import type { BaseEditorProps } from "./BaseEditor";
 
 export const WheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,

@@ -1,9 +1,9 @@
-import React from "react";
 import { type Badge, Flex } from "@radix-ui/themes";
+import React from "react";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import { getValueLabel } from "~/modules/feature-panel/utils/getValueLabel";
-import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
+import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
+import { getValueLabel } from "~/pages/[placeType]/[id]/_utils/getValueLabel";
 
 interface Props extends React.ComponentProps<typeof Badge> {
   tagOrTagGroup: TagOrTagGroup;

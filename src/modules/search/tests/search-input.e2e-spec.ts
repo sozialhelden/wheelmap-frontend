@@ -1,11 +1,11 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "~/tests/e2e/setup/test-fixture";
+import { skipOnMobiles } from "~/tests/e2e/utils/device";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnMobiles } from "~/tests/e2e/utils/device";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
@@ -124,10 +124,13 @@ test.describe("search-input", () => {
   }) => {
     await searchFor(page, "Alexanderplatz");
 
+    await expect(
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
+    ).toBeVisible();
+
     let foundItem = false;
     let counter = 0;
     while (!foundItem) {
-      await page.waitForTimeout(500);
       await getSearchInput(page).press("ArrowDown");
       foundItem = await getSearchDropdown(page)
         .getByTestId("highlighted-search-result")

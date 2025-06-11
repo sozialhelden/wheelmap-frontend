@@ -1,15 +1,15 @@
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import * as React from "react";
 import { useContext } from "react";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
-import { generateTree } from "~/modules/feature-panel/utils/generateTree";
-import { nestTree } from "~/modules/feature-panel/utils/nestTree";
-import { selectWheelchairDescription } from "~/modules/feature-panel/utils/selectWheelchairDescription";
-import { attachTagPropsRecursively } from "~/modules/feature-panel/utils/attachPropsRecursively";
-import { filterKeys } from "~/modules/feature-panel/utils/filterKeys";
+import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { attachTagPropsRecursively } from "~/pages/[placeType]/[id]/_utils/attachPropsRecursively";
+import { filterKeys } from "~/pages/[placeType]/[id]/_utils/filterKeys";
+import { generateTree } from "~/pages/[placeType]/[id]/_utils/generateTree";
+import { nestTree } from "~/pages/[placeType]/[id]/_utils/nestTree";
+import { selectWheelchairDescription } from "~/pages/[placeType]/[id]/_utils/selectWheelchairDescription";
 
 export type TagOrTagGroup = {
   key: string;
