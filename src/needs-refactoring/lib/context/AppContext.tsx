@@ -6,11 +6,11 @@ import React, {
   useEffect,
 } from "react";
 import useSWR from "swr";
+import { useEnvironment } from "~/hooks/useEnvironment";
+import useHostname from "~/hooks/useHostname";
 import { appIdForHostnameOrIPAddress } from "~/needs-refactoring/lib/fetchers/ac/fetchApp";
 import { fetchDocumentWithTypeTag } from "~/needs-refactoring/lib/fetchers/ac/fetchDocument";
 import type { IApp } from "../model/ac/App";
-import { useEnvironmentContext } from "~/modules/app/context/EnvironmentContext";
-import useHostnameContext from "~/modules/app/context/HostnameContext";
 
 export const AppContext = createContext<IApp | undefined>(undefined);
 AppContext.displayName = "AppContext";
@@ -23,9 +23,9 @@ export function AppContextProvider({ children }: { children: ReactNode }) {
   const {
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken,
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL: baseUrl,
-  } = useEnvironmentContext();
+  } = useEnvironment();
 
-  const hostname = useHostnameContext();
+  const hostname = useHostname();
 
   if (!baseUrl) {
     throw new Error("Accessibility Cloud base url not set");

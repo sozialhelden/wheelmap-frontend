@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import useOsmApi from "~/modules/osm-api/hooks/useOsmApi";
+import useOsmApi from "~/hooks/useOsmApi";
 import type { OSMFeatureCollection } from "../../model/geo/AnyFeature";
 import type OSMFeature from "../../model/osm/OSMFeature";
 

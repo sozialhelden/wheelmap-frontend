@@ -3,7 +3,7 @@ import intersperse from "intersperse";
 import { compact, uniq } from "lodash";
 import * as React from "react";
 import styled from "styled-components";
-import { useDarkMode } from "~/hooks/useDarkMode";
+import { useDarkMode } from "~/hooks/useTheme";
 import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 import ChevronRight from "~/needs-refactoring/components/shared/ChevronRight";
 import {

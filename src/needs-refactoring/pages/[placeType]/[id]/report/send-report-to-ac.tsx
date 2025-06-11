@@ -1,6 +1,7 @@
 import { Button, Spinner } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { type FC, type ReactNode, useContext, useState } from "react";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
@@ -8,7 +9,6 @@ import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePan
 import ToiletStatusAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusAccessible";
 import ToiletStatusNotAccessible from "~/needs-refactoring/components/icons/accessibility/ToiletStatusNotAccessible"; // import RadioButtonOn from "../../../../../components/icons/ui-elements/RadioButtonSelected";
 import { cx } from "~/needs-refactoring/lib/util/cx";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 export const AccessibilityView: FC<{
   onClick: () => unknown;

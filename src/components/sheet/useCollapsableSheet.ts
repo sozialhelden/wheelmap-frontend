@@ -33,7 +33,6 @@ export function useCollapsableSheet({
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     container.current?.addEventListener("scroll", handleScrollEvent);
     return () => {
@@ -63,7 +62,6 @@ export function useCollapsableSheet({
 
   // sync the internal state with the external once and vice versa, so
   // this component can be controlled, but also works on its own.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (externalIsExpanded && !isExpanded) {
       expand();
@@ -72,7 +70,6 @@ export function useCollapsableSheet({
       collapse();
     }
   }, [externalIsExpanded]);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => onIsExpandedChanged?.(isExpanded), [isExpanded]);
 
   return {

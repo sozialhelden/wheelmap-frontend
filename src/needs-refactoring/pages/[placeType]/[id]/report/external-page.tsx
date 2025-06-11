@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import { log } from "~/needs-refactoring/lib/util/logger";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 function ReportExternalPage() {
   const router = useRouter();

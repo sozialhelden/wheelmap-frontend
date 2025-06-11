@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { MappingEventMetadata } from "~/needs-refactoring/components/MappingEvents/MappingEventMetadata";
 import MappingEventPanel from "~/needs-refactoring/components/MappingEvents/MappingEventPanel";
 import useDocumentSWR from "~/needs-refactoring/lib/fetchers/ac/useDocumentSWR";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 export default function Page() {
   const router = useRouter();

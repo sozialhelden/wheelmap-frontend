@@ -1,12 +1,12 @@
+import { MapPinned, Navigation } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { useUserAgent } from "~/modules/app/context/UserAgentContext";
+import { useUserAgent } from "~/hooks/useUserAgent";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { generateMapsUrl } from "~/needs-refactoring/lib/model/geo/generateMapsUrls";
 import { usePlaceNameFor } from "~/needs-refactoring/lib/model/geo/usePlaceNameFor";
 import { generateShowOnOsmUrl } from "~/needs-refactoring/lib/model/osm/generateOsmUrls";
 import openButtonCaption from "~/needs-refactoring/lib/openButtonCaption";
-import { MapPinned, Navigation } from "lucide-react";
 import FeatureAddressString, {
   addressForFeature,
 } from "../FeatureAddressString";
@@ -19,7 +19,7 @@ type Props = {
 
 export default function AddressMapsLinkItems(props: Props) {
   const { feature } = props;
-  const userAgent = useUserAgent();
+  const { userAgent } = useUserAgent();
   const category = findCategory(feature);
 
   if (!feature || !feature.properties) return null;
