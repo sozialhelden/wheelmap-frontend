@@ -27,7 +27,7 @@ import getFeatureIdsFromLocation from "~/needs-refactoring/lib/model/geo/getFeat
 
 import { useEnvironment } from "~/hooks/useEnvironment";
 
-import { useDarkMode } from "~/hooks/useDarkMode";
+import { useDarkMode } from "~/hooks/useTheme";
 import { OsmApiSources } from "~/modules/map/components/OsmApiSources";
 import { getBaseStyle } from "~/modules/map/utils/map-styles";
 import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";

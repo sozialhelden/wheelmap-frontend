@@ -1,13 +1,13 @@
 import { t } from "@transifex/native";
 import Color from "colorjs.io"; // biome-ignore lint/style/useImportType: The import is correct, React is used extensively here.
 import React from "react";
+import { useDarkMode } from "~/hooks/useTheme";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type {
   TypeTaggedOSMFeature,
   TypeTaggedPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { classifyHSLColor } from "~/needs-refactoring/lib/util/classifyHSLColor";
-import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import { useDarkMode } from "~/hooks/useDarkMode";
 import DisplayedQuantity from "./DisplayedQuantity";
 import OpeningHoursValue from "./OpeningHoursValue";
 import { determineIfZerothLevelShouldBeSkipped } from "./determineIfZerothLevelShouldBeSkipped";
