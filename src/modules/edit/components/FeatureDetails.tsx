@@ -145,6 +145,7 @@ const FeatureDetails = ({
                 <WheelchairSection
                   key="osm_wheelchair"
                   tags={osmWheelchairInfo}
+                  feature={feature}
                 />
               </Section>
             )}
@@ -155,6 +156,7 @@ const FeatureDetails = ({
                   tags={osmToiletInfo}
                   nextToilet={nextAccessibleToilet}
                   isLoading={isLoadingNextToilet}
+                  feature={feature}
                 />
               </Section>
             )}

@@ -8,7 +8,7 @@ import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Featu
 type Props = {
   category: CategoryProperties;
   onSelect: (value: YesNoLimitedUnknown) => void;
-  defaultValue: string;
+  defaultValue: string | undefined;
 };
 
 const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
