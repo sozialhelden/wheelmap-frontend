@@ -7,7 +7,7 @@ import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 
 type Props = {
   onSelect: (value: YesNoUnknown) => void;
-  defaultValue: string;
+  defaultValue: string | undefined;
 };
 
 const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
