@@ -1,6 +1,6 @@
 import { useEffect } from "react";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 // @legacy-route
 export default function LegacyNodeFeaturesPage() {

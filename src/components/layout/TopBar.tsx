@@ -1,10 +1,10 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import styled from "styled-components";
-import Logo from "~/components/header/Logo";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
-import Navigation from "~/needs-refactoring/components/navigation/Navigation";
-import NeedsPicker from "~/modules/needs/components/NeedsPicker";
+import Logo from "~/components/layout/Logo";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+import NeedsPicker from "~/modules/needs/components/NeedsPicker";
+import Navigation from "~/needs-refactoring/components/navigation/Navigation";
+import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 
 const StyledTopBar = styled.header`
     position: fixed;

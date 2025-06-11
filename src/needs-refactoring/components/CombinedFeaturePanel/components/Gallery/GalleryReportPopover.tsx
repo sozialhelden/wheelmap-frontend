@@ -9,8 +9,8 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { ErrorScreen } from "~/components/results/ErrorScreen";
-import { SuccessScreen } from "~/components/results/SuccessScreen";
+import { ErrorResult } from "~/components/results/ErrorResult";
+import { SuccessResult } from "~/components/results/SuccessResult";
 import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
 import { GalleryContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/Gallery/Gallery";
 import postImageReport from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageReport";
@@ -157,7 +157,7 @@ export default function GalleryReportPopover({
         )}
         {hasBeenSent && !sendingError && (
           <>
-            <SuccessScreen
+            <SuccessResult
               heading={t("Report sent successfully!")}
               text={t(
                 "Thank you for your report. The image will not be visible anymore until it has been checked by our staff. This can take a while, please be patient.",
@@ -172,7 +172,7 @@ export default function GalleryReportPopover({
         )}
         {hasBeenSent && sendingError && (
           <>
-            <ErrorScreen
+            <ErrorResult
               heading={t("Sending report failed!")}
               text={t("Please try again later.")}
               error={sendingError.toString()}

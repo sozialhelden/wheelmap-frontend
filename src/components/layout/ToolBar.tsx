@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CategoryFilter } from "~/modules/categories/components/CategoryFilter";
 import { Search } from "~/modules/search/components/Search";
 
-const StyledSearchAndFilterBar = styled.div`
+const StyledToolBar = styled.div`
   position: fixed;
   top: calc(var(--topbar-height) + var(--space-3));
   left: 0;
@@ -32,17 +32,17 @@ const SearchContainer = styled.div`
     }
 `;
 
-export default function SearchAndFilterBar({
+export default function ToolBar({
   slotAfterSearch,
   isSearchOnBackground,
 }: { slotAfterSearch?: ReactNode; isSearchOnBackground?: boolean }) {
   return (
-    <StyledSearchAndFilterBar>
+    <StyledToolBar>
       <SearchContainer>
         <Search isOnBackground={isSearchOnBackground} />
         {slotAfterSearch}
       </SearchContainer>
       <CategoryFilter />
-    </StyledSearchAndFilterBar>
+    </StyledToolBar>
   );
 }

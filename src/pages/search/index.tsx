@@ -1,4 +1,4 @@
-import { getLayout } from "~/components/layouts/BaseMapLayout";
+import { getLayout } from "~/layouts/BaseMapLayout";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 
 // @legacy-route

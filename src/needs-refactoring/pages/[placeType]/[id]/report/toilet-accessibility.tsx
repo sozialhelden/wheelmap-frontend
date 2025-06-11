@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { getLayout } from "~/components/layouts/DefaultLayout";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { ToiletsWheelchairEditor } from "~/pages/[placeType]/[id]/_components/ToiletsWheelchairEditor";
 

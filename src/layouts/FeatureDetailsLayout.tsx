@@ -1,13 +1,13 @@
-import { FeaturePanelContextProvider } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import React, { type ReactNode, useEffect, useState } from "react";
 import { Button } from "@radix-ui/themes";
-import { getLayout as getBaseMapLayout } from "~/components/layouts/BaseMapLayout";
-import SearchAndFilterBar from "~/components/header/SearchAndFilterBar";
-import { Sidebar as SidebarComponent } from "~/components/sidebar/Sidebar";
-import { Sheet } from "~/components/sheet/Sheet";
-import { useBreakpoints } from "~/hooks/useBreakpoints";
-import styled from "styled-components";
 import { X } from "lucide-react";
+import React, { type ReactNode, useEffect, useState } from "react";
+import styled from "styled-components";
+import ToolBar from "~/components/layout/ToolBar";
+import { Sheet } from "~/components/sheet/Sheet";
+import { Sidebar as SidebarComponent } from "~/components/sidebar/Sidebar";
+import { useBreakpoints } from "~/hooks/useBreakpoints";
+import { getLayout as getBaseMapLayout } from "~/layouts/BaseMapLayout";
+import { FeaturePanelContextProvider } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 
 const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
@@ -53,7 +53,7 @@ export const FeatureDetailsLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <FeaturePanelContextProvider>
-      <SearchAndFilterBar
+      <ToolBar
         isSearchOnBackground={isExpanded}
         slotAfterSearch={sidebarCloseButton}
       />

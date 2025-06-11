@@ -1,8 +1,8 @@
-import { TriangleAlert } from "lucide-react";
 import { Flex, Strong, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { TriangleAlert } from "lucide-react";
 
-export function ErrorScreen({
+export function ErrorResult({
   heading,
   text,
   error,

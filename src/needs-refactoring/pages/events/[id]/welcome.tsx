@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
+import { getLayout } from "~/layouts/DefaultLayout";
 import MappingEventWelcomeDialog from "~/needs-refactoring/components/MappingEvents/MappingEventWelcomeDialog";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 export default function Page() {
   const router = useRouter();
