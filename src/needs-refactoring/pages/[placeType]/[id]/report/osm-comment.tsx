@@ -1,7 +1,7 @@
 import { t } from "@transifex/native";
 import type { ReactElement } from "react";
+import { DefaultLayout } from "~/layouts/DefaultLayout";
 import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
-import { DefaultLayout } from "~/components/layouts/DefaultLayout";
 import { ReportOSM } from "./osm-position";
 
 const makeTitle = (appName: string) =>

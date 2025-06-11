@@ -1,4 +1,4 @@
-import { getLayout } from "~/components/layouts/DefaultLayout";
+import { getLayout } from "~/layouts/DefaultLayout";
 
 export default function Page() {}
 

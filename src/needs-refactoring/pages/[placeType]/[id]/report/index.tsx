@@ -1,11 +1,11 @@
 import { t } from "@transifex/native";
 import React, { useContext } from "react";
+import { getLayout } from "~/layouts/DefaultLayout";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
-import { getLayout } from "~/components/layouts/DefaultLayout";
 
 const options = [
   {

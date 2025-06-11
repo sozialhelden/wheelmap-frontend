@@ -1,27 +1,27 @@
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
+import { Spinner } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
-  createContext,
   type ReactNode,
+  createContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
-import ToastContainer from "~/needs-refactoring/components/ToastContainer";
-import TopBar from "~/components/header/TopBar";
-import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
-import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
-import LoadableMapView from "~/needs-refactoring/components/Map/LoadableMapView";
-import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
-import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
+import TopBar from "~/components/layout/TopBar";
 import {
   SheetMountedContextProvider,
   useSheetMounted,
 } from "~/components/sheet/useSheetMounted";
-import { Spinner } from "@radix-ui/themes";
+import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
+import LoadableMapView from "~/needs-refactoring/components/Map/LoadableMapView";
+import ToastContainer from "~/needs-refactoring/components/ToastContainer";
+import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
+import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
+import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)

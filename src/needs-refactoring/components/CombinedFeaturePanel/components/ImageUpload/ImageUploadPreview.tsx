@@ -13,7 +13,7 @@ import React, { type FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
-import { ErrorScreen } from "~/components/results/ErrorScreen";
+import { ErrorResult } from "~/components/results/ErrorResult";
 import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
 import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import uploadPhotoForFeature from "~/needs-refactoring/lib/fetchers/ac/refactor-this/postImageUpload";
@@ -89,7 +89,7 @@ export const ImageUploadPreview: FC<{
           )}
           {error && (
             <PreviewOverlay>
-              <ErrorScreen
+              <ErrorResult
                 heading={t("There was an error uploading your image!")}
                 text={t("Please try again later.")}
                 error={error.toString()}

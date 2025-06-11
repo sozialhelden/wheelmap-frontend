@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { getLayout } from "~/components/layouts/FeatureDetailsLayout";
+import { getLayout } from "~/layouts/FeatureDetailsLayout";
 import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 
 export default function PlaceDetailPage() {
   const { features } = useContext(FeaturePanelContext);
