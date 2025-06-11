@@ -1,33 +1,33 @@
+import { bbox } from "@turf/turf";
 import React, { useContext } from "react";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
+import { FeatureGallery } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureGallery";
+import { FeatureImageUpload } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import AddressMapsLinkItems from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/AddressMapsLinkItems";
+import ExternalInfoAndEditPageLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/ExternalInfoAndEditPageLinks";
+import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PhoneNumberLinks";
+import PlaceWebsiteLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PlaceWebsiteLink";
+import StyledIconButtonList from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/StyledIconButtonList";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { useMap } from "~/needs-refactoring/components/Map/useMap";
 import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { bbox } from "@turf/turf";
-import { useMap } from "~/needs-refactoring/components/Map/useMap";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import AddressMapsLinkItems from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/AddressMapsLinkItems";
-import PlaceWebsiteLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PlaceWebsiteLink";
-import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PhoneNumberLinks";
-import ExternalInfoAndEditPageLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/ExternalInfoAndEditPageLinks";
-import StyledIconButtonList from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/StyledIconButtonList";
-import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
-import { FeatureGallery } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureGallery";
-import { FeatureImageUpload } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import FeatureDescription from "~/modules/feature-panel/components/FeatureDescription";
-import { useOsmTags } from "~/modules/feature-panel/hooks/useOsmTags";
-import WheelchairSection from "~/modules/feature-panel/components/WheelchairSection";
-import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
-import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import FeatureDescription from "~/pages/[placeType]/[id]/_components/FeatureDescription";
+import OsmInfoSection from "~/pages/[placeType]/[id]/_components/OSMInfoSection";
+import ToiletsSection from "~/pages/[placeType]/[id]/_components/ToiletsSection";
+import WheelchairSection from "~/pages/[placeType]/[id]/_components/WheelchairSection";
+import { useOsmTags } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
 
-import HeaderImageSection from "~/modules/feature-panel/components/HeaderImageSection";
-import PartOf from "~/modules/feature-panel/components/PartOf";
-import styled from "styled-components";
 import { Flex } from "@radix-ui/themes";
-import { useNextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
+import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
+import HeaderImageSection from "~/pages/[placeType]/[id]/_components/HeaderImageSection";
+import PartOf from "~/pages/[placeType]/[id]/_components/PartOf";
+import { useNextAccessibleToilet } from "~/pages/[placeType]/[id]/_hooks/useNextAccessibleToilet";
 
 type Props = {
   features: AnyFeature[];

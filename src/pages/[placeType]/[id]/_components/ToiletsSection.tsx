@@ -1,16 +1,16 @@
-import React from "react";
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
-import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
-import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
-import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
+import { t } from "@transifex/native";
+import React from "react";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import { t } from "@transifex/native";
+import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
-import type { NextAccessibleToilet } from "~/modules/feature-panel/hooks/useNextAccessibleToilet";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
-import { getValueLabel } from "~/modules/feature-panel/utils/getValueLabel";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
+import { AddDescriptionButton } from "~/pages/[placeType]/[id]/_components/AddDescriptionButton";
+import type { NextAccessibleToilet } from "~/pages/[placeType]/[id]/_hooks/useNextAccessibleToilet";
+import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
+import { getValueLabel } from "~/pages/[placeType]/[id]/_utils/getValueLabel";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;

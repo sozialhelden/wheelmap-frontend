@@ -1,11 +1,11 @@
-import type React from "react";
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
+import type React from "react";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
-import type { TagOrTagGroup } from "~/modules/feature-panel/hooks/useOsmTags";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
+import { AddDescriptionButton } from "~/pages/[placeType]/[id]/_components/AddDescriptionButton";
+import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
 
 import { t } from "@transifex/native";
 
