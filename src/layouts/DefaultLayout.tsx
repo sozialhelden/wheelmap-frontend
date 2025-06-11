@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
-import SearchAndFilterBar from "~/components/header/SearchAndFilterBar";
-import { getLayout as getMapLayout } from "~/components/layouts/BaseMapLayout";
+import ToolBar from "~/components/layout/ToolBar";
+import { getLayout as getMapLayout } from "~/layouts/BaseMapLayout";
 
 export function DefaultLayout({
   children,
@@ -9,7 +9,7 @@ export function DefaultLayout({
 }) {
   return (
     <>
-      <SearchAndFilterBar />
+      <ToolBar />
       {children}
     </>
   );

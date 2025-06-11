@@ -1,6 +1,6 @@
 import { t } from "@transifex/native";
 import type { ReactElement } from "react";
-import { DefaultLayout } from "~/components/layouts/DefaultLayout";
+import { DefaultLayout } from "~/layouts/DefaultLayout";
 import { ReportOSM } from "./osm-position";
 
 const disusedUrl = "https://wiki.openstreetmap.org/wiki/Key:disused:*";

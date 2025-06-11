@@ -1,7 +1,7 @@
-import { Check } from "lucide-react";
 import { Flex, Strong, Text } from "@radix-ui/themes";
+import { Check } from "lucide-react";
 
-export function SuccessScreen({
+export function SuccessResult({
   heading,
   text,
 }: {

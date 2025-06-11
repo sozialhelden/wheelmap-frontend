@@ -4,12 +4,12 @@ import { t } from "@transifex/native";
 import { center } from "@turf/turf";
 import type { MultiPolygon, Point, Polygon } from "geojson";
 import React, { type FC, type ReactElement, useContext } from "react";
+import { DefaultLayout } from "~/layouts/DefaultLayout";
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { DefaultLayout } from "~/components/layouts/DefaultLayout";
 
 const changeTitle = t(`You can change this place's location on OpenStreetMap.`);
 const note = t(
