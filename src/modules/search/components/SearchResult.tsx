@@ -6,7 +6,8 @@ import type { SearchResult as SearchResultType } from "~/modules/search/types/Se
 import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+
+import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 
 type Props = {
   result: SearchResultType;

@@ -4,7 +4,7 @@ export function useHighlightSearchResults({
   searchResults,
   searchTerm,
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-}: { searchTerm: string; searchResults?: any[] }) {
+}: { searchTerm?: string; searchResults?: any[] }) {
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const searchResultsContainer = useRef<HTMLElement | undefined>();
 
@@ -38,14 +38,12 @@ export function useHighlightSearchResults({
     getHighlightedDomElement()?.querySelector("a")?.click();
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     getHighlightedDomElement()?.scrollIntoView({
       block: "nearest",
     });
   }, [highlightedIndex]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setHighlightedIndex(-1);
   }, [searchTerm]);

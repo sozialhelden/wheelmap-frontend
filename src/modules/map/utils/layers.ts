@@ -1,7 +1,8 @@
 import type { LayerSpecification } from "mapbox-gl";
 import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import { getLanguage } from "~/modules/i18n/utils/language-tags";
-import { osmApiCollections } from "~/modules/map/components/OsmApiSources";
+
+import { osmApiCollections } from "~/hooks/useOsmApi";
 
 export function isOsmApiLayer(layer: LayerSpecification): boolean {
   return layer.id.startsWith("osm-") || layer.id.startsWith("ac-osm-");

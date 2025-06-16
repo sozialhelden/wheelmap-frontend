@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import useSWR from "swr";
+import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import type { SearchResult } from "~/modules/search/types/SearchResult";
+import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 import fetchPhotonFeatures, {} from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";
 import getAddressString from "~/needs-refactoring/lib/model/geo/getAddressString";
-import type { SearchResult } from "~/modules/search/types/SearchResult";
-import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
 
 const swrConfigNoRevalidation = {
   keepPreviousData: false,
@@ -14,7 +14,7 @@ const swrConfigNoRevalidation = {
   revalidateOnReconnect: false,
 };
 
-function usePhotonSearchResults(query: string) {
+function usePhotonSearchResults(query?: string) {
   const { languageTag } = useI18nContext();
 
   const { map } = useMap();
@@ -35,7 +35,7 @@ function usePhotonSearchResults(query: string) {
   );
 }
 
-export function useSearchResults(givenQuery: string) {
+export function useSearchResults(givenQuery?: string) {
   const query = givenQuery?.trim();
 
   const photonSearchQuery = usePhotonSearchResults(query);

@@ -8,7 +8,8 @@ import { Sidebar as SidebarComponent } from "~/components/sidebar/Sidebar";
 import { useBreakpoints } from "~/hooks/useBreakpoints";
 import { getLayout as getBaseMapLayout } from "~/layouts/BaseMapLayout";
 import { FeaturePanelContextProvider } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+
+import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 
 const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     height: 100%;
