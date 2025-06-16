@@ -1,10 +1,11 @@
-import { type ReactNode, createContext, useContext } from "react";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
 import {
   type Category,
   type CategoryBaseProperties,
   getCategories,
 } from "@sozialhelden/core";
+import { type ReactNode, createContext, useContext } from "react";
+
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
@@ -23,17 +24,17 @@ export const CategoryFilterContext = createContext<CategoryFilterContextType>({
 export function CategoryFilterContextProvider({
   children,
 }: { children: ReactNode }) {
-  const router = useAppStateAwareRouter();
+  const { appState, setAppState } = useAppState();
 
-  const category = router.query.category as Category;
-  const categoryProperties = getCategories()[category];
+  const category = appState.category;
+  const categoryProperties = category ? getCategories()[category] : undefined;
   const isFilteringActive = Boolean(categoryProperties);
 
   const filter = async (category: Category) => {
-    await router.push({ pathname: "/", query: { category } });
+    await setAppState({ category: category });
   };
   const reset = async () => {
-    await router.replace({ query: { category: "" } });
+    await setAppState({ category: undefined });
   };
 
   return (

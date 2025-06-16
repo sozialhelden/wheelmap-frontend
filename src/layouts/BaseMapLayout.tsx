@@ -16,8 +16,8 @@ import {
   SheetMountedContextProvider,
   useSheetMounted,
 } from "~/components/sheet/useSheetMounted";
+import LoadableMapView from "~/modules/map/components/LoadableMapView";
 import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
-import LoadableMapView from "~/needs-refactoring/components/Map/LoadableMapView";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";

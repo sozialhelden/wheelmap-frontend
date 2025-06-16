@@ -6,7 +6,10 @@ type UserAgentContextType = {
   userAgent: UAParser.IResult | null;
 };
 
-export const UserAgentContext = createContext<UserAgentContextType>(null);
+export const UserAgentContext = createContext<UserAgentContextType>({
+  original: "",
+  userAgent: null,
+});
 
 export function useUserAgent() {
   return useContext(UserAgentContext);

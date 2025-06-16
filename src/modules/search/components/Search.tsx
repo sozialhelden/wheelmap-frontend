@@ -1,6 +1,6 @@
 import React, { type Ref, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
 import { SearchFormField } from "~/modules/search/components/SearchFormField";
@@ -14,18 +14,15 @@ const SearchWrapper = styled.div`
 `;
 
 export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
-  const router = useAppStateAwareRouter();
-  const { categoryProperties } = useCategoryFilter();
+  const { appState, setAppState } = useAppState();
+
+  const { categoryProperties, reset } = useCategoryFilter();
   const category = categoryProperties?.name();
 
-  const searchTermFromQueryParameter = Array.isArray(router.query.q)
-    ? router.query.q[0]
-    : router.query.q;
-
-  const [searchTerm, setSearchTerm] = useState<string>(
+  const [searchTerm, setSearchTerm] = useState<string | undefined>(
     // make sure that if both category and search query parameters are
     // present, the category wins
-    category ? "" : searchTermFromQueryParameter,
+    category ? "" : appState.search,
   );
 
   const { searchResults, searchError, isSearching } =
@@ -45,7 +42,7 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
     if (!category) {
       return;
     }
-    await router.replace({ query: { category: "" } });
+    await reset();
   };
 
   const handleInputChange = async (value: string) => {
@@ -64,21 +61,20 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
     setSearchTerm("");
   }, [category]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    router.replace({ query: { q: searchTerm } });
+    setAppState({ search: searchTerm }, { type: "replace" });
   }, [searchTerm]);
 
   useEffect(() => {
-    setSearchTerm(searchTermFromQueryParameter);
-  }, [searchTermFromQueryParameter]);
+    setSearchTerm(appState.search);
+  }, [appState.search]);
 
   return (
     <SearchWrapper>
       <SearchFormField
         isDropdownOpen={isDropdownOpen}
         isOnBackground={isOnBackground}
-        value={category || searchTerm}
+        value={String(category || searchTerm || "")}
         onChange={handleInputChange}
         onReset={resetCategoryFilter}
         onHighlightNext={highlightNext}

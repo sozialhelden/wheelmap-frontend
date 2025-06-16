@@ -8,6 +8,8 @@ import React, {
   useRef,
 } from "react";
 import styled from "styled-components";
+import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
+import { useMapHighlight } from "~/needs-refactoring/components/Map/filter";
 import { useExpandedFeatures } from "~/needs-refactoring/lib/fetchers/useFeatures";
 import {
   type CollectedFeature,
@@ -24,8 +26,6 @@ import {
 } from "~/needs-refactoring/lib/typing/discriminators/osmDiscriminator";
 import { normalizeAccessibilityCloudId } from "~/needs-refactoring/lib/typing/normalization/accessibilityCloudIdNormalization";
 import { normalizeOSMId } from "~/needs-refactoring/lib/typing/normalization/osmIdNormalization";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
-import { useMapHighlight } from "~/needs-refactoring/components/Map/filter";
 
 interface FeaturePanelContextType {
   features: {

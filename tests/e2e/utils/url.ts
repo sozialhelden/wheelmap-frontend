@@ -10,6 +10,6 @@ export const waitForQueryParam = async (
   value = "",
 ) => {
   return page.waitForURL(
-    new RegExp(String.raw`[?&]${param}=${value}(?:&|$)`, "g"),
+    new RegExp(String.raw`[?&]${encodeURI(param)}=${value}(?:&|$)`, "g"),
   );
 };

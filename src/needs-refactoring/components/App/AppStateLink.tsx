@@ -1,21 +1,18 @@
 import Link from "next/link";
-import { type ComponentProps, type Ref, useMemo } from "react";
-import React from "react";
-import {
-  preserveSearchParams,
-  useAppStateAwareRouter,
-} from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+import { type ComponentProps, type Ref, forwardRef, useMemo } from "react";
 
-export const AppStateLink = React.forwardRef(
+import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
+
+export const AppStateLink = forwardRef(
   (
     { href, ...props }: ComponentProps<typeof Link>,
     ref: Ref<HTMLAnchorElement>,
   ) => {
-    const { searchParams, query } = useAppStateAwareRouter();
+    const { setAppStateQueryParameters } = useAppStateAwareRouter();
 
     const extendedHref = useMemo(
-      () => preserveSearchParams(href, searchParams, query),
-      [href, searchParams, query],
+      () => setAppStateQueryParameters(href as URL | string),
+      [href, setAppStateQueryParameters],
     );
 
     return <Link {...props} href={extendedHref} ref={ref} />;

@@ -1,5 +1,6 @@
 import { getLayout } from "~/layouts/BaseMapLayout";
-import { useAppStateAwareRouter } from "~/needs-refactoring/lib/util/useAppStateAwareRouter";
+
+import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 
 // @legacy-route
 export default function Page() {
