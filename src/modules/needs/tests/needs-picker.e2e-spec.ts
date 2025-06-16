@@ -5,9 +5,9 @@ import {
   type NeedSettings,
   settings as needSettings,
 } from "~/modules/needs/needs";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 const getDropdown = (page: Page): Locator => {
   return page
@@ -161,12 +161,56 @@ test.describe("needs-picker", () => {
     await getDropdown(page).getByRole("button", { name: "Save" }).click();
     await assertDropdownIsNotVisible(page);
 
-    await waitForQueryParam(page, "wheelchair", "yes");
-    expect(getQueryParams(page).getAll("wheelchair")).toEqual([
-      "limited",
-      "yes",
+    await waitForQueryParam(
+      page,
+      "needs[mobility]",
+      "partially-wheelchair-accessible",
+    );
+    expect(getQueryParams(page).getAll("needs[mobility]")).toEqual([
+      "partially-wheelchair-accessible",
     ]);
-    expect(getQueryParams(page).getAll("toilet")).toEqual(["yes"]);
+    expect(getQueryParams(page).getAll("needs[toilet]")).toEqual([
+      "fully-wheelchair-accessible",
+    ]);
+
+    await page.goto(
+      "/?needs[mobility]=fully-wheelchair-accessible&needs[toilet]=no-need",
+    );
+    await expect(
+      page.getByRole("button", {
+        name: "You have 2 needs selected: Fully wheelchair accessible, I have no toilet needs",
+      }),
+    ).toBeVisible();
+  });
+
+  test("the need selection will be persisted in local storage across reloads", async ({
+    page,
+  }) => {
+    expect(getQueryParams(page).get("wheelchair")).toBeFalsy();
+    expect(getQueryParams(page).get("toilet")).toBeFalsy();
+
+    await openDropdown(page);
+    await getDropdown(page)
+      .getByRole("radio", { name: "Partially wheelchair accessible" })
+      .click();
+    await getDropdown(page)
+      .getByRole("radio", { name: "Fully wheelchair accessible toilet" })
+      .click();
+    await getDropdown(page).getByRole("button", { name: "Save" }).click();
+    await assertDropdownIsNotVisible(page);
+
+    await waitForQueryParam(
+      page,
+      "needs[mobility]",
+      "partially-wheelchair-accessible",
+    );
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("button", {
+        name: "You have 2 needs selected: Partially wheelchair accessible, Fully wheelchair accessible toilet",
+      }),
+    ).toBeVisible();
   });
 
   test("it doesn't save needs when clicking the cancel button", async ({

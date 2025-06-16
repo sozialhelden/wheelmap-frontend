@@ -8,6 +8,7 @@ import type * as React from "react";
 import { App } from "~/components/App";
 import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
 import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
+import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
@@ -47,32 +48,34 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
 
   return (
     <App context={{ languageTag, environment, hostname, userAgent }}>
-      <Head />
-      <StyledComponentsRegistry>
-        <HotkeysProvider>
-          <SessionProvider session={session}>
-            <ExpertModeContextProvider>
-              <SWRConfigProvider>
-                <NeedsContextProvider>
-                  <CategoryFilterContextProvider>
-                    <AppContextProvider>
-                      <GlobalMapContextProvider>
-                        <MapFilterContextProvider>
-                          <BreakpointContextProvider>
-                            <SheetMountedContextProvider>
-                              {getLayout(<Component />)}
-                            </SheetMountedContextProvider>
-                          </BreakpointContextProvider>
-                        </MapFilterContextProvider>
-                      </GlobalMapContextProvider>
-                    </AppContextProvider>
-                  </CategoryFilterContextProvider>
-                </NeedsContextProvider>
-              </SWRConfigProvider>
-            </ExpertModeContextProvider>
-          </SessionProvider>
-        </HotkeysProvider>
-      </StyledComponentsRegistry>
+      <AppStateContextProvider>
+        <Head />
+        <StyledComponentsRegistry>
+          <HotkeysProvider>
+            <SessionProvider session={session}>
+              <ExpertModeContextProvider>
+                <SWRConfigProvider>
+                  <NeedsContextProvider>
+                    <CategoryFilterContextProvider>
+                      <AppContextProvider>
+                        <GlobalMapContextProvider>
+                          <MapFilterContextProvider>
+                            <BreakpointContextProvider>
+                              <SheetMountedContextProvider>
+                                {getLayout(<Component />)}
+                              </SheetMountedContextProvider>
+                            </BreakpointContextProvider>
+                          </MapFilterContextProvider>
+                        </GlobalMapContextProvider>
+                      </AppContextProvider>
+                    </CategoryFilterContextProvider>
+                  </NeedsContextProvider>
+                </SWRConfigProvider>
+              </ExpertModeContextProvider>
+            </SessionProvider>
+          </HotkeysProvider>
+        </StyledComponentsRegistry>
+      </AppStateContextProvider>
     </App>
   );
 }

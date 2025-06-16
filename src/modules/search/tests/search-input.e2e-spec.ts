@@ -173,6 +173,22 @@ test.describe("search-input", () => {
     await expect(getSearchInput(page)).toHaveValue("");
   });
 
+  test("the search term can be set by url parameter", async ({ page }) => {
+    test.slow();
+
+    await searchFor(page, "foobar");
+    await waitForQueryParam(page, "search", "foobar");
+    expect(getQueryParams(page).get("search")).toBe("foobar");
+
+    await page.goto("/?search=Alexanderplatz");
+    await page.waitForResponse("**/api?q=Alexanderplatz*");
+
+    await expect(
+      getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
+    ).toBeVisible();
+    await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
+  });
+
   test("filtering by category resets the current search query", async ({
     page,
   }) => {
@@ -186,12 +202,12 @@ test.describe("search-input", () => {
     await page.getByRole("button", { name: "Shopping" }).click();
 
     await waitForQueryParam(page, "category", "shopping");
-    await waitForQueryParam(page, "q", "");
+    await waitForQueryParam(page, "search", "");
     await expect(getSearchInput(page)).toHaveValue("Shopping");
     await expect(
       getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toHaveCount(0);
-    expect(getQueryParams(page).get("q")).toBe("");
+    expect(getQueryParams(page).get("search")).toBe("");
   });
 
   test("typing into the search input resets the active category", async ({

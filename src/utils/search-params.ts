@@ -6,7 +6,7 @@ export type NestedRecord<T> = { [key: string]: T | NestedRecord<T> };
  * nested object, using square brackets to indicate nesting.
  */
 export function flattenToSearchParams(
-  object: NestedRecord<string | undefined> | string,
+  object: NestedRecord<string | number | boolean | undefined>,
   prefix = "",
 ): Record<string, string> {
   return Object.entries(object).reduce(
@@ -27,4 +27,29 @@ export function flattenToSearchParams(
     },
     {},
   );
+}
+
+/**
+ * Get a nested object from a flat object representing URL search parameters.
+ */
+export function unflattenSearchParams(
+  searchParams: Record<string, string>,
+): NestedRecord<string | undefined> {
+  const result: NestedRecord<string | undefined> = {};
+
+  for (const [key, value] of Object.entries(searchParams)) {
+    const keys = key.split(/\[|\]/).filter(Boolean);
+    let current = result;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!current[keys[i]]) {
+        current[keys[i]] = {};
+      }
+      current = current[keys[i]] as NestedRecord<string | undefined>;
+    }
+
+    current[keys[keys.length - 1]] = value;
+  }
+
+  return result;
 }
