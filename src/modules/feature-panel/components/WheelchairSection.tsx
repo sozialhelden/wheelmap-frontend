@@ -21,7 +21,7 @@ const WheelchairSection = ({ tags }: Props) => {
   );
 
   const wheelchairInfoLabel = useTranslations(
-    wheelchairInfo?.tagProps?.keyLabel,
+    String(wheelchairInfo?.tagProps?.keyLabel),
   );
   const wheelchairInfoText = useTranslations(
     wheelchairInfo?.tagProps?.valueAttribute?.label,
@@ -38,7 +38,9 @@ const WheelchairSection = ({ tags }: Props) => {
           </Box>
           <Flex direction="row" gap="7" justify="between">
             <Text size="3">
-              <StyledMarkdown inline>{wheelchairInfoText}</StyledMarkdown>
+              <StyledMarkdown inline>
+                {String(wheelchairInfoText)}
+              </StyledMarkdown>
             </Text>
             <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
           </Flex>
@@ -48,7 +50,10 @@ const WheelchairSection = ({ tags }: Props) => {
       {wheelchairDescription ? (
         <Grid columns="auto min-content" mb="3" gap="var(--space-3)">
           <Box>
-            <Text size="3">{wheelchairDescription.value}</Text>
+            <Text size="3">
+              {wheelchairDescription.value ||
+                wheelchairDescription.tagProps?.valueElement}
+            </Text>
           </Box>
           <Box>
             <EditDropdownMenu tagKey={wheelchairDescription.key} />

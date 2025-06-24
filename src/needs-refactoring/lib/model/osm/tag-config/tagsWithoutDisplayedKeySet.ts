@@ -72,7 +72,6 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "building:colour",
   "roof:colour",
   "internet_access:captive_portal",
-  "wheelchair:step_look",
   "handrail:left",
   "handrail:right",
   "toilets:handwashing",
@@ -125,4 +124,10 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "building:levels",
   "building:part",
   "baby",
+  "ramp",
+  "payment",
+  "operator",
+  "male:signed",
+  "female:signed",
+  "stroller",
 ]);

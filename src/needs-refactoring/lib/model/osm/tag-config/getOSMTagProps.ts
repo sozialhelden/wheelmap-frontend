@@ -13,8 +13,8 @@ import { editableKeys } from "./editableKeys";
 import { horizontalKeys } from "./horizontalKeys";
 import { languageTaggedKeys } from "./languageTaggedKeys";
 import { additionalPrefixesForKeys } from "./sidewalkPrefixSet";
-import { tagsWithoutDisplayedKeyRegExp } from "./tagsWithoutDisplayedKeyRegExp";
 import { tagsWithoutDisplayedKeySet } from "./tagsWithoutDisplayedKeySet";
+import { tagsWithoutDisplayedKeyRegExp } from "./tagsWithoutDisplayedKeyRegExp";
 
 function findAttribute(
   attributesById: Map<string, IAccessibilityAttribute>,
@@ -22,9 +22,8 @@ function findAttribute(
   value?: string,
 ): IAccessibilityAttribute | undefined {
   const suffix = key.match("[^:]+$")?.[0];
-  const prefixes = [null, ...(additionalPrefixesForKeys.get(suffix) || [])] || [
-    null,
-  ];
+  // the following is necessary
+  const prefixes = [null, ...(additionalPrefixesForKeys.get(suffix) || [])];
   for (const prefix of prefixes) {
     let searchKey = prefix ? `osm:${prefix}:${suffix}` : `osm:${key}`;
     // addWheelchairDescription is a pseudo tag that is added to the tag list as a kind of placeholder
@@ -58,10 +57,10 @@ export function getOSMTagProps({
   baseFeatureUrl: string;
 }): OSMTagProps {
   const keyWithoutLanguageTag = key.replace(/:\w\w(?:[_-]\w\w)?$/, "");
-  const keyAttribute =
-    findAttribute(attributesById, key) ||
-    (languageTaggedKeys.has(keyWithoutLanguageTag) &&
-      findAttribute(attributesById, keyWithoutLanguageTag));
+  let keyAttribute = findAttribute(attributesById, key);
+  if (!keyAttribute && languageTaggedKeys.has(keyWithoutLanguageTag)) {
+    keyAttribute = findAttribute(attributesById, keyWithoutLanguageTag);
+  }
 
   const valueAttribute = findAttribute(attributesById, key, singleValue);
   let valueLabel: string | React.ReactNode | undefined;
@@ -75,10 +74,13 @@ export function getOSMTagProps({
     singleValue;
 
   if (valueRenderFn) {
-    const osmFeature = isOSMFeature(feature) ? feature : null;
-    const accessibilityCloudFeature = isPlaceInfo(feature) ? feature : null;
+    const osmFeature = isOSMFeature(feature) ? feature : undefined;
+    const accessibilityCloudFeature = isPlaceInfo(feature)
+      ? feature
+      : undefined;
     valueLabel = valueRenderFn({
       value: singleValue,
+      key: key,
       matches,
       osmFeature,
       accessibilityCloudFeature,
@@ -88,8 +90,10 @@ export function getOSMTagProps({
     valueLabel = defaultValueLabel;
   }
   const valueSummary = useTranslations(valueAttribute?.summary);
-  const valueDetails =
-    useTranslations(valueAttribute?.details) || (!valueLabel && valueSummary);
+  let valueDetails = useTranslations(valueAttribute?.details);
+  if (!valueDetails && !valueLabel) {
+    valueDetails = valueSummary;
+  }
 
   const keyLabel =
     useTranslations(keyAttribute?.shortLabel) ||
@@ -97,14 +101,16 @@ export function getOSMTagProps({
     key;
 
   const keySummary = useTranslations(keyAttribute?.summary);
-  const keyDetails =
-    useTranslations(keyAttribute?.details) || (!keyLabel && keySummary);
+  let keyDetails = useTranslations(keyAttribute?.details);
+  if (!keyDetails && !keyLabel) {
+    keyDetails = keySummary;
+  }
   const suffix = key.match("[^:]+$")?.[0];
   const hasDisplayedKey =
     !!keyLabel &&
     !(
       tagsWithoutDisplayedKeySet.has(key) ||
-      tagsWithoutDisplayedKeySet.has(suffix) ||
+      (suffix && tagsWithoutDisplayedKeySet.has(suffix)) ||
       tagsWithoutDisplayedKeyRegExp.test(key)
     );
 

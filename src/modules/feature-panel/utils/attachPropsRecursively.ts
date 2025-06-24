@@ -25,11 +25,7 @@ export function attachTagPropsRecursively(
     feature,
     baseFeatureUrl,
   });
-  if (singleValue !== "") {
-    tagOrGroup.value = singleValue;
-  } else {
-    tagOrGroup.children.map((child) =>
-      attachTagPropsRecursively(child, feature, attributesById, baseFeatureUrl),
-    );
-  }
+  tagOrGroup.children?.map((child) =>
+    attachTagPropsRecursively(child, feature, attributesById, baseFeatureUrl),
+  );
 }
