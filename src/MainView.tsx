@@ -607,6 +607,7 @@ class MainView extends React.Component<Props, State> {
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
         mappingEvents={this.props.mappingEvents}
+        mappingEvent={this.props.mappingEvent}
         equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         categories={this.props.categories}

@@ -240,6 +240,7 @@ export function getFeatureId(feature: Feature | EquipmentInfo | any): string | n
     typeof feature._id === 'string' && feature._id,
     properties && typeof properties.id === 'number' && properties.id,
     properties && typeof properties._id === 'string' && properties._id,
+    properties && typeof properties.osm_id === 'number' && properties.osm_id,
   ];
   const result = idProperties.filter(Boolean)[0];
   return result ? String(result) : null;
