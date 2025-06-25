@@ -481,8 +481,8 @@ export default class Map extends React.Component<Props, State> {
   }
 
   handlePromiseResolved(
-    placeOrEquipmentPromise: Promise<Feature | EquipmentInfo | null>,
-    placeOrEquipment: Feature | EquipmentInfo | null
+    placeOrEquipmentPromise: Promise<Feature | EquipmentInfo | MappingEventFeature | null>,
+    placeOrEquipment: Feature | EquipmentInfo | MappingEventFeature | null
   ) {
     if (this.state.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
       return;
