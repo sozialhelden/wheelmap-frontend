@@ -9,7 +9,7 @@ import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import * as React from 'react';
 import { t } from 'ttag';
-import { hrefForFeature } from '../../lib/Feature';
+import { hrefForFeature, MappingEventFeature } from '../../lib/Feature';
 import { currentLocales } from '../../lib/i18n';
 import HighlightableMarker from './HighlightableMarker';
 import LeafletLocateControl from './L.Control.Locate';
@@ -29,7 +29,7 @@ import {
 } from '../../lib/Feature';
 import { globalFetchManager } from '../../lib/FetchManager';
 import goToLocationSettings from '../../lib/goToLocationSettings';
-import { MappingEvents } from '../../lib/MappingEvent';
+import { MappingEvent, MappingEvents } from '../../lib/MappingEvent';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
@@ -85,6 +85,7 @@ type Props = {
   featureId?: string | number | null;
   feature?: PotentialPromise<Feature | null>;
   mappingEvents?: MappingEvents;
+  mappingEvent?: MappingEvent;
   equipmentInfoId?: string | null;
   equipmentInfo?: PotentialPromise<EquipmentInfo | null> | null;
 
@@ -132,8 +133,8 @@ type Props = {
 type State = {
   showZoomInfo?: boolean;
   showLocationNotAllowedHint: boolean;
-  placeOrEquipment?: Feature | EquipmentInfo | null;
-  placeOrEquipmentPromise?: Promise<Feature | EquipmentInfo | null> | null;
+  placeOrEquipment?: Feature | EquipmentInfo | MappingEventFeature | null;
+  placeOrEquipmentPromise?: Promise<Feature | EquipmentInfo | MappingEventFeature | null> | null;
   zoomedToFeatureId: string | null;
   category: RootCategoryEntry | null;
 };
@@ -251,9 +252,9 @@ export default class Map extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
-    const { feature, equipmentInfo } = props;
+    const { feature, equipmentInfo, mappingEvent } = props;
 
-    const placeOrEquipment = equipmentInfo || feature;
+    const placeOrEquipment = equipmentInfo || feature || mappingEvent?.meetingPoint;
 
     const category = props.categoryId ? Categories.getRootCategory(props.categoryId) : null;
 
