@@ -6,7 +6,7 @@ import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibl
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { getValueLabel } from "~/modules/edit/utils/getValueLabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
+import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
@@ -51,7 +51,11 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
                 )}
               </StyledMarkdown>
             </Text>
-            <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
+            <ToiletsWheelchairEditor
+              feature={feature}
+              tagKey={wheelchairInfo.key}
+              tagValue={String(wheelchairInfo.value)}
+            />
           </Flex>
         </Grid>
       )}

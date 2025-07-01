@@ -22,6 +22,7 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="yes"
           style={{ backgroundColor: "var(--green-4)" }}
+          data-testid="yes-item"
         >
           <Flex direction="column" width="100%">
             <Flex direction="row" gap="2">
@@ -46,6 +47,7 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="limited"
           style={{ backgroundColor: "var(--orange-7)" }}
+          data-testid="limited-item"
         >
           <Flex direction="column" width="100%">
             <Flex direction="row" gap="2">
@@ -70,6 +72,7 @@ const WheelchairRadioCards = ({ category, onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="no"
           style={{ backgroundColor: "var(--ruby-7)" }}
+          data-testid="no-item"
         >
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
