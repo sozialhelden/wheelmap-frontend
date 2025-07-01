@@ -1,2 +1,2 @@
 export const tagsWithoutDisplayedKeyRegExp =
-  /^(payment|diet|service:bicycle|provided_for|wheelchair|smoking):.*$/;
+  /^(payment|diet|service:bicycle|provided_for|smoking):.*$/;

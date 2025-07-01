@@ -27,11 +27,19 @@ const TagGroupRenderer = ({ tagOrTagGroup }: Props) => {
           typeof tagOrTagGroup.tagProps?.valueElement === "object" &&
             tagOrTagGroup.tagProps.valueElement !== null ? (
             <StyledTag>
+              {tagOrTagGroup.tagProps.keyLabel &&
+                tagOrTagGroup.tagProps.hasDisplayedKey && (
+                  <header> {tagOrTagGroup.tagProps.keyLabel} </header>
+                )}
               {React.cloneElement(tagOrTagGroup.tagProps.valueElement)}
             </StyledTag>
           ) : (
             // otherwise render the plain value label inside a tag
             <StyledTag>
+              {tagOrTagGroup.tagProps.keyLabel &&
+                tagOrTagGroup.tagProps.hasDisplayedKey && (
+                  <header> {tagOrTagGroup.tagProps.keyLabel} </header>
+                )}
               <StyledMarkdown inline>
                 {getValueLabel(tagOrTagGroup)}
               </StyledMarkdown>

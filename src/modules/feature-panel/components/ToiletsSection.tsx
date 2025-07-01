@@ -76,7 +76,9 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
         (description ? (
           <Grid columns="auto min-content" mb="3" gap="var(--space-2)">
             <Box>
-              <Text>{description.value}</Text>
+              <Text>
+                {description.value || description.tagProps?.valueElement}
+              </Text>
             </Box>
             <Box>
               <EditDropdownMenu tagKey={description.key} />

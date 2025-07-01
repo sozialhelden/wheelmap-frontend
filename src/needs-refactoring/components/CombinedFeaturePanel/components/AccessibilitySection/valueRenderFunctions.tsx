@@ -15,7 +15,7 @@ import { determineIfZerothLevelShouldBeSkipped } from "./determineIfZerothLevelS
 export type ValueRenderProps = {
   key: string;
   value: string | number;
-  matches: RegExpMatchArray;
+  matches: RegExpMatchArray | undefined | null;
   osmFeature: TypeTaggedOSMFeature | undefined;
   accessibilityCloudFeature: TypeTaggedPlaceInfo | undefined;
   defaultValueLabel: string | undefined;
@@ -139,17 +139,9 @@ export const valueRenderFunctions: Record<
   "^wheelchair$": ({ defaultValueLabel }) => <div>{defaultValueLabel}</div>,
   "^(?:([\\w_]+):)?description(?::([\\w\\-]+))?$": ({ value, matches }) => {
     const text = value;
-    const targetGroup = matches[1];
-    const lang = matches[2];
-    const targetGroupMarker = {
-      wheelchair: "🧑",
-      deaf: "👂",
-      blind: "👁",
-    }[targetGroup];
+    const lang = matches?.[2];
     return (
-      <StyledMarkdown lang={lang}>
-        {t("{targetGroupMarker} “{text}”", { targetGroupMarker, text })}
-      </StyledMarkdown>
+      <StyledMarkdown lang={lang}>{t("“{text}”", { text })}</StyledMarkdown>
     );
   },
   "^opening_hours$": ({ key, value, osmFeature }) => (
