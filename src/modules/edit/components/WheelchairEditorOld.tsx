@@ -12,7 +12,7 @@ import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Featu
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor: React.FC<BaseEditorProps> = ({
+export const WheelchairEditorOld: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   onSubmit,

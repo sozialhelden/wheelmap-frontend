@@ -23,18 +23,18 @@ test.describe("Edit toilet accessibility", () => {
   //   //TODO
   // });
 
-  test("radios are clickable & confirm button changes to send after input changes", async ({
+  test("confirm button changes to send after input changes", async ({
     page,
   }) => {
     await expect(getButton(dialog, "Confirm")).toBeVisible();
 
-    const yesRadio = page.locator("form svg").first();
-    const noRadio = page.locator("form svg").nth(2);
+    const yesItem = page.locator(`[data-testid="yes-item"]`);
+    const noItem = page.locator(`[data-testid="no-item"]`);
 
-    await expect(yesRadio).toBeVisible();
-    await expect(noRadio).toBeVisible();
+    await expect(yesItem).toBeVisible();
+    await expect(noItem).toBeVisible();
 
-    await noRadio.click();
+    await noItem.click();
     await expect(getButton(dialog, "Send")).toBeVisible();
   });
 

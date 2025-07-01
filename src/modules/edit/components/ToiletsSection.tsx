@@ -10,7 +10,7 @@ import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeature
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import ToiletsWheelchairEditorNew from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditorNew";
+import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 type Props = {
@@ -53,7 +53,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
                 )}
               </StyledMarkdown>
             </Text>
-            <ToiletsWheelchairEditorNew
+            <ToiletsWheelchairEditor
               feature={feature}
               tagKey={wheelchairInfo.key}
               tagValue={String(wheelchairInfo.value)}

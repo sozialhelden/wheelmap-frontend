@@ -27,15 +27,15 @@ test.describe("Edit wheelchair accessibility", () => {
     page,
   }) => {
     await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
-    const yesRadio = page.locator("form svg").first();
-    const limitedRadio = page.locator("form svg").nth(2);
-    const noRadio = page.locator("form svg").nth(3);
+    const yesItem = page.locator(`[data-testid="yes-item"]`);
+    const limitedItem = page.locator(`[data-testid="limited-item"]`);
+    const noItem = page.locator(`[data-testid="no-item"]`);
 
-    await expect(yesRadio).toBeVisible();
-    await expect(limitedRadio).toBeVisible();
-    await expect(noRadio).toBeVisible();
+    await expect(yesItem).toBeVisible();
+    await expect(limitedItem).toBeVisible();
+    await expect(noItem).toBeVisible();
 
-    await noRadio.click();
+    await noItem.click();
     await expect(getButton(dialog, "Send")).toBeVisible();
   });
 
