@@ -15,7 +15,7 @@ type Props = {
   feature: AnyFeature;
 };
 
-const ToiletsWheelchairEditorNew = ({ tagKey, tagValue, feature }: Props) => {
+const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
   const [editedTagValue, setEditedTagValue] = useState<
     string | number | undefined
   >(tagValue);
@@ -28,11 +28,7 @@ const ToiletsWheelchairEditorNew = ({ tagKey, tagValue, feature }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <IconButton
-          aria-label={t("Edit")}
-          variant="soft"
-          // data-testid={tagKey}
-        >
+        <IconButton aria-label={t("Edit")} variant="soft" data-testid={tagKey}>
           <Pencil size={18} aria-hidden />
         </IconButton>
       </Dialog.Trigger>
@@ -74,4 +70,4 @@ const ToiletsWheelchairEditorNew = ({ tagKey, tagValue, feature }: Props) => {
     </Dialog.Root>
   );
 };
-export default ToiletsWheelchairEditorNew;
+export default ToiletsWheelchairEditor;

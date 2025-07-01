@@ -7,7 +7,7 @@ import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 
 import { t } from "@transifex/native";
-import WheelchairEditorNew from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditorNew";
+import WheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 
@@ -45,7 +45,7 @@ const WheelchairSection = ({ tags, feature }: Props) => {
                 {String(wheelchairInfoText)}
               </StyledMarkdown>
             </Text>
-            <WheelchairEditorNew
+            <WheelchairEditor
               tagKey={wheelchairInfo.key}
               tagValue={String(wheelchairInfo.value)}
               feature={feature}
