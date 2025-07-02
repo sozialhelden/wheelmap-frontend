@@ -1,6 +1,6 @@
 import { Pencil } from "lucide-react";
 import React, { type ReactNode, useContext, useState } from "react";
-import { AutoEditor } from "~/pages/[placeType]/[id]/_components/AutoEditor";
+import { AutoEditor } from "~/modules/edit/components/AutoEditor";
 
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";

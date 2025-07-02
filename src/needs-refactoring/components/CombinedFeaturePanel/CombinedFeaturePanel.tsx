@@ -2,13 +2,13 @@ import { Box, Callout } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { uniqBy } from "lodash";
 import React from "react";
+import FeatureDetails from "~/modules/edit/components/FeatureDetails";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import {
   type AnyFeature,
   isSearchResultFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
-import FeatureDetails from "~/pages/[placeType]/[id]/_components/FeatureDetails";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 
 type Props = {

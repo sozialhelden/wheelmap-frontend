@@ -1,7 +1,7 @@
 import { sortBy } from "lodash";
+import type { ITreeNode } from "~/modules/edit/hooks/useOsmTags";
 import { sortOrderMap } from "~/needs-refactoring/lib/model/osm/tag-config/sortOrderMap";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
-import type { ITreeNode } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
 
 export function nestTree(tree: ITreeNode) {
   const entries = Object.entries(tree);

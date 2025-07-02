@@ -1,5 +1,10 @@
 import { bbox } from "@turf/turf";
 import React, { useContext } from "react";
+import FeatureDescription from "~/modules/edit/components/FeatureDescription";
+import OsmInfoSection from "~/modules/edit/components/OSMInfoSection";
+import ToiletsSection from "~/modules/edit/components/ToiletsSection";
+import WheelchairSection from "~/modules/edit/components/WheelchairSection";
+import { useOsmTags } from "~/modules/edit/hooks/useOsmTags";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
 import { FeatureGallery } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureGallery";
@@ -16,18 +21,13 @@ import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import FeatureDescription from "~/pages/[placeType]/[id]/_components/FeatureDescription";
-import OsmInfoSection from "~/pages/[placeType]/[id]/_components/OSMInfoSection";
-import ToiletsSection from "~/pages/[placeType]/[id]/_components/ToiletsSection";
-import WheelchairSection from "~/pages/[placeType]/[id]/_components/WheelchairSection";
-import { useOsmTags } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
 
 import { Flex } from "@radix-ui/themes";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
-import HeaderImageSection from "~/pages/[placeType]/[id]/_components/HeaderImageSection";
-import PartOf from "~/pages/[placeType]/[id]/_components/PartOf";
-import { useNextAccessibleToilet } from "~/pages/[placeType]/[id]/_hooks/useNextAccessibleToilet";
+import HeaderImageSection from "~/modules/edit/components/HeaderImageSection";
+import PartOf from "~/modules/edit/components/PartOf";
+import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 
 type Props = {
   features: AnyFeature[];

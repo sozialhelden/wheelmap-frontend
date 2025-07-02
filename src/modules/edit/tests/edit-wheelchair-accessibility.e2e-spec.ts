@@ -4,7 +4,7 @@ import {
   getDialog,
   getEditButton,
   setupPage,
-} from "~/tests/e2e/edit/utils";
+} from "~/modules/edit/tests/utils";
 
 test.describe("Edit wheelchair accessibility", () => {
   let dialog: Locator;

@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test";
-import node4544823443Mock from "~/tests/e2e/edit/mocks/node-4544823443-osm-mock.json";
-import placeInfoMock from "~/tests/e2e/edit/mocks/place-infos-mock.json";
-import way126125230Mock from "~/tests/e2e/edit/mocks/way-126125230-osm-mock.json";
+import node4544823443Mock from "~/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
+import placeInfoMock from "~/modules/edit/tests/mocks/place-infos-mock.json";
+import way126125230Mock from "~/modules/edit/tests/mocks/way-126125230-osm-mock.json";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 export const setupPage = async (page: Page) => {

@@ -1,16 +1,16 @@
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
+import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
+import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
+import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
+import { getValueLabel } from "~/modules/edit/utils/getValueLabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
 import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-import { AddDescriptionButton } from "~/pages/[placeType]/[id]/_components/AddDescriptionButton";
-import type { NextAccessibleToilet } from "~/pages/[placeType]/[id]/_hooks/useNextAccessibleToilet";
-import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
-import { getValueLabel } from "~/pages/[placeType]/[id]/_utils/getValueLabel";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;
