@@ -1,6 +1,6 @@
 # This is a multi-stage build to optimize image size.
 
-FROM node:lts-slim AS base
+FROM node:22-slim AS base
 WORKDIR /usr/app
 
 ENV HUSKY=0

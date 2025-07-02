@@ -1,17 +1,17 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
 import {
   getButton,
   getDialog,
   getEditButton,
   setupPage,
-} from "~/pages/[placeType]/[id]/_tests/utils";
+} from "~/tests/e2e/edit/utils";
 
-test.describe("Edit toilet accessibility", () => {
+test.describe("Edit wheelchair accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
     await setupPage(page);
-    await getEditButton(page, "toilets:wheelchair").click();
+    await getEditButton(page, "wheelchair").click();
     dialog = await getDialog(page);
   });
 
@@ -19,19 +19,20 @@ test.describe("Edit toilet accessibility", () => {
     await expect(dialog).toBeVisible();
   });
 
-  // test("dialog content is keyboard navigable", async () => {
+  // test("dialog content is key board navigable", async () => {
   //   //TODO
   // });
 
-  test("radios are clickable & confirm button changes to send after input changes", async ({
+  test("confirm button changes to send after input changes", async ({
     page,
   }) => {
-    await expect(getButton(dialog, "Confirm")).toBeVisible();
-
+    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
     const yesRadio = page.locator("form svg").first();
-    const noRadio = page.locator("form svg").nth(2);
+    const limitedRadio = page.locator("form svg").nth(2);
+    const noRadio = page.locator("form svg").nth(3);
 
     await expect(yesRadio).toBeVisible();
+    await expect(limitedRadio).toBeVisible();
     await expect(noRadio).toBeVisible();
 
     await noRadio.click();
