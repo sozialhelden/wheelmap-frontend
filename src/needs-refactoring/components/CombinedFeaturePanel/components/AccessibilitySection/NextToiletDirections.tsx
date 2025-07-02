@@ -1,9 +1,9 @@
 import { t } from "@transifex/native";
 import Link from "next/link";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import { PlaceholderSpan } from "~/needs-refactoring/components/shared/Placeholder";
 import { useFormatDistance } from "~/needs-refactoring/lib/util/strings/useFormatDistance";
-import type { NextAccessibleToilet } from "~/pages/[placeType]/[id]/_hooks/useNextAccessibleToilet";
 
 interface Props {
   nextToilet?: NextAccessibleToilet;

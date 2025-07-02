@@ -1,5 +1,5 @@
+import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
 
 /*
  * Checks the tag properties for a localized short label. If none is defined it falls back to the value element.

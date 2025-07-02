@@ -2,7 +2,7 @@ import { DropdownMenu, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { Pencil } from "lucide-react";
 import React, { useContext, useState } from "react";
-import { AutoEditor } from "~/pages/[placeType]/[id]/_components/AutoEditor";
+import { AutoEditor } from "~/modules/edit/components/AutoEditor";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 
 export function EditDropdownMenu({ tagKey }: { tagKey: string }) {

@@ -1,7 +1,7 @@
 import { Box, Grid, Text } from "@radix-ui/themes";
 import React from "react";
-import TagGroupRenderer from "~/pages/[placeType]/[id]/_components/TagGroupRenderer";
-import type { TagOrTagGroup } from "~/pages/[placeType]/[id]/_hooks/useOsmTags";
+import TagGroupRenderer from "~/modules/edit/components/TagGroupRenderer";
+import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 
 interface Props {
   tags: TagOrTagGroup[];

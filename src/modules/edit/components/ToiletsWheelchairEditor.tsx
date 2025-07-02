@@ -4,31 +4,27 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import ToiletRadioCards from "~/modules/edit/components/ToiletRadioCards";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
-import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import WheelchairRadioCards from "~/pages/[placeType]/[id]/_components/WheelchairRadioCards";
+import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
+import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const WheelchairEditor: React.FC<BaseEditorProps> = ({
+export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   onSubmit,
   onClose,
 }: BaseEditorProps) => {
+  const current = isOrHasAccessibleToilet(feature);
+  const [editedTagValue, setEditedTagValue] = useState<
+    YesNoUnknown | undefined
+  >(current);
+
   const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [saveButtonDoesNothing, setSaveButtonDoesNothing] =
     useState<boolean>(true);
-
-  const { category } = useFeatureLabel({ feature });
-
-  const current = isWheelchairAccessible(feature);
-
-  const [editedTagValue, setEditedTagValue] = useState<
-    YesNoLimitedUnknown | undefined
-  >(current);
 
   useEffect(() => {
     setSaveButtonDoesNothing(current === editedTagValue);
@@ -42,23 +38,22 @@ export const WheelchairEditor: React.FC<BaseEditorProps> = ({
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
+          <FeatureNameHeader feature={feature} />
+
+          <Dialog.Description id="dialog-description" size="3" mb="1">
+            {t("Is this toilet wheelchair accessible?")}
+          </Dialog.Description>
+
+          <ToiletRadioCards
+            onSelect={(value) => {
+              setEditedTagValue(value);
+              onChange?.(value);
+            }}
+            defaultValue={current}
+          />
+
           <StyledReportView className="_view">
-            <FeatureNameHeader feature={feature} />
-
-            <Dialog.Description id="dialog-description" size="3" mb="1">
-              {t("How wheelchair accessible is this place?")}
-            </Dialog.Description>
-
-            <WheelchairRadioCards
-              category={category}
-              onSelect={(value) => {
-                setEditedTagValue(value);
-                onChange?.(value);
-              }}
-              defaultValue={current}
-            />
-
-            <Flex gap="3" mt="4" justify="end">
+            <Flex gap="3" mt="3" justify="end">
               <SecondaryButton onClick={onClose}>{t("Cancel")}</SecondaryButton>
               <PrimaryButton
                 onClick={saveButtonDoesNothing ? onClose : onSubmit}
