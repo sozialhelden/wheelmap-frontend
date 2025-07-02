@@ -1,6 +1,6 @@
 /**
- * Get a number in the given range of numbers based on the given percentage.
+ * Get a number in the given range of numbers based on the given factor.
  */
-export function lerp(from: number, to: number, percentage: number): number {
-  return from * (1 - percentage) + to * percentage;
+export function lerp(from: number, to: number, factor: number): number {
+  return from * (1 - factor) + to * factor;
 }
