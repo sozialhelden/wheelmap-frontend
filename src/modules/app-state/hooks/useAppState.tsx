@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
 } from "react";
 import { type AppState, config } from "~/modules/app-state/app-state";
 import {
@@ -22,8 +23,8 @@ type AppStateContextType = {
   setAppState: (
     newState: Partial<AppState>,
     options?: Parameters<NextRouter["push"]>[2] & {
-      type?: "replace" | "push";
-      keepExistingQuery: boolean;
+      operation?: "replace" | "push";
+      keepExistingQuery?: boolean;
     },
   ) => Promise<void>;
 };
@@ -42,21 +43,22 @@ function getDefaultAppState(): AppState {
 export function AppStateContextProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
-  const query = unflattenSearchParams(router.query as Record<string, string>);
-  const appState: AppState = {
-    ...getDefaultAppState(),
-    ...getAppStateFromPersistence(),
-    ...parseQuery(query),
-  };
+  const query = useMemo(
+    () => unflattenSearchParams(router.query as Record<string, string>),
+    [router.query],
+  );
 
-  const setAppState = useCallback(
-    async (
-      newState: Partial<AppState>,
-      options?: Parameters<typeof router.push>[2] & {
-        type?: "replace" | "push";
-        keepExistingQuery: boolean;
-      },
-    ) => {
+  const appState: AppStateContextType["appState"] = useMemo(
+    () => ({
+      ...getDefaultAppState(),
+      ...getAppStateFromPersistence(),
+      ...parseQuery(query),
+    }),
+    [query],
+  );
+
+  const setAppState = useCallback<AppStateContextType["setAppState"]>(
+    async (newState, options?) => {
       const url = new URL(
         (options?.keepExistingQuery ?? true)
           ? router.asPath
@@ -70,10 +72,10 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
         url.searchParams.set(key, value);
       }
 
-      if (!options?.type || options?.type === "replace") {
-        await router.replace(url, undefined, options);
-      } else {
+      if (!options?.operation || options?.operation === "push") {
         await router.push(url, undefined, options);
+      } else {
+        await router.replace(url, undefined, options);
       }
     },
     [appState, router],
