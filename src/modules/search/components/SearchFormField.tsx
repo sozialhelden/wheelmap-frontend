@@ -1,4 +1,4 @@
-import { X, Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 import { Flex, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
@@ -65,7 +65,6 @@ export function SearchFormField({
   isOnBackground,
   value,
   onChange,
-  onReset,
   onHighlightNext,
   onHighlightPrevious,
   onOpenHighlighted,
@@ -78,7 +77,6 @@ export function SearchFormField({
   onHighlightPrevious?: () => void;
   onOpenHighlighted?: () => void;
   onChange?: (value: string) => void;
-  onReset?: () => void;
 }) {
   const [input, setInput] = useState<string>(value);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
@@ -86,7 +84,6 @@ export function SearchFormField({
   const reset = () => {
     setInput("");
     onChange?.("");
-    onReset?.();
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -94,7 +91,7 @@ export function SearchFormField({
     if (debounceTimeout) {
       clearTimeout(debounceTimeout);
     }
-    setDebounceTimeout(setTimeout(() => onChange?.(event.target.value), 250));
+    setDebounceTimeout(setTimeout(() => onChange?.(event.target.value), 500));
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {

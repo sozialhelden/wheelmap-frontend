@@ -5,7 +5,7 @@ import { center } from "@turf/turf";
 import type { MultiPolygon, Point, Polygon } from "geojson";
 import React, { type FC, type ReactElement, useContext } from "react";
 import { DefaultLayout } from "~/layouts/DefaultLayout";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
@@ -95,7 +95,7 @@ export const ReportOSM: FC<{ title: string; subtitle?: string }> = ({
         </a>
       </Button>
       <Button asChild>
-        <AppStateLink href="../report">{t("Back")}</AppStateLink>
+        <AppStateAwareLink href="../report">{t("Back")}</AppStateAwareLink>
       </Button>
     </StyledReportView>
   );

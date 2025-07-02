@@ -1,7 +1,7 @@
 import { t } from "@transifex/native";
 import React, { useContext } from "react";
 import { getLayout } from "~/layouts/DefaultLayout";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
@@ -54,13 +54,13 @@ function ReportPage() {
 
       {options.map((o) => (
         <div className="_option" key={o.redirect}>
-          <AppStateLink href={o.redirect}>{o.title}</AppStateLink>
+          <AppStateAwareLink href={o.redirect}>{o.title}</AppStateAwareLink>
         </div>
       ))}
 
-      <AppStateLink href="./">
+      <AppStateAwareLink href="./">
         <div className="_option _back">{t("Back")}</div>
-      </AppStateLink>
+      </AppStateAwareLink>
     </StyledReportView>
   );
 }

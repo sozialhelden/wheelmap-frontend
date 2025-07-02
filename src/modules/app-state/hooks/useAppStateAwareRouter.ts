@@ -1,5 +1,6 @@
 import { type NextRouter, useRouter } from "next/router";
 import { useCallback } from "react";
+import type { AppState } from "~/modules/app-state/app-state";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { getQueryFromAppState } from "~/modules/app-state/utils/query";
 
@@ -8,10 +9,13 @@ export function useAppStateAwareRouter() {
   const { push: nextPush, replace: nextReplace, ...nextRouter } = useRouter();
 
   const setAppStateQueryParameters = useCallback(
-    (url: URL | string): URL => {
+    (url: URL | string, newAppState?: Partial<AppState>): URL => {
       const urlObject = new URL(url, window.location.origin);
       for (const [key, value] of Object.entries(
-        getQueryFromAppState(appState),
+        getQueryFromAppState({
+          ...appState,
+          ...(newAppState || {}),
+        }),
       )) {
         if (!urlObject.searchParams.has(key)) {
           urlObject.searchParams.set(key, value);

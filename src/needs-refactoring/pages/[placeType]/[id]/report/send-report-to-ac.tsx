@@ -2,7 +2,7 @@ import { Button, Spinner } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React, { type FC, type ReactNode, useContext, useState } from "react";
 import { getLayout } from "~/layouts/DefaultLayout";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
@@ -102,7 +102,7 @@ function ReportSendToAC() {
 
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href="../report">Back</AppStateLink>
+          <AppStateAwareLink href="../report">Back</AppStateAwareLink>
         </Button>
         {/* @TODO: Implementing the sending request */}
         <Button asChild disabled={option === undefined}>

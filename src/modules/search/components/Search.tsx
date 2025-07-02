@@ -1,4 +1,4 @@
-import React, { type Ref, useEffect, useState } from "react";
+import React, { type Ref, useEffect } from "react";
 import styled from "styled-components";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
@@ -16,14 +16,12 @@ const SearchWrapper = styled.div`
 export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
   const { appState, setAppState } = useAppState();
 
-  const { categoryProperties, reset } = useCategoryFilter();
+  const { categoryProperties } = useCategoryFilter();
   const category = categoryProperties?.name();
 
-  const [searchTerm, setSearchTerm] = useState<string | undefined>(
-    // make sure that if both category and search query parameters are
-    // present, the category wins
-    category ? "" : appState.search,
-  );
+  // make sure that if both category and search query parameters are
+  // present, the category wins
+  const searchTerm = category ? "" : appState.search;
 
   const { searchResults, searchError, isSearching } =
     useSearchResults(searchTerm);
@@ -38,36 +36,19 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
 
   const isDropdownOpen = Boolean(searchTerm);
 
-  const resetCategoryFilter = async () => {
-    if (!category) {
-      return;
-    }
-    await reset();
-  };
-
   const handleInputChange = async (value: string) => {
     if (category && value !== category) {
-      await resetCategoryFilter();
-      setSearchTerm(value);
-      return;
+      await setAppState({ category: "", search: value });
+    } else {
+      await setAppState({ search: value });
     }
-    setSearchTerm(value);
   };
 
   useEffect(() => {
-    if (!category) {
-      return;
+    if (category) {
+      setAppState({ search: "" });
     }
-    setSearchTerm("");
   }, [category]);
-
-  useEffect(() => {
-    setAppState({ search: searchTerm });
-  }, [searchTerm]);
-
-  useEffect(() => {
-    setSearchTerm(appState.search);
-  }, [appState.search]);
 
   return (
     <SearchWrapper>
@@ -76,7 +57,6 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
         isOnBackground={isOnBackground}
         value={String(category || searchTerm || "")}
         onChange={handleInputChange}
-        onReset={resetCategoryFilter}
         onHighlightNext={highlightNext}
         onHighlightPrevious={highlightPrevious}
         onOpenHighlighted={openHighlighted}

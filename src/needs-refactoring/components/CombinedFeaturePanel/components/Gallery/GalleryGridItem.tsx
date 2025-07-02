@@ -2,8 +2,8 @@ import { AspectRatio, Card, Inset, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, type MouseEventHandler, useContext, useMemo } from "react";
 import styled from "styled-components";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import AccessibilityCloudImage from "~/components/image/AccessibilityCloudImage";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import type { AccessibilityCloudImage as AccessibilityCloudImageType } from "~/needs-refactoring/lib/model/ac/Feature";
 import { GalleryContext } from "./Gallery";
 
@@ -30,7 +30,7 @@ export const GalleryGridItem: FC<{
   return (
     <li>
       <Card asChild>
-        <AppStateLink
+        <AppStateAwareLink
           href={href}
           onClick={onClickHandler}
           data-image-id={image._id}
@@ -41,7 +41,7 @@ export const GalleryGridItem: FC<{
               <StyledImage image={image} height={210} alt="" />
             </AspectRatio>
           </Inset>
-        </AppStateLink>
+        </AppStateAwareLink>
       </Card>
     </li>
   );

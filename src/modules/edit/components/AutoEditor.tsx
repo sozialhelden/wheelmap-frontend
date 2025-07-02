@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import useSWR from "swr";
 import { useEnvironment } from "~/hooks/useEnvironment";
 import useOsmApi from "~/hooks/useOsmApi";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
@@ -157,7 +157,7 @@ export const AutoEditor = ({
       </h2>
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href={baseFeatureUrl}>Back</AppStateLink>
+          <AppStateAwareLink href={baseFeatureUrl}>Back</AppStateAwareLink>
         </Button>
       </footer>
     </StyledReportView>
