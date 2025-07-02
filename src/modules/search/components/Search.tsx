@@ -62,7 +62,7 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
   }, [category]);
 
   useEffect(() => {
-    setAppState({ search: searchTerm }, { type: "replace" });
+    setAppState({ search: searchTerm });
   }, [searchTerm]);
 
   useEffect(() => {

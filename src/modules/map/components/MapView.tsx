@@ -78,13 +78,16 @@ export default function MapView({ onLoadingChange }: IProps) {
 
   const onViewStateChange = useCallback(
     async (evt: ViewStateChangeEvent) => {
-      await setAppState({
-        position: {
-          longitude: evt.viewState.longitude,
-          latitude: evt.viewState.latitude,
-          zoom: evt.viewState.zoom,
+      await setAppState(
+        {
+          position: {
+            longitude: evt.viewState.longitude,
+            latitude: evt.viewState.latitude,
+            zoom: evt.viewState.zoom,
+          },
         },
-      });
+        { operation: "replace" },
+      );
     },
     [setAppState],
   );
