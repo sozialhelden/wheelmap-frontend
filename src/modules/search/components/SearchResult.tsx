@@ -3,10 +3,11 @@ import { findCategoryBySynonym } from "@sozialhelden/core";
 import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 
 type Props = {
@@ -44,7 +45,6 @@ export const SearchResult = forwardRef(function SearchResult(
   ref: Ref<HTMLLIElement>,
 ) {
   const { map } = useMap();
-  const { push } = useAppStateAwareRouter();
 
   const categoryProperties = findCategoryBySynonym(category);
   const categoryLabel =
@@ -58,8 +58,7 @@ export const SearchResult = forwardRef(function SearchResult(
     if (event.ctrlKey || event.metaKey) {
       return;
     }
-    event.preventDefault();
-    await push({ pathname: url, query: { q: "" } });
+
     const padding = calculateDefaultPadding();
 
     if (extent) {
@@ -86,8 +85,9 @@ export const SearchResult = forwardRef(function SearchResult(
       data-testid={isHighlighted && "highlighted-search-result"}
     >
       <Flex asChild gap="2">
-        <AppStateLink
+        <AppStateAwareLink
           href={url}
+          newAppState={{ search: "" }}
           onClick={(event) => openResult(event as unknown as MouseEvent, url)}
         >
           <Flex align="start" direction="column" justify="center">
@@ -97,7 +97,7 @@ export const SearchResult = forwardRef(function SearchResult(
             </h3>
             {address ? <address>{address}</address> : null}
           </Flex>
-        </AppStateLink>
+        </AppStateAwareLink>
       </Flex>
     </StyledListItem>
   );

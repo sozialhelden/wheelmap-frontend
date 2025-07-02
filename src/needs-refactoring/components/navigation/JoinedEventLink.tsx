@@ -1,6 +1,6 @@
 import { Spinner } from "@radix-ui/themes";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { useCurrentMappingEvent } from "~/needs-refactoring/lib/context/useCurrentMappingEvent";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import type { IAutoLinkProps } from "./AppLink";
 import MenuItemOrButton from "./MenuItemOrButton";
 
@@ -18,7 +18,7 @@ function JoinedEventLink(props: IAutoLinkProps) {
   const children = isValidating ? (
     <Spinner />
   ) : (
-    <AppStateLink href={href}>{label}</AppStateLink>
+    <AppStateAwareLink href={href}>{label}</AppStateAwareLink>
   );
 
   return <MenuItemOrButton {...props}>{children}</MenuItemOrButton>;

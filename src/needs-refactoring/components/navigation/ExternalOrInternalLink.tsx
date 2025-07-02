@@ -1,6 +1,6 @@
 import { Badge } from "@radix-ui/themes";
 import Link from "next/link";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import type { IAutoLinkProps } from "./AppLink";
 import ErroneousLink from "./ErroneousLink";
 import MenuItemOrButton from "./MenuItemOrButton";
@@ -12,7 +12,7 @@ export default function ExternalOrInternalLink(props: IAutoLinkProps) {
     children = <ErroneousLink {...props} />;
   } else {
     const isExternal = url.startsWith("http");
-    const LinkElement = isExternal ? Link : AppStateLink;
+    const LinkElement = isExternal ? Link : AppStateAwareLink;
     children = (
       <LinkElement
         href={url}

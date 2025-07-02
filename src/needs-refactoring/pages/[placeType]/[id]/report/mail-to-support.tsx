@@ -4,7 +4,7 @@ import { t } from "@transifex/native";
 import React, { type FC, useContext } from "react";
 import { useUserAgent } from "~/hooks/useUserAgent";
 import { getLayout } from "~/layouts/DefaultLayout";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
@@ -77,7 +77,7 @@ const EmailView: FC<{ feature: AnyFeature }> = ({ feature }) => {
       </p>
       <footer className="_footer">
         <Button asChild>
-          <AppStateLink href="../report">{t("Back")}</AppStateLink>
+          <AppStateAwareLink href="../report">{t("Back")}</AppStateAwareLink>
         </Button>
         <Button asChild>
           <a

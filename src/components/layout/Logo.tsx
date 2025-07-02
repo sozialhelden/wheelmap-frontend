@@ -1,8 +1,8 @@
 import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
 import type { IBranding } from "~/needs-refactoring/lib/model/ac/IBranding";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 
 const StyledButton = styled<{ $beta?: boolean }>(Button)`
     position: relative;
@@ -51,7 +51,7 @@ export default function Logo({ branding }: { branding?: IBranding }) {
 
   return (
     <StyledButton $beta={beta} variant="ghost" asChild>
-      <AppStateLink href="/" aria-label={t("Go to home page")}>
+      <AppStateAwareLink href="/" aria-label={t("Go to home page")}>
         <LogoWide
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
           dangerouslySetInnerHTML={{
@@ -66,7 +66,7 @@ export default function Logo({ branding }: { branding?: IBranding }) {
           }}
           aria-hidden
         />
-      </AppStateLink>
+      </AppStateAwareLink>
     </StyledButton>
   );
 }

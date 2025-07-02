@@ -3,7 +3,7 @@ import type { NestedRecord } from "~/utils/search-params";
 
 export function parseCategoryQueryParameter(
   value: NestedRecord<string | undefined> | string | undefined,
-): Category | undefined {
+): Category | "" | undefined {
   if (
     typeof value !== "string" ||
     !Object.keys(getCategories()).includes(value)

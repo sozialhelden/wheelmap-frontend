@@ -1,6 +1,6 @@
-import { Camera } from "lucide-react";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { Camera } from "lucide-react";
 import React, {
   createContext,
   type FC,
@@ -11,7 +11,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { AppStateLink } from "~/needs-refactoring/components/App/AppStateLink";
+import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { ImageUploadCallToAction } from "~/needs-refactoring/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadCallToAction";
 import { ImageUploadCriteriaList } from "~/needs-refactoring/components/CombinedFeaturePanel/components/ImageUpload/ImageUploadCriteriaList";
@@ -142,12 +142,12 @@ export const FeatureImageUpload: FC<{
         <Flex mt="2" align="center">
           <Dialog.Trigger>
             <Button variant="solid" asChild>
-              <AppStateLink
+              <AppStateAwareLink
                 href={baseUploadUrl}
                 onClick={handleOnClickAddImageButton}
               >
                 <Camera size={18} aria-hidden /> {t("Add new image")}
-              </AppStateLink>
+              </AppStateAwareLink>
             </Button>
           </Dialog.Trigger>
           <ImageUploadCallToAction />
