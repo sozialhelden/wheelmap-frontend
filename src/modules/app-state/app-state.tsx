@@ -61,12 +61,14 @@ export type QueryParameterValue =
 export const config: {
   [key in AppStateKey]: {
     // A parser function that is given the value of the query parameter
-    // for the corresponding key and returns the parsed value.
+    // for the corresponding key and returns the parsed value. This is
+    // meant to validate, sanitize and transform the contents of the
+    // query parameter.
     parser: (queryParameterValue: QueryParameterValue) => AppState[key];
 
     // An optional legacy parser function that is used to parse the entire
-    // query and return the value for the corresponding key from legacy
-    // query parameters.
+    // query, not only the value of the single query parameter and returns
+    // the value for the corresponding key from legacy query parameters.
     legacy?: (
       query: NestedRecord<string | undefined>,
     ) => AppState[key] | undefined;
