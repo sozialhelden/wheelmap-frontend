@@ -3,7 +3,25 @@ export type NestedRecord<T> = { [key: string]: T | NestedRecord<T> };
 /**
  * Converts a nested object into a flat object suitable for URL search parameters.
  * The keys of the flat object are constructed by concatenating the keys of the
- * nested object, using square brackets to indicate nesting.
+ * nested object, using square brackets to indicate nesting. For example:
+ *
+ * input:
+ * {
+ *     "key1": "value1",
+ *     "key2": {
+ *        "subkey1": "value2",
+ *        "subkey2": {
+ *            "subkey3": "value3"
+ *        }
+ *     },
+ * }
+ *
+ * output:
+ * {
+ *     "key1": "value1",
+ *     "key2[subkey1]": "value2",
+ *     "key2[subkey2][subkey3]": "value3"
+ * }
  */
 export function flattenToSearchParams(
   object: NestedRecord<string | number | boolean | undefined>,
@@ -30,7 +48,25 @@ export function flattenToSearchParams(
 }
 
 /**
- * Get a nested object from a flat object representing URL search parameters.
+ * Get a nested object from a flat object representing URL search parameters. For example:
+ *
+ * input:
+ * {
+ *    "key1": "value1",
+ *    "key2[subkey1]": "value2",
+ *    "key2[subkey2][subkey3]": "value3"
+ * }
+ *
+ * output:
+ * {
+ *    "key1": "value1",
+ *    "key2": {
+ *        "subkey1": "value2",
+ *        "subkey2": {
+ *            "subkey3": "value3"
+ *        }
+ *    },
+ * }
  */
 export function unflattenSearchParams(
   searchParams: Record<string, string>,
