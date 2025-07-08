@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
 import { Dialog, Flex, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { Pencil } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
+import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import WheelchairRadioCards from "~/pages/[placeType]/[id]/_components/WheelchairRadioCards";
-import { SecondaryButton } from "~/components/button/SecondaryButton";
-import { PrimaryButton } from "~/components/button/PrimaryButton";
-import { Pencil } from "lucide-react";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
