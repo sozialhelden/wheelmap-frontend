@@ -3,7 +3,7 @@ import { Dialog, Flex, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
 import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import WheelchairRadioCards from "~/pages/[placeType]/[id]/_components/WheelchairRadioCards";
+import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { Pencil } from "lucide-react";
