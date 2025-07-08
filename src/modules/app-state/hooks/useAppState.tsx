@@ -23,7 +23,7 @@ type AppStateContextType = {
   setAppState: (
     newState: Partial<AppState>,
     options?: Parameters<NextRouter["push"]>[2] & {
-      operation?: "replace" | "push";
+      routerOperation?: "replace" | "push";
       keepExistingQuery?: boolean;
     },
   ) => Promise<void>;
@@ -72,7 +72,7 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
         url.searchParams.set(key, value);
       }
 
-      if (!options?.operation || options?.operation === "push") {
+      if (!options?.routerOperation || options?.routerOperation === "push") {
         await router.push(url, undefined, options);
       } else {
         await router.replace(url, undefined, options);

@@ -86,7 +86,7 @@ export default function MapView({ onLoadingChange }: IProps) {
             zoom: evt.viewState.zoom,
           },
         },
-        { operation: "replace" },
+        { routerOperation: "replace" },
       );
     },
     [setAppState],
