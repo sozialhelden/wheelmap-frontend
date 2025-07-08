@@ -6,7 +6,7 @@ import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibl
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { getValueLabel } from "~/modules/edit/utils/getValueLabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
+import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";

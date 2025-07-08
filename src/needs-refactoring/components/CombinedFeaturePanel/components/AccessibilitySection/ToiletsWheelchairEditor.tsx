@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import { Dialog, Flex, IconButton } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import ToiletRadioCards from "~/pages/[placeType]/[id]/_components/ToiletRadioCards";
-import { SecondaryButton } from "~/components/button/SecondaryButton";
-import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { Pencil } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { PrimaryButton } from "~/components/button/PrimaryButton";
+import { SecondaryButton } from "~/components/button/SecondaryButton";
+import ToiletRadioCards from "~/modules/edit/components/ToiletRadioCards";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 type Props = {
   tagKey: string;

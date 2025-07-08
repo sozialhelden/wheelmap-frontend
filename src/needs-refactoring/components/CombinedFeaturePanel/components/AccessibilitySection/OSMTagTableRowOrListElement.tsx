@@ -1,7 +1,7 @@
 import { Tooltip } from "@radix-ui/themes";
 import styled from "styled-components";
 import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
+import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import { horizontalKeys } from "~/needs-refactoring/lib/model/osm/tag-config/horizontalKeys";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type { OSMTagProps } from "./OSMTagProps";
