@@ -1,59 +1,58 @@
+import type { LayerSpecification } from "mapbox-gl";
 import { useMemo } from "react";
-import type { SourceProps } from "react-map-gl/mapbox-legacy";
-import { useAccessibilityCloudApiCollectionTileUrl } from "~/hooks/useAccessibilityCloudApi";
-import { osmApiCollections, useOsmApiTileUrl } from "~/hooks/useOsmApi";
 import { useDarkMode } from "~/hooks/useTheme";
 import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { addLabelInOriginalLanguage } from "~/modules/map/utils/layers";
 import {
-  isSelectionLayer,
-  localizeLayers,
-  setLayerSource,
-} from "~/modules/map/utils/layers";
-import { getStyle } from "~/modules/map/utils/map-styles";
+  getExternalSources,
+  hasExternalSource,
+  removePrefixesFromLayerId,
+} from "~/modules/map/utils/sources";
+import { getStyle } from "~/modules/map/utils/styles";
 
 export function useLayers() {
   const darkMode = useDarkMode();
   const { language } = useI18nContext();
 
-  const sources: SourceProps[] = osmApiCollections.map((collection) => {
-    return {
-      id: collection,
-      name: collection,
-      type: "vector",
-      minzoom: 8,
-      tiles: [0, 1, 2, 3].map((tileNumber) => {
-        return useOsmApiTileUrl({ collection, tileNumber });
-      }),
-    };
-  });
-
   return useMemo(() => {
     let { layers } = getStyle(darkMode);
-    layers = setLayerSource(localizeLayers(layers, language, darkMode));
 
+    // this filters out all layers that do not have an external source
+    // and configures the external source accordingly
+    layers = layers.reduce((acc, layer) => {
+      if (!hasExternalSource(layer.id)) {
+        return acc;
+      }
+      for (const layerSourceConfig of getExternalSources(layer.id) ?? []) {
+        acc.push({ ...layer, ...layerSourceConfig } as LayerSpecification);
+      }
+      return acc;
+    }, [] as LayerSpecification[]);
+
+    // this adds a text label in the original language, e.g. the "Brandenburg Gate"
+    // in English would receive an additional label "Brandenburger Tor" in German
+    layers = addLabelInOriginalLanguage(layers, language, darkMode);
+
+    // highlight layers are all layers that will be used for highlighting
+    const highlightLayers = [];
+    // data layers are all layers that are not highlight layers
     const dataLayers = [];
-    const selectionLayers = [];
+    // list layers are data layers, that should be included in the list view
+    const listLayers = [];
 
     for (const layer of layers) {
-      if (isSelectionLayer(layer)) {
-        selectionLayers.push(layer);
-      } else {
-        dataLayers.push(layer);
+      const layerId = removePrefixesFromLayerId(layer.id);
+
+      if (layerId.startsWith("highlight-")) {
+        highlightLayers.push(layer);
+        continue;
       }
+      if (layerId.startsWith("list-")) {
+        listLayers.push(layer);
+      }
+      dataLayers.push(layer);
     }
 
-    // sources.push({
-    //   id: "ac:PlaceInfo",
-    //   type: "vector",
-    //   scheme: "xyz",
-    //   minzoom: 8,
-    //   tiles: [
-    //     useAccessibilityCloudApiCollectionTileUrl({
-    //       collection: "place-infos",
-    //     }),
-    //   ],
-    // });
-
-    return { dataLayers, selectionLayers, sources };
-  }, [darkMode, language, sources]);
+    return { dataLayers, highlightLayers, listLayers };
+  }, [darkMode, language]);
 }

@@ -1,11 +1,7 @@
+import type { StyleSpecification } from "mapbox-gl";
 import brightStyle from "~/modules/map/styles/bright.json";
 import darkStyle from "~/modules/map/styles/dark.json";
-import type { StyleSpecification } from "mapbox-gl";
-
-import {
-  isAccessibilityCloudLayer,
-  isOsmApiLayer,
-} from "~/modules/map/utils/layers";
+import { hasExternalSource } from "./sources";
 
 export const getStyle = (dark: boolean): StyleSpecification => {
   return {
@@ -15,8 +11,9 @@ export const getStyle = (dark: boolean): StyleSpecification => {
 
 export function getBaseStyle(dark: boolean): StyleSpecification {
   const { sprite, ...style } = getStyle(dark);
-  style.layers = style.layers.filter(
-    (layer) => !isOsmApiLayer(layer) && !isAccessibilityCloudLayer(layer),
-  );
+
+  // layers with external sources will be added dynamically in the map component
+  style.layers = style.layers.filter((layer) => !hasExternalSource(layer.id));
+
   return style;
 }

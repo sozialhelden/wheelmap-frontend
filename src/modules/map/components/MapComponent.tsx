@@ -17,8 +17,9 @@ import { useDarkMode } from "~/hooks/useTheme";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 import { useLayers } from "~/modules/map/hooks/useLayers";
-import { getBaseStyle } from "~/modules/map/utils/map-styles";
+import { useSources } from "~/modules/map/hooks/useSources";
 import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";
+import { getBaseStyle } from "~/modules/map/utils/styles";
 import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
 import { useMap } from "~/needs-refactoring/components/Map/useMap";
 
@@ -51,8 +52,10 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `;
 
-export default function MapView({ onLoadingChange }: IProps) {
-  const { dataLayers, selectionLayers, sources } = useLayers();
+export default function MapComponent({ onLoadingChange }: IProps) {
+  const { dataLayers, highlightLayers } = useLayers();
+  const { sources } = useSources();
+
   const interactiveLayerIds = useMemo(
     () => dataLayers.map((layer) => layer.id),
     [dataLayers],
@@ -171,7 +174,7 @@ export default function MapView({ onLoadingChange }: IProps) {
               {dataLayers?.map((layer) => (
                 <MapLayer key={layer.id} {...(layer as LayerProps)} />
               ))}
-              {selectionLayers?.map((layer) => (
+              {highlightLayers?.map((layer) => (
                 <MapLayer
                   key={layer.id}
                   {...(layer as LayerProps)}

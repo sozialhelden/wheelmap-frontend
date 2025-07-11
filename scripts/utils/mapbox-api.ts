@@ -1,5 +1,5 @@
-import { index } from "../../src/modules/map/icons";
 import { renderToString } from "react-dom/server";
+import { icons } from "../../src/modules/map/icons";
 import { getIconComponent } from "../../src/modules/map/utils/mapbox-icon-renderer";
 
 export const accessToken = process.env.MAPBOX_DEVELOPMENT_ACCESS_TOKEN;
@@ -93,7 +93,7 @@ export async function deleteStyle(id: string) {
 }
 
 function renderIcons(darkMode: boolean) {
-  return Object.entries(index).map(([identifier, icon]) => ({
+  return Object.entries(icons).map(([identifier, icon]) => ({
     html: renderToString(getIconComponent(icon, darkMode)),
     identifier,
   }));

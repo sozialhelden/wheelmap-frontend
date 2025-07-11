@@ -13,7 +13,7 @@ const Container = styled.div`
     align-items: center;
 `;
 
-const LoadableMapView = dynamic(import("./MapView"), {
+const DynamicallyLoadedMap = dynamic(import("./MapComponent"), {
   ssr: false,
   loading: () => (
     <Container>
@@ -22,4 +22,4 @@ const LoadableMapView = dynamic(import("./MapView"), {
   ),
 });
 
-export default LoadableMapView;
+export default DynamicallyLoadedMap;

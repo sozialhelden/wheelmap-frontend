@@ -1,6 +1,6 @@
 import type { Map as MapBoxMap, Map as MapboxMap } from "mapbox-gl";
 import type { ReactNode } from "react";
-import { index } from "~/modules/map/icons";
+import { icons } from "~/modules/map/icons";
 import {
   getIconComponent,
   renderSvgAsDataUri,
@@ -86,7 +86,7 @@ export async function loadIcons(
   map: MapBoxMap,
   darkMode: boolean,
 ): Promise<void> {
-  const tasks: Array<() => void> = Object.entries(index).map(
+  const tasks: Array<() => void> = Object.entries(icons).map(
     ([identifier, icon]) =>
       () =>
         addSvgIconToMapboxMap({

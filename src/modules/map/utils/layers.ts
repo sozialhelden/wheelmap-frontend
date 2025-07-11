@@ -1,31 +1,13 @@
 import type { LayerSpecification } from "mapbox-gl";
-import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
+import { fallbackLanguageTag } from "~/modules/i18n/i18n";
 import { getLanguage } from "~/modules/i18n/utils/language-tags";
 
-import { osmApiCollections } from "~/hooks/useOsmApi";
-
-export function isOsmApiLayer(layer: LayerSpecification): boolean {
-  return layer.id.startsWith("osm-") || layer.id.startsWith("ac-osm-");
-}
-export function isAccessibilityCloudLayer(layer: LayerSpecification): boolean {
-  return layer.id.startsWith("ac-") || layer.id.startsWith("osm-ac-");
-}
-export function isSelectionLayer(layer: LayerSpecification): boolean {
-  return (
-    layer.id.startsWith("selected-") ||
-    layer.id.startsWith("ac-selected-") ||
-    layer.id.startsWith("osm-selected-") ||
-    layer.id.startsWith("osm-ac-selected-") ||
-    layer.id.startsWith("ac-osm-selected-")
-  );
-}
-
-export function localizeLayers(
+export function addLabelInOriginalLanguage(
   layers: LayerSpecification[],
-  language?: string,
+  currentLanguage?: string,
   darkMode?: boolean,
 ): LayerSpecification[] {
-  const fallback = getLanguage(fallbackLanguageTag);
+  const fallbackLanguage = getLanguage(fallbackLanguageTag);
 
   return layers.map((layer) => {
     return JSON.parse(
@@ -35,7 +17,7 @@ export function localizeLayers(
             [
               "let",
 
-              "user_language_name", [ "coalesce", ["get", "name:${language ?? fallback}"], ["get", "name:${fallback}"]],
+              "user_language_name", [ "coalesce", ["get", "name:${currentLanguage ?? fallbackLanguage}"], ["get", "name:${fallbackLanguage}"]],
               "local_name", ["coalesce", ["get", "loc_name"], ["get", "name"]],
               "default_fallback_language_name", ["get", "name:en"],
 
@@ -76,38 +58,4 @@ export function localizeLayers(
       ),
     ) as LayerSpecification;
   });
-}
-
-export function setLayerSource(
-  layers: LayerSpecification[],
-): LayerSpecification[] {
-  return layers.reduce((acc, layer) => {
-    if (!isOsmApiLayer(layer) && !isAccessibilityCloudLayer(layer)) {
-      return acc;
-    }
-
-    const source = osmApiCollections.find((source) =>
-      layer["source-layer"]?.startsWith(source),
-    );
-
-    if (isOsmApiLayer(layer) && source) {
-      acc.push({
-        ...layer,
-        source,
-        "source-layer": "default",
-        id: `${layer.id}--osm`,
-      } as LayerSpecification);
-    }
-
-    if (isAccessibilityCloudLayer(layer)) {
-      acc.push({
-        ...layer,
-        source: "ac:PlaceInfo",
-        "source-layer": "place-infos",
-        id: `${layer.id}--ac`,
-      } as LayerSpecification);
-    }
-
-    return acc;
-  }, [] as LayerSpecification[]);
 }

@@ -1,7 +1,7 @@
 import type { Query, QueryParameterValue } from "~/modules/app-state/app-state";
 import { lerp } from "~/utils/numbers";
 
-function parseNumber(value: QueryParameterValue): number | undefined {
+export function parseNumber(value: QueryParameterValue): number | undefined {
   if (typeof value !== "string" || !value) {
     return undefined;
   }
