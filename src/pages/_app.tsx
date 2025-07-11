@@ -55,10 +55,10 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
             <SessionProvider session={session}>
               <ExpertModeContextProvider>
                 <SWRConfigProvider>
-                  <NeedsContextProvider>
-                    <CategoryFilterContextProvider>
-                      <AppContextProvider>
-                        <GlobalMapContextProvider>
+                  <GlobalMapContextProvider>
+                    <NeedsContextProvider>
+                      <CategoryFilterContextProvider>
+                        <AppContextProvider>
                           <MapFilterContextProvider>
                             <BreakpointContextProvider>
                               <SheetMountedContextProvider>
@@ -66,10 +66,10 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
                               </SheetMountedContextProvider>
                             </BreakpointContextProvider>
                           </MapFilterContextProvider>
-                        </GlobalMapContextProvider>
-                      </AppContextProvider>
-                    </CategoryFilterContextProvider>
-                  </NeedsContextProvider>
+                        </AppContextProvider>
+                      </CategoryFilterContextProvider>
+                    </NeedsContextProvider>
+                  </GlobalMapContextProvider>
                 </SWRConfigProvider>
               </ExpertModeContextProvider>
             </SessionProvider>

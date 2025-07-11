@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "A11yMap Dev Bright - 15:05:31 GMT+0200 (Central European Summer Time)",
+  "name": "A11yMap Dev Bright - 14:59:31 GMT+0200 (Central European Summer Time)",
   "metadata": {
     "mapbox:type": "default",
     "mapbox:origin": "streets-v11",
@@ -445,6 +445,15 @@
           }
         },
         "schema": {
+          "roadsBrightness": {
+            "default": 0.4,
+            "type": "number",
+            "metadata": {
+              "mapbox:title": "Roads brightness",
+              "mapbox:description": "Control how bright roads appear in dark styles",
+              "mapbox:group": false
+            }
+          },
           "theme": {
             "default": "default",
             "values": ["default", "faded", "monochrome", "custom"],
@@ -651,12 +660,7 @@
           "mapbox-dem": {
             "url": "mapbox://mapbox.mapbox-terrain-dem-v1",
             "type": "raster-dem",
-            "tileSize": 512
-          },
-          "mapbox-hillshade": {
-            "url": "mapbox://mapbox.mapbox-terrain-dem-v1",
-            "type": "raster-dem",
-            "tileSize": 1024
+            "tileSize": 514
           },
           "mapbox-landmark-pois": {
             "url": "mapbox://mapbox.mapbox-landmark-pois-v1",
@@ -667,7 +671,7 @@
             "type": "raster-array"
           }
         },
-        "sprite": "mapbox://sprites/mapbox/standard/efkz8o3ujknnkoa17380x12mp",
+        "sprite": "mapbox://sprites/mapbox/standard/cearqi1fcr4p9hhmnba1yy3fr",
         "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
         "projection": {
           "name": "globe"
@@ -1110,7 +1114,7 @@
             "metadata": {
               "mapbox:group": "land & water"
             },
-            "source": "mapbox-hillshade",
+            "source": "mapbox-dem",
             "minzoom": 6,
             "maxzoom": 14.49,
             "paint": {
@@ -1121,7 +1125,7 @@
                 12,
                 0.4,
                 14,
-                0.2
+                0
               ],
               "hillshade-illumination-anchor": "map",
               "hillshade-shadow-color": [
@@ -2577,8 +2581,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -2648,8 +2652,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -2719,8 +2723,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -2786,8 +2790,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.15,
-                0.25
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -2895,8 +2899,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -2968,8 +2972,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -3035,8 +3039,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.1,
-                0.2
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -3096,8 +3100,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.15,
-                0.25
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -3157,8 +3161,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.15,
-                0.25
+                ["-", ["config", "roadsBrightness"], 0.3],
+                ["-", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -3295,9 +3299,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -3313,19 +3357,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.4, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -3349,9 +3380,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -3367,19 +3438,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -3409,9 +3467,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -3427,19 +3525,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -4884,8 +4969,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "fill-opacity": [
                 "interpolate",
@@ -4924,13 +5009,11 @@
             "layout": {},
             "paint": {
               "fill-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                6,
-                0.2,
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.25, 0.4]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "fill-opacity": [
                 "interpolate",
@@ -4969,13 +5052,11 @@
             "layout": {},
             "paint": {
               "fill-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                6,
-                ["match", ["config", "theme"], "monochrome", 0.15, 0.4],
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.3, 0.5]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "fill-opacity": [
                 "interpolate",
@@ -5014,15 +5095,11 @@
             "layout": {},
             "paint": {
               "fill-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                3,
-                ["match", ["config", "theme"], "monochrome", 0.2, 0.35],
-                6,
-                ["match", ["config", "theme"], "monochrome", 0.25, 0.75],
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.4, 0.8]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "fill-opacity": [
                 "interpolate",
@@ -5063,8 +5140,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5114,8 +5191,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5161,8 +5238,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.25,
-                0.4
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5205,15 +5282,11 @@
             },
             "paint": {
               "line-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                3,
-                ["match", ["config", "theme"], "monochrome", 0.2, 0.35],
-                6,
-                ["match", ["config", "theme"], "monochrome", 0.25, 0.75],
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.4, 0.8]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -5265,8 +5338,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5314,8 +5387,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.22,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5358,13 +5431,11 @@
             },
             "paint": {
               "line-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                6,
-                0.2,
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.25, 0.4]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5401,13 +5472,11 @@
             },
             "paint": {
               "line-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                6,
-                ["match", ["config", "theme"], "monochrome", 0.15, 0.4],
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.3, 0.5]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -5459,15 +5528,11 @@
             },
             "paint": {
               "line-emissive-strength": [
-                "interpolate",
-                ["exponential", 1.5],
-                ["zoom"],
-                3,
-                ["match", ["config", "theme"], "monochrome", 0.2, 0.35],
-                6,
-                ["match", ["config", "theme"], "monochrome", 0.25, 0.75],
-                12,
-                ["match", ["config", "theme"], "monochrome", 0.4, 0.8]
+                "match",
+                ["config", "theme"],
+                "monochrome",
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -5754,9 +5819,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -5772,19 +5877,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.4, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -5808,9 +5900,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -5826,19 +5958,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -5868,9 +5987,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -5886,19 +6045,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -5933,9 +6079,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "crosswalk-small", "crosswalk-small-dark"],
+                [
+                  "image",
+                  "crosswalk-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "crosswalk-large", "crosswalk-large-dark"]
+                [
+                  "image",
+                  "crosswalk-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "icon-rotate": ["get", "direction"],
               "icon-rotation-alignment": "map",
@@ -5951,19 +6137,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.4, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -7413,8 +7586,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7463,8 +7636,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7509,8 +7682,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.25,
-                0.4
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7556,8 +7729,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.4,
-                0.8
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -7608,8 +7781,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.2,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7657,8 +7830,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.22,
-                0.35
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7703,8 +7876,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.25,
-                0.4
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7743,8 +7916,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.3,
-                0.5
+                ["-", ["config", "roadsBrightness"], 0.2],
+                ["config", "roadsBrightness"]
               ],
               "line-width": [
                 "interpolate",
@@ -7784,8 +7957,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.4,
-                0.8
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -8235,8 +8408,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.4,
-                0.8
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -8282,8 +8455,8 @@
                 "match",
                 ["config", "theme"],
                 "monochrome",
-                0.4,
-                0.8
+                ["-", ["config", "roadsBrightness"], 0.1],
+                ["+", ["config", "roadsBrightness"], 0.2]
               ],
               "line-width": [
                 "interpolate",
@@ -8360,9 +8533,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -8378,19 +8591,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.4, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorRoads"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -8414,9 +8614,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -8432,19 +8672,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorTrunks"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -8474,9 +8701,49 @@
               "icon-image": [
                 "step",
                 ["zoom"],
-                ["image", "oneway-small", "oneway-small-dark"],
+                [
+                  "image",
+                  "oneway-small",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ],
                 18,
-                ["image", "oneway-large", "oneway-large-dark"]
+                [
+                  "image",
+                  "oneway-large",
+                  {
+                    "params": {
+                      "color": [
+                        "case",
+                        [
+                          ">=",
+                          [
+                            "to-number",
+                            ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
+                          ],
+                          92
+                        ],
+                        "hsl(0, 0%, 85%)",
+                        "hsl(0, 0%, 100%)"
+                      ]
+                    }
+                  }
+                ]
               ],
               "symbol-spacing": 200,
               "icon-rotation-alignment": "map",
@@ -8492,19 +8759,6 @@
                 ["match", ["config", "theme"], "monochrome", 0.5, 0.7],
                 0.5,
                 1
-              ],
-              "icon-image-cross-fade": [
-                "case",
-                [
-                  ">=",
-                  [
-                    "to-number",
-                    ["at", 2, ["to-hsla", ["config", "colorMotorways"]]]
-                  ],
-                  92
-                ],
-                1,
-                0
               ]
             }
           },
@@ -8716,7 +8970,17 @@
             "source": "composite",
             "source-layer": "road",
             "minzoom": 12,
-            "filter": ["==", ["get", "class"], "aerialway"],
+            "filter": [
+              "all",
+              ["==", ["get", "class"], "aerialway"],
+              [
+                "match",
+                ["get", "type"],
+                ["aerialway:zip_line"],
+                ["step", ["zoom"], false, 15, true],
+                true
+              ]
+            ],
             "paint": {
               "line-emissive-strength": 1,
               "line-color": "hsl(225, 60%, 58%)",
@@ -11340,64 +11604,561 @@
                 4
               ],
               "icon-image": [
-                "match",
-                ["config", "theme"],
-                ["monochrome"],
+                "case",
+                ["has", "maki_beta"],
                 [
-                  "case",
-                  ["has", "maki_beta"],
+                  "coalesce",
                   [
-                    "coalesce",
-                    [
-                      "image",
-                      [
-                        "concat",
-                        ["concat", ["string", ["get", "maki_beta"]], "-mono"],
-                        "-dark"
-                      ],
-                      ["concat", ["string", ["get", "maki_beta"]], "-mono"]
-                    ],
-                    [
-                      "image",
-                      [
-                        "concat",
-                        ["concat", ["string", ["get", "maki"]], "-mono"],
-                        "-dark"
-                      ],
-                      ["concat", ["string", ["get", "maki"]], "-mono"]
-                    ]
+                    "image",
+                    ["string", ["get", "maki_beta"]],
+                    {
+                      "params": {
+                        "background-stroke": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsla(0, 0%, 0%, 0)",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        ],
+                        "icon": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsl(0, 0%, 50%)",
+                          [
+                            "case",
+                            ["==", ["get", "maki_beta"], "marker"],
+                            "hsla(0, 0%, 0%, 0)",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(0, 0%, 0%)",
+                              "hsl(0, 0%, 100%)"
+                            ]
+                          ]
+                        ],
+                        "background": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsla(0, 0%, 0%, 0)",
+                          [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(40, 95%, 70%)",
+                              "hsl(30, 100%, 60%)"
+                            ],
+                            "education",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(31, 50%, 70%)",
+                              "hsl(30, 50%, 50%)"
+                            ],
+                            "medical",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(0, 70%, 70%)",
+                              "hsl(0, 95%, 72%)"
+                            ],
+                            "sport_and_leisure",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(190, 60%, 70%)",
+                              "hsl(190, 75%, 50%)"
+                            ],
+                            ["store_like", "food_and_drink_stores"],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(210, 70%, 75%)",
+                              "hsl(210, 75%, 65%)"
+                            ],
+                            [
+                              "case",
+                              [
+                                "any",
+                                [
+                                  "in",
+                                  ["get", "maki"],
+                                  [
+                                    "literal",
+                                    ["communications-tower", "museum", "zoo"]
+                                  ]
+                                ],
+                                [
+                                  "in",
+                                  ["get", "class"],
+                                  [
+                                    "literal",
+                                    [
+                                      "arts_and_entertainment",
+                                      "historic",
+                                      "landmark"
+                                    ]
+                                  ]
+                                ]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(320, 70%, 75%)",
+                                "hsl(320, 85%, 72%)"
+                              ],
+                              [
+                                "any",
+                                ["==", ["get", "maki"], "car-repair"],
+                                [
+                                  "in",
+                                  ["get", "class"],
+                                  [
+                                    "literal",
+                                    [
+                                      "commercial_services",
+                                      "motorist",
+                                      "lodging"
+                                    ]
+                                  ]
+                                ]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(260, 70%, 70%)",
+                                "hsl(250, 75%, 72%)"
+                              ],
+                              [
+                                "any",
+                                ["==", ["get", "maki"], "picnic-site"],
+                                ["==", ["get", "class"], "park_like"]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(110, 55%, 65%)",
+                                "hsl(110, 70%, 40%)"
+                              ],
+                              ["==", ["get", "maki_beta"], "terminal"],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(225, 60%, 60%)",
+                                "hsl(225, 60%, 58%)"
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(209, 20%, 70%)",
+                                "hsl(200, 20%, 60%)"
+                              ]
+                            ]
+                          ]
+                        ],
+                        "icon-stroke": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ],
+                          "hsla(0, 0%, 0%, 0)"
+                        ]
+                      }
+                    }
                   ],
                   [
                     "image",
-                    [
-                      "concat",
-                      ["concat", ["string", ["get", "maki"]], "-mono"],
-                      "-dark"
-                    ],
-                    ["concat", ["string", ["get", "maki"]], "-mono"]
+                    ["string", ["get", "maki"]],
+                    {
+                      "params": {
+                        "background-stroke": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsla(0, 0%, 0%, 0)",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        ],
+                        "icon": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsl(0, 0%, 50%)",
+                          [
+                            "case",
+                            ["==", ["get", "maki"], "marker"],
+                            "hsla(0, 0%, 0%, 0)",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(0, 0%, 0%)",
+                              "hsl(0, 0%, 100%)"
+                            ]
+                          ]
+                        ],
+                        "background": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          "hsla(0, 0%, 0%, 0)",
+                          [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(40, 95%, 70%)",
+                              "hsl(30, 100%, 60%)"
+                            ],
+                            "education",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(31, 50%, 70%)",
+                              "hsl(30, 50%, 50%)"
+                            ],
+                            "medical",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(0, 70%, 70%)",
+                              "hsl(0, 95%, 72%)"
+                            ],
+                            "sport_and_leisure",
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(190, 60%, 70%)",
+                              "hsl(190, 75%, 50%)"
+                            ],
+                            ["store_like", "food_and_drink_stores"],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(210, 70%, 75%)",
+                              "hsl(210, 75%, 65%)"
+                            ],
+                            [
+                              "case",
+                              [
+                                "any",
+                                [
+                                  "in",
+                                  ["get", "maki"],
+                                  [
+                                    "literal",
+                                    ["communications-tower", "museum", "zoo"]
+                                  ]
+                                ],
+                                [
+                                  "in",
+                                  ["get", "class"],
+                                  [
+                                    "literal",
+                                    [
+                                      "arts_and_entertainment",
+                                      "historic",
+                                      "landmark"
+                                    ]
+                                  ]
+                                ]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(320, 70%, 75%)",
+                                "hsl(320, 85%, 72%)"
+                              ],
+                              [
+                                "any",
+                                ["==", ["get", "maki"], "car-repair"],
+                                [
+                                  "in",
+                                  ["get", "class"],
+                                  [
+                                    "literal",
+                                    [
+                                      "commercial_services",
+                                      "motorist",
+                                      "lodging"
+                                    ]
+                                  ]
+                                ]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(260, 70%, 70%)",
+                                "hsl(250, 75%, 72%)"
+                              ],
+                              [
+                                "any",
+                                ["==", ["get", "maki"], "picnic-site"],
+                                ["==", ["get", "class"], "park_like"]
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(110, 55%, 65%)",
+                                "hsl(110, 70%, 40%)"
+                              ],
+                              ["==", ["get", "maki"], "terminal"],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(225, 60%, 60%)",
+                                "hsl(225, 60%, 58%)"
+                              ],
+                              [
+                                "match",
+                                ["config", "lightPreset"],
+                                ["dusk", "night"],
+                                "hsl(209, 20%, 70%)",
+                                "hsl(200, 20%, 60%)"
+                              ]
+                            ]
+                          ]
+                        ],
+                        "icon-stroke": [
+                          "match",
+                          ["config", "theme"],
+                          "monochrome",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ],
+                          "hsla(0, 0%, 0%, 0)"
+                        ]
+                      }
+                    }
                   ]
                 ],
                 [
-                  "case",
-                  ["has", "maki_beta"],
-                  [
-                    "coalesce",
-                    [
-                      "image",
-                      ["concat", ["string", ["get", "maki_beta"]], "-dark"],
-                      ["string", ["get", "maki_beta"]]
-                    ],
-                    [
-                      "image",
-                      ["concat", ["string", ["get", "maki"]], "-dark"],
-                      ["string", ["get", "maki"]]
-                    ]
-                  ],
-                  [
-                    "image",
-                    ["concat", ["string", ["get", "maki"]], "-dark"],
-                    ["string", ["get", "maki"]]
-                  ]
+                  "image",
+                  ["string", ["get", "maki"]],
+                  {
+                    "params": {
+                      "background-stroke": [
+                        "match",
+                        ["config", "theme"],
+                        "monochrome",
+                        "hsla(0, 0%, 0%, 0)",
+                        [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 0%)",
+                          "hsl(0, 0%, 100%)"
+                        ]
+                      ],
+                      "icon": [
+                        "match",
+                        ["config", "theme"],
+                        "monochrome",
+                        "hsl(0, 0%, 50%)",
+                        [
+                          "case",
+                          ["==", ["get", "maki"], "marker"],
+                          "hsla(0, 0%, 0%, 0)",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        ]
+                      ],
+                      "background": [
+                        "match",
+                        ["config", "theme"],
+                        "monochrome",
+                        "hsla(0, 0%, 0%, 0)",
+                        [
+                          "match",
+                          ["get", "class"],
+                          "food_and_drink",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(40, 95%, 70%)",
+                            "hsl(30, 100%, 60%)"
+                          ],
+                          "education",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(31, 50%, 70%)",
+                            "hsl(30, 50%, 50%)"
+                          ],
+                          "medical",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 70%, 70%)",
+                            "hsl(0, 95%, 72%)"
+                          ],
+                          "sport_and_leisure",
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(190, 60%, 70%)",
+                            "hsl(190, 75%, 50%)"
+                          ],
+                          ["store_like", "food_and_drink_stores"],
+                          [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(210, 70%, 75%)",
+                            "hsl(210, 75%, 65%)"
+                          ],
+                          [
+                            "case",
+                            [
+                              "any",
+                              [
+                                "in",
+                                ["get", "maki"],
+                                [
+                                  "literal",
+                                  ["communications-tower", "museum", "zoo"]
+                                ]
+                              ],
+                              [
+                                "in",
+                                ["get", "class"],
+                                [
+                                  "literal",
+                                  [
+                                    "arts_and_entertainment",
+                                    "historic",
+                                    "landmark"
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(320, 70%, 75%)",
+                              "hsl(320, 85%, 72%)"
+                            ],
+                            [
+                              "any",
+                              ["==", ["get", "maki"], "car-repair"],
+                              [
+                                "in",
+                                ["get", "class"],
+                                [
+                                  "literal",
+                                  ["commercial_services", "motorist", "lodging"]
+                                ]
+                              ]
+                            ],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(260, 70%, 70%)",
+                              "hsl(250, 75%, 72%)"
+                            ],
+                            [
+                              "any",
+                              ["==", ["get", "maki"], "picnic-site"],
+                              ["==", ["get", "class"], "park_like"]
+                            ],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(110, 55%, 65%)",
+                              "hsl(110, 70%, 40%)"
+                            ],
+                            ["==", ["get", "maki"], "terminal"],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(225, 60%, 60%)",
+                              "hsl(225, 60%, 58%)"
+                            ],
+                            [
+                              "match",
+                              ["config", "lightPreset"],
+                              ["dusk", "night"],
+                              "hsl(209, 20%, 70%)",
+                              "hsl(200, 20%, 60%)"
+                            ]
+                          ]
+                        ]
+                      ],
+                      "icon-stroke": [
+                        "match",
+                        ["config", "theme"],
+                        "monochrome",
+                        [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 0%)",
+                          "hsl(0, 0%, 100%)"
+                        ],
+                        "hsla(0, 0%, 0%, 0)"
+                      ]
+                    }
+                  }
                 ]
               ],
               "text-offset": [
@@ -11500,15 +12261,6 @@
                 ["config", "theme"],
                 "monochrome",
                 0.7,
-                1
-              ],
-              "icon-image-cross-fade": [
-                "interpolate",
-                ["linear"],
-                ["measure-light", "brightness"],
-                0.25,
-                0,
-                0.3,
                 1
               ],
               "text-opacity": [
@@ -11809,28 +12561,33 @@
               ],
               "text-size": 13,
               "icon-image": [
-                "case",
-                [
-                  "to-boolean",
-                  [
-                    "coalesce",
-                    [
-                      "image",
-                      ["concat", ["string", ["get", "network"]], "-dark"]
+                "image",
+                ["string", ["get", "network"]],
+                {
+                  "params": {
+                    "background": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(225, 60%, 60%)",
+                      "hsl(225, 60%, 58%)"
                     ],
-                    ""
-                  ]
-                ],
-                [
-                  "image",
-                  ["concat", ["string", ["get", "network"]], "-dark"],
-                  ["string", ["get", "network"]]
-                ],
-                [
-                  "image",
-                  ["string", ["get", "network"]],
-                  ["string", ["get", "network"]]
-                ]
+                    "background-stroke": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(0, 0%, 0%)",
+                      "hsl(0, 0%, 100%)"
+                    ],
+                    "icon": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(0, 0%, 0%)",
+                      "hsl(0, 0%, 100%)"
+                    ]
+                  }
+                }
               ],
               "text-font": [
                 ["concat", ["config", "font"], " Medium"],
@@ -11913,15 +12670,6 @@
                 "case",
                 ["to-boolean", ["feature-state", "hide"]],
                 0,
-                1
-              ],
-              "icon-image-cross-fade": [
-                "interpolate",
-                ["linear"],
-                ["measure-light", "brightness"],
-                0.25,
-                0,
-                0.3,
                 1
               ],
               "text-emissive-strength": [
@@ -12080,8 +12828,32 @@
               "text-size": ["step", ["get", "sizerank"], 18, 9, 13],
               "icon-image": [
                 "image",
-                ["concat", ["string", ["get", "maki"]], "-dark"],
-                ["string", ["get", "maki"]]
+                ["string", ["get", "maki"]],
+                {
+                  "params": {
+                    "background": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(225, 60%, 60%)",
+                      "hsl(225, 60%, 58%)"
+                    ],
+                    "background-stroke": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(0, 0%, 0%)",
+                      "hsl(0, 0%, 100%)"
+                    ],
+                    "icon": [
+                      "match",
+                      ["config", "lightPreset"],
+                      ["dusk", "night"],
+                      "hsl(0, 0%, 0%)",
+                      "hsl(0, 0%, 100%)"
+                    ]
+                  }
+                }
               ],
               "text-font": [
                 ["concat", ["config", "font"], " Medium"],
@@ -12135,15 +12907,6 @@
                 ["config", "theme"],
                 "monochrome",
                 0.7,
-                1
-              ],
-              "icon-image-cross-fade": [
-                "interpolate",
-                ["linear"],
-                ["measure-light", "brightness"],
-                0.25,
-                0,
-                0.3,
                 1
               ],
               "text-color": [
@@ -12387,17 +13150,97 @@
                   ["==", ["get", "capital"], 2],
                   [
                     "image",
-                    ["string", "border-dot-13-dark"],
-                    ["string", "border-dot-13"]
+                    "border-dot-13",
+                    {
+                      "params": {
+                        "color-primary": [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 100%)",
+                          "hsl(0, 0%, 0%)"
+                        ],
+                        "color-secondary": [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 0%)",
+                          "hsl(0, 0%, 100%)"
+                        ]
+                      }
+                    }
                   ],
                   [
                     "step",
                     ["get", "symbolrank"],
-                    ["image", ["string", "dot-11-dark"], ["string", "dot-11"]],
+                    [
+                      "image",
+                      "dot-11",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ],
                     9,
-                    ["image", ["string", "dot-10-dark"], ["string", "dot-10"]],
+                    [
+                      "image",
+                      "dot-10",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ],
                     11,
-                    ["image", ["string", "dot-9-dark"], ["string", "dot-9"]]
+                    [
+                      "image",
+                      "dot-9",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ]
                   ]
                 ],
                 8,
@@ -12443,15 +13286,6 @@
                 ["config", "theme"],
                 "monochrome",
                 0.6,
-                1
-              ],
-              "icon-image-cross-fade": [
-                "interpolate",
-                ["linear"],
-                ["measure-light", "brightness"],
-                0.25,
-                0,
-                0.3,
                 1
               ],
               "text-color": [
@@ -12785,17 +13619,97 @@
                   ["==", ["get", "capital"], 2],
                   [
                     "image",
-                    ["string", "border-dot-13-dark"],
-                    ["string", "border-dot-13"]
+                    "border-dot-13",
+                    {
+                      "params": {
+                        "color-primary": [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 100%)",
+                          "hsl(0, 0%, 0%)"
+                        ],
+                        "color-secondary": [
+                          "match",
+                          ["config", "lightPreset"],
+                          ["dusk", "night"],
+                          "hsl(0, 0%, 0%)",
+                          "hsl(0, 0%, 100%)"
+                        ]
+                      }
+                    }
                   ],
                   [
                     "step",
                     ["get", "symbolrank"],
-                    ["image", ["string", "dot-11-dark"], ["string", "dot-11"]],
+                    [
+                      "image",
+                      "dot-11",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ],
                     9,
-                    ["image", ["string", "dot-10-dark"], ["string", "dot-10"]],
+                    [
+                      "image",
+                      "dot-10",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ],
                     11,
-                    ["image", ["string", "dot-9-dark"], ["string", "dot-9"]]
+                    [
+                      "image",
+                      "dot-9",
+                      {
+                        "params": {
+                          "color-primary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 100%)",
+                            "hsl(0, 0%, 0%)"
+                          ],
+                          "color-secondary": [
+                            "match",
+                            ["config", "lightPreset"],
+                            ["dusk", "night"],
+                            "hsl(0, 0%, 0%)",
+                            "hsl(0, 0%, 100%)"
+                          ]
+                        }
+                      }
+                    ]
                   ]
                 ],
                 8,
@@ -12855,15 +13769,6 @@
                 ["config", "theme"],
                 "monochrome",
                 0.6,
-                1
-              ],
-              "icon-image-cross-fade": [
-                "interpolate",
-                ["linear"],
-                ["measure-light", "brightness"],
-                0.25,
-                0,
-                0.3,
                 1
               ],
               "text-color": [
@@ -13565,7 +14470,7 @@
           }
         },
         "created": "2023-10-26T16:35:57.777Z",
-        "modified": "2025-05-12T15:12:06.595Z",
+        "modified": "2025-06-26T14:16:59.279Z",
         "id": "standard",
         "owner": "mapbox",
         "visibility": "public",
@@ -13580,7 +14485,7 @@
       "type": "vector"
     }
   },
-  "sprite": "mapbox://sprites/sozialhelden/cmaziz94600cf01s6h0q21dbj/draft",
+  "sprite": "mapbox://sprites/sozialhelden/cmcytq1vo008u01qo610m3f37/draft",
   "glyphs": "mapbox://fonts/sozialhelden/{fontstack}/{range}.pbf",
   "projection": {
     "name": "globe"
@@ -13883,7 +14788,7 @@
       ],
       "type": "circle",
       "source": "composite",
-      "id": "osm-ac-dots",
+      "id": "osm-amenities-ac-dots",
       "paint": {
         "circle-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 17, 1],
         "circle-color": [
@@ -13944,7 +14849,7 @@
       "filter": ["match", ["get", "highway"], ["elevator"], false, true],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-entrances",
+      "id": "osm-entrances_or_exits-entrances",
       "paint": {
         "text-opacity": ["step", ["zoom"], 0, 21, 1],
         "text-halo-width": 1.5,
@@ -13962,7 +14867,7 @@
       "filter": ["match", ["get", "highway"], ["elevator"], true, false],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-elevator",
+      "id": "osm-entrances_or_exits-elevators",
       "paint": {
         "text-color": [
           "match",
@@ -14038,7 +14943,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-ac-marker-unknown",
+      "id": "osm-amenities-ac-list-marker-unknown",
       "paint": {
         "text-halo-color": "hsl(29, 28%, 96%)",
         "text-color": "hsl(35, 20%, 24%)",
@@ -14081,7 +14986,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-ac-marker-bad",
+      "id": "osm-amenities-ac-list-marker-bad",
       "paint": {
         "text-halo-color": "hsl(29, 28%, 96%)",
         "text-halo-width": 1.5,
@@ -14122,7 +15027,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-ac-marker-mediocre",
+      "id": "osm-amenities-ac-list-marker-mediocre",
       "paint": {
         "text-halo-color": "#f8f5f2",
         "text-halo-width": 1.5,
@@ -14163,7 +15068,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-ac-marker-good",
+      "id": "osm-amenities-ac-list-marker-good",
       "paint": {
         "text-halo-color": "#f8f5f2",
         "text-halo-width": 1.5,
@@ -14218,7 +15123,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-marker-prioritized",
+      "id": "osm-amenities-marker-prioritized",
       "paint": {
         "text-halo-color": "#f8f5f2",
         "text-halo-width": 1.5,
@@ -14242,76 +15147,6 @@
         ]
       },
       "source-layer": "amenities_with_icons-816g39"
-    },
-    {
-      "id": "osm-step-height",
-      "type": "symbol",
-      "source": "composite",
-      "source-layer": "entrances_or_exits_saarbrueck-0vxz2q",
-      "minzoom": 20,
-      "layout": {
-        "text-field": [
-          "case",
-          ["!=", ["get", "wheelchair:step_height"], null],
-          [
-            "to-string",
-            ["concat", "↕ ", ["get", "wheelchair:step_height"], " cm"]
-          ],
-          ""
-        ],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 20, 10, 22, 16],
-        "text-justify": "left",
-        "text-anchor": "left",
-        "text-allow-overlap": true,
-        "text-offset": [1, 0],
-        "text-font": ["Inter Regular", "Arial Unicode MS Regular"],
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": [
-          "match",
-          ["get", "wheelchair"],
-          ["no"],
-          "hsl(0, 95%, 36%)",
-          ["limited"],
-          "#854000",
-          ["yes"],
-          "hsl(116, 97%, 24%)",
-          "#000000"
-        ],
-        "text-halo-color": "hsl(35, 20%, 94%)",
-        "text-halo-width": 0.9
-      }
-    },
-    {
-      "id": "osm-entrance-ref",
-      "type": "symbol",
-      "source": "composite",
-      "source-layer": "entrances_or_exits_saarbrueck-0vxz2q",
-      "minzoom": 19,
-      "layout": {
-        "text-size": ["interpolate", ["linear"], ["zoom"], 20, 13, 22, 21],
-        "text-anchor": "top",
-        "text-field": ["get", "ref"],
-        "text-offset": [0, 1],
-        "text-allow-overlap": true,
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": [
-          "match",
-          ["get", "wheelchair"],
-          ["no"],
-          "hsl(0, 95%, 36%)",
-          ["limited"],
-          "#854000",
-          ["yes"],
-          "hsl(116, 97%, 24%)",
-          "#000000"
-        ],
-        "text-halo-color": "hsl(35, 28%, 94%)",
-        "text-halo-width": 1.8
-      }
     },
     {
       "minzoom": 16,
@@ -14358,7 +15193,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-platform-ref",
+      "id": "osm-amenities-platform-ref",
       "paint": {
         "text-color": [
           "match",
@@ -14378,40 +15213,7 @@
       "source-layer": "amenities_with_icons-816g39"
     },
     {
-      "id": "osm-entrance-icon",
-      "type": "symbol",
-      "source": "composite",
-      "source-layer": "entrances_or_exits_saarbrueck-0vxz2q",
-      "minzoom": 20,
-      "layout": {
-        "text-size": 10,
-        "text-justify": "right",
-        "text-anchor": "right",
-        "text-allow-overlap": true,
-        "text-offset": [-0.5, 0],
-        "icon-image": "entrance-15-white",
-        "icon-size": ["interpolate", ["linear"], ["zoom"], 20, 0.8, 22, 1.3],
-        "visibility": "none"
-      },
-      "paint": {
-        "text-color": [
-          "match",
-          ["get", "wheelchair"],
-          ["no"],
-          "hsl(0, 95%, 36%)",
-          ["limited"],
-          "hsl(35, 95%, 33%)",
-          ["yes"],
-          "hsl(116, 97%, 24%)",
-          "#000000"
-        ],
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 0.9,
-        "icon-opacity": ["interpolate", ["linear"], ["zoom"], 18, 0, 19, 1]
-      }
-    },
-    {
-      "id": "osm-selected-polygon-focus",
+      "id": "osm-amenities-highlight-polygon-focus",
       "type": "line",
       "metadata": {
         "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
@@ -14432,7 +15234,7 @@
       }
     },
     {
-      "id": "osm-selected-polygon-focus-2",
+      "id": "osm-amenities-highlight-polygon-focus-2",
       "type": "line",
       "metadata": {
         "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
@@ -14453,7 +15255,7 @@
       }
     },
     {
-      "id": "osm-selected-entrance-point-focus",
+      "id": "osm-entrances_or_exits-highlight-entrance-point-focus",
       "type": "circle",
       "metadata": {
         "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
@@ -14486,7 +15288,7 @@
       }
     },
     {
-      "id": "osm-selected-poi-point-focus",
+      "id": "osm-amenities-highlight-poi-point-focus",
       "type": "circle",
       "metadata": {
         "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
@@ -14515,7 +15317,7 @@
       }
     },
     {
-      "id": "osm-selected-poi-point-focus-2",
+      "id": "osm-amenities-highlight-poi-point-focus-2",
       "type": "circle",
       "metadata": {
         "mapbox:group": "83c7f33e2ddc4f47909eca5bad65d9ee"
@@ -14558,7 +15360,7 @@
       "filter": ["has", "building"],
       "type": "line",
       "source": "composite",
-      "id": "osm-selected-building-outline",
+      "id": "osm-buildings-highlight-building-outline",
       "paint": {
         "line-color": "rgb(0, 0, 199)",
         "line-offset": -2,
@@ -14580,7 +15382,7 @@
       "filter": ["has", "building"],
       "type": "line",
       "source": "composite",
-      "id": "osm-selected-building-outline-2",
+      "id": "osm-buildings-highlight-building-outline-2",
       "paint": {
         "line-color": "rgb(0, 0, 199)",
         "line-offset": -8,
@@ -14602,7 +15404,7 @@
       "filter": ["has", "surface"],
       "type": "line",
       "source": "composite",
-      "id": "osm-selected-surface-outline",
+      "id": "osm-pedestrian_highways-highlight-surface-outline",
       "paint": {
         "line-color": "rgb(0, 0, 199)",
         "line-width": 3,
@@ -14624,7 +15426,7 @@
       "filter": ["has", "surface"],
       "type": "line",
       "source": "composite",
-      "id": "osm-selected-surface-outline-2",
+      "id": "osm-pedestrian_highways-highlight-surface-outline-2",
       "paint": {
         "line-color": "rgb(0, 0, 199)",
         "line-width": 9,
@@ -14646,7 +15448,7 @@
       "filter": ["has", "railway"],
       "type": "line",
       "source": "composite",
-      "id": "osm-selected-station-outline-2",
+      "id": "osm-pedestrian_highways-highlight-station-outline-2",
       "paint": {
         "line-color": "rgb(0, 0, 199)",
         "line-width": 9,
@@ -14693,7 +15495,7 @@
       "filter": ["match", ["get", "type"], ["boundary"], false, true],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-ac-selected-marker",
+      "id": "osm-amenities-ac-highlight-marker",
       "paint": {
         "text-halo-color": "hsl(29, 28%, 96%)",
         "text-halo-width": 2,
@@ -14725,7 +15527,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-selected-ref",
+      "id": "osm-amenities-highlight-ref",
       "paint": {
         "text-color": "rgb(0, 12, 179)",
         "text-halo-color": "hsl(35, 28%, 94%)",
@@ -14734,9 +15536,9 @@
       "source-layer": "amenities_with_icons-816g39"
     }
   ],
-  "created": "2025-05-22T15:27:07.494Z",
-  "modified": "2025-06-03T13:05:52.718Z",
-  "id": "cmaziz94600cf01s6h0q21dbj",
+  "created": "2025-07-11T12:59:32.484Z",
+  "modified": "2025-07-11T13:45:43.903Z",
+  "id": "cmcytq1vo008u01qo610m3f37",
   "owner": "sozialhelden",
   "visibility": "private",
   "protected": false,

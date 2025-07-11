@@ -16,7 +16,7 @@ import {
   SheetMountedContextProvider,
   useSheetMounted,
 } from "~/components/sheet/useSheetMounted";
-import LoadableMapView from "~/modules/map/components/LoadableMapView";
+import DynamicallyLoadedMap from "~/modules/map/components/DynamicallyLoadedMap";
 import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
@@ -102,7 +102,7 @@ export default function BaseMapLayout({
       <HeadMetaTags />
       <TopBar />
       <Main ref={containerRef} $enablePaddingForSheet={isSheetMounted}>
-        <LoadableMapView
+        <DynamicallyLoadedMap
           width={width}
           height={height}
           onLoadingChange={setIsLoading}

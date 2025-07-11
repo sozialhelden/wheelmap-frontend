@@ -92,6 +92,9 @@ export function useOsmApiUrl({
 
 function getCategoryFilterParams(): Record<string, string> {
   const { category } = useCategoryFilter();
+  if (!category) {
+    return {};
+  }
   if (category === "toilets") {
     return { hasToiletInfo: "true" };
   }

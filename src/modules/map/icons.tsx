@@ -27,7 +27,7 @@ export type MapIcon =
       accessibilityGrade: AccessibilityGrade;
     };
 
-export const index: Record<string, MapIcon> = {
+export const icons: Record<string, MapIcon> = {
   selected: {
     type: "default",
     component: <Selected />,
