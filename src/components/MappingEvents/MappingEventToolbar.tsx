@@ -104,8 +104,8 @@ const MappingEventToolbar = ({
 
   const hasMeetingPoint = Boolean(mappingEvent.meetingPoint);
 
-  const areaName = mappingEvent.area ? mappingEvent.area.properties.name : null;
-  const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
+  const areaName = mappingEvent.area?.properties?.name;
+  const meetingPointName = mappingEvent.meetingPoint?.properties?.name;
 
   // translator: Screenreader description for a mapping event
   const toolbarAriaLabel = t`Mapping event ${mappingEvent.name}`;
