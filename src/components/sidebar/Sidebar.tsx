@@ -1,7 +1,7 @@
 import { ScrollArea } from "@radix-ui/themes";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SidebarWrapper = styled.aside<{
   $isExpanded: boolean;

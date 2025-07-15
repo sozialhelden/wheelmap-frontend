@@ -17,6 +17,7 @@ import { useInteraction } from "~/modules/map/hooks/useInteraction";
 import { useLayers } from "~/modules/map/hooks/useLayers";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
+import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
 import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
 
@@ -73,17 +74,18 @@ const SpinnerOverlay = styled.div`
 `;
 
 export default function MapComponent() {
-  const { setMapRef, isReady, setIsReady } = useMap();
+  const { setMap, isReady, setIsReady } = useMap();
+  const { style, onLoad: onLoadMapStyle } = useMapStyle();
+  const { onSourceData } = useRenderedFeatures();
 
-  const { mapStyle, isLoadingStyle, onLoad: onLoadMapStyle } = useMapStyle();
   const {
+    cursor,
     interactiveLayerIds,
-    position,
-    onViewStateChange,
+    onMouseClick,
     onMouseEnter,
     onMouseLeave,
-    onMouseClick,
-    cursor,
+    onViewStateChange,
+    position,
   } = useInteraction();
 
   const { dataLayers, highlightLayers } = useLayers();
@@ -104,7 +106,7 @@ export default function MapComponent() {
   return (
     <>
       <Container>
-        {isLoadingStyle && (
+        {!isReady && (
           <SpinnerOverlay>
             <Spinner size="3" />
           </SpinnerOverlay>
@@ -112,6 +114,7 @@ export default function MapComponent() {
         <MapboxExtraStyles />
         <MapProvider>
           <ReactMapGL
+            reuseMaps
             mapboxAccessToken={mapboxAccessToken}
             interactive
             interactiveLayerIds={interactiveLayerIds}
@@ -122,9 +125,10 @@ export default function MapComponent() {
             onMouseLeave={onMouseLeave}
             onClick={onMouseClick}
             cursor={cursor}
+            mapStyle={style}
             onLoad={onLoad}
-            mapStyle={mapStyle}
-            ref={setMapRef}
+            onSourceData={onSourceData}
+            ref={setMap}
           >
             {isReady && (
               <>
