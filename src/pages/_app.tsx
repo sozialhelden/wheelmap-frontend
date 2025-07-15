@@ -11,8 +11,8 @@ import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import type { LanguageTag } from "~/modules/i18n/i18n";
+import { MapContextProvider } from "~/modules/map/hooks/useMap";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
-import { GlobalMapContextProvider } from "~/needs-refactoring/components/Map/GlobalMapContext";
 import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
 import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
 import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
@@ -55,7 +55,7 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
             <SessionProvider session={session}>
               <ExpertModeContextProvider>
                 <SWRConfigProvider>
-                  <GlobalMapContextProvider>
+                  <MapContextProvider>
                     <NeedsContextProvider>
                       <CategoryFilterContextProvider>
                         <AppContextProvider>
@@ -69,7 +69,7 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
                         </AppContextProvider>
                       </CategoryFilterContextProvider>
                     </NeedsContextProvider>
-                  </GlobalMapContextProvider>
+                  </MapContextProvider>
                 </SWRConfigProvider>
               </ExpertModeContextProvider>
             </SessionProvider>

@@ -1,5 +1,5 @@
-import mapboxgl, { type MapMouseEvent } from "mapbox-gl";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import { useCallback } from "react";
 import {
   GeolocateControl,
   type LayerProps,
@@ -8,31 +8,22 @@ import {
   NavigationControl,
   Map as ReactMapGL,
   Source,
-  type ViewStateChangeEvent,
 } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { createGlobalStyle } from "styled-components";
+import { Spinner } from "@radix-ui/themes";
+import styled, { createGlobalStyle } from "styled-components";
 import { useEnvironment } from "~/hooks/useEnvironment";
-import { useDarkMode } from "~/hooks/useTheme";
-import { useAppState } from "~/modules/app-state/hooks/useAppState";
-import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
+import { useInteraction } from "~/modules/map/hooks/useInteraction";
 import { useLayers } from "~/modules/map/hooks/useLayers";
+import { useMap } from "~/modules/map/hooks/useMap";
+import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useSources } from "~/modules/map/hooks/useSources";
-import { loadIcons } from "~/modules/map/utils/mapbox-icon-loader";
-import { getBaseStyle } from "~/modules/map/utils/styles";
 import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
-import { useMap } from "~/needs-refactoring/components/Map/useMap";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
 mapboxgl.workerClass =
   require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
-
-interface IProps {
-  width: number;
-  height: number;
-  onLoadingChange?: (loading: boolean) => void;
-}
 
 const MapboxExtraStyles = createGlobalStyle`
   .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
@@ -52,150 +43,120 @@ const MapboxExtraStyles = createGlobalStyle`
   }
 `;
 
-export default function MapComponent({ onLoadingChange }: IProps) {
+const Container = styled.div`
+  position: relative;
+  height: 100%;
+`;
+
+const SpinnerOverlay = styled.div`
+    inset: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    
+    & > * {
+        position: relative;
+        z-index: 1;
+    }
+    
+    &:after {
+        position: absolute;
+        display: block;
+        content: "";
+        inset: 0;
+        background: var(--gray-a10);
+        filter: invert(1);
+        z-index: 0 !important;
+    }
+`;
+
+export default function MapComponent() {
+  const { setMapRef, isReady, setIsReady } = useMap();
+
+  const { mapStyle, isLoadingStyle, onLoad: onLoadMapStyle } = useMapStyle();
+  const {
+    interactiveLayerIds,
+    position,
+    onViewStateChange,
+    onMouseEnter,
+    onMouseLeave,
+    onMouseClick,
+    cursor,
+  } = useInteraction();
+
   const { dataLayers, highlightLayers } = useLayers();
   const { sources } = useSources();
-
-  const interactiveLayerIds = useMemo(
-    () => dataLayers.map((layer) => layer.id),
-    [dataLayers],
-  );
-
-  const { map, setMapRef } = useMap();
-  const { appState, setAppState } = useAppState();
-
-  const router = useAppStateAwareRouter();
 
   const { NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken } =
     useEnvironment();
 
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [isLoadingIcons, setIsLoadingIcons] = useState(true);
-
-  const darkMode = useDarkMode();
-  const mapStyle = useMemo(() => getBaseStyle(darkMode), [darkMode]);
-
-  const [cursor, setCursor] = useState<string>("auto");
-  const onMouseEnter = useCallback(() => setCursor("pointer"), []);
-  const onMouseLeave = useCallback(() => setCursor("auto"), []);
-
-  const onViewStateChange = useCallback(
-    async (evt: ViewStateChangeEvent) => {
-      await setAppState(
-        {
-          position: {
-            longitude: evt.viewState.longitude,
-            latitude: evt.viewState.latitude,
-            zoom: evt.viewState.zoom,
-          },
-        },
-        { routerOperation: "replace" },
-      );
-    },
-    [setAppState],
-  );
-
-  const onMouseClick = useCallback(
-    (evt: MapMouseEvent) => {
-      const features = evt.features ?? [];
-      if (features.length <= 0) {
-        return router.replace("/");
-      }
-      if (features.length === 1) {
-        return router.push(
-          `/${features[0].source}/${String(features[0]?.properties?.id)?.replace("/", ":")}`,
-        );
-      }
-      router.push(
-        `/composite/${Array.from(
-          new Set(
-            features.map((f) =>
-              [f.source, String(f.properties?.id).replace("/", ":")].join(":"),
-            ),
-          ),
-        ).join(",")}`,
-      );
-    },
-    [router],
-  );
-
   const onLoad = useCallback(
-    async ({ target: mapInstance }: MapEvent) => {
-      if (!mapInstance) {
-        return;
-      }
-      await loadIcons(mapInstance, darkMode);
-      setIsMapLoaded(true);
-      setIsLoadingIcons(false);
+    async (event: MapEvent) => {
+      if (!event.target) return;
+      await onLoadMapStyle(event);
+      setIsReady(true);
     },
-    [darkMode],
+    [setIsReady, onLoadMapStyle],
   );
-
-  useEffect(() => {
-    onLoadingChange?.(isLoadingIcons);
-  }, [isLoadingIcons]);
-
-  useEffect(() => {
-    if (map && isMapLoaded && !isLoadingIcons) {
-      setIsLoadingIcons(true);
-      // setTimeout makes sure this runs in a different loop
-      setTimeout(() => {
-        loadIcons(map, darkMode).finally(() => {
-          setIsLoadingIcons(false);
-        });
-      }, 50);
-    }
-  }, [darkMode]);
 
   return (
     <>
-      <MapboxExtraStyles />
-      <MapProvider>
-        <ReactMapGL
-          initialViewState={appState.position}
-          mapboxAccessToken={mapboxAccessToken}
-          onMoveEnd={onViewStateChange}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onClick={onMouseClick}
-          onZoomEnd={onViewStateChange}
-          interactive
-          interactiveLayerIds={interactiveLayerIds}
-          onLoad={onLoad}
-          mapStyle={mapStyle}
-          ref={setMapRef}
-          cursor={cursor}
-        >
-          {isMapLoaded && (
-            <>
-              {sources.map(({ id, ...props }) => (
-                <Source key={id} id={id} {...props} />
-              ))}
-              {dataLayers?.map((layer) => (
-                <MapLayer key={layer.id} {...(layer as LayerProps)} />
-              ))}
-              {highlightLayers?.map((layer) => (
-                <MapLayer
-                  key={layer.id}
-                  {...(layer as LayerProps)}
-                  asFilterLayer
-                />
-              ))}
-            </>
-          )}
-          <GeolocateControl
-            position="bottom-right"
-            positionOptions={{ enableHighAccuracy: true }}
-            trackUserLocation
-          />
-          <NavigationControl
-            position="bottom-right"
-            showZoom={true}
-            visualizePitch={true}
-            showCompass={true}
-          />
-        </ReactMapGL>
-      </MapProvider>
+      <Container>
+        {isLoadingStyle && (
+          <SpinnerOverlay>
+            <Spinner size="3" />
+          </SpinnerOverlay>
+        )}
+        <MapboxExtraStyles />
+        <MapProvider>
+          <ReactMapGL
+            mapboxAccessToken={mapboxAccessToken}
+            interactive
+            interactiveLayerIds={interactiveLayerIds}
+            initialViewState={position}
+            onMoveEnd={onViewStateChange}
+            onZoomEnd={onViewStateChange}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onClick={onMouseClick}
+            cursor={cursor}
+            onLoad={onLoad}
+            mapStyle={mapStyle}
+            ref={setMapRef}
+          >
+            {isReady && (
+              <>
+                {sources.map(({ id, ...props }) => (
+                  <Source key={id} id={id} {...props} />
+                ))}
+                {dataLayers?.map((layer) => (
+                  <MapLayer key={layer.id} {...(layer as LayerProps)} />
+                ))}
+                {highlightLayers?.map((layer) => (
+                  <MapLayer
+                    key={layer.id}
+                    {...(layer as LayerProps)}
+                    asFilterLayer
+                  />
+                ))}
+              </>
+            )}
+            <GeolocateControl
+              position="bottom-right"
+              positionOptions={{ enableHighAccuracy: true }}
+              trackUserLocation
+            />
+            <NavigationControl
+              position="bottom-right"
+              showZoom={true}
+              visualizePitch={true}
+              showCompass={true}
+            />
+          </ReactMapGL>
+        </MapProvider>
+      </Container>
     </>
   );
 }
