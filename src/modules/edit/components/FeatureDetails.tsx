@@ -16,7 +16,7 @@ import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePane
 import PlaceWebsiteLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/StyledIconButtonList";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
-import { useMap } from "~/needs-refactoring/components/Map/useMap";
+import { useMap } from "~/modules/map/hooks/useMap";
 import {
   type AnyFeature,
   isPlaceInfo,

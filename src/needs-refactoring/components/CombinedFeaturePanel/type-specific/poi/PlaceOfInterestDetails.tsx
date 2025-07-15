@@ -7,7 +7,7 @@ import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { useMap } from "~/needs-refactoring/components/Map/useMap";
+import { useMap } from "~/modules/map/hooks/useMap";
 import FeatureAccessibility from "../../components/AccessibilitySection/FeatureAccessibility";
 import NextToiletDirections from "../../components/AccessibilitySection/NextToiletDirections";
 import { AccessibilityItems } from "../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";

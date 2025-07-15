@@ -21,17 +21,14 @@ export function addImageToMapboxMap({
   width: number;
   height: number;
 }): void {
-  const addImageToMap = (image: HTMLImageElement) => {
+  const pixelRatio = 2;
+  const image = new Image(width * pixelRatio, height * pixelRatio);
+
+  image.onload = () => {
     if (map.hasImage(identifier)) {
       map.removeImage(identifier);
     }
-    map.addImage(identifier, image, { pixelRatio: 4 });
-  };
-
-  const image = new Image(width * 4, height * 4);
-
-  image.onload = () => {
-    addImageToMap(image);
+    map.addImage(identifier, image, { pixelRatio });
   };
 
   image.onerror = (

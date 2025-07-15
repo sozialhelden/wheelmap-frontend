@@ -2,13 +2,10 @@ import { Flex, Text } from "@radix-ui/themes";
 import { findCategoryBySynonym } from "@sozialhelden/core";
 import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
+import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
-import { calculateDefaultPadding } from "~/needs-refactoring/components/Map/MapOverlapPadding";
-import { useMap } from "~/needs-refactoring/components/Map/useMap";
 
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
-import { useAppState } from "~/modules/app-state/hooks/useAppState";
-import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 
 type Props = {
   result: SearchResultType;
@@ -59,8 +56,6 @@ export const SearchResult = forwardRef(function SearchResult(
       return;
     }
 
-    const padding = calculateDefaultPadding();
-
     if (extent) {
       map?.fitBounds(
         [
@@ -68,12 +63,11 @@ export const SearchResult = forwardRef(function SearchResult(
           [extent[2], extent[3]],
         ],
         {
-          padding,
           speed: 3,
         },
       );
     } else if (lat && lon) {
-      map?.flyTo({ center: [lon, lat], zoom: 20, padding, speed: 3 });
+      map?.flyTo({ center: [lon, lat], zoom: 20, speed: 3 });
     }
   };
 

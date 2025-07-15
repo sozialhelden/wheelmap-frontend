@@ -38,28 +38,6 @@ const Main = styled.main<{ $enablePaddingForSheet: boolean }>`
   box-sizing: border-box;
   padding-bottom: ${({ $enablePaddingForSheet }) => ($enablePaddingForSheet ? "var(--sheet-height-collapsed)" : "0")}
 `;
-const SpinnerOverlay = styled.div`
-    inset: 0;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    & > * {
-        position: relative;
-        z-index: 1;
-    }
-    
-    &:after {
-        position: absolute;
-        display: block;
-        content: "";
-        inset: 0;
-        background: var(--gray-a10);
-        filter: invert(1);
-        z-index: 0 !important;
-    }
-`;
 
 export default function BaseMapLayout({
   children,
@@ -88,9 +66,6 @@ export default function BaseMapLayout({
 
   useHotkeys(expertModeHotkeys);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [containerRef, { width, height }] = useMeasure({ debounce: 100 });
   const { isSheetMounted } = useSheetMounted();
 
   useEffect(() => {
@@ -101,18 +76,8 @@ export default function BaseMapLayout({
     <ErrorBoundary>
       <HeadMetaTags />
       <TopBar />
-      <Main ref={containerRef} $enablePaddingForSheet={isSheetMounted}>
-        <DynamicallyLoadedMap
-          width={width}
-          height={height}
-          onLoadingChange={setIsLoading}
-          key="map"
-        />
-        {isLoading && (
-          <SpinnerOverlay>
-            <Spinner size="3" />
-          </SpinnerOverlay>
-        )}
+      <Main $enablePaddingForSheet={isSheetMounted}>
+        <DynamicallyLoadedMap key="map" />
         <div style={{ zIndex: 2000 }}>{children}</div>
       </Main>
       <ToastContainer />
