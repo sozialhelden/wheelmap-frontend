@@ -17,6 +17,7 @@ export function attachTagPropsRecursively(
   const matchedKey = Object.keys(valueRenderFunctions).find(
     (renderFunctionKey) => key.match(renderFunctionKey),
   );
+  tagOrGroup.value = singleValue;
   tagOrGroup.tagProps = getOSMTagProps({
     key,
     matchedKey,
