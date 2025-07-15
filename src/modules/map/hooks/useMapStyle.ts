@@ -1,5 +1,5 @@
 import type { Map as MapBoxMap } from "mapbox-gl";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import type { MapEvent } from "react-map-gl/mapbox";
 import { useDarkMode } from "~/hooks/useTheme";
 import { useMap } from "~/modules/map/hooks/useMap";
@@ -7,40 +7,31 @@ import { getBaseStyle } from "~/modules/map/utils/styles";
 import { loadIcons } from "../utils/mapbox-icon-loader";
 
 export function useMapStyle() {
-  const { map, isReady } = useMap();
+  const { map, isReady, setIsReady } = useMap();
 
   const darkMode = useDarkMode();
-  const mapStyle = useMemo(() => getBaseStyle(darkMode), [darkMode]);
-
-  const [isLoadingStyle, setIsLoadingStyle] = useState(true);
+  const style = useMemo(() => getBaseStyle(darkMode), [darkMode]);
 
   const onLoad = useCallback(
-    async ({ target }: MapEvent) => {
-      if (!target || !isLoadingStyle) {
-        return;
-      }
-      await loadIcons(target, darkMode);
-      setIsLoadingStyle(false);
+    async ({ target: map }: MapEvent) => {
+      // when is isReady is true, icons have already been loaded
+      if (!map || isReady) return;
+      await loadIcons(map, darkMode);
     },
-    [darkMode, loadIcons, setIsLoadingStyle],
+    [map, isReady, darkMode, loadIcons],
   );
 
   useEffect(() => {
-    if (map && isReady && !isLoadingStyle) {
-      setIsLoadingStyle(true);
-
+    if (map && isReady) {
+      setIsReady(false);
       // setTimeout makes sure this runs in a different loop
       setTimeout(() => {
         loadIcons(map as unknown as MapBoxMap, darkMode).finally(() => {
-          setIsLoadingStyle(false);
+          setIsReady(true);
         });
       }, 50);
     }
   }, [darkMode]);
 
-  return {
-    mapStyle,
-    isLoadingStyle,
-    onLoad,
-  };
+  return { style, onLoad };
 }

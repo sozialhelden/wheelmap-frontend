@@ -3,27 +3,27 @@ import type { MapRef } from "react-map-gl/mapbox";
 
 type MapContext = {
   map: MapRef | undefined;
+  setMap: (map: MapRef) => void;
   isReady: boolean;
   setIsReady: (ready: boolean) => void;
-  setMapRef: (map: MapRef) => void;
 };
 
 export const MapContext = createContext<MapContext>({
   map: undefined,
+  setMap: () => {},
   isReady: false,
   setIsReady: () => {},
-  setMapRef: () => {},
 });
 
 export function MapContextProvider({ children }: { children: ReactNode }) {
-  const [map, setMapRef] = useState<MapRef>();
+  const [map, setMap] = useState<MapRef>();
   const [isReady, setIsReady] = useState(false);
 
   return (
     <MapContext.Provider
       value={{
         map,
-        setMapRef,
+        setMap,
         isReady,
         setIsReady,
       }}

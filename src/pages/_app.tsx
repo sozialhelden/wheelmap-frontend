@@ -12,6 +12,7 @@ import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 import { MapContextProvider } from "~/modules/map/hooks/useMap";
+import { MapRenderedFeaturesContextProvider } from "~/modules/map/hooks/useRenderedFeatures";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
 import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
@@ -56,19 +57,21 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
               <ExpertModeContextProvider>
                 <SWRConfigProvider>
                   <MapContextProvider>
-                    <NeedsContextProvider>
-                      <CategoryFilterContextProvider>
-                        <AppContextProvider>
-                          <MapFilterContextProvider>
-                            <BreakpointContextProvider>
-                              <SheetMountedContextProvider>
-                                {getLayout(<Component />)}
-                              </SheetMountedContextProvider>
-                            </BreakpointContextProvider>
-                          </MapFilterContextProvider>
-                        </AppContextProvider>
-                      </CategoryFilterContextProvider>
-                    </NeedsContextProvider>
+                    <MapRenderedFeaturesContextProvider>
+                      <NeedsContextProvider>
+                        <CategoryFilterContextProvider>
+                          <AppContextProvider>
+                            <MapFilterContextProvider>
+                              <BreakpointContextProvider>
+                                <SheetMountedContextProvider>
+                                  {getLayout(<Component />)}
+                                </SheetMountedContextProvider>
+                              </BreakpointContextProvider>
+                            </MapFilterContextProvider>
+                          </AppContextProvider>
+                        </CategoryFilterContextProvider>
+                      </NeedsContextProvider>
+                    </MapRenderedFeaturesContextProvider>
                   </MapContextProvider>
                 </SWRConfigProvider>
               </ExpertModeContextProvider>
