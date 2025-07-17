@@ -49,9 +49,7 @@ export const SearchResult = forwardRef(function SearchResult(
     categoryProperties.id !== "unknown" &&
     categoryProperties.name();
 
-  url = url || "/";
-
-  const openResult = async (event: MouseEvent, url: string) => {
+  const openResult = async (event: MouseEvent) => {
     if (event.ctrlKey || event.metaKey) {
       return;
     }
@@ -80,9 +78,9 @@ export const SearchResult = forwardRef(function SearchResult(
     >
       <Flex asChild gap="2">
         <AppStateAwareLink
-          href={url}
+          href={url || "/"}
           newAppState={{ search: "" }}
-          onClick={(event) => openResult(event as unknown as MouseEvent, url)}
+          onClick={(event) => openResult(event as unknown as MouseEvent)}
         >
           <Flex align="start" direction="column" justify="center">
             <h3>

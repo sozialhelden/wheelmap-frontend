@@ -1,4 +1,4 @@
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 
 /**
  * Determines if the zeroth level is skipped in the current context.
@@ -7,7 +7,7 @@ import { useI18nContext } from "~/modules/i18n/context/I18nContext";
  * and Mongolia.
  */
 export function determineIfZerothLevelShouldBeSkipped() {
-  const { language, region } = useI18nContext();
+  const { language, region } = useI18n();
 
   if (["kk", "kaz", "ko", "kor", "mn", "mon"].includes(language)) {
     return true;

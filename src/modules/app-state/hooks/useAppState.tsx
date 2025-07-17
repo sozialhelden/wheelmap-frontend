@@ -17,6 +17,7 @@ import {
   parseQuery,
 } from "~/modules/app-state/utils/query";
 import { unflattenSearchParams } from "~/utils/search-params";
+import { addQueryParamsToUrl } from "~/utils/url";
 
 type AppStateContextType = {
   appState: AppState;
@@ -59,18 +60,17 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
 
   const setAppState = useCallback<AppStateContextType["setAppState"]>(
     async (newState, options?) => {
-      const url = new URL(
+      let url = new URL(
         (options?.keepExistingQuery ?? true)
           ? router.asPath
           : router.asPath.split("?")[0],
         window.location.origin,
       );
 
-      for (const [key, value] of Object.entries(
+      url = addQueryParamsToUrl(
+        url,
         getQueryFromAppState({ ...appState, ...newState }),
-      )) {
-        url.searchParams.set(key, value);
-      }
+      );
 
       if (!options?.routerOperation || options?.routerOperation === "push") {
         await router.push(url, undefined, options);

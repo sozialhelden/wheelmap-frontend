@@ -1,4 +1,4 @@
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import {
   type Locale,
@@ -31,7 +31,7 @@ export function useTranslations(
     return undefined;
   }
 
-  const { languageTag } = useI18nContext();
+  const { languageTag } = useI18n();
 
   const result =
     findSuitableTranslation(input, languageTag) ||

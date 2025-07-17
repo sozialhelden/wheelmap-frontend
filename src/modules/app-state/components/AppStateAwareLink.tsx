@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { type ComponentProps, type Ref, forwardRef, useMemo } from "react";
-import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
+import { getQueryFromAppState } from "~/modules/app-state/utils/query";
+import { addQueryParamsToUrl } from "~/utils/url";
 import type { AppState } from "../app-state";
 
 export const AppStateAwareLink = forwardRef(
@@ -14,11 +16,16 @@ export const AppStateAwareLink = forwardRef(
     },
     ref: Ref<HTMLAnchorElement>,
   ) => {
-    const { setAppStateQueryParameters } = useAppStateAwareRouter();
+    const { appState } = useAppState();
 
     const extendedHref = useMemo(
-      () => setAppStateQueryParameters(href as URL | string, newAppState),
-      [href, newAppState, setAppStateQueryParameters],
+      () =>
+        addQueryParamsToUrl(
+          href as URL | string,
+          getQueryFromAppState({ ...appState, ...newAppState }),
+          false,
+        ),
+      [href, appState, newAppState],
     );
 
     return <Link {...props} href={extendedHref} ref={ref} />;

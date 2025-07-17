@@ -1,7 +1,7 @@
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 
 export default function usePreferImperialUnits(): boolean {
-  const { region } = useI18nContext();
+  const { region } = useI18n();
 
   return region === "US" || region === "UK" || region === "CA";
 }

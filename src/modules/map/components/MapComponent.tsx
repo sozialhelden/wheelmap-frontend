@@ -12,6 +12,7 @@ import {
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Spinner } from "@radix-ui/themes";
 import styled, { createGlobalStyle } from "styled-components";
+import { SpinnerOverlay } from "~/components/SpinnerOverlay";
 import { useEnvironment } from "~/hooks/useEnvironment";
 import { useInteraction } from "~/modules/map/hooks/useInteraction";
 import { useLayers } from "~/modules/map/hooks/useLayers";
@@ -49,30 +50,6 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const SpinnerOverlay = styled.div`
-    inset: 0;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    
-    & > * {
-        position: relative;
-        z-index: 1;
-    }
-    
-    &:after {
-        position: absolute;
-        display: block;
-        content: "";
-        inset: 0;
-        background: var(--gray-a10);
-        filter: invert(1);
-        z-index: 0 !important;
-    }
-`;
-
 export default function MapComponent() {
   const { setMap, isReady, setIsReady } = useMap();
   const { style, onLoad: onLoadMapStyle } = useMapStyle();
@@ -106,11 +83,7 @@ export default function MapComponent() {
   return (
     <>
       <Container>
-        {!isReady && (
-          <SpinnerOverlay>
-            <Spinner size="3" />
-          </SpinnerOverlay>
-        )}
+        {!isReady && <SpinnerOverlay />}
         <MapboxExtraStyles />
         <MapProvider>
           <ReactMapGL

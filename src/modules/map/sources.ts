@@ -18,6 +18,11 @@ export type ExternalDataSource = {
    * Actual external source, will be used to create a tile url.
    */
   tileSource: "osm" | "accessibility-cloud-api";
+  /**
+   * This type will be added as "@type" property to features from
+   * this source.
+   */
+  type: string;
 };
 
 /**
@@ -36,6 +41,7 @@ export const externalDataSources: ExternalDataSource[] = [
     layerNamePrefix: "ac-",
     sourceLayer: "place-infos",
     tileSource: "accessibility-cloud-api",
+    type: "ac:PlaceInfo",
     config: {
       id: "ac:PlaceInfo",
       type: "vector",
@@ -48,6 +54,7 @@ export const externalDataSources: ExternalDataSource[] = [
       layerNamePrefix: `osm-${collection}-`,
       sourceLayer: "default",
       tileSource: "osm" as const,
+      type: "osm:Feature",
       config: {
         id: String(collection),
         name: String(collection),

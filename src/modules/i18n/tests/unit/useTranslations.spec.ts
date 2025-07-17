@@ -1,8 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import {
-  type I18nContext,
-  useI18nContext,
-} from "~/modules/i18n/context/I18nContext";
+import { type I18nContext, useI18n } from "~/modules/i18n/context/I18nContext";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type { LanguageTag } from "~/modules/i18n/i18n";
 import type { Locale } from "~/modules/i18n/utils/locales";
@@ -113,7 +110,7 @@ describe("useTranslations", () => {
       expected: "spanish",
     },
   ])("$test", ({ languageTag, translations, expected }) => {
-    vi.mocked(useI18nContext).mockReturnValue({ languageTag } as I18nContext);
+    vi.mocked(useI18n).mockReturnValue({ languageTag } as I18nContext);
     expect(useTranslations(translations)).toEqual(expected);
   });
 });

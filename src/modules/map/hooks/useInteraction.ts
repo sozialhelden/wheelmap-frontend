@@ -4,6 +4,7 @@ import type { ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 import { useLayers } from "~/modules/map/hooks/useLayers";
+import { getFeatureUrl } from "~/utils/url";
 
 export function useInteraction() {
   const { appState, setAppState } = useAppState();
@@ -37,24 +38,7 @@ export function useInteraction() {
 
   const onMouseClick = useCallback(
     (event: MapMouseEvent) => {
-      const features = event.features ?? [];
-      if (features.length <= 0) {
-        return router.replace("/");
-      }
-      if (features.length === 1) {
-        return router.push(
-          `/${features[0].source}/${String(features[0]?.properties?.id)?.replace("/", ":")}`,
-        );
-      }
-      router.push(
-        `/composite/${Array.from(
-          new Set(
-            features.map((f) =>
-              [f.source, String(f.properties?.id).replace("/", ":")].join(":"),
-            ),
-          ),
-        ).join(",")}`,
-      );
+      return router.push(getFeatureUrl(event.features ?? []));
     },
     [router],
   );
