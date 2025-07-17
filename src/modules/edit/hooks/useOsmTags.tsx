@@ -5,7 +5,7 @@ import { filterKeys } from "~/modules/edit/utils/filterKeys";
 import { generateTree } from "~/modules/edit/utils/generateTree";
 import { nestTree } from "~/modules/edit/utils/nestTree";
 import { selectWheelchairDescription } from "~/modules/edit/utils/selectWheelchairDescription";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
@@ -21,7 +21,7 @@ export type TagOrTagGroup = {
 export function useOsmTags(feature: unknown) {
   const osmFeature = isOSMFeature(feature) ? feature : null;
 
-  const { languageTag } = useI18nContext();
+  const { languageTag } = useI18n();
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
   const { map: attributesById } = useAccessibilityAttributesIdMap();
 

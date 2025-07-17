@@ -12,7 +12,7 @@ import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { useLayers } from "~/modules/map/hooks/useLayers";
 import { useMap } from "~/modules/map/hooks/useMap";
 
-type MapRenderedFeaturesContext = {
+export type MapRenderedFeaturesContext = {
   features: GeoJSONFeature[];
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
@@ -47,9 +47,7 @@ export function MapRenderedFeaturesContextProvider({
     debounceTimeout.current = setTimeout(() => {
       const features =
         isReady &&
-        map?.queryRenderedFeatures({
-          layers: listLayers?.map((l) => l.id),
-        });
+        map?.queryRenderedFeatures({ layers: listLayers.map((l) => l.id) });
       if (features) {
         setFeatures(features);
       }

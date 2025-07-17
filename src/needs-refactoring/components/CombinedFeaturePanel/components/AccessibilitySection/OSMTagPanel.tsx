@@ -1,17 +1,17 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
-import {
-  getAvailableLangTags,
-  normalizeAndExtractLanguageTagsIfPresent,
-} from "~/needs-refactoring/lib/util/TagKeyUtils";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import type { TypeTaggedOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import isAccessibilityRelevantOSMKey from "~/needs-refactoring/lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { omittedKeyPrefixes } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeyPrefixes";
 import { omittedKeySuffixes } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeySuffixes";
 import { omittedKeys } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeys";
 import { pathsToConsumedTagKeys } from "~/needs-refactoring/lib/model/osm/tag-config/pathsToConsumedTagKeys";
 import { sortOrderMap } from "~/needs-refactoring/lib/model/osm/tag-config/sortOrderMap";
-import isAccessibilityRelevantOSMKey from "~/needs-refactoring/lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import {
+  getAvailableLangTags,
+  normalizeAndExtractLanguageTagsIfPresent,
+} from "~/needs-refactoring/lib/util/TagKeyUtils";
 import OSMTagTable from "./OSMTagTable";
 
 export interface ITreeNode {
@@ -72,7 +72,7 @@ function nest(tree: ITreeNode) {
 }
 
 export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature }) {
-  const { languageTag } = useI18nContext();
+  const { languageTag } = useI18n();
   const nestedTags = React.useMemo(() => {
     const filteredKeys = Object.keys(feature.properties || {})
       .filter((key) => !omittedKeys.has(key))

@@ -33,7 +33,7 @@ export const I18nContext = createContext<I18nContext>({
   region: "",
 });
 
-export function useI18nContext(): I18nContext {
+export function useI18n(): I18nContext {
   return useContext(I18nContext);
 }
 

@@ -14789,7 +14789,7 @@
       ],
       "type": "circle",
       "source": "composite",
-      "id": "osm-amenities-ac-dots",
+      "id": "osm-amenities-ac-list-dots",
       "paint": {
         "circle-opacity": [
           "interpolate",
@@ -14956,7 +14956,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-amenities-ac-list-marker-unknown",
+      "id": "osm-amenities-ac-marker-unknown",
       "paint": {
         "text-halo-color": "hsl(30, 24%, 3%)",
         "text-color": "#b4b4b4",
@@ -14999,7 +14999,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-amenities-ac-list-marker-bad",
+      "id": "osm-amenities-ac-marker-bad",
       "paint": {
         "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
@@ -15040,7 +15040,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-amenities-ac-list-marker-mediocre",
+      "id": "osm-amenities-ac-marker-mediocre",
       "paint": {
         "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
@@ -15081,7 +15081,7 @@
       ],
       "type": "symbol",
       "source": "composite",
-      "id": "osm-amenities-ac-list-marker-good",
+      "id": "osm-amenities-ac-marker-good",
       "paint": {
         "text-halo-color": "hsl(30, 24%, 3%)",
         "text-halo-width": 1.5,
@@ -15549,7 +15549,7 @@
     }
   ],
   "created": "2025-07-11T12:59:49.642Z",
-  "modified": "2025-07-15T12:55:36.527Z",
+  "modified": "2025-07-17T11:01:23.486Z",
   "id": "cmcytqf4905zp01sh0pe64l1p",
   "owner": "sozialhelden",
   "visibility": "private",

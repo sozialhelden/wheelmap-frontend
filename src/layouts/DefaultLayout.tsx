@@ -1,26 +1,47 @@
-import React, { type ReactNode } from "react";
+import type { GeoJSONFeature } from "mapbox-gl";
+import React, { useState, type ReactNode, useMemo } from "react";
 import ToolBar from "~/components/layout/ToolBar";
+import { Sheet } from "~/components/sheet/Sheet";
 import { Sidebar } from "~/components/sidebar/Sidebar";
+import { useBreakpoints } from "~/hooks/useBreakpoints";
 import { getLayout as getMapLayout } from "~/layouts/BaseMapLayout";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
-import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
+import { List } from "~/modules/list/components/List";
+
+export type RenderedFeature = GeoJSONFeature & {
+  _id?: string;
+  "@type"?: string;
+};
 
 export function DefaultLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const { greaterOrEqual } = useBreakpoints();
+  const showSidebar = greaterOrEqual("sm");
+
+  const [isExpanded, setIsExpanded] = useState(true);
+
   const { isFilteringActive } = useCategoryFilter();
-  const { features, isLoading } = useRenderedFeatures();
 
   return (
     <>
       <ToolBar />
-      {isFilteringActive && (
-        <Sidebar isExpanded={true}>
-          {!isLoading && <pre>{JSON.stringify(features, null, 2)}</pre>}
-        </Sidebar>
-      )}
+      {isFilteringActive &&
+        (showSidebar ? (
+          <Sidebar isExpanded={isExpanded} onIsExpandedChange={setIsExpanded}>
+            <List />
+          </Sidebar>
+        ) : (
+          <Sheet
+            isExpanded={isExpanded}
+            onIsExpandedChanged={setIsExpanded}
+            scrollStops={[0, 0.5]}
+          >
+            <List />
+          </Sheet>
+        ))}
       {children}
     </>
   );

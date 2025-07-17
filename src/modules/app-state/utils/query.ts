@@ -3,10 +3,7 @@ import {
   type AppStateKey,
   config,
 } from "~/modules/app-state/app-state";
-import {
-  type NestedRecord,
-  flattenToSearchParams,
-} from "~/utils/search-params";
+import type { NestedRecord } from "~/utils/search-params";
 
 export function parseQuery(query: NestedRecord<string | undefined>): AppState {
   return Object.entries(config).reduce((acc, [key, { parser }]) => {
@@ -15,8 +12,10 @@ export function parseQuery(query: NestedRecord<string | undefined>): AppState {
   }, {} as AppState);
 }
 
-export function getQueryFromAppState(state: AppState): Record<string, string> {
-  const serializedState = Object.entries(config).reduce(
+export function getQueryFromAppState(
+  state: AppState,
+): NestedRecord<string | undefined> {
+  return Object.entries(config).reduce(
     (acc, [key, { serializer }]) => {
       return Object.assign(acc, {
         [key]: serializer
@@ -25,7 +24,6 @@ export function getQueryFromAppState(state: AppState): Record<string, string> {
           : state[key as AppStateKey],
       });
     },
-    {} as Parameters<typeof flattenToSearchParams>[0],
+    {} as NestedRecord<string | undefined>,
   );
-  return flattenToSearchParams(serializedState) as Record<string, string>;
 }

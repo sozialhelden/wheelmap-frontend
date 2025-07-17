@@ -11,5 +11,5 @@ export const accessibilityCloudIdRegExp = new RegExp(
 export const isAccessibilityCloudId = (
   featureId: string,
 ): featureId is AccessibilityCloudRDFId | AccessibilityCloudURIParameterId => {
-  return !!featureId.match(accessibilityCloudIdRegExp);
+  return !!featureId?.match(accessibilityCloudIdRegExp);
 };

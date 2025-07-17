@@ -1,7 +1,7 @@
 import type { LayerSpecification } from "mapbox-gl";
 import { useMemo } from "react";
 import { useDarkMode } from "~/hooks/useTheme";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import { addLabelInOriginalLanguage } from "~/modules/map/utils/layers";
 import {
   getExternalSources,
@@ -12,7 +12,7 @@ import { getStyle } from "~/modules/map/utils/styles";
 
 export function useLayers() {
   const darkMode = useDarkMode();
-  const { language } = useI18nContext();
+  const { language } = useI18n();
 
   return useMemo(() => {
     let { layers } = getStyle(darkMode);

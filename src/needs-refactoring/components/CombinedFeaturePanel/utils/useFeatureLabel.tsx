@@ -1,13 +1,13 @@
 import { t } from "@transifex/native";
 import { compact } from "lodash";
 import * as React from "react";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { usePlaceInfo } from "~/needs-refactoring/lib/fetchers/ac/usePlaceInfo";
 import useWikidataName from "~/needs-refactoring/lib/fetchers/wikidata/useWikidataName";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { usePlaceNameFor } from "~/needs-refactoring/lib/model/geo/usePlaceNameFor";
 import useEquipmentInfoDescription from "~/needs-refactoring/lib/useEquipmentInfoDescription";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 
 import { findCategory } from "~/modules/categories/utils/display";
 
@@ -62,7 +62,7 @@ export function useFeatureLabel({
   const roomNumber =
     addressObject && useTranslations(addressObject?.roomNumber);
   const roomName = addressObject && useTranslations(addressObject?.room);
-  const categoryName = category.name();
+  const categoryName = category?.name?.();
 
   const { map: attributesById } = useAccessibilityAttributesIdMap();
 

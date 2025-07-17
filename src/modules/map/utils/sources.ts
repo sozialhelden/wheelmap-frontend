@@ -8,7 +8,9 @@ export function hasExternalSource(layerId: string): boolean {
 
 export function getExternalSources(
   layerId: string,
-): { id: string; source: string; "source-layer": string }[] | undefined {
+):
+  | { id: string; source: string; "source-layer": string; "@type": string }[]
+  | undefined {
   const { layerId: layerIdWithoutPrefixes, prefixes } =
     getAndRemovePrefixesFromLayerId(layerId);
 
@@ -24,6 +26,7 @@ export function getExternalSources(
         id: `${prefix}${layerIdWithoutPrefixes}`,
         source: source.config.id,
         "source-layer": source.sourceLayer,
+        "@type": source.type,
       };
     })
     .filter((s) => s !== undefined);

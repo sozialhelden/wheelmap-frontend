@@ -9,6 +9,7 @@
   "dependencies": {
     "@blueprintjs/core": "^5.16.4",
     "@mapbox/mapbox-gl-language": "^1.0.1",
+    "@mapbox/tilebelt": "^2.0.2",
     "@radix-ui/themes": "^3.2.0",
     "@sozialhelden/a11yjson": "^31.1.0",
     "@sozialhelden/core": "^2.1.1",

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useTheme } from "~/hooks/useTheme";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
@@ -56,7 +56,7 @@ export default function Navigation() {
     [linksInToolbar, isExpertMode],
   );
 
-  const { languageLabel, setLanguageTag } = useI18nContext();
+  const { languageLabel, setLanguageTag } = useI18n();
   const { theme, setTheme } = useTheme();
 
   const dropdownMenuButton = menuLinkElements.length > 0 && (

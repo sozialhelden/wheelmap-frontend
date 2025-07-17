@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useI18nContext } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 import { fallbackLanguageTag } from "~/modules/i18n/i18n";
 import { getFuzzilyExtendedLocales } from "~/modules/i18n/utils/locales";
 import type IAccessibilityAttribute from "../../model/ac/IAccessibilityAttribute";
@@ -11,7 +11,7 @@ export function generateSearchParams() {
   // either fetches a response over the network,
   // or returns a cached promise with the same URL (if available)
 
-  const { languageTag } = useI18nContext();
+  const { languageTag } = useI18n();
   const preferredLocales = [
     ...getFuzzilyExtendedLocales(languageTag),
     ...getFuzzilyExtendedLocales(fallbackLanguageTag),
