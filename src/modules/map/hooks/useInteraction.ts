@@ -30,7 +30,7 @@ export function useInteraction() {
             zoom: event.viewState.zoom,
           },
         },
-        { operation: "replace" },
+        { routerOperation: "replace" },
       );
     },
     [setAppState],
