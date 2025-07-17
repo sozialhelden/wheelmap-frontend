@@ -133,7 +133,7 @@ export function ListItem({ feature }: { feature: RenderedFeature }) {
         )}
 
         <Flex gap="2">
-          {/*TODO: put this into the needs modules*/}
+          {/*TODO: put this into the needs module and autogenerate it based on the config*/}
           {wheelchair === "yes" && <FullyWheelchairAccessibleIcon />}
           {wheelchair === "limited" && <PartiallyWheelchairAccessibleIcon />}
           {wheelchair === "no" && <NotWheelchairAccessibleIcon />}

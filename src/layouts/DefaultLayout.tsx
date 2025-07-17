@@ -1,5 +1,5 @@
 import type { GeoJSONFeature } from "mapbox-gl";
-import React, { useState, type ReactNode, useMemo } from "react";
+import React, { useState, type ReactNode, useMemo, useEffect } from "react";
 import ToolBar from "~/components/layout/ToolBar";
 import { Sheet } from "~/components/sheet/Sheet";
 import { Sidebar } from "~/components/sidebar/Sidebar";
@@ -21,9 +21,13 @@ export function DefaultLayout({
   const { greaterOrEqual } = useBreakpoints();
   const showSidebar = greaterOrEqual("sm");
 
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { isFilteringActive } = useCategoryFilter();
+
+  useEffect(() => {
+    setIsExpanded(isFilteringActive);
+  }, [isFilteringActive]);
 
   return (
     <>
