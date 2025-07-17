@@ -26,7 +26,7 @@
     "browserstack-local": "^1.4.8",
     "caniuse-lite": "^1.0.30001565",
     "classnames": "^2.2.6",
-    "compression": "^1.7.3",
+    "compression": "^1.8.1",
     "core-js": "^3.23.3",
     "cors": "^2.8.1",
     "d3-color": "^3.1.0",
