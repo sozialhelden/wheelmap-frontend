@@ -26,6 +26,8 @@ export function getExternalSources(
         id: `${prefix}${layerIdWithoutPrefixes}`,
         source: source.config.id,
         "source-layer": source.sourceLayer,
+        // TODO: this is used hydrate data from external sources with a @type property.
+        //  This should ideally be removed and each backend returns the proper @type property itself.
         "@type": source.type,
       };
     })

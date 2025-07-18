@@ -21,13 +21,17 @@ export function addQueryParamsToUrl(
 
 export function getFeatureUrl(
   features: GeoJSONFeature | GeoJSONFeature[],
-): URL {
+): URL | undefined {
   // make sure a single feature array is handled like a single feature and
   // not like a composite feature
   const feature =
     Array.isArray(features) && features.length === 1 ? features[0] : features;
 
   if (Array.isArray(feature)) {
+    if (feature.length === 0) {
+      return undefined;
+    }
+
     const featureIds = feature
       .map((f) => {
         return f.properties?.id

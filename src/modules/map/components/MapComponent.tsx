@@ -1,7 +1,8 @@
 import mapboxgl from "mapbox-gl";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   GeolocateControl,
+  Layer,
   type LayerProps,
   type MapEvent,
   MapProvider,
@@ -10,17 +11,17 @@ import {
   Source,
 } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Spinner } from "@radix-ui/themes";
 import styled, { createGlobalStyle } from "styled-components";
 import { SpinnerOverlay } from "~/components/SpinnerOverlay";
 import { useEnvironment } from "~/hooks/useEnvironment";
+import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { useInteraction } from "~/modules/map/hooks/useInteraction";
 import { useLayers } from "~/modules/map/hooks/useLayers";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
-import { MapLayer } from "~/needs-refactoring/components/Map/MapLayer";
+import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -68,6 +69,16 @@ export default function MapComponent() {
   const { dataLayers, highlightLayers } = useLayers();
   const { sources } = useSources();
 
+  const { highlightedFeatureIds } = useHighlight();
+
+  const filteredHighlightLayers = useMemo(
+    () =>
+      highlightLayers.map((layer) =>
+        filterFeaturesOnLayerByIds(layer, highlightedFeatureIds),
+      ),
+    [highlightLayers, highlightedFeatureIds],
+  );
+
   const { NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: mapboxAccessToken } =
     useEnvironment();
 
@@ -105,18 +116,14 @@ export default function MapComponent() {
           >
             {isReady && (
               <>
-                {sources.map(({ id, ...props }) => (
-                  <Source key={id} id={id} {...props} />
+                {sources.map((source) => (
+                  <Source key={source.id} {...source} />
                 ))}
                 {dataLayers?.map((layer) => (
-                  <MapLayer key={layer.id} {...(layer as LayerProps)} />
+                  <Layer key={layer.id} {...layer} />
                 ))}
-                {highlightLayers?.map((layer) => (
-                  <MapLayer
-                    key={layer.id}
-                    {...(layer as LayerProps)}
-                    asFilterLayer
-                  />
+                {filteredHighlightLayers?.map((layer) => (
+                  <Layer key={layer.id} {...layer} />
                 ))}
               </>
             )}

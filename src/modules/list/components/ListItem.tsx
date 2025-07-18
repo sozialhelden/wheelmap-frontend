@@ -1,24 +1,23 @@
 import { Flex, Text } from "@radix-ui/themes";
 import { T } from "@transifex/react";
 import { DateTime } from "luxon";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import * as React from "react";
 import styled from "styled-components";
 import { useOpeningHours } from "~/hooks/useOpeningHours";
 import { useWikidataImage } from "~/hooks/useWikidata";
 import type { RenderedFeature } from "~/layouts/DefaultLayout";
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
+import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { FullyWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";
 import { NoDataIcon } from "~/modules/needs/components/icons/mobility/NoDataIcon";
 import { NotWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/NotWheelchairAccessibleIcon";
 import { PartiallyWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/PartiallyWheelchairAccessibleIcon";
 import { FullyWheelchairAccessibleToiletIcon } from "~/modules/needs/components/icons/toilets/FullyWheelchairAccessibleToiletIcon";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import { useMapHighlight } from "~/needs-refactoring/components/Map/filter/useMapHighlight";
 import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import type { OSMId } from "~/needs-refactoring/lib/typing/brands/osmIds";
 import { getFeatureUrl } from "~/utils/url";
 
 const Container = styled.div`
@@ -78,15 +77,12 @@ export function ListItem({ feature }: { feature: RenderedFeature }) {
   const nextChangeIsToday =
     nextOpeningChange && DateTime.local().hasSame(nextOpeningChange, "day");
 
-  const [highlightedFeatureId, setHighlightedFeatureId] = useState<string>();
-  useMapHighlight(highlightedFeatureId as OSMId);
+  const { highlight, removeHighlight } = useHighlight();
 
   return (
     <Container
-      onMouseEnter={() =>
-        setHighlightedFeatureId(`osm:amenities/${feature._id}`)
-      }
-      onMouseLeave={() => setHighlightedFeatureId(undefined)}
+      onMouseEnter={() => feature._id && highlight(feature._id)}
+      onMouseLeave={() => feature._id && removeHighlight(feature._id)}
     >
       <div>
         {/*TODO: make sure the place opens right next to the list */}
