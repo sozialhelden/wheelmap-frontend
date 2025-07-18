@@ -38,7 +38,8 @@ export function useInteraction() {
 
   const onMouseClick = useCallback(
     (event: MapMouseEvent) => {
-      return router.push(getFeatureUrl(event.features ?? []));
+      const url = getFeatureUrl(event.features ?? []);
+      return url && router.push(url);
     },
     [router],
   );

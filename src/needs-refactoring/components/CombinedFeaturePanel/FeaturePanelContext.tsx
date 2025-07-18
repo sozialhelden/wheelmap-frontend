@@ -4,12 +4,13 @@ import React, {
   createContext,
   type FC,
   type ReactNode,
+  useEffect,
   useMemo,
   useRef,
 } from "react";
 import styled from "styled-components";
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
-import { useMapHighlight } from "~/needs-refactoring/components/Map/filter";
+import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { useExpandedFeatures } from "~/needs-refactoring/lib/fetchers/useFeatures";
 import {
   type CollectedFeature,
@@ -154,7 +155,6 @@ export function FeaturePanelContextProvider({
 
   const normalizedIds = normalizeIds(featureIds);
 
-  useMapHighlight(normalizedIds?.[0]);
   const expandedFeatures = useExpandedFeatures(normalizedIds, {
     useFeaturesSWRConfig: { shouldRetryOnError: false },
     useOsmToAcSWRConfig: { shouldRetryOnError: false },
@@ -184,6 +184,16 @@ export function FeaturePanelContextProvider({
       }) satisfies FeaturePanelContextType,
     [firstError, anyLoading, baseFeatureUrl, resultSet.features],
   );
+  const { highlight, removeHighlight } = useHighlight();
+
+  const id = resultSet?.features?.[0]?.requestedFeature._id;
+
+  useEffect(() => {
+    if (id) highlight(id);
+    return () => {
+      if (id) removeHighlight(id);
+    };
+  }, []);
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>

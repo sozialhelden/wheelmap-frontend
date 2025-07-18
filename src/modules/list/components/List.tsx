@@ -3,7 +3,6 @@ import { T } from "@transifex/react";
 import { CircleAlert } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { SpinnerOverlay } from "~/components/SpinnerOverlay";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import type { RenderedFeature } from "~/layouts/DefaultLayout";
 import { ListItem } from "~/modules/list/components/ListItem";
@@ -40,21 +39,18 @@ export function List() {
   //  returns the coordinates of the resulting tile instead of lat/lng
   const renderedFeatures: RenderedFeature[] = useMemo(
     () =>
-      features
-        // TODO: add pagination
-        .slice(0, page * perPage)
-        .map((feature) => {
-          // TODO: this is a workaround to ensure that the feature has an _id and @type in order
-          //  to use existing components. ideally, this should be either handled in the backend
-          //  or not be necessary at all.
-          return {
-            ...feature,
-            _id: feature.properties?.id,
-            "@type":
-              feature.layer?.id &&
-              getExternalSources(feature.layer.id)?.[0]["@type"],
-          };
-        }),
+      features.slice(0, page * perPage).map((feature) => {
+        // TODO: this is a workaround to ensure that the feature has an _id and @type in order
+        //  to use existing components. ideally, this should be either handled in the backend
+        //  or not be necessary at all.
+        return {
+          ...feature,
+          _id: feature.properties?.id,
+          "@type":
+            feature.layer?.id &&
+            getExternalSources(feature.layer.id)?.[0]["@type"],
+        };
+      }),
     [features, page],
   );
 

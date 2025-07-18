@@ -2,6 +2,31 @@ import type { LayerSpecification } from "mapbox-gl";
 import { fallbackLanguageTag } from "~/modules/i18n/i18n";
 import { getLanguage } from "~/modules/i18n/utils/language-tags";
 
+export function filterFeaturesOnLayerByIds(
+  layer: LayerSpecification,
+  featureIds: string[],
+): LayerSpecification {
+  const filters = featureIds.map((featureId) => [
+    "==",
+    ["get", "id"],
+    featureId,
+  ]);
+
+  return {
+    ...layer,
+    layout: {
+      ...layer.layout,
+      // when no features are selected, we simply hide the layer completely
+      visibility: filters.length > 0 ? "visible" : "none",
+    },
+    filter: [
+      "all",
+      ...filters,
+      ...(layer.filter?.[0] === "all" ? layer.filter.slice(1) : [layer.filter]),
+    ],
+  } as LayerSpecification;
+}
+
 export function addLabelInOriginalLanguage(
   layers: LayerSpecification[],
   currentLanguage?: string,
