@@ -1,4 +1,5 @@
 import { HotkeysProvider } from "@blueprintjs/core";
+import type { LanguageTag } from "@sozialhelden/core";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -10,12 +11,10 @@ import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted"
 import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
-import type { LanguageTag } from "~/modules/i18n/i18n";
 import { MapHighlightContextProvider } from "~/modules/map/hooks/useHighlight";
 import { MapContextProvider } from "~/modules/map/hooks/useMap";
 import { MapRenderedFeaturesContextProvider } from "~/modules/map/hooks/useRenderedFeatures";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
-import { MapFilterContextProvider } from "~/needs-refactoring/components/Map/filter/MapFilterContext";
 import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
 import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";

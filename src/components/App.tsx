@@ -1,5 +1,6 @@
 "use client";
 
+import type { LanguageTag } from "@sozialhelden/core";
 import { useSearchParams } from "next/navigation";
 import { type ReactNode, StrictMode } from "react";
 import {
@@ -10,7 +11,6 @@ import { HostnameContextProvider } from "~/hooks/useHostname";
 import { ThemeProvider } from "~/hooks/useTheme";
 import { UserAgentContextProvider } from "~/hooks/useUserAgent";
 import { I18nContextProvider } from "~/modules/i18n/context/I18nContext";
-import type { LanguageTag } from "~/modules/i18n/i18n";
 
 export type AppContext = {
   environment: EnvironmentVariables;

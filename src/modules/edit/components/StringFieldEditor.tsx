@@ -1,4 +1,3 @@
-import { Info } from "lucide-react";
 import {
   Callout,
   Dialog,
@@ -7,19 +6,20 @@ import {
   TextArea,
   VisuallyHidden,
 } from "@radix-ui/themes";
+import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
+import { Info } from "lucide-react";
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
-import type { BaseEditorProps } from "./BaseEditor";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
 import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/needs-refactoring/lib/util/TagKeyUtils";
-import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
-import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
+import type { BaseEditorProps } from "./BaseEditor";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,

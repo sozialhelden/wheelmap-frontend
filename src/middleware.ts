@@ -1,7 +1,9 @@
+import {
+  getILanguageTagsFromAcceptLanguageHeader,
+  getMostPreferableLanguageTag,
+} from "@sozialhelden/core";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { getILanguageTagsFromAcceptLanguageHeader } from "~/modules/i18n/utils/headers";
-import { getMostPreferableLanguageTag } from "~/modules/i18n/utils/language-tags";
 
 export function middleware() {
   // Determine the most preferable language tag from the accept-Language header,
