@@ -1,8 +1,7 @@
+import type { LanguageTag, Locale } from "@sozialhelden/core";
 import { describe, expect, test, vi } from "vitest";
 import { type I18nContext, useI18n } from "~/modules/i18n/context/I18nContext";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import type { LanguageTag } from "~/modules/i18n/i18n";
-import type { Locale } from "~/modules/i18n/utils/locales";
 
 vi.mock("~/modules/i18n/context/I18nContext");
 

@@ -1,6 +1,5 @@
+import { fallbackLanguageTag, getLanguage } from "@sozialhelden/core";
 import type { LayerSpecification } from "mapbox-gl";
-import { fallbackLanguageTag } from "~/modules/i18n/i18n";
-import { getLanguage } from "~/modules/i18n/utils/language-tags";
 
 export function filterFeaturesOnLayerByIds(
   layer: LayerSpecification,

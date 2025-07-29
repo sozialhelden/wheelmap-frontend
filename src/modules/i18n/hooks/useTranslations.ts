@@ -1,9 +1,10 @@
-import { useI18n } from "~/modules/i18n/context/I18nContext";
-import { type LanguageTag, fallbackLanguageTag } from "~/modules/i18n/i18n";
 import {
+  type LanguageTag,
   type Locale,
+  fallbackLanguageTag,
   getFuzzilyExtendedLocales,
-} from "~/modules/i18n/utils/locales";
+} from "@sozialhelden/core";
+import { useI18n } from "~/modules/i18n/context/I18nContext";
 
 export type Translations = Record<Locale, string>;
 

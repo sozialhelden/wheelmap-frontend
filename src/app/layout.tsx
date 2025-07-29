@@ -1,8 +1,8 @@
+import type { LanguageTag } from "@sozialhelden/core";
 import { headers } from "next/headers";
 import type { ReactNode } from "react";
 import { App } from "~/components/App";
 import type { EnvironmentVariables } from "~/hooks/useEnvironment";
-import type { LanguageTag } from "~/modules/i18n/i18n";
 import { getEnvironmentVariables } from "~/utils/environment";
 
 export const metadata = {};

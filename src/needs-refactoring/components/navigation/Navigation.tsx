@@ -1,4 +1,5 @@
 import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
+import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
 import { CheckIcon, Menu, X } from "lucide-react";
 import { useRouter } from "next/router";
@@ -6,7 +7,6 @@ import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useTheme } from "~/hooks/useTheme";
 import { useI18n } from "~/modules/i18n/context/I18nContext";
-import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
