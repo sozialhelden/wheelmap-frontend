@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Goto Access ER University', async ({ page }) => {
-  await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
+  await page.goto('/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.getByText('ER',{ exact: true}).click();
   await page.waitForLoadState();
@@ -28,7 +28,7 @@ test('Goto Access ER University', async ({ page }) => {
   });
 
 test('Goto Look ER University', async ({ page }) => {
-  await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
+  await page.goto('/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.click('text="Look"');
   await page.waitForLoadState();
@@ -38,7 +38,7 @@ test('Goto Look ER University', async ({ page }) => {
 
 
 test('Goto Open ER University', async ({ page }) => {
-  await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
+  await page.goto('/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.click('text="Operator"');
   await page.waitForLoadState();
@@ -49,7 +49,7 @@ test('Goto Open ER University', async ({ page }) => {
 });
 
 test('Goto MySmiley ER University', async ({ page }) => {
-  await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
+  await page.goto('/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await expect(page.getByRole('cell', { name: '🧑 “Es gibt auf der' })).toBeVisible();
   await page.waitForLoadState();
@@ -58,7 +58,7 @@ test('Goto MySmiley ER University', async ({ page }) => {
 });
 
 test('Next WC is in 120 m', async ({ page }) => {
-  await page.goto('https://feature-a11ymap.wheelmap.tech/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
+  await page.goto('/buildings/way%3A23517902?category=&q=&wheelchair=unknown&toilet=yes&lat=52.51096600&lon=13.32576500&extent=13.3248001&extent=52.5113331&extent=13.3267297&extent=52.5105994&zoom=18.74388041');
   await page.waitForLoadState();
   await page.getByRole('link', { name: 'Next wheelchair-accessible WC' }).click();
   await page.waitForLoadState();
