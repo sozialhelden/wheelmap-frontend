@@ -20,7 +20,7 @@ async function main() {
   let output = "import { t } from '@transifex/native';\n\n";
 
   for (const [category, { name }] of Object.entries(getCategories())) {
-    output += `const ${category} = t("${name()}");\n`;
+    output += `export const category_${category} = t("${name()}");\n`;
   }
 
   await writeFile(translationFile, output);
