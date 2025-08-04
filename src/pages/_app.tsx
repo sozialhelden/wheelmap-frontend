@@ -24,6 +24,7 @@ import {
   getRequestUserAgent,
 } from "~/needs-refactoring/lib/util/request";
 import { getEnvironmentVariables } from "~/utils/environment";
+import { fallbackLanguageTag } from "@sozialhelden/core";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -93,9 +94,9 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const environment = getEnvironmentVariables();
 
   // this is set by a custom middleware that handles language headers
-  const languageTag = request?.headers[
-    "x-preferred-language-tag"
-  ] as LanguageTag;
+  const languageTag =
+    (request?.headers["x-preferred-language-tag"] as LanguageTag) ||
+    fallbackLanguageTag;
 
   const pageProps = {
     userAgent,
