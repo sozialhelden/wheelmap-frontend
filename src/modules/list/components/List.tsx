@@ -55,10 +55,6 @@ export function List() {
   );
 
   useEffect(() => {
-    console.log("re-render");
-  }, [features]);
-
-  useEffect(() => {
     if (loadingCount > 1) {
       return;
     }
