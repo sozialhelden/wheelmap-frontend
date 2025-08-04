@@ -1,7 +1,8 @@
 import { ScrollArea } from "@radix-ui/themes";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import styled from "styled-components";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { t } from "@transifex/native";
 
 const SidebarWrapper = styled.aside<{
   $isExpanded: boolean;
@@ -96,7 +97,10 @@ export function Sidebar({
 }) {
   return (
     <SidebarWrapper $isExpanded={isExpanded} $hasPadding={hasPadding}>
-      <SidebarToggleButton onClick={() => onIsExpandedChange(!isExpanded)}>
+      <SidebarToggleButton
+        onClick={() => onIsExpandedChange(!isExpanded)}
+        aria-label={t("Toggle sidebar")}
+      >
         {isExpanded ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
         {!isExpanded && (
           <>
