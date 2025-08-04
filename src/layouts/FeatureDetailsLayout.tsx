@@ -10,6 +10,7 @@ import { getLayout as getBaseMapLayout } from "~/layouts/BaseMapLayout";
 import { FeaturePanelContextProvider } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
+import { t } from "@transifex/native";
 
 const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     height: 100%;
@@ -46,6 +47,7 @@ export const FeatureDetailsLayout = ({ children }: { children: ReactNode }) => {
         highContrast={true}
         $isSidebarOpen={isExpanded}
         onClick={() => push("/")}
+        aria-label={t("Close sidebar")}
       >
         <X size={18} />
       </SidebarButton>
