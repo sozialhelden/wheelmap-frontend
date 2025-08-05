@@ -13,6 +13,7 @@ import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 
 type Props = {
   features: AnyFeature[];
+  isLoading?: boolean;
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
 };
@@ -27,16 +28,23 @@ export function CombinedFeaturePanel(props: Props) {
   return (
     <React.StrictMode>
       <ErrorBoundary>
-        <Box>
+        <Box aria-busy={props.isLoading}>
           {features[0] && (
             <FeatureDetails
               features={features}
+              isLoading={props.isLoading}
               activeImageId={props.activeImageId}
               isUploadDialogOpen={props.isUploadDialogOpen}
             />
           )}
 
-          {(!features || features.length === 0) && (
+          {props.isLoading && (
+            <Callout.Root mt="9">
+              <Callout.Text>{t("Loading features...")}</Callout.Text>
+            </Callout.Root>
+          )}
+
+          {(!features || features.length === 0) && !props.isLoading && (
             <Callout.Root mt="9">
               <Callout.Text>{t("No features found.")}</Callout.Text>
             </Callout.Root>

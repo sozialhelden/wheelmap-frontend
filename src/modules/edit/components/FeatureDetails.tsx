@@ -31,6 +31,7 @@ import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleT
 
 type Props = {
   features: AnyFeature[];
+  isLoading: boolean | undefined;
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
 };
@@ -68,6 +69,7 @@ const SectionsContainer = styled(Flex)<{
 `;
 const FeatureDetails = ({
   features,
+  isLoading,
   activeImageId,
   isUploadDialogOpen,
 }: Props) => {
@@ -117,7 +119,13 @@ const FeatureDetails = ({
   return (
     <>
       {feature && (
-        <Flex direction="column">
+        <Flex
+          direction="column"
+          aria-live="assertive"
+          aria-relevant="all"
+          aria-busy={isLoading}
+          aria-atomic="true"
+        >
           <HeaderImageSection $orderDesktop={1} $orderMobile={3}>
             {/*TODO: add Logo component*/}
             {feature["@type"] === "osm:Feature" && (
@@ -131,6 +139,7 @@ const FeatureDetails = ({
               size="big"
               onHeaderClicked={handleHeaderClick}
               mb="1rem"
+              aria-label="Feature name and description"
             />
             {generalDescription && (
               <FeatureDescription>
