@@ -6,12 +6,12 @@ import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
 import { SearchFormField } from "~/modules/search/components/SearchFormField";
 import { SearchResult } from "~/modules/search/components/SearchResult";
 import { useHighlightSearchResults } from "~/modules/search/components/hooks/useHighlightSearchResults";
-import { useSearchResults } from "~/modules/search/hooks/useSearchResults";
+import { useSearchResults } from "~/modules/search/hooks/useSearchResults"; // const SearchWrapper = styled.div`
 
-const SearchWrapper = styled.div`
-    flex-basis: 100%;
-    position: relative;
-`;
+const SearchWrapper = styled("search")`
+       flex-basis: 100%;
+       position: relative;
+   `;
 
 export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
   const { appState, setAppState } = useAppState();
