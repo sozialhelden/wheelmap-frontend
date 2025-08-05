@@ -4,13 +4,15 @@ import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFea
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 
 export default function PlaceDetailPage() {
-  const { features } = useContext(FeaturePanelContext);
+  const { features, anyLoading } = useContext(FeaturePanelContext);
   const resolvedFeatures = useMemo(
     () => features.map((x) => x.feature?.requestedFeature).filter((x) => !!x),
     [features],
   );
 
-  return <CombinedFeaturePanel features={resolvedFeatures} />;
+  return (
+    <CombinedFeaturePanel features={resolvedFeatures} isLoading={anyLoading} />
+  );
 }
 
 PlaceDetailPage.getLayout = getLayout;
