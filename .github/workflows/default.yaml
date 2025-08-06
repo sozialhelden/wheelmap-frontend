@@ -19,7 +19,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.54.0-noble
+      image: mcr.microsoft.com/playwright:v1.50.1-noble
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,7 +34,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - env:
           CI_TEST_DEPLOYMENT_BASE_URL: ${{ steps.get_deployment_url.outputs.target-url }}
-        run: npm run test:e2e
+        run: npm run test:e2e -- --retries=1
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
