@@ -6,7 +6,7 @@ import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { ChevronDown } from "lucide-react";
 import type { FC, SVGAttributes } from "react";
 
-const Container = styled.div`
+const Container = styled.nav`
   display: flex;
   gap: 0.5rem;
   padding: 0 .5rem;
@@ -33,7 +33,7 @@ export function CategoryFilter() {
     !isFilteringActive && (
       <ScrollArea>
         <Theme asChild radius="full">
-          <Container>
+          <Container aria-label={t("Category Filters")}>
             {mainCategories.map(({ id, name, icon }) => {
               const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
               return (

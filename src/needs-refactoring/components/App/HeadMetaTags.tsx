@@ -8,6 +8,8 @@ import { getProductTitle } from "~/needs-refactoring/lib/model/ac/ClientSideConf
 import FacebookMeta from "./FacebookMeta";
 import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
+import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
+import { getCategories } from "@sozialhelden/core";
 
 export default function HeadMetaTags() {
   const { clientSideConfiguration } = useAppContext();
@@ -19,7 +21,23 @@ export default function HeadMetaTags() {
   const { twitter, facebook } = meta || {};
   const translatedDescription = useTranslations(description);
   const translatedProductName = useTranslations(productName);
-  const pageTitle = translatedProductName;
+  const { category, isFilteringActive } = useCategoryFilter();
+  let pageTitle = translatedProductName;
+  let documentTitle = getProductTitle(clientSideConfiguration);
+
+  if (isFilteringActive && category) {
+    const categories = getCategories();
+    const categoryName = categories[category]?.name();
+    const translatedCategoryName = categoryName
+      ? useTranslations(categoryName)
+      : "";
+
+    if (translatedCategoryName) {
+      pageTitle = `${translatedCategoryName} - ${translatedProductName}`;
+      documentTitle = `${translatedCategoryName} - ${translatedProductName}`;
+    }
+  }
+
   const facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
   const hostName = useHostname();
   const baseUrl = `https://${hostName}`;
@@ -30,7 +48,7 @@ export default function HeadMetaTags() {
 
   return (
     <Head>
-      <title key="title">{getProductTitle(clientSideConfiguration)}</title>
+      <title key="title">{documentTitle}</title>
       {/*
         Move viewport meta into Head from next/head to allow deduplication to work. Do not rely on deduplication by key,
         as React.mapChildren will prefix keys with ".$", but the default keys in next are not prefixed. Deduplication by
