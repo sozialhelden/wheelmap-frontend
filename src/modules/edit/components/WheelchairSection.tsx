@@ -3,17 +3,20 @@ import type React from "react";
 import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
+
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 
 import { t } from "@transifex/native";
+import WheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditor";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 
 type Props = {
   tags: TagOrTagGroup;
+  feature: AnyFeature;
 };
 
-const WheelchairSection = ({ tags }: Props) => {
+const WheelchairSection = ({ tags, feature }: Props) => {
   const wheelchairInfo = tags.children.find((tag) => tag.key === "wheelchair");
 
   const wheelchairDescription = tags.children.find((tag) =>
@@ -42,7 +45,11 @@ const WheelchairSection = ({ tags }: Props) => {
                 {String(wheelchairInfoText)}
               </StyledMarkdown>
             </Text>
-            <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
+            <WheelchairEditor
+              tagKey={wheelchairInfo.key}
+              tagValue={String(wheelchairInfo.value)}
+              feature={feature}
+            />
           </Flex>
         </Grid>
       )}
@@ -56,7 +63,11 @@ const WheelchairSection = ({ tags }: Props) => {
             </Text>
           </Box>
           <Box>
-            <EditDropdownMenu tagKey={wheelchairDescription.key} />
+            <EditDropdownMenu
+              tagKey={wheelchairDescription.key}
+              tagValue={wheelchairDescription.value}
+              feature={feature}
+            />
           </Box>
         </Grid>
       ) : (

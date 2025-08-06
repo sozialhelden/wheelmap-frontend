@@ -1,9 +1,9 @@
 import { Pencil } from "lucide-react";
 import React, { type ReactNode, useContext, useState } from "react";
-import { AutoEditor } from "~/modules/edit/components/AutoEditor";
 
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import DescriptionEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/DescriptionEditor";
 
 interface Props {
   tagKey: string;
@@ -28,11 +28,12 @@ export function AddDescriptionButton({ tagKey, children }: Props) {
       </SecondaryButton>
 
       {isDialogOpen && feature && (
-        <AutoEditor
+        <DescriptionEditor
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
           feature={feature}
           tagKey={tagKey}
           addNewLanguage={true}
-          onClose={() => setIsDialogOpen(false)}
         />
       )}
     </>

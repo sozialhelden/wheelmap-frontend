@@ -11,7 +11,7 @@ import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import { isOrHasAccessibleToilet } from "~/needs-refactoring/lib/model/accessibility/isOrHasAccessibleToilet";
 import type { BaseEditorProps } from "./BaseEditor";
 
-export const ToiletsWheelchairEditor: React.FC<BaseEditorProps> = ({
+export const ToiletsWheelchairEditorOld: React.FC<BaseEditorProps> = ({
   feature,
   onChange,
   onSubmit,

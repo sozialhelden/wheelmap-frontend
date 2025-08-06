@@ -6,19 +6,21 @@ import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibl
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { getValueLabel } from "~/modules/edit/utils/getValueLabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { EditButton } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditButton";
-import { EditDropdownMenu } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropDownMenu";
+import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
+import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;
   isLoading?: boolean;
   tags?: TagOrTagGroup;
+  feature: AnyFeature;
 };
 
-const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
+const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
   const wheelchairInfo = tags?.children.find(
     (tag) => tag.key === "toilets:wheelchair",
   );
@@ -51,7 +53,11 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
                 )}
               </StyledMarkdown>
             </Text>
-            <EditButton addNewLanguage={false} tagKey={wheelchairInfo.key} />
+            <ToiletsWheelchairEditor
+              feature={feature}
+              tagKey={wheelchairInfo.key}
+              tagValue={String(wheelchairInfo.value)}
+            />
           </Flex>
         </Grid>
       )}
@@ -81,7 +87,11 @@ const ToiletsSection = ({ nextToilet, isLoading, tags }: Props) => {
               </Text>
             </Box>
             <Box>
-              <EditDropdownMenu tagKey={description.key} />
+              <EditDropdownMenu
+                tagKey={description.key}
+                tagValue={description.value}
+                feature={feature}
+              />
             </Box>
           </Grid>
         ) : (

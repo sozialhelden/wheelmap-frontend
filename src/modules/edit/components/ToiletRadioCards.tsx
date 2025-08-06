@@ -7,7 +7,7 @@ import type { YesNoUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 
 type Props = {
   onSelect: (value: YesNoUnknown) => void;
-  defaultValue: string;
+  defaultValue: string | undefined;
 };
 
 const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
@@ -21,6 +21,7 @@ const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="yes"
           style={{ backgroundColor: "var(--green-4)" }}
+          data-testid="yes-item"
         >
           <Flex direction="column" width="100%">
             <Flex direction="row" gap="2">
@@ -37,7 +38,11 @@ const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
           </Flex>
         </RadioCards.Item>
 
-        <RadioCards.Item value="no" style={{ backgroundColor: "var(--red-8)" }}>
+        <RadioCards.Item
+          value="no"
+          style={{ backgroundColor: "var(--red-8)" }}
+          data-testid="no-item"
+        >
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
               <ToiletStatusNotAccessible />

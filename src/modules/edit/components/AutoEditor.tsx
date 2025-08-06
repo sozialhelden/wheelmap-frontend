@@ -21,8 +21,8 @@ import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/li
 import { log } from "~/needs-refactoring/lib/util/logger";
 import type { BaseEditorProps } from "./BaseEditor";
 import { StringFieldEditor } from "./StringFieldEditor";
-import { ToiletsWheelchairEditor } from "./ToiletsWheelchairEditor";
-import { WheelchairEditor } from "./WheelchairEditor";
+import { ToiletsWheelchairEditorOld } from "./ToiletsWheelchairEditorOld";
+import { WheelchairEditorOld } from "./WheelchairEditorOld";
 
 function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
   switch (true) {
@@ -30,10 +30,10 @@ function getEditorForKey(key: string): React.FC<BaseEditorProps> | undefined {
       return StringFieldEditor;
 
     case key === "wheelchair":
-      return WheelchairEditor;
+      return WheelchairEditorOld;
 
     case key === "toilets:wheelchair":
-      return ToiletsWheelchairEditor;
+      return ToiletsWheelchairEditorOld;
 
     default:
       return undefined;

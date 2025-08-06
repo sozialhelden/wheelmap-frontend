@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { getLayout } from "~/layouts/DefaultLayout";
-import { ToiletsWheelchairEditor } from "~/modules/edit/components/ToiletsWheelchairEditor";
+import { ToiletsWheelchairEditorOld } from "~/modules/edit/components/ToiletsWheelchairEditorOld";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 
 function ToiletAccessibility() {
@@ -8,7 +8,7 @@ function ToiletAccessibility() {
 
   const feature = features[0];
   return (
-    <ToiletsWheelchairEditor feature={feature} tagKey="toilets:wheelchair" />
+    <ToiletsWheelchairEditorOld feature={feature} tagKey="toilets:wheelchair" />
   );
 }
 
