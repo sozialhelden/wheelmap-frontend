@@ -9,8 +9,9 @@ import type {
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { classifyHSLColor } from "~/needs-refactoring/lib/util/classifyHSLColor";
 import DisplayedQuantity from "./DisplayedQuantity";
-import OpeningHoursValue from "./OpeningHoursValue";
+
 import { determineIfZerothLevelShouldBeSkipped } from "./determineIfZerothLevelShouldBeSkipped";
+import OpeningHoursValue from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OpeningHoursValue";
 
 export type ValueRenderProps = {
   key: string;
