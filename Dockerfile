@@ -44,7 +44,6 @@ COPY --from=install /tmp/prod/node_modules node_modules
 COPY --from=build /usr/app/.next ./.next
 COPY --from=build /usr/app/public ./public
 COPY --from=build /usr/app/package.json .
-COPY --from=build /usr/app/run_tests.sh .
 
 RUN mkdir -p /usr/tests
 COPY --from=build /usr/app/tsconfig.json /usr/tests/
