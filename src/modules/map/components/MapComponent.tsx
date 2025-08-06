@@ -85,9 +85,11 @@ export default function MapComponent() {
   return (
     <Container>
       {!isReady && (
-        // This centers the spinner in the middle of the screen by accounting
-        // for the top bar height
-        <SpinnerOverlay offsetTop="calc(calc(var(--topbar-height) * -1) / 2)" />
+        <>
+          {/*This centers the spinner in the middle of the screen by accounting for the top bar height */}
+          <SpinnerOverlay offsetTop="calc(calc(var(--topbar-height) * -1) / 2)" />
+          <span data-testid="map-ready" />
+        </>
       )}
       <MapboxExtraStyles />
       <MapProvider>

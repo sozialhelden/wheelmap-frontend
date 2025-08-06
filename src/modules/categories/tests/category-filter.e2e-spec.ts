@@ -2,15 +2,14 @@ import { test } from "@playwright/test";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { expect } from "~/tests/e2e/setup/test-fixture";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
+import { skipOnboarding, waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
-
-  // still some race conditions...
-  await page.waitForTimeout(1000);
+  await waitUntilMapIsLoaded(page);
+  await skipOnboarding(page);
 });
 
 test.describe("category-filter", () => {
