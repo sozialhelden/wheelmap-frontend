@@ -120,7 +120,7 @@ export default function Navigation() {
 
   return (
     <Flex gap="4" align="center" asChild>
-      <nav>
+      <nav aria-label={t("Main")}>
         <Flex gap="4" align="center" direction={"row"} asChild>
           <ul>{toolbarLinkElements}</ul>
         </Flex>
