@@ -9,7 +9,6 @@ import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeat
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
 import { FeatureGallery } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureGallery";
 import { FeatureImageUpload } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import AddressMapsLinkItems from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/AddressMapsLinkItems";
 import ExternalInfoAndEditPageLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/ExternalInfoAndEditPageLinks";
 import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PhoneNumberLinks";
@@ -22,12 +21,16 @@ import {
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
-import { Flex } from "@radix-ui/themes";
+import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
 import HeaderImageSection from "~/modules/edit/components/HeaderImageSection";
 import PartOf from "~/modules/edit/components/PartOf";
 import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
+import FeatureDetailsHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureDetailsHeader";
+import { t } from "@transifex/native";
 
 type Props = {
   features: AnyFeature[];
@@ -78,6 +81,8 @@ const FeatureDetails = ({
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
+  const { category, placeName, categoryName } = useFeatureLabel({ feature });
+  const accessibilityGrade = isWheelchairAccessible(feature);
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
   const acAccessibility =
@@ -122,35 +127,49 @@ const FeatureDetails = ({
         <Flex
           direction="column"
           aria-live="assertive"
-          aria-relevant="all"
+          aria-relevant="text"
           aria-busy={isLoading}
           aria-atomic="true"
         >
           <HeaderImageSection $orderDesktop={1} $orderMobile={3}>
             {/*TODO: add Logo component*/}
+            {/*TODO: add alt texts  to images*/}
+            {/*TODO: refactor FeatureImage*/}
             {feature["@type"] === "osm:Feature" && (
               <FeatureImage feature={feature} />
             )}
           </HeaderImageSection>
 
           <HeaderSection $orderDesktop={2} $orderMobile={1}>
-            <FeatureNameHeader
-              feature={feature}
-              size="big"
-              onHeaderClicked={handleHeaderClick}
-              mb="1rem"
-              aria-label="Feature name and description"
+            <FeatureDetailsHeader
+              level="h1"
+              accessibilityGrade={accessibilityGrade}
+              category={category}
+              placeName={placeName}
+              categoryName={categoryName}
+              onIconClicked={handleHeaderClick}
             />
+
             {generalDescription && (
-              <FeatureDescription>
-                {generalDescription.value}
-              </FeatureDescription>
+              <div>
+                <VisuallyHidden>
+                  <Heading as="h2">{t("Description")}</Heading>
+                </VisuallyHidden>
+                <FeatureDescription>
+                  {generalDescription.value}
+                </FeatureDescription>
+              </div>
             )}
           </HeaderSection>
 
           <SectionsContainer $orderDesktop={3} $orderMobile={2}>
             {osmWheelchairInfo && (
               <Section>
+                <VisuallyHidden>
+                  <Heading as="h2" id="wheelchair-accessibility" tabIndex={-1}>
+                    {t("Wheelchair accessibility")}
+                  </Heading>
+                </VisuallyHidden>
                 <WheelchairSection
                   key="osm_wheelchair"
                   tags={osmWheelchairInfo}
@@ -160,6 +179,9 @@ const FeatureDetails = ({
             )}
             {(osmToiletInfo || nextAccessibleToilet) && (
               <Section>
+                <VisuallyHidden>
+                  <Heading as="h2">{t("Toilet accessibility")}</Heading>
+                </VisuallyHidden>
                 <ToiletsSection
                   key="osm_toilets"
                   tags={osmToiletInfo}
@@ -169,6 +191,12 @@ const FeatureDetails = ({
                 />
               </Section>
             )}
+            <VisuallyHidden>
+              <Heading as="h2">
+                {t("Further Information about this place")}
+              </Heading>
+            </VisuallyHidden>
+
             {acAccessibility && (
               <Section>
                 <AccessibilityItems key="ac_accessibility" feature={feature} />
@@ -181,6 +209,11 @@ const FeatureDetails = ({
               </Section>
             )}
             <Section>
+              <VisuallyHidden>
+                <Heading as="h2">
+                  {t("Image Gallery and Upload of new Images")}
+                </Heading>
+              </VisuallyHidden>
               <FeatureGallery
                 key="feature_gallery"
                 feature={feature}
@@ -193,6 +226,9 @@ const FeatureDetails = ({
               />
             </Section>
             <Section>
+              <VisuallyHidden>
+                <Heading as="h2">{t("Further links to this place")}</Heading>
+              </VisuallyHidden>
               <StyledIconButtonList key="styled_icon_button_list">
                 <AddressMapsLinkItems feature={feature} />
                 <PlaceWebsiteLink feature={feature} />
