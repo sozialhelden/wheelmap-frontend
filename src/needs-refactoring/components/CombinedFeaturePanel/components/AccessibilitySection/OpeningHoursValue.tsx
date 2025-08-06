@@ -1,5 +1,4 @@
 import { t } from "@transifex/native";
-import intersperse from "intersperse";
 import { DateTime } from "luxon";
 import opening_hours from "opening_hours";
 import * as React from "react";
@@ -9,25 +8,25 @@ import {
   type TypeTaggedOSMFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { log } from "~/needs-refactoring/lib/util/logger";
-import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import FeatureContext from "../FeatureContext";
-import { Text } from "@radix-ui/themes";
+import { Badge, Flex, Text } from "@radix-ui/themes";
 
 function getReadableState(oh: opening_hours) {
-  const outputs: string[] = [];
   const comment = oh.getComment();
+  let string = undefined;
   if (oh.getUnknown()) {
-    const maybeOpen = t("Maybe open");
-    const maybeOpenBut = t("Maybe open – {comment}", { comment });
-    outputs.push(comment ? maybeOpenBut : maybeOpen);
+    if (comment) {
+      string = t("Maybe open – {comment}", { comment });
+    }
+    string = t("Maybe open");
   } else {
     const state = oh.getState();
-    outputs.push(state ? t("Now open.") : t("Now closed."));
+    string = state ? t("Open now") : t("Closed");
     if (comment) {
-      outputs.push(t("(“{comment}”)"), { comment });
+      string = [string, t("({comment})", { comment })].join(" ");
     }
   }
-  return outputs;
+  return string;
 }
 
 export default function OpeningHoursValue(props: {
@@ -57,7 +56,9 @@ export default function OpeningHoursValue(props: {
     (featuresByType?.state || featuresByType?.city)?.properties?.state_code,
   ].find((c) => typeof c === "string");
 
-  const { outputs, oh, niceString } = React.useMemo(() => {
+  const hoursUrl = osmFeature?.properties["opening_hours:url"];
+
+  const { openState, closesIn, oh, niceString } = React.useMemo(() => {
     try {
       const oh = new opening_hours(
         value,
@@ -78,10 +79,10 @@ export default function OpeningHoursValue(props: {
       );
       const isOpen = oh.getState(); // for current date
       const nextChangeDate = oh.getNextChange();
-      const outputs = getReadableState(oh);
+      const openState = getReadableState(oh);
 
-      if (typeof nextChangeDate === "undefined")
-        outputs.push(t("(indefinitely)"));
+      let closesIn = undefined;
+      if (typeof nextChangeDate === "undefined") closesIn = t("Always open");
       else {
         const isUnknown = oh.getUnknown(nextChangeDate);
         const nextChangeDateTime = DateTime.fromJSDate(nextChangeDate);
@@ -90,40 +91,30 @@ export default function OpeningHoursValue(props: {
         });
 
         if (!isUnknown && !isOpen) {
-          outputs.push(
-            t("Will open {nextChangeDateFormatted}.", {
-              nextChangeDateFormatted,
-            }),
-          );
+          closesIn = t("Opens {nextChangeDateFormatted}", {
+            nextChangeDateFormatted,
+          });
         } else if (!isUnknown && isOpen) {
-          outputs.push(
-            t("Will close {nextChangeDateFormatted}.", {
-              nextChangeDateFormatted,
-            }),
-          );
+          closesIn = t("Closes {nextChangeDateFormatted}", {
+            nextChangeDateFormatted,
+          });
         } else if (isUnknown && !isOpen) {
-          outputs.push(
-            t("Might open {nextChangeDateFormatted}.", {
-              nextChangeDateFormatted,
-            }),
-          );
+          closesIn = t("Might open {nextChangeDateFormatted}", {
+            nextChangeDateFormatted,
+          });
         } else if (isUnknown && isOpen) {
-          outputs.push(
-            t(
-              "Might close {nextChangeDateFormatted}.",
-              nextChangeDateFormatted,
-            ),
-          );
+          closesIn = t("Might close {nextChangeDateFormatted}", {
+            nextChangeDateFormatted,
+          });
         }
       }
-      return { outputs, oh, niceString };
+      return { openState, closesIn, oh, niceString };
     } catch (e) {
       log.error(e);
       return { outputs: [] };
     }
   }, [lat, lon, country, state, value, tagKey]);
 
-  const niceLines = oh?.prettifyValue();
   const shownValue = ((niceString as string) || value)
     .replace(/\bMo\b/g, t("Monday"))
     .replace(/\bTu\b/g, t("Tuesday"))
@@ -151,36 +142,34 @@ export default function OpeningHoursValue(props: {
     .replace(/\bSH\b/g, t("school holiday"))
     .replace(/,/g, ", ");
 
-  const shownElements = intersperse(shownValue.split(/;|\|\|/), <br />);
+  const shownElements = shownValue.split(/;|\|\||\s*,\s*/);
 
-  if (!outputs.length) {
+  if (!closesIn && !openState) {
     return <Text size="2">{shownElements}</Text>;
   }
 
   return (
-    <div style={{ padding: "var(--space-1)" }}>
-      <strong>
-        <StyledMarkdown inline element="span">
-          {outputs[0]}
-        </StyledMarkdown>
-      </strong>
-      {outputs.length > 1 && (
-        <>
-          &nbsp;
-          <StyledMarkdown inline element="span">
-            {outputs.slice(1).join(" ")}
-          </StyledMarkdown>
-        </>
-      )}
-      &nbsp;
-      {osmFeature?.properties["opening_hours:url"] && (
+    <Flex direction="column" gap="3" pb="4">
+      <Flex direction="row" gap="2">
+        <Badge color="green" size="3" radius="full" highContrast>
+          {openState}
+        </Badge>
+        <Text size="3">{closesIn}</Text>
+      </Flex>
+
+      <Flex direction="column" pr="3" pl="3">
+        {shownElements.map((e) => (
+          <Text key={0} size="3" color="gray">
+            {e}
+          </Text>
+        ))}
+      </Flex>
+
+      {hoursUrl && (
         <a href={String(osmFeature.properties["opening_hours:url"])}>
           {t("See website")}.
         </a>
       )}
-      <div style={{ marginTop: "var(--space-2)", opacity: 0.8 }}>
-        {shownElements}
-      </div>
-    </div>
+    </Flex>
   );
 }
