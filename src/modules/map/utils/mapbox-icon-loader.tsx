@@ -83,7 +83,7 @@ export async function loadIcons(
   map: MapBoxMap,
   darkMode: boolean,
 ): Promise<void> {
-  const tasks: Array<() => void> = Object.entries(icons).map(
+  const tasks: Array<() => void> = Object.entries({}).map(
     ([identifier, icon]) =>
       () =>
         addSvgIconToMapboxMap({
