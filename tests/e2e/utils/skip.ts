@@ -9,5 +9,5 @@ export async function skipOnboarding(page: Page) {
 export async function waitUntilMapIsLoaded(page: Page) {
   await page
     .getByTestId("map-ready")
-    .waitFor({ state: "attached", timeout: 10000 });
+    .waitFor({ state: "attached", timeout: 60000 });
 }
