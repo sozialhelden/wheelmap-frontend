@@ -8,13 +8,104 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format
 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  test-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:unit -- --reporter=github-actions --reporter=default --reporter=junit --outputFile=test-unit.xml
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: test-unit-report
+          path: test-unit.xml
+          retention-days: 1
+
+  test-e2e-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: sozialhelden/get-commit-status-target-url@v1
+        id: get_deployment_url
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  test-e2e:
+    needs: [ test-e2e-preflight ]
+    runs-on: self-hosted
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.1-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [ 1, 2, 3, 4 ]
+        shardTotal: [ 4 ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - uses: sozialhelden/get-commit-status-target-url@v1
+        id: get_deployment_url
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        env:
+          CI_TEST_DEPLOYMENT_BASE_URL: ${{ steps.get_deployment_url.outputs.target-url }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: test-e2e-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 1
+
+  test-report:
+    if: ${{ !cancelled() }}
+    needs: [ test-e2e, test-unit ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          path: test-e2e-reports
+          pattern: test-e2e-report-*
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: test-unit-report
+          path: reports/test-unit.xml
+      - run: PLAYWRIGHT_JUNIT_OUTPUT_NAME=reports/test-e2e.xml npx playwright merge-reports --reporter github,list,junit ./test-e2e-reports
+      - uses: dorny/test-reporter@v2
+        with:
+          name: Tests
+          path: reports/*.xml
+          reporter: jest-junit

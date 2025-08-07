@@ -3,13 +3,14 @@ import node4544823443Mock from "~/modules/edit/tests/mocks/node-4544823443-osm-m
 import placeInfoMock from "~/modules/edit/tests/mocks/place-infos-mock.json";
 import way126125230Mock from "~/modules/edit/tests/mocks/way-126125230-osm-mock.json";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 
 export const setupPage = async (page: Page) => {
   await mockTranslations(page);
   await page.goto("/");
   //await skipOnboarding(page);  // onboarding screen is currently disabled because it causes problems
   await mockFeature(page);
-  await page.waitForTimeout(3000); // wait some time to ensure accessibility cloud labels have arrived and the page has re-rendered
+  await waitUntilMapIsLoaded(page);
 };
 
 export const getEditButton = (page: Page, testid: string) => {

@@ -6,7 +6,7 @@ import {
   settings as needSettings,
 } from "~/modules/needs/needs";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
+import { skipOnboarding, waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
 
 const getDropdown = (page: Page): Locator => {
@@ -44,6 +44,7 @@ const assertDropdownIsNotVisible = async (page: Page) => {
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
+  await waitUntilMapIsLoaded(page);
   await skipOnboarding(page);
 });
 

@@ -94,7 +94,7 @@ export default function MapComponent() {
   return (
     <>
       <Container>
-        {!isReady && <SpinnerOverlay />}
+        {isReady ? <span data-testid="map-ready" /> : <SpinnerOverlay />}
         <MapboxExtraStyles />
         <MapProvider>
           <ReactMapGL

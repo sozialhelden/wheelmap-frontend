@@ -1,7 +1,7 @@
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { expect, test } from "./setup/test-fixture";
 import { skipOnDesktops, skipOnMobiles } from "./utils/device";
-import { skipOnboarding } from "./utils/onboarding";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
+import { skipOnboarding } from "./utils/skip";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);

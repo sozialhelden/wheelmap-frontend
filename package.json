@@ -132,6 +132,7 @@
     "not dead"
   ],
   "optionalDependencies": {
-    "@biomejs/cli-darwin-arm64": "^1.9.4"
+    "@biomejs/cli-darwin-arm64": "^1.9.4",
+    "@biomejs/cli-linux-x64": "^1.9.4"
   }
 }
