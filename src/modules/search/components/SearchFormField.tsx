@@ -6,6 +6,7 @@ import {
   type ChangeEventHandler,
   type KeyboardEventHandler,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import styled from "styled-components";
@@ -80,10 +81,12 @@ export function SearchFormField({
 }) {
   const [input, setInput] = useState<string>(value);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const reset = () => {
     setInput("");
     onChange?.("");
+    inputRef.current?.focus();
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -125,6 +128,7 @@ export function SearchFormField({
       $isOnBackground={isOnBackground}
     >
       <SearchInput
+        ref={inputRef}
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

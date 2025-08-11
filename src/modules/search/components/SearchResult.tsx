@@ -1,6 +1,6 @@
 import { Flex, Text } from "@radix-ui/themes";
 import { findCategoryBySynonym } from "@sozialhelden/core";
-import { type Ref, forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 import styled from "styled-components";
 import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
@@ -53,6 +53,18 @@ export const SearchResult = forwardRef(function SearchResult(
     if (event.ctrlKey || event.metaKey) {
       return;
     }
+
+    if (
+      // making sure this runs only on the client side: `typeof document !== "undefined"`
+      typeof document !== "undefined" &&
+      document.activeElement instanceof HTMLElement
+    ) {
+      // removing the foucs from the search input when a search result is clicked. this ensures voice over reads the new
+      // document title instead of repeating the search input again
+      document.activeElement.blur();
+    }
+
+    const padding = calculateDefaultPadding();
 
     if (extent) {
       map?.fitBounds(
