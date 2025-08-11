@@ -10,6 +10,7 @@ import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getCategories } from "@sozialhelden/core";
+import { usePageTitle } from "~/hooks/usePageTitle";
 
 export default function HeadMetaTags() {
   const { clientSideConfiguration } = useAppContext();
@@ -21,22 +22,20 @@ export default function HeadMetaTags() {
   const { twitter, facebook } = meta || {};
   const translatedDescription = useTranslations(description);
   const translatedProductName = useTranslations(productName);
+  const pageTitle = translatedProductName;
+
   const { category, isFilteringActive } = useCategoryFilter();
-  let pageTitle = translatedProductName;
-  let documentTitle = getProductTitle(clientSideConfiguration);
+  const { title: specialisedTitle } = usePageTitle();
 
-  if (isFilteringActive && category) {
-    const categories = getCategories();
-    const categoryName = categories[category]?.name();
-    const translatedCategoryName = categoryName
-      ? useTranslations(categoryName)
-      : "";
+  const categories = getCategories();
+  const categoryName =
+    isFilteringActive && category ? categories[category]?.name() : undefined;
 
-    if (translatedCategoryName) {
-      pageTitle = `${translatedCategoryName} - ${translatedProductName}`;
-      documentTitle = `${translatedCategoryName} - ${translatedProductName}`;
-    }
-  }
+  const documentTitle = getProductTitle(
+    clientSideConfiguration,
+    specialisedTitle,
+    categoryName,
+  );
 
   const facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
   const hostName = useHostname();
