@@ -1,4 +1,10 @@
-import { Button, DropdownMenu, ScrollArea, Theme } from "@radix-ui/themes";
+import {
+  Button,
+  DropdownMenu,
+  ScrollArea,
+  Theme,
+  VisuallyHidden,
+} from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
@@ -33,7 +39,12 @@ export function CategoryFilter() {
     !isFilteringActive && (
       <ScrollArea>
         <Theme asChild radius="full">
-          <Container aria-label={t("Category Filters")}>
+          <Container aria-label={t("Place Category Filters")}>
+            <VisuallyHidden>
+              {t(
+                "Filter places on the map by selecting one of the following options:",
+              )}
+            </VisuallyHidden>
             {mainCategories.map(({ id, name, icon }) => {
               const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
               return (
