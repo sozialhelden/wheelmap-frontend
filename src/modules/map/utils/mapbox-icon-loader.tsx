@@ -12,14 +12,14 @@ export function addImageToMapboxMap({
   map,
   identifier,
   dataUri,
-  width,
-  height,
+  width = 25,
+  height = 25,
 }: {
   map: MapboxMap;
   identifier: string;
   dataUri: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }): void {
   const pixelRatio = 2;
   const image = new Image(width * pixelRatio, height * pixelRatio);
@@ -44,53 +44,17 @@ export function addImageToMapboxMap({
   image.src = dataUri;
 }
 
-export function addSvgIconToMapboxMap({
-  map,
-  identifier,
-  icon,
-  height,
-  width = 25,
-  darkMode,
-}: {
-  map: MapboxMap;
-  identifier: string;
-  icon: ReactNode;
-  darkMode: boolean;
-  width?: number;
-  height?: number;
-}): void {
-  const cacheKey = `${identifier}-${darkMode ? "dark" : "light"}`;
-  let dataUri = renderCache.get(cacheKey);
-
-  try {
-    dataUri = dataUri || renderSvgAsDataUri(icon);
-    renderCache.set(cacheKey, dataUri);
-  } catch (error) {
-    console.error(`Could not add svg icon ${identifier} to mapbox map:`, error);
-    return;
-  }
-
-  addImageToMapboxMap({
-    map,
-    identifier,
-    dataUri,
-    width,
-    height: height || width,
-  });
-}
-
 export async function loadIcons(
   map: MapBoxMap,
-  darkMode: boolean,
+  renderedIcons: Record<string, string>,
 ): Promise<void> {
-  const tasks: Array<() => void> = Object.entries({}).map(
-    ([identifier, icon]) =>
+  const tasks: Array<() => void> = Object.entries(renderedIcons).map(
+    ([identifier, dataUri]) =>
       () =>
-        addSvgIconToMapboxMap({
+        addImageToMapboxMap({
           map,
           identifier,
-          darkMode,
-          icon: getIconComponent(icon, darkMode),
+          dataUri,
         }),
   );
 

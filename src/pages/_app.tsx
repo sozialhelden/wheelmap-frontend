@@ -38,6 +38,7 @@ export interface PageProps {
   languageTag: LanguageTag;
   environment: Record<string, string | undefined>;
   hostname: string;
+  renderedIcons?: Record<string, string>;
 }
 
 export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
