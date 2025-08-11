@@ -53,9 +53,10 @@ export interface ClientSideConfiguration {
 
 export function getProductTitle(
   clientSideConfiguration: ClientSideConfiguration,
-  title?: string,
+  specialisedTitle?: string,
+  categoryName?: string,
 ): string {
-  const { product } = clientSideConfiguration.textContent || {
+  const { product } = clientSideConfiguration.textContent ?? {
     product: {
       name: "Wheelmap",
       claim: "Find wheelchair accessible places",
@@ -63,9 +64,17 @@ export function getProductTitle(
   };
   const { name, claim } = product;
 
-  if (!title) {
-    return `${useTranslations(name)} – ${useTranslations(claim)}`;
+  const translatedProductName = useTranslations(name);
+  const translatedClaim = useTranslations(claim);
+
+  if (categoryName) {
+    const translatedCategory = useTranslations(categoryName);
+    return `${translatedCategory} - ${translatedProductName}`;
   }
 
-  return `${title} – ${useTranslations(name)}`;
+  if (specialisedTitle) {
+    return `${specialisedTitle} – ${translatedProductName}`;
+  }
+
+  return `${translatedProductName} – ${translatedClaim}`;
 }

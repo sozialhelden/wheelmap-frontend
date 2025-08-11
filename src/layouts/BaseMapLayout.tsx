@@ -1,27 +1,17 @@
 import { type HotkeyConfig, useHotkeys } from "@blueprintjs/core";
 import { Spinner } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import {
-  type ReactNode,
-  createContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import TopBar from "~/components/layout/TopBar";
-import {
-  SheetMountedContextProvider,
-  useSheetMounted,
-} from "~/components/sheet/useSheetMounted";
+import { useSheetMounted } from "~/components/sheet/useSheetMounted";
+import { PageTitleProvider } from "~/hooks/usePageTitle";
 import DynamicallyLoadedMap from "~/modules/map/components/DynamicallyLoadedMap";
 import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
-import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 
 // onboarding is a bad candidate for SSR, as it dependently renders based on a local storage setting
 // these diverge between server and client (see: https://nextjs.org/docs/messages/react-hydration-error)
@@ -74,14 +64,18 @@ export default function BaseMapLayout({
 
   return (
     <ErrorBoundary>
-      <HeadMetaTags />
-      <TopBar />
-      <Main $enablePaddingForSheet={isSheetMounted}>
-        <DynamicallyLoadedMap key="map" />
-        <div style={{ zIndex: 2000 }}>{children}</div>
-      </Main>
-      <ToastContainer />
-      {/*{isOnboardingVisible && <Onboarding />}*/}
+      <PageTitleProvider>
+        <HeadMetaTags />
+        <TopBar />
+        <Main  $enablePaddingForSheet={isSheetMounted}>
+          <DynamicallyLoadedMap
+            key="map"
+          />
+          <div style={{ zIndex: 2000 }}>{children}</div>
+        </Main>
+        <ToastContainer />
+        {/*{isOnboardingVisible && <Onboarding />}*/}
+      </PageTitleProvider>
     </ErrorBoundary>
   );
 }

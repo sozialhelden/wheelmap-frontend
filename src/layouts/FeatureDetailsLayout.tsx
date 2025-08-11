@@ -11,6 +11,7 @@ import { FeaturePanelContextProvider } from "~/needs-refactoring/components/Comb
 
 import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 import { t } from "@transifex/native";
+import { usePageTitle } from "~/hooks/usePageTitle";
 
 const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
     height: 100%;
@@ -33,10 +34,17 @@ export const FeatureDetailsLayout = ({ children }: { children: ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { push } = useAppStateAwareRouter();
+  const { setTitle } = usePageTitle();
 
   useEffect(() => {
     setIsExpanded(true);
   }, []);
+
+  useEffect(() => {
+    return () => {
+      setTitle(undefined);
+    };
+  }, [setTitle]);
 
   const sidebarCloseButton = (
     <div>

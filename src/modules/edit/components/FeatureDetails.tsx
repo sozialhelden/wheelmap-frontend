@@ -31,6 +31,7 @@ import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeatureP
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import FeatureDetailsHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureDetailsHeader";
 import { t } from "@transifex/native";
+import { usePageTitle } from "~/hooks/usePageTitle";
 
 type Props = {
   features: AnyFeature[];
@@ -82,6 +83,9 @@ const FeatureDetails = ({
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
   const { category, placeName, categoryName } = useFeatureLabel({ feature });
+
+  usePageTitle(placeName);
+
   const accessibilityGrade = isWheelchairAccessible(feature);
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
@@ -166,9 +170,7 @@ const FeatureDetails = ({
             {osmWheelchairInfo && (
               <Section>
                 <VisuallyHidden>
-                  <Heading as="h2" id="wheelchair-accessibility" tabIndex={-1}>
-                    {t("Wheelchair accessibility")}
-                  </Heading>
+                  <Heading as="h2">{t("Wheelchair section")}</Heading>
                 </VisuallyHidden>
                 <WheelchairSection
                   key="osm_wheelchair"
@@ -180,7 +182,7 @@ const FeatureDetails = ({
             {(osmToiletInfo || nextAccessibleToilet) && (
               <Section>
                 <VisuallyHidden>
-                  <Heading as="h2">{t("Toilet accessibility")}</Heading>
+                  <Heading as="h2">{t("Toilet section")}</Heading>
                 </VisuallyHidden>
                 <ToiletsSection
                   key="osm_toilets"
