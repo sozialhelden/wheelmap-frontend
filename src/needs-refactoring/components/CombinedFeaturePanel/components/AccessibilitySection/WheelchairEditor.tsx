@@ -6,10 +6,10 @@ import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 
 type Props = {
   tagKey: string;
@@ -35,21 +35,27 @@ const WheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <IconButton aria-label={t("Edit")} variant="soft" data-testid={tagKey}>
+        <IconButton
+          aria-label={t("Edit wheelchair accessibility")}
+          variant="soft"
+          data-testid={tagKey}
+        >
           <Pencil size={18} aria-hidden />
         </IconButton>
       </Dialog.Trigger>
       <Dialog.Content
-        aria-label={t("Toilet Accessibility Editor")}
+        aria-label={t("Wheelchair Accessibility Editor")}
         aria-describedby="dialog-description"
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <StyledReportView className="_view">
-            <FeatureNameHeader feature={feature} />
+            <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
 
             <Dialog.Description id="dialog-description" size="3" mb="1">
-              {t("How wheelchair accessible is this place?")}
+              {t(
+                "How wheelchair accessible is this place? Select one of the following options:",
+              )}
             </Dialog.Description>
 
             <WheelchairRadioCards

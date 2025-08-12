@@ -27,11 +27,10 @@ import { breakpoints } from "~/hooks/useBreakpoints";
 import HeaderImageSection from "~/modules/edit/components/HeaderImageSection";
 import PartOf from "~/modules/edit/components/PartOf";
 import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
-import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
-import FeatureDetailsHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureDetailsHeader";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import { t } from "@transifex/native";
 import { usePageTitle } from "~/hooks/usePageTitle";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 
 type Props = {
   features: AnyFeature[];
@@ -78,15 +77,13 @@ const FeatureDetails = ({
   isUploadDialogOpen,
 }: Props) => {
   const feature = features[0];
-
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
-  const { category, placeName, categoryName } = useFeatureLabel({ feature });
+  const { placeName } = useFeatureLabel({ feature });
 
   usePageTitle(placeName);
 
-  const accessibilityGrade = isWheelchairAccessible(feature);
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
   const acAccessibility =
@@ -144,14 +141,11 @@ const FeatureDetails = ({
           </HeaderImageSection>
 
           <HeaderSection $orderDesktop={2} $orderMobile={1}>
-            <FeatureDetailsHeader
+            <FeatureHeader
               ref={headingRef}
               tabIndex={-1}
               level="h1"
-              accessibilityGrade={accessibilityGrade}
-              category={category}
-              placeName={placeName}
-              categoryName={categoryName}
+              feature={feature}
               onIconClicked={handleHeaderClick}
             />
 

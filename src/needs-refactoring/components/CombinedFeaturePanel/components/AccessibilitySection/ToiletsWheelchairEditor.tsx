@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import ToiletRadioCards from "~/modules/edit/components/ToiletRadioCards";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 
 type Props = {
   tagKey: string;
@@ -28,7 +28,11 @@ const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <IconButton aria-label={t("Edit")} variant="soft" data-testid={tagKey}>
+        <IconButton
+          aria-label={t("Edit toilet accessibility")}
+          variant="soft"
+          data-testid={tagKey}
+        >
           <Pencil size={18} aria-hidden />
         </IconButton>
       </Dialog.Trigger>
@@ -38,7 +42,7 @@ const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
-          <FeatureNameHeader feature={feature} />
+          <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
 
           <Dialog.Description id="dialog-description" size="3" mb="1">
             {t("Is this toilet wheelchair accessible?")}

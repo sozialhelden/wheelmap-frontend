@@ -1,33 +1,23 @@
 import React, { forwardRef } from "react";
 import { Button, Flex, Grid, Heading, Text } from "@radix-ui/themes";
 import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
-import type { CategoryProperties } from "@sozialhelden/core";
 import { useDarkMode } from "~/hooks/useTheme";
+import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
+import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 type Props = {
-  accessibilityGrade: "yes" | "no" | "limited" | "unknown";
-  category: CategoryProperties;
-  placeName: string | undefined;
-  categoryName?: string;
-  onIconClicked?: () => void;
+  feature: AnyFeature;
   level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | undefined;
   tabIndex?: number;
+  onIconClicked?: () => void;
 };
 
-const FeatureDetailsHeader = forwardRef<HTMLHeadingElement, Props>(
-  (
-    {
-      accessibilityGrade,
-      category,
-      placeName,
-      categoryName,
-      onIconClicked,
-      level,
-      tabIndex,
-    },
-    ref,
-  ) => {
+const FeatureHeader = forwardRef<HTMLHeadingElement, Props>(
+  ({ feature, onIconClicked, level, tabIndex }, ref) => {
     const darkMode = useDarkMode();
+    const { category, placeName, categoryName } = useFeatureLabel({ feature });
+    const accessibilityGrade = isWheelchairAccessible(feature);
 
     const accessibility = {
       yes: "good",
@@ -82,4 +72,4 @@ const FeatureDetailsHeader = forwardRef<HTMLHeadingElement, Props>(
     );
   },
 );
-export default FeatureDetailsHeader;
+export default FeatureHeader;
