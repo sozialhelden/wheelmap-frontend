@@ -5,21 +5,23 @@ import {
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/needs-refactoring/lib/util/TagKeyUtils";
 import { t } from "@transifex/native";
-import {
-  Callout,
-  Dialog,
-  Flex,
-  Text,
-  TextArea,
-  VisuallyHidden,
-} from "@radix-ui/themes";
-import FeatureNameHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureNameHeader";
+import { Callout, Dialog, Flex, Text, TextArea } from "@radix-ui/themes";
 import { Info } from "lucide-react";
 import SearchableSelect from "~/needs-refactoring/components/shared/SearchableSelect";
-import { supportedLanguageTagsOptions } from "~/modules/i18n/i18n";
+
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
+import { supportedLanguageTagsOptions } from "@sozialhelden/core";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
+import styled from "styled-components";
+
+const AccessibleTextArea = styled(TextArea)`
+  &::placeholder {
+    opacity: 1; 
+    aria-hidden: true; 
+  }
+`;
 
 type Props = {
   tagKey: string;
@@ -128,10 +130,7 @@ const DescriptionEditor = ({
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Content data-testid={`dialog_${tagKey}`}>
         <Flex direction="column" gap="3">
-          <FeatureNameHeader feature={feature} />
-          <VisuallyHidden asChild>
-            <Dialog.Title>{`Editing ${tagKey}`}</Dialog.Title>
-          </VisuallyHidden>
+          <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
 
           <Dialog.Description size="3" mb="4" as="div">
             <Flex direction="column" gap="3">
@@ -186,13 +185,15 @@ const DescriptionEditor = ({
           )}
 
           <div hidden={addNewLanguage ? !hasValueChanged : false}>
-            <TextArea
+            <AccessibleTextArea
               dir="auto"
               ref={textAreaRef}
-              aria-label={t("Enter a description here")}
+              aria-label={t(
+                "Enter your description here or edit the existing one.",
+              )}
               defaultValue={addNewLanguage ? undefined : tagValue}
               value={addNewLanguage ? textAreaValue : undefined}
-              placeholder={t("Enter a description here")}
+              placeholder={t("Enter your description here")}
               onChange={(evt) => handleTextAreaChange(evt.target.value)}
               size="2"
               radius="small"
