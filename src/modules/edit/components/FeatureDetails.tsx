@@ -1,5 +1,5 @@
 import { bbox } from "@turf/turf";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import FeatureDescription from "~/modules/edit/components/FeatureDescription";
 import OsmInfoSection from "~/modules/edit/components/OSMInfoSection";
 import ToiletsSection from "~/modules/edit/components/ToiletsSection";
@@ -125,16 +125,15 @@ const FeatureDetails = ({
     // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
   };
 
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (headingRef.current) headingRef.current.focus();
+  }, [placeName]);
+
   return (
     <>
       {feature && (
-        <Flex
-          direction="column"
-          aria-live="assertive"
-          aria-relevant="text"
-          aria-busy={isLoading}
-          aria-atomic="true"
-        >
+        <Flex direction="column">
           <HeaderImageSection $orderDesktop={1} $orderMobile={3}>
             {/*TODO: add Logo component*/}
             {/*TODO: add alt texts  to images*/}
@@ -146,6 +145,8 @@ const FeatureDetails = ({
 
           <HeaderSection $orderDesktop={2} $orderMobile={1}>
             <FeatureDetailsHeader
+              ref={headingRef}
+              tabIndex={-1}
               level="h1"
               accessibilityGrade={accessibilityGrade}
               category={category}
@@ -229,7 +230,7 @@ const FeatureDetails = ({
             </Section>
             <Section>
               <VisuallyHidden>
-                <Heading as="h2">{t("Further links to this place")}</Heading>
+                <Heading as="h2">{t("Further links")}</Heading>
               </VisuallyHidden>
               <StyledIconButtonList key="styled_icon_button_list">
                 <AddressMapsLinkItems feature={feature} />

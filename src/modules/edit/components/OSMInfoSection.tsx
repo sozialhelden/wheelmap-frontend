@@ -9,23 +9,26 @@ interface Props {
 
 const OsmInfoSection = ({ tags }: Props) => {
   return (
-    <div>
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
       {tags?.map((tagOrTagGroup) => (
-        <Grid key={tagOrTagGroup.key} columns="6rem auto" gap="3" mb="3">
-          <Box>
-            <Text size="3" color="gray">
-              {tagOrTagGroup.tagProps?.keyLabel}
-            </Text>
-          </Box>
-          <Box>
-            <TagGroupRenderer
-              key={tagOrTagGroup.key}
-              tagOrTagGroup={tagOrTagGroup}
-            />
-          </Box>
-        </Grid>
+        <li key={tagOrTagGroup.key} style={{ marginBottom: "var(--space-3)" }}>
+          <Grid columns="6rem auto" gap="3">
+            <Box>
+              <Text size="3" color="gray">
+                {tagOrTagGroup.tagProps?.keyLabel}
+              </Text>
+            </Box>
+            <Box>
+              <TagGroupRenderer
+                key={tagOrTagGroup.key}
+                tagOrTagGroup={tagOrTagGroup}
+              />
+            </Box>
+          </Grid>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
+
 export default OsmInfoSection;

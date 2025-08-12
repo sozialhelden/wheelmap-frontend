@@ -1,4 +1,11 @@
-import { Box, Flex, Grid, Text } from "@radix-ui/themes";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+  VisuallyHidden,
+} from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
 import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
@@ -40,7 +47,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
       {wheelchairInfo && (
         <Grid columns="6rem 1fr" mb="3">
           <Box>
-            <Text size="3" color="gray">
+            <Text size="3" color="gray" aria-hidden>
               {useTranslations(wheelchairInfo.tagProps?.keyLabel)}
             </Text>
           </Box>
@@ -53,6 +60,11 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
                 )}
               </StyledMarkdown>
             </Text>
+            <EditButton
+              addNewLanguage={false}
+              tagKey={wheelchairInfo.key}
+              ariaLabel={t("Edit toilet accessibility")}
+            />
             <ToiletsWheelchairEditor
               feature={feature}
               tagKey={wheelchairInfo.key}
@@ -61,22 +73,44 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
           </Flex>
         </Grid>
       )}
-      <Flex direction="row" wrap="wrap" gapX="1" gapY="2">
-        {otherTags?.map((child) =>
-          typeof child.tagProps?.valueElement === "object" &&
-          child.tagProps?.valueElement !== null ? (
-            // if there is a render function render it
-            <StyledTag key={child.key}>
-              {React.cloneElement(child.tagProps.valueElement)}
-            </StyledTag>
-          ) : (
-            // otherwise render the plain value label inside a tag
-            <StyledTag key={child.key}>
-              <StyledMarkdown inline>{getValueLabel(child)}</StyledMarkdown>
-            </StyledTag>
-          ),
-        )}
-      </Flex>
+      <Box>
+        <VisuallyHidden>
+          <Heading as="h3">{t("Toilet features")}</Heading>
+          {!otherTags && (
+            <Text>
+              {t("There is currently no toilet information about this place.")}
+            </Text>
+          )}
+        </VisuallyHidden>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          <Flex as="div" direction="row" wrap="wrap" gapX="1" gapY="2">
+            {otherTags?.map((child) => (
+              <li key={child.key} style={{ display: "inline-block" }}>
+                {typeof child.tagProps?.valueElement === "object" &&
+                child.tagProps?.valueElement !== null ? (
+                  // if there is a render function render it
+                  <StyledTag>
+                    {React.cloneElement(child.tagProps.valueElement)}
+                  </StyledTag>
+                ) : (
+                  // otherwise render the plain value label inside a tag
+                  <StyledTag>
+                    <StyledMarkdown inline>
+                      {getValueLabel(child)}
+                    </StyledMarkdown>
+                  </StyledTag>
+                )}
+              </li>
+            ))}
+          </Flex>
+        </ul>
+      </Box>
 
       {wheelchairInfo &&
         (description ? (
@@ -103,7 +137,12 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
         ))}
 
       {(wheelchairInfo?.value === "no" || !wheelchairInfo) && (
-        <NextToiletDirections nextToilet={nextToilet} isLoading={isLoading} />
+        <>
+          <VisuallyHidden>
+            <Heading as="h3">{t("Link to next accessible toilet")}</Heading>
+          </VisuallyHidden>
+          <NextToiletDirections nextToilet={nextToilet} isLoading={isLoading} />
+        </>
       )}
     </>
   );
