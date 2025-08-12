@@ -2,7 +2,7 @@ import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 
 // This is not ideal. In the future we should think of a uniform way to add emojis to the UI
-function maskEmojisForScreenReaders(text: string) {
+export function maskEmojisForScreenReaders(text: string) {
   const r = /\p{Emoji_Presentation}/gu;
   return text.replace(r, (emoji) => `<span aria-hidden="true">${emoji}</span>`);
 }

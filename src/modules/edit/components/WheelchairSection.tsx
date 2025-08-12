@@ -3,13 +3,12 @@ import type React from "react";
 import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
-
 import { t } from "@transifex/native";
 import WheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
+import { maskEmojisForScreenReaders } from "~/modules/edit/utils/getValueLabel";
 
 type Props = {
   tags: TagOrTagGroup;
@@ -26,8 +25,9 @@ const WheelchairSection = ({ tags, feature }: Props) => {
   const wheelchairInfoLabel = useTranslations(
     String(wheelchairInfo?.tagProps?.keyLabel),
   );
-  const wheelchairInfoText = useTranslations(
-    wheelchairInfo?.tagProps?.valueAttribute?.label,
+  const wheelchairInfoText = maskEmojisForScreenReaders(
+    useTranslations(wheelchairInfo?.tagProps?.valueAttribute?.label ?? "") ||
+      "",
   );
 
   return (

@@ -11,7 +11,10 @@ import React from "react";
 import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
 import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
-import { getValueLabel } from "~/modules/edit/utils/getValueLabel";
+import {
+  getValueLabel,
+  maskEmojisForScreenReaders,
+} from "~/modules/edit/utils/getValueLabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
@@ -55,16 +58,13 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
           <Flex direction="row" gap="7" justify="between">
             <Text size="3">
               <StyledMarkdown inline>
-                {useTranslations(
-                  wheelchairInfo.tagProps?.valueAttribute?.label,
+                {maskEmojisForScreenReaders(
+                  useTranslations(
+                    wheelchairInfo?.tagProps?.valueAttribute?.label ?? "",
+                  ) || "",
                 )}
               </StyledMarkdown>
             </Text>
-            <EditButton
-              addNewLanguage={false}
-              tagKey={wheelchairInfo.key}
-              ariaLabel={t("Edit toilet accessibility")}
-            />
             <ToiletsWheelchairEditor
               feature={feature}
               tagKey={wheelchairInfo.key}
