@@ -127,7 +127,7 @@ function DisplayedColor({ type, value }: { type: string; value: string }) {
 
 /**
  * This file contains functions that render values of OSM tags in a human-readable way.
- * The functions are used in the {@link OSMTagTable} to display the values of OSM tags.
+ * The functions are used in the {@link TagGroupRenderer}, {@link ToiletsSection} and {@link WheelchairSection} to display the values of OSM tags.
  *
  * The keys of the `valueRenderFunctions` object are regular expressions that match OSM tag keys.
  * The values are functions that take a {@link ValueRenderProps} object and return a React node.

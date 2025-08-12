@@ -1,5 +1,4 @@
 import { IconButton } from "@radix-ui/themes";
-import { t } from "@transifex/native";
 import { Pencil } from "lucide-react";
 
 import React, { useContext, useState } from "react";
@@ -9,7 +8,12 @@ import { FeaturePanelContext } from "../../FeaturePanelContext";
 export function EditButton({
   tagKey,
   addNewLanguage,
-}: { tagKey: string; addNewLanguage: boolean }): JSX.Element {
+  ariaLabel,
+}: {
+  tagKey: string;
+  addNewLanguage: boolean;
+  ariaLabel: string;
+}): JSX.Element {
   const { features } = useContext(FeaturePanelContext);
   const feature = features[0].feature?.requestedFeature;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -17,8 +21,7 @@ export function EditButton({
   return (
     <>
       <IconButton
-        aria-label={t("Edit")}
-        tabIndex={-1}
+        aria-label={ariaLabel}
         variant="soft"
         onClick={() => setIsDialogOpen(true)}
         data-testid={tagKey}

@@ -63,7 +63,7 @@ export function getOSMTagProps({
   }
 
   const valueAttribute = findAttribute(attributesById, key, singleValue);
-  let valueLabel: string | React.ReactNode | undefined;
+  let valueRenderFunction: string | React.ReactNode | undefined;
 
   const matches = matchedKey ? key.match(matchedKey) : undefined;
 
@@ -78,7 +78,7 @@ export function getOSMTagProps({
     const accessibilityCloudFeature = isPlaceInfo(feature)
       ? feature
       : undefined;
-    valueLabel = valueRenderFn({
+    valueRenderFunction = valueRenderFn({
       value: singleValue,
       key: key,
       matches,
@@ -87,11 +87,11 @@ export function getOSMTagProps({
       defaultValueLabel,
     });
   } else {
-    valueLabel = defaultValueLabel;
+    valueRenderFunction = defaultValueLabel;
   }
   const valueSummary = useTranslations(valueAttribute?.summary);
   let valueDetails = useTranslations(valueAttribute?.details);
-  if (!valueDetails && !valueLabel) {
+  if (!valueDetails && !valueRenderFunction) {
     valueDetails = valueSummary;
   }
 
@@ -125,7 +125,7 @@ export function getOSMTagProps({
     keyLabel,
     keyAttribute,
     valueAttribute,
-    valueElement: valueLabel,
+    valueElement: valueRenderFunction,
     isEditable,
     isDescription,
     isLanguageTagged: hasLanguageTagSupport,
