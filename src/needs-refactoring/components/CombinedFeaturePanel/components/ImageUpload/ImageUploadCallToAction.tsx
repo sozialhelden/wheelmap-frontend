@@ -21,7 +21,7 @@ const CallToAction = styled.div`
         height: 16px;
         border-width: 8px;
         border-style: solid;
-        border-color: transparent var(--accent-5) transparent transparent;
+        border-color: transparent var(--accent-4) transparent transparent;
         border-image: none;
         box-sizing: border-box;
     }
@@ -40,8 +40,8 @@ const CallToAction = styled.div`
     font-size: 90%;
     font-weight: 500;
     opacity: 0;
-    color: var(--accent-11);
-    background: var(--accent-5);
+    color: var(--accent-12);
+    background: var(--accent-4);
     animation: 1.5s ease-out 1s forwards slideIn;
 
     @keyframes slideIn {
