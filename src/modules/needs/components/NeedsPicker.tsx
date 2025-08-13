@@ -94,7 +94,8 @@ export default function NeedsPicker() {
   }, [selection]);
 
   return (
-    <nav aria-label={t("Needs picker")}>
+    // using a <section> tag, role="region" or a <form> tag here did not make voice over present it as a landmark in the rotor
+    <nav aria-label={t("Needs Picker")}>
       <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
         <DialogPrimitive.Trigger asChild>
           <NeedsButton />
@@ -105,8 +106,11 @@ export default function NeedsPicker() {
             <NeedsDialogOverlay />
             <NeedsDialogContent>
               <VisuallyHidden>
-                <DialogPrimitive.Title />
-                <DialogPrimitive.Description>{}</DialogPrimitive.Description>
+                <DialogPrimitive.Description>
+                  {t(
+                    "Select your needs from the following menus to filter the places on the map",
+                  )}
+                </DialogPrimitive.Description>
               </VisuallyHidden>
 
               <ScrollArea

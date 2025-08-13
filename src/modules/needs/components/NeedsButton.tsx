@@ -1,6 +1,6 @@
 import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { type Ref, forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 import styled from "styled-components";
 import NeedsIcon from "~/modules/needs/components/icons/NeedsIcon";
 
@@ -59,10 +59,13 @@ export const NeedsButton = forwardRef(function NeedsButton(
         aria-label={
           needs.length === 0
             ? t("Select your needs")
-            : t("You have {length} needs selected: {selectedNeeds}", {
-                length: needs.length,
-                selectedNeeds,
-              })
+            : t(
+                "You have {length} needs selected: {selectedNeeds}. Click this button to edit your selection.",
+                {
+                  length: needs.length,
+                  selectedNeeds,
+                },
+              )
         }
       >
         {needs.length > 0 && (
