@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   //await skipOnboarding(page);
 });
 
-test('Goto Open on OpenStreetMap to Victory Column', async ({ page }) => {
+test('opens Victory Column on OpenStreetMap', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/ac:PlaceInfo:WcdW6a8tJumrqsswk,buildings:way:718035022');
   await page.waitForLoadState();
   //goto Open Street Map
@@ -25,7 +25,7 @@ test('Goto Open on OpenStreetMap to Victory Column', async ({ page }) => {
   
 });
  
-  test('Goto Open on Bing Maps to Victory Column', async ({ page }) => {
+  test('opens Victory Column on Bing Maps', async ({ page }) => {
   //test('Goto Open on Apple Maps', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/ac:PlaceInfo:WcdW6a8tJumrqsswk,buildings:way:718035022');
   await page.waitForLoadState();
@@ -38,7 +38,7 @@ test('Goto Open on OpenStreetMap to Victory Column', async ({ page }) => {
   await page.waitForLoadState();
 });
 
-test('Embassy of Switzerland shows its address"', async ({ page }) => {
+test('displays Swiss Embassy address', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/amenities:relation:2886766,buildings:relation:2886766');
   await page.waitForLoadState();
   await expect(page.getByText('Otto-von-Bismarck-Allee')).toBeVisible();
@@ -46,7 +46,7 @@ test('Embassy of Switzerland shows its address"', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Embassy of Switzerland' })).toBeVisible();
 });
 
-test('EmbassyOfSwitzerland shows the Web Address', async ({ page }) => {
+test('displays Swiss Embassy website link', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/amenities:relation:2886766,buildings:relation:2886766');
   await page.waitForLoadState();
   await expect(page.getByText('https://www.eda.admin.ch/berlin.html')).toBeVisible();
@@ -55,8 +55,7 @@ test('EmbassyOfSwitzerland shows the Web Address', async ({ page }) => {
   await expect(page.locator('text=Schweiz und Deutschland').first()).toBeVisible();
 });
 
-test('EmbassyOfSwitzerland have a phone number', async ({ page }) => {
-
+test('displays Swiss Embassy phone number', async ({ page }) => {
   await page.goto('https://feature-a11ymap.wheelmap.tech/composite/amenities:relation:2886766,buildings:relation:2886766');
   await page.waitForLoadState();
   await expect(page.getByText('Call +49 30 390 40 00')).toBeVisible();
