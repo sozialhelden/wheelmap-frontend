@@ -64,8 +64,6 @@ export const SearchResult = forwardRef(function SearchResult(
       document.activeElement.blur();
     }
 
-    const padding = calculateDefaultPadding();
-
     if (extent) {
       map?.fitBounds(
         [

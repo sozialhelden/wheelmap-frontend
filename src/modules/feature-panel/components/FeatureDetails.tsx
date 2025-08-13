@@ -31,7 +31,6 @@ import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/c
 import { t } from "@transifex/native";
 import { usePageTitle } from "~/hooks/usePageTitle";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
-import AcPlaceInfoSection from "~/modules/feature-panel/components/AcPlaceInfoSection";
 
 type Props = {
   features: AnyFeature[];
@@ -197,7 +196,6 @@ const FeatureDetails = ({
 
             {acAccessibility && (
               <Section>
-                <AcPlaceInfoSection feature={feature} />
                 <AccessibilityItems key="ac_accessibility" feature={feature} />
               </Section>
             )}
