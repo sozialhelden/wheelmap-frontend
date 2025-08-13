@@ -27,15 +27,14 @@ const FeatureHeader = forwardRef<HTMLHeadingElement, Props>(
     }[accessibilityGrade];
 
     return (
-      <Grid columns="1fr 5fr">
+      <Grid columns="1fr 5fr" maxWidth="25rem">
         <Flex justify="start" align="center">
           <Button
             variant="ghost"
             onClick={onIconClicked}
             style={{ padding: 0, margin: 0 }}
-            aria-hidden={
-              true
-            } /*centering the map to the poi is a visual feature, so we hide it from screen readers*/
+            /* centering the map to the poi is a visual feature, so we hide it from screen readers */
+            aria-hidden={true}
           >
             <AccessibleIconMarker
               accessibilityGrade={accessibility}

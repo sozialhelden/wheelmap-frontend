@@ -49,9 +49,8 @@ const WheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
+          <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
           <StyledReportView className="_view">
-            <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
-
             <Dialog.Description id="dialog-description" size="3" mb="1">
               {t(
                 "How wheelchair accessible is this place? Select one of the following options:",

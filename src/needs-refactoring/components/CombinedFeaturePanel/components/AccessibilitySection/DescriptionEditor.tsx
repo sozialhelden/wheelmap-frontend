@@ -25,7 +25,7 @@ const AccessibleTextArea = styled(TextArea)`
 
 type Props = {
   tagKey: string;
-  tagValue?: string | undefined;
+  tagValue?: string | number | undefined;
   feature: AnyFeature;
   addNewLanguage: boolean;
   isDialogOpen: boolean;
