@@ -2,7 +2,7 @@ import { Box, Callout } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { uniqBy } from "lodash";
 import React from "react";
-import FeatureDetails from "~/modules/edit/components/FeatureDetails";
+import FeatureDetails from "~/modules/feature-panel/components/FeatureDetails";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import {
   type AnyFeature,

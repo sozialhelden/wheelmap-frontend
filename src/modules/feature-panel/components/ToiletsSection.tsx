@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
-import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
 import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import {
@@ -22,6 +22,8 @@ import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/compo
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { TagListItem } from "~/modules/feature-panel/components/TagListItem";
+import { TagList } from "~/modules/feature-panel/components/TagList";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;
@@ -82,16 +84,10 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
             </Text>
           )}
         </VisuallyHidden>
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-          }}
-        >
+        <TagList>
           <Flex as="div" direction="row" wrap="wrap" gapX="1" gapY="2">
             {otherTags?.map((child) => (
-              <li key={child.key} style={{ display: "inline-block" }}>
+              <TagListItem key={child.key}>
                 {typeof child.tagProps?.valueElement === "object" &&
                 child.tagProps?.valueElement !== null ? (
                   // if there is a render function render it
@@ -106,10 +102,10 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
                     </StyledMarkdown>
                   </StyledTag>
                 )}
-              </li>
+              </TagListItem>
             ))}
           </Flex>
-        </ul>
+        </TagList>
       </Box>
 
       {wheelchairInfo &&
