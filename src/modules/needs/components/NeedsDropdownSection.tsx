@@ -1,6 +1,6 @@
 import { Flex, IconButton, RadioGroup, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { type RefObject, forwardRef, useState } from "react";
+import { forwardRef, type RefObject, useState } from "react";
 import styled from "styled-components";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
 import type { NeedCategory, NeedProperties } from "~/modules/needs/needs";
@@ -62,8 +62,9 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
       <Flex justify="between" align="center" mb="2">
         <Heading id={headingId}>{title()}</Heading>
         {hasHelpText && (
-          <Flex as="span" justify="center" width="40px" aria-hidden>
+          <Flex as="span" justify="center" width="40px">
             <IconButton
+              aria-hidden={true}
               aria-label={t("Show more information about {title}", {
                 title: title(),
               })}
@@ -92,7 +93,10 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
                     <Text as="label" size="3">
                       <RadioGroup.Item
                         value={key}
-                        aria-describedby={`${helpTextBaseId}-${key}`}
+                        aria-label={label()}
+                        aria-describedby={
+                          help ? `${helpTextBaseId}-${key}` : undefined
+                        }
                       />
                       <Flex
                         as="span"
@@ -100,6 +104,8 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
                         justify="between"
                         align="center"
                         gap="4"
+                        // to prevent voiceover from reading the label twice
+                        aria-hidden="true"
                       >
                         {label()}
                         <Flex
@@ -118,6 +124,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
                       size="1"
                       $isVisible={isHelpExpanded}
                       id={`${helpTextBaseId}-${key}`}
+                      aria-hidden={true}
                     >
                       {help()}
                     </HelpText>
