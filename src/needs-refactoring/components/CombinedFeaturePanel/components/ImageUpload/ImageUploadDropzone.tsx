@@ -67,7 +67,7 @@ export const ImageUploadDropzone: FC = () => {
   return (
     <>
       <Dropzone {...getRootProps()} $isDragActive={isDragActive}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} aria-hidden />
         <TextForDesktop as="p" aria-hidden>
           <Strong>{t("Drag an image here to select it")}</Strong>
         </TextForDesktop>

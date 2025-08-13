@@ -78,7 +78,7 @@ export const ImageUploadPreview: FC<{
   return (
     <>
       <PreviewWrapper>
-        <Card>
+        <Card aria-live="assertive">
           {isUploading && (
             <PreviewOverlay>
               <Spinner size="3" />
