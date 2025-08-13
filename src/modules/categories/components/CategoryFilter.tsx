@@ -10,7 +10,8 @@ import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { ChevronDown } from "lucide-react";
-import type { FC, SVGAttributes } from "react";
+import { type FC, type SVGAttributes, useRef } from "react";
+import { dispatchKeydownEvent } from "~/utils/dispatchKeydownEvent";
 
 const Container = styled.nav`
   display: flex;
@@ -35,14 +36,19 @@ export function CategoryFilter() {
 
   const { filter, isFilteringActive } = useCategoryFilter();
 
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
+
   return (
     !isFilteringActive && (
       <ScrollArea>
         <Theme asChild radius="full">
-          <Container aria-label={t("Place Category Filters")}>
-            <VisuallyHidden>
+          <Container
+            aria-label={t("Place Category Filters")}
+            aria-describedby={"category-filter-description"}
+          >
+            <VisuallyHidden id="category-filter-description" aria-hidden>
               {t(
-                "Filter places on the map by selecting one of the following options:",
+                "Filter places on the map by selecting one of the following place categories:",
               )}
             </VisuallyHidden>
             {mainCategories.map(({ id, name, icon }) => {
@@ -65,10 +71,14 @@ export function CategoryFilter() {
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
                   <StyledButton
+                    ref={dropdownTriggerRef}
                     color="gray"
                     variant="surface"
                     highContrast
                     size="1"
+                    // VoiceOver’s click command fires a plain click event but radix dropdownMenu opens the menu on keydown or
+                    // pointerdown and it does not react to a click
+                    onClick={() => dispatchKeydownEvent(dropdownTriggerRef)}
                   >
                     {t("More…")}
                     <ChevronDown size={16} aria-hidden />

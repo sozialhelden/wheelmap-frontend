@@ -5,6 +5,7 @@ import type React from "react";
 import { useRef, useState } from "react";
 import DescriptionEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/DescriptionEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { dispatchKeydownEvent } from "~/utils/dispatchKeydownEvent";
 
 type Props = {
   tagKey: string;
@@ -34,22 +35,9 @@ const EditDropdownMenu = ({
             size="2"
             data-testid={`${tagKey}`}
             aria-label={t("Edit description")}
-            onClick={(e) => {
-              triggerProps.onClick?.(e);
-
-              // VoiceOver’s “Press” / “Click” command fires a plain click event only.
-              // Radix DropdownMenu opens the menu on keydown or pointerdown and it does not react to a bare click.
-              // This, when a click happens, we manually dispatch a keyboard event
-
-              if (buttonRef.current) {
-                const keyEvent = new KeyboardEvent("keydown", {
-                  key: "Enter",
-                  bubbles: true,
-                  cancelable: true,
-                });
-                buttonRef.current.dispatchEvent(keyEvent);
-              }
-            }}
+            // VoiceOver’s click command fires a plain click event but radix dropdownMenu opens the menu on keydown or
+            // pointerdown and it does not react to a click
+            onClick={() => dispatchKeydownEvent(buttonRef)}
           >
             <Pencil size={18} aria-hidden />
           </IconButton>
