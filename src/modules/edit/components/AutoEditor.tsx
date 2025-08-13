@@ -20,7 +20,7 @@ import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
 import { log } from "~/needs-refactoring/lib/util/logger";
 import type { BaseEditorProps } from "./BaseEditor";
-import { StringFieldEditor } from "./StringFieldEditor";
+import { StringFieldEditor } from "../../feature-panel/components/StringFieldEditor";
 import { ToiletsWheelchairEditorOld } from "./ToiletsWheelchairEditorOld";
 import { WheelchairEditorOld } from "./WheelchairEditorOld";
 

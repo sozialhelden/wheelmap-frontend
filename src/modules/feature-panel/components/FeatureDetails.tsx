@@ -1,9 +1,9 @@
 import { bbox } from "@turf/turf";
 import React, { useContext, useEffect, useRef } from "react";
-import FeatureDescription from "~/modules/edit/components/FeatureDescription";
-import OsmInfoSection from "~/modules/edit/components/OSMInfoSection";
-import ToiletsSection from "~/modules/edit/components/ToiletsSection";
-import WheelchairSection from "~/modules/edit/components/WheelchairSection";
+import FeatureDescription from "~/modules/feature-panel/components/FeatureDescription";
+import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
+import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
+import WheelchairSection from "~/modules/feature-panel/components/WheelchairSection";
 import { useOsmTags } from "~/modules/edit/hooks/useOsmTags";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
@@ -24,13 +24,14 @@ import {
 import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
-import HeaderImageSection from "~/modules/edit/components/HeaderImageSection";
-import PartOf from "~/modules/edit/components/PartOf";
+import HeaderImageSection from "~/modules/feature-panel/components/HeaderImageSection";
+import PartOf from "~/modules/feature-panel/components/PartOf";
 import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import { t } from "@transifex/native";
 import { usePageTitle } from "~/hooks/usePageTitle";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import AcPlaceInfoSection from "~/modules/feature-panel/components/AcPlaceInfoSection";
 
 type Props = {
   features: AnyFeature[];
@@ -196,6 +197,7 @@ const FeatureDetails = ({
 
             {acAccessibility && (
               <Section>
+                <AcPlaceInfoSection feature={feature} />
                 <AccessibilityItems key="ac_accessibility" feature={feature} />
               </Section>
             )}

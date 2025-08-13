@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import type React from "react";
-import { AddDescriptionButton } from "~/modules/edit/components/AddDescriptionButton";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
