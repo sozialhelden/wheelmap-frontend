@@ -1,9 +1,5 @@
 const withSvgr = require("next-plugin-svgr");
 const svgrOptions = require("./svgr.config.js");
-const {
-  supportedLanguageTags,
-  fallbackLanguageTag,
-} = require("@sozialhelden/core");
 
 /**
  * @type {import('next').NextConfig}
@@ -60,9 +56,5 @@ module.exports = withSvgr({
   },
   images: {
     deviceSizes: [375, 480, 640, 750, 828, 1080, 1200, 1920],
-  },
-  i18n: {
-    locales: supportedLanguageTags,
-    defaultLocale: fallbackLanguageTag,
   },
 });
