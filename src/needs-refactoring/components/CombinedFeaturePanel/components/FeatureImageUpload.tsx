@@ -9,6 +9,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
@@ -50,6 +51,8 @@ export const FeatureImageUpload: FC<{
   isUploadDialogOpen?: boolean;
 }> = ({ feature, isUploadDialogOpen }) => {
   const { baseFeatureUrl } = useContext(FeaturePanelContext);
+
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   const [step, setStep] = useState<number>(1);
   const [image, setImage] = useState<ImageWithPreview>();
@@ -136,6 +139,14 @@ export const FeatureImageUpload: FC<{
     }
   }, [isDialogOpen]);
 
+  useEffect(() => {
+    if (isDialogOpen && titleRef.current) {
+      setTimeout(() => {
+        titleRef.current?.focus();
+      }, 100);
+    }
+  }, [isDialogOpen]);
+
   return (
     <ImageUploadContext.Provider value={api}>
       <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -153,7 +164,7 @@ export const FeatureImageUpload: FC<{
           <ImageUploadCallToAction />
         </Flex>
         <Dialog.Content>
-          <Dialog.Title>
+          <Dialog.Title ref={titleRef} tabIndex={0}>
             {step === 1 && t("Add a new image")}
             {step === 2 && t("Select an image")}
             {step === 3 && t("Review your selected image")}
