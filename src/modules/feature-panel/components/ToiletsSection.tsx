@@ -78,11 +78,14 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
       <Box>
         <VisuallyHidden>
           <Heading as="h3">{t("Toilet features")}</Heading>
-          {!otherTags && (
-            <Text>
-              {t("There is currently no toilet information about this place.")}
-            </Text>
-          )}
+          {!otherTags ||
+            (otherTags.length === 0 && (
+              <Text>
+                {t(
+                  "There is currently no additional information for this toilet.",
+                )}
+              </Text>
+            ))}
         </VisuallyHidden>
         <TagList>
           <Flex as="div" direction="row" wrap="wrap" gapX="1" gapY="2">
