@@ -194,7 +194,7 @@ export function FeaturePanelContextProvider({
     return () => {
       if (id) removeHighlight(id);
     };
-  }, []);
+  }, [id]);
 
   return (
     <FeaturePanelContext.Provider value={contextValue}>
