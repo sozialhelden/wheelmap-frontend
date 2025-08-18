@@ -75,14 +75,14 @@ export function List() {
           <Callout.Icon>
             <CircleAlert aria-hidden />
           </Callout.Icon>
-          <Callout.Text aria-live="polite">
+          <Callout.Text>
             <T _str="Please zoom in to see a list of places here" />
           </Callout.Text>
         </Callout.Root>
       )}
       {!isFirstLoad && !zoomLevelTooLow && (
         <>
-          <Flex asChild justify="center" mt="2" mb="4" aria-live="polite">
+          <Flex asChild justify="center" mt="2" mb="4">
             <Text size="2" weight="medium">
               <T _str="{count} places found" count={features.length} />
             </Text>
@@ -92,7 +92,7 @@ export function List() {
               <Callout.Icon>
                 <CircleAlert aria-hidden />
               </Callout.Icon>
-              <Callout.Text aria-live="polite">
+              <Callout.Text>
                 <T _str="No places were found. Try to zoom out or move the map." />
               </Callout.Text>
             </Callout.Root>

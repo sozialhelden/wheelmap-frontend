@@ -89,17 +89,19 @@ export function Sidebar({
   isExpanded,
   onIsExpandedChange,
   hasPadding = true,
+  ...ariaProps
 }: {
   children: ReactNode;
   isExpanded: boolean;
   hasPadding?: boolean;
   onIsExpandedChange: (value: boolean) => void;
-}) {
+} & React.AriaAttributes) {
   return (
     <SidebarWrapper
       $isExpanded={isExpanded}
       $hasPadding={hasPadding}
       aria-label={t("Sidebar")}
+      {...ariaProps}
     >
       <SidebarToggleButton
         onClick={() => onIsExpandedChange(!isExpanded)}
