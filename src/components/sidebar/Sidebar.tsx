@@ -99,7 +99,7 @@ export function Sidebar({
     <SidebarWrapper
       $isExpanded={isExpanded}
       $hasPadding={hasPadding}
-      aria-label={t("Place Details")}
+      aria-label={t("Sidebar")}
     >
       <SidebarToggleButton
         onClick={() => onIsExpandedChange(!isExpanded)}
