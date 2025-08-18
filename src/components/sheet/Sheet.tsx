@@ -1,9 +1,10 @@
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { IconButton } from "@radix-ui/themes";
 import { type ReactNode, type Ref, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
 import { useSheetMounted } from "~/components/sheet/useSheetMounted";
+import { t } from "@transifex/native";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;
@@ -135,6 +136,7 @@ export function Sheet({
     <SheetContainer
       $isExpanded={isExpanded}
       ref={container as Ref<HTMLDivElement>}
+      aria-label={t("Sheet")}
     >
       {scrollStops.map((height, index) => (
         <ScrollStop key={index + height} style={{ height }} />
