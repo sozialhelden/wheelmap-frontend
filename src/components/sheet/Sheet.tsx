@@ -72,12 +72,13 @@ export function Sheet({
   scrollStops: scrollStopPositions = [],
   isExpanded: externalIsExpanded,
   onIsExpandedChanged,
+  ...ariaProps
 }: {
   children: ReactNode;
   scrollStops?: number[];
   isExpanded?: boolean;
   onIsExpandedChanged?: (isExpanded: boolean) => void;
-}) {
+} & React.AriaAttributes) {
   // This component uses css scroll stops to create a visible sheet that snaps to the
   // given percentage positions. This is done using invisible (and non-interactive)
   // div containers inside the scroll area that the browser snaps to while scrolling.
@@ -137,6 +138,7 @@ export function Sheet({
       $isExpanded={isExpanded}
       ref={container as Ref<HTMLDivElement>}
       aria-label={t("Sheet")}
+      {...ariaProps}
     >
       {scrollStops.map((height, index) => (
         <ScrollStop key={index + height} style={{ height }} />

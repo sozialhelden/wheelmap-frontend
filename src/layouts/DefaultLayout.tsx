@@ -1,5 +1,5 @@
 import type { GeoJSONFeature } from "mapbox-gl";
-import React, { useState, type ReactNode, useMemo, useEffect } from "react";
+import React, { type ReactNode, useEffect, useState } from "react";
 import ToolBar from "~/components/layout/ToolBar";
 import { Sheet } from "~/components/sheet/Sheet";
 import { Sidebar } from "~/components/sidebar/Sidebar";
@@ -34,7 +34,14 @@ export function DefaultLayout({
       <ToolBar />
       {isFilteringActive &&
         (showSidebar ? (
-          <Sidebar isExpanded={isExpanded} onIsExpandedChange={setIsExpanded}>
+          <Sidebar
+            isExpanded={isExpanded}
+            onIsExpandedChange={setIsExpanded}
+            // using assertive here even though its discouraged because we dont want the screen reader to read a
+            // list that has already changed
+            aria-live="assertive"
+            aria-relevant="additions text"
+          >
             <List />
           </Sidebar>
         ) : (
@@ -43,7 +50,7 @@ export function DefaultLayout({
             onIsExpandedChanged={setIsExpanded}
             scrollStops={[0, 0.5]}
           >
-            <List />
+            <List aria-live="assertive" aria-relevant="additions text" />
           </Sheet>
         ))}
       {children}

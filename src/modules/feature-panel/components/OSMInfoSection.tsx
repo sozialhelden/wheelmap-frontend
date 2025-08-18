@@ -10,7 +10,6 @@ interface Props {
 }
 
 const OsmInfoSection = ({ tags }: Props) => {
-  console.log("OsmInfoSection tags", tags);
   return (
     <TagList style={{ listStyle: "none", padding: 0, margin: 0 }}>
       {tags?.map((tagOrTagGroup) => (
