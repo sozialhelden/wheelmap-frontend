@@ -80,9 +80,10 @@ const FeatureDetails = ({
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
-  const { placeName } = useFeatureLabel({ feature });
+  const { categoryName, placeName } = useFeatureLabel({ feature });
 
-  usePageTitle(placeName);
+  const pageTitle = placeName ? placeName : categoryName;
+  usePageTitle(pageTitle);
 
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
