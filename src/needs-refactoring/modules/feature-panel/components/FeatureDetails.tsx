@@ -158,19 +158,17 @@ const FeatureDetails = ({
           </HeaderSection>
 
           <SectionsContainer $orderDesktop={3} $orderMobile={2}>
-            {osmWheelchairInfo && (
-              <Section>
-                <VisuallyHidden>
-                  <Heading as="h2">{t("Wheelchair section")}</Heading>
-                </VisuallyHidden>
-                <WheelchairSection
-                  key="osm_wheelchair"
-                  tags={osmWheelchairInfo}
-                  feature={feature}
-                />
-              </Section>
-            )}
-            {(osmToiletInfo || nextAccessibleToilet) && (
+            <Section>
+              <VisuallyHidden>
+                <Heading as="h2">{t("Wheelchair section")}</Heading>
+              </VisuallyHidden>
+              <WheelchairSection
+                key="osm_wheelchair"
+                tags={osmWheelchairInfo}
+                feature={feature}
+              />
+            </Section>
+            {(osmWheelchairInfo || nextAccessibleToilet) && (
               <Section>
                 <VisuallyHidden>
                   <Heading as="h2">{t("Toilet section")}</Heading>

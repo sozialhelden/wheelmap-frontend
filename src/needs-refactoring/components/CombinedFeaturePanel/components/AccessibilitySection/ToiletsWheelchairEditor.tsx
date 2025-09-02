@@ -1,4 +1,4 @@
-import { Dialog, Flex, IconButton } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -11,11 +11,17 @@ import ToiletRadioCards from "~/needs-refactoring/modules/edit/components/Toilet
 
 type Props = {
   tagKey: string;
-  tagValue: string | undefined;
+  tagValue?: string | undefined;
   feature: AnyFeature;
+  isNewlyTagged?: boolean;
 };
 
-const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
+const ToiletsWheelchairEditor = ({
+  tagKey,
+  tagValue,
+  feature,
+  isNewlyTagged,
+}: Props) => {
   const [editedTagValue, setEditedTagValue] = useState<
     string | number | undefined
   >(tagValue);
@@ -28,13 +34,14 @@ const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <IconButton
+        <SecondaryButton
           aria-label={t("Edit toilet accessibility")}
-          variant="soft"
           data-testid={tagKey}
+          size="2"
         >
+          {isNewlyTagged ? t("Add toilet information") : ""}
           <Pencil size={18} aria-hidden />
-        </IconButton>
+        </SecondaryButton>
       </Dialog.Trigger>
       <Dialog.Content
         aria-label={t("Toilet Accessibility Editor")}

@@ -1,4 +1,4 @@
-import { Dialog, Flex, IconButton } from "@radix-ui/themes";
+import { Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -13,11 +13,17 @@ import WheelchairRadioCards from "~/needs-refactoring/modules/edit/components/Wh
 
 type Props = {
   tagKey: string;
-  tagValue: string | undefined;
+  tagValue?: string | undefined;
   feature: AnyFeature;
+  isNewlyTagged?: boolean;
 };
 
-const WheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
+const WheelchairEditor = ({
+  tagKey,
+  tagValue,
+  feature,
+  isNewlyTagged,
+}: Props) => {
   const [editedTagValue, setEditedTagValue] = useState<
     string | number | undefined
   >(tagValue);
@@ -30,20 +36,31 @@ const WheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
 
   const { category } = useFeatureLabel({ feature });
 
-  useEffect(() => {}, [hasDataToSubmit]);
+  const button = isNewlyTagged ? (
+    <SecondaryButton
+      aria-label={t("Edit wheelchair accessibility")}
+      data-testid={tagKey}
+      size="2"
+    >
+      {t("Rate wheelchair accessibility")}
+    </SecondaryButton>
+  ) : (
+    <SecondaryButton
+      aria-label={t("Edit wheelchair accessibility")}
+      data-testid={tagKey}
+      size="2"
+    >
+      <Pencil size={18} aria-hidden />
+    </SecondaryButton>
+  );
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger>
-        <IconButton
-          aria-label={t("Edit wheelchair accessibility")}
-          variant="soft"
-          data-testid={tagKey}
-        >
-          <Pencil size={18} aria-hidden />
-        </IconButton>
-      </Dialog.Trigger>
+      <Dialog.Trigger>{button}</Dialog.Trigger>
       <Dialog.Content
+        // resetting the tag value when opening so that a previously selected value is not
+        // persisted (could otherwise accidentally be submitted)
+        onOpenAutoFocus={() => setEditedTagValue(tagValue)}
         aria-label={t("Wheelchair Accessibility Editor")}
         data-testid="dialog"
       >
