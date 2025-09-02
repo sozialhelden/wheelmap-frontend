@@ -49,14 +49,14 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
 
   return (
     <>
-      {wheelchairInfo && (
-        <Grid columns="6rem 1fr" mb="3">
-          <Box>
-            <Text size="3" color="gray" aria-hidden>
-              {useTranslations(wheelchairInfo.tagProps?.keyLabel)}
-            </Text>
-          </Box>
+      <Grid columns="6rem 1fr" mb="3">
+        <Box>
+          <Text size="3" color="gray" aria-hidden>
+            {t("WC")}
+          </Text>
+        </Box>
 
+        {wheelchairInfo ? (
           <Flex direction="row" gap="7" justify="between">
             <Text size="3">
               <StyledMarkdown inline>
@@ -73,8 +73,14 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
               tagValue={String(wheelchairInfo.value)}
             />
           </Flex>
-        </Grid>
-      )}
+        ) : (
+          <ToiletsWheelchairEditor
+            feature={feature}
+            tagKey="toilets:wheelchair"
+            isNewlyTagged={true}
+          />
+        )}
+      </Grid>
       <Box>
         <VisuallyHidden>
           <Heading as="h3">{t("Toilet features")}</Heading>
