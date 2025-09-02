@@ -159,7 +159,7 @@ export default function OpeningHoursValue(props: {
 
       <Flex direction="column" pr="3" pl="3">
         {shownElements.map((e) => (
-          <Text key={0} size="3" color="gray">
+          <Text key={e} size="3" color="gray">
             {e}
           </Text>
         ))}
