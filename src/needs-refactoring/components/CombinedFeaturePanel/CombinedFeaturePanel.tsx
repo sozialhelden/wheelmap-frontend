@@ -39,7 +39,7 @@ export function CombinedFeaturePanel(props: CombinedFeaturePanelProps) {
           )}
 
           {props.isLoading && (
-            <Callout.Root mt="9">
+            <Callout.Root mt="9" data-testid="loading-indicator">
               <Callout.Text>{t("Loading features...")}</Callout.Text>
             </Callout.Root>
           )}

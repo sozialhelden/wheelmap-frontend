@@ -1,4 +1,4 @@
-import { type Locator, expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getButton,
@@ -26,10 +26,6 @@ test.describe("Add wheelchair description in new language", () => {
   test("dialog has select box when adding a new language", async () => {
     await expect(dialog.getByRole("combobox")).toBeVisible();
   });
-
-  // test("dialog content is key board navigable", async () => {
-  //   //TODO
-  // });
 
   test("text area is hidden before language is selected", async ({ page }) => {
     const textArea = dialog.getByRole("textbox");

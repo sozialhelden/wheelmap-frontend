@@ -34,7 +34,7 @@ const WheelchairSection = ({ tags, feature }: Props) => {
     <>
       {wheelchairInfo ? (
         <>
-          <Grid columns="6rem 1fr" mb="3">
+          <Grid columns="6rem 1fr" mb="3" data-testid="wheelchair-section">
             <Box>
               <Text size="3" color="gray" aria-hidden>
                 {wheelchairInfoLabel}

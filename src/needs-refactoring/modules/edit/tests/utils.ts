@@ -1,15 +1,21 @@
 import type { Locator, Page } from "@playwright/test";
 import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
+import wheelchair_untagged_node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/wheelchair-untagged-node-4544823443-osm-mock.json";
+import toilet_untagged_node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/toilet-untagged-node-4544823443-osm-mock.json";
 import placeInfoMock from "~/needs-refactoring/modules/edit/tests/mocks/place-infos-mock.json";
 import way126125230Mock from "~/needs-refactoring/modules/edit/tests/mocks/way-126125230-osm-mock.json";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 
-export const setupPage = async (page: Page) => {
+export const setupPage = async (
+  page: Page,
+  wheelchairTagged = true,
+  toiletTagged = true,
+) => {
   await mockTranslations(page);
   await page.goto("/");
   //await skipOnboarding(page);  // onboarding screen is currently disabled because it causes problems
-  await mockFeature(page);
+  await mockFeature(page, wheelchairTagged, toiletTagged);
   await waitUntilMapIsLoaded(page);
 };
 
@@ -39,13 +45,33 @@ export const getButton = (dialog: Locator, name: string) => {
   return dialog.getByRole("button", { name: name });
 };
 
-export const mockFeature = async (page: Page) => {
-  await page.route(
-    "**/api/v1/amenities/node/4544823443.geojson*",
-    async (route) => {
-      await route.fulfill({ json: node4544823443Mock });
-    },
-  );
+export const mockFeature = async (
+  page: Page,
+  wheelchairTagged: boolean,
+  toiletTagged: boolean,
+) => {
+  if (wheelchairTagged && toiletTagged) {
+    await page.route(
+      "**/api/v1/amenities/node/4544823443.geojson*",
+      async (route) => {
+        await route.fulfill({ json: node4544823443Mock });
+      },
+    );
+  } else if (!wheelchairTagged) {
+    await page.route(
+      "**/api/v1/amenities/node/4544823443.geojson*",
+      async (route) => {
+        await route.fulfill({ json: wheelchair_untagged_node4544823443Mock });
+      },
+    );
+  } else if (wheelchairTagged && !toiletTagged) {
+    await page.route(
+      "**/api/v1/amenities/node/4544823443.geojson*",
+      async (route) => {
+        await route.fulfill({ json: toilet_untagged_node4544823443Mock });
+      },
+    );
+  }
   await page.route(
     "**/api/v1/buildings/way/126125230.geojson*",
     async (route) => {

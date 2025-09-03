@@ -21,7 +21,7 @@ const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="yes"
           style={{ backgroundColor: "var(--green-4)" }}
-          data-testid="yes-item"
+          data-testid="toilet-radio-yes-item"
         >
           <Flex direction="column" width="100%">
             <Flex direction="row" gap="2">
@@ -41,7 +41,7 @@ const ToiletRadioCards = ({ onSelect, defaultValue }: Props) => {
         <RadioCards.Item
           value="no"
           style={{ backgroundColor: "var(--red-8)" }}
-          data-testid="no-item"
+          data-testid="toilet-radio-no-item"
         >
           <Flex direction="column" width="100%" justify="center">
             <Flex direction="row" gap="2">
