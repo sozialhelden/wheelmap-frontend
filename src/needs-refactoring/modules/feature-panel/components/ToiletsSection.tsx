@@ -49,7 +49,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
 
   return (
     <>
-      <Grid columns="6rem 1fr" mb="3">
+      <Grid columns="6rem 1fr" mb="3" data-testid="toilet-section">
         <Box>
           <Text size="3" color="gray" aria-hidden>
             {t("WC")}
@@ -141,13 +141,8 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
           </Flex>
         ))}
 
-      {(wheelchairInfo?.value === "no" || !wheelchairInfo) && (
-        <>
-          <VisuallyHidden>
-            <Heading as="h3">{t("Link to next accessible toilet")}</Heading>
-          </VisuallyHidden>
-          <NextToiletDirections nextToilet={nextToilet} isLoading={isLoading} />
-        </>
+      {(wheelchairInfo?.value === "no" || !wheelchairInfo) && nextToilet && (
+        <NextToiletDirections nextToilet={nextToilet} isLoading={isLoading} />
       )}
     </>
   );

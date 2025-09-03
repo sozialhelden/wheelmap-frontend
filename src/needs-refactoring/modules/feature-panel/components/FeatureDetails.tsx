@@ -124,11 +124,17 @@ const FeatureDetails = ({
   //   if (headingRef.current) headingRef.current.focus();
   // }, [placeName]);
 
+  console.log(features);
+
   return (
     <>
       {feature && (
         <Flex direction="column">
-          <HeaderImageSection $orderDesktop={1} $orderMobile={3}>
+          <HeaderImageSection
+            $orderDesktop={1}
+            $orderMobile={3}
+            data-testid="header-image-section"
+          >
             {/*TODO: add Logo component*/}
             {/*TODO: add alt texts  to images*/}
             {/*TODO: refactor FeatureImage*/}
@@ -158,28 +164,38 @@ const FeatureDetails = ({
           </HeaderSection>
 
           <SectionsContainer $orderDesktop={3} $orderMobile={2}>
-            <Section>
-              <VisuallyHidden>
-                <Heading as="h2">{t("Wheelchair section")}</Heading>
-              </VisuallyHidden>
-              <WheelchairSection
-                key="osm_wheelchair"
-                tags={osmWheelchairInfo}
-                feature={feature}
-              />
-            </Section>
-            {(osmWheelchairInfo || nextAccessibleToilet) && (
+            {osmWheelchairInfo && (
               <Section>
                 <VisuallyHidden>
-                  <Heading as="h2">{t("Toilet section")}</Heading>
+                  <Heading as="h2">{t("Wheelchair section")}</Heading>
                 </VisuallyHidden>
-                <ToiletsSection
-                  key="osm_toilets"
-                  tags={osmToiletInfo}
-                  nextToilet={nextAccessibleToilet}
-                  isLoading={isLoadingNextToilet}
+                <WheelchairSection
+                  key="osm_wheelchair"
+                  tags={osmWheelchairInfo}
                   feature={feature}
                 />
+              </Section>
+            )}
+            {(osmWheelchairInfo || nextAccessibleToilet) && (
+              <Section>
+                {/*We only show toilet info if there is wheelchair info at all. This is the way it is
+                working in the old version of wheelmap. For a future a11ymap this should be different*/}
+                {osmWheelchairInfo && (
+                  <>
+                    <VisuallyHidden>
+                      <Heading as="h2">{t("Toilet section")}</Heading>
+                    </VisuallyHidden>
+                    <ToiletsSection
+                      key="osm_toilets"
+                      tags={osmToiletInfo}
+                      // if there is wheelchair info but no toilet info or no accessible toilet,
+                      // we show the next accessible toilet
+                      nextToilet={nextAccessibleToilet}
+                      isLoading={isLoadingNextToilet}
+                      feature={feature}
+                    />
+                  </>
+                )}
               </Section>
             )}
             <VisuallyHidden>
@@ -189,13 +205,13 @@ const FeatureDetails = ({
             </VisuallyHidden>
 
             {acAccessibility && (
-              <Section>
+              <Section data-testid="ac-section">
                 <AccessibilityItems key="ac_accessibility" feature={feature} />
               </Section>
             )}
 
             {generalOSMInfo.length > 0 && (
-              <Section>
+              <Section data-testid="general-osm-section">
                 <OsmInfoSection key="osm_info" tags={generalOSMInfo} />
               </Section>
             )}
@@ -220,7 +236,10 @@ const FeatureDetails = ({
               <VisuallyHidden>
                 <Heading as="h2">{t("Further links")}</Heading>
               </VisuallyHidden>
-              <StyledIconButtonList key="styled_icon_button_list">
+              <StyledIconButtonList
+                key="styled_icon_button_list"
+                data-testid="styled-icon-button-list"
+              >
                 <AddressMapsLinkItems feature={feature} />
                 <PlaceWebsiteLink feature={feature} />
                 <PhoneNumberLinks feature={feature} />

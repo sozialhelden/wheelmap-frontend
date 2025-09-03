@@ -1,4 +1,4 @@
-import { type Locator, expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import {
   getButton,
   getDialog,
@@ -19,17 +19,15 @@ test.describe("Edit wheelchair accessibility", () => {
     await expect(dialog).toBeVisible();
   });
 
-  // test("dialog content is key board navigable", async () => {
-  //   //TODO
-  // });
-
   test("confirm button changes to send after input changes", async ({
     page,
   }) => {
     await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
-    const yesItem = page.locator(`[data-testid="yes-item"]`);
-    const limitedItem = page.locator(`[data-testid="limited-item"]`);
-    const noItem = page.locator(`[data-testid="no-item"]`);
+    const yesItem = page.locator(`[data-testid="wheelchair-radio-yes-item"]`);
+    const limitedItem = page.locator(
+      `[data-testid="wheelchair-radio-limited-item"]`,
+    );
+    const noItem = page.locator(`[data-testid="wheelchair-radio-no-item"]`);
 
     await expect(yesItem).toBeVisible();
     await expect(limitedItem).toBeVisible();

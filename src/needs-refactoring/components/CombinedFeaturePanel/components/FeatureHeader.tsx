@@ -26,7 +26,7 @@ const FeatureHeader = forwardRef<HTMLHeadingElement, Props>(
     }[accessibilityGrade];
 
     return (
-      <Grid columns="1fr 5fr" maxWidth="25rem">
+      <Grid columns="1fr 5fr" maxWidth="25rem" data-testid="feature-header">
         <Flex justify="start" align="center">
           <Button
             variant="ghost"
