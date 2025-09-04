@@ -1,10 +1,16 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { IconButton } from "@radix-ui/themes";
-import { type ReactNode, type Ref, useEffect, useMemo, useRef } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+  type Ref,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import styled from "styled-components";
 import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
 import { useSheetMounted } from "~/components/sheet/useSheetMounted";
-import { t } from "@transifex/native";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;
@@ -72,13 +78,13 @@ export function Sheet({
   scrollStops: scrollStopPositions = [],
   isExpanded: externalIsExpanded,
   onIsExpandedChanged,
-  ...ariaProps
+  ...props
 }: {
   children: ReactNode;
   scrollStops?: number[];
   isExpanded?: boolean;
   onIsExpandedChanged?: (isExpanded: boolean) => void;
-} & React.AriaAttributes) {
+} & ComponentPropsWithoutRef<"aside">) {
   // This component uses css scroll stops to create a visible sheet that snaps to the
   // given percentage positions. This is done using invisible (and non-interactive)
   // div containers inside the scroll area that the browser snaps to while scrolling.
@@ -137,15 +143,19 @@ export function Sheet({
     <SheetContainer
       $isExpanded={isExpanded}
       ref={container as Ref<HTMLDivElement>}
-      aria-label={t("Sheet")}
-      {...ariaProps}
+      {...props}
     >
       {scrollStops.map((height, index) => (
         <ScrollStop key={index + height} style={{ height }} />
       ))}
       <SheetContent ref={content as Ref<HTMLDivElement>} $isSafari={isSafari}>
         {isSafari && <SheetSpacer />}
-        <SheetCollapsedControlArea>
+
+        <SheetCollapsedControlArea
+          // We don't want to collapse the sheet on screen-readers. Collapsing is supposed to
+          // grant the map more space, which is a purely visual effect.
+          aria-hidden
+        >
           <DragHandle />
           <ExpandButton variant="ghost" size="2" onClick={toggle}>
             {!isExpanded && <ChevronUp width="1.5rem" height="1.5rem" />}
