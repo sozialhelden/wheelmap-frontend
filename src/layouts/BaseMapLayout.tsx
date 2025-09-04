@@ -6,7 +6,6 @@ import useMeasure from "react-use-measure";
 import styled from "styled-components";
 import TopBar from "~/components/layout/TopBar";
 import { useSheetMounted } from "~/components/sheet/useSheetMounted";
-import { PageTitleProvider } from "~/hooks/usePageTitle";
 import DynamicallyLoadedMap from "~/modules/map/components/DynamicallyLoadedMap";
 import HeadMetaTags from "~/needs-refactoring/components/App/HeadMetaTags";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
@@ -64,18 +63,14 @@ export default function BaseMapLayout({
 
   return (
     <ErrorBoundary>
-      <PageTitleProvider>
-        <HeadMetaTags />
-        <TopBar />
-        <Main  $enablePaddingForSheet={isSheetMounted}>
-          <DynamicallyLoadedMap
-            key="map"
-          />
-          <div style={{ zIndex: 2000 }}>{children}</div>
-        </Main>
-        <ToastContainer />
-        {/*{isOnboardingVisible && <Onboarding />}*/}
-      </PageTitleProvider>
+      <HeadMetaTags />
+      <TopBar />
+      <Main $enablePaddingForSheet={isSheetMounted}>
+        <DynamicallyLoadedMap key="map" />
+        <div style={{ zIndex: 2000 }}>{children}</div>
+      </Main>
+      <ToastContainer />
+      {/*{isOnboardingVisible && <Onboarding />}*/}
     </ErrorBoundary>
   );
 }

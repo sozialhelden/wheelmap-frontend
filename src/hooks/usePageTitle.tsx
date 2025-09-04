@@ -1,20 +1,16 @@
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { type ReactNode, createContext, useContext, useState } from "react";
 
-type PageTitleContextValue = {
+type PageTitleContext = {
   title?: string;
   setTitle: (title?: string) => void;
 };
 
-const PageTitleContext = createContext<PageTitleContextValue | null>(null);
+const PageTitleContext = createContext<PageTitleContext>({
+  setTitle: () => {},
+});
 
 export function PageTitleProvider({ children }: { children: ReactNode }) {
-  const [title, setTitle] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string>();
 
   return (
     <PageTitleContext.Provider value={{ title, setTitle }}>
@@ -23,17 +19,6 @@ export function PageTitleProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function usePageTitle(newTitle?: string) {
-  const context = useContext(PageTitleContext);
-  if (!context) {
-    throw new Error("usePageTitle must be used inside <PageTitleProvider>");
-  }
-
-  useEffect(() => {
-    if (newTitle !== undefined && newTitle !== context.title) {
-      context.setTitle(newTitle);
-    }
-  }, [newTitle, context]);
-
-  return { title: context.title, setTitle: context.setTitle };
+export function usePageTitle(): PageTitleContext {
+  return useContext(PageTitleContext);
 }
