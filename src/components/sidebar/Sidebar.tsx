@@ -1,8 +1,7 @@
 import { ScrollArea } from "@radix-ui/themes";
-import type { ReactNode } from "react";
-import styled from "styled-components";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { t } from "@transifex/native";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import styled from "styled-components";
 
 const SidebarWrapper = styled.aside<{
   $isExpanded: boolean;
@@ -89,23 +88,24 @@ export function Sidebar({
   isExpanded,
   onIsExpandedChange,
   hasPadding = true,
-  ...ariaProps
+  ...props
 }: {
   children: ReactNode;
   isExpanded: boolean;
   hasPadding?: boolean;
   onIsExpandedChange: (value: boolean) => void;
-} & React.AriaAttributes) {
+} & ComponentPropsWithoutRef<"aside">) {
   return (
     <SidebarWrapper
       $isExpanded={isExpanded}
       $hasPadding={hasPadding}
-      aria-label={t("Sidebar")}
-      {...ariaProps}
+      {...props}
     >
       <SidebarToggleButton
         onClick={() => onIsExpandedChange(!isExpanded)}
-        aria-label={t("Toggle sidebar")}
+        // We don't want to toggle the sidebar on screen-readers. Toggling is supposed to
+        // grant the map more space, which is a purely visual effect.
+        aria-hidden
       >
         {isExpanded ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
         {!isExpanded && (
