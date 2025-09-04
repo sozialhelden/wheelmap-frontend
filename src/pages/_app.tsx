@@ -1,5 +1,6 @@
 import { HotkeysProvider } from "@blueprintjs/core";
 import type { LanguageTag } from "@sozialhelden/core";
+import { fallbackLanguageTag } from "@sozialhelden/core";
 import type { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -9,6 +10,7 @@ import type * as React from "react";
 import { App } from "~/components/App";
 import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
 import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
+import { PageTitleProvider } from "~/hooks/usePageTitle";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import { MapHighlightContextProvider } from "~/modules/map/hooks/useHighlight";
@@ -24,7 +26,6 @@ import {
   getRequestUserAgent,
 } from "~/needs-refactoring/lib/util/request";
 import { getEnvironmentVariables } from "~/utils/environment";
-import { fallbackLanguageTag } from "@sozialhelden/core";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -50,36 +51,38 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
 
   return (
     <App context={{ languageTag, environment, hostname, userAgent }}>
-      <AppStateContextProvider>
-        <Head />
-        <StyledComponentsRegistry>
-          <HotkeysProvider>
-            <SessionProvider session={session}>
-              <ExpertModeContextProvider>
-                <SWRConfigProvider>
-                  <MapContextProvider>
-                    <MapHighlightContextProvider>
-                      <MapRenderedFeaturesContextProvider>
-                        <NeedsContextProvider>
-                          <CategoryFilterContextProvider>
-                            <AppContextProvider>
-                              <BreakpointContextProvider>
-                                <SheetMountedContextProvider>
-                                  {getLayout(<Component />)}
-                                </SheetMountedContextProvider>
-                              </BreakpointContextProvider>
-                            </AppContextProvider>
-                          </CategoryFilterContextProvider>
-                        </NeedsContextProvider>
-                      </MapRenderedFeaturesContextProvider>
-                    </MapHighlightContextProvider>
-                  </MapContextProvider>
-                </SWRConfigProvider>
-              </ExpertModeContextProvider>
-            </SessionProvider>
-          </HotkeysProvider>
-        </StyledComponentsRegistry>
-      </AppStateContextProvider>
+      <PageTitleProvider>
+        <AppStateContextProvider>
+          <Head />
+          <StyledComponentsRegistry>
+            <HotkeysProvider>
+              <SessionProvider session={session}>
+                <ExpertModeContextProvider>
+                  <SWRConfigProvider>
+                    <MapContextProvider>
+                      <MapHighlightContextProvider>
+                        <MapRenderedFeaturesContextProvider>
+                          <NeedsContextProvider>
+                            <CategoryFilterContextProvider>
+                              <AppContextProvider>
+                                <BreakpointContextProvider>
+                                  <SheetMountedContextProvider>
+                                    {getLayout(<Component />)}
+                                  </SheetMountedContextProvider>
+                                </BreakpointContextProvider>
+                              </AppContextProvider>
+                            </CategoryFilterContextProvider>
+                          </NeedsContextProvider>
+                        </MapRenderedFeaturesContextProvider>
+                      </MapHighlightContextProvider>
+                    </MapContextProvider>
+                  </SWRConfigProvider>
+                </ExpertModeContextProvider>
+              </SessionProvider>
+            </HotkeysProvider>
+          </StyledComponentsRegistry>
+        </AppStateContextProvider>
+      </PageTitleProvider>
     </App>
   );
 }

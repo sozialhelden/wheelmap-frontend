@@ -1,10 +1,11 @@
 import { bbox } from "@turf/turf";
 import React, { useContext, useEffect, useRef } from "react";
+import { useOsmTags } from "~/modules/edit/hooks/useOsmTags";
 import FeatureDescription from "~/modules/feature-panel/components/FeatureDescription";
 import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
 import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
 import WheelchairSection from "~/modules/feature-panel/components/WheelchairSection";
-import { useOsmTags } from "~/modules/edit/hooks/useOsmTags";
+import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
 import { FeatureGallery } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureGallery";
@@ -15,21 +16,20 @@ import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePane
 import PlaceWebsiteLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/StyledIconButtonList";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
-import { useMap } from "~/modules/map/hooks/useMap";
 import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 
 import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
+import { usePageTitle } from "~/hooks/usePageTitle";
+import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import HeaderImageSection from "~/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/modules/feature-panel/components/PartOf";
-import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
-import { t } from "@transifex/native";
-import { usePageTitle } from "~/hooks/usePageTitle";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 
 type Props = {
@@ -83,7 +83,9 @@ const FeatureDetails = ({
   const { categoryName, placeName } = useFeatureLabel({ feature });
 
   const pageTitle = placeName ? placeName : categoryName;
-  usePageTitle(pageTitle);
+  const { setTitle } = usePageTitle();
+
+  setTitle(pageTitle);
 
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
