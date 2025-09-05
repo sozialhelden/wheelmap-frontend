@@ -8,22 +8,22 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
 import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
 import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import {
   getValueLabel,
   maskEmojisForScreenReaders,
 } from "~/modules/edit/utils/getValueLabel";
+import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
+import { TagList } from "~/modules/feature-panel/components/TagList";
+import { TagListItem } from "~/modules/feature-panel/components/TagListItem";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
-import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { TagListItem } from "~/modules/feature-panel/components/TagListItem";
-import { TagList } from "~/modules/feature-panel/components/TagList";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;

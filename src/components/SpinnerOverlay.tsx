@@ -1,7 +1,7 @@
 import { Spinner } from "@radix-ui/themes";
 import styled from "styled-components";
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ $offsetTop: string }>`
     inset: 0;
     position: absolute;
     display: flex;
@@ -10,6 +10,7 @@ const Overlay = styled.div`
     z-index: 10;
     
     & > * {
+        top: ${({ $offsetTop }) => $offsetTop || "0px"};
         position: relative;
         z-index: 1;
     }
@@ -25,9 +26,9 @@ const Overlay = styled.div`
     }
 `;
 
-export function SpinnerOverlay() {
+export function SpinnerOverlay({ offsetTop }: { offsetTop?: string }) {
   return (
-    <Overlay>
+    <Overlay $offsetTop={offsetTop}>
       <Spinner size="3" />
     </Overlay>
   );

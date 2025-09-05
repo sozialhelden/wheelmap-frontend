@@ -1,6 +1,6 @@
 import { get, set, sortBy } from "lodash";
 import * as React from "react";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import type { TypeTaggedOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import isAccessibilityRelevantOSMKey from "~/needs-refactoring/lib/model/osm/tag-config/isAccessibilityRelevantOSMKey";
 import { omittedKeyPrefixes } from "~/needs-refactoring/lib/model/osm/tag-config/omittedKeyPrefixes";

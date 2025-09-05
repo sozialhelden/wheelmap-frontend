@@ -1,5 +1,5 @@
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type { EquipmentInfo, LocalizedString } from "@sozialhelden/a11yjson";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 
 export default function useEquipmentInfoDescription(
   equipmentInfo: EquipmentInfo | null | undefined,

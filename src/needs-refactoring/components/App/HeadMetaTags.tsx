@@ -1,16 +1,16 @@
+import { getCategories } from "@sozialhelden/core";
 import { t } from "@transifex/native";
 import { encode } from "js-base64";
 import Head from "next/head";
 import useHostname from "~/hooks/useHostname";
+import { usePageTitle } from "~/hooks/usePageTitle";
+import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { getProductTitle } from "~/needs-refactoring/lib/model/ac/ClientSideConfiguration";
 import FacebookMeta from "./FacebookMeta";
 import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
-import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
-import { getCategories } from "@sozialhelden/core";
-import { usePageTitle } from "~/hooks/usePageTitle";
 
 export default function HeadMetaTags() {
   const { clientSideConfiguration } = useAppContext();

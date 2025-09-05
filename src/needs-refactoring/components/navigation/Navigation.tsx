@@ -2,11 +2,11 @@ import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
 import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
 import { CheckIcon, Menu, X } from "lucide-react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useTheme } from "~/hooks/useTheme";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
 import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
@@ -29,12 +29,11 @@ const FlexListItem = styled.li`
 `;
 
 export default function Navigation() {
-  const router = useRouter();
-  const { pathname } = router;
+  const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const { isExpertMode } = useExpertMode();
 
-  useEffect(() => setIsOpen(false), [pathname]);
+  useEffect(() => setIsOpen(false), [pathName]);
 
   const { linksInToolbar, linksInDropdownMenu } = useNavigation();
 

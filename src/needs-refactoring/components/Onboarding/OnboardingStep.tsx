@@ -11,6 +11,7 @@ import {
 import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect } from "react";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import { AppContext } from "~/needs-refactoring/lib/context/AppContext";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import {
@@ -18,7 +19,6 @@ import {
   accessibilityName,
   useAccessibilityDescription,
 } from "~/needs-refactoring/lib/model/accessibility/accessibilityStrings";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import Icon from "../shared/Icon";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import VectorImage from "../shared/VectorImage";

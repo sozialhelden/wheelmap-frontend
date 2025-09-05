@@ -1,5 +1,6 @@
 import { Spinner } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { useParams } from "next/navigation";
 import React, {
   createContext,
   type FC,
@@ -9,7 +10,6 @@ import React, {
   useRef,
 } from "react";
 import styled from "styled-components";
-import { useAppStateAwareRouter } from "~/modules/app-state/hooks/useAppStateAwareRouter";
 import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { useExpandedFeatures } from "~/needs-refactoring/lib/fetchers/useFeatures";
 import {
@@ -141,9 +141,10 @@ export function FeaturePanelContextProvider({
   featureIds?: string[];
   children: ReactNode;
 }) {
-  const {
-    query: { placeType, id: idOrIds },
-  } = useAppStateAwareRouter();
+  const { placeType: givenPlaceType, placeId } = useParams();
+  const idOrIds = decodeURIComponent(placeId.toString());
+  const placeType = decodeURIComponent(givenPlaceType.toString());
+
   const baseFeatureUrl = `/${placeType}/${idOrIds}`;
 
   const ids = useMemo(

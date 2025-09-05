@@ -1,8 +1,8 @@
 import { Flex, RadioCards, Text } from "@radix-ui/themes";
-import React from "react";
-import { t } from "@transifex/native";
-import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 import type { CategoryProperties } from "@sozialhelden/core";
+import { t } from "@transifex/native";
+import React from "react";
+import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 
 type Props = {

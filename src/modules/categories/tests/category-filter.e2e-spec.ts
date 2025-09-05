@@ -1,9 +1,9 @@
 import { test } from "@playwright/test";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { expect } from "~/tests/e2e/setup/test-fixture";
+import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { skipOnboarding } from "~/tests/e2e/utils/onboarding";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);

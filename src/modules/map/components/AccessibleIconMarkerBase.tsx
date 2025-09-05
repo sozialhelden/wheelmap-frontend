@@ -1,5 +1,5 @@
+import { type Category, getCategories } from "@sozialhelden/core";
 import type { FC, SVGAttributes } from "react";
-import { getCategories, type Category } from "@sozialhelden/core";
 
 export default function AccessibleIconMarkerBase(
   props: SVGAttributes<SVGElement> & {
@@ -81,7 +81,6 @@ export default function AccessibleIconMarkerBase(
         <Icon
           x="5px"
           y="5px"
-          transform-origin="center center"
           transform={`scale(${size})`}
           fill={foregroundColor}
           filter={shadow}

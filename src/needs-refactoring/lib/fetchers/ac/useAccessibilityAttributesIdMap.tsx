@@ -3,7 +3,7 @@ import {
   getFuzzilyExtendedLocales,
 } from "@sozialhelden/core";
 import { useMemo } from "react";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import type IAccessibilityAttribute from "../../model/ac/IAccessibilityAttribute";
 import useCollectionSWR from "./useCollectionSWR";
 

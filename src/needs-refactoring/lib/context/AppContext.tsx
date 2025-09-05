@@ -19,6 +19,8 @@ export function useAppContext() {
   return useContext(AppContext) as IApp;
 }
 
+// TODO: move into the app or root layout and perform this on the server side
+//  while caching the results. so it doesn't break the app when a11ycloud is down
 export function AppContextProvider({ children }: { children: ReactNode }) {
   const {
     NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN: appToken,

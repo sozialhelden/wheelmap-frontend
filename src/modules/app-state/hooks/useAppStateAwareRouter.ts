@@ -1,4 +1,8 @@
-import { type NextRouter, useRouter } from "next/router";
+import type {
+  AppRouterInstance,
+  NavigateOptions,
+} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { getQueryFromAppState } from "~/modules/app-state/utils/query";
@@ -9,30 +13,34 @@ export function useAppStateAwareRouter() {
   const { push: nextPush, replace: nextReplace, ...nextRouter } = useRouter();
 
   const push = useCallback(
-    async (
+    (
       url: URL | string,
-      as?: URL | string,
-      options?: Parameters<NextRouter["push"]>[2],
-    ): ReturnType<NextRouter["push"]> => {
+      options?: NavigateOptions,
+    ): ReturnType<AppRouterInstance["push"]> => {
       return nextPush(
-        addQueryParamsToUrl(url, getQueryFromAppState(appState), false),
-        as,
-        options,
+        addQueryParamsToUrl(
+          url,
+          getQueryFromAppState(appState),
+          false,
+        ).toString(),
+        { scroll: true, ...options },
       );
     },
     [nextPush, addQueryParamsToUrl, getQueryFromAppState],
   );
 
   const replace = useCallback(
-    async (
+    (
       url: URL | string,
-      as?: URL | string,
-      options?: Parameters<NextRouter["replace"]>[2],
-    ): ReturnType<NextRouter["replace"]> => {
+      options?: NavigateOptions,
+    ): ReturnType<AppRouterInstance["replace"]> => {
       return nextReplace(
-        addQueryParamsToUrl(url, getQueryFromAppState(appState), false),
-        as,
-        options,
+        addQueryParamsToUrl(
+          url,
+          getQueryFromAppState(appState),
+          false,
+        ).toString(),
+        { scroll: false, ...options },
       );
     },
     [nextReplace, addQueryParamsToUrl, getQueryFromAppState],

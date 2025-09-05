@@ -1,4 +1,5 @@
-import { type NextRouter, useRouter } from "next/router";
+import type { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   type ReactNode,
   createContext,
@@ -23,16 +24,16 @@ type AppStateContextType = {
   appState: AppState;
   setAppState: (
     newState: Partial<AppState>,
-    options?: Parameters<NextRouter["push"]>[2] & {
-      routerOperation?: "replace" | "push";
+    options?: NavigateOptions & {
+      routerOperation?: "replace" | "push" | "shallow";
       keepExistingQuery?: boolean;
     },
-  ) => Promise<void>;
+  ) => void;
 };
 
 const AppStateContext = createContext<AppStateContextType>({
   appState: {} as AppState,
-  setAppState: async (newState, options) => {},
+  setAppState: (newState, options) => {},
 });
 
 function getDefaultAppState(): AppState {
@@ -43,10 +44,13 @@ function getDefaultAppState(): AppState {
 
 export function AppStateContextProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathName = usePathname() || "/";
 
   const query = useMemo(
-    () => unflattenSearchParams(router.query as Record<string, string>),
-    [router.query],
+    () =>
+      unflattenSearchParams(Object.fromEntries(searchParams?.entries() ?? [])),
+    [searchParams],
   );
 
   const appState: AppStateContextType["appState"] = useMemo(
@@ -59,11 +63,14 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
   );
 
   const setAppState = useCallback<AppStateContextType["setAppState"]>(
-    async (newState, options?) => {
+    (newState, options?) => {
+      const { routerOperation, keepExistingQuery, ...navigateOptions } =
+        options || {};
+
       let url = new URL(
-        (options?.keepExistingQuery ?? true)
-          ? router.asPath
-          : router.asPath.split("?")[0],
+        (keepExistingQuery ?? true)
+          ? `${pathName}?${searchParams?.toString()}`
+          : pathName,
         window.location.origin,
       );
 
@@ -72,10 +79,15 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
         getQueryFromAppState({ ...appState, ...newState }),
       );
 
-      if (!options?.routerOperation || options?.routerOperation === "push") {
-        await router.push(url, undefined, options);
-      } else {
-        await router.replace(url, undefined, options);
+      if (!routerOperation || routerOperation === "push") {
+        router.push(url.toString(), navigateOptions);
+      } else if (routerOperation === "replace") {
+        router.replace(url.toString(), navigateOptions);
+      } else if (
+        routerOperation === "shallow" &&
+        url.toString() !== window.location.pathname
+      ) {
+        window.history.replaceState(null, document.title, url);
       }
     },
     [appState, router],

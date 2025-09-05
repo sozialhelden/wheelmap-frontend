@@ -106,7 +106,8 @@ body,
 
   /*
     Rating/traffic-light-scheme colors.
-    Make sure to adapt the AccessibleIconMarker component as well when changing these colors.
+    Make sure to adapt the AccessibleIconMarker component as well when
+    changing these colors.
   */
   --rating-good: var(--grass-9);
   --rating-mediocre: var(--orange-9);

@@ -76,7 +76,7 @@ export function MapRenderedFeaturesContextProvider({
         });
 
       // In order to prevent unnecessary re-renders down the component tree, this ensures
-      // the features get only update if the list of features has actually changed. As the
+      // the features get only updated if the list of features has actually changed. As the
       // features returned by queryRenderedFeatures are different on each call of the function
       // (even if the queried features themselves are the same), we compare create a string
       // representation of the feature ids and compare it to the previous one.

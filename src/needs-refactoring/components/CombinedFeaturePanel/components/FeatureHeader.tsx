@@ -1,7 +1,7 @@
-import React, { forwardRef } from "react";
 import { Button, Flex, Grid, Heading, Text } from "@radix-ui/themes";
-import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
+import React, { forwardRef } from "react";
 import { useDarkMode } from "~/hooks/useTheme";
+import AccessibleIconMarker from "~/modules/map/components/AccessibleIconMarker";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { isWheelchairAccessible } from "~/needs-refactoring/lib/model/accessibility/isWheelchairAccessible";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";

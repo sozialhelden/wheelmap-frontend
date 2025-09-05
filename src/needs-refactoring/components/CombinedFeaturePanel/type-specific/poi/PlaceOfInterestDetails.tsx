@@ -2,12 +2,12 @@ import { Callout } from "@blueprintjs/core";
 import { t } from "@transifex/native";
 import { bbox } from "@turf/turf";
 import Link from "next/link";
+import { useMap } from "~/modules/map/hooks/useMap";
 import { FeatureImageUpload } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { useMap } from "~/modules/map/hooks/useMap";
 import FeatureAccessibility from "../../components/AccessibilitySection/FeatureAccessibility";
 import NextToiletDirections from "../../components/AccessibilitySection/NextToiletDirections";
 import { AccessibilityItems } from "../../components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";

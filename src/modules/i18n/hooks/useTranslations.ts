@@ -4,7 +4,7 @@ import {
   fallbackLanguageTag,
   getFuzzilyExtendedLocales,
 } from "@sozialhelden/core";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 
 export type Translations = Record<Locale, string>;
 

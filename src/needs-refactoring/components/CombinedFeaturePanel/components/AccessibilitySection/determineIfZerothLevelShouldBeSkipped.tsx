@@ -1,4 +1,4 @@
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 
 /**
  * Determines if the zeroth level is skipped in the current context.

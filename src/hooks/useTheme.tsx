@@ -3,6 +3,7 @@ import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { useTheme as useNextTheme } from "next-themes";
 import * as React from "react";
 import type { ReactNode } from "react";
+import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
 
 // global styling
 import "@radix-ui/themes/styles.css";
@@ -23,8 +24,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         radius="small"
         scaling="100%"
         panelBackground="solid"
+        style={{ display: "grid", gridTemplateRows: "min-content 1fr" }}
       >
-        {children}
+        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </RadixTheme>
     </NextThemeProvider>
   );
