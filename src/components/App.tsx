@@ -2,15 +2,15 @@
 
 import type { LanguageTag } from "@sozialhelden/core";
 import { useSearchParams } from "next/navigation";
-import { type ReactNode, StrictMode } from "react";
+import type { ReactNode } from "react";
+import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
 import {
   EnvironmentContextProvider,
   type EnvironmentVariables,
 } from "~/hooks/useEnvironment";
 import { HostnameContextProvider } from "~/hooks/useHostname";
-import { ThemeProvider } from "~/hooks/useTheme";
 import { UserAgentContextProvider } from "~/hooks/useUserAgent";
-import { I18nContextProvider } from "~/modules/i18n/context/I18nContext";
+import { I18nContextProvider } from "~/modules/i18n/hooks/useI18n";
 
 export type AppContext = {
   environment: EnvironmentVariables;
@@ -20,9 +20,23 @@ export type AppContext = {
 };
 
 /**
- * Main component that wraps the entire application and includes global
- * styles (see ThemeProvider) as well as global contexts that are used
- * throughout the app.
+ * This is the root component that wraps the entire application, providing
+ * necessary contexts such as environment variables, internationalization,
+ * hostname, and user agent information that are needed throughout the entire
+ * application, including error pages.
+ *
+ * The logic needs to live in a separate component because the root layout
+ * is by definition a server component and the given contexts use things like
+ * useState or useContext which only work in client components.
+ *
+ * There are additional contexts for the main application functionality, which
+ * are provided via the main app-layout `(app)/layout.tsx` to subsequent
+ * pages and layouts.
+ *
+ * TODO: We could think at some point about adding some kind of simple state
+ *  management like zustand instead of using a ton of contexts. Or we could
+ *  go back to the drawing board and come up with a different architecture
+ *  to eliminate all this global "state".
  */
 export function App({
   context: { environment, languageTag, hostname, userAgent },
@@ -36,18 +50,14 @@ export function App({
   }
 
   return (
-    <StrictMode>
-      <ThemeProvider>
-        <EnvironmentContextProvider environmentVariables={environment}>
-          <HostnameContextProvider hostname={appId || hostname}>
-            <UserAgentContextProvider userAgent={userAgent}>
-              <I18nContextProvider languageTag={languageTag}>
-                {children}
-              </I18nContextProvider>
-            </UserAgentContextProvider>
-          </HostnameContextProvider>
-        </EnvironmentContextProvider>
-      </ThemeProvider>
-    </StrictMode>
+    <EnvironmentContextProvider environmentVariables={environment}>
+      <HostnameContextProvider hostname={appId || hostname}>
+        <UserAgentContextProvider userAgent={userAgent}>
+          <I18nContextProvider languageTag={languageTag}>
+            <BreakpointContextProvider>{children}</BreakpointContextProvider>
+          </I18nContextProvider>
+        </UserAgentContextProvider>
+      </HostnameContextProvider>
+    </EnvironmentContextProvider>
   );
 }

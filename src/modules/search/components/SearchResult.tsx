@@ -1,6 +1,6 @@
 import { Flex, Text } from "@radix-ui/themes";
 import { findCategoryBySynonym } from "@sozialhelden/core";
-import { forwardRef, type Ref } from "react";
+import { type Ref, forwardRef } from "react";
 import styled from "styled-components";
 import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
@@ -88,7 +88,7 @@ export const SearchResult = forwardRef(function SearchResult(
     >
       <Flex asChild gap="2">
         <AppStateAwareLink
-          href={url || "/"}
+          href={url || "/public"}
           newAppState={{ search: "" }}
           onClick={(event) => openResult(event as unknown as MouseEvent)}
         >

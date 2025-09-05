@@ -4,13 +4,12 @@ import {
   type ComponentPropsWithoutRef,
   type ReactNode,
   type Ref,
-  useEffect,
   useMemo,
   useRef,
 } from "react";
 import styled from "styled-components";
 import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
-import { useSheetMounted } from "~/components/sheet/useSheetMounted";
+import { useUserAgent } from "~/hooks/useUserAgent";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     position: fixed;
@@ -23,8 +22,24 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    
+    // when over-scrolling, this prevents the underlying content from shining 
+    // through the gap between the bottom of the page and the sheet
+    &:after {
+        content: "";
+        z-index: 10;
+        background: var(--color-panel);
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 5rem;
+    }
 `;
 const SheetContent = styled.div<{ $isSafari?: boolean }>`
+    z-index: 20;
+    position: relative;
     pointer-events: auto;
     scroll-snap-align: start;
     scroll-snap-stop: always;
@@ -120,8 +135,7 @@ export function Sheet({
   // bug, we only apply this workaround for iOS devices. As other Browsers on iOS
   // devices also use the Safari/Webkit engine behind the scenes, this should fix
   // it for them as well.
-  const isSafari =
-    navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i);
+  const isSafari = useUserAgent().userAgent?.engine.name === "WebKit";
 
   const { isExpanded, toggle } = useCollapsableSheet({
     container,
@@ -129,15 +143,6 @@ export function Sheet({
     isExpanded: externalIsExpanded,
     onIsExpandedChanged,
   });
-
-  const { setIsSheetMounted } = useSheetMounted();
-
-  useEffect(() => {
-    setIsSheetMounted(true);
-    return () => {
-      setIsSheetMounted(false);
-    };
-  }, []);
 
   return (
     <SheetContainer
@@ -164,6 +169,9 @@ export function Sheet({
         </SheetCollapsedControlArea>
         {children}
       </SheetContent>
+      {/* We need this last scroll stop, otherwise it will scroll back
+       to the top once the bottom was reached */}
+      <ScrollStop key="last" style={{ height: "0px" }} />
     </SheetContainer>
   );
 }

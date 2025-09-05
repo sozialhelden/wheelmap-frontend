@@ -5,7 +5,7 @@ import { filterKeys } from "~/modules/edit/utils/filterKeys";
 import { generateTree } from "~/modules/edit/utils/generateTree";
 import { nestTree } from "~/modules/edit/utils/nestTree";
 import { selectWheelchairDescription } from "~/modules/edit/utils/selectWheelchairDescription";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";

@@ -1,39 +1,51 @@
-import type { LanguageTag } from "@sozialhelden/core";
+import {
+  getILanguageTagsFromAcceptLanguageHeader,
+  getMostPreferableLanguageTag,
+} from "@sozialhelden/core";
 import { headers } from "next/headers";
-import type { ReactNode } from "react";
+import { type ReactNode, StrictMode } from "react";
 import { App } from "~/components/App";
 import type { EnvironmentVariables } from "~/hooks/useEnvironment";
-import { getEnvironmentVariables } from "~/utils/environment";
+import { ThemeProvider } from "~/hooks/useTheme";
+import { getPublicEnvironmentVariables } from "~/utils/environment";
 
-export const metadata = {};
-
-export type Context = {
-  environment: Record<string, string | undefined>;
-};
-
+/**
+ * Root layout that only provides the minimal setup required, like theming, i18n,
+ * environment variables, etc.
+ */
 export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  /**
-   * TODO: move this section into the App component when switching to the app router
-   *  This can and should live in the app component. Because the App component is still
-   *  used in _app.tsx by the pages router as well, and using the headers helper is not
-   *  supported there this needs to be externalized for now.
-   */
-  // this is set by a custom middleware that handles language headers
-  const languageTag = headers().get("x-preferred-language-tag") as LanguageTag;
+  // The root layout is a server component, so we can access runtime environment
+  // variables and provide them to the rest of the application, effectively allowing
+  // runtime configuration instead of build-time configuration.
+  const environment = getPublicEnvironmentVariables() as EnvironmentVariables;
+
   const hostname = headers().get("host")?.split(":").shift() as string;
-  const environment = getEnvironmentVariables() as EnvironmentVariables;
   const userAgent = headers().get("user-agent") as string;
 
+  const languageTag = getMostPreferableLanguageTag(
+    getILanguageTagsFromAcceptLanguageHeader(
+      String(headers().get("accept-language")),
+    ),
+  );
+
   return (
-    <html lang={languageTag}>
+    // We need to use suppressHydrationWarning here because next/themes requires it:
+    // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
+    // The property only applies a single level deep (to the ThemeProvider), so it
+    // doesn't affect hydration warnings deeper in the component tree.
+    <html lang={languageTag} suppressHydrationWarning>
       <body>
-        <App context={{ environment, languageTag, hostname, userAgent }}>
-          {children}
-        </App>
+        <StrictMode>
+          <ThemeProvider>
+            <App context={{ environment, languageTag, hostname, userAgent }}>
+              {children}
+            </App>
+          </ThemeProvider>
+        </StrictMode>
       </body>
     </html>
   );

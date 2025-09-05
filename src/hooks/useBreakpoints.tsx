@@ -1,6 +1,7 @@
 import {
-  createContext,
   type ReactNode,
+  createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -64,17 +65,32 @@ export function BreakpointContextProvider({
     return () => window.removeEventListener("resize", calculate);
   }, []);
 
-  const greaterOrEqual = (givenBreakpoint: Breakpoint) =>
-    breakpoints[givenBreakpoint] <= breakpoints[breakpoint];
-  const greater = (givenBreakpoint: Breakpoint) =>
-    breakpoints[givenBreakpoint] < breakpoints[breakpoint];
-  const smallerOrEqual = (givenBreakpoint: Breakpoint) =>
-    breakpoints[givenBreakpoint] >= breakpoints[breakpoint];
-  const smaller = (givenBreakpoint: Breakpoint) =>
-    breakpoints[givenBreakpoint] > breakpoints[breakpoint];
-  const between = (lowerBreakpoint: Breakpoint, higherBreakpoint: Breakpoint) =>
-    breakpoints[lowerBreakpoint] <= breakpoints[breakpoint] &&
-    breakpoints[higherBreakpoint] >= breakpoints[breakpoint];
+  const greaterOrEqual = useCallback(
+    (givenBreakpoint: Breakpoint) =>
+      breakpoints[givenBreakpoint] <= breakpoints[breakpoint],
+    [breakpoint],
+  );
+  const greater = useCallback(
+    (givenBreakpoint: Breakpoint) =>
+      breakpoints[givenBreakpoint] < breakpoints[breakpoint],
+    [breakpoint],
+  );
+  const smallerOrEqual = useCallback(
+    (givenBreakpoint: Breakpoint) =>
+      breakpoints[givenBreakpoint] >= breakpoints[breakpoint],
+    [breakpoint],
+  );
+  const smaller = useCallback(
+    (givenBreakpoint: Breakpoint) =>
+      breakpoints[givenBreakpoint] > breakpoints[breakpoint],
+    [breakpoint],
+  );
+  const between = useCallback(
+    (lowerBreakpoint: Breakpoint, higherBreakpoint: Breakpoint) =>
+      breakpoints[lowerBreakpoint] <= breakpoints[breakpoint] &&
+      breakpoints[higherBreakpoint] >= breakpoints[breakpoint],
+    [breakpoint],
+  );
 
   return (
     <BreakpointContext.Provider

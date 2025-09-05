@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
 import type { RenderedFeature } from "~/layouts/DefaultLayout";
 import { ListItem } from "~/modules/list/components/ListItem";
+import { useMap } from "~/modules/map/hooks/useMap";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { getExternalSources } from "~/modules/map/utils/sources";
 

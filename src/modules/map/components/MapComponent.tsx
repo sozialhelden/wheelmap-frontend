@@ -1,9 +1,10 @@
+"use client";
+
 import mapboxgl from "mapbox-gl";
 import { useCallback, useMemo } from "react";
 import {
   GeolocateControl,
   Layer,
-  type LayerProps,
   type MapEvent,
   MapProvider,
   NavigationControl,
@@ -15,9 +16,9 @@ import styled, { createGlobalStyle } from "styled-components";
 import { SpinnerOverlay } from "~/components/SpinnerOverlay";
 import { useEnvironment } from "~/hooks/useEnvironment";
 import { useHighlight } from "~/modules/map/hooks/useHighlight";
-import { useInteraction } from "~/modules/map/hooks/useInteraction";
 import { useLayers } from "~/modules/map/hooks/useLayers";
 import { useMap } from "~/modules/map/hooks/useMap";
+import { useMapInteraction } from "~/modules/map/hooks/useMapInteraction";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
@@ -29,23 +30,11 @@ mapboxgl.workerClass =
   require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const MapboxExtraStyles = createGlobalStyle`
-  .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
-    top: 56px;
-  }
-
-  .mapboxgl-ctrl-top-left {
-    left: 4px;
-  }
-  .mapboxgl-ctrl-top-right {
-    right: 4px;
-  }
-
   .mapboxgl-map button:not(.mapboxgl-ctrl-attrib-button) {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 35px;
+    min-height: 35px;
   }
 `;
-
 const Container = styled.div`
   position: relative;
   height: 100%;
@@ -64,7 +53,7 @@ export default function MapComponent() {
     onMouseLeave,
     onViewStateChange,
     position,
-  } = useInteraction();
+  } = useMapInteraction();
 
   const { dataLayers, highlightLayers } = useLayers();
   const { sources } = useSources();
@@ -91,56 +80,57 @@ export default function MapComponent() {
     [setIsReady, onLoadMapStyle],
   );
 
+  // TODO: implement map padding for sheet (and other things)
+
   return (
-    <>
-      <Container>
-        {!isReady && <SpinnerOverlay />}
-        <MapboxExtraStyles />
-        <MapProvider>
-          <ReactMapGL
-            reuseMaps
-            mapboxAccessToken={mapboxAccessToken}
-            interactive
-            interactiveLayerIds={interactiveLayerIds}
-            initialViewState={position}
-            onMoveEnd={onViewStateChange}
-            onZoomEnd={onViewStateChange}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onClick={onMouseClick}
-            cursor={cursor}
-            mapStyle={style}
-            onLoad={onLoad}
-            onSourceData={onSourceData}
-            ref={setMap}
-          >
-            {isReady && (
-              <>
-                {sources.map((source) => (
-                  <Source key={source.id} {...source} />
-                ))}
-                {dataLayers?.map((layer) => (
-                  <Layer key={layer.id} {...layer} />
-                ))}
-                {filteredHighlightLayers?.map((layer) => (
-                  <Layer key={layer.id} {...layer} />
-                ))}
-              </>
-            )}
-            <GeolocateControl
-              position="bottom-right"
-              positionOptions={{ enableHighAccuracy: true }}
-              trackUserLocation
-            />
-            <NavigationControl
-              position="bottom-right"
-              showZoom={true}
-              visualizePitch={true}
-              showCompass={true}
-            />
-          </ReactMapGL>
-        </MapProvider>
-      </Container>
-    </>
+    <Container>
+      {!isReady && (
+        // This centers the spinner in the middle of the screen by accounting
+        // for the top bar height
+        <SpinnerOverlay offsetTop="calc(calc(var(--topbar-height) * -1) / 2)" />
+      )}
+      <MapboxExtraStyles />
+      <MapProvider>
+        <ReactMapGL
+          reuseMaps
+          mapboxAccessToken={mapboxAccessToken}
+          interactive
+          interactiveLayerIds={interactiveLayerIds}
+          initialViewState={position}
+          onMoveEnd={onViewStateChange}
+          onZoomEnd={onViewStateChange}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onClick={onMouseClick}
+          cursor={cursor}
+          mapStyle={style}
+          onLoad={onLoad}
+          onSourceData={onSourceData}
+          ref={setMap}
+        >
+          {isReady && (
+            <>
+              {sources.map((source) => (
+                <Source key={source.id} {...source} />
+              ))}
+              {[...dataLayers, ...filteredHighlightLayers]?.map((layer) => (
+                <Layer key={layer.id} {...layer} />
+              ))}
+            </>
+          )}
+          <GeolocateControl
+            position="bottom-right"
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation
+          />
+          <NavigationControl
+            position="bottom-right"
+            showZoom={true}
+            visualizePitch={true}
+            showCompass={true}
+          />
+        </ReactMapGL>
+      </MapProvider>
+    </Container>
   );
 }

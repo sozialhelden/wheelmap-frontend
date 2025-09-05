@@ -6,12 +6,11 @@ import {
   VisuallyHidden,
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { ChevronDown } from "lucide-react";
+import { type FC, type SVGAttributes, useRef, useState } from "react";
 import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
-import { ChevronDown } from "lucide-react";
-import { type FC, type SVGAttributes, useRef } from "react";
-import { dispatchKeydownEvent } from "~/utils/dispatchKeydownEvent";
 
 const Container = styled.nav`
   display: flex;
@@ -37,6 +36,7 @@ export function CategoryFilter() {
   const { filter, isFilteringActive } = useCategoryFilter();
 
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
     !isFilteringActive && (
@@ -68,17 +68,20 @@ export function CategoryFilter() {
               );
             })}
             {categoriesInMenu.length > 0 && (
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
+              <DropdownMenu.Root
+                open={dropdownOpen}
+                onOpenChange={setDropdownOpen}
+              >
+                <DropdownMenu.Trigger
+                  onPointerDown={(e) => e.preventDefault()}
+                  onClick={() => setDropdownOpen((o) => !o)}
+                >
                   <StyledButton
                     ref={dropdownTriggerRef}
                     color="gray"
                     variant="surface"
                     highContrast
                     size="1"
-                    // VoiceOver’s click command fires a plain click event but radix dropdownMenu opens the menu on keydown or
-                    // pointerdown and it does not react to a click
-                    onClick={() => dispatchKeydownEvent(dropdownTriggerRef)}
                   >
                     {t("More…")}
                     <ChevronDown size={16} aria-hidden />

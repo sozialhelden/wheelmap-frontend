@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import useSWR from "swr";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult } from "~/modules/search/types/SearchResult";
 import { getOsmId, getUrl } from "~/modules/search/utils/data-mapping";

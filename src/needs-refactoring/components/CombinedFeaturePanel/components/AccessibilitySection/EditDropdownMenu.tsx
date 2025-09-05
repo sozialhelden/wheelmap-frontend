@@ -5,7 +5,6 @@ import type React from "react";
 import { useRef, useState } from "react";
 import DescriptionEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/DescriptionEditor";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import { dispatchKeydownEvent } from "~/utils/dispatchKeydownEvent";
 
 type Props = {
   tagKey: string;
@@ -19,6 +18,7 @@ const EditDropdownMenu = ({
   feature,
   ...triggerProps
 }: Props) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [addNewLanguage, setAddNewLanguage] = useState(false);
 
@@ -26,8 +26,11 @@ const EditDropdownMenu = ({
 
   return (
     <>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
+      <DropdownMenu.Root open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+        <DropdownMenu.Trigger
+          onPointerDown={(e) => e.preventDefault()}
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
           <IconButton
             ref={buttonRef}
             {...triggerProps}
@@ -35,9 +38,6 @@ const EditDropdownMenu = ({
             size="2"
             data-testid={`${tagKey}`}
             aria-label={t("Edit description")}
-            // VoiceOver’s click command fires a plain click event but radix dropdownMenu opens the menu on keydown or
-            // pointerdown and it does not react to a click
-            onClick={() => dispatchKeydownEvent(buttonRef)}
           >
             <Pencil size={18} aria-hidden />
           </IconButton>

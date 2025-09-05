@@ -9,7 +9,7 @@ import { useAppState } from "~/modules/app-state/hooks/useAppState";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
-  category?: Category;
+  category?: Category | "";
   categoryProperties?: CategoryBaseProperties;
   filter: (category: Category) => Promise<void>;
   reset: () => Promise<void>;
@@ -31,10 +31,10 @@ export function CategoryFilterContextProvider({
   const isFilteringActive = Boolean(categoryProperties);
 
   const filter = async (category: Category) => {
-    await setAppState({ category: category });
+    setAppState({ category: category });
   };
   const reset = async () => {
-    await setAppState({ category: undefined });
+    setAppState({ category: undefined });
   };
 
   return (

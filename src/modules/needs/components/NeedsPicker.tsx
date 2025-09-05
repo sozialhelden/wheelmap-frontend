@@ -1,16 +1,16 @@
 import { Grid, ScrollArea, Theme, VisuallyHidden } from "@radix-ui/themes";
+import { t } from "@transifex/native";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NeedsDropdownButtonSection } from "~/modules/needs/components/NeedsDropdownButtonSection";
 import { useNeedsHighlighterSections } from "~/modules/needs/components/hooks/useNeedsHighlighterSections";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
-import { emptyNeeds, type NeedSelection } from "~/modules/needs/needs";
+import { type NeedSelection, emptyNeeds } from "~/modules/needs/needs";
 import { NeedsButton } from "./NeedsButton";
 import { NeedsDropdownHighlighter } from "./NeedsDropdownHighlighter";
 import { NeedsDropdownHighlighterSectionContainer } from "./NeedsDropdownHighlighterSectionContainer";
 import { NeedsDropdownSection } from "./NeedsDropdownSection";
-import { t } from "@transifex/native";
 
 const NeedsDialogOverlay = styled(DialogPrimitive.Overlay)`
   animation: showOverlay 400ms var(--easing);

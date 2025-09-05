@@ -1,8 +1,8 @@
 import type React from "react";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import { valueRenderFunctions } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "../../ac/IAccessibilityAttribute";
 import {
   type AnyFeature,
@@ -13,8 +13,8 @@ import { editableKeys } from "./editableKeys";
 import { horizontalKeys } from "./horizontalKeys";
 import { languageTaggedKeys } from "./languageTaggedKeys";
 import { additionalPrefixesForKeys } from "./sidewalkPrefixSet";
-import { tagsWithoutDisplayedKeySet } from "./tagsWithoutDisplayedKeySet";
 import { tagsWithoutDisplayedKeyRegExp } from "./tagsWithoutDisplayedKeyRegExp";
+import { tagsWithoutDisplayedKeySet } from "./tagsWithoutDisplayedKeySet";
 
 function findAttribute(
   attributesById: Map<string, IAccessibilityAttribute>,

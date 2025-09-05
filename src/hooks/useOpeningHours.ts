@@ -1,7 +1,7 @@
 import type { Point } from "geojson";
 import type { GeoJSONFeature, TargetFeature } from "mapbox-gl";
 import opening_hours from "opening_hours";
-import { useI18n } from "~/modules/i18n/context/I18nContext";
+import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { useAdminAreas } from "~/needs-refactoring/lib/fetchers/osm-api/fetchAdminAreas";
 

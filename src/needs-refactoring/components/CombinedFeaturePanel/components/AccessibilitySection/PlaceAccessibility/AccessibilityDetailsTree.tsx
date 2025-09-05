@@ -5,9 +5,9 @@ import isPlainObject from "lodash/isPlainObject";
 import * as React from "react";
 import { type FC, Fragment } from "react";
 import styled from "styled-components";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import type IAccessibilityAttribute from "~/needs-refactoring/lib/model/ac/IAccessibilityAttribute";
 import { cx } from "~/needs-refactoring/lib/util/cx";
-import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 
 type AccessibilityAttributesMap = Map<
   string,

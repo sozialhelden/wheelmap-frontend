@@ -1,19 +1,19 @@
+import { t } from "@transifex/native";
+import { useSession } from "next-auth/react";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import useSWR from "swr";
+import { useEnvironment } from "~/hooks/useEnvironment";
+import useOsmApi from "~/hooks/useOsmApi";
+import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
+import getOsmParametersFromFeature from "~/needs-refactoring/lib/fetchers/osm-api/getOsmParametersFromFeature";
 import useUpdateTagValueWithLogInCallback, {
   type OSMAPIElement,
 } from "~/needs-refactoring/lib/fetchers/osm-api/useUpdateTagValueWithLogIn";
-import { log } from "~/needs-refactoring/lib/util/logger";
 import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTagValueNoLogIn";
-import { useSession } from "next-auth/react";
-import { useEnvironment } from "~/hooks/useEnvironment";
-import useOsmApi from "~/hooks/useOsmApi";
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import useSWR from "swr";
-import { fetchFeaturePrefixedId } from "~/needs-refactoring/lib/fetchers/osm-api/fetchFeaturePrefixedId";
-import getOsmParametersFromFeature from "~/needs-refactoring/lib/fetchers/osm-api/getOsmParametersFromFeature";
-import { toast } from "react-toastify";
-import { t } from "@transifex/native";
-import { useContext } from "react";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+import { log } from "~/needs-refactoring/lib/util/logger";
 
 export default function useSubmit(
   tagKey: string,
@@ -22,7 +22,9 @@ export default function useSubmit(
   const { features } = useContext(FeaturePanelContext);
   const feature = features[0].feature?.requestedFeature;
 
-  const accessToken = useSession().data?.accessToken;
+  // const accessToken = useSession().data?.accessToken;
+  const accessToken = undefined;
+
   const env = useEnvironment();
   const remoteOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_BASE_URL;
   if (!remoteOSMAPIBaseUrl) {
