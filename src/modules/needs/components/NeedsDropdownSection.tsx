@@ -93,10 +93,7 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
                     <Text as="label" size="3">
                       <RadioGroup.Item
                         value={key}
-                        aria-label={label()}
-                        aria-describedby={
-                          help ? `${helpTextBaseId}-${key}` : undefined
-                        }
+                        aria-describedby={`${helpTextBaseId}-${key}`}
                       />
                       <Flex
                         as="span"
@@ -104,8 +101,6 @@ export const NeedsDropdownSection = forwardRef(function NeedsDropdownSection(
                         justify="between"
                         align="center"
                         gap="4"
-                        // to prevent voiceover from reading the label twice
-                        aria-hidden="true"
                       >
                         {label()}
                         <Flex

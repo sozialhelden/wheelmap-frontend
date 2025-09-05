@@ -94,66 +94,64 @@ export default function NeedsPicker() {
   }, [selection]);
 
   return (
-    // using a <section> tag, role="region" or a <form> tag here did not make voice over present it as a landmark in the rotor
-    <nav aria-label={t("Needs Picker")}>
-      <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
-        <DialogPrimitive.Trigger asChild>
-          <NeedsButton />
-        </DialogPrimitive.Trigger>
+    <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
+      <DialogPrimitive.Trigger asChild>
+        <NeedsButton />
+      </DialogPrimitive.Trigger>
 
-        <DialogPrimitive.Portal>
-          <Theme>
-            <NeedsDialogOverlay />
-            <NeedsDialogContent>
-              <VisuallyHidden>
-                <DialogPrimitive.Description>
-                  {t(
-                    "Select your needs from the following menus to filter the places on the map",
-                  )}
-                </DialogPrimitive.Description>
-              </VisuallyHidden>
+      <DialogPrimitive.Portal>
+        <Theme>
+          <NeedsDialogOverlay />
+          <NeedsDialogContent>
+            <VisuallyHidden>
+              <DialogPrimitive.Title />
+              <DialogPrimitive.Description>
+                {t(
+                  "Select your needs from the following menus to filter the places on the map",
+                )}
+              </DialogPrimitive.Description>
+            </VisuallyHidden>
 
-              <ScrollArea
-                type="auto"
-                scrollbars="vertical"
-                style={{ height: "auto" }}
+            <ScrollArea
+              type="auto"
+              scrollbars="vertical"
+              style={{ height: "auto" }}
+            >
+              <NeedsDropdownHighlighter
+                highlightedSection={highlightedSection}
+                showHighlightTransition={showHighlightTransition}
               >
-                <NeedsDropdownHighlighter
-                  highlightedSection={highlightedSection}
-                  showHighlightTransition={showHighlightTransition}
-                >
-                  <Grid columns={{ initial: "1fr", sm: "1fr 1fr max-content" }}>
-                    {sections.map((section) => (
-                      <NeedsDropdownHighlighterSectionContainer
-                        section={section}
-                        key={section}
-                      >
-                        {section === "buttons" ? (
-                          <NeedsDropdownButtonSection
-                            onSaveButtonClick={save}
-                            onResetButtonClick={reset}
-                          />
-                        ) : (
-                          <NeedsDropdownSection
-                            category={section}
-                            value={selection[section]}
-                            onValueChange={(value) =>
-                              setSelection({ ...selection, [section]: value })
-                            }
-                            showDivider={
-                              !isGivenOrNextSectionHighlighted(section)
-                            }
-                          />
-                        )}
-                      </NeedsDropdownHighlighterSectionContainer>
-                    ))}
-                  </Grid>
-                </NeedsDropdownHighlighter>
-              </ScrollArea>
-            </NeedsDialogContent>
-          </Theme>
-        </DialogPrimitive.Portal>
-      </DialogPrimitive.Root>
-    </nav>
+                <Grid columns={{ initial: "1fr", sm: "1fr 1fr max-content" }}>
+                  {sections.map((section) => (
+                    <NeedsDropdownHighlighterSectionContainer
+                      section={section}
+                      key={section}
+                    >
+                      {section === "buttons" ? (
+                        <NeedsDropdownButtonSection
+                          onSaveButtonClick={save}
+                          onResetButtonClick={reset}
+                        />
+                      ) : (
+                        <NeedsDropdownSection
+                          category={section}
+                          value={selection[section]}
+                          onValueChange={(value) =>
+                            setSelection({ ...selection, [section]: value })
+                          }
+                          showDivider={
+                            !isGivenOrNextSectionHighlighted(section)
+                          }
+                        />
+                      )}
+                    </NeedsDropdownHighlighterSectionContainer>
+                  ))}
+                </Grid>
+              </NeedsDropdownHighlighter>
+            </ScrollArea>
+          </NeedsDialogContent>
+        </Theme>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 }
