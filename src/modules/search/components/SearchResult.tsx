@@ -88,7 +88,7 @@ export const SearchResult = forwardRef(function SearchResult(
     >
       <Flex asChild gap="2">
         <AppStateAwareLink
-          href={url || "/public"}
+          href={url || "/"}
           newAppState={{ search: "" }}
           onClick={(event) => openResult(event as unknown as MouseEvent)}
         >

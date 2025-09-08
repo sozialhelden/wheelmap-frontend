@@ -24,7 +24,7 @@ export default function NotFoundPage() {
             <T _str="Go back" />
           </SecondaryButton>
           <PrimaryButton asChild>
-            <Link href="/public">
+            <Link href="/">
               <T _str="Go to home page" />
             </Link>
           </PrimaryButton>
