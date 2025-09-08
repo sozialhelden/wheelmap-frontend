@@ -4,16 +4,16 @@ import { encode } from "js-base64";
 import Head from "next/head";
 import useHostname from "~/hooks/useHostname";
 import { usePageTitle } from "~/hooks/usePageTitle";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { getProductTitle } from "~/needs-refactoring/lib/model/ac/ClientSideConfiguration";
 import FacebookMeta from "./FacebookMeta";
 import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
 
 export default function HeadMetaTags() {
-  const { clientSideConfiguration } = useAppContext();
+  const { clientSideConfiguration } = useWhitelabel();
   const { textContent, meta, branding } = clientSideConfiguration;
   const { name: productName, description } = textContent?.product || {
     name: "Wheelmap",

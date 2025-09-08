@@ -8,6 +8,7 @@ import { App } from "~/components/App";
 import type { EnvironmentVariables } from "~/hooks/useEnvironment";
 import { ThemeProvider } from "~/hooks/useTheme";
 import { getPublicEnvironmentVariables } from "~/utils/environment";
+import { getWhitelabelConfig, sanitizeHostname } from "~/utils/whitelabel";
 
 /**
  * Root layout that only provides the minimal setup required, like theming, i18n,
@@ -32,6 +33,8 @@ export default async function RootLayout({
     ),
   );
 
+  const whitelabelConfig = await getWhitelabelConfig(hostname);
+
   return (
     // We need to use suppressHydrationWarning here because next/themes requires it:
     // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
@@ -41,7 +44,15 @@ export default async function RootLayout({
       <body>
         <StrictMode>
           <ThemeProvider>
-            <App context={{ environment, languageTag, hostname, userAgent }}>
+            <App
+              context={{
+                environment,
+                languageTag,
+                hostname,
+                userAgent,
+                whitelabelConfig,
+              }}
+            >
               {children}
             </App>
           </ThemeProvider>

@@ -1,7 +1,7 @@
 import { t } from "@transifex/native";
 import type { ReactElement } from "react";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { DefaultLayout } from "~/layouts/DefaultLayout";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { ReportOSM } from "./osm-position";
 
 const makeTitle = (appName: string) =>
@@ -11,7 +11,7 @@ const subtitle = t(
 );
 
 function ReportOSMComment() {
-  const app = useAppContext();
+  const app = useWhitelabel();
 
   return (
     <ReportOSM

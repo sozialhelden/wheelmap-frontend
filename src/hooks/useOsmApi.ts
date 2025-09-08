@@ -1,7 +1,7 @@
 import { useEnvironment } from "~/hooks/useEnvironment";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import {
   type NestedRecord,
   flattenToSearchParams,
@@ -44,7 +44,7 @@ export default function useOsmApi({
   cached = false,
 }: OsmApiProps = {}) {
   const env = useEnvironment();
-  const { tokenString: appToken } = useAppContext();
+  const { tokenString: appToken } = useWhitelabel();
 
   const baseUrl =
     cached || tileNumber

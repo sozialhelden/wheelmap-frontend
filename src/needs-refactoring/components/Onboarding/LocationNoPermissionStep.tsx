@@ -1,7 +1,7 @@
 import { AlertDialog, Box, Button, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, useContext } from "react";
-import { AppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { WhitelabelContext } from "~/hooks/useWhitelabel";
 import type { PhotonResultFeature } from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";
 import { useLocationSettingsUrl } from "~/needs-refactoring/lib/goToLocationSettings";
 import StyledMarkdown from "../shared/StyledMarkdown";
@@ -10,7 +10,7 @@ import { useProductName } from "./useProductName";
 export const LocationNoPermissionStep: FC<{
   onSubmit: (location?: PhotonResultFeature) => unknown;
 }> = ({ onSubmit }) => {
-  const { clientSideConfiguration } = useContext(AppContext) ?? {};
+  const { clientSideConfiguration } = useContext(WhitelabelContext) ?? {};
   const productName = useProductName(clientSideConfiguration);
   const [url] = useLocationSettingsUrl();
 

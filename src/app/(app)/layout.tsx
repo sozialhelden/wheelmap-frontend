@@ -6,7 +6,6 @@ import TopBar from "~/app/(app)/_components/TopBar";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
-import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/needs-refactoring/lib/useExpertMode";
 
@@ -26,10 +25,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           {/*<HotkeysProvider>*/}
           {/*<ExpertModeContextProvider>*/}
           {/*  <SWRConfigProvider>*/}
-          <AppContextProvider>
-            <TopBar />
-            {children}
-          </AppContextProvider>
+          <TopBar />
+          {children}
           {/*</SWRConfigProvider>*/}
           {/*</ExpertModeContextProvider>*/}
           {/*</HotkeysProvider>*/}

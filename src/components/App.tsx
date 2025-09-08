@@ -10,13 +10,16 @@ import {
 } from "~/hooks/useEnvironment";
 import { HostnameContextProvider } from "~/hooks/useHostname";
 import { UserAgentContextProvider } from "~/hooks/useUserAgent";
+import { WhitelabelContextProvider } from "~/hooks/useWhitelabel";
 import { I18nContextProvider } from "~/modules/i18n/hooks/useI18n";
+import type { WhitelabelApp } from "~/types/whitelabel";
 
 export type AppContext = {
   environment: EnvironmentVariables;
   languageTag: LanguageTag;
   hostname: string;
   userAgent: string;
+  whitelabelConfig: WhitelabelApp;
 };
 
 /**
@@ -39,7 +42,7 @@ export type AppContext = {
  *  to eliminate all this global "state".
  */
 export function App({
-  context: { environment, languageTag, hostname, userAgent },
+  context: { environment, languageTag, hostname, userAgent, whitelabelConfig },
   children,
 }: { context: AppContext; children: ReactNode }) {
   const searchParams = useSearchParams();
@@ -54,7 +57,9 @@ export function App({
       <HostnameContextProvider hostname={appId || hostname}>
         <UserAgentContextProvider userAgent={userAgent}>
           <I18nContextProvider languageTag={languageTag}>
-            <BreakpointContextProvider>{children}</BreakpointContextProvider>
+            <WhitelabelContextProvider whitelabelConfig={whitelabelConfig}>
+              <BreakpointContextProvider>{children}</BreakpointContextProvider>
+            </WhitelabelContextProvider>
           </I18nContextProvider>
         </UserAgentContextProvider>
       </HostnameContextProvider>

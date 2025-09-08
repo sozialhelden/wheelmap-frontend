@@ -1,7 +1,7 @@
 import { AlertDialog, Box, Button, Dialog, Flex } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { type FC, useContext } from "react";
-import { AppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { WhitelabelContext } from "~/hooks/useWhitelabel";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import {
   LocationFailedStepPrimaryText,
@@ -11,7 +11,7 @@ import {
 export const LocationFailedStep: FC<{
   onSubmit: () => unknown;
 }> = ({ onSubmit }) => {
-  const { clientSideConfiguration } = useContext(AppContext) ?? {};
+  const { clientSideConfiguration } = useContext(WhitelabelContext) ?? {};
   const productName = useProductName(clientSideConfiguration);
 
   return (

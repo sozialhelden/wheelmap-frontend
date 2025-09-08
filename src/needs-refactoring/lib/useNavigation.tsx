@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCurrentMappingEvent } from "~/needs-refactoring/lib/context/useCurrentMappingEvent";
 import { useUniqueSurveyId } from "~/needs-refactoring/lib/context/useUniqueSurveyId";
 import { useWindowSize } from "~/needs-refactoring/lib/util/useViewportSize";
@@ -20,7 +20,7 @@ export function useNavigation() {
   const isBigViewport = windowSize.width >= 1024;
 
   const { data: joinedMappingEvent } = useCurrentMappingEvent();
-  const app = useAppContext();
+  const app = useWhitelabel();
   const appLinks = app.related?.appLinks;
   const uniqueSurveyId = useUniqueSurveyId();
 

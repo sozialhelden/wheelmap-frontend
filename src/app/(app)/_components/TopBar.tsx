@@ -4,7 +4,8 @@ import Logo from "~/app/(app)/_components/Logo";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import NeedsPicker from "~/modules/needs/components/NeedsPicker";
 import Navigation from "~/needs-refactoring/components/navigation/Navigation";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
+
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 
 const StyledTopBar = styled.header`
     height: var(--topbar-height);
@@ -22,7 +23,7 @@ const StyledTopBar = styled.header`
 `;
 
 export default function TopBar() {
-  const { clientSideConfiguration } = useAppContext();
+  const { clientSideConfiguration } = useWhitelabel();
   const { textContent, branding } = clientSideConfiguration;
 
   const claim = useTranslations(textContent?.product?.claim);

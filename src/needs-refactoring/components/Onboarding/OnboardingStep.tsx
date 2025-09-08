@@ -11,8 +11,8 @@ import {
 import { t } from "@transifex/native";
 import * as React from "react";
 import { useEffect } from "react";
+import { WhitelabelContext } from "~/hooks/useWhitelabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import { AppContext } from "~/needs-refactoring/lib/context/AppContext";
 import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Feature";
 import {
   accessibilityColor as accessibilityColorName,
@@ -27,7 +27,7 @@ import { useProductName } from "./useProductName";
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
 }> = ({ onClose = () => {} }) => {
-  const { clientSideConfiguration } = React.useContext(AppContext) ?? {};
+  const { clientSideConfiguration } = React.useContext(WhitelabelContext) ?? {};
   const headerMarkdown = useTranslations(
     clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
   );

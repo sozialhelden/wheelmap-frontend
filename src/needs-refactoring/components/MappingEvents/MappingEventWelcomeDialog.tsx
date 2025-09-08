@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import * as queryString from "query-string";
 import { useCallback } from "react";
 import styled from "styled-components";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import {
   getJoinedMappingEventData,
   getUUID,
@@ -37,7 +37,7 @@ export default function MappingEventWelcomeDialog({
   };
 
   const dialogAriaLabel = t("Welcome");
-  const app = useAppContext();
+  const app = useWhitelabel();
   const { tokenString: appToken } = app;
   const { data: mappingEvent } = useDocumentSWR({
     type: "ac:MappingEvent",
