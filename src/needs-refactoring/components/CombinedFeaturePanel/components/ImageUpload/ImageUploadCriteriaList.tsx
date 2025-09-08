@@ -1,11 +1,11 @@
-import { Check, ExternalLink } from "lucide-react";
 import { Box, Card, Flex, Grid, Text, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
+import { Check, ExternalLink } from "lucide-react";
 import { type FC, useContext } from "react";
 import styled from "styled-components";
-import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
+import { ImageUploadContext } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
 
 const CriteriaList = styled.ul`
     // this keeps the implicit list role in voice-over on macos 
@@ -52,11 +52,11 @@ export const ImageUploadCriteriaList: FC = () => {
         <CriteriaList>
           <Card asChild>
             <CriteriaListItem>
-              <Flex gap="2" align="center">
-                <CriteriaListIcon aria-hidden />
-                <CriteriaListHeading>
+              <Flex gap="2" align="center" asChild>
+                <h3>
+                  <CriteriaListIcon aria-hidden />{" "}
                   {t("It contains useful information on accessibility.")}
-                </CriteriaListHeading>
+                </h3>
               </Flex>
               <Box>
                 <Text color="gray">
@@ -97,12 +97,12 @@ export const ImageUploadCriteriaList: FC = () => {
             </CriteriaListItem>
           </Card>
           <Card asChild>
-            <CriteriaListItem className="image-criteria-list__list-item">
-              <Flex gap="2">
-                <CriteriaListIcon aria-hidden />
-                <CriteriaListHeading>
+            <CriteriaListItem>
+              <Flex gap="2" asChild>
+                <h3>
+                  <CriteriaListIcon aria-hidden />
                   {t("It was taken by me.")}
-                </CriteriaListHeading>
+                </h3>
               </Flex>
               <Text color="gray">
                 {t(
@@ -127,11 +127,11 @@ export const ImageUploadCriteriaList: FC = () => {
           </Card>
           <Card asChild>
             <CriteriaListItem>
-              <Flex gap="2">
-                <CriteriaListIcon aria-hidden />
-                <CriteriaListHeading>
+              <Flex gap="2" asChild>
+                <h3>
+                  <CriteriaListIcon aria-hidden />
                   {t(`It doesn't show identifiable persons.`)}
-                </CriteriaListHeading>
+                </h3>
               </Flex>
             </CriteriaListItem>
           </Card>
