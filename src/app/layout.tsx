@@ -8,7 +8,7 @@ import { App } from "~/components/App";
 import type { EnvironmentVariables } from "~/hooks/useEnvironment";
 import { ThemeProvider } from "~/hooks/useTheme";
 import { getPublicEnvironmentVariables } from "~/utils/environment";
-import { getWhitelabelConfig, sanitizeHostname } from "~/utils/whitelabel";
+import { getWhitelabelConfig } from "~/utils/whitelabel";
 
 /**
  * Root layout that only provides the minimal setup required, like theming, i18n,

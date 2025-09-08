@@ -18,7 +18,7 @@ export function useLayers() {
     let { layers } = getStyle(darkMode);
 
     // this filters out all layers that do not have an external source
-    // and configures the external source accordingly
+    // and configures the external source accordingly for those who have one
     layers = layers.reduce((acc, layer) => {
       if (!hasExternalSource(layer.id)) {
         return acc;

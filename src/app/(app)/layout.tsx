@@ -3,11 +3,11 @@
 import { HotkeysProvider } from "@blueprintjs/core";
 import type { ReactNode } from "react";
 import TopBar from "~/app/(app)/_components/TopBar";
+import { ExpertModeContextProvider } from "~/hooks/useExpertMode";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
-import { ExpertModeContextProvider } from "~/needs-refactoring/lib/useExpertMode";
 
 /**
  * Main app layout that includes the top navigation bar as well as hotkey handlers

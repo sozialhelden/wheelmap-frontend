@@ -1,7 +1,7 @@
 "use client";
 
+import { List } from "~/app/(app)/(map)/_components/List";
 import { SidebarLayout } from "~/app/(app)/(map)/_components/SidebarLayout";
-import { List } from "~/modules/list/components/List";
 
 export default function Page() {
   return (
