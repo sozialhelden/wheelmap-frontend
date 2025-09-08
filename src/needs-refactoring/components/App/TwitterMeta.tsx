@@ -1,12 +1,13 @@
 import Head from "next/head";
 import React, { PureComponent } from "react";
-import type { TwitterConfiguration } from "~/needs-refactoring/lib/model/ac/ClientSideConfiguration";
+
+import type { WhitelabelTwitterConfig } from "~/types/whitelabel";
 
 type Props = {
   shareHost: string;
   productName: string | null;
   description: string | null;
-  twitter: TwitterConfiguration;
+  twitter: WhitelabelTwitterConfig;
 };
 
 class TwitterMeta extends PureComponent<Props> {

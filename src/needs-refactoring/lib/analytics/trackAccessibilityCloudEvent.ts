@@ -1,8 +1,8 @@
 import pick from "lodash/pick";
 import type UAParser from "ua-parser-js";
-import type { IApp } from "../model/ac/App";
 import type { MappingEvent } from "../model/ac/MappingEvent";
 import type { TrackingEvent } from "../model/ac/TrackingModel";
+import type { WhitelabelApp } from "~/types/whitelabel";
 
 export type Query = {
   [k: string]: string | Array<string> | null;
@@ -15,7 +15,7 @@ export async function trackAccessibilityCloudEvent({
   mappingEvent,
   userUUID,
 }: {
-  app: IApp;
+  app: WhitelabelApp;
   event: TrackingEvent;
   userAgent?: UAParser.IResult;
   mappingEvent?: MappingEvent;

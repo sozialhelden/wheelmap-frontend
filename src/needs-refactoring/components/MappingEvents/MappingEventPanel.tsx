@@ -1,11 +1,12 @@
 import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import { omit } from "lodash";
+import { Globe, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import styled from "styled-components";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import {
   getUUID,
   setJoinedMappingEventId,
@@ -17,7 +18,6 @@ import {
   type MappingEvent,
   canMappingEventBeJoined,
 } from "~/needs-refactoring/lib/model/ac/MappingEvent";
-import { Globe, MapPin } from "lucide-react";
 import CloseButton from "../shared/CloseButton";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import ChevronLeft from "./ChevronLeft";
@@ -176,7 +176,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     useCurrentMappingEventId();
   const userJoinedMappingEvent = mappingEvent?._id === joinedMappingEventId;
   const userUUID = getUUID();
-  const app = useAppContext();
+  const app = useWhitelabel();
   const leaveMappingEvent = useCallback(() => {
     setJoinedMappingEventId(null);
     trackMappingEventMembershipChanged({ userUUID, app, reason: "button" });

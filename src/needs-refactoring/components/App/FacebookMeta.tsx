@@ -1,9 +1,10 @@
 import Head from "next/head";
 import React, { PureComponent } from "react";
-import type { FacebookConfiguration } from "~/needs-refactoring/lib/model/ac/ClientSideConfiguration";
+
+import type { WhitelabelFacebookConfig } from "~/types/whitelabel";
 
 type Props = {
-  facebook: FacebookConfiguration & {
+  facebook: WhitelabelFacebookConfig & {
     imageWidth: number;
     imageHeight: number;
   };

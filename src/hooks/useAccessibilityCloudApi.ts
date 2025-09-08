@@ -1,7 +1,7 @@
 import { useEnvironment } from "~/hooks/useEnvironment";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import {
   type NestedRecord,
   flattenToSearchParams,
@@ -18,7 +18,7 @@ export default function useAccessibilityCloudApi({
   cached = true,
 }: AccessibilityCloudApiProps = {}) {
   const env = useEnvironment();
-  const { tokenString: appToken } = useAppContext();
+  const { tokenString: appToken } = useWhitelabel();
 
   const baseUrl = cached
     ? env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
@@ -34,7 +34,7 @@ export default function useAccessibilityCloudApi({
 }
 
 function getExcludedSourceIds(): Record<string, string> {
-  const { clientSideConfiguration } = useAppContext();
+  const { clientSideConfiguration } = useWhitelabel();
 
   // TODO add explanation what this is and why it is excluded by default
   const wheelmapSourceId = "LiBTS67TjmBcXdEmX";
@@ -48,7 +48,7 @@ function getExcludedSourceIds(): Record<string, string> {
 }
 
 function getIncludedSourceIds(): Record<string, string> {
-  const { clientSideConfiguration } = useAppContext();
+  const { clientSideConfiguration } = useWhitelabel();
   const sourceIds = clientSideConfiguration.includeSourceIds || [];
 
   if (sourceIds.length === 0) {

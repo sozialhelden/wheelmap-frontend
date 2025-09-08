@@ -1,17 +1,17 @@
 import Head from "next/head";
 import useHostname from "~/hooks/useHostname";
+import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import FacebookMeta from "~/needs-refactoring/components/App/FacebookMeta";
 import OpenGraph from "~/needs-refactoring/components/App/OpenGraph";
 import TwitterMeta from "~/needs-refactoring/components/App/TwitterMeta";
-import { useAppContext } from "~/needs-refactoring/lib/context/AppContext";
 import { buildFullImageUrl } from "~/needs-refactoring/lib/model/ac/Image";
 import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
 
 export function MappingEventMetadata({
   mappingEvent,
 }: { mappingEvent: MappingEvent }) {
-  const { clientSideConfiguration } = useAppContext();
+  const { clientSideConfiguration } = useWhitelabel();
   const productName =
     clientSideConfiguration?.textContent?.product?.name || "Wheelmap";
   const translatedProductName = useTranslations(productName);

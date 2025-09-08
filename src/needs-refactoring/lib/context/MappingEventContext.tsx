@@ -4,9 +4,9 @@ import * as queryString from "query-string";
 import useSWR from "swr";
 import { trackEvent } from "../analytics/Analytics";
 import { trackAccessibilityCloudEvent } from "../analytics/trackAccessibilityCloudEvent";
-import type { IApp } from "../model/ac/App";
 import type { MappingEvent } from "../model/ac/MappingEvent";
 import { storage } from "../util/savedState";
+import type { WhitelabelApp } from "~/types/whitelabel";
 
 export function trackMappingEventMembershipChanged({
   app,
@@ -16,7 +16,7 @@ export function trackMappingEventMembershipChanged({
   invitationToken,
   userUUID,
 }: {
-  app: IApp;
+  app: WhitelabelApp;
   reason: "url" | "button";
   joinedMappingEvent?: MappingEvent;
   emailAddress?: string;

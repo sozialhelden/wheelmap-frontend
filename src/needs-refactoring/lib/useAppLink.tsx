@@ -1,12 +1,11 @@
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import type { IApp } from "~/needs-refactoring/lib/model/ac/App";
-import type IAppLink from "~/needs-refactoring/lib/model/ac/IAppLink";
 import type { MappingEvent } from "~/needs-refactoring/lib/model/ac/MappingEvent";
 import { insertPlaceholdersToAddPlaceUrl } from "~/needs-refactoring/lib/model/ac/insertPlaceholdersToAddPlaceUrl";
+import type { WhitelabelApp, WhitelabelNavLink } from "~/types/whitelabel";
 
 export function useAppLink(
-  link: IAppLink,
-  app: IApp,
+  link: WhitelabelNavLink,
+  app: WhitelabelApp,
   uniqueSurveyId: string,
   joinedMappingEvent?: MappingEvent,
 ) {

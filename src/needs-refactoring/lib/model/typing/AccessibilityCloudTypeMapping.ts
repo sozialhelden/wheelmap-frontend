@@ -4,11 +4,11 @@ import type {
   PlaceInfo,
 } from "@sozialhelden/a11yjson";
 import { memoizedKebabCase } from "../../util/strings/memoizedKebabCase";
-import type { IApp } from "../ac/App";
 import type IAccessibilityAttribute from "../ac/IAccessibilityAttribute";
 import type ISource from "../ac/ISource";
 import type { MappingEvent } from "../ac/MappingEvent";
 import { memoizedPluralize } from "../ac/pluralize";
+import type { WhitelabelApp } from "~/types/whitelabel";
 
 export const AccessibilityCloudRDFTypes: AccessibilityCloudRDFType[] = [
   "ac:EquipmentInfo",
@@ -30,7 +30,7 @@ export interface AccessibilityCloudTypeMapping {
   "ac:EquipmentInfo": EquipmentInfo;
   "ac:Entrance": Entrance;
   "ac:PlaceInfo": PlaceInfo;
-  "ac:App": IApp;
+  "ac:App": WhitelabelApp;
   "ac:MappingEvent": MappingEvent;
   "ac:Source": ISource;
   "ac:AccessibilityAttribute": IAccessibilityAttribute;

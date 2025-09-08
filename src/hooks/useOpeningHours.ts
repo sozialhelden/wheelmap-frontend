@@ -41,7 +41,7 @@ function useFeatureReferencePoint(feature: GeoJSONFeature): {
 
   if ((feature as TargetFeature).tile) {
     // const { x, y, z } = (feature as TargetFeature).tile;
-    // TODO: get real coordinates from the tile via mapbox tilebet
+    // TODO: get real coordinates from the tile via mapbox tilebelt
     // return {}
   }
 

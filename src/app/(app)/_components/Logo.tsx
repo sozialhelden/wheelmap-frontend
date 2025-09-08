@@ -2,7 +2,8 @@ import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
-import type { IBranding } from "~/needs-refactoring/lib/model/ac/IBranding";
+
+import type { WhitelabelBranding } from "~/types/whitelabel";
 
 const StyledButton = styled<{ $beta?: boolean }>(Button)`
     position: relative;
@@ -46,7 +47,7 @@ const LogoSquare = styled.span`
     }
 `;
 
-export default function Logo({ branding }: { branding?: IBranding }) {
+export default function Logo({ branding }: { branding?: WhitelabelBranding }) {
   const beta = true;
 
   return (

@@ -11,13 +11,13 @@ import { App } from "~/components/App";
 import { SheetMountedContextProvider } from "~/components/sheet/useSheetMounted";
 import { BreakpointContextProvider } from "~/hooks/useBreakpoints";
 import { PageTitleProvider } from "~/hooks/usePageTitle";
+import { WhitelabelContextProvider } from "~/hooks/useWhitelabel";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { CategoryFilterContextProvider } from "~/modules/categories/contexts/CategoryFilterContext";
 import { MapHighlightContextProvider } from "~/modules/map/hooks/useHighlight";
 import { MapContextProvider } from "~/modules/map/hooks/useMap";
 import { MapRenderedFeaturesContextProvider } from "~/modules/map/hooks/useRenderedFeatures";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
-import { AppContextProvider } from "~/needs-refactoring/lib/context/AppContext";
 import StyledComponentsRegistry from "~/needs-refactoring/lib/context/StyledComponentsRegistry";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
 import { ExpertModeContextProvider } from "~/needs-refactoring/lib/useExpertMode";
@@ -64,13 +64,13 @@ export default function MyApp(props: AppProps<PageProps> & AppPropsWithLayout) {
                       <MapRenderedFeaturesContextProvider>
                         <NeedsContextProvider>
                           <CategoryFilterContextProvider>
-                            <AppContextProvider>
+                            <WhitelabelContextProvider>
                               <BreakpointContextProvider>
                                 <SheetMountedContextProvider>
                                   {getLayout(<Component />)}
                                 </SheetMountedContextProvider>
                               </BreakpointContextProvider>
-                            </AppContextProvider>
+                            </WhitelabelContextProvider>
                           </CategoryFilterContextProvider>
                         </NeedsContextProvider>
                       </MapRenderedFeaturesContextProvider>
