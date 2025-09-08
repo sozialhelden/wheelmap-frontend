@@ -139,13 +139,13 @@ export const FeatureImageUpload: FC<{
     }
   }, [isDialogOpen]);
 
-  useEffect(() => {
-    if (isDialogOpen && titleRef.current) {
-      setTimeout(() => {
-        titleRef.current?.focus();
-      }, 100);
-    }
-  }, [isDialogOpen]);
+  const onOpenAutoFocus = useCallback(
+    (event: Event) => {
+      event.preventDefault();
+      titleRef.current?.focus();
+    },
+    [titleRef],
+  );
 
   return (
     <ImageUploadContext.Provider value={api}>
@@ -163,8 +163,8 @@ export const FeatureImageUpload: FC<{
           </Dialog.Trigger>
           <ImageUploadCallToAction />
         </Flex>
-        <Dialog.Content>
-          <Dialog.Title ref={titleRef} tabIndex={0}>
+        <Dialog.Content onOpenAutoFocus={onOpenAutoFocus}>
+          <Dialog.Title ref={titleRef} tabIndex={-1}>
             {step === 1 && t("Add a new image")}
             {step === 2 && t("Select an image")}
             {step === 3 && t("Review your selected image")}
