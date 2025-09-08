@@ -15,24 +15,22 @@ import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvide
  */
 export default function AppLayout({ children }: { children: ReactNode }) {
   // TODO: add back session provider
-  // TODO: add back hotkeys and expert mode
-  // TODO: add back toasts and swr config
 
   return (
     <>
       <AppStateContextProvider>
         <NeedsContextProvider>
-          {/*<HotkeysProvider>*/}
-          {/*<ExpertModeContextProvider>*/}
-          {/*  <SWRConfigProvider>*/}
-          <TopBar />
-          {children}
-          {/*</SWRConfigProvider>*/}
-          {/*</ExpertModeContextProvider>*/}
-          {/*</HotkeysProvider>*/}
+          <HotkeysProvider>
+            <ExpertModeContextProvider>
+              <SWRConfigProvider>
+                <TopBar />
+                {children}
+              </SWRConfigProvider>
+            </ExpertModeContextProvider>
+          </HotkeysProvider>
         </NeedsContextProvider>
       </AppStateContextProvider>
-      {/*<ToastContainer />*/}
+      <ToastContainer />
     </>
   );
 }

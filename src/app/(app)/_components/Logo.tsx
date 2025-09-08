@@ -52,7 +52,7 @@ export default function Logo({ branding }: { branding?: WhitelabelBranding }) {
 
   return (
     <StyledButton $beta={beta} variant="ghost" asChild>
-      <AppStateAwareLink href="/public" aria-label={t("Go to home page")}>
+      <AppStateAwareLink href="/" aria-label={t("Go to home page")}>
         <LogoWide
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
           dangerouslySetInnerHTML={{

@@ -36,11 +36,14 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
 
   const isDropdownOpen = Boolean(searchTerm);
 
-  const handleInputChange = async (value: string) => {
+  const handleInputChange = (value: string) => {
     if (category && value !== category) {
-      await setAppState({ category: "", search: value });
+      setAppState(
+        { category: "", search: value },
+        { routerOperation: "shallow" },
+      );
     } else {
-      await setAppState({ search: value });
+      setAppState({ search: value }, { routerOperation: "shallow" });
     }
   };
 
