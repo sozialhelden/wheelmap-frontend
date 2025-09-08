@@ -12,10 +12,11 @@ import styled from "styled-components";
 import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 
-const Container = styled.nav`
+const CategoryList = styled.menu`
   display: flex;
   gap: 0.5rem;
   padding: 0 .5rem;
+  list-style: none;
   @media (max-width: 768px) {
     margin-bottom: .75rem;
   }
@@ -41,66 +42,69 @@ export function CategoryFilter() {
   return (
     !isFilteringActive && (
       <ScrollArea>
+        <VisuallyHidden id="category-filter-description" aria-hidden>
+          {t(
+            "Filter places on the map by selecting one of the following place categories:",
+          )}
+        </VisuallyHidden>
         <Theme asChild radius="full">
-          <Container
+          <CategoryList
             aria-label={t("Place Category Filters")}
             aria-describedby={"category-filter-description"}
           >
-            <VisuallyHidden id="category-filter-description" aria-hidden>
-              {t(
-                "Filter places on the map by selecting one of the following place categories:",
-              )}
-            </VisuallyHidden>
             {mainCategories.map(({ id, name, icon }) => {
               const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
               return (
-                <StyledButton
-                  color="gray"
-                  variant="surface"
-                  highContrast
-                  size="1"
-                  key={id}
-                  onClick={() => filter(id)}
-                >
-                  {Icon && <Icon fill="currentColor" aria-hidden />}
-                  {name()}
-                </StyledButton>
-              );
-            })}
-            {categoriesInMenu.length > 0 && (
-              <DropdownMenu.Root
-                open={dropdownOpen}
-                onOpenChange={setDropdownOpen}
-              >
-                <DropdownMenu.Trigger
-                  onPointerDown={(e) => e.preventDefault()}
-                  onClick={() => setDropdownOpen((o) => !o)}
-                >
+                <li key={id}>
                   <StyledButton
-                    ref={dropdownTriggerRef}
                     color="gray"
                     variant="surface"
                     highContrast
                     size="1"
+                    onClick={() => filter(id)}
                   >
-                    {t("More…")}
-                    <ChevronDown size={16} aria-hidden />
+                    {Icon && <Icon fill="currentColor" aria-hidden />}
+                    {name()}
                   </StyledButton>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  {categoriesInMenu.map(({ id, name, icon }) => {
-                    const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
-                    return (
-                      <DropdownMenu.Item key={id} onClick={() => filter(id)}>
-                        {Icon && <Icon fill="currentColor" aria-hidden />}
-                        {name()}
-                      </DropdownMenu.Item>
-                    );
-                  })}
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
+                </li>
+              );
+            })}
+            {categoriesInMenu.length > 0 && (
+              <li>
+                <DropdownMenu.Root
+                  open={dropdownOpen}
+                  onOpenChange={setDropdownOpen}
+                >
+                  <DropdownMenu.Trigger
+                    onPointerDown={(e) => e.preventDefault()}
+                    onClick={() => setDropdownOpen((o) => !o)}
+                  >
+                    <StyledButton
+                      ref={dropdownTriggerRef}
+                      color="gray"
+                      variant="surface"
+                      highContrast
+                      size="1"
+                    >
+                      {t("More…")}
+                      <ChevronDown size={16} aria-hidden />
+                    </StyledButton>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Content>
+                    {categoriesInMenu.map(({ id, name, icon }) => {
+                      const Icon = icon as FC<SVGAttributes<SVGSVGElement>>;
+                      return (
+                        <DropdownMenu.Item key={id} onClick={() => filter(id)}>
+                          {Icon && <Icon fill="currentColor" aria-hidden />}
+                          {name()}
+                        </DropdownMenu.Item>
+                      );
+                    })}
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root>
+              </li>
             )}
-          </Container>
+          </CategoryList>
         </Theme>
       </ScrollArea>
     )
