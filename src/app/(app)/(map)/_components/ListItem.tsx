@@ -6,7 +6,6 @@ import * as React from "react";
 import styled from "styled-components";
 import { useOpeningHours } from "~/hooks/useOpeningHours";
 import { useWikidataImage } from "~/hooks/useWikidata";
-import type { RenderedFeature } from "~/layouts/DefaultLayout";
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
 import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { FullyWheelchairAccessibleIcon } from "~/modules/needs/components/icons/mobility/FullyWheelchairAccessibleIcon";

@@ -5,11 +5,11 @@ import { CheckIcon, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import { useExpertMode } from "~/hooks/useExpertMode";
 import { useTheme } from "~/hooks/useTheme";
 import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
-import { useExpertMode } from "~/needs-refactoring/lib/useExpertMode";
 import { useNavigation } from "~/needs-refactoring/lib/useNavigation";
 
 function filterExpertModeLinks(
