@@ -81,6 +81,7 @@ export default function AccessibleIconMarkerBase(
         <Icon
           x="5px"
           y="5px"
+          transformOrigin="center center"
           transform={`scale(${size})`}
           fill={foregroundColor}
           filter={shadow}
