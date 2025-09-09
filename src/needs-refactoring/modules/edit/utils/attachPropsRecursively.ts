@@ -1,9 +1,9 @@
-import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
-import { getTagValues } from "~/modules/edit/utils/getTagValues";
 import { valueRenderFunctions } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/valueRenderFunctions";
 import type IAccessibilityAttribute from "~/needs-refactoring/lib/model/ac/IAccessibilityAttribute";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { getOSMTagProps } from "~/needs-refactoring/lib/model/osm/tag-config/getOSMTagProps";
+import type { TagOrTagGroup } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
+import { getTagValues } from "~/needs-refactoring/modules/edit/utils/getTagValues";
 
 export function attachTagPropsRecursively(
   tagOrGroup: TagOrTagGroup,

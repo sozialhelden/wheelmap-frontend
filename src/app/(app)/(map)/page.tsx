@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { List } from "~/app/(app)/(map)/_components/List";
 import { SidebarLayout } from "~/app/(app)/(map)/_components/SidebarLayout";
-import { getDefaultMetadata } from "~/app/_utils/metadata";
 import { getAppStateFromSearchParams } from "~/modules/app-state/utils/app-state";
 import { getCategoryFilterState } from "~/modules/categories/utils/state";
+import { getDefaultMetadata } from "~/utils/metadata";
 
 export async function generateMetadata({
   searchParams,

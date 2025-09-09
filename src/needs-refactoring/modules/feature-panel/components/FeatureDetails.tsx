@@ -1,10 +1,5 @@
 import { bbox } from "@turf/turf";
 import React, { useContext, useEffect, useRef } from "react";
-import { useOsmTags } from "~/modules/edit/hooks/useOsmTags";
-import FeatureDescription from "~/modules/feature-panel/components/FeatureDescription";
-import OsmInfoSection from "~/modules/feature-panel/components/OSMInfoSection";
-import ToiletsSection from "~/modules/feature-panel/components/ToiletsSection";
-import WheelchairSection from "~/modules/feature-panel/components/WheelchairSection";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
@@ -20,17 +15,22 @@ import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { useOsmTags } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
+import FeatureDescription from "~/needs-refactoring/modules/feature-panel/components/FeatureDescription";
+import OsmInfoSection from "~/needs-refactoring/modules/feature-panel/components/OSMInfoSection";
+import ToiletsSection from "~/needs-refactoring/modules/feature-panel/components/ToiletsSection";
+import WheelchairSection from "~/needs-refactoring/modules/feature-panel/components/WheelchairSection";
 
 import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
 import { usePageTitle } from "~/hooks/usePageTitle";
-import { useNextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
-import HeaderImageSection from "~/modules/feature-panel/components/HeaderImageSection";
-import PartOf from "~/modules/feature-panel/components/PartOf";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
+import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/useNextAccessibleToilet";
+import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
+import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
 
 type Props = {
   features: AnyFeature[];
@@ -140,7 +140,6 @@ const FeatureDetails = ({
           <HeaderSection $orderDesktop={2} $orderMobile={1}>
             <FeatureHeader
               ref={headingRef}
-              tabIndex={-1}
               level="h1"
               feature={feature}
               onIconClicked={handleHeaderClick}

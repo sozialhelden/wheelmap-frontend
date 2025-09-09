@@ -1,8 +1,8 @@
 import { encode } from "js-base64";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { serverSideSetup } from "~/app/_utils/server-side-setup";
 import { getTranslations } from "~/modules/i18n/utils/translations";
+import { serverSideSetup } from "~/utils/server-side-setup";
 
 export async function getDefaultMetadata(): Promise<Metadata> {
   const {

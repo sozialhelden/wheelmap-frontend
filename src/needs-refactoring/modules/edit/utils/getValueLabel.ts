@@ -1,5 +1,5 @@
-import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+import type { TagOrTagGroup } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
 
 // This is not ideal. In the future we should think of a uniform way to add emojis to the UI
 export function maskEmojisForScreenReaders(text: string) {

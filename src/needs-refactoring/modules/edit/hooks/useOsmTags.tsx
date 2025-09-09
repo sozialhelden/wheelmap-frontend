@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useContext } from "react";
-import { attachTagPropsRecursively } from "~/modules/edit/utils/attachPropsRecursively";
-import { filterKeys } from "~/modules/edit/utils/filterKeys";
-import { generateTree } from "~/modules/edit/utils/generateTree";
-import { nestTree } from "~/modules/edit/utils/nestTree";
-import { selectWheelchairDescription } from "~/modules/edit/utils/selectWheelchairDescription";
 import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import type { OSMTagProps } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagProps";
 import useAccessibilityAttributesIdMap from "~/needs-refactoring/lib/fetchers/ac/useAccessibilityAttributesIdMap";
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import { attachTagPropsRecursively } from "~/needs-refactoring/modules/edit/utils/attachPropsRecursively";
+import { filterKeys } from "~/needs-refactoring/modules/edit/utils/filterKeys";
+import { generateTree } from "~/needs-refactoring/modules/edit/utils/generateTree";
+import { nestTree } from "~/needs-refactoring/modules/edit/utils/nestTree";
+import { selectWheelchairDescription } from "~/needs-refactoring/modules/edit/utils/selectWheelchairDescription";
 
 export type TagOrTagGroup = {
   key: string;

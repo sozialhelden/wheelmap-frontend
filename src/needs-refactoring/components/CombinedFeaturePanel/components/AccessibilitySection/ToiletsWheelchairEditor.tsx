@@ -4,10 +4,10 @@ import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
-import ToiletRadioCards from "~/modules/edit/components/ToiletRadioCards";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
+import ToiletRadioCards from "~/needs-refactoring/modules/edit/components/ToiletRadioCards";
 
 type Props = {
   tagKey: string;
@@ -42,7 +42,7 @@ const ToiletsWheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
-          <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
+          <FeatureHeader feature={feature} level="h2" />
 
           <Dialog.Description id="dialog-description" size="3" mb="1">
             {t("Is this toilet wheelchair accessible?")}

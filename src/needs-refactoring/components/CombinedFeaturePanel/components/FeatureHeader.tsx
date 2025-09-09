@@ -9,12 +9,11 @@ import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 type Props = {
   feature: AnyFeature;
   level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | undefined;
-  tabIndex?: number;
   onIconClicked?: () => void;
 };
 
 const FeatureHeader = forwardRef<HTMLHeadingElement, Props>(
-  ({ feature, onIconClicked, level, tabIndex }, ref) => {
+  ({ feature, onIconClicked, level }, ref) => {
     const darkMode = useDarkMode();
     const { category, placeName, categoryName } = useFeatureLabel({ feature });
     const accessibilityGrade = isWheelchairAccessible(feature);
@@ -54,7 +53,7 @@ const FeatureHeader = forwardRef<HTMLHeadingElement, Props>(
               size="5"
               weight="regular"
               ref={ref}
-              tabIndex={tabIndex}
+              tabIndex={-1}
             >
               {placeName}
             </Heading>

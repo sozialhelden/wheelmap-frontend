@@ -2,7 +2,7 @@ import { IconButton } from "@radix-ui/themes";
 import { Pencil } from "lucide-react";
 
 import React, { useContext, useState } from "react";
-import { AutoEditor } from "~/modules/edit/components/AutoEditor";
+import { AutoEditor } from "~/needs-refactoring/modules/edit/components/AutoEditor";
 import { FeaturePanelContext } from "../../FeaturePanelContext";
 
 export function EditButton({

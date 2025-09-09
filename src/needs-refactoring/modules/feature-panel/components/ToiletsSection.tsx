@@ -8,15 +8,6 @@ import {
 } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import React from "react";
-import type { NextAccessibleToilet } from "~/modules/edit/hooks/useNextAccessibleToilet";
-import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
-import {
-  getValueLabel,
-  maskEmojisForScreenReaders,
-} from "~/modules/edit/utils/getValueLabel";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
-import { TagList } from "~/modules/feature-panel/components/TagList";
-import { TagListItem } from "~/modules/feature-panel/components/TagListItem";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
@@ -24,6 +15,15 @@ import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/compo
 import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import type { NextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/useNextAccessibleToilet";
+import type { TagOrTagGroup } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
+import {
+  getValueLabel,
+  maskEmojisForScreenReaders,
+} from "~/needs-refactoring/modules/edit/utils/getValueLabel";
+import { AddDescriptionButton } from "~/needs-refactoring/modules/feature-panel/components/AddDescriptionButton";
+import { TagList } from "~/needs-refactoring/modules/feature-panel/components/TagList";
+import { TagListItem } from "~/needs-refactoring/modules/feature-panel/components/TagListItem";
 
 type Props = {
   nextToilet?: NextAccessibleToilet;
@@ -87,8 +87,8 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
               </Text>
             ))}
         </VisuallyHidden>
-        <TagList>
-          <Flex as="div" direction="row" wrap="wrap" gapX="1" gapY="2">
+        <Flex direction="row" wrap="wrap" gapX="1" gapY="2" asChild>
+          <TagList>
             {otherTags?.map((child) => (
               <TagListItem key={child.key}>
                 {typeof child.tagProps?.valueElement === "object" &&
@@ -107,8 +107,8 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
                 )}
               </TagListItem>
             ))}
-          </Flex>
-        </TagList>
+          </TagList>
+        </Flex>
       </Box>
 
       {wheelchairInfo &&

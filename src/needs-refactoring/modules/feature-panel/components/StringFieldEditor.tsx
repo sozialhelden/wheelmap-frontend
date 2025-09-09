@@ -19,7 +19,7 @@ import {
   getAvailableLangTags,
   normalizeAndExtractLanguageTagsIfPresent,
 } from "~/needs-refactoring/lib/util/TagKeyUtils";
-import type { BaseEditorProps } from "../../edit/components/BaseEditor";
+import type { BaseEditorProps } from "~/needs-refactoring/modules/edit/components/BaseEditor";
 
 export const StringFieldEditor: React.FC<BaseEditorProps> = ({
   feature,

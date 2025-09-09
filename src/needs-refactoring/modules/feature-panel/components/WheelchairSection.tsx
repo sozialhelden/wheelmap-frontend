@@ -1,14 +1,14 @@
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import type React from "react";
-import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
-import { maskEmojisForScreenReaders } from "~/modules/edit/utils/getValueLabel";
-import { AddDescriptionButton } from "~/modules/feature-panel/components/AddDescriptionButton";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
 import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
 import WheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditor";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import type { TagOrTagGroup } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
+import { maskEmojisForScreenReaders } from "~/needs-refactoring/modules/edit/utils/getValueLabel";
+import { AddDescriptionButton } from "~/needs-refactoring/modules/feature-panel/components/AddDescriptionButton";
 
 type Props = {
   tags: TagOrTagGroup;

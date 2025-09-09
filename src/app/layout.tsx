@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { type ReactNode, StrictMode } from "react";
-import { getDefaultMetadata } from "~/app/_utils/metadata";
-import { serverSideSetup } from "~/app/_utils/server-side-setup";
 import { App } from "~/components/App";
 import { ThemeProvider } from "~/hooks/useTheme";
+import { getDefaultMetadata } from "~/utils/metadata";
+import { serverSideSetup } from "~/utils/server-side-setup";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getDefaultMetadata();

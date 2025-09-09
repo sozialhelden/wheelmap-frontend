@@ -4,14 +4,14 @@ import {
   getDialog,
   getEditButton,
   setupPage,
-} from "~/modules/edit/tests/utils";
+} from "~/needs-refactoring/modules/edit/tests/utils";
 
-test.describe("Edit wheelchair accessibility", () => {
+test.describe("Edit toilet accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
     await setupPage(page);
-    await getEditButton(page, "wheelchair").click();
+    await getEditButton(page, "toilets:wheelchair").click();
     dialog = await getDialog(page);
   });
 
@@ -19,20 +19,19 @@ test.describe("Edit wheelchair accessibility", () => {
     await expect(dialog).toBeVisible();
   });
 
-  // test("dialog content is key board navigable", async () => {
+  // test("dialog content is keyboard navigable", async () => {
   //   //TODO
   // });
 
   test("confirm button changes to send after input changes", async ({
     page,
   }) => {
-    await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
+    await expect(getButton(dialog, "Confirm")).toBeVisible();
+
     const yesItem = page.locator(`[data-testid="yes-item"]`);
-    const limitedItem = page.locator(`[data-testid="limited-item"]`);
     const noItem = page.locator(`[data-testid="no-item"]`);
 
     await expect(yesItem).toBeVisible();
-    await expect(limitedItem).toBeVisible();
     await expect(noItem).toBeVisible();
 
     await noItem.click();
