@@ -31,7 +31,7 @@ export function usePlaceNameFor(
   }
 
   if (!localizedString && category) {
-    return category.name();
+    return category.name?.();
   }
 
   if (localizedString) {
