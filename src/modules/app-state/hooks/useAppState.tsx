@@ -61,6 +61,10 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
         getQueryFromAppState({ ...appState, ...newState }),
       );
 
+      if (window.location.href === url.href) {
+        return;
+      }
+
       if (!routerOperation || routerOperation === "push") {
         router.push(url.toString(), navigateOptions);
       } else if (routerOperation === "replace") {
