@@ -1,4 +1,4 @@
-import type { MapMouseEvent } from "mapbox-gl";
+import type { GeoJSONFeature, MapMouseEvent } from "mapbox-gl";
 import { useCallback, useMemo, useState } from "react";
 import type { ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
@@ -38,7 +38,12 @@ export function useMapInteraction() {
 
   const onMouseClick = useCallback(
     (event: MapMouseEvent) => {
-      const url = getFeatureUrl(event.features ?? []);
+      if ((event.features ?? []).length === 0) {
+        router.push("/");
+        return;
+      }
+
+      const url = getFeatureUrl(event.features as GeoJSONFeature[]);
       return url && router.push(url);
     },
     [router],
