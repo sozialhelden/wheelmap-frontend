@@ -65,17 +65,21 @@ export const SearchResult = forwardRef(function SearchResult(
     }
 
     if (extent) {
-      map?.fitBounds(
-        [
-          [extent[0], extent[1]],
-          [extent[2], extent[3]],
-        ],
-        {
-          speed: 3,
-        },
-      );
+      setTimeout(() => {
+        map?.fitBounds(
+          [
+            [extent[0], extent[1]],
+            [extent[2], extent[3]],
+          ],
+          {
+            speed: 3,
+          },
+        );
+      }, 100);
     } else if (lat && lon) {
-      map?.flyTo({ center: [lon, lat], zoom: 20, speed: 3 });
+      setTimeout(() => {
+        map?.flyTo({ center: [lon, lat], zoom: 20, speed: 3 });
+      }, 100);
     }
   };
 

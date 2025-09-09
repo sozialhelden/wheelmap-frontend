@@ -125,7 +125,7 @@ export function Sidebar({
           </>
         )}
       </SidebarToggleButton>
-      <ScrollArea>
+      <ScrollArea onFocus={() => onIsExpandedChange(true)}>
         <SidebarContainer>{children}</SidebarContainer>
       </ScrollArea>
     </SidebarWrapper>
