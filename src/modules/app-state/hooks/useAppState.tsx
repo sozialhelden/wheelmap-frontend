@@ -9,15 +9,12 @@ import {
   useMemo,
 } from "react";
 import { type AppState, config } from "~/modules/app-state/app-state";
+import { getAppStateFromSearchParams } from "~/modules/app-state/utils/app-state";
+import { persistAppState } from "~/modules/app-state/utils/persistance";
 import {
-  getAppStateFromPersistence,
-  persistAppState,
-} from "~/modules/app-state/utils/persistance";
-import {
+  getQuery,
   getQueryFromAppState,
-  parseQuery,
 } from "~/modules/app-state/utils/query";
-import { unflattenSearchParams } from "~/utils/search-params";
 import { addQueryParamsToUrl } from "~/utils/url";
 
 type AppStateContextType = {
@@ -36,30 +33,15 @@ const AppStateContext = createContext<AppStateContextType>({
   setAppState: (newState, options) => {},
 });
 
-function getDefaultAppState(): AppState {
-  return Object.entries(config).reduce((acc, [key, { defaultValue }]) => {
-    return defaultValue ? Object.assign(acc, { [key]: defaultValue }) : acc;
-  }, {} as AppState);
-}
-
 export function AppStateContextProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname() || "/";
-
-  const query = useMemo(
-    () =>
-      unflattenSearchParams(Object.fromEntries(searchParams?.entries() ?? [])),
-    [searchParams],
-  );
+  const query = useMemo(() => getQuery(searchParams), [searchParams]);
 
   const appState: AppStateContextType["appState"] = useMemo(
-    () => ({
-      ...getDefaultAppState(),
-      ...getAppStateFromPersistence(),
-      ...parseQuery(query),
-    }),
-    [query],
+    () => getAppStateFromSearchParams(searchParams),
+    [searchParams],
   );
 
   const setAppState = useCallback<AppStateContextType["setAppState"]>(
@@ -107,6 +89,15 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
       });
     }
   });
+
+  useEffect(() => {
+    // On mount, make sure to set the current app-state once,
+    // so url parameters are added
+    setAppState(appState, {
+      keepExistingQuery: false,
+      routerOperation: "shallow",
+    });
+  }, []);
 
   useEffect(() => {
     persistAppState(appState);

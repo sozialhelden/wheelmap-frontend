@@ -1,17 +1,23 @@
-"use client";
+import CombinedFeaturePanelWrapper from "~/app/(app)/(map)/[placeType]/[placeId]/_components/CombinedFeaturePanelWrapper";
+import { getDefaultMetadata } from "~/app/_utils/metadata";
 
-import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ placeType: string; placeId: string }>;
+}) {
+  const { placeType, placeId } = await params;
 
+  // TODO: this is part of a temporary workaround. please refactor the feature panel context
+  //  and the CombinedFeaturePanel to use next js server components and data fetching
+  //  properly. then we can fetch actual place details here and return proper metadata
+
+  return await getDefaultMetadata();
+}
+
+/**
+ * Main place detail page: `/:placeType/:placeId`
+ */
 export default function PlacePage() {
-  const { features, anyLoading } = useContext(FeaturePanelContext);
-  const resolvedFeatures = useMemo(
-    () => features.map((x) => x.feature?.requestedFeature).filter((x) => !!x),
-    [features],
-  );
-
-  return (
-    <CombinedFeaturePanel features={resolvedFeatures} isLoading={anyLoading} />
-  );
+  return <CombinedFeaturePanelWrapper />;
 }

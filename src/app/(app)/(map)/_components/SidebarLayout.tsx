@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import React, { type ReactNode, useEffect, useState } from "react";

@@ -80,12 +80,6 @@ const FeatureDetails = ({
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
-  const { categoryName, placeName } = useFeatureLabel({ feature });
-
-  const pageTitle = placeName ? placeName : categoryName;
-  const { setTitle } = usePageTitle();
-
-  setTitle(pageTitle);
 
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
@@ -126,9 +120,9 @@ const FeatureDetails = ({
   };
 
   const headingRef = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
-    if (headingRef.current) headingRef.current.focus();
-  }, [placeName]);
+  // useEffect(() => {
+  //   if (headingRef.current) headingRef.current.focus();
+  // }, [placeName]);
 
   return (
     <>

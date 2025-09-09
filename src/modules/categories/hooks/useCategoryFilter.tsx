@@ -6,6 +6,7 @@ import {
 import { type ReactNode, createContext, useContext } from "react";
 
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
+import { getCategoryFilterState } from "~/modules/categories/utils/state";
 
 export type CategoryFilterContextType = {
   isFilteringActive: boolean;
@@ -26,9 +27,8 @@ export function CategoryFilterContextProvider({
 }: { children: ReactNode }) {
   const { appState, setAppState } = useAppState();
 
-  const category = appState.category;
-  const categoryProperties = category ? getCategories()[category] : undefined;
-  const isFilteringActive = Boolean(categoryProperties);
+  const { category, categoryProperties, isFilteringActive } =
+    getCategoryFilterState(appState);
 
   const filter = async (category: Category) => {
     setAppState({ category: category });

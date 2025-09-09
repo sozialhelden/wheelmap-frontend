@@ -9,7 +9,7 @@ import { t } from "@transifex/native";
 import { ChevronDown } from "lucide-react";
 import { type FC, type SVGAttributes, useRef, useState } from "react";
 import styled from "styled-components";
-import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
+import { useCategoryFilter } from "~/modules/categories/hooks/useCategoryFilter";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 
 const CategoryList = styled.menu`

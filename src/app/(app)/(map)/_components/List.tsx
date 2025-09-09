@@ -1,3 +1,5 @@
+"use client";
+
 import { Callout, Flex, Spinner, Text } from "@radix-ui/themes";
 import { T } from "@transifex/react";
 import { CircleAlert } from "lucide-react";

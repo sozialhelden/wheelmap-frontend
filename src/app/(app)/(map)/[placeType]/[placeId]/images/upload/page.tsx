@@ -1,20 +1,9 @@
-"use client";
+import CombinedFeaturePanelWrapper from "~/app/(app)/(map)/[placeType]/[placeId]/_components/CombinedFeaturePanelWrapper";
+export { generateMetadata } from "~/app/(app)/(map)/[placeType]/[placeId]/page";
 
-import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-
-export default function ShowImageUploadPage() {
-  const { features } = useContext(FeaturePanelContext);
-  const resolvedFeatures = useMemo(
-    () =>
-      features
-        .map(({ feature }) => feature?.requestedFeature)
-        .filter((feature) => !!feature),
-    [features],
-  );
-
-  return (
-    <CombinedFeaturePanel features={resolvedFeatures} isUploadDialogOpen />
-  );
+/**
+ * Place detail upload page: `/:placeType/:placeId/images/upload`
+ */
+export default function PlacePage() {
+  return <CombinedFeaturePanelWrapper isUploadDialogOpen />;
 }
