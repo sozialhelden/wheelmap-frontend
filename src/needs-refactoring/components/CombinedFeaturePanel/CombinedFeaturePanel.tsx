@@ -3,12 +3,12 @@ import { t } from "@transifex/native";
 import { uniqBy } from "lodash";
 import React from "react";
 import { useExpertMode } from "~/hooks/useExpertMode";
-import FeatureDetails from "~/modules/feature-panel/components/FeatureDetails";
 import ErrorBoundary from "~/needs-refactoring/components/shared/ErrorBoundary";
 import {
   type AnyFeature,
   isSearchResultFeature,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import FeatureDetails from "~/needs-refactoring/modules/feature-panel/components/FeatureDetails";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 
 export type CombinedFeaturePanelProps = {

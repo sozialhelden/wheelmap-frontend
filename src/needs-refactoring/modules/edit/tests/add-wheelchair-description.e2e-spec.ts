@@ -1,5 +1,5 @@
 import { type Locator, expect, test } from "@playwright/test";
-import node4544823443Mock from "~/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
+import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getButton,
   getDialog,
@@ -7,7 +7,7 @@ import {
   getMenuItem,
   selectLanguage,
   setupPage,
-} from "~/modules/edit/tests/utils";
+} from "~/needs-refactoring/modules/edit/tests/utils";
 
 test.describe("Add wheelchair description in new language", () => {
   let dialog: Locator;

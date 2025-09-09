@@ -19,7 +19,7 @@ import { updateTagValueNoLogIn } from "~/needs-refactoring/lib/fetchers/updateTa
 import { isOSMFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import { normalizeAndExtractLanguageTagsIfPresent } from "~/needs-refactoring/lib/util/TagKeyUtils";
 import { log } from "~/needs-refactoring/lib/util/logger";
-import { StringFieldEditor } from "../../feature-panel/components/StringFieldEditor";
+import { StringFieldEditor } from "~/needs-refactoring/modules/feature-panel/components/StringFieldEditor";
 import type { BaseEditorProps } from "./BaseEditor";
 import { ToiletsWheelchairEditorOld } from "./ToiletsWheelchairEditorOld";
 import { WheelchairEditorOld } from "./WheelchairEditorOld";

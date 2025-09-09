@@ -4,12 +4,12 @@ import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { PrimaryButton } from "~/components/button/PrimaryButton";
 import { SecondaryButton } from "~/components/button/SecondaryButton";
-import WheelchairRadioCards from "~/modules/edit/components/WheelchairRadioCards";
 import { StyledReportView } from "~/needs-refactoring/components/CombinedFeaturePanel/ReportView";
+import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import useSubmit from "~/needs-refactoring/components/CombinedFeaturePanel/useSubmit";
 import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
-import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
+import WheelchairRadioCards from "~/needs-refactoring/modules/edit/components/WheelchairRadioCards";
 
 type Props = {
   tagKey: string;
@@ -45,13 +45,12 @@ const WheelchairEditor = ({ tagKey, tagValue, feature }: Props) => {
       </Dialog.Trigger>
       <Dialog.Content
         aria-label={t("Wheelchair Accessibility Editor")}
-        aria-describedby="dialog-description"
         data-testid="dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
-          <FeatureHeader feature={feature} level="h2" tabIndex={-1} />
+          <FeatureHeader feature={feature} level="h2" />
           <StyledReportView className="_view">
-            <Dialog.Description id="dialog-description" size="3" mb="1">
+            <Dialog.Description size="3" mb="1">
               {t(
                 "How wheelchair accessible is this place? Select one of the following options:",
               )}

@@ -1,5 +1,5 @@
 import CombinedFeaturePanelWrapper from "~/app/(app)/(map)/[placeType]/[placeId]/_components/CombinedFeaturePanelWrapper";
-import { getDefaultMetadata } from "~/app/_utils/metadata";
+import { getDefaultMetadata } from "~/utils/metadata";
 
 export async function generateMetadata({
   params,

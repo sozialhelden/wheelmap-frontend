@@ -1,9 +1,9 @@
 import { Box, Grid, Text } from "@radix-ui/themes";
 import React from "react";
-import type { TagOrTagGroup } from "~/modules/edit/hooks/useOsmTags";
-import TagGroupRenderer from "~/modules/feature-panel/components/TagGroupRenderer";
-import { TagList } from "~/modules/feature-panel/components/TagList";
-import { TagListItem } from "~/modules/feature-panel/components/TagListItem";
+import type { TagOrTagGroup } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
+import TagGroupRenderer from "~/needs-refactoring/modules/feature-panel/components/TagGroupRenderer";
+import { TagList } from "~/needs-refactoring/modules/feature-panel/components/TagList";
+import { TagListItem } from "~/needs-refactoring/modules/feature-panel/components/TagListItem";
 
 interface Props {
   tags: TagOrTagGroup[];
