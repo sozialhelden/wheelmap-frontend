@@ -1,7 +1,7 @@
 import React, { type Ref, useEffect } from "react";
 import styled from "styled-components";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
-import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
+import { useCategoryFilter } from "~/modules/categories/hooks/useCategoryFilter";
 import { SearchDropdown } from "~/modules/search/components/SearchDropdown";
 import { SearchFormField } from "~/modules/search/components/SearchFormField";
 import { SearchResult } from "~/modules/search/components/SearchResult";
@@ -40,7 +40,7 @@ export function Search({ isOnBackground }: { isOnBackground?: boolean }) {
     if (category && value !== category) {
       setAppState(
         { category: "", search: value },
-        { routerOperation: "shallow" },
+        { routerOperation: "replace" },
       );
     } else {
       setAppState({ search: value }, { routerOperation: "shallow" });

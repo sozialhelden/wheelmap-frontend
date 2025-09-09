@@ -11,14 +11,14 @@ import {
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 
-type Props = {
+export type CombinedFeaturePanelProps = {
   features: AnyFeature[];
   isLoading?: boolean;
   activeImageId?: string;
   isUploadDialogOpen?: boolean;
 };
 
-export function CombinedFeaturePanel(props: Props) {
+export function CombinedFeaturePanel(props: CombinedFeaturePanelProps) {
   const features = uniqBy(props.features, (feature) =>
     isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id,
   );

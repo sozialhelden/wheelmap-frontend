@@ -1,6 +1,6 @@
 import { useEnvironment } from "~/hooks/useEnvironment";
 import { useWhitelabel } from "~/hooks/useWhitelabel";
-import { useCategoryFilter } from "~/modules/categories/contexts/CategoryFilterContext";
+import { useCategoryFilter } from "~/modules/categories/hooks/useCategoryFilter";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
 import {
   type NestedRecord,

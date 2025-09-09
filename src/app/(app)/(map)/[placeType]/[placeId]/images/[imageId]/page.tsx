@@ -1,24 +1,13 @@
-"use client";
+import CombinedFeaturePanelWrapper from "~/app/(app)/(map)/[placeType]/[placeId]/_components/CombinedFeaturePanelWrapper";
+export { generateMetadata } from "~/app/(app)/(map)/[placeType]/[placeId]/page";
 
-import { useRouter } from "next/router";
-import { useContext, useMemo } from "react";
-import { CombinedFeaturePanel } from "~/needs-refactoring/components/CombinedFeaturePanel/CombinedFeaturePanel";
-import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
-
-export default function ShowImagePage({
+/**
+ * Place detail image page: `/:placeType/:placeId/images/:imageId`
+ */
+export default function PlacePage({
   params: { imageId },
-}: { params: { imageId: string } }) {
-  const { features } = useContext(FeaturePanelContext);
-  const resolvedFeatures = useMemo(
-    () =>
-      features
-        .map(({ feature }) => feature?.requestedFeature)
-        .filter((feature) => !!feature),
-    [features],
-  );
-
-  const id = typeof imageId === "string" ? imageId : imageId[0];
+}: { params: { imageId: string | string[] } }) {
   return (
-    <CombinedFeaturePanel features={resolvedFeatures} activeImageId={id} />
+    <CombinedFeaturePanelWrapper activeImageId={[imageId].flat().shift()} />
   );
 }

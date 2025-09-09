@@ -1,9 +1,7 @@
 import type { CategoryProperties } from "@sozialhelden/core";
 import { t } from "@transifex/native";
-import {
-  type Translations,
-  useTranslations,
-} from "~/modules/i18n/hooks/useTranslations";
+import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
+import type { Translations } from "~/modules/i18n/utils/translations";
 import useEquipmentInfoDescription from "~/needs-refactoring/lib/useEquipmentInfoDescription";
 import { getLocalizableStringForOSMKey } from "../osm/getLocalizableStringForOSMKey";
 import type { AnyFeature } from "./AnyFeature";

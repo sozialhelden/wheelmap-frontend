@@ -1,9 +1,21 @@
+import type { ReadonlyURLSearchParams } from "next/navigation";
 import {
   type AppState,
   type AppStateKey,
   config,
 } from "~/modules/app-state/app-state";
-import type { NestedRecord } from "~/utils/search-params";
+import {
+  type NestedRecord,
+  unflattenSearchParams,
+} from "~/utils/search-params";
+
+export function getQuery(
+  searchParams: URLSearchParams | ReadonlyURLSearchParams,
+): NestedRecord<string | undefined> {
+  return unflattenSearchParams(
+    Object.fromEntries(searchParams?.entries() ?? []),
+  );
+}
 
 export function parseQuery(query: NestedRecord<string | undefined>): AppState {
   return Object.entries(config).reduce((acc, [key, { parser }]) => {

@@ -1,14 +1,11 @@
 import { Flex, Spinner } from "@radix-ui/themes";
-import { setTranslator } from "@sozialhelden/core";
 import {
   type LanguageTag,
   fallbackLanguageTag,
   getLabel,
   getLanguage,
-  getLocale,
   getRegion,
 } from "@sozialhelden/core";
-import { t, tx } from "@transifex/native";
 import {
   type ReactNode,
   createContext,
@@ -17,6 +14,7 @@ import {
   useState,
 } from "react";
 import { useEnvironment } from "~/hooks/useEnvironment";
+import { initTransifex, setTransifexLocale } from "~/modules/i18n/utils/init";
 
 export type I18nContext = {
   languageTag: LanguageTag;
@@ -55,21 +53,13 @@ export function I18nContextProvider({
   const region = getRegion(currentLanguageTag);
   const languageLabel = getLabel(currentLanguageTag);
 
-  const setTransifexLocale = (languageTag: LanguageTag) => {
-    setIsLoading(true);
-    const locale = getLocale(languageTag);
-    tx.setCurrentLocale(locale)
-      .catch((error) => {
-        console.error(`Error setting Transifex locale to "${locale}"`, error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
   const setLanguageTag = (languageTag: LanguageTag) => {
     setCurrentLanguageTag(languageTag);
-    setTransifexLocale(languageTag);
+
+    setIsLoading(true);
+    setTransifexLocale(languageTag).finally(() => {
+      setIsLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -78,12 +68,8 @@ export function I18nContextProvider({
         "Environment variable NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN not set!",
       );
     }
-    tx.init({
-      token: env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN,
-      // filterStatus: "reviewed",
-    });
-    setTranslator(t);
-    setTransifexLocale(currentLanguageTag);
+    initTransifex(env.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN);
+    setLanguageTag(currentLanguageTag);
   }, []);
 
   return (

@@ -1,14 +1,13 @@
-import {
-  getILanguageTagsFromAcceptLanguageHeader,
-  getMostPreferableLanguageTag,
-} from "@sozialhelden/core";
-import { headers } from "next/headers";
+import type { Metadata } from "next";
 import { type ReactNode, StrictMode } from "react";
+import { getDefaultMetadata } from "~/app/_utils/metadata";
+import { serverSideSetup } from "~/app/_utils/server-side-setup";
 import { App } from "~/components/App";
-import type { EnvironmentVariables } from "~/hooks/useEnvironment";
 import { ThemeProvider } from "~/hooks/useTheme";
-import { getPublicEnvironmentVariables } from "~/utils/environment";
-import { getWhitelabelConfig } from "~/utils/whitelabel";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getDefaultMetadata();
+}
 
 /**
  * Root layout that only provides the minimal setup required, like theming, i18n,
@@ -19,42 +18,18 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  // The root layout is a server component, so we can access runtime environment
-  // variables and provide them to the rest of the application, effectively allowing
-  // runtime configuration instead of build-time configuration.
-  const environment = getPublicEnvironmentVariables() as EnvironmentVariables;
-
-  const hostname = headers().get("host")?.split(":").shift() as string;
-  const userAgent = headers().get("user-agent") as string;
-
-  const languageTag = getMostPreferableLanguageTag(
-    getILanguageTagsFromAcceptLanguageHeader(
-      String(headers().get("accept-language")),
-    ),
-  );
-
-  const whitelabelConfig = await getWhitelabelConfig(hostname);
+  const context = await serverSideSetup();
 
   return (
     // We need to use suppressHydrationWarning here because next/themes requires it:
     // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
     // The property only applies a single level deep (to the ThemeProvider), so it
     // doesn't affect hydration warnings deeper in the component tree.
-    <html lang={languageTag} suppressHydrationWarning>
+    <html lang={context.languageTag} suppressHydrationWarning>
       <body>
         <StrictMode>
           <ThemeProvider>
-            <App
-              context={{
-                environment,
-                languageTag,
-                hostname,
-                userAgent,
-                whitelabelConfig,
-              }}
-            >
-              {children}
-            </App>
+            <App context={context}>{children}</App>
           </ThemeProvider>
         </StrictMode>
       </body>
