@@ -1,5 +1,5 @@
 import type { BrowserContext } from "playwright-core";
-import { expect, test } from "~/tests/e2e/setup/test-fixture";
+import { describe, expect, test } from "~/tests/e2e/setup/test-fixture";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
 import { skipOnboarding } from "~/tests/e2e/utils/skip";
 

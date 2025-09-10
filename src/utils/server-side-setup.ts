@@ -1,9 +1,6 @@
-import {
-  getILanguageTagsFromAcceptLanguageHeader,
-  getMostPreferableLanguageTag,
-} from "@sozialhelden/core";
 import { headers } from "next/headers";
 import type { EnvironmentVariables } from "~/hooks/useEnvironment";
+import { getLanguageTagFromAcceptLanguageHeaders } from "~/modules/i18n/utils/headers";
 import { initTransifex, setTransifexLocale } from "~/modules/i18n/utils/init";
 import { getPublicEnvironmentVariables } from "~/utils/environment";
 import { getWhitelabelConfig } from "~/utils/whitelabel";
@@ -22,15 +19,10 @@ export async function serverSideSetup() {
 
   const whitelabelConfig = await getWhitelabelConfig(hostname);
 
-  const languageTag = getMostPreferableLanguageTag(
-    getILanguageTagsFromAcceptLanguageHeader(
-      String(headers().get("accept-language")),
-    ),
-  );
-
   // We need to initialize Transifex on the server side and the client side.
   // The client side initialization happens in the useI18n hook
   initTransifex(environment.NEXT_PUBLIC_TRANSIFEX_NATIVE_TOKEN);
+  const languageTag = getLanguageTagFromAcceptLanguageHeaders();
   await setTransifexLocale(languageTag);
 
   return { environment, languageTag, hostname, userAgent, whitelabelConfig };
