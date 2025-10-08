@@ -17,13 +17,15 @@ const CategoryList = styled.menu`
   gap: 0.5rem;
   padding: 0 .5rem;
   list-style: none;
-  @media (max-width: 768px) {
+
+    @media (max-width: 768px) {
     margin-bottom: .75rem;
   }
 `;
 const StyledButton = styled(Button)`
   background: var(--color-panel);
   filter: drop-shadow(0 0.05rem 0.1rem rgba(0, 0, 0, 0.2));
+  white-space: nowrap;
 `;
 
 const numberOfMainCategories = 5;
