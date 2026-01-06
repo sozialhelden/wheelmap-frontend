@@ -1,7 +1,6 @@
 import type { BrowserContext } from "playwright-core";
-import { describe, expect, test } from "~/tests/e2e/setup/test-fixture";
+import { expect, test } from "~/tests/e2e/setup/test-fixture";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnboarding } from "~/tests/e2e/utils/skip";
 
 async function setAcceptLanguageHeader(
   context: BrowserContext,
@@ -22,9 +21,7 @@ test("uses the accept-language header to set the resulting locale", async ({
   context,
 }) => {
   await setAcceptLanguageHeader(context, "de-DE,de;q=0.9,en;q=0.8");
-
   await page.goto("/");
-  await skipOnboarding(page);
 
   await expect(
     page

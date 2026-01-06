@@ -1,18 +1,23 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
+import { getButton } from "~/needs-refactoring/modules/edit/tests/utils";
 import {
-  getButton,
-  getDialog,
-  getEditButton,
-  setupPage,
-} from "~/needs-refactoring/modules/edit/tests/utils";
+  goToMockedPlaceDetailPage,
+  mockPlaceDetails,
+  mockTranslations,
+} from "~/tests/e2e/utils/mocks";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
 
 test.describe("Edit toilet accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await setupPage(page);
-    await getEditButton(page, "toilets:wheelchair").click();
-    dialog = await getDialog(page);
+    await mockTranslations(page);
+    await mockPlaceDetails(page);
+    await goToMockedPlaceDetailPage(page);
+    await waitUntilMapIsLoaded(page);
+
+    await page.getByTestId("toilets-wheelchair-editor__button").click();
+    dialog = page.getByTestId("toilets-wheelchair-editor__dialog");
   });
 
   test("dialog is rendered", async () => {

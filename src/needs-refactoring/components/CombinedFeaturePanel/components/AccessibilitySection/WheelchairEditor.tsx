@@ -39,7 +39,7 @@ const WheelchairEditor = ({
   const button = isNewlyTagged ? (
     <SecondaryButton
       aria-label={t("Edit wheelchair accessibility")}
-      data-testid={tagKey}
+      data-testid={"wheelchair-editor__button"}
       size="2"
     >
       {t("Rate wheelchair accessibility")}
@@ -47,7 +47,7 @@ const WheelchairEditor = ({
   ) : (
     <SecondaryButton
       aria-label={t("Edit wheelchair accessibility")}
-      data-testid={tagKey}
+      data-testid={"wheelchair-editor__button"}
       size="2"
     >
       <Pencil size={18} aria-hidden />
@@ -62,7 +62,7 @@ const WheelchairEditor = ({
         // persisted (could otherwise accidentally be submitted)
         onOpenAutoFocus={() => setEditedTagValue(tagValue)}
         aria-label={t("Wheelchair Accessibility Editor")}
-        data-testid="dialog"
+        data-testid="wheelchair-editor__dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureHeader feature={feature} level="h2" />

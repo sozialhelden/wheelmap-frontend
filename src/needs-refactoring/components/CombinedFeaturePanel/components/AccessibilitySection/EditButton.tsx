@@ -24,7 +24,7 @@ export function EditButton({
         aria-label={ariaLabel}
         variant="soft"
         onClick={() => setIsDialogOpen(true)}
-        data-testid={tagKey}
+        data-testid={`${tagKey}-edit-button`}
       >
         <Pencil size={18} aria-hidden />
       </IconButton>

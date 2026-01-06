@@ -2,14 +2,13 @@ import { test } from "@playwright/test";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
 import { expect } from "~/tests/e2e/setup/test-fixture";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnboarding, waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
   await waitUntilMapIsLoaded(page);
-  await skipOnboarding(page);
 });
 
 test.describe("category-filter", () => {

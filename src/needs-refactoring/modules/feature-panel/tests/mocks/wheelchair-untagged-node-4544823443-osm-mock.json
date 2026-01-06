@@ -1,0 +1,31 @@
+{
+  "type": "Feature",
+  "_id": "node/4544823443",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [13.367068, 52.525489]
+  },
+  "centroid": {
+    "type": "Point",
+    "coordinates": [13.367068, 52.525489]
+  },
+  "properties": {
+    "icon": "ngo",
+    "name": "Sozialhelden e.V.",
+    "email": "info@sozialhelden.de",
+    "level": 7,
+    "office": "ngo",
+    "smoking": "no",
+    "website": "https://sozialhelden.de",
+    "wikidata": "Q2305714",
+    "addr:city": "Berlin",
+    "wikipedia": "en:Sozialhelden",
+    "addr:street": "Invalidenstraße",
+    "addr:country": "DE",
+    "addr:postcode": 10557,
+    "tactile_paving": "yes",
+    "addr:housenumber": 65,
+    "wikimedia_commons": "Category:Sozialhelden",
+    "toilets:wheelchair": "yes"
+  }
+}

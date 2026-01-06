@@ -120,7 +120,7 @@ const DescriptionEditor = ({
 
   return (
     <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Dialog.Content data-testid={`dialog_${tagKey}`}>
+      <Dialog.Content data-testid={`edit-description__dialog--${tagKey}`}>
         <Flex direction="column" gap="3">
           <FeatureHeader feature={feature} level="h2" />
 

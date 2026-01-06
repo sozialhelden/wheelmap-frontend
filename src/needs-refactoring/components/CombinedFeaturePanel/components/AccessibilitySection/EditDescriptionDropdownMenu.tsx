@@ -12,7 +12,7 @@ type Props = {
   feature: AnyFeature;
 } & React.ComponentPropsWithoutRef<"button">;
 
-const EditDropdownMenu = ({
+const EditDescriptionDropdownMenu = ({
   tagKey,
   tagValue,
   feature,
@@ -36,7 +36,7 @@ const EditDropdownMenu = ({
             {...triggerProps}
             variant="soft"
             size="2"
-            data-testid={`${tagKey}`}
+            data-testid={`edit-description__button--${tagKey}`}
             aria-label={t("Edit description")}
           >
             <Pencil size={18} aria-hidden />
@@ -49,7 +49,7 @@ const EditDropdownMenu = ({
               setIsDialogOpen(true);
               setAddNewLanguage(false);
             }}
-            data-testid="this-language"
+            data-testid={`edit-description__menu__current-language--${tagKey}`}
           >
             {t("Edit this description")}
           </DropdownMenu.Item>
@@ -59,7 +59,7 @@ const EditDropdownMenu = ({
               setIsDialogOpen(true);
               setAddNewLanguage(true);
             }}
-            data-testid="new-language"
+            data-testid={`edit-description__menu__new-language--${tagKey}`}
           >
             {t("Add a description in another language")}
           </DropdownMenu.Item>
@@ -80,4 +80,4 @@ const EditDropdownMenu = ({
   );
 };
 
-export default EditDropdownMenu;
+export default EditDescriptionDropdownMenu;

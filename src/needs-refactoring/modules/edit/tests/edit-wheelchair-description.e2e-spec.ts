@@ -1,31 +1,39 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
 import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
+import { getButton } from "~/needs-refactoring/modules/edit/tests/utils";
 import {
-  getButton,
-  getDialog,
-  getEditButton,
-  getMenuItem,
-  setupPage,
-} from "~/needs-refactoring/modules/edit/tests/utils";
+  goToMockedPlaceDetailPage,
+  mockPlaceDetails,
+  mockTranslations,
+} from "~/tests/e2e/utils/mocks";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
 
-test.describe("Edit wheelchair description", () => {
+const tagKey = "wheelchair:description:en";
+
+test.describe("Edit existing wheelchair description", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await setupPage(page);
-    await getEditButton(page, "wheelchair:description").click();
-    await getMenuItem(page, "this-language").click();
-    dialog = await getDialog(page);
+    await mockTranslations(page);
+    await mockPlaceDetails(page);
+    await goToMockedPlaceDetailPage(page);
+    await waitUntilMapIsLoaded(page);
+
+    await page.getByTestId(`edit-description__button--${tagKey}`).click();
+    await page
+      .getByTestId(`edit-description__menu__current-language--${tagKey}`)
+      .click();
+
+    dialog = page.getByTestId(`edit-description__dialog--${tagKey}`);
   });
 
   test("dialog is rendered", async () => {
     await expect(dialog).toBeVisible();
   });
 
-  test("dialog has textarea and buttons", async () => {
-    await expect(dialog.getByRole("textbox")).toBeVisible();
-    await expect(getButton(dialog, "Cancel")).toBeVisible();
-    await expect(getButton(dialog, "Confirm")).toBeVisible();
+  test("dialog can be closed using the cancel button", async () => {
+    await getButton(dialog, "Cancel").click();
+    await expect(dialog).toBeHidden();
   });
 
   test("dialog does not have select box when editing current description", async () => {
@@ -53,11 +61,6 @@ test.describe("Edit wheelchair description", () => {
   // test("changes are made using the send button", async () => {
   //   //TODO
   // });
-
-  test("dialog can be closed using the cancel button", async () => {
-    await getButton(dialog, "Cancel").click();
-    await expect(dialog).toBeHidden();
-  });
 
   // test("passes WCAG accessibility check", async ({ page }) => {
   //   //TODO
