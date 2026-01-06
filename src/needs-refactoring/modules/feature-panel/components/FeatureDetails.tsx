@@ -124,8 +124,6 @@ const FeatureDetails = ({
   //   if (headingRef.current) headingRef.current.focus();
   // }, [placeName]);
 
-  console.log(features);
-
   return (
     <>
       {feature && (
@@ -164,38 +162,30 @@ const FeatureDetails = ({
           </HeaderSection>
 
           <SectionsContainer $orderDesktop={3} $orderMobile={2}>
-            {osmWheelchairInfo && (
-              <Section>
-                <VisuallyHidden>
-                  <Heading as="h2">{t("Wheelchair section")}</Heading>
-                </VisuallyHidden>
-                <WheelchairSection
-                  key="osm_wheelchair"
-                  tags={osmWheelchairInfo}
-                  feature={feature}
-                />
-              </Section>
-            )}
+            <Section>
+              <VisuallyHidden>
+                <Heading as="h2">{t("Wheelchair section")}</Heading>
+              </VisuallyHidden>
+              <WheelchairSection
+                key="osm_wheelchair"
+                tags={osmWheelchairInfo}
+                feature={feature}
+              />
+            </Section>
             {(osmWheelchairInfo || nextAccessibleToilet) && (
               <Section>
-                {/*We only show toilet info if there is wheelchair info at all. This is the way it is
-                working in the old version of wheelmap. For a future a11ymap this should be different*/}
-                {osmWheelchairInfo && (
-                  <>
-                    <VisuallyHidden>
-                      <Heading as="h2">{t("Toilet section")}</Heading>
-                    </VisuallyHidden>
-                    <ToiletsSection
-                      key="osm_toilets"
-                      tags={osmToiletInfo}
-                      // if there is wheelchair info but no toilet info or no accessible toilet,
-                      // we show the next accessible toilet
-                      nextToilet={nextAccessibleToilet}
-                      isLoading={isLoadingNextToilet}
-                      feature={feature}
-                    />
-                  </>
-                )}
+                <VisuallyHidden>
+                  <Heading as="h2">{t("Toilet section")}</Heading>
+                </VisuallyHidden>
+                <ToiletsSection
+                  key="osm_toilets"
+                  tags={osmToiletInfo}
+                  // if there is wheelchair info but no toilet info or no accessible toilet,
+                  // we show the next accessible toilet
+                  nextToilet={nextAccessibleToilet}
+                  isLoading={isLoadingNextToilet}
+                  feature={feature}
+                />
               </Section>
             )}
             <VisuallyHidden>
@@ -215,6 +205,7 @@ const FeatureDetails = ({
                 <OsmInfoSection key="osm_info" tags={generalOSMInfo} />
               </Section>
             )}
+
             <Section>
               <VisuallyHidden>
                 <Heading as="h2">
