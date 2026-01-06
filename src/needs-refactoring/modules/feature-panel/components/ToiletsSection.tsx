@@ -9,7 +9,7 @@ import {
 import { t } from "@transifex/native";
 import React from "react";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
+import EditDescriptionDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDescriptionDropdownMenu";
 import NextToiletDirections from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/NextToiletDirections";
 import StyledTag from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/StyledTag";
 import ToiletsWheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/ToiletsWheelchairEditor";
@@ -126,7 +126,7 @@ const ToiletsSection = ({ nextToilet, isLoading, tags, feature }: Props) => {
               </Text>
             </Box>
             <Box>
-              <EditDropdownMenu
+              <EditDescriptionDropdownMenu
                 tagKey={description.key}
                 tagValue={description.value}
                 feature={feature}

@@ -1,21 +1,26 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
+import { getButton } from "~/needs-refactoring/modules/edit/tests/utils";
 import {
-  getButton,
-  getDialog,
-  getEditButton,
-  setupPage,
-} from "~/needs-refactoring/modules/edit/tests/utils";
+  goToMockedPlaceDetailPage,
+  mockPlaceDetails,
+  mockTranslations,
+} from "~/tests/e2e/utils/mocks";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
 
 test.describe("Edit wheelchair accessibility", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await setupPage(page);
-    await getEditButton(page, "wheelchair").click();
-    dialog = await getDialog(page);
+    await mockTranslations(page);
+    await mockPlaceDetails(page);
+    await goToMockedPlaceDetailPage(page);
+    await waitUntilMapIsLoaded(page);
+
+    await page.getByTestId("wheelchair-editor__button").click();
+    dialog = page.getByTestId("wheelchair-editor__dialog");
   });
 
-  test("dialog is rendered", async () => {
+  test("a dialog is shown after clicking the edit button", async () => {
     await expect(dialog).toBeVisible();
   });
 
@@ -23,11 +28,9 @@ test.describe("Edit wheelchair accessibility", () => {
     page,
   }) => {
     await expect(dialog.getByRole("button", { name: "Confirm" })).toBeVisible();
-    const yesItem = page.locator(`[data-testid="wheelchair-radio-yes-item"]`);
-    const limitedItem = page.locator(
-      `[data-testid="wheelchair-radio-limited-item"]`,
-    );
-    const noItem = page.locator(`[data-testid="wheelchair-radio-no-item"]`);
+    const yesItem = dialog.getByTestId("wheelchair-editor__radio--yes");
+    const limitedItem = dialog.getByTestId("wheelchair-editor__radio--limited");
+    const noItem = dialog.getByTestId("wheelchair-editor__radio--no");
 
     await expect(yesItem).toBeVisible();
     await expect(limitedItem).toBeVisible();

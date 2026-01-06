@@ -2,8 +2,8 @@ import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "~/tests/e2e/setup/test-fixture";
 import { skipOnMobiles } from "~/tests/e2e/utils/device";
 import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { skipOnboarding, waitUntilMapIsLoaded } from "~/tests/e2e/utils/skip";
 import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
 import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
 
@@ -11,7 +11,6 @@ test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
   await waitUntilMapIsLoaded(page);
-  await skipOnboarding(page);
 
   // when the search input is visible, wait another second before
   // interacting with it. there is some kind of race kondition, that

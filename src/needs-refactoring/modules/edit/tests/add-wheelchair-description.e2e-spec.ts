@@ -1,22 +1,33 @@
-import { expect, type Locator, test } from "@playwright/test";
+import { type Locator, expect, test } from "@playwright/test";
 import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
 import {
   getButton,
-  getDialog,
-  getEditButton,
-  getMenuItem,
   selectLanguage,
-  setupPage,
 } from "~/needs-refactoring/modules/edit/tests/utils";
+import {
+  goToMockedPlaceDetailPage,
+  mockPlaceDetails,
+  mockTranslations,
+} from "~/tests/e2e/utils/mocks";
+import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+
+const tagKey = "wheelchair:description:en";
 
 test.describe("Add wheelchair description in new language", () => {
   let dialog: Locator;
 
   test.beforeEach(async ({ page }) => {
-    await setupPage(page);
-    await getEditButton(page, "wheelchair:description").click();
-    await getMenuItem(page, "new-language").click();
-    dialog = await getDialog(page);
+    await mockTranslations(page);
+    await mockPlaceDetails(page);
+    await goToMockedPlaceDetailPage(page);
+    await waitUntilMapIsLoaded(page);
+
+    await page.getByTestId(`edit-description__button--${tagKey}`).click();
+    await page
+      .getByTestId(`edit-description__menu__new-language--${tagKey}`)
+      .click();
+
+    dialog = page.getByTestId(`edit-description__dialog--${tagKey}`);
   });
 
   test("dialog is rendered", async () => {

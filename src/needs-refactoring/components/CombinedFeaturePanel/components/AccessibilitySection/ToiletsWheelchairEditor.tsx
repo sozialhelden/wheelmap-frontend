@@ -36,7 +36,7 @@ const ToiletsWheelchairEditor = ({
       <Dialog.Trigger>
         <SecondaryButton
           aria-label={t("Edit toilet accessibility")}
-          data-testid={tagKey}
+          data-testid="toilets-wheelchair-editor__button"
           size="2"
         >
           {isNewlyTagged ? t("Add toilet information") : ""}
@@ -46,7 +46,7 @@ const ToiletsWheelchairEditor = ({
       <Dialog.Content
         aria-label={t("Toilet Accessibility Editor")}
         aria-describedby="dialog-description"
-        data-testid="dialog"
+        data-testid="toilets-wheelchair-editor__dialog"
       >
         <Flex direction="column" gap="4" style={{ padding: "10px" }}>
           <FeatureHeader feature={feature} level="h2" />

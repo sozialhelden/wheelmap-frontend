@@ -2,7 +2,7 @@ import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import type React from "react";
 import { useTranslations } from "~/modules/i18n/hooks/useTranslations";
-import EditDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDropdownMenu";
+import EditDescriptionDropdownMenu from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/EditDescriptionDropdownMenu";
 import WheelchairEditor from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/WheelchairEditor";
 import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 import type { AnyFeature } from "~/needs-refactoring/lib/model/geo/AnyFeature";
@@ -63,7 +63,7 @@ const WheelchairSection = ({ tags, feature }: Props) => {
                 </Text>
               </Box>
               <Box>
-                <EditDropdownMenu
+                <EditDescriptionDropdownMenu
                   tagKey={wheelchairDescription.key}
                   tagValue={wheelchairDescription.value}
                   feature={feature}
