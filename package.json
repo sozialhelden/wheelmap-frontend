@@ -23,7 +23,7 @@
     "async_hooks": "^1.0.0",
     "babel-plugin-ttag": "^1.8.15",
     "browser-image-resizer": "^1.2.0",
-    "browserstack-local": "^1.4.8",
+    "browserstack-local": "^1.5.9",
     "caniuse-lite": "^1.0.30001565",
     "classnames": "^2.2.6",
     "compression": "^1.7.3",
@@ -96,7 +96,7 @@
     "unfetch": "^3.1.2",
     "uuid": "^8.3.1",
     "webdriverio": "^9.1.0",
-    "webpack": "^5.94.0",
+    "webpack": "^5.104.1",
     "webpack-log": "^3.0.1"
   },
   "devDependencies": {
