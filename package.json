@@ -8,7 +8,6 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime-corejs3": "^7.12.1",
-    "@elastic/apm-rum": "^4.9.1",
     "@sozialhelden/a11yjson": "^20.3.0",
     "@sozialhelden/ietf-language-tags": "^5.4.2",
     "@sozialhelden/twelve-factor-dotenv": "^18.0.0",
