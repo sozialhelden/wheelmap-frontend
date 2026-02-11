@@ -1,17 +1,17 @@
 import * as React from 'react';
+import ReactMapGL, { GeolocateControl } from 'react-map-gl';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import ReactMapGL, { GeolocateControl } from 'react-map-gl';
 
-import env from '../../../lib/env';
 import colors from '../../../lib/colors';
+import env from '../../../lib/env';
 import savedState from '../../../lib/savedState';
 
-import CategoryIcon from '../../Icon';
 import { ChromelessButton, PrimaryButton } from '../../Button';
+import CategoryIcon from '../../Icon';
 
-import VerticalPage from '../components/VerticalPage';
 import PageHeader from '../components/PageHeader';
+import VerticalPage from '../components/VerticalPage';
 
 export type PointGeometry = {
   type: 'Point',
@@ -54,7 +54,7 @@ const PointGeometryPicker = (props: Props) => {
 
   const [viewport, setViewport] = React.useState<Viewport>(viewportFromSavedState());
 
-  const geoLocateRef = React.useRef<GeolocateControl>();
+  const geoLocateRef = React.useRef<any>();
 
   // snap to current position on mount
   const applyViewport = React.useCallback(viewport => setViewport(viewport), [setViewport]);
@@ -94,6 +94,7 @@ const PointGeometryPicker = (props: Props) => {
         >
           <GeolocateControl
             className="geolocateControl"
+            // @ts-expect-error - GeolocateControl accepts ref at runtime but types don't expose it
             ref={geoLocateRef}
             positionOptions={{ enableHighAccuracy: true }}
             trackUserLocation={false}
