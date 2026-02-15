@@ -1,16 +1,15 @@
-import React from 'react';
-import { t } from 'ttag';
-import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import Link, { RouteConsumer } from '../Link/Link';
-import { MappingEvents } from '../../lib/MappingEvent';
 import { App } from '../../lib/App';
-import StyledMarkdown from '../StyledMarkdown';
-import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
+import { MappingEvents } from '../../lib/MappingEvent';
 import colors from '../../lib/colors';
 import CloseButton from '../CloseButton';
+import Link, { RouteConsumer } from '../Link/Link';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import StyledMarkdown from '../StyledMarkdown';
+import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
 
 type MappingEventsToolbarProps = {
   app: App,
@@ -87,7 +86,7 @@ const MappingEventsToolbar = ({
                         </div>
                         <div>
                           <h3>{event.name}</h3>
-                          {event.area && <p>{event.area.properties.name}</p>}
+                          {event.area?.properties?.name && <p>{event.area?.properties?.name}</p>}
                         </div>
                       </Link>
                     );
