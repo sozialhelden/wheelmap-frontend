@@ -29,5 +29,12 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "chat.tools.terminal.autoApprove": {
+    "npm install": true,
+    "git push": true,
+    "gh": true,
+    "brew": true,
+    "pkill": true
   }
 }

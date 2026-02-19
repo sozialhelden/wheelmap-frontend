@@ -2,6 +2,9 @@
 
 This document explains the steps to test the main functionality of the wheelmap react frontend application.
 
+We have a CI test backlog [in Asana](https://app.asana.com/1/1200321573365931/project/1213356985075012/list/1213352858878732). It has a stage that marks which tasks need or have a CI test.
+Update the stage field from Github commit statuses if there is a PR connected to a task that you test.
+
 ## First time usage
 
 - 'welcome' dialog shown on first start
