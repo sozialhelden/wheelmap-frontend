@@ -68,14 +68,16 @@ test('beschreibung', async ({ page }) => {
 
 ### Asana-Workflow für Tests
 
-1. **PRs BEIDSEITIG mit Asana-Ticket verlinken** - IMMER im Commit und PR UND im Asana-Ticket:
+1. **Pro Ticket ein eigener PR** - IMMER einen separaten Branch/PR pro Asana-Ticket erstellen
+2. **Branch basiert auf `beta`** - Neue Branches normalerweise von `beta` abzweigen
+3. **PRs BEIDSEITIG mit Asana-Ticket verlinken** - IMMER im Commit und PR UND im Asana-Ticket:
    - Commit: `... (Asana #TASK_GID)` 
    - PR-Beschreibung: Link `https://app.asana.com/0/PROJECT_GID/TASK_GID` → GitHub-Asana Integration zeigt PR als Karte
    - Asana-Ticket-Description: PR-Deeplink unten anfügen via `mcp_asana_asana_update_task`
-2. **PR-Links immer mit korrektem Deeplink** - Format: `https://github.com/sozialhelden/wheelmap-frontend/pull/123`
-3. **CI-Status im Ticket aktualisieren** - Vor Änderung nachfragen
-4. **Kein passendes Ticket?** → Neues Ticket vorschlagen
-5. **Tools verfügbar**: Asana MCP (für Copilot), Asana Python SDK
+4. **PR-Links immer mit korrektem Deeplink** - Format: `https://github.com/sozialhelden/wheelmap-frontend/pull/123`
+5. **CI-Status im Ticket aktualisieren** - Vor Änderung nachfragen
+6. **Kein passendes Ticket?** → Neues Ticket vorschlagen
+7. **Tools verfügbar**: Asana MCP (für Copilot), Asana Python SDK
 
 ### Asana MCP-Befehle (Beispiele)
 
