@@ -143,15 +143,17 @@ test('sollte keine Accessibility-Violations haben', async ({ page, makeAxeBuilde
 
 ### Workflow
 
-1. **Jeder Test braucht ein Asana-Ticket**
-2. **PRs BEIDSEITIG verlinken** - IMMER das Asana-Ticket im Commit und PR referenzieren und umgekehrt:
+1. **Pro Ticket ein eigener PR** - IMMER einen separaten Branch/PR pro Asana-Ticket erstellen
+2. **Branch basiert auf `beta`** - Neue Branches normalerweise von `beta` abzweigen (außer anders angewiesen)
+3. **PRs BEIDSEITIG verlinken** - IMMER das Asana-Ticket im Commit und PR referenzieren und umgekehrt:
    - Commit-Message: `... (Asana #TASK_GID)`
    - **PR-Description**: Asana-Task-Link einfügen → GitHub-Asana Integration zeigt PR als Karte im Ticket
    - **Asana-Ticket-Description**: PR-Deeplink unten anfügen via `mcp_asana_asana_update_task`
    - Asana-Link-Format: `https://app.asana.com/0/PROJECT_GID/TASK_GID`
    - **PR-Link-Format**: `https://github.com/sozialhelden/wheelmap-frontend/pull/123` (IMMER `/pull/` verwenden!)
-3. **CI-Status aktualisieren** - Nutzer vorher fragen
-4. **Kein Ticket vorhanden?** → Neues Ticket vorschlagen
+4. **PR-Templates verwenden** - PRs mit dem Repository-Template erstellen (`.github/pull_request_template.md`)
+5. **CI-Status aktualisieren** - Nutzer vorher fragen
+6. **Kein Ticket vorhanden?** → Neues Ticket vorschlagen
 
 ### Verfügbare Tools
 
