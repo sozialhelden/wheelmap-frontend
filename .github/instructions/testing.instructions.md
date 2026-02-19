@@ -20,6 +20,8 @@ npx playwright test --debug                 # Debug-Modus
 npx playwright show-report                  # HTML-Report
 ```
 
+**WICHTIG:** Vor dem Testen sicherstellen, dass **kein Dev-Server** in einem VSCode-Terminal läuft! Playwright startet den Dev-Server automatisch (konfiguriert in `playwright.config.ts` → `webServer`).
+
 ## Playwright-Selektoren (Priorität)
 
 **Fokus auf ARIA-Labels und Screenreader-Barrierefreiheit!**
@@ -151,6 +153,36 @@ test('sollte keine Accessibility-Violations haben', async ({ page, makeAxeBuilde
 - **Asana MCP**: `mcp_asana_*` Funktionen für Copilot-Integration
 - **Asana Python SDK**: `pip install asana` (global installiert)
 - **MCP Server**: `@roychri/mcp-server-asana` (global installiert)
+- **GitHub CLI**: `gh` für PR- und CI-Status-Abfragen
+
+### CI-Stage Werte (Asana Custom Field)
+
+| Status | GID | Bedeutung |
+|--------|-----|-----------|
+| Kein CI-Test | `1213349847418437` | Test nicht nötig |
+| 🤷🏻‍♀️ CI-Test wäre super :D | `1213349847418438` | Test erwünscht |
+| ⛔️ CI-Test existiert, aber failt | `1213349847418439` | Test failed in CI |
+| ✅ CI-Test grün | `1213349847418440` | Test passed |
+| 👍 Kein CI-Test nötig | `1213349847418441` | Won't do |
+
+### CI-Stage Field GID: `1213349847418436`
+
+### GitHub CI → Asana Workflow
+
+1. **PR erstellen** mit Asana-Ticket-Referenz im Branch/Commit
+2. **CI läuft** - GitHub Actions führen Playwright-Tests aus
+3. **CI-Status prüfen**: `gh pr checks` oder GitHub Web
+4. **Asana aktualisieren** (nach Rückfrage):
+   - ✅ Pass → `CI-Test grün`
+   - ❌ Fail → `CI-Test existiert, aber failt`
+
+```bash
+# GitHub CI-Status prüfen
+gh pr checks
+
+# Asana CI-Stage aktualisieren (MCP)
+mcp_asana_asana_update_task task_gid="TASK_ID" custom_fields={"1213349847418436": "1213349847418440"}
+```
 
 ### MCP-Beispiele
 
