@@ -1,4 +1,3 @@
-import { bbox } from "@turf/turf";
 import React, { useContext, useRef } from "react";
 import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
@@ -33,6 +32,7 @@ import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/
 import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
 import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 
