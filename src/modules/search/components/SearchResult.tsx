@@ -69,6 +69,9 @@ export const SearchResult = forwardRef(function SearchResult(
     if (extent) {
       focusMapOnFeature(map, { extent });
     }
+    if (extent) {
+      focusMapOnFeature(map, { extent });
+    }
 
     if (lat && lon) {
       focusMapOnFeature(map, { latLon: { lat, lon } as LatLon });
