@@ -37,7 +37,7 @@ test('principal railway station of Berlin works with multi-language description'
   await page.getByPlaceholder('Search for place or address').click();
   await page.getByPlaceholder('Search for place or address').fill('Berlin Central Station');
   await page.getByPlaceholder('Search for place or address').press('Enter');
-  
+  await page.waitForLoadState('networkidle');
   await page.getByRole('link', { name: 'Berlin Central Station(Train' }).click();
   await page.getByRole('heading',{name: 'Berlin Central Station'}).click();
 
