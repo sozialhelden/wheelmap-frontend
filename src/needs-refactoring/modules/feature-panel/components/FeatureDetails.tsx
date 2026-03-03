@@ -1,5 +1,4 @@
-import { bbox } from "@turf/turf";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
@@ -25,12 +24,11 @@ import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { breakpoints } from "~/hooks/useBreakpoints";
-import { usePageTitle } from "~/hooks/usePageTitle";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
-import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/useNextAccessibleToilet";
 import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
+import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
 
 type Props = {
   features: AnyFeature[];
@@ -102,21 +100,7 @@ const FeatureDetails = ({
   );
 
   const handleHeaderClick = () => {
-    const coordinates = feature.geometry?.coordinates;
-    if (!coordinates) {
-      return;
-    }
-    const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
-      maxZoom: 19,
-    });
-    if (cameraOptions) {
-      map?.map?.flyTo({
-        ...cameraOptions,
-        duration: 1000,
-        padding: 100,
-      });
-    }
-    // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
+    focusMapOnFeature(map.map, { feature });
   };
 
   const headingRef = useRef<HTMLHeadingElement>(null);
