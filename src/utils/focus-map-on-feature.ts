@@ -11,7 +11,7 @@ export type FocusMapOptions = {
 export const DEFAULT_OPTIONS: Required<
   Pick<FocusMapOptions, "padding" | "zoom" | "maxZoom" | "durationMs">
 > = {
-  padding: 80,
+  padding: 0,
   zoom: 15,
   maxZoom: 19,
   durationMs: 1000,
