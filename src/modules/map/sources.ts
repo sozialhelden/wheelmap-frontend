@@ -1,5 +1,5 @@
 import type { SourceProps } from "react-map-gl/mapbox-legacy";
-import { osmApiCollections } from "~/hooks/useOsmApi";
+import { osmApiCollections } from "~/hooks/osmApiCollections";
 
 export type ExternalDataSource = {
   /**
