@@ -1,16 +1,15 @@
 import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
 import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
-import { CheckIcon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
 import { useExpertMode } from "~/hooks/useExpertMode";
-import { useTheme } from "~/hooks/useTheme";
 import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
 import { useNavigation } from "~/needs-refactoring/lib/useNavigation";
+import DarkModeToggle from "./DarkModeToggle";
 
 function filterExpertModeLinks(
   links: TranslatedAppLink[],
@@ -24,10 +23,6 @@ function filterExpertModeLinks(
   });
 }
 
-const FlexListItem = styled.li`
-    display: flex;
-`;
-
 export default function Navigation() {
   const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +30,7 @@ export default function Navigation() {
 
   useEffect(() => setIsOpen(false), [pathName]);
 
-  const { linksInToolbar, linksInDropdownMenu } = useNavigation();
+  const { primaryLink, linksInDropdownMenu } = useNavigation();
 
   const menuLinkElements = useMemo(
     () =>
@@ -45,18 +40,7 @@ export default function Navigation() {
     [linksInDropdownMenu, isExpertMode],
   );
 
-  const toolbarLinkElements = useMemo(
-    () =>
-      filterExpertModeLinks(linksInToolbar, isExpertMode).map((appLink) => (
-        <FlexListItem key={appLink._id}>
-          <AppLink asMenuItem={false} {...appLink} />
-        </FlexListItem>
-      )),
-    [linksInToolbar, isExpertMode],
-  );
-
   const { languageLabel, setLanguageTag } = useI18n();
-  const { theme, setTheme } = useTheme();
 
   const dropdownMenuButton = menuLinkElements.length > 0 && (
     <Theme radius="small">
@@ -87,30 +71,7 @@ export default function Navigation() {
               </DropdownMenu.SubContent>
             </DropdownMenu.Sub>
           )}
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger>
-              {t("Choose theme")}
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent>
-              <DropdownMenu.Item onClick={() => setTheme("light")} key="light">
-                {t("Light")}
-                {theme === "light" && (
-                  <CheckIcon aria-hidden="true" size={16} />
-                )}
-              </DropdownMenu.Item>
-              <DropdownMenu.Item onClick={() => setTheme("dark")} key="dark">
-                {t("Dark")}
-                {theme === "dark" && <CheckIcon aria-hidden="true" size={16} />}
-              </DropdownMenu.Item>
-              <DropdownMenu.Item onClick={() => setTheme("system")} key="sytem">
-                {t("Auto")}
-                {theme === "system" && (
-                  <CheckIcon aria-hidden="true" size={16} />
-                )}
-              </DropdownMenu.Item>
-            </DropdownMenu.SubContent>
-          </DropdownMenu.Sub>
-          <DropdownMenu.Separator />
+          {isExpertMode && <DropdownMenu.Separator />}
           {menuLinkElements}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
@@ -120,9 +81,8 @@ export default function Navigation() {
   return (
     <Flex gap="4" align="center" asChild>
       <nav aria-label={t("Main")}>
-        <Flex gap="4" align="center" direction={"row"} asChild>
-          <ul>{toolbarLinkElements}</ul>
-        </Flex>
+        {primaryLink && <AppLink asMenuItem={false} {...primaryLink} />}
+        <DarkModeToggle />
         {dropdownMenuButton}
       </nav>
     </Flex>

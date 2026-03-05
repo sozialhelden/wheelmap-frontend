@@ -19,6 +19,7 @@ function useAppLinkButtonProps(tags: string[] | undefined): ButtonProps {
     () => ({
       variant: tags?.includes("primary") ? "solid" : "ghost",
       highContrast: !tags?.includes("primary"),
+      size: "3",
     }),
     [tags],
   );
