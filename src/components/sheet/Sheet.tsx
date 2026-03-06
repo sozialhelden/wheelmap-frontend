@@ -20,6 +20,7 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     z-index: 30;
     pointer-events: none;
     overflow-y: scroll;
+    overflow-x: hidden;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -48,6 +49,8 @@ const SheetContent = styled.div<{ $isSafari?: boolean }>`
     background: var(--color-panel);
     backdrop-filter: var(--backdrop-filter-panel);
     padding: 0 var(--space-3) var(--space-3) var(--space-3);
+    border-radius: 3rem 3rem 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
     
     overflow-x: ${({ $isSafari }) => ($isSafari ? "scroll" : "hidden")};
     overscroll-behavior: none;

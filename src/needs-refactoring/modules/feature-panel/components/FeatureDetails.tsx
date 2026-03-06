@@ -63,7 +63,6 @@ const SectionsContainer = styled(Flex)`
 `;
 const FeatureDetails = ({
   features,
-  isLoading,
   activeImageId,
   isUploadDialogOpen,
 }: Props) => {
