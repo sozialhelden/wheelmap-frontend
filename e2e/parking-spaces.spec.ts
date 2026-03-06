@@ -133,12 +133,30 @@ test.describe('Parking spaces accessibility', () => {
 });
 
 test.describe('Parking accessibility with capacity:disabled tag', () => {
-  // Dieser Test prüft, ob capacity:disabled korrekt interpretiert wird
-  // Diese Logik sollte im neuen Code bereits funktionieren
+  
+  const PARKING_WITH_CAPACITY_DISABLED_URL = 'https://feature-a11ymap.wheelmap.tech/ac:PlaceInfo/3baNfacYyoKT8QMEp?position%5Blatitude%5D=52.50000&position%5Blongitude%5D=13.30000&position%5Bzoom%5D=10.00000';
+  // Tags: amenity=parking_space, capacity:disabled=1;
 
-  test('parking with capacity:disabled should show as accessible', async ({ page }) => {
-    // Wir müssten einen Test-Ort mit capacity:disabled finden
-    // Für jetzt skippen wir diesen Test, bis wir einen geeigneten Testort haben
-    test.skip();
+  test('parking with capacity:disabled = 1 should show as accessible', async ({ page }) => {
+
+    await page.goto(PARKING_WITH_CAPACITY_DISABLED_URL);
+    await page.waitForLoadState('networkidle');
+
+   
+    await page.getByText('-S is undefined');
+    await page.getByRole('button', { name: 'Return Home' }).click();  
   });
+});
+
+test.describe('Parking accessibility with capacity:disabled>0 tag', () => {
+    const PARKING_WITH_CAPACITY_DISABLED_URL = 'https://feature-a11ymap.wheelmap.tech/composite/amenities:45kZJQNmmz2PGMqDR?position%5Blatitude%5D=52.50000&position%5Blongitude%5D=13.30000&position%5Bzoom%5D=10.00000';
+  
+    test('parking with capacity:disabled = 1 should show as accessible', async ({ page }) => {
+
+    await page.goto(PARKING_WITH_CAPACITY_DISABLED_URL);
+    await page.waitForLoadState('networkidle');
+
+    await page.getByText('No features found');
+ }); 
+ 
 });

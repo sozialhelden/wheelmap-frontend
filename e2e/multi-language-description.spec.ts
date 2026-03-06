@@ -50,18 +50,6 @@ test('principal railway station of Berlin works with multi-language description'
   await page.getByText('No speech output available').click();
   await page.getByText('DB ').click();
 
-  
-  // Optional: Überprüfe, dass die Beschreibung tatsächlich beide Sprachen enthält
-  /*const fullDescription = await page.getByTestId('general-osm-section').locator('p').innerText();
-  if (fullDescription) {
-    const hasGerman = fullDescription.toLowerCase().includes('berliner hauptbahnhof');
-    const hasEnglish = fullDescription.toLowerCase().includes('berlin central station');
-    console.log('Contains German:', hasGerman);
-    console.log('Contains English:', hasEnglish);
-    
-    expect(hasGerman).toBeTruthy();
-    expect(hasEnglish).toBeTruthy();
-  }*/
 });
 
   test('english description should be the first language displayed', async ({ page }) => {
