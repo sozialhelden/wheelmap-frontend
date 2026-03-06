@@ -1,12 +1,9 @@
-import { t } from "@transifex/native"; /* eslint-disable @next/next/no-img-element */
-import { omit } from "lodash";
-import type { HTMLAttributes } from "react";
 import useSWR from "swr";
 import type OSMFeature from "~/needs-refactoring/lib/model/osm/OSMFeature";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
-type Props = HTMLAttributes<HTMLImageElement> & {
+type UseWikidataEntityImageProps = {
   feature: OSMFeature;
   prefix?: string;
   verb: string;
@@ -21,37 +18,39 @@ WHERE {
   );
 
 /**
- * Renders a React component that loads brand info from the Wikidata API (with SWR) and displays the
- * brand logo.
+ * Hook to fetch Wikidata entity image URL.
+ * Returns loading state and image URL if available.
  */
-export default function WikidataEntityImage(props: Props) {
-  const { [props.prefix ? `${props.prefix}:wikidata` : "wikidata"]: entityId } =
-    props.feature.properties;
+export function useWikidataEntityImage({
+  feature,
+  prefix,
+  verb,
+}: UseWikidataEntityImageProps) {
+  const entityId =
+    feature?.properties?.[prefix ? `${prefix}:wikidata` : "wikidata"];
 
-  // eslint-disable-next-line react/destructuring-assignment
-  const url = `https://query.wikidata.org/sparql?query=${makeWikiQuery(
-    entityId,
-    props.verb,
-  )}&format=json`;
-  const { data, error } = useSWR(entityId ? url : null, fetcher);
-  if (error) return null;
-  if (!data) return null;
-  try {
-    const { results } = data;
-    const { bindings } = results;
-    const { o } = bindings[0];
-    const { value } = o;
-    const logoUrl = `${value.replace(/^http:/, "https:")}?width=600`;
+  const url = entityId
+    ? `https://query.wikidata.org/sparql?query=${makeWikiQuery(entityId, verb)}&format=json`
+    : null;
 
-    const image = (
-      <img
-        {...omit(props, "feature", "prefix", "verb")}
-        src={logoUrl}
-        aria-label={t("Place photo")}
-      />
-    );
-    return image;
-  } catch (e) {
-    return null;
+  const { data, error, isLoading } = useSWR(url, fetcher);
+
+  let imageUrl: string | null = null;
+  if (data && !error) {
+    try {
+      const { results } = data;
+      const { bindings } = results;
+      const { o } = bindings[0];
+      const { value } = o;
+      imageUrl = `${value.replace(/^http:/, "https:")}?width=600`;
+    } catch (e) {
+      imageUrl = null;
+    }
   }
+
+  return {
+    isLoading: isLoading && !!entityId,
+    imageUrl,
+    hasImage: !!imageUrl,
+  };
 }

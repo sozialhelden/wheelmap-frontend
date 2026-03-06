@@ -1,5 +1,5 @@
 import { bbox } from "@turf/turf";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
@@ -10,27 +10,27 @@ import ExternalInfoAndEditPageLinks from "~/needs-refactoring/components/Combine
 import PhoneNumberLinks from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "~/needs-refactoring/components/CombinedFeaturePanel/components/IconButtonList/StyledIconButtonList";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { useWikidataEntityImage } from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/WikidataEntityImage";
+import WikipediaLink from "~/needs-refactoring/components/CombinedFeaturePanel/components/WikipediaLink";
 import {
   type AnyFeature,
   isPlaceInfo,
 } from "~/needs-refactoring/lib/model/geo/AnyFeature";
+import type OSMFeature from "~/needs-refactoring/lib/model/osm/OSMFeature";
 import { useOsmTags } from "~/needs-refactoring/modules/edit/hooks/useOsmTags";
 import FeatureDescription from "~/needs-refactoring/modules/feature-panel/components/FeatureDescription";
 import OsmInfoSection from "~/needs-refactoring/modules/feature-panel/components/OSMInfoSection";
 import ToiletsSection from "~/needs-refactoring/modules/feature-panel/components/ToiletsSection";
 import WheelchairSection from "~/needs-refactoring/modules/feature-panel/components/WheelchairSection";
 
-import { Flex, Heading, VisuallyHidden } from "@radix-ui/themes";
+import { Flex, Heading, Spinner, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
-import { breakpoints } from "~/hooks/useBreakpoints";
-import { usePageTitle } from "~/hooks/usePageTitle";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
-import { useFeatureLabel } from "~/needs-refactoring/components/CombinedFeaturePanel/utils/useFeatureLabel";
 import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/useNextAccessibleToilet";
 import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 
 type Props = {
   features: AnyFeature[];
@@ -47,25 +47,16 @@ const Section = styled(Flex)`
 `;
 
 const HeaderSection = styled(Section)<{
-  $orderDesktop?: number;
-  $orderMobile?: number;
+  $hasImageSection?: boolean;
 }>`
-    order: ${(props) => props.$orderMobile};
-    @media (min-width: ${breakpoints.xs}px) {
-        order: ${(props) => props.$orderDesktop};
+    padding-top: ${(props) => (props.$hasImageSection ? "var(--space-1)" : "var(--space-5)")};
+    @media (min-width: 769px) {
+        padding-top: ${(props) => (props.$hasImageSection ? "var(--space-1)" : "calc(var(--topbar-height) + var(--space-5))")};
     }
 `;
 
-const SectionsContainer = styled(Flex)<{
-  $orderDesktop?: number;
-  $orderMobile?: number;
-}>`
-    //display: flex;
+const SectionsContainer = styled(Flex)`
     flex-direction: column;
-    order: ${(props) => props.$orderMobile};
-    @media (min-width: ${breakpoints.xs}px) {
-        order: ${(props) => props.$orderDesktop};
-    }
     ${Section}:last-child {
         border-bottom: none;
     }
@@ -80,6 +71,17 @@ const FeatureDetails = ({
   const map = useMap();
   const context = useContext(FeaturePanelContext);
   const { nestedTags } = useOsmTags(feature);
+
+  const osmFeature = feature?.["@type"] === "osm:Feature" ? feature : null;
+
+  const {
+    isLoading: isImageLoading,
+    imageUrl,
+    hasImage,
+  } = useWikidataEntityImage({
+    feature: osmFeature ?? ({ properties: {} } as unknown as OSMFeature),
+    verb: "P18",
+  });
 
   const { nextAccessibleToilet, isLoadingNextToilet } =
     useNextAccessibleToilet(feature);
@@ -128,20 +130,22 @@ const FeatureDetails = ({
     <>
       {feature && (
         <Flex direction="column">
-          <HeaderImageSection
-            $orderDesktop={1}
-            $orderMobile={3}
-            data-testid="header-image-section"
-          >
-            {/*TODO: add Logo component*/}
-            {/*TODO: add alt texts  to images*/}
-            {/*TODO: refactor FeatureImage*/}
-            {feature["@type"] === "osm:Feature" && (
-              <FeatureImage feature={feature} />
-            )}
-          </HeaderImageSection>
+          {(isImageLoading || hasImage) && (
+            <HeaderImageSection data-testid="header-image-section">
+              {isImageLoading ? (
+                <Spinner size="3" />
+              ) : (
+                imageUrl &&
+                osmFeature && (
+                  <WikipediaLink feature={osmFeature}>
+                    <FeatureImage imageUrl={imageUrl} />
+                  </WikipediaLink>
+                )
+              )}
+            </HeaderImageSection>
+          )}
 
-          <HeaderSection $orderDesktop={2} $orderMobile={1}>
+          <HeaderSection $hasImageSection={isImageLoading || hasImage}>
             <FeatureHeader
               ref={headingRef}
               level="h1"
@@ -161,7 +165,7 @@ const FeatureDetails = ({
             )}
           </HeaderSection>
 
-          <SectionsContainer $orderDesktop={3} $orderMobile={2}>
+          <SectionsContainer>
             <Section>
               <VisuallyHidden>
                 <Heading as="h2">{t("Wheelchair section")}</Heading>
