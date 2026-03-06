@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const HeaderImageSection = styled.div`
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: calc(100% + var(--space-3) * 2); 
@@ -12,6 +12,10 @@ const HeaderImageSection = styled.div`
     background: var(--gray-4);
     overflow: hidden;
     img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; };
+    
+    @media (min-width: 769px) {
+        display: flex;
+    }
   `;
 
 export default HeaderImageSection;
