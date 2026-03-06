@@ -6,7 +6,7 @@ import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
-import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
+import { focusMapOnFeature, type LatLon } from "~/utils/focus-map-on-feature";
 
 type Props = {
   result: SearchResultType;
@@ -68,6 +68,10 @@ export const SearchResult = forwardRef(function SearchResult(
     // TODO: should be implemented on the place detail page level
     if (extent) {
       focusMapOnFeature(map, { extent });
+    }
+
+    if (lat && lon) {
+      focusMapOnFeature(map, { latLon: { lat, lon } as LatLon });
     }
   };
 
