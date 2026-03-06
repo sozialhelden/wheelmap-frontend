@@ -8,7 +8,7 @@ import {
   useRef,
 } from "react";
 import styled from "styled-components";
-import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
+import { useCollapsibleSheet } from "~/components/sheet/useCollapsibleSheet";
 import { useUserAgent } from "~/hooks/useUserAgent";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
@@ -142,7 +142,7 @@ export function Sheet({
   // it for them as well.
   const isSafari = useUserAgent().userAgent?.engine.name === "WebKit";
 
-  const { isExpanded, toggle } = useCollapsableSheet({
+  const { isExpanded, toggle } = useCollapsibleSheet({
     container,
     content,
     isExpanded: externalIsExpanded,

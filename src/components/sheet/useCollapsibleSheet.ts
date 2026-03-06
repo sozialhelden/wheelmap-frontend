@@ -1,6 +1,6 @@
 import { type MutableRefObject, useEffect, useState } from "react";
 
-export function useCollapsableSheet({
+export function useCollapsibleSheet({
   container,
   content,
   isExpanded: externalIsExpanded,
