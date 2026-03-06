@@ -4,6 +4,7 @@ import {
   type ComponentPropsWithoutRef,
   type ReactNode,
   type Ref,
+  useEffect,
   useMemo,
   useRef,
 } from "react";
@@ -123,6 +124,16 @@ export function Sheet({
 
   const container = useRef<HTMLDivElement>();
   const content = useRef<HTMLDivElement>();
+
+  // Set initial scroll position to 0 (collapsed state) on mount.
+  // This prevents the sheet from appearing fully expanded initially on mobile Safari,
+  // where the browser would otherwise show the content from the top and then scroll
+  // down to the first snap point.
+  useEffect(() => {
+    if (container.current) {
+      container.current.scrollTop = 0;
+    }
+  }, []);
 
   // There's a bug on Safari where a scrolling container is not recognized as such
   // when it's pointer-events are set to none. This means, that the whole container

@@ -47,11 +47,39 @@ export function useCollapsibleSheet({
     });
   };
   const expand = () => {
-    container.current?.scrollTo({
-      top: content.current?.offsetTop,
+    const containerEl = container.current;
+    const contentEl = content.current;
+    if (!containerEl || !contentEl) return;
+
+    // Get all ScrollStop elements (children before the content element)
+    const children = Array.from(containerEl.children) as HTMLElement[];
+    const contentIndex = children.indexOf(contentEl);
+    const scrollStopElements = children.slice(0, contentIndex);
+
+    // Calculate the position of the first non-zero height scroll stop
+    // This is where we want to snap when expanding (e.g., the 0.5 position)
+    let targetScrollTop = 0;
+
+    for (const el of scrollStopElements) {
+      const height = el.offsetHeight;
+      // Skip 0-height scroll stops (like the one for position 0)
+      if (height > 0) {
+        targetScrollTop += height;
+        break; // Stop after finding the first real scroll stop
+      }
+    }
+
+    // Fallback to content top if no valid position found
+    if (targetScrollTop === 0) {
+      targetScrollTop = contentEl.offsetTop;
+    }
+
+    containerEl.scrollTo({
+      top: targetScrollTop,
       behavior: "smooth",
     });
   };
+
   const toggle = () => {
     if (isExpanded) {
       collapse();
