@@ -176,9 +176,18 @@ export function Sheet({
           // We don't want to collapse the sheet on screen-readers. Collapsing is supposed to
           // grant the map more space, which is a purely visual effect.
           aria-hidden
+          onClick={toggle}
+          style={{ cursor: "pointer" }}
         >
           <DragHandle />
-          <ExpandButton variant="ghost" size="2" onClick={toggle}>
+          <ExpandButton
+            variant="ghost"
+            size="2"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggle();
+            }}
+          >
             {!isExpanded && <ChevronUp width="1.5rem" height="1.5rem" />}
             {isExpanded && <ChevronDown width="1.5rem" height="1.5rem" />}
           </ExpandButton>
