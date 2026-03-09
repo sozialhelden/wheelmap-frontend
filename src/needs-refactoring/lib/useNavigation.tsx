@@ -2,7 +2,6 @@ import React from "react";
 import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCurrentMappingEvent } from "~/needs-refactoring/lib/context/useCurrentMappingEvent";
 import { useUniqueSurveyId } from "~/needs-refactoring/lib/context/useUniqueSurveyId";
-import { useWindowSize } from "~/needs-refactoring/lib/util/useViewportSize";
 import { type TranslatedAppLink, useAppLink } from "./useAppLink";
 
 function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
@@ -10,15 +9,11 @@ function sortByOrder(a: TranslatedAppLink, b: TranslatedAppLink) {
 }
 
 /**
- * @returns An object with two arrays of {@link TranslatedAppLink}: one for the toolbar, one for
- * the menu. The links are sorted by their configured order, and divided depending on importance
- * and current viewport size.
+ * @returns An object with the primary link (add location button) and an array of
+ * {@link TranslatedAppLink} for the dropdown menu. The links are sorted by their configured order.
  */
 
 export function useNavigation() {
-  const windowSize = useWindowSize();
-  const isBigViewport = windowSize.width >= 1024;
-
   const { data: joinedMappingEvent } = useCurrentMappingEvent();
   const app = useWhitelabel();
   const appLinks = app.related?.appLinks;
@@ -29,31 +24,17 @@ export function useNavigation() {
   );
 
   return React.useMemo(() => {
-    // We show some links outside of the menu, and some inside of it.
-    // First, we sort the links into categories:
-    const alwaysVisible = translatedAppLinks.filter(
-      (l) => l.importance === "alwaysVisible",
-    );
-    const advertisedIfPossible = translatedAppLinks.filter(
-      (l) => !l.importance || l.importance === "advertisedIfPossible",
-    );
-    const insignificant = translatedAppLinks.filter(
-      (l) => l.importance === "insignificant",
+    const primaryLink = translatedAppLinks.find((l) =>
+      l.tags?.includes("primary"),
     );
 
-    // Then, we sort the links by their configured order, and return them.
-    const linksInToolbar = [
-      ...(isBigViewport ? advertisedIfPossible : []),
-      ...alwaysVisible,
-    ].sort(sortByOrder);
-    const linksInDropdownMenu = [
-      ...(isBigViewport ? [] : advertisedIfPossible),
-      ...insignificant,
-    ].sort(sortByOrder);
+    const linksInDropdownMenu = translatedAppLinks
+      .filter((l) => !l.tags?.includes("primary"))
+      .sort(sortByOrder);
 
     return {
-      linksInToolbar,
+      primaryLink,
       linksInDropdownMenu,
     };
-  }, [translatedAppLinks, isBigViewport]);
+  }, [translatedAppLinks]);
 }

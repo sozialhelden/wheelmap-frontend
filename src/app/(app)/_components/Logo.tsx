@@ -1,11 +1,14 @@
+"use client";
+
 import { Button } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
+import { useDarkMode } from "~/hooks/useTheme";
 
 import type { WhitelabelBranding } from "~/types/whitelabel";
 
-const StyledButton = styled<{ $beta?: boolean }>(Button)`
+const StyledButton = styled(Button)<{ $beta?: boolean }>`
     position: relative;
     &:before {
         display: ${({ $beta }) => ($beta ? "block" : "none")};
@@ -24,7 +27,7 @@ const StyledButton = styled<{ $beta?: boolean }>(Button)`
         font-size: .7rem;
     }
 `;
-const LogoWide = styled.span`
+const LogoWide = styled.span<{ $darkMode?: boolean }>`
     display: inline-flex;
     align-items: center;
     & > svg {
@@ -34,8 +37,16 @@ const LogoWide = styled.span`
     @media (max-width: 768px) {
         display: none;
     }
+    /* Invert all SVG elements except green ones */
+    ${({ $darkMode }) =>
+      $darkMode &&
+      `
+        & > svg *:not([fill="rgb(73, 185, 68)"]):not([fill="#49b944"]):not([fill="#49B944"]) {
+            filter: invert(1);
+        }
+    `}
 `;
-const LogoSquare = styled.span`
+const LogoSquare = styled.span<{ $darkMode?: boolean }>`
     display: inline-flex;
     align-items: center;
     & > svg {
@@ -45,15 +56,24 @@ const LogoSquare = styled.span`
     @media (min-width: 769px) {
         display: none;
     }
+    ${({ $darkMode }) =>
+      $darkMode &&
+      `
+        & > svg *:not([fill="rgb(73, 185, 68)"]):not([fill="#49b944"]):not([fill="#49B944"]) {
+            filter: invert(1);
+        }
+    `}
 `;
 
 export default function Logo({ branding }: { branding?: WhitelabelBranding }) {
   const beta = true;
+  const darkMode = useDarkMode();
 
   return (
     <StyledButton $beta={beta} variant="ghost" asChild>
       <AppStateAwareLink href="/" aria-label={t("Go to home page")}>
         <LogoWide
+          $darkMode={darkMode}
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
           dangerouslySetInnerHTML={{
             __html: branding?.vectorLogoSVG?.data ?? "",
@@ -61,6 +81,7 @@ export default function Logo({ branding }: { branding?: WhitelabelBranding }) {
           aria-hidden
         />
         <LogoSquare
+          $darkMode={darkMode}
           // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG code is only set by ourselves.
           dangerouslySetInnerHTML={{
             __html: branding?.vectorIconSVG?.data ?? "",

@@ -3,33 +3,16 @@ import { useWhitelabel } from "~/hooks/useWhitelabel";
 import { useCategoryFilter } from "~/modules/categories/hooks/useCategoryFilter";
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
 import {
-  type NestedRecord,
   flattenToSearchParams,
+  type NestedRecord,
 } from "~/utils/search-params";
+import {
+  type OsmApiCollection,
+  osmApiCollections,
+} from "~/hooks/osmApiCollections"; // Re-export from dedicated file to maintain backward compatibility
 
-export const osmApiCollections = [
-  "admin",
-  "amenities",
-  "buildings",
-  "conveying",
-  "elevators",
-  "entrances_or_exits",
-  "master_route_members",
-  "master_routes",
-  "pedestrian_highways",
-  "places",
-  "platforms",
-  "ramps",
-  "route_members",
-  "routes",
-  "stations",
-  "stop_area_members",
-  "stop_areas",
-  "stop_positions",
-  "toilets",
-] as const;
-
-export type OsmApiCollection = (typeof osmApiCollections)[number];
+// Re-export from dedicated file to maintain backward compatibility
+export { osmApiCollections, type OsmApiCollection };
 
 export type OsmApiProps = {
   tileNumber?: number;
