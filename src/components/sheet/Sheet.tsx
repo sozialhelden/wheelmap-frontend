@@ -24,22 +24,7 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-
-    // when over-scrolling, this prevents the underlying content from shining 
-    // through the gap between the bottom of the page and the sheet
-    &:after {
-        position: fixed;
-        z-index: 10;
-        content: "";
-        background: var(--color-panel);
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 6rem;
-        pointer-events: none;
-        opacity: ${({ $isExpanded }) => ($isExpanded ? 1 : 0)};
-    }
+    overscroll-behavior: none;
 `;
 const SheetContent = styled.div<{ $isSafari?: boolean }>`
     z-index: 20;
