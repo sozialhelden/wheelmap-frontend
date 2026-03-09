@@ -1,3 +1,5 @@
+import { bbox } from "@turf/turf";
+import React, { useContext, useRef } from "react";
 import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
@@ -32,6 +34,7 @@ import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/compon
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
+import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 
 type Props = {
   features: AnyFeature[];
