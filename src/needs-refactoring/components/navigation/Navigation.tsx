@@ -1,7 +1,8 @@
-import { DropdownMenu, Flex, IconButton, Theme } from "@radix-ui/themes";
+import { DropdownMenu, IconButton, Theme } from "@radix-ui/themes";
 import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
-import { CheckIcon, Menu, X } from "lucide-react";
+import { MapPinPlus, Menu, Moon, Sun, X } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -11,6 +12,10 @@ import { useI18n } from "~/modules/i18n/hooks/useI18n";
 import AppLink from "~/needs-refactoring/components/navigation/AppLink";
 import type { TranslatedAppLink } from "~/needs-refactoring/lib/useAppLink";
 import { useNavigation } from "~/needs-refactoring/lib/useNavigation";
+import { useWindowSize } from "~/needs-refactoring/lib/util/useViewportSize";
+import DarkModeToggle from "./DarkModeToggle";
+
+const SMALL_VIEWPORT_BREAKPOINT = 480;
 
 function filterExpertModeLinks(
   links: TranslatedAppLink[],
@@ -24,18 +29,39 @@ function filterExpertModeLinks(
   });
 }
 
-const FlexListItem = styled.li`
-    display: flex;
+const StyledNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+`;
+
+const StyledDropdownMenuContent = styled(DropdownMenu.Content)`
+  --default-font-size: var(--font-size-4);
+  
+  & [data-radix-collection-item] {
+    font-size: var(--font-size-4);
+  }
 `;
 
 export default function Navigation() {
   const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const { isExpertMode } = useExpertMode();
+  const { width } = useWindowSize();
+  const isSmallViewport = width < SMALL_VIEWPORT_BREAKPOINT;
+  const { setTheme, resolvedTheme } = useTheme();
+
+  const isDark = resolvedTheme === "dark";
+  const ThemeIcon = isDark ? Sun : Moon;
+
+  const handleThemeToggle = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
 
   useEffect(() => setIsOpen(false), [pathName]);
 
-  const { linksInToolbar, linksInDropdownMenu } = useNavigation();
+  const { primaryLink, linksInDropdownMenu } = useNavigation();
 
   const menuLinkElements = useMemo(
     () =>
@@ -45,18 +71,7 @@ export default function Navigation() {
     [linksInDropdownMenu, isExpertMode],
   );
 
-  const toolbarLinkElements = useMemo(
-    () =>
-      filterExpertModeLinks(linksInToolbar, isExpertMode).map((appLink) => (
-        <FlexListItem key={appLink._id}>
-          <AppLink asMenuItem={false} {...appLink} />
-        </FlexListItem>
-      )),
-    [linksInToolbar, isExpertMode],
-  );
-
   const { languageLabel, setLanguageTag } = useI18n();
-  const { theme, setTheme } = useTheme();
 
   const dropdownMenuButton = menuLinkElements.length > 0 && (
     <Theme radius="small">
@@ -71,7 +86,30 @@ export default function Navigation() {
             {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </IconButton>
         </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
+        <StyledDropdownMenuContent>
+          {isSmallViewport && primaryLink && (
+            <>
+              <DropdownMenu.Item asChild>
+                <Link href={primaryLink.url || "#"}>
+                  <MapPinPlus
+                    size={16}
+                    aria-hidden="true"
+                    style={{ marginRight: 8 }}
+                  />
+                  {primaryLink.label || t("Add new location")}
+                </Link>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item onClick={handleThemeToggle}>
+                <ThemeIcon
+                  size={16}
+                  aria-hidden="true"
+                  style={{ marginRight: 8 }}
+                />
+                {t("Change theme")}
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator />
+            </>
+          )}
           {isExpertMode && (
             <DropdownMenu.Sub>
               <DropdownMenu.SubTrigger>{languageLabel}</DropdownMenu.SubTrigger>
@@ -87,44 +125,24 @@ export default function Navigation() {
               </DropdownMenu.SubContent>
             </DropdownMenu.Sub>
           )}
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger>
-              {t("Choose theme")}
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent>
-              <DropdownMenu.Item onClick={() => setTheme("light")} key="light">
-                {t("Light")}
-                {theme === "light" && (
-                  <CheckIcon aria-hidden="true" size={16} />
-                )}
-              </DropdownMenu.Item>
-              <DropdownMenu.Item onClick={() => setTheme("dark")} key="dark">
-                {t("Dark")}
-                {theme === "dark" && <CheckIcon aria-hidden="true" size={16} />}
-              </DropdownMenu.Item>
-              <DropdownMenu.Item onClick={() => setTheme("system")} key="sytem">
-                {t("Auto")}
-                {theme === "system" && (
-                  <CheckIcon aria-hidden="true" size={16} />
-                )}
-              </DropdownMenu.Item>
-            </DropdownMenu.SubContent>
-          </DropdownMenu.Sub>
-          <DropdownMenu.Separator />
+          {isExpertMode && <DropdownMenu.Separator />}
           {menuLinkElements}
-        </DropdownMenu.Content>
+        </StyledDropdownMenuContent>
       </DropdownMenu.Root>
     </Theme>
   );
 
+  // Only show primary link and dark mode toggle outside the menu on large viewports
+  const primaryLinkElement =
+    primaryLink && !isSmallViewport ? (
+      <AppLink asMenuItem={false} {...primaryLink} />
+    ) : null;
+
   return (
-    <Flex gap="4" align="center" asChild>
-      <nav aria-label={t("Main")}>
-        <Flex gap="4" align="center" direction={"row"} asChild>
-          <ul>{toolbarLinkElements}</ul>
-        </Flex>
-        {dropdownMenuButton}
-      </nav>
-    </Flex>
+    <StyledNav aria-label={t("Main")}>
+      {primaryLinkElement}
+      {!isSmallViewport && <DarkModeToggle />}
+      {dropdownMenuButton}
+    </StyledNav>
   );
 }
