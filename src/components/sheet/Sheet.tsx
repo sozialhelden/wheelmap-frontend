@@ -4,11 +4,12 @@ import {
   type ComponentPropsWithoutRef,
   type ReactNode,
   type Ref,
+  useEffect,
   useMemo,
   useRef,
 } from "react";
 import styled from "styled-components";
-import { useCollapsableSheet } from "~/components/sheet/useCollapsableSheet";
+import { useCollapsibleSheet } from "~/components/sheet/useCollapsibleSheet";
 import { useUserAgent } from "~/hooks/useUserAgent";
 
 const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
@@ -20,6 +21,7 @@ const SheetContainer = styled.aside<{ $isExpanded: boolean }>`
     z-index: 30;
     pointer-events: none;
     overflow-y: scroll;
+    overflow-x: hidden;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -48,6 +50,8 @@ const SheetContent = styled.div<{ $isSafari?: boolean }>`
     background: var(--color-panel);
     backdrop-filter: var(--backdrop-filter-panel);
     padding: 0 var(--space-3) var(--space-3) var(--space-3);
+    border-radius: 3rem 3rem 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
     
     overflow-x: ${({ $isSafari }) => ($isSafari ? "scroll" : "hidden")};
     overscroll-behavior: none;
@@ -121,6 +125,16 @@ export function Sheet({
   const container = useRef<HTMLDivElement>();
   const content = useRef<HTMLDivElement>();
 
+  // Set initial scroll position to 0 (collapsed state) on mount.
+  // This prevents the sheet from appearing fully expanded initially on mobile Safari,
+  // where the browser would otherwise show the content from the top and then scroll
+  // down to the first snap point.
+  useEffect(() => {
+    if (container.current) {
+      container.current.scrollTop = 0;
+    }
+  }, []);
+
   // There's a bug on Safari where a scrolling container is not recognized as such
   // when it's pointer-events are set to none. This means, that the whole container
   // is not scrollable and thus the Sheet doesn't work. Also see this bugticket:
@@ -139,7 +153,7 @@ export function Sheet({
   // it for them as well.
   const isSafari = useUserAgent().userAgent?.engine.name === "WebKit";
 
-  const { isExpanded, toggle } = useCollapsableSheet({
+  const { isExpanded, toggle } = useCollapsibleSheet({
     container,
     content,
     isExpanded: externalIsExpanded,
@@ -162,9 +176,18 @@ export function Sheet({
           // We don't want to collapse the sheet on screen-readers. Collapsing is supposed to
           // grant the map more space, which is a purely visual effect.
           aria-hidden
+          onClick={toggle}
+          style={{ cursor: "pointer" }}
         >
           <DragHandle />
-          <ExpandButton variant="ghost" size="2" onClick={toggle}>
+          <ExpandButton
+            variant="ghost"
+            size="2"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggle();
+            }}
+          >
             {!isExpanded && <ChevronUp width="1.5rem" height="1.5rem" />}
             {isExpanded && <ChevronDown width="1.5rem" height="1.5rem" />}
           </ExpandButton>

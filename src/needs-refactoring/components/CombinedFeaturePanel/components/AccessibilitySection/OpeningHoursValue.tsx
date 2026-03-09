@@ -11,22 +11,38 @@ import { log } from "~/needs-refactoring/lib/util/logger";
 import FeatureContext from "../FeatureContext";
 import { Badge, Flex, Text } from "@radix-ui/themes";
 
-function getReadableState(oh: opening_hours) {
+type OpenStateType = "open" | "closed" | "unknown";
+
+function getReadableState(oh: opening_hours): {
+  type: OpenStateType;
+  label: string;
+} {
   const comment = oh.getComment();
-  let string = undefined;
+
   if (oh.getUnknown()) {
-    if (comment) {
-      string = t("Maybe open – {comment}", { comment });
-    }
-    string = t("Maybe open");
-  } else {
-    const state = oh.getState();
-    string = state ? t("Open now") : t("Closed");
-    if (comment) {
-      string = [string, t("({comment})", { comment })].join(" ");
-    }
+    const label = comment
+      ? t("Maybe open – {comment}", { comment })
+      : t("Maybe open");
+    return { type: "unknown", label };
   }
-  return string;
+
+  const isOpen = oh.getState();
+  let label = isOpen ? t("Open now") : t("Closed");
+  if (comment) {
+    label = [label, t("({comment})", { comment })].join(" ");
+  }
+  return { type: isOpen ? "open" : "closed", label };
+}
+
+function getBadgeColor(stateType: OpenStateType): "green" | "red" | "yellow" {
+  switch (stateType) {
+    case "open":
+      return "green";
+    case "closed":
+      return "red";
+    default:
+      return "yellow";
+  }
 }
 
 export default function OpeningHoursValue(props: {
@@ -150,14 +166,21 @@ export default function OpeningHoursValue(props: {
 
   return (
     <Flex direction="column" gap="3" pb="4">
-      <Flex direction="row" gap="2">
-        <Badge color="green" size="3" radius="full" highContrast>
-          {openState}
+      <Flex direction="column" gap="2" align="start">
+        <Badge
+          color={getBadgeColor(openState.type)}
+          size="3"
+          radius="full"
+          highContrast
+        >
+          {openState.label}
         </Badge>
-        <Text size="3">{closesIn}</Text>
+        <Flex direction="row" pl="2">
+          <Text size="3">{closesIn}</Text>
+        </Flex>
       </Flex>
 
-      <Flex direction="column" pr="3" pl="3">
+      <Flex direction="column" pr="3" pl="2">
         {shownElements.map((e) => (
           <Text key={e} size="3" color="gray">
             {e}
