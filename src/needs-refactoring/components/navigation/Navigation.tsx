@@ -1,7 +1,7 @@
 import { DropdownMenu, IconButton, Theme } from "@radix-ui/themes";
 import { supportedLanguageTagsOptions } from "@sozialhelden/core";
 import { t } from "@transifex/native";
-import { Menu, Moon, Plus, Sun, X } from "lucide-react";
+import { MapPinPlus, Menu, Moon, Sun, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -15,7 +15,7 @@ import { useNavigation } from "~/needs-refactoring/lib/useNavigation";
 import { useWindowSize } from "~/needs-refactoring/lib/util/useViewportSize";
 import DarkModeToggle from "./DarkModeToggle";
 
-const SMALL_VIEWPORT_BREAKPOINT = 1024;
+const SMALL_VIEWPORT_BREAKPOINT = 480;
 
 function filterExpertModeLinks(
   links: TranslatedAppLink[],
@@ -32,7 +32,7 @@ function filterExpertModeLinks(
 const StyledNav = styled.nav`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-shrink: 0;
 `;
 
@@ -91,7 +91,7 @@ export default function Navigation() {
             <>
               <DropdownMenu.Item asChild>
                 <Link href={primaryLink.url || "#"}>
-                  <Plus
+                  <MapPinPlus
                     size={16}
                     aria-hidden="true"
                     style={{ marginRight: 8 }}

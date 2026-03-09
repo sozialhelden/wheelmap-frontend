@@ -24,12 +24,10 @@ export function useNavigation() {
   );
 
   return React.useMemo(() => {
-    // Primary link (add location button) has the "primary" tag
     const primaryLink = translatedAppLinks.find((l) =>
       l.tags?.includes("primary"),
     );
 
-    // All other links go into the dropdown menu
     const linksInDropdownMenu = translatedAppLinks
       .filter((l) => !l.tags?.includes("primary"))
       .sort(sortByOrder);

@@ -1,6 +1,7 @@
 import type { ButtonProps } from "@radix-ui/themes";
 import { useMemo } from "react";
 import type { useAppLink } from "~/needs-refactoring/lib/useAppLink";
+import AddPlaceIconButton from "./AddPlaceIconButton";
 import ErroneousLink from "./ErroneousLink";
 import ExternalOrInternalLink from "./ExternalOrInternalLink";
 import JoinedEventLink from "./JoinedEventLink";
@@ -41,7 +42,9 @@ export default function AppLink({
   const buttonProps: ButtonProps = useAppLinkButtonProps(tags);
 
   let Element: React.ComponentType<IAutoLinkProps> | null;
-  if (tags?.includes("events")) {
+  if (tags?.includes("primary") && !asMenuItem) {
+    Element = AddPlaceIconButton;
+  } else if (tags?.includes("events")) {
     Element = JoinedEventLink;
   } else if (tags?.includes("session")) {
     Element = SessionElement;
