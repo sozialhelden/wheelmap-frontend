@@ -3,6 +3,8 @@
 #
 # At the time of writing, an Argo Workflow runs this script in a pod with pre-configured
 # environment variables.
+#
+# Normally runs inside a container with Playwright installed. See `Dockerfile.testing` for details.
 
 set -e
 set -o pipefail
