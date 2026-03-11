@@ -10,7 +10,7 @@ import {
 } from "react";
 import { type AppState, config } from "~/modules/app-state/app-state";
 import { getAppStateFromSearchParams } from "~/modules/app-state/utils/app-state";
-import { persistAppState } from "~/modules/app-state/utils/persistance";
+import { persistAppState } from "~/modules/app-state/utils/persistence";
 import {
   getQuery,
   getQueryFromAppState,
