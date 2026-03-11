@@ -1,6 +1,6 @@
 import type { ReadonlyURLSearchParams } from "next/navigation";
 import { type AppState, config } from "~/modules/app-state/app-state";
-import { getAppStateFromPersistence } from "~/modules/app-state/utils/persistance";
+import { getAppStateFromPersistence } from "~/modules/app-state/utils/persistence";
 import { parseQuery } from "~/modules/app-state/utils/query";
 import { unflattenSearchParams } from "~/utils/search-params";
 

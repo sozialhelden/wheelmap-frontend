@@ -1,142 +1,154 @@
-#!/bin/sh
+#!/bin/bash
 # This script runs inside CI deployments.
 #
 # At the time of writing, an Argo Workflow runs this script in a pod with pre-configured
 # environment variables.
 
 set -e
+set -o pipefail
 
-echo "Running e2e tests against URL '$CI_TEST_DEPLOYMENT_BASE_URL'..."
+# Colors and formatting
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[0;33m'
+BLUE=$'\033[0;34m'
+CYAN=$'\033[0;36m'
+BOLD=$'\033[1m'
+DIM=$'\033[2m'
+NC=$'\033[0m' # No Color
 
-# Create coverage directory
-COVERAGE_DIR="${CI_ARTIFACTS_PATH}/coverage"
-mkdir -p "$COVERAGE_DIR"
+# Symbols
+CHECK="✓"
+CROSS="✗"
+ARROW="→"
+DOT="•"
+
+print_header() {
+  echo ""
+  echo "${BLUE}${BOLD}════════════════════════════════════════════════════════════${NC}"
+  echo "${BLUE}${BOLD}  $1${NC}"
+  echo "${BLUE}${BOLD}════════════════════════════════════════════════════════════${NC}"
+  echo ""
+}
+
+print_step() {
+  echo "${CYAN}${ARROW}${NC} ${BOLD}$1${NC}"
+}
+
+print_success() {
+  echo "${GREEN}${CHECK}${NC} $1"
+}
+
+print_error() {
+  echo "${RED}${CROSS}${NC} $1"
+}
+
+print_info() {
+  echo "${DIM}${DOT} $1${NC}"
+}
+
+# Validate required environment variables
+MISSING_VARS=""
+[ -z "$CI_TEST_DEPLOYMENT_BASE_URL" ] && MISSING_VARS="$MISSING_VARS CI_TEST_DEPLOYMENT_BASE_URL"
+[ -z "$CI_ARTIFACTS_PATH" ] && MISSING_VARS="$MISSING_VARS CI_ARTIFACTS_PATH"
+
+if [ -n "$MISSING_VARS" ]; then
+  echo "${RED}${BOLD}Error: Missing required environment variables:${NC}"
+  for var in $MISSING_VARS; do
+    echo "${RED}  ${CROSS} $var${NC}"
+  done
+  echo ""
+  echo "Usage:"
+  echo "  CI_TEST_DEPLOYMENT_BASE_URL=https://example.com CI_ARTIFACTS_PATH=/artifacts ./run_tests.sh"
+  exit 1
+fi
+
+print_header "Playwright E2E Test Runner"
+
+print_step "Configuration"
+print_info "Target URL: ${BOLD}${CI_TEST_DEPLOYMENT_BASE_URL}${NC}"
+print_info "Artifacts:  ${BOLD}${CI_ARTIFACTS_PATH}${NC}"
+echo ""
+
+# Ensure artifacts directory and subdirectories exist
+print_step "Preparing artifacts directory..."
+mkdir -p "$CI_ARTIFACTS_PATH/test-results"
+mkdir -p "$CI_ARTIFACTS_PATH/playwright-report"
+print_success "Artifacts directory ready"
+echo ""
 
 # Temporary file for raw test output
 TEST_OUTPUT="${CI_ARTIFACTS_PATH}/test-output.txt"
 
-# Run deno test with multiple output formats:
-# - pretty: Console output for live feedback (default)
+print_header "Running Tests"
+
+# Run Playwright tests with multiple output formats:
+# - list: Console output for live feedback
 # - junit: XML format for CI systems (Jenkins, GitLab, Azure DevOps, Argo)
-# - coverage: Code coverage data
-# Capture output with tee for HTML conversion
-# Use pipefail to preserve deno test exit code through pipe
-set -o pipefail
+# - html: Interactive HTML report (don't auto-open)
+# Capture output with tee for console log
 TEST_EXIT_CODE=0
-deno test \
-  --allow-all \
-  --reporter=pretty \
-  --junit-path="${CI_ARTIFACTS_PATH}/junit.xml" \
-  --coverage="$COVERAGE_DIR" \
-  e2e/ 2>&1 | tee "$TEST_OUTPUT" || TEST_EXIT_CODE=$?
+FORCE_COLOR=1 \
+PLAYWRIGHT_HTML_OPEN=never \
+PLAYWRIGHT_JUNIT_OUTPUT_NAME="${CI_ARTIFACTS_PATH}/junit.xml" \
+pnpm exec playwright test \
+  --reporter=list,junit,html \
+  --output="${CI_ARTIFACTS_PATH}/test-results" \
+  2>&1 | tee "$TEST_OUTPUT" || TEST_EXIT_CODE=$?
 
-# Continue generating reports even if tests failed
+echo ""
 
-# Convert ANSI output to HTML
-# This uses sed to convert common ANSI escape codes to HTML spans
-ansi_to_html() {
-  sed -e 's/&/\&amp;/g' \
-      -e 's/</\&lt;/g' \
-      -e 's/>/\&gt;/g' \
-      -e 's/\x1b\[0m/<\/span>/g' \
-      -e 's/\x1b\[1m/<span style="font-weight:bold">/g' \
-      -e 's/\x1b\[2m/<span style="opacity:0.7">/g' \
-      -e 's/\x1b\[3m/<span style="font-style:italic">/g' \
-      -e 's/\x1b\[4m/<span style="text-decoration:underline">/g' \
-      -e 's/\x1b\[30m/<span style="color:#000">/g' \
-      -e 's/\x1b\[31m/<span style="color:#c00">/g' \
-      -e 's/\x1b\[32m/<span style="color:#0a0">/g' \
-      -e 's/\x1b\[33m/<span style="color:#aa0">/g' \
-      -e 's/\x1b\[34m/<span style="color:#00a">/g' \
-      -e 's/\x1b\[35m/<span style="color:#a0a">/g' \
-      -e 's/\x1b\[36m/<span style="color:#0aa">/g' \
-      -e 's/\x1b\[37m/<span style="color:#aaa">/g' \
-      -e 's/\x1b\[90m/<span style="color:#555">/g' \
-      -e 's/\x1b\[91m/<span style="color:#f55">/g' \
-      -e 's/\x1b\[92m/<span style="color:#5f5">/g' \
-      -e 's/\x1b\[93m/<span style="color:#ff5">/g' \
-      -e 's/\x1b\[94m/<span style="color:#55f">/g' \
-      -e 's/\x1b\[95m/<span style="color:#f5f">/g' \
-      -e 's/\x1b\[96m/<span style="color:#5ff">/g' \
-      -e 's/\x1b\[97m/<span style="color:#fff">/g' \
-      -e 's/\x1b\[[0-9;]*m//g'
-}
+# Move generated reports to artifacts directory
+print_step "Collecting artifacts..."
+mv playwright-report "${CI_ARTIFACTS_PATH}/playwright-report" 2>/dev/null && print_success "HTML report" || true
+[ -f "${CI_ARTIFACTS_PATH}/junit.xml" ] && print_success "JUnit XML" || true
 
-# Generate HTML report
-cat > "${CI_ARTIFACTS_PATH}/index.html" <<EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Results</title>
-  <style>
-    body {
-      font-family: ui-monospace, 'SF Mono', Monaco, 'Andale Mono', monospace;
-      background: #1e1e1e;
-      color: #d4d4d4;
-      padding: 2rem;
-      line-height: 1.5;
-    }
-    h1 { color: #fff; margin-bottom: 1rem; }
-    pre {
-      background: #0d0d0d;
-      padding: 1.5rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-    .links {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background: #2d2d2d;
-      border-radius: 8px;
-    }
-    .links a {
-      color: #5af;
-      margin-right: 1.5rem;
-      text-decoration: none;
-    }
-    .links a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <h1>Test Results</h1>
-  <div class="links">
-    <a href="junit.xml">JUnit XML</a>
-    <a href="coverage.lcov">Coverage LCOV</a>
-    <a href="coverage-html/index.html">Coverage Report</a>
-  </div>
-  <pre>
-$(ansi_to_html < "$TEST_OUTPUT")
-  </pre>
-</body>
-</html>
-EOF
+# Detect flaky tests (tests that required retries)
+FLAKY_TESTS=""
+if [ -d "${CI_ARTIFACTS_PATH}/test-results" ]; then
+  # Find directories with -retry suffix, extract unique test names
+  FLAKY_TESTS=$(find "${CI_ARTIFACTS_PATH}/test-results" -type d -name "*-retry*" 2>/dev/null | \
+    sed 's/-retry[0-9]*$//' | \
+    xargs -I {} basename {} 2>/dev/null | \
+    sort -u)
+fi
 
 # Clean up raw output
 rm -f "$TEST_OUTPUT"
 
-# Generate coverage reports in multiple formats
-echo "Generating coverage reports..."
+print_header "Results"
 
-# LCOV format (for coverage tools like Codecov, SonarQube)
-deno coverage "$COVERAGE_DIR" --lcov --output="${CI_ARTIFACTS_PATH}/coverage.lcov"
+if [ $TEST_EXIT_CODE -eq 0 ]; then
+  if [ -n "$FLAKY_TESTS" ]; then
+    FLAKY_COUNT=$(echo "$FLAKY_TESTS" | wc -l | tr -d ' ')
+    echo "${YELLOW}${BOLD}  ⚠ Warning: ${FLAKY_COUNT} flaky test(s) required retries${NC}"
+    echo ""
+    while IFS= read -r test; do
+      # Count retry attempts
+      RETRY_COUNT=$(find "${CI_ARTIFACTS_PATH}/test-results" -type d -name "${test}-retry*" 2>/dev/null | wc -l | tr -d ' ')
+      TOTAL_ATTEMPTS=$((RETRY_COUNT + 1))
+      echo "    ${YELLOW}${DOT}${NC} ${test} ${DIM}(${TOTAL_ATTEMPTS} attempts)${NC}"
+    done <<< "$FLAKY_TESTS"
+    echo ""
+    echo "${GREEN}${CHECK} All tests eventually passed${NC}"
+  else
+    echo "${GREEN}${BOLD}  ${CHECK} All tests passed!${NC}"
+  fi
+else
+  echo "${RED}${BOLD}  ${CROSS} Some tests failed (exit code: $TEST_EXIT_CODE)${NC}"
+fi
 
-# HTML report for human-readable browsing
-deno coverage "$COVERAGE_DIR" --html --output="${CI_ARTIFACTS_PATH}/coverage-html"
+echo ""
+print_step "Artifacts"
+print_info "playwright-report/ ${DIM}— Interactive HTML report${NC}"
+print_info "junit.xml          ${DIM}— JUnit XML for CI systems${NC}"
+print_info "test-results/      ${DIM}— Screenshots, traces, videos${NC}"
+echo ""
 
-# Summary to console
-deno coverage "$COVERAGE_DIR"
-
-ls -la "$CI_ARTIFACTS_PATH"
-
-echo "Tests completed. Artifacts available at '$CI_ARTIFACTS_PATH':"
-echo "  - index.html: Test results with ANSI colors"
-echo "  - junit.xml: JUnit XML report for CI systems"
-echo "  - coverage.lcov: LCOV coverage report"
-echo "  - coverage-html/: Interactive HTML coverage report"
+# Show directory contents
+echo "${DIM}"
+ls -lah "$CI_ARTIFACTS_PATH" 2>/dev/null || true
+echo "${NC}"
 
 # Exit with original test exit code
 exit $TEST_EXIT_CODE

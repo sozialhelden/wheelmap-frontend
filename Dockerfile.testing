@@ -1,25 +1,41 @@
-# Testing image for running Deno/Playwright e2e tests against a deployed app.
-#
-# The image is based on Deno because Deno is more secure by default and we can sandbox it.
+# Testing image for running Playwright e2e tests against a deployed app.
 #
 # Build:
 #
-#    docker build -f Dockerfile.testing -t infra:latest-testing .
+#    docker build -f Dockerfile.testing -t wheelmap-testing .
 #
-# Run:
+# Run (create artifacts directory with write permissions first):
 #
-#    docker run -e CI_TEST_DEPLOYMENT_BASE_URL=http://localhost:3000 -e CI_ARTIFACTS_PATH=/artifacts -v ./artifacts:/artifacts infra:latest-testing
+#    mkdir -p artifacts && chmod 777 artifacts
+#    docker run -e CI_TEST_DEPLOYMENT_BASE_URL=http://localhost:3000 -e CI_ARTIFACTS_PATH=/artifacts -v ./artifacts:/artifacts wheelmap-testing
 
-FROM node:20-bookworm
+# Use official Playwright image - browsers are pre-installed
+# Image tag format: v<playwright-version>-<os>
+# See https://playwright.dev/docs/docker
+FROM mcr.microsoft.com/playwright:v1.50.1-noble
 
-RUN npx -y playwright@1.58.2 install --with-deps
+# Install pnpm globally
+RUN npm install -g pnpm
 
-# Copy test files and run script
-COPY e2e/ ./e2e/
+WORKDIR /app
+
+# Install only test dependencies (matching the pre-installed browser version)
+RUN pnpm init && pnpm add @playwright/test@1.50.1 @axe-core/playwright@4.10.1 dotenv
+
+# Copy test files and configuration
+COPY tsconfig.json ./
 COPY run_tests.sh ./
+COPY playwright.config.ts ./
+COPY e2e/ ./e2e/
 
-# Run as non-root user
+# Set ownership of app directory to pwuser (pre-created in playwright image)
+RUN chown -R pwuser:pwuser /app
+
+# Create artifacts directory with proper permissions
+RUN mkdir -p /artifacts && chown pwuser:pwuser /artifacts && chmod 777 /artifacts
+
+# Run as non-root user (pwuser is uid 1000 in the playwright image)
 USER pwuser
 
-# Run e2e tests via run_tests.sh (outputs junit, coverage, etc.)
-ENTRYPOINT ["/bin/sh", "run_tests.sh"]
+# Run e2e tests via run_tests.sh (outputs junit, HTML report, etc.)
+ENTRYPOINT ["/bin/bash", "run_tests.sh"]

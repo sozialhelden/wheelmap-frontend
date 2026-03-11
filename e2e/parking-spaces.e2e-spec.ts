@@ -12,7 +12,7 @@
  * with correct accessibility marking (green/yellow/red).
  */
 
-import { expect, type Page, test } from "@playwright/test";
+import { type Page, expect, test } from "@playwright/test";
 
 // Test parking space from the bug report
 // OSM: https://www.openstreetmap.org/way/1116394998
