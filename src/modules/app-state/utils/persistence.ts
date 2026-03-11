@@ -7,7 +7,7 @@ import {
 const localStorageKey = "a11ymap-app-state";
 
 export function persistAppState(state: AppState): void {
-  if (typeof localStorage === "undefined") {
+  if (typeof window === "undefined") {
     return;
   }
   const stateToPersist = Object.entries(config).reduce(
@@ -22,7 +22,7 @@ export function persistAppState(state: AppState): void {
 }
 
 export function getAppStateFromPersistence(): Partial<AppState> {
-  if (typeof localStorage === "undefined") {
+  if (typeof window === "undefined") {
     return {};
   }
   const storedState = localStorage.getItem(localStorageKey);
