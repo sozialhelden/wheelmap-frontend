@@ -12,7 +12,7 @@ Dies ist das Frontend für Wheelmap.org, eine Plattform zur Erfassung der Barrie
 ### Test-Framework & Konfiguration
 
 - **E2E-Tests**: Playwright (`e2e/` Verzeichnis)
-- **Test-Ausführung**: `npm test` oder `npx playwright test`
+- **Test-Ausführung**: `pnpm test` oder `pnpm exec playwright test`
 - **Test-Report**: `npx playwright show-report`
 - **Debugging**: `npx playwright test --debug`
 - **Einzelner Test**: `npx playwright test e2e/dateiname.spec.ts`
@@ -103,22 +103,22 @@ mcp_asana_asana_update_task task_gid="TASK_GID" opt_fields="..."
 ### Lokaler Start
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 # App läuft unter http://localhost:3000
 ```
 
 ### Linting & Formatting
 
 ```bash
-npm run lint        # ESLint + Next.js Lint
-npm run format      # Code formatieren
+pnpm lint        # ESLint + Next.js Lint
+pnpm format      # Code formatieren
 ```
 
 ### Übersetzungen
 
 ```bash
-npm run transifex:push   # Neue Strings zu Transifex pushen
+pnpm transifex:push   # Neue Strings zu Transifex pushen
 ```
 
 ## Code-Konventionen
