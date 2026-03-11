@@ -1,5 +1,5 @@
-import { expect, test } from "~/tests/e2e/setup/test-fixture";
 import type { Page } from "@playwright/test"; // Helper to dismiss onboarding dialog
+import { expect, test } from "~/tests/e2e/setup/test-fixture";
 
 // Helper to dismiss onboarding dialog
 async function dismissOnboarding(page: Page) {
@@ -83,7 +83,7 @@ test.describe("Logo Display and Contrast", () => {
     await expect(logoSvg).toBeVisible();
   });
 
-  test("logo text has POOR contrast in dark mode (BUG: Asana #1210099669460115)", async ({
+  test("logo text should not have poor contrast in dark mode (BUG: Asana #1210099669460115)", async ({
     page,
   }) => {
     // BUG: The Wheelmap logo text is not visible on dark backgrounds
