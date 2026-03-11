@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test"; // Helper to dismiss onboarding dialog
-import { expect, test } from "~/tests/e2e/setup/test-fixture";
+import { expect, test } from "./setup/test-fixture";
 
 // Helper to dismiss onboarding dialog
 async function dismissOnboarding(page: Page) {

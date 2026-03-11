@@ -33,6 +33,8 @@ env/*
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/test-results/
+/artifacts/
 
 # Transifex api package
 .api

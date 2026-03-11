@@ -99,6 +99,8 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
+    "ci:image:build": "CONTAINER_CMD=$(command -v podman >/dev/null && echo podman || echo docker) && ARCH=$(uname -m | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/') && $CONTAINER_CMD build --platform linux/$ARCH -f Dockerfile.testing -t wheelmap-frontend-testing:latest .",
+    "ci:image:run": "CONTAINER_CMD=$(command -v podman >/dev/null && echo podman || echo docker) && $CONTAINER_CMD run -e CI=1 -e CI_TEST_DEPLOYMENT_BASE_URL=http://host.containers.internal:3000 -e CI_ARTIFACTS_PATH=/artifacts -v ./artifacts:/artifacts wheelmap-frontend-testing:latest",
     "lint": "npx biome lint",
     "lint:fix": "npx biome lint --write",
     "format": "npx biome format",
