@@ -1,5 +1,7 @@
 # Testing image for running Deno/Playwright e2e tests against a deployed app.
 #
+# The image is based on Deno because Deno is more secure by default and we can sandbox it.
+#
 # Build:
 #
 #    docker build -f Dockerfile.testing -t infra:latest-testing .
@@ -8,49 +10,16 @@
 #
 #    docker run -e CI_TEST_DEPLOYMENT_BASE_URL=http://localhost:3000 -e CI_ARTIFACTS_PATH=/artifacts -v ./artifacts:/artifacts infra:latest-testing
 
-FROM denoland/deno:alpine-2.2.3
+FROM node:20-bookworm
 
-# Install helpful additions for testing
-RUN apk add --no-cache \
-    bash \
-    git \
-    openssl \
-    jq \
-    yq \
-    rg \
-    xsv \
-    unzip
-
-
-# Install Playwright dependencies (chromium + required libs + fonts)
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    ttf-inter
-
-
-# Configure Playwright to use system Chromium
-ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
-
-WORKDIR /usr/app
-
-# Copy deno config for dependency caching
-COPY deno.json deno.lock* ./
-
-# Cache dependencies (including playwright)
-RUN deno install
+RUN npx -y playwright@1.58.2 install --with-deps
 
 # Copy test files and run script
 COPY e2e/ ./e2e/
 COPY run_tests.sh ./
 
 # Run as non-root user
-USER deno
+USER pwuser
 
 # Run e2e tests via run_tests.sh (outputs junit, coverage, etc.)
 ENTRYPOINT ["/bin/sh", "run_tests.sh"]
