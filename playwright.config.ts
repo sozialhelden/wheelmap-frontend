@@ -6,8 +6,6 @@ import { defineConfig, devices } from "@playwright/test";
  */
 import "dotenv/config";
 
-const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -29,7 +27,7 @@ export default defineConfig({
       Base URL to use in actions like `await page.goto('/')`.
     */
     // TODO: Beware, this does not work in CI yet for yet unknown reasons.
-    baseURL,
+    baseURL: process.env.CI_TEST_DEPLOYMENT_BASE_URL || "http://localhost:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "retain-on-failure",
