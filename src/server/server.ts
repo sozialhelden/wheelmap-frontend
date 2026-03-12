@@ -17,6 +17,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = nextjs({ dir: path.join(__dirname, '..'), dev });
 
 app.prepare().then(() => {
+  console.log('Next.js app prepared successfully');
   const server = express();
   server.use(cache(3600));
   server.use(compression());
@@ -104,4 +105,7 @@ app.prepare().then(() => {
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
+}).catch((err) => {
+  console.error('Error during Next.js app preparation:', err);
+  process.exit(1);
 });
