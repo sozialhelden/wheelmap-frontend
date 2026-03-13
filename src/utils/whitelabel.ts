@@ -9,9 +9,10 @@ export async function getWhitelabelConfig(hostname: string) {
   try {
     const response = await fetch(url);
 
+    // TODO: This should fail loudly :)
     if (!response.ok) {
       console.error(
-        `Failed to fetch whitelabel config: ${response.status} ${response.statusText}`,
+        `Failed to fetch whitelabel config from ${url}: ${response.status} ${response.statusText}`,
       );
       return { clientSideConfiguration: {} };
     }
