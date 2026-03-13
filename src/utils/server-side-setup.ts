@@ -14,7 +14,16 @@ export async function serverSideSetup() {
   // effectively allowing runtime configuration instead of build-time configuration.
   const environment = getPublicEnvironmentVariables() as EnvironmentVariables;
 
-  const hostname = headers().get("host")?.split(":").shift() as string;
+  if (!environment.CD_FQDN) {
+    throw new Error(
+      "CD_FQDN is not defined in the environment variables. " +
+        "This variable should contain the fully qualified domain name (FQDN) of the app. " +
+        "Please define it to ensure proper whitelabel configuration loading." +
+        'In production, this should be set to the actual hostname of the app, e.g. "wheelmap.org", to load ' +
+        "the correct whitelabel configuration.",
+    );
+  }
+  const hostname = environment.CD_FQDN;
   const userAgent = headers().get("user-agent") as string;
 
   const whitelabelConfig = await getWhitelabelConfig(hostname);
