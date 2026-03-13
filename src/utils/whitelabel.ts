@@ -6,22 +6,15 @@ export async function getWhitelabelConfig(hostname: string) {
 
   const url = `${baseUrl}/apps/${sanitizeHostname(hostname)}.json?appToken=${appToken}`;
 
-  try {
-    const response = await fetch(url);
+  const response = await fetch(url);
 
-    // TODO: This should fail loudly :)
-    if (!response.ok) {
-      console.error(
-        `Failed to fetch whitelabel config from ${url}: ${response.status} ${response.statusText}`,
-      );
-      return { clientSideConfiguration: {} };
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching whitelabel config:", error);
-    return { clientSideConfiguration: {} };
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch whitelabel config from ${url}: ${response.status} ${response.statusText}`,
+    );
   }
+
+  return await response.json();
 }
 
 export function sanitizeHostname(hostnameOrIPAddress: string) {
