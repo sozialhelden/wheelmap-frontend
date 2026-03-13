@@ -41,6 +41,8 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
 
 COPY --from=build --chown=nextjs:nodejs /usr/app/.next ./.next
 COPY --from=build --chown=nextjs:nodejs /usr/app/public ./public
+COPY --from=build --chown=nextjs:nodejs /usr/app/next.config.js ./
+COPY --from=build --chown=nextjs:nodejs /usr/app/svgr.config.js ./
 
 # Prune unnecessary files to reduce image size
 RUN rm -rf .next/cache \
