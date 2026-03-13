@@ -35,12 +35,14 @@ RUN addgroup -g 1001 -S nodejs \
     && adduser -S nextjs -u 1001 -G nodejs
 
 # Copy production dependencies only
-COPY package.json pnpm-lock.yaml ./
+COPY --chown=nextjs:nodejs package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile --prod --ignore-scripts
 
 COPY --from=build --chown=nextjs:nodejs /usr/app/.next ./.next
 COPY --from=build --chown=nextjs:nodejs /usr/app/public ./public
+COPY --from=build --chown=nextjs:nodejs /usr/app/next.config.js ./
+COPY --from=build --chown=nextjs:nodejs /usr/app/svgr.config.js ./
 
 # Prune unnecessary files to reduce image size
 RUN rm -rf .next/cache \
