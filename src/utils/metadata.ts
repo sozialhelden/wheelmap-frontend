@@ -8,13 +8,15 @@ export async function getDefaultMetadata(): Promise<Metadata> {
   const {
     whitelabelConfig: {
       clientSideConfiguration: {
-        textContent: { product },
+        textContent = {},
         meta: { facebook, twitter },
         branding,
       },
     },
     languageTag,
   } = await serverSideSetup();
+
+  const product = textContent?.product;
 
   const name = getTranslations(product?.name, languageTag) || "Wheelmap";
   const claim = getTranslations(product?.claim, languageTag) || "";
