@@ -1,6 +1,4 @@
 import React, { useContext, useRef } from "react";
-import { bbox } from "@turf/turf";
-import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
 import { AccessibilityItems } from "~/needs-refactoring/components/CombinedFeaturePanel/components/AccessibilitySection/PlaceAccessibility/AccessibilityItems";
@@ -27,15 +25,12 @@ import WheelchairSection from "~/needs-refactoring/modules/feature-panel/compone
 import { Flex, Heading, Spinner, VisuallyHidden } from "@radix-ui/themes";
 import { t } from "@transifex/native";
 import styled from "styled-components";
-import { breakpoints } from "~/hooks/useBreakpoints";
 import FeatureHeader from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureHeader";
 import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/useNextAccessibleToilet";
 import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
-import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
-import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
 
 type Props = {
   features: AnyFeature[];
