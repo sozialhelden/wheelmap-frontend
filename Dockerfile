@@ -1,61 +1,64 @@
 # This is a multi-stage build to optimize image size.
+# syntax=docker/dockerfile:1
 
-FROM node:22-slim AS base
+FROM node:24-alpine AS base
 WORKDIR /usr/app
 
 ENV HUSKY=0
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  ca-certificates \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+# Pin pnpm version for reproducible builds
+RUN apk add --no-cache ca-certificates \
+    && corepack enable && corepack prepare pnpm@10.32.1 --activate
 
 FROM base AS install
 
-RUN npm set progress=false && npm config set depth 0
-
-# install all dependencies
-RUN mkdir -p /tmp/dev
-COPY package.json package-lock.json /tmp/dev/
-RUN cd /tmp/dev && npm ci --omit=optional --ignore-scripts
-
-# install prod dependencies into a different directory
-RUN mkdir -p /tmp/prod
-COPY package.json package-lock.json /tmp/prod/
-RUN cd /tmp/prod && npm ci --omit=optional --production --ignore-scripts
+# Install all dependencies (dev + prod)
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS build
 
-# get all dependencies (including dev dependencies) and build the app
+# Get all dependencies and build the app
 ENV NODE_ENV=production
-COPY --from=install /tmp/dev/node_modules node_modules
+COPY --from=install /usr/app/node_modules node_modules
 COPY . .
-RUN touch .env && npm run build
+RUN touch .env && pnpm run build
 
 
 FROM base AS release
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  dumb-init \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache dumb-init
 
-COPY --from=install /tmp/prod/node_modules node_modules
-COPY --from=build /usr/app/.next ./.next
-COPY --from=build /usr/app/public ./public
-COPY --from=build /usr/app/package.json .
-COPY --from=build /usr/app/run_tests.sh .
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs \
+    && adduser -S nextjs -u 1001 -G nodejs
+
+# Copy production dependencies only
+COPY --chown=nextjs:nodejs package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --prod --ignore-scripts
+
+COPY --from=build --chown=nextjs:nodejs /usr/app/.next ./.next
+COPY --from=build --chown=nextjs:nodejs /usr/app/public ./public
+COPY --from=build --chown=nextjs:nodejs /usr/app/next.config.js ./
+COPY --from=build --chown=nextjs:nodejs /usr/app/svgr.config.js ./
+
+# Prune unnecessary files to reduce image size
+RUN rm -rf .next/cache \
+    && rm -rf /root/.local/share/pnpm/store /tmp/*
 
 RUN mkdir -p /usr/tests
 COPY --from=build /usr/app/tsconfig.json /usr/tests/
 COPY --from=build /usr/app/vitest.config.ts /usr/tests/
-COPY --from=build /usr/app/playwright.config.ts /usr/tests/
 COPY --from=build /usr/app/package.json /usr/tests/
-COPY --from=build /usr/app/tests /usr/tests/tests
 COPY --from=build /usr/app/src /usr/tests/src
+
+# Switch to non-root user
+USER nextjs
 
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]

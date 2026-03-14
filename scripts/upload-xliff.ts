@@ -5,18 +5,18 @@
  * that's part of the translate toolkit:
  * http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/xliff2po.html
  *
- * 1. Run `npm run transifex:install` and choose TypeScript. You need to discard
- *    the changes to the `package.json` and `package-lock.json` files afterwards.
+ * 1. Run `pnpm transifex:install` and choose TypeScript. You need to discard
+ *    the changes to the `package.json` and `pnpm-lock.yaml` files afterwards.
  *    We don't want to include the Transifex API SDK in our project, as it is only
  *    used temporarily for this script.
  * 2. Make sure the `TRANSIFEX_API_TOKEN` environment variable is set and valid
  * 3. Run the script:
  *
  *    Upload a single xliff file:
- *    `npm run transifex:upload -- path/to/xliff/file.xliff "l:de_DE"`
+ *    `pnpm transifex:upload -- path/to/xliff/file.xliff "l:de_DE"`
  *
  *    Upload multiple xliff files at once:
- *   `npm run transifex:upload -- path/to/xliff/files`
+ *   `pnpm transifex:upload -- path/to/xliff/files`
  *
  * !Important notes:
  *

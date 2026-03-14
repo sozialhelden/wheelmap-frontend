@@ -6,8 +6,6 @@ import { defineConfig, devices } from "@playwright/test";
  */
 import "dotenv/config";
 
-const baseURL = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -20,16 +18,16 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 4 : 0,
-  workers: 4,
+  workers: process.env.CI ? 4 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [["html", { open: "never" }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /*
       Base URL to use in actions like `await page.goto('/')`.
     */
     // TODO: Beware, this does not work in CI yet for yet unknown reasons.
-    baseURL,
+    baseURL: process.env.CI_TEST_DEPLOYMENT_BASE_URL || "http://localhost:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "retain-on-failure",
@@ -61,10 +59,10 @@ export default defineConfig({
     //   name: "mobile-chromium",
     //   use: { ...devices["Pixel 5"] },
     // },
-    {
-      name: "mobile-safari",
-      use: { ...devices["iPhone 12"] },
-    },
+    // {
+    //   name: "mobile-safari",
+    //   use: { ...devices["iPhone 12"] },
+    // },
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',

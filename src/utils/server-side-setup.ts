@@ -14,7 +14,7 @@ export async function serverSideSetup() {
   // effectively allowing runtime configuration instead of build-time configuration.
   const environment = getPublicEnvironmentVariables() as EnvironmentVariables;
 
-  const hostname = headers().get("host")?.split(":").shift() as string;
+  const hostname = environment.CD_FQDN || "wheelmap.org";
   const userAgent = headers().get("user-agent") as string;
 
   const whitelabelConfig = await getWhitelabelConfig(hostname);

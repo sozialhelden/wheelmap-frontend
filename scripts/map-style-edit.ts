@@ -14,10 +14,10 @@ async function main() {
     `Bright ☀️\nhttps://console.mapbox.com/studio/styles/${account}/${styles.bright}/edit\n\nDark 🌙\nhttps://console.mapbox.com/studio/styles/${account}/${styles.dark}/edit`,
   );
   consola.info(
-    "Run `npm run map:style:update` to upload your local changes to mapbox studio! ⬆️",
+    "Run `pnpm map:style:update` to upload your local changes to mapbox studio! ⬆️",
   );
   consola.info(
-    "When done editing in mapbox studio, run `npm run map:style:finish` to download the changes! ⬇️",
+    "When done editing in mapbox studio, run `pnpm map:style:finish` to download the changes! ⬇️",
   );
 }
 

@@ -1,0 +1,80 @@
+# E2E testing image for running Playwright e2e tests against a deployed app.
+#
+# This Dockerfile sets up a container with Playwright and the necessary test dependencies to run
+# end-to-end tests defined in the `e2e/` directory. It also configures an entrypoint script
+# (`run_tests.sh`) that executes the tests and outputs results to a mounted artifacts directory.
+#
+# Important:
+#
+# - This image has no dependencies on the app's source code. Please don't copy the app's source
+#   code into this image. Instead, the tests should be run against a deployed instance of the
+#   app (e.g., running locally or in a staging environment). Write E2E tests from the perspective of
+#   and end user interacting with the app, not from the perspective of the app's internal code
+#   structure.
+# - This image is not intended to run unit or integration tests that require access to the app's
+#   source code or internal modules. See package.json for separate scripts and configurations for
+#   unit and integration tests.
+# - The Playwright version in the base image MUST match the version of `@playwright/test` installed.
+# - The container runs as a non-root user (`pwuser`) for security. Ensure that the mounted artifacts
+#   directory has appropriate permissions (777 in this case) to allow writing test results.
+# - The `CI_TEST_DEPLOYMENT_BASE_URL` environment variable must be set to the URL of the deployed
+#   app (or a running local instance) for the tests to execute against.
+# - The `CI_ARTIFACTS_PATH` environment variable must be set to the path where test artifacts
+#   should be saved.
+# - The `run_tests.sh` script is responsible for running the tests and should be configured to
+#   output.
+# - The `playwright.config.ts` file should be configured to use the `CI_TEST_DEPLOYMENT_BASE_URL`
+# - The `tsconfig.json` file should be configured to compile the test files in the `e2e/` directory.
+# - The `e2e/` directory should contain the test files (e.g., `*.spec.ts`) that define the end-to-
+#   end tests.
+# - The `@axe-core/playwright` package is included for accessibility testing. Ensure that the tests
+#   are configured to use it if accessibility testing is desired.
+# - The container should be built and run in an environment where the necessary environment
+#   variables are set and the artifacts directory is properly mounted with write permissions.
+# - The tests will be executed in the container, and the results will be saved to the specified
+#   artifacts directory, which can then be accessed on the host machine.
+#
+# Build:
+#
+#    docker build -f Dockerfile.testing -t wheelmap-frontend-testing:latest .
+#
+# Run (create artifacts directory with write permissions first):
+#
+#    mkdir -p artifacts && chmod 777 artifacts
+#    docker run -e CI_TEST_DEPLOYMENT_BASE_URL=http://localhost:3000 \
+#               -e CI_ARTIFACTS_PATH=/artifacts \
+#               -v ./artifacts:/artifacts \
+#               wheelmap-frontend-testing:latest
+#
+
+# Use official Playwright image - browsers are pre-installed
+# Image tag format: v<playwright-version>-<os>
+# See https://playwright.dev/docs/docker
+
+FROM mcr.microsoft.com/playwright:v1.50.1-noble
+
+# Install pnpm globally (avoid corepack signature verification issues)
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Install only test dependencies (matching the pre-installed browser version)
+RUN pnpm init && pnpm add @playwright/test@1.50.1 @axe-core/playwright@4.10.1 dotenv
+
+# Copy test files and configuration
+COPY tsconfig.json ./
+COPY run_tests.sh ./
+COPY playwright.config.ts ./
+COPY e2e/ ./e2e/
+
+# Set ownership of app directory to pwuser (pre-created in playwright image)
+RUN chown -R pwuser:pwuser /app
+
+# Create artifacts directory with proper permissions
+RUN mkdir -p /artifacts && chown pwuser:pwuser /artifacts && chmod 777 /artifacts
+
+# Run as non-root user (pwuser is uid 1000 in the playwright image)
+USER pwuser
+
+# Run e2e tests via run_tests.sh (outputs junit, HTML report, etc.)
+ENTRYPOINT ["/bin/bash", "run_tests.sh"]
