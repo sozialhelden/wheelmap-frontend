@@ -13,20 +13,18 @@ import { Badge, Flex, Text } from "@radix-ui/themes";
 
 type OpenStateType = "open" | "closed" | "unknown";
 
-function getReadableState(oh: opening_hours): {
+function getReadableState(openingHours: opening_hours): {
   type: OpenStateType;
   label: string;
 } {
-  const comment = oh.getComment();
+  const comment = openingHours.getComment();
 
-  if (oh.getUnknown()) {
-    const label = comment
-      ? t("Maybe open – {comment}", { comment })
-      : t("Maybe open");
+  if (openingHours.getUnknown()) {
+    const label = t("Maybe open");
     return { type: "unknown", label };
   }
 
-  const isOpen = oh.getState();
+  const isOpen = openingHours.getState();
   let label = isOpen ? t("Open now") : t("Closed");
   if (comment) {
     label = [label, t("({comment})", { comment })].join(" ");
@@ -181,9 +179,9 @@ export default function OpeningHoursValue(props: {
       </Flex>
 
       <Flex direction="column" pr="3" pl="2">
-        {shownElements.map((e) => (
-          <Text key={e} size="3" color="gray">
-            {e}
+        {shownElements.map((element) => (
+          <Text key={element} size="3" color="gray">
+            {element}
           </Text>
         ))}
       </Flex>
