@@ -2,7 +2,7 @@
 
 import { Button } from "@radix-ui/themes";
 import { X } from "lucide-react";
-import React, { type ReactNode, useEffect, useState } from "react";
+import React, { type ReactNode, useState } from "react";
 import styled from "styled-components";
 import ToolBar from "~/app/(app)/(map)/_components/ToolBar";
 import { Sheet } from "~/components/sheet/Sheet";
@@ -25,6 +25,9 @@ const SidebarButton = styled(Button)<{ $isSidebarOpen: boolean }>`
 
 /**
  * This component provides a toolbar and a sidebar/sheet.
+ * Supports both controlled and uncontrolled modes:
+ * - Controlled: Pass both `isExpanded` and `onToggle`
+ * - Uncontrolled: Use `defaultIsExpanded` and internal state
  */
 export function SidebarLayout({
   children,
@@ -33,8 +36,8 @@ export function SidebarLayout({
   onCloseButtonClick,
   scrollStops = [0, 0.5],
   defaultIsExpanded = false,
-  isExpanded: externalIsExpanded,
-  onIsExpandedChange,
+  isExpanded: controlledIsExpanded,
+  onToggle,
 }: {
   children: ReactNode;
   hasTopPadding?: boolean;
@@ -43,20 +46,28 @@ export function SidebarLayout({
   scrollStops?: number[];
   defaultIsExpanded?: boolean;
   isExpanded?: boolean;
-  onIsExpandedChange?: (value: boolean) => void;
+  onToggle?: (value: boolean) => void;
 }) {
   const { greaterOrEqual } = useBreakpoints();
   const showSidebar = greaterOrEqual("sm");
 
-  const [isExpanded, setIsExpanded] = useState(defaultIsExpanded);
-  useEffect(() => {
-    if (externalIsExpanded !== undefined) {
-      setIsExpanded(externalIsExpanded);
+  // Use controlled state if provided, otherwise use internal state
+  const [internalIsExpanded, setInternalIsExpanded] =
+    useState(defaultIsExpanded);
+  const isExpanded = controlledIsExpanded ?? internalIsExpanded;
+
+  const handleToggle = (value: boolean) => {
+    if (onToggle) {
+      onToggle(value);
+    } else {
+      setInternalIsExpanded(value);
     }
-  }, [externalIsExpanded]);
-  useEffect(() => {
-    onIsExpandedChange?.(isExpanded);
-  }, [isExpanded]);
+  };
+
+  const handleCloseButtonClick = () => {
+    handleToggle(false);
+    onCloseButtonClick?.();
+  };
 
   const sidebarCloseButton = (
     <div>
@@ -66,7 +77,7 @@ export function SidebarLayout({
         color="gray"
         highContrast={true}
         $isSidebarOpen={isExpanded}
-        onClick={onCloseButtonClick}
+        onClick={handleCloseButtonClick}
         aria-hidden
       >
         <X size={18} />
@@ -83,7 +94,7 @@ export function SidebarLayout({
       {showSidebar ? (
         <SidebarComponent
           isExpanded={isExpanded}
-          onIsExpandedChange={setIsExpanded}
+          onIsExpandedChange={handleToggle}
           hasPadding={hasTopPadding}
         >
           {children}
@@ -91,7 +102,7 @@ export function SidebarLayout({
       ) : (
         <Sheet
           isExpanded={isExpanded}
-          onIsExpandedChanged={setIsExpanded}
+          onIsExpandedChanged={handleToggle}
           scrollStops={scrollStops}
         >
           {children}
