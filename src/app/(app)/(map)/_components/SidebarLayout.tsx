@@ -48,11 +48,7 @@ export function SidebarLayout({
   const { greaterOrEqual } = useBreakpoints();
   const showSidebar = greaterOrEqual("sm");
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  useEffect(() => {
-    setIsExpanded(defaultIsExpanded);
-  }, []);
+  const [isExpanded, setIsExpanded] = useState(defaultIsExpanded);
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
       setIsExpanded(externalIsExpanded);
