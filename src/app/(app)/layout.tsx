@@ -6,8 +6,10 @@ import TopBar from "~/app/(app)/_components/TopBar";
 import { ExpertModeContextProvider } from "~/hooks/useExpertMode";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
+import OnboardingView from "~/needs-refactoring/components/Onboarding/OnboardingView";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
+import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 
 /**
  * Main app layout that includes the top navigation bar as well as hotkey handlers
@@ -15,6 +17,8 @@ import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvide
  */
 export default function AppLayout({ children }: { children: ReactNode }) {
   // TODO: add back session provider
+
+  const showOnboarding = isFirstStart();
 
   return (
     <>
@@ -25,6 +29,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <SWRConfigProvider>
                 <TopBar />
                 {children}
+                {showOnboarding && <OnboardingView />}
               </SWRConfigProvider>
             </ExpertModeContextProvider>
           </HotkeysProvider>

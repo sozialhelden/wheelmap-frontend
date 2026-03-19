@@ -1,6 +1,5 @@
 import { AlertDialog, Dialog } from "@radix-ui/themes";
-import { t } from "@transifex/native";
-/* eslint-disable @typescript-eslint/indent */
+import { t } from "@transifex/native"; /* eslint-disable @typescript-eslint/indent */
 import type * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 import type { PhotonResultFeature } from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";

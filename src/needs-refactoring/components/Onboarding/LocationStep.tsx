@@ -40,25 +40,31 @@ export const LocationStep: FC<{
   const requestLocationPermission = useCallback(() => {
     setStage({ ...stage, stage: "acquiring" });
 
-    navigator.geolocation.getCurrentPosition(onAccept, (error) => {
-      if (error.code === error.POSITION_UNAVAILABLE) {
+    navigator.geolocation.getCurrentPosition(
+      () => {
         onAccept();
-        return;
-      }
-      if (
-        error.code === error.PERMISSION_DENIED ||
-        error.code === error.TIMEOUT
-      ) {
-        if (stage.retries >= maxRetries) {
-          onFailed();
+        console.log("Location permission granted");
+      },
+      (error) => {
+        if (error.code === error.POSITION_UNAVAILABLE) {
+          onAccept();
           return;
         }
-        setStage({ stage: "failed-not-exited", retries: stage.retries + 1 });
-        return;
-      }
+        if (
+          error.code === error.PERMISSION_DENIED ||
+          error.code === error.TIMEOUT
+        ) {
+          if (stage.retries >= maxRetries) {
+            onFailed();
+            return;
+          }
+          setStage({ stage: "failed-not-exited", retries: stage.retries + 1 });
+          return;
+        }
 
-      onGeneralError(error);
-    });
+        onGeneralError(error);
+      },
+    );
   }, [onAccept, stage, onGeneralError, maxRetries, onFailed]);
 
   const isAcquiring = stage.stage === "acquiring";
@@ -77,6 +83,9 @@ export const LocationStep: FC<{
   const hint = t(
     `If you’re experiencing issues, you may consult [your devices permission configuration](${url}).`,
   );
+  useEffect(() => {
+    console.log("Stage", stage);
+  }, [stage]);
 
   return (
     <Box>

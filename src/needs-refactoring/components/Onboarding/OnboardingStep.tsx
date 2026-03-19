@@ -19,7 +19,6 @@ import {
   accessibilityName,
   useAccessibilityDescription,
 } from "~/needs-refactoring/lib/model/accessibility/accessibilityStrings";
-import Icon from "../shared/Icon";
 import StyledMarkdown from "../shared/StyledMarkdown";
 import VectorImage from "../shared/VectorImage";
 import { useProductName } from "./useProductName";
@@ -110,20 +109,20 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
         <Flex gap="3" align="start" direction="row" asChild>
           <figure>
             <Box>
-              <Icon
-                containerHTMLAttributes={{
-                  "aria-label": t(`${colorName} map marker`),
-                  role: "img",
-                }}
-                markerHTMLAttributes={{ "aria-hidden": "true" }}
-                iconHTMLAttributes={{ "aria-hidden": "true" }}
-                accessibility={value}
-                category={undefined}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-              />
+              {/*<Icon*/}
+              {/*  containerHTMLAttributes={{*/}
+              {/*    "aria-label": t(`${colorName} map marker`),*/}
+              {/*    role: "img",*/}
+              {/*  }}*/}
+              {/*  markerHTMLAttributes={{ "aria-hidden": "true" }}*/}
+              {/*  iconHTMLAttributes={{ "aria-hidden": "true" }}*/}
+              {/*  accessibility={value}*/}
+              {/*  category={undefined}*/}
+              {/*  isMainCategory*/}
+              {/*  size="big"*/}
+              {/*  withArrow*/}
+              {/*  shadowed*/}
+              {/*/>*/}
             </Box>
             <Box asChild>
               <figcaption>
