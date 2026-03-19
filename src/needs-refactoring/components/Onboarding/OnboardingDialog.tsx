@@ -105,7 +105,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
       aria-description={t("Start screen")}
     >
       <DialogElement.Content
-        maxWidth={{ initial: "100vw", md: "1000px" }}
+        maxWidth={{ initial: "50vw", md: "500px" }}
         id="onboarding-dialog-content"
       >
         {viewSelector(step)}

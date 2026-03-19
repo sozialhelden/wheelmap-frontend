@@ -9,7 +9,6 @@ import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
 import OnboardingView from "~/needs-refactoring/components/Onboarding/OnboardingView";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
-import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 
 /**
  * Main app layout that includes the top navigation bar as well as hotkey handlers
@@ -18,7 +17,8 @@ import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 export default function AppLayout({ children }: { children: ReactNode }) {
   // TODO: add back session provider
 
-  const showOnboarding = isFirstStart();
+  //const showOnboarding = isFirstStart();
+  const showOnboarding = true;
 
   return (
     <>

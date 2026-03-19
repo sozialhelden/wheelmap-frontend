@@ -1,18 +1,20 @@
-import {
-  AlertDialog,
-  Box,
-  Button,
-  Flex,
-  Spinner,
-  VisuallyHidden,
-} from "@radix-ui/themes";
+import { AlertDialog, Box, Button, Flex, Spinner } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { type FC, useCallback, useEffect, useState } from "react";
+import type { FC } from "react";
 import { useLocationSettingsUrl } from "~/needs-refactoring/lib/goToLocationSettings";
 import { cx } from "~/needs-refactoring/lib/util/cx";
-import StyledMarkdown from "../shared/StyledMarkdown";
+import { useGeolocationPermission } from "./useGeolocationPermission"; // oeuf, there are many exit points that may be consolidated:
+import styled from "styled-components";
+import { MapPinned } from "lucide-react";
+import StyledMarkdown from "~/needs-refactoring/components/shared/StyledMarkdown";
 
-type Stage = "idle" | "acquiring" | "failed-not-exited";
+const IconBadge = styled(Box)`
+  display: inline-flex;
+  padding: 5rem;
+  border-radius: 2rem;
+  background-color: var(--gray-3);
+  color: var(--accent-11);
+`;
 
 // oeuf, there are many exit points that may be consolidated:
 // permission denied: ok, they denied
@@ -25,93 +27,55 @@ export const LocationStep: FC<{
   onGeneralError: (error: GeolocationPositionError) => unknown;
   maxRetries?: number;
 }> = ({ onAccept, onFailed, onGeneralError, onRejected, maxRetries = 2 }) => {
-  const [stage, setStage] = useState({ stage: "idle" as Stage, retries: 0 });
-
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      // unsupported feature, default disabled?
-      onFailed();
-    }
-  }, [onFailed]);
-
-  // failing to get the permission puts the UI in a failure state, but does not
-  // exit. If the user pressed okay, but then denied from the browser
-  // we may as well retry and give enough insights
-  const requestLocationPermission = useCallback(() => {
-    setStage({ ...stage, stage: "acquiring" });
-
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        onAccept();
-        console.log("Location permission granted");
-      },
-      (error) => {
-        if (error.code === error.POSITION_UNAVAILABLE) {
-          onAccept();
-          return;
-        }
-        if (
-          error.code === error.PERMISSION_DENIED ||
-          error.code === error.TIMEOUT
-        ) {
-          if (stage.retries >= maxRetries) {
-            onFailed();
-            return;
-          }
-          setStage({ stage: "failed-not-exited", retries: stage.retries + 1 });
-          return;
-        }
-
-        onGeneralError(error);
-      },
-    );
-  }, [onAccept, stage, onGeneralError, maxRetries, onFailed]);
-
-  const isAcquiring = stage.stage === "acquiring";
+  const {
+    state: stage,
+    isAcquiring,
+    requestPermission,
+  } = useGeolocationPermission({
+    onSuccess: onAccept,
+    onFailure: onFailed,
+    onError: onGeneralError,
+    maxRetries,
+  });
   const [url] = useLocationSettingsUrl();
 
-  // translator: A description that the app is now asking for location permissions while onboarding
-  const explanation = t`
-    Wheelmap makes more sense if you **allow the app to use your device location**.
+  const explanation = t(
+    "Wheelmap needs access to your location in order to show you the closest accessible places. Your location always stays on your device. You may change your decision at any time.",
+  );
 
-    Your location always stays on your device.
-
-    You may change your decision at any time!
-  `;
-
-  // translator: A hint that shows up, when acquiring location permissions initially failed
   const hint = t(
     `If you’re experiencing issues, you may consult [your devices permission configuration](${url}).`,
   );
-  useEffect(() => {
-    console.log("Stage", stage);
-  }, [stage]);
 
   return (
     <Box>
-      <VisuallyHidden>
-        <AlertDialog.Title>
-          {t("Enable location permissions")}
-        </AlertDialog.Title>
-      </VisuallyHidden>
+      <AlertDialog.Title align="center">
+        {t("Enable location permissions")}
+      </AlertDialog.Title>
+      <Flex justify="center" m="7">
+        <IconBadge>
+          <MapPinned size={80} color="currentColor" strokeWidth={1} />
+        </IconBadge>
+      </Flex>
+
       <AlertDialog.Description>
-        <StyledMarkdown>{explanation}</StyledMarkdown>
+        <StyledMarkdown align="center">{explanation}</StyledMarkdown>
         {stage.retries > 0 && <StyledMarkdown>{hint}</StyledMarkdown>}
       </AlertDialog.Description>
 
       <Flex gap="3" mt="4" justify="end">
         <AlertDialog.Action>
           <Button onClick={onRejected} size="3" variant="soft">
-            {t("Skip")}
+            {t("Maybe later")}
           </Button>
         </AlertDialog.Action>
         <AlertDialog.Action>
           <Button
             size="3"
-            onClick={requestLocationPermission}
+            onClick={requestPermission}
             className={cx("accept", isAcquiring && "active")}
           >
-            <span className="text">{t("I’m in!")}</span>
+            {t("Access my location")}
             {stage.stage === "acquiring" && <Spinner />}
           </Button>
         </AlertDialog.Action>
