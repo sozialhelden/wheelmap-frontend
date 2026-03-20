@@ -61,7 +61,7 @@ test.describe("Onboarding flow (desktop)", () => {
     expect(await resultFromGeolocation(page)).toBe("ok");
   });
 
-  test("Case B: accept in dialog, deny browser prompt", async ({ page }) => {
+  test("Case B: decline in app dialog", async ({ page }) => {
     await denyGeolocation(page);
     const dialog = await openOnboarding(page);
     await skipFirstStep(page);
@@ -70,8 +70,12 @@ test.describe("Onboarding flow (desktop)", () => {
       .getByRole("button", { name: onboardingCopy.rejectButtonText })
       .click();
 
-    await expect(page.getByText(/no problem/i)).toBeVisible();
-    await page.getByRole("button", { name: LETS_GO_BUTTON_TEXT }).click();
+    await expect(
+      page.getByText(onboardingCopy.permissionRejectedText.slice(0, 20)),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: onboardingCopy.closeDialogButtonText })
+      .click();
 
     await expect(dialog).toBeHidden({ timeout: 10000 });
     expect(await resultFromGeolocation(page)).toBe("error");
@@ -79,40 +83,46 @@ test.describe("Onboarding flow (desktop)", () => {
 
   test("Case C: browser allows but location unavailable", async ({ page }) => {
     await timeoutGeolocation(page);
-
     const dialog = await openOnboarding(page);
+    await skipFirstStep(page);
 
-    await page.getByRole("button", { name: START_BUTTON_TEXT }).click();
-
-    const accessButton = dialog.locator("button.accept", {
-      hasText: onboardingCopy.acceptButtonText,
+    const accessButton = dialog.getByRole("button", {
+      name: onboardingCopy.acceptButtonText,
     });
     // The hook retries; a third attempt should push us into the failure step.
     await accessButton.click();
     await accessButton.click();
     await accessButton.click();
 
-    await expect(dialog.getByText(onboardingCopy.offlineHeading)).toBeVisible();
-    await page.getByRole("button", { name: LETS_GO_BUTTON_TEXT }).click();
+    await expect(
+      dialog.getByText(onboardingCopy.locationUnavailableText.slice(0, 10)),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: onboardingCopy.closeDialogButtonText })
+      .click();
 
     await expect(dialog).toBeHidden({ timeout: 10000 });
     expect(await resultFromGeolocation(page)).toBe("error");
   });
 
-  test("Case D: decline in app dialog", async ({ page }) => {
+  test("Case D: accept in dialog, deny browser prompt ", async ({ page }) => {
     await denyGeolocation(page);
 
     const dialog = await openOnboarding(page);
+    await skipFirstStep(page);
 
-    await page.getByRole("button", { name: START_BUTTON_TEXT }).click();
-    await dialog
-      .locator("button:not(.accept)", {
-        hasText: onboardingCopy.rejectButtonText,
+    await page
+      .getByRole("button", {
+        name: onboardingCopy.acceptButtonText,
       })
       .click();
 
-    await expect(page.getByText(/no problem/i)).toBeVisible();
-    await page.getByRole("button", { name: LETS_GO_BUTTON_TEXT }).click();
+    await expect(
+      page.getByText(onboardingCopy.permissionRejectedText.slice(0, 10)),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: onboardingCopy.closeDialogButtonText })
+      .click();
 
     await expect(dialog).toBeHidden({ timeout: 10000 });
     expect(await resultFromGeolocation(page)).toBe("error");

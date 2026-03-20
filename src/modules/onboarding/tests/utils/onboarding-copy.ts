@@ -8,20 +8,27 @@ export type OnboardingCopyOverrides = {
 const DEFAULT_SETTINGS_URL = "about:blank";
 const DEFAULT_PRODUCT_NAME = "Wheelmap";
 
-// Build onboarding copy strings without React hooks so e2e tests can assert
-// against the same text as the UI.
+// Build onboarding copy strings without React hooks so e2e tests can assert against the same text as the UI.
 export function buildOnboardingCopy(overrides: OnboardingCopyOverrides = {}) {
   const productName = overrides.productName ?? DEFAULT_PRODUCT_NAME;
   const settingsUrl = overrides.settingsUrl ?? DEFAULT_SETTINGS_URL;
 
   return {
     onboardingHeading: onboardingCopy.onboardingHeading(productName),
-    startButtonText: onboardingCopy.startButtonText,
-    explanation: onboardingCopy.explanation,
+    locationHeading: onboardingCopy.locationHeading,
+    locationExplanation: onboardingCopy.locationExplanation,
     hint: onboardingCopy.hint(settingsUrl),
+    permissionRejectedText: onboardingCopy.permissionRejectedText(
+      productName,
+      settingsUrl,
+    ),
+    locationUnavailableHeading: onboardingCopy.locationUnavailableHeading,
+    locationUnavailableText:
+      onboardingCopy.locationUnavailableText(productName),
+
+    startButtonText: onboardingCopy.startButtonText,
     acceptButtonText: onboardingCopy.acceptButtonText,
     rejectButtonText: onboardingCopy.rejectButtonText,
-    offlineHeading: onboardingCopy.offlineHeading,
-    offlineText: onboardingCopy.offlineText(productName),
+    closeDialogButtonText: onboardingCopy.closeDialogButtonText,
   } as const;
 }

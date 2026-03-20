@@ -19,9 +19,10 @@ import {
   accessibilityName,
   useAccessibilityDescription,
 } from "~/needs-refactoring/lib/model/accessibility/accessibilityStrings";
-import StyledMarkdown from "../shared/StyledMarkdown";
-import VectorImage from "../shared/VectorImage";
-import { useProductName } from "./useProductName";
+import StyledMarkdown from "../../needs-refactoring/components/shared/StyledMarkdown";
+import VectorImage from "../../needs-refactoring/components/shared/VectorImage";
+import { useProductName } from "./hooks/useProductName";
+import { useOnboardingCopy } from "~/modules/onboarding/hooks/useOnboardingCopy";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
@@ -30,6 +31,7 @@ export const OnboardingStep: React.FC<{
   const headerMarkdown = useTranslations(
     clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
   );
+  const { onboardingHeading, startButtonText } = useOnboardingCopy();
 
   const callToActionButton = React.createRef<HTMLButtonElement>();
   const handleClose = () => {
@@ -44,8 +46,6 @@ export const OnboardingStep: React.FC<{
     }, 100);
   }, [callToActionButton]);
 
-  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t("Okay, let’s go!");
   const productName = useProductName(clientSideConfiguration);
 
   return (
@@ -60,9 +60,7 @@ export const OnboardingStep: React.FC<{
 
       {/* Hidden because from a purely visual perspective, it's clear what an onboarding dialog is. */}
       <VisuallyHidden>
-        <Dialog.Title>
-          {t("Welcome to {productName}!", { productName })}
-        </Dialog.Title>
+        <Dialog.Title>{onboardingHeading}</Dialog.Title>
       </VisuallyHidden>
 
       <Dialog.Description>
@@ -80,16 +78,16 @@ export const OnboardingStep: React.FC<{
         </Grid>
       </Dialog.Description>
 
-      <Flex gap="3" mt="4" justify="end">
+      <Flex gap="3" mt="5" justify="end" direction="column">
         <Dialog.Close>
           <Button
             className="button-continue"
             onClick={handleClose}
             ref={callToActionButton}
-            size="4"
+            size="3"
             highContrast
           >
-            {startButtonCaption}
+            {startButtonText}
           </Button>
         </Dialog.Close>
       </Flex>
@@ -100,7 +98,6 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const { value } = props;
   const name = accessibilityName(value);
   const colorName = accessibilityColorName(value);
-  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
   const unknownAccessibilityIncentiveText = t("Help out by marking places!");
 
   return (
