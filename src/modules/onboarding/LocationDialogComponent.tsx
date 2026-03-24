@@ -37,7 +37,7 @@ export const LocationDialogComponent: FC<Props> = ({
     (action) => action.type === "action",
   );
   return (
-    <Box p="4">
+    <>
       <AlertDialog.Title align="center" mt="3">
         {title}
       </AlertDialog.Title>
@@ -72,6 +72,6 @@ export const LocationDialogComponent: FC<Props> = ({
           );
         })}
       </Flex>
-    </Box>
+    </>
   );
 };
