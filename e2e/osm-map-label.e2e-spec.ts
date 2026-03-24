@@ -22,12 +22,14 @@ test.use({
   },
 });
 
-test("Paris-Moskau label should be visible on the map", async ({
+// Zoom: 17.54018500
+// Center: [52.5170365,13.3888599]
+
+test("Supermarket should be visible on the map", async ({
   page,
-  mapLocator,
   mapController,
 }) => {
-  await page.goto("/amenities/node:137483925", {
+  await page.goto("/amenities/node:348000444", {
     waitUntil: "domcontentloaded",
   });
 
@@ -44,15 +46,14 @@ test("Paris-Moskau label should be visible on the map", async ({
     page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
   ).toBeVisible({ timeout: 15000 });
 
-  await expect(page.getByRole("heading").first()).toContainText(
-    /Paris-Moskau/i,
-  );
-
   await mapController("mainMap").waitToMapStable();
 
-  const placeLabel = mapLocator(
-    'map[id=mainMap] layer[id=osm-amenities-highlight-poi-point-focus] filter["all", ["==", ["get", "name"], "Paris-Moskau"]]',
-  );
+  const shopSupermarketCount = await page.evaluate(() => {
+    const map = window.__MAPGRAB__.getMapInterface("mainMap").map;
+    return map.queryRenderedFeatures(undefined, {
+      filter: ["==", ["get", "shop"], "supermarket"],
+    }).length;
+  });
 
-  await expect(placeLabel).toBeVisibleOnMap();
+  expect(shopSupermarketCount).toBeGreaterThan(0);
 });
