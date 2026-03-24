@@ -1,5 +1,6 @@
 "use client";
 
+import { installMapGrab } from "@mapgrab/map-interface";
 import mapboxgl from "mapbox-gl";
 import { useCallback, useMemo } from "react";
 import {
@@ -75,6 +76,7 @@ export default function MapComponent() {
     async (event: MapEvent) => {
       if (!event.target) return;
       await onLoadMapStyle(event);
+      installMapGrab(event.target, "mainMap");
       setIsReady(true);
     },
     [setIsReady, onLoadMapStyle],
@@ -94,6 +96,7 @@ export default function MapComponent() {
       <MapboxExtraStyles />
       <MapProvider>
         <ReactMapGL
+          id="mainMap"
           reuseMaps
           mapboxAccessToken={mapboxAccessToken}
           interactive
