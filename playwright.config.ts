@@ -59,10 +59,10 @@ export default defineConfig({
     //   name: "mobile-chromium",
     //   use: { ...devices["Pixel 5"] },
     // },
-    // {
-    //   name: "mobile-safari",
-    //   use: { ...devices["iPhone 12"] },
-    // },
+    {
+      name: "mobile-safari",
+      use: { ...devices["iPhone 12"] },
+    },
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',

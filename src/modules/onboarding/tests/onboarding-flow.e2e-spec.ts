@@ -86,13 +86,9 @@ test.describe("Onboarding flow (desktop)", () => {
     const dialog = await openOnboarding(page);
     await skipFirstStep(page);
 
-    const accessButton = dialog.getByRole("button", {
-      name: onboardingCopy.acceptButtonText,
-    });
-    // The hook retries; a third attempt should push us into the failure step.
-    await accessButton.click();
-    await accessButton.click();
-    await accessButton.click();
+    await page
+      .getByRole("button", { name: onboardingCopy.acceptButtonText })
+      .click();
 
     await expect(
       dialog.getByText(onboardingCopy.locationUnavailableText.slice(0, 10)),

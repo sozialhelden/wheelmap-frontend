@@ -17,12 +17,7 @@ export function buildOnboardingCopy(overrides: OnboardingCopyOverrides = {}) {
     onboardingHeading: onboardingCopy.onboardingHeading(productName),
     locationHeading: onboardingCopy.locationHeading,
     locationExplanation: onboardingCopy.locationExplanation,
-    hint: onboardingCopy.hint(settingsUrl),
-    permissionRejectedText: onboardingCopy.permissionRejectedText(
-      productName,
-      settingsUrl,
-    ),
-    locationUnavailableHeading: onboardingCopy.locationUnavailableHeading,
+    permissionRejectedText: onboardingCopy.permissionRejectedText(settingsUrl),
     locationUnavailableText:
       onboardingCopy.locationUnavailableText(productName),
 
