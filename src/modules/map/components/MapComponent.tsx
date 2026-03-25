@@ -1,14 +1,14 @@
 "use client";
 
 import mapboxgl from "mapbox-gl";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   GeolocateControl,
   Layer,
+  Map as ReactMapGL,
   type MapEvent,
   MapProvider,
   NavigationControl,
-  Map as ReactMapGL,
   Source,
 } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -22,7 +22,7 @@ import { useMapInteraction } from "~/modules/map/hooks/useMapInteraction";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
-import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers";
+import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers"; // The following is required to stop "npm build" from transpiling mapbox code.
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -30,7 +30,7 @@ mapboxgl.workerClass =
   require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const MapboxExtraStyles = createGlobalStyle`
-  .mapboxgl-map button:not(.mapboxgl-ctrl-attrib-button) {
+  .mapboxgl-map button:not() {
     min-width: 35px;
     min-height: 35px;
   }
@@ -41,7 +41,7 @@ const Container = styled.div`
 `;
 
 export default function MapComponent() {
-  const { setMap, isReady, setIsReady } = useMap();
+  const { map, setMap, isReady, setIsReady } = useMap();
   const { style, onLoad: onLoadMapStyle } = useMapStyle();
   const { onSourceData } = useRenderedFeatures();
 
@@ -79,6 +79,34 @@ export default function MapComponent() {
     },
     [setIsReady, onLoadMapStyle],
   );
+
+  const geoControlRef = useRef<mapboxgl.GeolocateControl | null>(null);
+  // Callback ref satisfies typscript compiler: react-map-gl expects a ref callback, not a mutable ref object.
+  const setGeolocateControl = useCallback(
+    (control: mapboxgl.GeolocateControl | null) => {
+      geoControlRef.current = control;
+    },
+    [],
+  );
+
+  const handleGeolocate = useCallback(
+    (event: GeolocationPosition) => {
+      if (!map) return;
+      const { longitude, latitude } = event.coords;
+
+      map.flyTo({
+        center: [longitude, latitude],
+        zoom: Math.max(map.getZoom() ?? 0, 15),
+        essential: true,
+      });
+    },
+    [map],
+  );
+
+  useEffect(() => {
+    if (!isReady) return;
+    geoControlRef.current?.trigger();
+  }, [isReady]);
 
   // TODO: implement map padding for sheet (and other things)
 
@@ -121,9 +149,11 @@ export default function MapComponent() {
             </>
           )}
           <GeolocateControl
+            ref={setGeolocateControl}
             position="bottom-right"
             positionOptions={{ enableHighAccuracy: true }}
             trackUserLocation
+            onGeolocate={handleGeolocate}
           />
           <NavigationControl
             position="bottom-right"
