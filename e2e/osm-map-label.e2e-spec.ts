@@ -5,25 +5,16 @@ import {
 import {
   mergeExpects,
   mergeTests,
+  expect as playwrightExpect,
   test as playwrightTest,
 } from "@playwright/test";
 
 const test = mergeTests(playwrightTest, mapGrabTest);
-const expect = mergeExpects(mapGrabExpect);
+const expect = mergeExpects(playwrightExpect, mapGrabExpect);
 
-test.use({
-  launchOptions: {
-    args: [
-      "--enable-webgl",
-      "--ignore-gpu-blocklist",
-      "--use-angle=swiftshader",
-    ],
-  },
-});
-
-test("Supermarket should be visible on the map", async ({
+test("Selected amenity marker should display on map", async ({
   page,
-  mapController,
+  mapLocator,
 }) => {
   await page.goto("/amenities/node:348000444", {
     waitUntil: "domcontentloaded",
@@ -33,16 +24,15 @@ test("Supermarket should be visible on the map", async ({
     page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
   ).toBeVisible({ timeout: 15000 });
 
-  await mapController("mainMap").waitToMapStable();
+  // await page
+  //   .locator('[data-mapgrab-map-id="mainMap"]')
+  //   .waitFor({ state: "attached", timeout: 30000 });
 
-  const count = await page.evaluate(
-    () =>
-      window.__MAPGRAB__
-        .getMapInterface("mainMap")
-        .map.queryRenderedFeatures(undefined, {
-          filter: ["==", ["get", "shop"], "supermarket"],
-        }).length,
+  const selectedAmenityMarker = mapLocator(
+    'map[id=mainMap] layer[id=osm-amenities-selected-poi-point-focus] filter["all", ["has", "amenity"]]',
   );
 
-  expect(count).toBeGreaterThan(0);
+  await expect(selectedAmenityMarker).toBeVisibleOnMap();
+
+  // await expect(country).toBeVisibleOnMap();
 });
