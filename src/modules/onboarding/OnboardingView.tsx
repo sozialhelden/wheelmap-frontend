@@ -40,8 +40,7 @@ export default function OnboardingView() {
       }
 
       if (isGeoPosition(location)) {
-        // const { latitude, longitude } = location.coords;
-        // do  stuff with position
+        saveState({ "map.locate": "true" });
       }
     },
     [router],

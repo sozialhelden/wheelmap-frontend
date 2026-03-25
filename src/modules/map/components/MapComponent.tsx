@@ -22,6 +22,7 @@ import { useMapInteraction } from "~/modules/map/hooks/useMapInteraction";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
+import { shouldLocate } from "~/needs-refactoring/lib/util/savedState";
 import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers"; // The following is required to stop "npm build" from transpiling mapbox code.
 
 // The following is required to stop "npm build" from transpiling mapbox code.
@@ -81,6 +82,8 @@ export default function MapComponent() {
   );
 
   const geoControlRef = useRef<mapboxgl.GeolocateControl | null>(null);
+  // save the state of whether the user location has been focused on in a ref to not cause re-render
+  const hasFocusedOnUserLocation = useRef(false);
   // Callback ref satisfies typscript compiler: react-map-gl expects a ref callback, not a mutable ref object.
   const setGeolocateControl = useCallback(
     (control: mapboxgl.GeolocateControl | null) => {
@@ -92,7 +95,10 @@ export default function MapComponent() {
   const handleGeolocate = useCallback(
     (event: GeolocationPosition) => {
       if (!map) return;
+      if (hasFocusedOnUserLocation.current) return;
+
       const { longitude, latitude } = event.coords;
+      hasFocusedOnUserLocation.current = true;
 
       map.flyTo({
         center: [longitude, latitude],
@@ -105,6 +111,7 @@ export default function MapComponent() {
 
   useEffect(() => {
     if (!isReady) return;
+    if (!shouldLocate()) return;
     geoControlRef.current?.trigger();
   }, [isReady]);
 
