@@ -1,12 +1,13 @@
 import type { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-  type ReactNode,
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useMemo,
+  useState,
 } from "react";
 import { type AppState, config } from "~/modules/app-state/app-state";
 import { getAppStateFromSearchParams } from "~/modules/app-state/utils/app-state";
@@ -39,15 +40,26 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
   const pathName = usePathname() || "/";
   const query = useMemo(() => getQuery(searchParams), [searchParams]);
 
+  // Revision counter: incremented when persist-only values change but the URL
+  // stays the same, so that the useMemo below still recomputes appState from
+  // localStorage.
+  const [revision, setRevision] = useState(0);
+
   const appState: AppStateContextType["appState"] = useMemo(
     () => getAppStateFromSearchParams(searchParams),
-    [searchParams],
+    [searchParams, revision],
   );
 
   const setAppState = useCallback<AppStateContextType["setAppState"]>(
     (newState, options?) => {
       const { routerOperation, keepExistingQuery, ...navigateOptions } =
         options || {};
+
+      const mergedState = { ...appState, ...newState };
+
+      // Persist immediately so that persist-only values (whose serializer
+      // returns undefined) are saved even when the URL does not change.
+      persistAppState(mergedState);
 
       let url = new URL(
         (keepExistingQuery ?? true)
@@ -56,12 +68,13 @@ export function AppStateContextProvider({ children }: { children: ReactNode }) {
         window.location.origin,
       );
 
-      url = addQueryParamsToUrl(
-        url,
-        getQueryFromAppState({ ...appState, ...newState }),
-      );
+      url = addQueryParamsToUrl(url, getQueryFromAppState(mergedState));
 
       if (window.location.href === url.href) {
+        // The URL didn't change, but persist-only values may have been
+        // updated in localStorage above. Bump the revision counter so
+        // the useMemo recomputes appState from localStorage.
+        setRevision((r) => r + 1);
         return;
       }
 

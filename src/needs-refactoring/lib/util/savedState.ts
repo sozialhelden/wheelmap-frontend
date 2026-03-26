@@ -21,7 +21,8 @@ const savedState = {
     lastMoveDateString,
     lastMoveDate: lastMoveDateString && new Date(lastMoveDateString),
     lastZoom: storage.getItem("wheelmap.map.lastZoom"),
-    locate: storage.getItem("wheelmap.map.locate") === "true",
+    shouldLocateUser:
+      storage.getItem("wheelmap.map.shouldLocateUser") === "true",
   },
   initialProps: hasInitialProps
     ? {
@@ -39,14 +40,6 @@ export function saveState(state: { [key: string]: string }) {
   }
 }
 
-export function isFirstStart() {
-  return storage.getItem("wheelmap.onboardingCompleted") !== "true";
-}
-
 export function hasOpenedLocationHelp() {
   return storage.getItem("wheelmap.hasOpenedLocationHelp") === "true";
-}
-
-export function shouldLocate() {
-  return storage.getItem("wheelmap.map.locate") === "true";
 }

@@ -15,6 +15,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import styled, { createGlobalStyle } from "styled-components";
 import { SpinnerOverlay } from "~/components/SpinnerOverlay";
 import { useEnvironment } from "~/hooks/useEnvironment";
+import { useUserAgent } from "~/hooks/useUserAgent";
 import { useHighlight } from "~/modules/map/hooks/useHighlight";
 import { useLayers } from "~/modules/map/hooks/useLayers";
 import { useMap } from "~/modules/map/hooks/useMap";
@@ -22,7 +23,7 @@ import { useMapInteraction } from "~/modules/map/hooks/useMapInteraction";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
-import { shouldLocate } from "~/needs-refactoring/lib/util/savedState";
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
 import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers"; // The following is required to stop "npm build" from transpiling mapbox code.
 
 // The following is required to stop "npm build" from transpiling mapbox code.
@@ -43,6 +44,14 @@ const Container = styled.div`
 
 export default function MapComponent() {
   const { map, setMap, isReady, setIsReady } = useMap();
+  const { appState } = useAppState();
+  const { userAgent } = useUserAgent();
+  // On Mobile Safari and all iOS browsers, which use the WebKit engine,
+  // geolocation permissions are session-scoped. Programmatically triggering
+  // the GeolocateControl would re-show the native permission prompt on every
+  // page reload, so we skip it for these browsers.
+  const isMobileSafari =
+    userAgent?.engine.name === "WebKit" && userAgent?.os.name === "iOS";
   const { style, onLoad: onLoadMapStyle } = useMapStyle();
   const { onSourceData } = useRenderedFeatures();
 
@@ -96,24 +105,27 @@ export default function MapComponent() {
     (event: GeolocationPosition) => {
       if (!map) return;
       if (hasFocusedOnUserLocation.current) return;
+      if (!appState.shouldLocateUser) return;
 
       const { longitude, latitude } = event.coords;
-      hasFocusedOnUserLocation.current = true;
 
       map.flyTo({
         center: [longitude, latitude],
         zoom: Math.max(map.getZoom() ?? 0, 15),
         essential: true,
       });
+
+      hasFocusedOnUserLocation.current = true;
     },
-    [map],
+    [map, appState.shouldLocateUser],
   );
 
   useEffect(() => {
     if (!isReady) return;
-    if (!shouldLocate()) return;
+    if (!appState.shouldLocateUser) return;
+    if (isMobileSafari) return;
     geoControlRef.current?.trigger();
-  }, [isReady]);
+  }, [isReady, appState.shouldLocateUser, isMobileSafari]);
 
   // TODO: implement map padding for sheet (and other things)
 

@@ -12,7 +12,7 @@ const onboardingCopy = buildOnboardingCopy();
 
 async function resetOnboarding(page: Page) {
   await page.addInitScript(() => {
-    localStorage.removeItem("wheelmap.onboardingCompleted");
+    localStorage.removeItem("a11ymap-app-state");
   });
 }
 

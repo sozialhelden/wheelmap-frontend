@@ -1,11 +1,7 @@
-import {
-  isFirstStart,
-  saveState,
-} from "~/needs-refactoring/lib/util/savedState";
 import type { PhotonResultFeature } from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";
 import OnboardingDialog from "~/modules/onboarding/OnboardingDialog";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { useAppState } from "~/modules/app-state/hooks/useAppState";
 
 function isPhotonFeature(
   location?: PhotonResultFeature | GeolocationPosition,
@@ -20,32 +16,36 @@ function isGeoPosition(
 }
 
 export default function OnboardingView() {
-  const router = useRouter();
-  const [open, setOpen] = useState(isFirstStart());
+  const { appState, setAppState } = useAppState();
+  const [open, setOpen] = useState(!appState.onboardingCompleted);
 
   const handleClose = useCallback(
     (location?: PhotonResultFeature | GeolocationPosition) => {
       setOpen(false);
-      saveState({ onboardingCompleted: "true" });
-
-      if (!location) {
-        router.push("/");
-        return;
-      }
 
       if (isPhotonFeature(location)) {
-        const query = `?lat=${location.geometry.coordinates[1]}&lon=${location.geometry.coordinates[0]}&zoom=11`;
-        router.push(`/${query}`);
+        setAppState({
+          onboardingCompleted: true,
+          shouldLocateUser: true,
+          position: {
+            latitude: location.geometry.coordinates[1],
+            longitude: location.geometry.coordinates[0],
+            zoom: 11,
+          },
+        });
         return;
       }
 
       if (isGeoPosition(location)) {
-        saveState({ "map.locate": "true" });
+        setAppState({ onboardingCompleted: true, shouldLocateUser: true });
+        return;
       }
+
+      setAppState({ onboardingCompleted: true });
     },
-    [router],
+    [setAppState],
   );
 
   if (!open) return null;
-  return <OnboardingDialog onClose={handleClose} />;
+  return <OnboardingDialog open={open} onClose={handleClose} />;
 }

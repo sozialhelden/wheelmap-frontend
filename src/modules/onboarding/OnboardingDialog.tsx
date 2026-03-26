@@ -31,10 +31,11 @@ type OnboardingState =
   | "location-unavailable";
 
 type Props = {
+  open: boolean;
   onClose: (location?: PhotonResultFeature | GeolocationPosition) => void;
 };
 
-const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
+const OnboardingDialog: React.FC<Props> = ({ open, onClose }) => {
   const [step, setStep] = useState<OnboardingState>("onboarding");
 
   const { requestPermission, isAcquiring } = useGeolocationPermission({
@@ -124,7 +125,7 @@ const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
   const isAlert = step !== "onboarding";
   const DialogElement = isAlert ? AlertDialog : Dialog;
   return (
-    <DialogElement.Root open={true}>
+    <DialogElement.Root open={open}>
       <DialogElement.Content
         maxWidth={{ initial: "100vw", md: "500px" }}
         data-testid="onboarding-dialog"

@@ -6,7 +6,6 @@ import TopBar from "~/app/(app)/_components/TopBar";
 import { ExpertModeContextProvider } from "~/hooks/useExpertMode";
 import { AppStateContextProvider } from "~/modules/app-state/hooks/useAppState";
 import { NeedsContextProvider } from "~/modules/needs/contexts/NeedsContext";
-import { isFirstStart } from "~/needs-refactoring/lib/util/savedState";
 import OnboardingView from "~/modules/onboarding/OnboardingView";
 import ToastContainer from "~/needs-refactoring/components/ToastContainer";
 import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvider";
@@ -18,8 +17,6 @@ import SWRConfigProvider from "~/needs-refactoring/lib/fetchers/SWRConfigProvide
 export default function AppLayout({ children }: { children: ReactNode }) {
   // TODO: add back session provider
 
-  const showOnboarding = isFirstStart();
-
   return (
     <>
       <AppStateContextProvider>
@@ -28,7 +25,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             <ExpertModeContextProvider>
               <SWRConfigProvider>
                 <TopBar />
-                {showOnboarding && <OnboardingView />}
+                <OnboardingView />
                 {children}
               </SWRConfigProvider>
             </ExpertModeContextProvider>
