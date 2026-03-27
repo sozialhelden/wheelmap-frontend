@@ -1,8 +1,8 @@
 import { Button, Flex, Text, Theme, Tooltip } from "@radix-ui/themes";
 import { t } from "@transifex/native";
-import { type Ref, forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 import styled from "styled-components";
-import NeedsIcon from "~/modules/needs/components/icons/NeedsIcon";
+import NeedsIcon from "~/components/icons/NeedsIcon";
 
 import { useNeeds } from "~/modules/needs/contexts/NeedsContext";
 
