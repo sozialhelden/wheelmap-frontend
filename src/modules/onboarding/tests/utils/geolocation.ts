@@ -110,3 +110,15 @@ export async function timeoutGeolocation(page: Page) {
     { error },
   );
 }
+
+export async function resultFromGeolocation(page: Page) {
+  return await page.evaluate(
+    () =>
+      new Promise<string>((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          () => resolve("ok"),
+          () => resolve("error"),
+        );
+      }),
+  );
+}
