@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   Dialog,
@@ -17,12 +16,13 @@ import type { YesNoLimitedUnknown } from "~/needs-refactoring/lib/model/ac/Featu
 import {
   accessibilityColor as accessibilityColorName,
   accessibilityName,
-  useAccessibilityDescription,
 } from "~/needs-refactoring/lib/model/accessibility/accessibilityStrings";
-import Icon from "../shared/Icon";
-import StyledMarkdown from "../shared/StyledMarkdown";
-import VectorImage from "../shared/VectorImage";
-import { useProductName } from "./useProductName";
+import StyledMarkdown from "../../needs-refactoring/components/shared/StyledMarkdown";
+import VectorImage from "../../needs-refactoring/components/shared/VectorImage";
+import { useProductName } from "./hooks/useProductName";
+import { useOnboardingCopy } from "~/modules/onboarding/hooks/useOnboardingCopy";
+import { getAccessibilityIcon } from "~/components/icons/getAccessibilityIcon";
+import { useNavigation } from "~/needs-refactoring/lib/useNavigation";
 
 export const OnboardingStep: React.FC<{
   onClose?: () => unknown;
@@ -31,6 +31,9 @@ export const OnboardingStep: React.FC<{
   const headerMarkdown = useTranslations(
     clientSideConfiguration?.textContent?.onboarding?.headerMarkdown,
   );
+  const { onboardingHeading, startButtonText } = useOnboardingCopy();
+  const { linksInDropdownMenu } = useNavigation();
+  const faqLink = linksInDropdownMenu.find((link) => link.label === "FAQ");
 
   const callToActionButton = React.createRef<HTMLButtonElement>();
   const handleClose = () => {
@@ -45,8 +48,6 @@ export const OnboardingStep: React.FC<{
     }, 100);
   }, [callToActionButton]);
 
-  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t("Okay, let’s go!");
   const productName = useProductName(clientSideConfiguration);
 
   return (
@@ -61,17 +62,22 @@ export const OnboardingStep: React.FC<{
 
       {/* Hidden because from a purely visual perspective, it's clear what an onboarding dialog is. */}
       <VisuallyHidden>
-        <Dialog.Title>
-          {t("Welcome to {productName}!", { productName })}
-        </Dialog.Title>
+        <Dialog.Title>{onboardingHeading}</Dialog.Title>
       </VisuallyHidden>
 
       <Dialog.Description>
-        <Text as="div" my="2">
+        <Text as="div" my="3">
           <StyledMarkdown inline>{headerMarkdown || ""}</StyledMarkdown>
         </Text>
 
-        <Grid gap="2" columns={{ initial: "1", md: "2" }} width="auto" asChild>
+        <Grid
+          gap="2"
+          columns={{ initial: "1", md: "2" }}
+          width="auto"
+          asChild
+          mb="4"
+          mt="4"
+        >
           <ul>
             <AccessibilityCard value="yes" />
             <AccessibilityCard value="limited" />
@@ -81,18 +87,24 @@ export const OnboardingStep: React.FC<{
         </Grid>
       </Dialog.Description>
 
-      <Flex gap="3" mt="4" justify="end">
+      <Flex gap="3" mt="5" justify="end" direction="column">
         <Dialog.Close>
           <Button
             className="button-continue"
             onClick={handleClose}
             ref={callToActionButton}
-            size="4"
+            size="3"
             highContrast
           >
-            {startButtonCaption}
+            {startButtonText}
           </Button>
         </Dialog.Close>
+
+        <Button size="3" variant="soft" asChild>
+          <a href={faqLink?.url} target="_blank" rel="noopener noreferrer">
+            {t("Learn more")}
+          </a>
+        </Button>
       </Flex>
     </>
   );
@@ -101,47 +113,29 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const { value } = props;
   const name = accessibilityName(value);
   const colorName = accessibilityColorName(value);
-  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
+  const Icon = getAccessibilityIcon(value);
   const unknownAccessibilityIncentiveText = t("Help out by marking places!");
 
   return (
-    <Card asChild>
-      <li>
-        <Flex gap="3" align="start" direction="row" asChild>
-          <figure>
-            <Box>
-              <Icon
-                containerHTMLAttributes={{
-                  "aria-label": t(`${colorName} map marker`),
-                  role: "img",
-                }}
-                markerHTMLAttributes={{ "aria-hidden": "true" }}
-                iconHTMLAttributes={{ "aria-hidden": "true" }}
-                accessibility={value}
-                category={undefined}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-              />
-            </Box>
-            <Box asChild>
-              <figcaption>
-                {/* biome-ignore lint/a11y/useSemanticElements: Using 'correct' semantic HTML here
-                    would create an invalid DOM tree. The ARIA tree stays sensible here. */}
-                <Text as="p" weight="bold" role="term">
-                  {name}
-                </Text>
-                {/* biome-ignore lint/a11y/useSemanticElements: See above */}
-                <Text as="p" color="gray" role="definition">
-                  {useAccessibilityDescription(value) ||
-                    unknownAccessibilityIncentiveText}
-                </Text>
-              </figcaption>
-            </Box>
-          </figure>
-        </Flex>
-      </li>
+    <Card>
+      <Flex
+        gap="2"
+        align="center"
+        justify="center"
+        direction="column"
+        width="100%"
+        height="100%"
+      >
+        {Icon ? (
+          <Icon
+            aria-label={t(`${colorName} map marker`)}
+            style={{ transform: "scale(2)", margin: "2rem 0" }}
+          />
+        ) : null}
+        <Text as="p" weight="bold" align="center">
+          {name}
+        </Text>
+      </Flex>
     </Card>
   );
 }

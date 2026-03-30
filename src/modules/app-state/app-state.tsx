@@ -12,6 +12,10 @@ import {
   parseLegacySearchQueryParameter,
   parseSearchQueryParameter,
 } from "~/modules/search/utils/state";
+import {
+  parseLocateQueryParameter,
+  parseOnboardingCompletedQueryParameter,
+} from "~/modules/onboarding/utils/state";
 import type { NestedRecord } from "~/utils/search-params";
 
 // App state is global state, that is entirely controlled by query parameters.
@@ -41,6 +45,18 @@ const appStateConfig = {
   },
   category: {
     parser: parseCategoryQueryParameter,
+  },
+  onboardingCompleted: {
+    parser: parseOnboardingCompletedQueryParameter,
+    serializer: () => undefined,
+    defaultValue: false,
+    persist: true,
+  },
+  shouldLocateUser: {
+    parser: parseLocateQueryParameter,
+    serializer: () => undefined,
+    defaultValue: false,
+    persist: true,
   },
 } as const;
 
