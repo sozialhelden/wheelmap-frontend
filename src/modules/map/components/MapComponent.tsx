@@ -8,6 +8,7 @@ import {
   Map as ReactMapGL,
   type MapEvent,
   MapProvider,
+  type MapRef,
   NavigationControl,
   Source,
 } from "react-map-gl/mapbox";
@@ -54,6 +55,19 @@ export default function MapComponent() {
     userAgent?.engine.name === "WebKit" && userAgent?.os.name === "iOS";
   const { style, onLoad: onLoadMapStyle } = useMapStyle();
   const { onSourceData } = useRenderedFeatures();
+
+  // Expose map to window for e2e testing
+  const exposeMapForTesting = useCallback(
+    (mapRef: MapRef | null) => {
+      setMap(mapRef);
+
+      if (typeof window === "undefined") return;
+      if (!mapRef) return;
+
+      window.testMap = mapRef.getMap();
+    },
+    [setMap],
+  );
 
   const {
     cursor,
@@ -155,7 +169,7 @@ export default function MapComponent() {
           mapStyle={style}
           onLoad={onLoad}
           onSourceData={onSourceData}
-          ref={setMap}
+          ref={exposeMapForTesting}
         >
           {isReady && (
             <>

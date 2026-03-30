@@ -1,3 +1,5 @@
+import type { Extent } from "~/utils/focus-map-on-feature";
+
 export type SearchResult = {
   id: string;
   title: string;
@@ -5,6 +7,6 @@ export type SearchResult = {
   lon: number;
   url?: string;
   address?: string;
-  extent?: number[];
+  extent?: Extent;
   category?: string;
 };

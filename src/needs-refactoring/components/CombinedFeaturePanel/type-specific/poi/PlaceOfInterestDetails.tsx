@@ -1,6 +1,5 @@
 import { Callout } from "@blueprintjs/core";
 import { t } from "@transifex/native";
-import { bbox } from "@turf/turf";
 import Link from "next/link";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeatureImageUpload } from "~/needs-refactoring/components/CombinedFeaturePanel/components/FeatureImageUpload";
@@ -21,6 +20,7 @@ import PhoneNumberLinks from "../../components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "../../components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "../../components/IconButtonList/StyledIconButtonList";
 import FeatureImage from "../../components/image/FeatureImage";
+import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
 
 type Props = {
   feature: AnyFeature;
@@ -55,19 +55,7 @@ export default function PlaceOfInterestDetails({
       <FeatureNameHeader
         feature={feature}
         onHeaderClicked={() => {
-          console.log(feature.geometry?.coordinates);
-          const coordinates = feature.geometry?.coordinates;
-          if (!coordinates) {
-            return;
-          }
-
-          const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
-            maxZoom: 19,
-          });
-          if (cameraOptions) {
-            map?.map?.flyTo({ ...cameraOptions, duration: 1000, padding: 100 });
-          }
-          // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
+          focusMapOnFeature(map.map, { feature });
         }}
       >
         {feature["@type"] === "osm:Feature" && (
