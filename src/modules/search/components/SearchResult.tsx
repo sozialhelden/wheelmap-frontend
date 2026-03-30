@@ -1,11 +1,12 @@
 import { Flex, Text } from "@radix-ui/themes";
 import { findCategoryBySynonym } from "@sozialhelden/core";
-import { type Ref, forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 import styled from "styled-components";
 import { useMap } from "~/modules/map/hooks/useMap";
 import type { SearchResult as SearchResultType } from "~/modules/search/types/SearchResult";
 
 import { AppStateAwareLink } from "~/modules/app-state/components/AppStateAwareLink";
+import { focusMapOnFeature, type LatLon } from "~/utils/focus-map-on-feature";
 
 type Props = {
   result: SearchResultType;
@@ -65,19 +66,11 @@ export const SearchResult = forwardRef(function SearchResult(
     }
 
     // TODO: should be implemented on the place detail page level
-    // if (extent) {
-    //   map?.fitBounds(
-    //     [
-    //       [extent[0], extent[1]],
-    //       [extent[2], extent[3]],
-    //     ],
-    //     {
-    //       speed: 3,
-    //     },
-    //   );
-    // } else if (lat && lon) {
-    //   map?.flyTo({ center: [lon, lat], zoom: 20, speed: 3 });
-    // }
+    if (extent) {
+      focusMapOnFeature(map, { extent }, { zoom: 5 });
+    } else if (lat && lon) {
+      focusMapOnFeature(map, { latLon: { lat, lon } as LatLon });
+    }
   };
 
   return (

@@ -1,4 +1,5 @@
 import type { GeoJSONFeature, MapMouseEvent } from "mapbox-gl";
+import { usePathname } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import type { ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
@@ -9,6 +10,7 @@ import { getFeatureUrl } from "~/utils/url";
 export function useMapInteraction() {
   const { appState, setAppState } = useAppState();
   const router = useAppStateAwareRouter();
+  const pathname = usePathname();
 
   const { dataLayers } = useLayers();
   const interactiveLayerIds = useMemo(
@@ -44,9 +46,17 @@ export function useMapInteraction() {
       }
 
       const url = getFeatureUrl(event.features as GeoJSONFeature[]);
-      return url && router.push(url);
+
+      if (!url) return;
+
+      // If clicking on the same place, emit a custom event to signal sidebar should reopen
+      if (pathname === url.pathname) {
+        window.dispatchEvent(new CustomEvent("place-clicked"));
+      }
+
+      return router.push(url);
     },
-    [router],
+    [router, pathname],
   );
 
   return {

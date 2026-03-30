@@ -5,10 +5,11 @@ import { useCallback, useMemo } from "react";
 import {
   GeolocateControl,
   Layer,
+  Map as ReactMapGL,
   type MapEvent,
   MapProvider,
+  type MapRef,
   NavigationControl,
-  Map as ReactMapGL,
   Source,
 } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -22,7 +23,7 @@ import { useMapInteraction } from "~/modules/map/hooks/useMapInteraction";
 import { useMapStyle } from "~/modules/map/hooks/useMapStyle";
 import { useRenderedFeatures } from "~/modules/map/hooks/useRenderedFeatures";
 import { useSources } from "~/modules/map/hooks/useSources";
-import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers";
+import { filterFeaturesOnLayerByIds } from "~/modules/map/utils/layers"; // The following is required to stop "npm build" from transpiling mapbox code.
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -44,6 +45,19 @@ export default function MapComponent() {
   const { setMap, isReady, setIsReady } = useMap();
   const { style, onLoad: onLoadMapStyle } = useMapStyle();
   const { onSourceData } = useRenderedFeatures();
+
+  // Expose map to window for e2e testing
+  const exposeMapForTesting = useCallback(
+    (mapRef: MapRef | null) => {
+      setMap(mapRef);
+
+      if (typeof window === "undefined") return;
+      if (!mapRef) return;
+
+      window.testMap = mapRef.getMap();
+    },
+    [setMap],
+  );
 
   const {
     cursor,
@@ -108,7 +122,7 @@ export default function MapComponent() {
           mapStyle={style}
           onLoad={onLoad}
           onSourceData={onSourceData}
-          ref={setMap}
+          ref={exposeMapForTesting}
         >
           {isReady && (
             <>

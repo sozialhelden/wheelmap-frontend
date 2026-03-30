@@ -1,0 +1,23 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [11.5753822, 48.1371079],
+        "type": "Point"
+      },
+      "type": "Feature",
+      "properties": {
+        "osm_type": "R",
+        "osm_id": 62428,
+        "extent": [11.360777, 48.2481162, 11.7229099, 48.0616244],
+        "country": "Germany",
+        "osm_key": "place",
+        "countrycode": "DE",
+        "osm_value": "city",
+        "name": "Munich",
+        "type": "locality"
+      }
+    }
+  ],
+  "type": "FeatureCollection"
+}
