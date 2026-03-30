@@ -1,6 +1,7 @@
+import { usePathname } from "next/navigation";
 import type { PhotonResultFeature } from "~/needs-refactoring/lib/fetchers/fetchPhotonFeatures";
 import OnboardingDialog from "~/modules/onboarding/OnboardingDialog";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppState } from "~/modules/app-state/hooks/useAppState";
 
 function isPhotonFeature(
@@ -17,7 +18,15 @@ function isGeoPosition(
 
 export default function OnboardingView() {
   const { appState, setAppState } = useAppState();
-  const [open, setOpen] = useState(!appState.onboardingCompleted);
+  const pathname = usePathname();
+  const isRootPage = pathname === "/";
+  const [open, setOpen] = useState(!appState.onboardingCompleted && isRootPage);
+
+  useEffect(() => {
+    if (!isRootPage) {
+      setOpen(false);
+    }
+  }, [isRootPage]);
 
   const handleClose = useCallback(
     (location?: PhotonResultFeature | GeolocationPosition) => {
