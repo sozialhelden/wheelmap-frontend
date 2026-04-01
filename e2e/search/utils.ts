@@ -1,5 +1,5 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect } from "~/tests/e2e/setup/test-fixture";
+import { expect } from "../setup/test-fixture";
 
 export const getSearchInput = (page: Page): Locator => {
   return page.getByRole("searchbox");

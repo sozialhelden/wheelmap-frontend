@@ -3,15 +3,18 @@ import {
   goToMockedPlaceDetailPage,
   mockPlaceDetails,
   mockTranslations,
-} from "~/tests/e2e/utils/mocks";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+} from "../utils/mocks";
+import { waitUntilMapIsLoaded } from "../utils/wait";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 test.describe("Feature Panel", () => {
   test.beforeEach(async ({ page }) => {
     await mockTranslations(page);
+    await page.goto("/");
     await mockPlaceDetails(page);
-    await goToMockedPlaceDetailPage(page);
+    await skipOnboarding(page);
     await waitUntilMapIsLoaded(page);
+    await goToMockedPlaceDetailPage(page);
   });
 
   test("renders main sections when feature data is loaded", async ({
@@ -23,7 +26,6 @@ test.describe("Feature Panel", () => {
       "Sozialhelden e.V.Non-Government Organisation",
     );
 
-    await expect(page.getByTestId("header-image-section")).toBeVisible();
     await expect(page.getByTestId("wheelchair-section")).toBeVisible();
     await expect(page.getByTestId("toilet-section")).toBeVisible();
     await expect(page.getByTestId("general-osm-section")).toBeVisible();

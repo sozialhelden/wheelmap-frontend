@@ -1,13 +1,14 @@
-import { type Locator, type Page, expect, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 import {
   type NeedCategory,
   type NeedProperties,
   type NeedSettings,
   settings as needSettings,
 } from "~/modules/needs/needs";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+import { mockTranslations } from "../utils/mocks";
+import { getQueryParams, waitForQueryParam } from "../utils/url";
+import { waitUntilMapIsLoaded } from "../utils/wait";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 const getDropdown = (page: Page): Locator => {
   return page
@@ -44,6 +45,7 @@ const assertDropdownIsNotVisible = async (page: Page) => {
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
+  await skipOnboarding(page);
   await waitUntilMapIsLoaded(page);
 });
 

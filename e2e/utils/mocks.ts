@@ -1,9 +1,9 @@
 import type { Page } from "@playwright/test";
-import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
-import placeInfoMock from "~/needs-refactoring/modules/edit/tests/mocks/place-infos-mock.json";
-import toilet_untagged_node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/toilet-untagged-node-4544823443-osm-mock.json";
-import way126125230Mock from "~/needs-refactoring/modules/edit/tests/mocks/way-126125230-osm-mock.json";
-import wheelchair_untagged_node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/wheelchair-untagged-node-4544823443-osm-mock.json";
+import node4544823443Mock from "../edit/mocks/node-4544823443-osm-mock.json";
+import placeInfoMock from "../edit/mocks/place-infos-mock.json";
+import toilet_untagged_node4544823443Mock from "../edit/mocks/toilet-untagged-node-4544823443-osm-mock.json";
+import way126125230Mock from "../edit/mocks/way-126125230-osm-mock.json";
+import wheelchair_untagged_node4544823443Mock from "../edit/mocks/wheelchair-untagged-node-4544823443-osm-mock.json";
 import transifexMockEn from "../mocks/transifex-mock-en.json";
 
 export async function mockTranslations(page: Page) {

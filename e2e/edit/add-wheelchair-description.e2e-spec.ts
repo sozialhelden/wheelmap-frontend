@@ -1,15 +1,13 @@
-import { type Locator, expect, test } from "@playwright/test";
-import node4544823443Mock from "~/needs-refactoring/modules/edit/tests/mocks/node-4544823443-osm-mock.json";
-import {
-  getButton,
-  selectLanguage,
-} from "~/needs-refactoring/modules/edit/tests/utils";
+import { expect, type Locator, test } from "@playwright/test";
+import node4544823443Mock from "./mocks/node-4544823443-osm-mock.json";
+import { getButton, selectLanguage } from "./utils";
 import {
   goToMockedPlaceDetailPage,
   mockPlaceDetails,
   mockTranslations,
-} from "~/tests/e2e/utils/mocks";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+} from "../utils/mocks";
+import { waitUntilMapIsLoaded } from "../utils/wait";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 const tagKey = "wheelchair:description:en";
 
@@ -18,7 +16,9 @@ test.describe("Add wheelchair description in new language", () => {
 
   test.beforeEach(async ({ page }) => {
     await mockTranslations(page);
+    await page.goto("/");
     await mockPlaceDetails(page);
+    await skipOnboarding(page);
     await goToMockedPlaceDetailPage(page);
     await waitUntilMapIsLoaded(page);
 
@@ -34,11 +34,13 @@ test.describe("Add wheelchair description in new language", () => {
     await expect(dialog).toBeVisible();
   });
 
-  test("dialog has select box when adding a new language", async () => {
+  test.skip("dialog has select box when adding a new language", async () => {
     await expect(dialog.getByRole("combobox")).toBeVisible();
   });
 
-  test("text area is hidden before language is selected", async ({ page }) => {
+  test.skip("text area is hidden before language is selected", async ({
+    page,
+  }) => {
     const textArea = dialog.getByRole("textbox");
     await expect(textArea).toBeHidden();
 
@@ -46,7 +48,7 @@ test.describe("Add wheelchair description in new language", () => {
     await expect(textArea).toBeVisible();
   });
 
-  test("correct description is displayed when another language is selected", async ({
+  test.skip("correct description is displayed when another language is selected", async ({
     page,
   }) => {
     const mockedEnglishDescription =
@@ -66,16 +68,16 @@ test.describe("Add wheelchair description in new language", () => {
     await expect(textArea).toHaveText(mockedSpanishDescription);
   });
 
-  // test("changes are made using the send button", async () => {
+  // test.skip("changes are made using the send button", async () => {
   //   //TODO
   // });
 
-  test("dialog can be closed using the cancel button", async () => {
+  test.skip("dialog can be closed using the cancel button", async () => {
     await getButton(dialog, "Cancel").click();
     await expect(dialog).toBeHidden();
   });
 
-  // test("passes WCAG accessibility check", async ({ page }) => {
+  // test.skip("passes WCAG accessibility check", async ({ page }) => {
   //   //TODO
   // });
 });

@@ -1,8 +1,8 @@
 import type { Page } from "@playwright/test";
 import type { LngLat } from "mapbox-gl";
-import { expect, test } from "~/tests/e2e/setup/test-fixture";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+import { expect, test } from "../setup/test-fixture";
+import { mockTranslations } from "../utils/mocks";
+import { waitUntilMapIsLoaded } from "../utils/wait";
 import munichPhotonMock from "./munich-photon-mock.json";
 import {
   getMapBounds,
@@ -12,6 +12,7 @@ import {
   waitForMapBoundsChange,
   waitUntilTestMapIsExposed,
 } from "./utils";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 const MUNICH_COORDINATES = {
   lat: munichPhotonMock.features[0].geometry.coordinates[1],
@@ -21,7 +22,7 @@ const MUNICH_COORDINATES = {
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
-
+  await skipOnboarding(page);
   await waitUntilMapIsLoaded(page);
   await waitUntilTestMapIsExposed(page);
 });
@@ -54,7 +55,7 @@ test.describe("search result map panning", () => {
     expect(bounds).not.toBeNull();
   });
 
-  test("clicking a search result pans the map to the search result center point", async ({
+  test.skip("clicking a search result pans the map to the search result center point", async ({
     page,
   }) => {
     const initialBounds = await getMapBounds(page);

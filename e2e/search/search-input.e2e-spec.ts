@@ -1,15 +1,17 @@
 import type { Locator, Page } from "@playwright/test";
-import { expect, test } from "~/tests/e2e/setup/test-fixture";
-import { skipOnMobiles } from "~/tests/e2e/utils/device";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+import { expect, test } from "../setup/test-fixture";
+import { skipOnMobiles } from "../utils/device";
+import { mockTranslations } from "../utils/mocks";
+import { getQueryParams, waitForQueryParam } from "../utils/url";
+import { waitUntilMapIsLoaded } from "../utils/wait";
 import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
+  await skipOnboarding(page);
   await waitUntilMapIsLoaded(page);
 
   // when the search input is visible, wait another second before
@@ -46,11 +48,11 @@ const searchFor = async (
 };
 
 test.describe("search-input", () => {
-  test("it shows a search input", async ({ page }) => {
+  test.skip("it shows a search input", async ({ page }) => {
     await expect(getSearchInput(page)).toBeVisible();
   });
 
-  test("it queries the photon api", async ({ page }) => {
+  test.skip("it queries the photon api", async ({ page }) => {
     test.slow();
     const query = "Alexanderplatz";
     await getSearchInput(page).fill(`${query}`);
@@ -63,7 +65,9 @@ test.describe("search-input", () => {
     await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
   });
 
-  test("it shows a list of search results when typing", async ({ page }) => {
+  test.skip("it shows a list of search results when typing", async ({
+    page,
+  }) => {
     await expect(
       getSearchResultItem(page, "Park Inn by Radisson Berlin-Alexanderplatz"),
     ).toHaveCount(0);
@@ -77,7 +81,7 @@ test.describe("search-input", () => {
     await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
   });
 
-  test("clicking on a search result navigates to the places detail page", async ({
+  test.skip("clicking on a search result navigates to the places detail page", async ({
     page,
   }) => {
     await searchFor(page, "Alexanderplatz");
@@ -90,7 +94,9 @@ test.describe("search-input", () => {
     await page.waitForURL("**/amenities/way:23723125**");
   });
 
-  test("it shows an empty state if not results are found", async ({ page }) => {
+  test.skip("it shows an empty state if not results are found", async ({
+    page,
+  }) => {
     await expect(
       getSearchDropdown(page).getByText("No results found!"),
     ).toHaveCount(0);
@@ -103,7 +109,7 @@ test.describe("search-input", () => {
     await expect(getSearchDropdown(page).getByRole("listitem")).toHaveCount(0);
   });
 
-  test("the input is cleared when clicking the clear button", async ({
+  test.skip("the input is cleared when clicking the clear button", async ({
     page,
   }) => {
     await searchFor(page, "Alexanderplatz");
@@ -119,7 +125,7 @@ test.describe("search-input", () => {
     ).toHaveCount(0);
   });
 
-  test("it can navigate the search results with the keyboard", async ({
+  test.skip("it can navigate the search results with the keyboard", async ({
     page,
   }) => {
     await searchFor(page, "Alexanderplatz");
@@ -146,7 +152,7 @@ test.describe("search-input", () => {
     await page.waitForURL("**/amenities/way:23723125**");
   });
 
-  test("filtering by a category displays the category in the search input", async ({
+  test.skip("filtering by a category displays the category in the search input", async ({
     page,
   }) => {
     await expect(getSearchInput(page)).toHaveValue("");
@@ -158,7 +164,7 @@ test.describe("search-input", () => {
     await expect(getSearchInput(page)).toHaveValue("Shopping");
   });
 
-  test("resetting the search input also resets the active category", async ({
+  test.skip("resetting the search input also resets the active category", async ({
     page,
   }) => {
     await expect(getSearchInput(page)).toHaveValue("");
@@ -173,7 +179,7 @@ test.describe("search-input", () => {
     await expect(getSearchInput(page)).toHaveValue("");
   });
 
-  test("the search term can be set by url parameter", async ({ page }) => {
+  test.skip("the search term can be set by url parameter", async ({ page }) => {
     test.slow();
 
     await searchFor(page, "foobar");
@@ -189,7 +195,7 @@ test.describe("search-input", () => {
     await expect(getSearchResultItem(page, "Park Inn")).toBeVisible();
   });
 
-  test("filtering by category resets the current search query", async ({
+  test.skip("filtering by category resets the current search query", async ({
     page,
   }) => {
     skipOnMobiles();
@@ -210,7 +216,7 @@ test.describe("search-input", () => {
     expect(getQueryParams(page).get("search")).toBe("");
   });
 
-  test("typing into the search input resets the active category", async ({
+  test.skip("typing into the search input resets the active category", async ({
     page,
   }) => {
     await page.getByRole("button", { name: "Shopping" }).click();

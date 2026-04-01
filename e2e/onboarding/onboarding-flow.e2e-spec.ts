@@ -1,16 +1,16 @@
-import { expect, test } from "../../../../e2e/setup/test-fixture";
+import { expect, test } from "../setup/test-fixture";
 import {
   allowGeolocation,
   denyGeolocation,
   resultFromGeolocation,
   timeoutGeolocation,
-} from "~/modules/onboarding/tests/utils/geolocation";
-import { buildOnboardingCopy } from "./utils/onboarding-copy";
+} from "../utils/geolocation";
+import { buildOnboardingCopy } from "../utils/onboarding-copy";
 import {
   openOnboarding,
   resetOnboarding,
-  skipFirstStep,
-} from "./utils/control-onboarding";
+  skipFirstOnboardingStep,
+} from "../utils/control-onboarding";
 
 const onboardingCopy = buildOnboardingCopy();
 
@@ -23,7 +23,7 @@ test.describe("Onboarding Flow ", () => {
   test("Case A: accept in dialog and browser prompt", async ({ page }) => {
     await allowGeolocation(page);
     const dialog = await openOnboarding(page);
-    await skipFirstStep(page, onboardingCopy.startButtonText);
+    await skipFirstOnboardingStep(page, onboardingCopy.startButtonText);
 
     await page
       .getByRole("button", { name: onboardingCopy.acceptButtonText })
@@ -36,7 +36,7 @@ test.describe("Onboarding Flow ", () => {
   test("Case B: decline in app dialog", async ({ page }) => {
     await denyGeolocation(page);
     const dialog = await openOnboarding(page);
-    await skipFirstStep(page, onboardingCopy.startButtonText);
+    await skipFirstOnboardingStep(page, onboardingCopy.startButtonText);
 
     await page
       .getByRole("button", { name: onboardingCopy.rejectButtonText })
@@ -56,7 +56,7 @@ test.describe("Onboarding Flow ", () => {
   test("Case C: browser allows but location unavailable", async ({ page }) => {
     await timeoutGeolocation(page);
     const dialog = await openOnboarding(page);
-    await skipFirstStep(page, onboardingCopy.startButtonText);
+    await skipFirstOnboardingStep(page, onboardingCopy.startButtonText);
 
     await page
       .getByRole("button", { name: onboardingCopy.acceptButtonText })
@@ -77,7 +77,7 @@ test.describe("Onboarding Flow ", () => {
     await denyGeolocation(page);
 
     const dialog = await openOnboarding(page);
-    await skipFirstStep(page, onboardingCopy.startButtonText);
+    await skipFirstOnboardingStep(page, onboardingCopy.startButtonText);
 
     await page
       .getByRole("button", {

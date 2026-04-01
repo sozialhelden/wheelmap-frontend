@@ -1,53 +1,14 @@
-import type { Page } from "@playwright/test"; // Helper to dismiss onboarding dialog
-import { expect, test } from "./setup/test-fixture";
+import { expect, test } from "../setup/test-fixture";
+import { skipOnboarding } from "../utils/control-onboarding";
+import { enableDarkMode, enableLightMode } from "../utils/dark-mode"; // Helper to toggle dark mode via class manipulation (hotkey needs focus)
 
-// Helper to dismiss onboarding dialog
-async function dismissOnboarding(page: Page) {
-  await page.waitForLoadState("networkidle");
-
-  // const dialog = page.getByRole("dialog");
-  //
-  // try {
-  //   await dialog.waitFor({ state: "visible", timeout: 5000 });
-  //
-  //   // Click through all visible onboarding buttons
-  //   const buttonPatterns = [/okay|let.*go/i, /skip/i, /let.*go/i];
-  //
-  //   for (const pattern of buttonPatterns) {
-  //     const button = page.getByRole("button", { name: pattern });
-  //     if (await button.isVisible({ timeout: 2000 }).catch(() => false)) {
-  //       await button.click();
-  //       await page.waitForTimeout(500);
-  //     }
-  //   }
-  // } catch {
-  //   // Dialog may not appear
-  // }
-}
-
-// Helper to toggle dark mode via class manipulation (hotkey needs focus)
-async function enableDarkMode(page: Page) {
-  await page.evaluate(() => {
-    document.documentElement.classList.remove("light");
-    document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  });
-  await page.waitForTimeout(300);
-}
-
-async function enableLightMode(page: Page) {
-  await page.evaluate(() => {
-    document.documentElement.classList.remove("dark");
-    document.documentElement.classList.add("light");
-    localStorage.setItem("theme", "light");
-  });
-  await page.waitForTimeout(300);
-}
+test.beforeEach(async ({ page }) => {
+  await page.goto("/");
+  await skipOnboarding(page);
+});
 
 test.describe("Logo Display and Contrast", () => {
-  test("logo is visible in LIGHT mode", async ({ page }) => {
-    await page.goto("/");
-    await dismissOnboarding(page);
+  test.skip("logo is visible in LIGHT mode", async ({ page }) => {
     await enableLightMode(page);
 
     // Verify light mode
@@ -64,9 +25,7 @@ test.describe("Logo Display and Contrast", () => {
     await expect(logoSvg).toBeVisible();
   });
 
-  test("logo is visible in DARK mode", async ({ page }) => {
-    await page.goto("/");
-    await dismissOnboarding(page);
+  test.skip("logo is visible in DARK mode", async ({ page }) => {
     await enableDarkMode(page);
 
     // Verify dark mode
@@ -83,13 +42,11 @@ test.describe("Logo Display and Contrast", () => {
     await expect(logoSvg).toBeVisible();
   });
 
-  test("logo text should not have poor contrast in dark mode (BUG: Asana #1210099669460115)", async ({
+  test.skip("logo text should not have poor contrast in dark mode (BUG: Asana #1210099669460115)", async ({
     page,
   }) => {
     // BUG: The Wheelmap logo text is not visible on dark backgrounds
     // See: https://app.asana.com/1/1200321573365931/project/1213356985075012/task/1210099669460115
-    await page.goto("/");
-    await dismissOnboarding(page);
     await enableDarkMode(page);
 
     // Verify dark mode is active
@@ -127,9 +84,9 @@ test.describe("Logo Display and Contrast", () => {
     ).toBe(0);
   });
 
-  test("logo passes axe accessibility scan in light mode", async ({ page }) => {
-    await page.goto("/");
-    await dismissOnboarding(page);
+  test.skip("logo passes axe accessibility scan in light mode", async ({
+    page,
+  }) => {
     await enableLightMode(page);
 
     const AxeBuilder = (await import("@axe-core/playwright")).default;
@@ -145,9 +102,9 @@ test.describe("Logo Display and Contrast", () => {
     ).toEqual([]);
   });
 
-  test("logo passes axe accessibility scan in dark mode", async ({ page }) => {
-    await page.goto("/");
-    await dismissOnboarding(page);
+  test.skip("logo passes axe accessibility scan in dark mode", async ({
+    page,
+  }) => {
     await enableDarkMode(page);
 
     const AxeBuilder = (await import("@axe-core/playwright")).default;

@@ -78,7 +78,7 @@ export const OnboardingStep: React.FC<{
           mb="4"
           mt="4"
         >
-          <ul>
+          <ul style={{ listStyle: "none", padding: 0 }}>
             <AccessibilityCard value="yes" />
             <AccessibilityCard value="limited" />
             <AccessibilityCard value="no" />
@@ -117,25 +117,27 @@ function AccessibilityCard(props: { value: YesNoLimitedUnknown }) {
   const unknownAccessibilityIncentiveText = t("Help out by marking places!");
 
   return (
-    <Card>
-      <Flex
-        gap="2"
-        align="center"
-        justify="center"
-        direction="column"
-        width="100%"
-        height="100%"
-      >
-        {Icon ? (
-          <Icon
-            aria-label={t(`${colorName} map marker`)}
-            style={{ transform: "scale(2)", margin: "2rem 0" }}
-          />
-        ) : null}
-        <Text as="p" weight="bold" align="center">
-          {name}
-        </Text>
-      </Flex>
+    <Card asChild>
+      <li>
+        <Flex
+          gap="2"
+          align="center"
+          justify="center"
+          direction="column"
+          width="100%"
+          height="100%"
+        >
+          {Icon ? (
+            <Icon
+              aria-label={t(`${colorName} map marker`)}
+              style={{ transform: "scale(2)", margin: "2rem 0" }}
+            />
+          ) : null}
+          <Text as="p" weight="bold" align="center">
+            {name}
+          </Text>
+        </Flex>
+      </li>
     </Card>
   );
 }

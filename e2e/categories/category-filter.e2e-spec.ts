@@ -1,14 +1,16 @@
 import { test } from "@playwright/test";
 import { getTopLevelCategoryList } from "~/modules/categories/utils/display";
-import { expect } from "~/tests/e2e/setup/test-fixture";
-import { mockTranslations } from "~/tests/e2e/utils/mocks";
-import { getQueryParams, waitForQueryParam } from "~/tests/e2e/utils/url";
-import { waitUntilMapIsLoaded } from "~/tests/e2e/utils/wait";
+import { expect } from "../setup/test-fixture";
+import { mockTranslations } from "../utils/mocks";
+import { getQueryParams, waitForQueryParam } from "../utils/url";
+import { waitUntilMapIsLoaded } from "../utils/wait";
+import { skipOnboarding } from "../utils/control-onboarding";
 
 test.beforeEach(async ({ page }) => {
   await mockTranslations(page);
   await page.goto("/");
   await waitUntilMapIsLoaded(page);
+  await skipOnboarding(page);
 });
 
 test.describe("category-filter", () => {
