@@ -1,4 +1,3 @@
-import { bbox } from "@turf/turf";
 import React, { useContext, useRef } from "react";
 import { useMap } from "~/modules/map/hooks/useMap";
 import { FeaturePanelContext } from "~/needs-refactoring/components/CombinedFeaturePanel/FeaturePanelContext";
@@ -31,6 +30,7 @@ import { useNextAccessibleToilet } from "~/needs-refactoring/modules/edit/hooks/
 import HeaderImageSection from "~/needs-refactoring/modules/feature-panel/components/HeaderImageSection";
 import PartOf from "~/needs-refactoring/modules/feature-panel/components/PartOf";
 import FeatureImage from "~/needs-refactoring/components/CombinedFeaturePanel/components/image/FeatureImage";
+import { focusMapOnFeature } from "~/utils/focus-map-on-feature";
 
 type Props = {
   features: AnyFeature[];
@@ -103,21 +103,7 @@ const FeatureDetails = ({
   );
 
   const handleHeaderClick = () => {
-    const coordinates = feature.geometry?.coordinates;
-    if (!coordinates) {
-      return;
-    }
-    const cameraOptions = map?.map?.cameraForBounds(bbox(feature), {
-      maxZoom: 19,
-    });
-    if (cameraOptions) {
-      map?.map?.flyTo({
-        ...cameraOptions,
-        duration: 1000,
-        padding: 100,
-      });
-    }
-    // map.current?.flyTo({ center: { ...feature.geometry?.coordinates } })
+    focusMapOnFeature(map.map, { feature });
   };
 
   const headingRef = useRef<HTMLHeadingElement>(null);

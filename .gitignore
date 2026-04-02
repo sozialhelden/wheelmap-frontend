@@ -41,3 +41,4 @@ env/*
 
 # Mapbox styles
 .mapbox
+certificates

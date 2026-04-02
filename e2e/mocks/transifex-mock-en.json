@@ -1,0 +1,739 @@
+{
+  "data": {
+    "Search": { "string": "Search" },
+    "Homepage": { "string": "Homepage" },
+    "No features found.": { "string": "No features found." },
+    "Edit": { "string": "Edit" },
+    "Edit this description": { "string": "Edit this description" },
+    "Add a description in another language": {
+      "string": "Add a description in another language"
+    },
+    "Next wheelchair-accessible WC": {
+      "string": "Next wheelchair-accessible WC"
+    },
+    "Maybe open": { "string": "Maybe open" },
+    "Maybe open – {comment}": { "string": "Maybe open – {comment}" },
+    "Now open.": { "string": "Now open." },
+    "Now closed.": { "string": "Now closed." },
+    "(“{comment}”)": { "string": "(“{comment}”)" },
+    "(indefinitely)": { "string": "(indefinitely)" },
+    "Will open {nextChangeDateFormatted}.": {
+      "string": "Will open {nextChangeDateFormatted}."
+    },
+    "Will close {nextChangeDateFormatted}.": {
+      "string": "Will close {nextChangeDateFormatted}."
+    },
+    "Might open {nextChangeDateFormatted}.": {
+      "string": "Might open {nextChangeDateFormatted}."
+    },
+    "Might close {nextChangeDateFormatted}.": {
+      "string": "Might close {nextChangeDateFormatted}."
+    },
+    "Monday": { "string": "Monday" },
+    "Tuesday": { "string": "Tuesday" },
+    "Wednesday": { "string": "Wednesday" },
+    "Thursday": { "string": "Thursday" },
+    "Friday": { "string": "Friday" },
+    "Saturday": { "string": "Saturday" },
+    "Sunday": { "string": "Sunday" },
+    "January": { "string": "January" },
+    "February": { "string": "February" },
+    "March": { "string": "March" },
+    "April": { "string": "April" },
+    "May": { "string": "May" },
+    "June": { "string": "June" },
+    "July": { "string": "July" },
+    "August": { "string": "August" },
+    "September": { "string": "September" },
+    "October": { "string": "October" },
+    "November": { "string": "November" },
+    "December": { "string": "December" },
+    "public holiday": { "string": "public holiday" },
+    "closed": { "string": "closed" },
+    "school holiday": { "string": "school holiday" },
+    "See website": { "string": "See website" },
+    "Yes": { "string": "Yes" },
+    "No": { "string": "No" },
+    "Basement floor": { "string": "Basement floor" },
+    "Basement {basementFloorNumber}": {
+      "string": "Basement {basementFloorNumber}"
+    },
+    "Ground floor": { "string": "Ground floor" },
+    "{targetGroupMarker} “{text}”": {
+      "string": "{targetGroupMarker} “{text}”"
+    },
+    "depth": { "string": "depth" },
+    "levels": { "string": "levels" },
+    "Level {levelString}": { "string": "Level {levelString}" },
+    "Add new image": { "string": "Add new image" },
+    "Add a new image": { "string": "Add a new image" },
+    "Select an image": { "string": "Select an image" },
+    "Review your selected image": { "string": "Review your selected image" },
+    "Upload successful": { "string": "Upload successful" },
+    "Image gallery.": { "string": "Image gallery." },
+    "Use the left and right arrow keys to navigate between images, press the r key to report an image and the escape key to close it.": {
+      "string": "Use the left and right arrow keys to navigate between images, press the r key to report an image and the escape key to close it."
+    },
+    "Image shown: {imageDescription}": {
+      "string": "Image shown: {imageDescription}"
+    },
+    "You can use these keys for navigation:": {
+      "string": "You can use these keys for navigation:"
+    },
+    "To report an image:": { "string": "To report an image:" },
+    "Image {numberOfCurrentImage} of {size}": {
+      "string": "Image {numberOfCurrentImage} of {size}"
+    },
+    "Open image": { "string": "Open image" },
+    "Image shows another place.": { "string": "Image shows another place." },
+    "This image does not depict this place.": {
+      "string": "This image does not depict this place."
+    },
+    "Outdated": { "string": "Outdated" },
+    "This image does not show the current state of this place.": {
+      "string": "This image does not show the current state of this place."
+    },
+    "Offensive or inappropriate": { "string": "Offensive or inappropriate" },
+    "This image shows sexually explicit content, depicts violence or is inappropriate in another way.": {
+      "string": "This image shows sexually explicit content, depicts violence or is inappropriate in another way."
+    },
+    "Other problems": { "string": "Other problems" },
+    "This image infringes on my copyright or has other problems.": {
+      "string": "This image infringes on my copyright or has other problems."
+    },
+    "Report Image": { "string": "Report Image" },
+    "Please select the problem you would like to report:": {
+      "string": "Please select the problem you would like to report:"
+    },
+    "Cancel": { "string": "Cancel" },
+    "Send report": { "string": "Send report" },
+    "Report sent successfully!": { "string": "Report sent successfully!" },
+    "Thank you for your report. The image will not be visible anymore until it has been checked by our staff. This can take a while, please be patient.": {
+      "string": "Thank you for your report. The image will not be visible anymore until it has been checked by our staff. This can take a while, please be patient."
+    },
+    "Continue": { "string": "Continue" },
+    "Sending report failed!": { "string": "Sending report failed!" },
+    "Please try again later.": { "string": "Please try again later." },
+    "Back": { "string": "Back" },
+    "Open on {sourceNameString}": { "string": "Open on {sourceNameString}" },
+    "Add info on {sourceNameString}": {
+      "string": "Add info on {sourceNameString}"
+    },
+    "Call {phoneNumber}": { "string": "Call {phoneNumber}" },
+    "Mobile": { "string": "Mobile" },
+    "Place photo": { "string": "Place photo" },
+    "Your good deed of the day!": { "string": "Your good deed of the day!" },
+    "Before uploading a new image, please make sure that the image meets the following criteria:": {
+      "string": "Before uploading a new image, please make sure that the image meets the following criteria:"
+    },
+    "It contains useful information on accessibility.": {
+      "string": "It contains useful information on accessibility."
+    },
+    "For example by showing entrances, toilets or a map of the site.": {
+      "string": "For example by showing entrances, toilets or a map of the site."
+    },
+    "Entrance": { "string": "Entrance" },
+    "Toilet": { "string": "Toilet" },
+    "Site map": { "string": "Site map" },
+    "It was taken by me.": { "string": "It was taken by me." },
+    "By uploading this image, I hereby publish it in the public domain and renounce copyright protection: ": {
+      "string": "By uploading this image, I hereby publish it in the public domain and renounce copyright protection: "
+    },
+    "CC0 1.0 Universal license": { "string": "CC0 1.0 Universal license" },
+    "This link opens in a new window.": {
+      "string": "This link opens in a new window."
+    },
+    "It doesn't show identifiable persons.": {
+      "string": "It doesn't show identifiable persons."
+    },
+    "Drag an image here to select it": {
+      "string": "Drag an image here to select it"
+    },
+    "or click the select button.": { "string": "or click the select button." },
+    "Use the following button to select an image:": {
+      "string": "Use the following button to select an image:"
+    },
+    "Select image": { "string": "Select image" },
+    "Uploading image, please wait...": {
+      "string": "Uploading image, please wait..."
+    },
+    "There was an error uploading your image!": {
+      "string": "There was an error uploading your image!"
+    },
+    "Preview of the just selected image": {
+      "string": "Preview of the just selected image"
+    },
+    "Choose a different image": { "string": "Choose a different image" },
+    "Upload image": { "string": "Upload image" },
+    "1. Criteria": { "string": "1. Criteria" },
+    "2. Select": { "string": "2. Select" },
+    "3. Review": { "string": "3. Review" },
+    "4. Done": { "string": "4. Done" },
+    "Image uploaded successfully!": {
+      "string": "Image uploaded successfully!"
+    },
+    "Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient.": {
+      "string": "Thank you for your contribution. The image will be checked by our staff before it's visible on Wheelmap. This can take a while, please be patient."
+    },
+    "Thank you for contributing. Your edit will be visible soon.": {
+      "string": "Thank you for contributing. Your edit will be visible soon."
+    },
+    "Thank you for contributing.": { "string": "Thank you for contributing." },
+    " There was an error while trying to save your changes to our database.": {
+      "string": " There was an error while trying to save your changes to our database."
+    },
+    " Your changes will still be visible on Open Street Map.": {
+      "string": " Your changes will still be visible on Open Street Map."
+    },
+    "Your contribution could not be saved completely.": {
+      "string": "Your contribution could not be saved completely."
+    },
+    "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists.": {
+      "string": "Some information was missing while saving to OpenStreetMap. Please let us know if the error persists."
+    },
+    "Something went wrong. Please let us know if the error persists.": {
+      "string": "Something went wrong. Please let us know if the error persists."
+    },
+    "No editor available for {tagKey}": {
+      "string": "No editor available for {tagKey}"
+    },
+    "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description.": {
+      "string": "Please describe how accessible this place is for wheelchair users. Start by selecting the language for your description."
+    },
+    "Please edit this description in the same language.": {
+      "string": "Please edit this description in the same language."
+    },
+    "Currently, we support a limited number of languages.": {
+      "string": "Currently, we support a limited number of languages."
+    },
+    "More will be added soon! If your language is missing, please contact our support team.": {
+      "string": "More will be added soon! If your language is missing, please contact our support team."
+    },
+    "Languages": { "string": "Languages" },
+    "Select a language": { "string": "Select a language" },
+    "List of languages": { "string": "List of languages" },
+    "Enter a description here": { "string": "Enter a description here" },
+    "Confirm": { "string": "Confirm" },
+    "Send": { "string": "Send" },
+    "Toilet Accessibility Editor": { "string": "Toilet Accessibility Editor" },
+    "Is this toilet wheelchair accessible?": {
+      "string": "Is this toilet wheelchair accessible?"
+    },
+    "How wheelchair accessible is this place?": {
+      "string": "How wheelchair accessible is this place?"
+    },
+    "Entrance has no steps, and all rooms are accessible without steps.": {
+      "string": "Entrance has no steps, and all rooms are accessible without steps."
+    },
+    "Loading further details…": { "string": "Loading further details…" },
+    "Part of": { "string": "Part of" },
+    "This place has no known properties.": {
+      "string": "This place has no known properties."
+    },
+    "View on OpenStreetMap": { "string": "View on OpenStreetMap" },
+    "Report": { "string": "Report" },
+    "Sidewalks & Surroundings": { "string": "Sidewalks & Surroundings" },
+    "Room {roomNumber}": { "string": "Room {roomNumber}" },
+    "Unnamed facility": { "string": "Unnamed facility" },
+    "Toggle building focus": { "string": "Toggle building focus" },
+    "Toggle public transport focus": {
+      "string": "Toggle public transport focus"
+    },
+    "Toggle surfaces": { "string": "Toggle surfaces" },
+    "Your email address is required!": {
+      "string": "Your email address is required!"
+    },
+    "This email address is not valid.": {
+      "string": "This email address is not valid."
+    },
+    "(required)": { "string": "(required)" },
+    "(optional)": { "string": "(optional)" },
+    "Email address": { "string": "Email address" },
+    "Let’s go": { "string": "Let’s go" },
+    "You are participating as {initialEmailAddress}.": {
+      "string": "You are participating as {initialEmailAddress}."
+    },
+    "Mapping events list": { "string": "Mapping events list" },
+    "Events": { "string": "Events" },
+    "Meet the community and map the accessibility of places around you!": {
+      "string": "Meet the community and map the accessibility of places around you!"
+    },
+    "Learn how to organize a mapping event": {
+      "string": "Learn how to organize a mapping event"
+    },
+    "https://news.wheelmap.org/en/organize-a-mapping-event/": {
+      "string": "https://news.wheelmap.org/en/organize-a-mapping-event/"
+    },
+    "starting": { "string": "starting" },
+    "until": { "string": "until" },
+    "Mapping event {mappingEventName}": {
+      "string": "Mapping event {mappingEventName}"
+    },
+    "Center map on mapping event": { "string": "Center map on mapping event" },
+    "Meeting point": { "string": "Meeting point" },
+    "Area name": { "string": "Area name" },
+    "Event date": { "string": "Event date" },
+    "Event start date": { "string": "Event start date" },
+    "Event end date": { "string": "Event end date" },
+    "Back to the mapping events list": {
+      "string": "Back to the mapping events list"
+    },
+    "Share": { "string": "Share" },
+    "Join mapping event": { "string": "Join mapping event" },
+    "Leave mapping event": { "string": "Leave mapping event" },
+    "To stay in touch with you, you must provide us with your email address.": {
+      "string": "To stay in touch with you, you must provide us with your email address."
+    },
+    "To stay in touch with you, please share your email address with us.": {
+      "string": "To stay in touch with you, please share your email address with us."
+    },
+    "Welcome": { "string": "Welcome" },
+    "Great! Thanks for joining us.": {
+      "string": "Great! Thanks for joining us."
+    },
+    "Mapping Event Numbers": { "string": "Mapping Event Numbers" },
+    "Mapped Places": { "string": "Mapped Places" },
+    "Participants": { "string": "Participants" },
+    "Could not determine location.": {
+      "string": "Could not determine location."
+    },
+    "Let’s go!": { "string": "Let’s go!" },
+    "Enable location permissions": { "string": "Enable location permissions" },
+    "Skip": { "string": "Skip" },
+    "I’m in!": { "string": "I’m in!" },
+    "Start screen": { "string": "Start screen" },
+    "Okay, let’s go!": { "string": "Okay, let’s go!" },
+    "Welcome to {productName}!": { "string": "Welcome to {productName}!" },
+    "Help out by marking places!": { "string": "Help out by marking places!" },
+    "Close": { "string": "Close" },
+    "Sorry, there was an error – that should not have happened!": {
+      "string": "Sorry, there was an error – that should not have happened!"
+    },
+    "Return home": { "string": "Return home" },
+    "Error: {error}": { "string": "Error: {error}" },
+    "Collapse details": { "string": "Collapse details" },
+    "Expand details": { "string": "Expand details" },
+    "Bad request": { "string": "Bad request" },
+    "Unauthorized": { "string": "Unauthorized" },
+    "Payment required": { "string": "Payment required" },
+    "Forbidden": { "string": "Forbidden" },
+    "Not found": { "string": "Not found" },
+    "Method not allowed": { "string": "Method not allowed" },
+    "Not acceptable": { "string": "Not acceptable" },
+    "Proxy authentication required": {
+      "string": "Proxy authentication required"
+    },
+    "Request timeout": { "string": "Request timeout" },
+    "Conflict": { "string": "Conflict" },
+    "Gone": { "string": "Gone" },
+    "Length required": { "string": "Length required" },
+    "Precondition failed": { "string": "Precondition failed" },
+    "Payload too large": { "string": "Payload too large" },
+    "URI too long": { "string": "URI too long" },
+    "Unsupported media type": { "string": "Unsupported media type" },
+    "Range not satisfiable": { "string": "Range not satisfiable" },
+    "Expectation failed": { "string": "Expectation failed" },
+    "I'm a teapot": { "string": "I'm a teapot" },
+    "Misdirected request": { "string": "Misdirected request" },
+    "Unprocessable entity": { "string": "Unprocessable entity" },
+    "Locked": { "string": "Locked" },
+    "Failed dependency": { "string": "Failed dependency" },
+    "Too early": { "string": "Too early" },
+    "Upgrade required": { "string": "Upgrade required" },
+    "Precondition required": { "string": "Precondition required" },
+    "Too many requests": { "string": "Too many requests" },
+    "Request header fields too large": {
+      "string": "Request header fields too large"
+    },
+    "Unavailable for legal reasons": {
+      "string": "Unavailable for legal reasons"
+    },
+    "Internal server error": { "string": "Internal server error" },
+    "Not implemented": { "string": "Not implemented" },
+    "Bad gateway": { "string": "Bad gateway" },
+    "Service unavailable": { "string": "Service unavailable" },
+    "Gateway timeout": { "string": "Gateway timeout" },
+    "HTTP version not supported": { "string": "HTTP version not supported" },
+    "Variant also negotiates": { "string": "Variant also negotiates" },
+    "Insufficient storage": { "string": "Insufficient storage" },
+    "Loop detected": { "string": "Loop detected" },
+    "Not extended": { "string": "Not extended" },
+    "Network authentication required": {
+      "string": "Network authentication required"
+    },
+    "The server could not understand what the app was asking for.": {
+      "string": "The server could not understand what the app was asking for."
+    },
+    "The app is not authorized to access the requested resource.": {
+      "string": "The app is not authorized to access the requested resource."
+    },
+    "The app needs to pay to access the requested resource.": {
+      "string": "The app needs to pay to access the requested resource."
+    },
+    "The app is not allowed to access the requested resource.": {
+      "string": "The app is not allowed to access the requested resource."
+    },
+    "This seems not to be there (or not there anymore).": {
+      "string": "This seems not to be there (or not there anymore)."
+    },
+    "The app tried to use an HTTP method that is not allowed for the requested resource.": {
+      "string": "The app tried to use an HTTP method that is not allowed for the requested resource."
+    },
+    "The app requested a response in a format that the server cannot provide.": {
+      "string": "The app requested a response in a format that the server cannot provide."
+    },
+    "There seems to be a proxy or VPN server that requires a login.": {
+      "string": "There seems to be a proxy or VPN server that requires a login."
+    },
+    "The server waited too long for the app to send data. This can happen when the network connection is very slow. Please move somewhere with better reception.": {
+      "string": "The server waited too long for the app to send data. This can happen when the network connection is very slow. Please move somewhere with better reception."
+    },
+    "The app tried to change something that was changed somewhere else at the same time.": {
+      "string": "The app tried to change something that was changed somewhere else at the same time."
+    },
+    "The requested resource is not there anymore.": {
+      "string": "The requested resource is not there anymore."
+    },
+    "The server expected the app to send a specific header that was missing.": {
+      "string": "The server expected the app to send a specific header that was missing."
+    },
+    "The app wanted to do something, but the server expected a precondition to be met before that.": {
+      "string": "The app wanted to do something, but the server expected a precondition to be met before that."
+    },
+    "The app tried to send too much data at once.": {
+      "string": "The app tried to send too much data at once."
+    },
+    "The app tried to access a URL that was too long.": {
+      "string": "The app tried to access a URL that was too long."
+    },
+    "The app tried to send data in a format that the server cannot understand.": {
+      "string": "The app tried to send data in a format that the server cannot understand."
+    },
+    "The app tried to access a part of a file that does not exist.": {
+      "string": "The app tried to access a part of a file that does not exist."
+    },
+    "The app expected something that the server could not provide.": {
+      "string": "The app expected something that the server could not provide."
+    },
+    "The server is a teapot. Seriously, it is not a coffee machine.": {
+      "string": "The server is a teapot. Seriously, it is not a coffee machine."
+    },
+    "The server received a request that was meant for another server.": {
+      "string": "The server received a request that was meant for another server."
+    },
+    "The server could not process the app's request.": {
+      "string": "The server could not process the app's request."
+    },
+    "The requested resource is locked and cannot be accessed at this time. Please try again later.": {
+      "string": "The requested resource is locked and cannot be accessed at this time. Please try again later."
+    },
+    "The app tried to do something that depends on something else that failed.": {
+      "string": "The app tried to do something that depends on something else that failed."
+    },
+    "The app tried to access something that is not available yet.": {
+      "string": "The app tried to access something that is not available yet."
+    },
+    "The app needs to upgrade to access the requested resource.": {
+      "string": "The app needs to upgrade to access the requested resource."
+    },
+    "The app tried to access the server too often. Please try again later.": {
+      "string": "The app tried to access the server too often. Please try again later."
+    },
+    "Request header fields too large.": {
+      "string": "Request header fields too large."
+    },
+    "Unavailable for legal reasons.": {
+      "string": "Unavailable for legal reasons."
+    },
+    "Internal server error.": { "string": "Internal server error." },
+    "The app requested a feature that the server does not support (yet).": {
+      "string": "The app requested a feature that the server does not support (yet)."
+    },
+    "The server is not working properly.": {
+      "string": "The server is not working properly."
+    },
+    "The server is not available at the moment. Please try again later.": {
+      "string": "The server is not available at the moment. Please try again later."
+    },
+    "The server is not responding or overloaded. Please try again later.": {
+      "string": "The server is not responding or overloaded. Please try again later."
+    },
+    "The server does not support the HTTP version that the app is using.": {
+      "string": "The server does not support the HTTP version that the app is using."
+    },
+    "The server tried to negotiate a variant of the requested resource, but failed.": {
+      "string": "The server tried to negotiate a variant of the requested resource, but failed."
+    },
+    "The server does not have enough storage to fulfill the app's request.": {
+      "string": "The server does not have enough storage to fulfill the app's request."
+    },
+    "Loop detected.": { "string": "Loop detected." },
+    "The server requires the app to authenticate with a network.": {
+      "string": "The server requires the app to authenticate with a network."
+    },
+    "An error occurred": { "string": "An error occurred" },
+    "Please try again later or let us know if the error persists.": {
+      "string": "Please try again later or let us know if the error persists."
+    },
+    "An error occurred.": { "string": "An error occurred." },
+    "Go to home page": { "string": "Go to home page" },
+    "Close menu": { "string": "Close menu" },
+    "Show menu": { "string": "Show menu" },
+    "This link needs to be configured correctly.": {
+      "string": "This link needs to be configured correctly."
+    },
+    "Link": { "string": "Link" },
+    "Sign out": { "string": "Sign out" },
+    "Your avatar": { "string": "Your avatar" },
+    "Sign in": { "string": "Sign in" },
+    "Could not load search results.": {
+      "string": "Could not load search results."
+    },
+    "Loading seems to take a bit longer than usual. Please hold the line…": {
+      "string": "Loading seems to take a bit longer than usual. Please hold the line…"
+    },
+    "OSM API Configuration incomplete, baseUrl or appToken is missing": {
+      "string": "OSM API Configuration incomplete, baseUrl or appToken is missing"
+    },
+    "accessibility.cloud API Configuration incomplete, baseUrl or appToken is missing": {
+      "string": "accessibility.cloud API Configuration incomplete, baseUrl or appToken is missing"
+    },
+    "Expected an RDF AC string like `ac:PlaceInfo/[text]` but received `{featureId}`": {
+      "string": "Expected an RDF AC string like `ac:PlaceInfo/[text]` but received `{featureId}`"
+    },
+    "The featureId '{featureId}' is of unknown format": {
+      "string": "The featureId '{featureId}' is of unknown format"
+    },
+    "To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.": {
+      "string": "To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services."
+    },
+    "Arabic": { "string": "Arabic" },
+    "Bulgarian": { "string": "Bulgarian" },
+    "Catalan/Valencian": { "string": "Catalan/Valencian" },
+    "Czech": { "string": "Czech" },
+    "Danish": { "string": "Danish" },
+    "German": { "string": "German" },
+    "Greek": { "string": "Greek" },
+    "English": { "string": "English" },
+    "Spanish": { "string": "Spanish" },
+    "Persian": { "string": "Persian" },
+    "Finnish": { "string": "Finnish" },
+    "French": { "string": "French" },
+    "Western Frisian": { "string": "Western Frisian" },
+    "Galician": { "string": "Galician" },
+    "Hebrew": { "string": "Hebrew" },
+    "Hindi": { "string": "Hindi" },
+    "Hungarian": { "string": "Hungarian" },
+    "Icelandic": { "string": "Icelandic" },
+    "Italian": { "string": "Italian" },
+    "Japanese": { "string": "Japanese" },
+    "Korean": { "string": "Korean" },
+    "Lithuanian": { "string": "Lithuanian" },
+    "Latvian": { "string": "Latvian" },
+    "Mongolian": { "string": "Mongolian" },
+    "Burmese": { "string": "Burmese" },
+    "Dutch/Flemish": { "string": "Dutch/Flemish" },
+    "Norwegian (Nynorsk)": { "string": "Norwegian (Nynorsk)" },
+    "Norwegian (Bokmål)": { "string": "Norwegian (Bokmål)" },
+    "Norwegian": { "string": "Norwegian" },
+    "N'ko": { "string": "N'ko" },
+    "Polish": { "string": "Polish" },
+    "Portuguese": { "string": "Portuguese" },
+    "Portuguese (Brazil)": { "string": "Portuguese (Brazil)" },
+    "Portuguese (Portugal)": { "string": "Portuguese (Portugal)" },
+    "Romanian/Moldovan": { "string": "Romanian/Moldovan" },
+    "Romanian (Romania)": { "string": "Romanian (Romania)" },
+    "Russian": { "string": "Russian" },
+    "Slovak": { "string": "Slovak" },
+    "Albanian": { "string": "Albanian" },
+    "Swedish": { "string": "Swedish" },
+    "Swahili": { "string": "Swahili" },
+    "Turkish": { "string": "Turkish" },
+    "Ukrainian": { "string": "Ukrainian" },
+    "Vietnamese": { "string": "Vietnamese" },
+    "Chinese (China)": { "string": "Chinese (China)" },
+    "Chinese (Taiwan)": { "string": "Chinese (Taiwan)" },
+    "Chinese (Hong Kong)": { "string": "Chinese (Hong Kong)" },
+    "Chinese (Singapur)": { "string": "Chinese (Singapur)" },
+    "In operation": { "string": "In operation" },
+    "Out of order": { "string": "Out of order" },
+    "Unknown operational status": { "string": "Unknown operational status" },
+    "Escalator": { "string": "Escalator" },
+    "Elevator": { "string": "Elevator" },
+    "Facility": { "string": "Facility" },
+    "today": { "string": "today" },
+    "yesterday": { "string": "yesterday" },
+    "Last update: {dateString}": { "string": "Last update: {dateString}" },
+    "Fully wheelchair accessible": { "string": "Fully wheelchair accessible" },
+    "Partially wheelchair accessible": {
+      "string": "Partially wheelchair accessible"
+    },
+    "Not wheelchair accessible": { "string": "Not wheelchair accessible" },
+    "Unknown accessibility": { "string": "Unknown accessibility" },
+    "green": { "string": "green" },
+    "orange": { "string": "orange" },
+    "red": { "string": "red" },
+    "gray": { "string": "gray" },
+    "Fully": { "string": "Fully" },
+    "Partially": { "string": "Partially" },
+    "Not at all": { "string": "Not at all" },
+    "Unknown": { "string": "Unknown" },
+    "Entrance has no steps, important areas are accessible without steps.": {
+      "string": "Entrance has no steps, important areas are accessible without steps."
+    },
+    "Entrance has one step with max. 3 inches height, most areas are without steps.": {
+      "string": "Entrance has one step with max. 3 inches height, most areas are without steps."
+    },
+    "Entrance has one step with max. 7 cm height, most areas are without steps.": {
+      "string": "Entrance has one step with max. 7 cm height, most areas are without steps."
+    },
+    "Entrance has a high step or several steps, important areas are inaccessible.": {
+      "string": "Entrance has a high step or several steps, important areas are inaccessible."
+    },
+    "Wheelchair accessible WC": { "string": "Wheelchair accessible WC" },
+    "No wheelchair accessible WC": { "string": "No wheelchair accessible WC" },
+    "Doorways' inner width ≥ 35 inches": {
+      "string": "Doorways' inner width ≥ 35 inches"
+    },
+    "Doorways' inner width ≥ 90 cm": {
+      "string": "Doorways' inner width ≥ 90 cm"
+    },
+    "Clear turning space ≥ 59 inches wide": {
+      "string": "Clear turning space ≥ 59 inches wide"
+    },
+    "Clear turning space ≥ 150 cm wide": {
+      "string": "Clear turning space ≥ 150 cm wide"
+    },
+    "Wheelchair-height WC seat": { "string": "Wheelchair-height WC seat" },
+    "Foldable grab rails": { "string": "Foldable grab rails" },
+    "Accessible sink": { "string": "Accessible sink" },
+    "Unnamed place": { "string": "Unnamed place" },
+    "yellow": { "string": "yellow" },
+    "cyan": { "string": "cyan" },
+    "blue": { "string": "blue" },
+    "magenta": { "string": "magenta" },
+    "pastel": { "string": "pastel" },
+    "saturated": { "string": "saturated" },
+    "very dark": { "string": "very dark" },
+    "dark": { "string": "dark" },
+    "light": { "string": "light" },
+    "very bright": { "string": "very bright" },
+    "Shopping": { "string": "Shopping" },
+    "Food & Drinks": { "string": "Food & Drinks" },
+    "Transport": { "string": "Transport" },
+    "Leisure": { "string": "Leisure" },
+    "Hotels": { "string": "Hotels" },
+    "Tourism": { "string": "Tourism" },
+    "Education": { "string": "Education" },
+    "Authorities": { "string": "Authorities" },
+    "Health": { "string": "Health" },
+    "Money": { "string": "Money" },
+    "Sports": { "string": "Sports" },
+    "Toilets": { "string": "Toilets" },
+    "More…": { "string": "More…" },
+    "Nothing found in this area! 👀": {
+      "string": "Nothing found in this area! 👀"
+    },
+    "Open place {ariaLabel}": { "string": "Open place {ariaLabel}" },
+    "Select your needs": { "string": "Select your needs" },
+    "You have {length} needs selected: {selectedNeeds}": {
+      "string": "You have {length} needs selected: {selectedNeeds}"
+    },
+    "What do you need?": { "string": "What do you need?" },
+    "Save": { "string": "Save" },
+    "Show more information about {title}": {
+      "string": "Show more information about {title}"
+    },
+    "Mobility": { "string": "Mobility" },
+    "I have no mobility needs": { "string": "I have no mobility needs" },
+    "Entrance has one step with max. 3 inches height, most rooms are without steps.": {
+      "string": "Entrance has one step with max. 3 inches height, most rooms are without steps."
+    },
+    "Entrance has a high step or several steps, none of the rooms are accessible.": {
+      "string": "Entrance has a high step or several steps, none of the rooms are accessible."
+    },
+    "No wheelchair info yet": { "string": "No wheelchair info yet" },
+    "There is no information available about wheelchair accessibility.": {
+      "string": "There is no information available about wheelchair accessibility."
+    },
+    "I have no toilet needs": { "string": "I have no toilet needs" },
+    "Fully wheelchair accessible toilet": {
+      "string": "Fully wheelchair accessible toilet"
+    },
+    "No results found!": { "string": "No results found!" },
+    "An error occurred. Please try again later!": {
+      "string": "An error occurred. Please try again later!"
+    },
+    "Search for place or address": { "string": "Search for place or address" },
+    "Clear search": { "string": "Clear search" },
+    "Unknown place": { "string": "Unknown place" },
+    "The place is rated as 'Not wheelchair accessible', but this is wrong!": {
+      "string": "The place is rated as 'Not wheelchair accessible', but this is wrong!"
+    },
+    "The accessibility to the toilet here is rated incorrectly or is missing.": {
+      "string": "The accessibility to the toilet here is rated incorrectly or is missing."
+    },
+    "I have more information about this place.": {
+      "string": "I have more information about this place."
+    },
+    "The place does not exist.": { "string": "The place does not exist." },
+    "The place is at the wrong location.": {
+      "string": "The place is at the wrong location."
+    },
+    "The problem isn't listed here...": {
+      "string": "The problem isn't listed here..."
+    },
+    "Is there a problem with this place?": {
+      "string": "Is there a problem with this place?"
+    },
+    "[Wheelmap] Problem with {placeName} on Wheelmap": {
+      "string": "[Wheelmap] Problem with {placeName} on Wheelmap"
+    },
+    "[Wheelmap] Problem with a {categoryName} on Wheelmap": {
+      "string": "[Wheelmap] Problem with a {categoryName} on Wheelmap"
+    },
+    "[Wheelmap] Problem with a place on Wheelmap": {
+      "string": "[Wheelmap] Problem with a place on Wheelmap"
+    },
+    "We're sorry about the inconvenience!": {
+      "string": "We're sorry about the inconvenience!"
+    },
+    "To help you best, we kindly ask you to send us an email and our support will personally help you.": {
+      "string": "To help you best, we kindly ask you to send us an email and our support will personally help you."
+    },
+    "Send us an email": { "string": "Send us an email" },
+    "Most places on {appName} come from OpenStreetMap.": {
+      "string": "Most places on {appName} come from OpenStreetMap."
+    },
+    "You can change this place's information on OpenStreetMap directly": {
+      "string": "You can change this place's information on OpenStreetMap directly"
+    },
+    "You can remove non-existent places on OpenStreetMap.": {
+      "string": "You can remove non-existent places on OpenStreetMap."
+    },
+    "If the place has closed permanently, you can tag the place as 'disused' on OpenStreetMap. ([Find out how](https://wiki.openstreetmap.org/wiki/Key:disused:*))": {
+      "string": "If the place has closed permanently, you can tag the place as 'disused' on OpenStreetMap. ([Find out how](https://wiki.openstreetmap.org/wiki/Key:disused:*))"
+    },
+    "You can change this place's location on OpenStreetMap.": {
+      "string": "You can change this place's location on OpenStreetMap."
+    },
+    "Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap.": {
+      "string": "Please note that you need to log in to do this, and that it can take some time until the place is updated on Wheelmap."
+    },
+    "Edit this place on OpenStreetMap": {
+      "string": "Edit this place on OpenStreetMap"
+    },
+    "Leave a note on OpenStreetMap": {
+      "string": "Leave a note on OpenStreetMap"
+    },
+    "Is the toilet here wheelchair accessible?": {
+      "string": "Is the toilet here wheelchair accessible?"
+    },
+    "Clear turning space ≥ 59 inches": {
+      "string": "Clear turning space ≥ 59 inches"
+    },
+    "Wheelchair-height toilet seat": {
+      "string": "Wheelchair-height toilet seat"
+    }
+  }
+}
