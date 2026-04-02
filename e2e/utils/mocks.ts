@@ -4,6 +4,7 @@ import placeInfoMock from "../edit/mocks/place-infos-mock.json";
 import toilet_untagged_node4544823443Mock from "../edit/mocks/toilet-untagged-node-4544823443-osm-mock.json";
 import way126125230Mock from "../edit/mocks/way-126125230-osm-mock.json";
 import wheelchair_untagged_node4544823443Mock from "../edit/mocks/wheelchair-untagged-node-4544823443-osm-mock.json";
+
 import transifexMockEn from "../mocks/transifex-mock-en.json";
 
 export async function mockTranslations(page: Page) {

@@ -7,6 +7,7 @@
 # Normally runs inside a container with Playwright installed. See `Dockerfile.testing` for details.
 
 set -e
+set -o pipefail
 
 # Colors and formatting
 RED=$'\033[0;31m'
@@ -104,6 +105,7 @@ print_step "Collecting artifacts..."
 mv playwright-report "${CI_ARTIFACTS_PATH}/playwright-report" 2>/dev/null && print_success "HTML report" || true
 [ -f "${CI_ARTIFACTS_PATH}/junit.xml" ] && print_success "JUnit XML" || true
 
+
 # Extract trace.zip files so trace contents are directly accessible via HTTP
 print_step "Extracting trace archives..."
 TRACE_TEMP=$(mktemp)
@@ -146,7 +148,7 @@ if [ $TEST_EXIT_CODE -eq 0 ]; then
     FLAKY_COUNT=$(echo "$FLAKY_TESTS" | wc -l | tr -d ' ')
     echo "${YELLOW}${BOLD}  ⚠ Warning: ${FLAKY_COUNT} flaky test(s) required retries${NC}"
     echo ""
-    echo "$FLAKY_TESTS" | while IFS= read -r test; do
+    while IFS= read -r test; do
       # Count retry attempts
       RETRY_COUNT=$(find "${CI_ARTIFACTS_PATH}/test-results" -type d -name "${test}-retry*" 2>/dev/null | wc -l | tr -d ' ')
       TOTAL_ATTEMPTS=$((RETRY_COUNT + 1))
