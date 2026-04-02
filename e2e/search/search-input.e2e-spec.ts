@@ -8,19 +8,6 @@ import emptyPhotonMock from "./empty-photon-mock.json";
 import photonMock from "./photon-mock.json";
 import { skipOnboarding } from "../utils/control-onboarding";
 
-test.beforeEach(async ({ page }) => {
-  await mockTranslations(page);
-  await page.goto("/");
-  await skipOnboarding(page);
-  await waitUntilMapIsLoaded(page);
-
-  // when the search input is visible, wait another second before
-  // interacting with it. there is some kind of race kondition, that
-  // resets the input otherwise.
-  getSearchInput(page);
-  await page.waitForTimeout(1000);
-});
-
 const getSearchInput = (page: Page): Locator => {
   return page.getByRole("searchbox");
 };
@@ -47,14 +34,30 @@ const searchFor = async (
   );
 };
 
+test.beforeEach(async ({ page }) => {
+  await mockTranslations(page);
+  await page.goto("/");
+  await skipOnboarding(page);
+  await waitUntilMapIsLoaded(page);
+
+  // when the search input is visible, wait another second before
+  // interacting with it. there is some kind of race kondition, that
+  // resets the input otherwise.
+  getSearchInput(page);
+  await page.waitForTimeout(1000);
+});
+
 test.describe("search-input", () => {
-  test.skip("it shows a search input", async ({ page }) => {
+  test("it shows a search input", async ({ page }) => {
     await expect(getSearchInput(page)).toBeVisible();
   });
 
-  test.skip("it queries the photon api", async ({ page }) => {
+  test("it queries the photon api", async ({ page }) => {
     test.slow();
     const query = "Alexanderplatz";
+
+    await searchFor(page, query);
+
     await getSearchInput(page).fill(`${query}`);
 
     await page.waitForResponse(`**/api?q=${query}*`);
