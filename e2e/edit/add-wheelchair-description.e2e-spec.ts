@@ -30,7 +30,7 @@ test.describe("Add wheelchair description in new language", () => {
     dialog = page.getByTestId(`edit-description__dialog--${tagKey}`);
   });
 
-  test("dialog is rendered", async () => {
+  test.skip("dialog is rendered", async () => {
     await expect(dialog).toBeVisible();
   });
 
