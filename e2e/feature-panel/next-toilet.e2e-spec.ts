@@ -11,7 +11,7 @@ test.describe("Next accessible toilet button", () => {
     await skipOnboarding(page);
   });
 
-  test.skip('should show "Next accessible toilet" link when place has no accessible toilet', async ({
+  test('should show "Next accessible toilet" link when place has no accessible toilet', async ({
     page,
   }) => {
     // Intercepte API-Aufrufe um zu sehen was geladen wird
@@ -75,7 +75,7 @@ test.describe("Next accessible toilet button", () => {
     }
   });
 
-  test.skip("clicking toilet link should navigate to toilet details", async ({
+  test("clicking toilet link should navigate to toilet details", async ({
     page,
   }) => {
     await page.goto(PLACE_WITHOUT_TOILET_URL);
@@ -107,7 +107,7 @@ test.describe("Next accessible toilet button", () => {
     }
   });
 
-  test.skip("Paris-Moskau restaurant should show next wheelchair-accessible WC", async ({
+  test("Paris-Moskau restaurant should show next wheelchair-accessible WC", async ({
     page,
   }) => {
     // Paris-Moskau Restaurant in Berlin (Alt-Moabit 141)
