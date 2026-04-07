@@ -1,6 +1,16 @@
 import { type Page, expect, test } from "@playwright/test";
 
 /**
+ * Functions to develop:
+ *  - is country visible on the map?
+ *  - screenshot of map
+ *  - setView = zoom / view of map ?
+ *  - operators: first, last...
+ *
+ *
+ */
+
+/**
  * Asserts that at least one map feature matching the given filter is rendered on the map.
  *
  * 1. Waits for the Mapbox/MapLibre canvas to be visible in the DOM.
