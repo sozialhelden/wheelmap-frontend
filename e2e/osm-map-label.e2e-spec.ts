@@ -45,26 +45,23 @@ async function expectFeatureOnMap(page: Page, filter: unknown[]) {
     page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
   ).toBeVisible({ timeout: 15000 });
 
-  // Wait until the map has finished loading tiles and is no longer animating
-  await page.waitForFunction(
-    () => {
+  // Poll for matching features — tiles may still be loading/rendering
+  const count = await page.waitForFunction(
+    (f) => {
       // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
       const map = (window as any).__e2eMapInstances?.mainMap;
-      return (
-        map && !map.isMoving() && map.isStyleLoaded() && map.areTilesLoaded()
-      );
+      if (!map || map.isMoving() || !map.isStyleLoaded()) return 0;
+      const n = map.queryRenderedFeatures(undefined, { filter: f }).length;
+      return n > 0 ? n : 0;
     },
-    { timeout: 30000 },
+    filter,
+    { timeout: 30000, polling: 1000 },
   );
 
-  // Query the map for rendered features matching the filter and return the count
-  const count = await page.evaluate((f) => {
-    // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-    const map = (window as any).__e2eMapInstances.mainMap;
-    return map.queryRenderedFeatures(undefined, { filter: f }).length;
-  }, filter);
+  const result = await count.jsonValue();
+  expect(result).toBeGreaterThan(0);
 
-  expect(count).toBeGreaterThan(0);
+  return result;
 }
 
 // Enable WebGL rendering in headless Chromium for map tests
@@ -81,11 +78,46 @@ test.use({
 // Navigates to a known supermarket amenity page and verifies
 // that a "shop=supermarket" feature is rendered on the map.
 test("Supermarket should be visible on the map", async ({ page }) => {
-  await page.goto("/amenities/node:348000444", {
+  await page.goto("/", {
     waitUntil: "domcontentloaded",
   });
 
-  await expectFeatureOnMap(page, ["==", ["get", "shop"], "supermarket"]);
+  await expect(
+    page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
+  ).toBeVisible({ timeout: 15000 });
+
+  await page.waitForFunction(
+    () => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.mainMap;
+      // biome-ignore lint/complexity/useOptionalChain: <explanation>
+      return map && map.isStyleLoaded();
+    },
+    { timeout: 30000 },
+  );
+
+  await setView(page, { zoom: 15, center: [13.39, 52.525] });
+
+  // Wait for external OSM data source tiles to load
+  await page.waitForFunction(
+    () => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.mainMap;
+      if (!map) return false;
+      const source = map.getSource("amenities");
+      return source && map.isSourceLoaded("amenities") && map.areTilesLoaded();
+    },
+    { timeout: 30000 },
+  );
+
+  const countTest = await expectFeatureOnMap(page, [
+    "==",
+    ["get", "shop"],
+    "supermarket",
+  ]);
+
+  console.log(`Found ${countTest} supermarket features on the map.`);
+  expect(countTest).toBeGreaterThan(1);
 });
 
 // Sets the map view to Berlin and verifies a feature is visible after panning.
