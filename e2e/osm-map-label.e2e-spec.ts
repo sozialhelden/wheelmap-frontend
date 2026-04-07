@@ -1,10 +1,12 @@
 import { type Page, expect, test } from "@playwright/test";
+import { setView } from "./utils/wait";
 
 /**
  * Functions to develop:
  *  - is country visible on the map?
  *  - screenshot of map
  *  - operators: first, last...
+ * - count
  */
 
 /**
@@ -21,33 +23,13 @@ async function letSetView(
   options: { zoom?: number; center?: [number, number] },
   mapName = "mainMap",
 ) {
-  await page.evaluate(
-    ({ opts, name }) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
-      if (!map)
-        throw new Error(`Map "${name}" not found on window.__e2eMapInstances`);
-      map.jumpTo(opts);
-    },
-    { opts: options, name: mapName },
-  );
-
-  await page.waitForFunction(
-    (name) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
-      return (
-        map && !map.isMoving() && map.isStyleLoaded() && map.areTilesLoaded()
-      );
-    },
-    mapName,
-    { timeout: 30000 },
-  );
+  await setView(page, options, mapName);
 }
 
 /**
  * Asserts that at least one map feature matching the given filter is rendered on the map.
  *
+
  * 1. Waits for the Mapbox/MapLibre canvas to be visible in the DOM.
  * 2. Waits for the map to become idle (not moving, style loaded, tiles loaded).
  * 3. Queries rendered features using the provided Mapbox expression filter.
@@ -104,4 +86,37 @@ test("Supermarket should be visible on the map", async ({ page }) => {
   });
 
   await expectFeatureOnMap(page, ["==", ["get", "shop"], "supermarket"]);
+});
+
+// Sets the map view to Berlin and verifies a feature is visible after panning.
+test("setView should pan the map to Berlin", async ({ page }) => {
+  await page.goto("/", {
+    waitUntil: "domcontentloaded",
+  });
+
+  await expect(
+    page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
+  ).toBeVisible({ timeout: 15000 });
+
+  // Wait for the map instance to be registered
+  await page.waitForFunction(
+    () => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.mainMap;
+      // biome-ignore lint/complexity/useOptionalChain: <explanation>
+      return map && map.isStyleLoaded();
+    },
+    { timeout: 30000 },
+  );
+
+  await letSetView(page, { zoom: 15, center: [13.389, 52.517] });
+
+  const center = await page.evaluate(() => {
+    // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+    const map = (window as any).__e2eMapInstances?.mainMap;
+    return map.getCenter();
+  });
+
+  expect(center.lng).toBeCloseTo(13.389, 1);
+  expect(center.lat).toBeCloseTo(52.517, 1);
 });
