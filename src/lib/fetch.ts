@@ -2,6 +2,7 @@ import unfetch from 'isomorphic-unfetch';
 
 export default function customFetch(url: string, options: any) {
   options = options || {};
+  options.headers = { Accept: 'application/json', ...options.headers };
 
   console.log('Fetching', url, '…');
 
