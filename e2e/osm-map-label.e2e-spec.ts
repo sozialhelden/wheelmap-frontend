@@ -4,11 +4,46 @@ import { type Page, expect, test } from "@playwright/test";
  * Functions to develop:
  *  - is country visible on the map?
  *  - screenshot of map
- *  - setView = zoom / view of map ?
  *  - operators: first, last...
- *
- *
  */
+
+/**
+ * Set the map viewport (zoom and/or center) and wait for the map to settle.
+ *
+ * Usage:
+ * ```ts
+ * await letSetView(page, { zoom: 2, center: [22, 42] });
+ * await letSetView(page, { zoom: 15 });
+ * ```
+ */
+async function letSetView(
+  page: Page,
+  options: { zoom?: number; center?: [number, number] },
+  mapName = "mainMap",
+) {
+  await page.evaluate(
+    ({ opts, name }) => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.[name];
+      if (!map)
+        throw new Error(`Map "${name}" not found on window.__e2eMapInstances`);
+      map.jumpTo(opts);
+    },
+    { opts: options, name: mapName },
+  );
+
+  await page.waitForFunction(
+    (name) => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.[name];
+      return (
+        map && !map.isMoving() && map.isStyleLoaded() && map.areTilesLoaded()
+      );
+    },
+    mapName,
+    { timeout: 30000 },
+  );
+}
 
 /**
  * Asserts that at least one map feature matching the given filter is rendered on the map.
@@ -21,6 +56,7 @@ import { type Page, expect, test } from "@playwright/test";
  * @param page  - Playwright page instance.
  * @param filter - A Mapbox/MapLibre expression filter (e.g. `["==", ["get", "shop"], "supermarket"]`).
  */
+
 async function expectFeatureOnMap(page: Page, filter: unknown[]) {
   // Ensure the map canvas element is visible before interacting with the map
   await expect(
