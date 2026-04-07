@@ -1,15 +1,4 @@
-import {
-  expect as mapGrabExpect,
-  test as mapGrabTest,
-} from "@mapgrab/playwright";
-import {
-  mergeExpects,
-  mergeTests,
-  test as playwrightTest,
-} from "@playwright/test";
-
-const test = mergeTests(playwrightTest, mapGrabTest);
-const expect = mergeExpects(mapGrabExpect);
+import { expect, test } from "@playwright/test";
 
 test.use({
   launchOptions: {
@@ -21,10 +10,7 @@ test.use({
   },
 });
 
-test("Supermarket should be visible on the map", async ({
-  page,
-  mapController,
-}) => {
+test("Supermarket should be visible on the map", async ({ page }) => {
   await page.goto("/amenities/node:348000444", {
     waitUntil: "domcontentloaded",
   });
@@ -33,16 +19,25 @@ test("Supermarket should be visible on the map", async ({
     page.locator(".mapboxgl-canvas, .maplibregl-canvas").first(),
   ).toBeVisible({ timeout: 15000 });
 
-  await mapController("mainMap").waitToMapStable();
-
-  const count = await page.evaluate(
-    () =>
-      window.__MAPGRAB__
-        .getMapInterface("mainMap")
-        .map.queryRenderedFeatures(undefined, {
-          filter: ["==", ["get", "shop"], "supermarket"],
-        }).length,
+  // Wait for map to become idle
+  await page.waitForFunction(
+    () => {
+      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+      const map = (window as any).__e2eMapInstances?.mainMap;
+      return (
+        map && !map.isMoving() && map.isStyleLoaded() && map.areTilesLoaded()
+      );
+    },
+    { timeout: 30000 },
   );
+
+  const count = await page.evaluate(() => {
+    // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
+    const map = (window as any).__e2eMapInstances.mainMap;
+    return map.queryRenderedFeatures(undefined, {
+      filter: ["==", ["get", "shop"], "supermarket"],
+    }).length;
+  });
 
   expect(count).toBeGreaterThan(0);
 });
