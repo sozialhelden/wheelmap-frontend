@@ -102,14 +102,12 @@ test.describe("Parking spaces accessibility", () => {
 
   test.skip("parking space page should pass axe accessibility scan", async ({
     page,
+    makeAxeBuilder,
   }) => {
-    // Import axe dynamically for this test
-    const AxeBuilder = (await import("@axe-core/playwright")).default;
-
     await page.goto(ACCESSIBLE_PARKING_SPACE_URL);
     await page.waitForLoadState("networkidle");
 
-    const results = await new AxeBuilder({ page })
+    const results = await makeAxeBuilder()
       .exclude(".maplibregl-canvas") // Exclude map canvas from scan
       .analyze();
 
