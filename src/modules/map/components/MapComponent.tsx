@@ -1,6 +1,5 @@
 "use client";
 
-import { installMapGrab } from "@mapgrab/map-interface";
 import mapboxgl from "mapbox-gl";
 import { useCallback, useMemo } from "react";
 import {
@@ -76,7 +75,11 @@ export default function MapComponent() {
     async (event: MapEvent) => {
       if (!event.target) return;
       await onLoadMapStyle(event);
-      installMapGrab(event.target, "mainMap");
+      // Expose map instance for e2e tests
+      // biome-ignore lint/suspicious/noExplicitAny: e2e test helper on window
+      const w = window as any;
+      w.__e2eMapInstances = w.__e2eMapInstances || {};
+      w.__e2eMapInstances.mainMap = event.target;
       setIsReady(true);
     },
     [setIsReady, onLoadMapStyle],
