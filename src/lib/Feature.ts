@@ -38,9 +38,9 @@ function parseStatusString(statusString, allowedStatuses) {
   // Safe mutable sort as filter always returns a new array.
   return statusString
     ? statusString
-        .split(',')
-        .filter(s => includes(allowedStatuses, s))
-        .sort()
+      .split(',')
+      .filter(s => includes(allowedStatuses, s))
+      .sort()
     : [...allowedStatuses];
 }
 
@@ -94,6 +94,7 @@ export interface MinimalAccessibility {
     wheelchair: boolean,
   },
   areas?: Area[],
+  restrooms?: Restroom[],
 }
 
 export interface WheelmapCategoryOrNodeType {
@@ -145,21 +146,21 @@ export type AccessibilityCloudProperties = {
   parentPlaceInfoId?: string,
   parentPlaceInfoName?: LocalizedString,
   address?:
-    | {
-        full?: string,
-        text?: string,
-        postcode?: string,
-        city?: string,
-        postal_code?: string,
-        street?: string,
-        housenumber?: number | string,
-        county?: string,
-        country?: string,
-        room?: string,
-        roomNumber?: string,
-        level?: string,
-      }
-    | string,
+  | {
+    full?: string,
+    text?: string,
+    postcode?: string,
+    city?: string,
+    postal_code?: string,
+    street?: string,
+    housenumber?: number | string,
+    county?: string,
+    country?: string,
+    room?: string,
+    roomNumber?: string,
+    level?: string,
+  }
+  | string,
   infoPageUrl?: string,
   editPageUrl?: string,
   equipmentInfos: { [key: string]: EquipmentInfo },
@@ -434,7 +435,7 @@ function hasAccessibleToiletLegacyAcFormat(
 function hasAccessibleToiletAcFormat(
   properties: WheelmapProperties | AccessibilityCloudProperties
 ): YesNoUnknown {
-  const restrooms = get(properties, 'accessibility.restrooms');
+  const restrooms = get(properties, 'accessibility.restrooms') as Restroom[] | null | undefined;
 
   // no restrooms
   if (restrooms === null) {
@@ -464,14 +465,15 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     return result;
   }
 
+  const capacityDisabled = get(properties, 'tags.capacity:disabled');
   const isAccessible =
     get(properties, 'wheelchair') ??
     get(properties, 'accessibility.accessibleWith.wheelchair') ??
-    (get(properties, 'tags.capacity:disabled') && get(properties, 'tags.capacity:disabled') > 0);
+    (capacityDisabled != null && Number(capacityDisabled) > 0);
 
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
 
-  switch (isAccessible) {
+  switch (isAccessible as YesNoLimitedUnknown | boolean | null | undefined) {
     case 'yes':
     case true:
       return 'yes';
@@ -487,48 +489,48 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
 
 export function accessibilityName(accessibility: YesNoLimitedUnknown, app?: ClientSideConfiguration): string | null {
   const a11yNames = app?.textContent?.accessibilityNames?.long;
-  
-    switch (accessibility) {
-      case 'yes':
-        // translator: Long accessibility description for full wheelchair accessibility
-        return translatedStringFromObject(a11yNames?.yes) || t`Fully wheelchair accessible`;
-        case 'limited':
-        // translator: Long accessibility description for partial wheelchair accessibility
-        return translatedStringFromObject(a11yNames?.limited) || t`Partially wheelchair accessible`;
-        case 'no':
-        // translator: Long accessibility description for no wheelchair accessibility
-        return translatedStringFromObject(a11yNames?.no) || t`Not wheelchair accessible`;
-        case 'unknown':
-        // translator: Long accessibility description for unknown wheelchair accessibility
-        return translatedStringFromObject(a11yNames?.unknown) || t`Unknown accessibility`;
-      default:
-        return null;
-    }
-  
+
+  switch (accessibility) {
+    case 'yes':
+      // translator: Long accessibility description for full wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.yes) || t`Fully wheelchair accessible`;
+    case 'limited':
+      // translator: Long accessibility description for partial wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.limited) || t`Partially wheelchair accessible`;
+    case 'no':
+      // translator: Long accessibility description for no wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.no) || t`Not wheelchair accessible`;
+    case 'unknown':
+      // translator: Long accessibility description for unknown wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.unknown) || t`Unknown accessibility`;
+    default:
+      return null;
+  }
+
 }
 
 export function shortAccessibilityName(accessibility: YesNoLimitedUnknown, app?: ClientSideConfiguration): string | null {
-  
+
   const a11yNames = app.textContent.accessibilityNames?.short;
-  
+
   switch (accessibility) {
     case 'yes':
       // translator: Short accessibility description for full wheelchair accessibility
       return translatedStringFromObject(a11yNames?.yes) || t`Fully`;
-      case 'limited':
+    case 'limited':
       // translator: Short accessibility description for partial wheelchair accessibility
       return translatedStringFromObject(a11yNames?.limited) || t`Partially`;
-      case 'no':
+    case 'no':
       // translator: Short accessibility description for no wheelchair accessibility
       return translatedStringFromObject(a11yNames?.no) || t`Not at all`;
-      case 'unknown':
+    case 'unknown':
       // translator: Short accessibility description for unknown wheelchair accessibility
       return translatedStringFromObject(a11yNames?.unknown) || t`Unknown`;
     default:
       return null;
   }
 }
-  
+
 
 
 export function accessibilityDescription(accessibility: YesNoLimitedUnknown): string | null {
@@ -539,9 +541,9 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): st
     case 'limited':
       return shouldUseImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
-          t`Entrance has one step with max. 3 inches height, most rooms are without steps.`
+        t`Entrance has one step with max. 3 inches height, most rooms are without steps.`
         : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
-          t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
+        t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
     // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
     case 'no':
       return t`Entrance has a high step or several steps, none of the rooms are accessible.`;
