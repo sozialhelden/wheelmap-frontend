@@ -54,7 +54,7 @@ test.use({
 // --- Tests ---
 
 test("Supermarket should be visible on the map", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.goto("/", { waitUntil: "commit" });
   await waitForMapReady(page);
 
   await letSetView(page, { zoom: 15, center: [13.39, 52.525] });
@@ -71,7 +71,7 @@ test("Supermarket should be visible on the map", async ({ page }) => {
 });
 
 test("setView should pan the map to Berlin", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.goto("/", { waitUntil: "commit" });
   await waitForMapReady(page);
 
   await letSetView(page, { zoom: 15, center: [13.389, 52.517] });
