@@ -27,10 +27,11 @@ async function letSetView(
 async function countFeaturesOnMap(page: Page, filter: unknown[]) {
   const handle = await page.waitForFunction(
     (f) => {
-      // biome-ignore lint/suspicious/noExplicitAny: e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.mainMap;
+      const map = window.__e2eMapInstances?.mainMap;
       if (!map || map.isMoving() || !map.isStyleLoaded()) return 0;
-      const n = map.queryRenderedFeatures(undefined, { filter: f }).length;
+      const n = map.queryRenderedFeatures({
+        filter: f as mapboxgl.FilterSpecification,
+      }).length;
       return n > 0 ? n : 0;
     },
     filter,
@@ -77,11 +78,10 @@ test("setView should pan the map to Berlin", async ({ page }) => {
   await letSetView(page, { zoom: 15, center: [13.389, 52.517] });
 
   const center = await page.evaluate(() => {
-    // biome-ignore lint/suspicious/noExplicitAny: e2e test helper on window
-    const map = (window as any).__e2eMapInstances?.mainMap;
-    return map.getCenter();
+    const map = window.__e2eMapInstances?.mainMap;
+    return map?.getCenter();
   });
 
-  expect(center.lng).toBeCloseTo(13.389, 1);
-  expect(center.lat).toBeCloseTo(52.517, 1);
+  expect(center?.lng).toBeCloseTo(13.389, 1);
+  expect(center?.lat).toBeCloseTo(52.517, 1);
 });

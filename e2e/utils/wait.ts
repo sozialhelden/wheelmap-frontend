@@ -9,10 +9,8 @@ export async function waitForMapReady(page: Page, mapName = "mainMap") {
 
   await page.waitForFunction(
     (name) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
-      // biome-ignore lint/complexity/useOptionalChain: <explanation>
-      return map && map.isStyleLoaded();
+      const map = window.__e2eMapInstances?.[name];
+      return map?.isStyleLoaded();
     },
     mapName,
     { timeout: 90000 },
@@ -27,8 +25,7 @@ export async function waitForSourceLoaded(
 ) {
   await page.waitForFunction(
     ({ src, name }) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
+      const map = window.__e2eMapInstances?.[name];
       if (!map) return false;
       return (
         map.getSource(src) && map.isSourceLoaded(src) && map.areTilesLoaded()
@@ -55,8 +52,7 @@ export async function waitUntilMapIsIdle(
 ) {
   await page.waitForFunction(
     (name) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
+      const map = window.__e2eMapInstances?.[name];
       return (
         map && !map.isMoving() && map.isStyleLoaded() && map.areTilesLoaded()
       );
@@ -87,8 +83,7 @@ export async function setView(
 ) {
   await page.evaluate(
     ({ opts, name }) => {
-      // biome-ignore lint/suspicious/noExplicitAny: accessing e2e test helper on window
-      const map = (window as any).__e2eMapInstances?.[name];
+      const map = window.__e2eMapInstances?.[name];
       if (!map)
         throw new Error(`Map "${name}" not found on window.__e2eMapInstances`);
       map.jumpTo(opts);
