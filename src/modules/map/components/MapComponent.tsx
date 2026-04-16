@@ -99,6 +99,9 @@ export default function MapComponent() {
     async (event: MapEvent) => {
       if (!event.target) return;
       await onLoadMapStyle(event);
+      // Expose map instance for e2e tests
+      window.__e2eMapInstances = window.__e2eMapInstances || {};
+      window.__e2eMapInstances.mainMap = event.target;
       setIsReady(true);
     },
     [setIsReady, onLoadMapStyle],
@@ -155,6 +158,7 @@ export default function MapComponent() {
       <MapboxExtraStyles />
       <MapProvider>
         <ReactMapGL
+          id="mainMap"
           reuseMaps
           mapboxAccessToken={mapboxAccessToken}
           interactive
