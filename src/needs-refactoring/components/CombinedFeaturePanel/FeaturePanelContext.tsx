@@ -1,5 +1,3 @@
-import { Spinner } from "@radix-ui/themes";
-import { t } from "@transifex/native";
 import { useParams } from "next/navigation";
 import React, {
   createContext,
@@ -199,12 +197,6 @@ export function FeaturePanelContextProvider({
   return (
     <FeaturePanelContext.Provider value={contextValue}>
       {false && !anyLoading && <ErrorToolBar />}
-      {anyLoading && (
-        <StyledLoadingDiv className="_loading">
-          <Spinner size="3" />
-          <p className="_title">{t("Loading further details…")}</p>
-        </StyledLoadingDiv>
-      )}
       {children}
     </FeaturePanelContext.Provider>
   );

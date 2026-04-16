@@ -8,16 +8,16 @@ export function accessibilityName(
   switch (accessibility) {
     // translator: Long accessibility description for full wheelchair accessibility
     case "yes":
-      return t("Fully wheelchair accessible");
+      return t("Fully");
     // translator: Long accessibility description for partial wheelchair accessibility
     case "limited":
-      return t("Partially wheelchair accessible");
+      return t("Partially");
     // translator: Long accessibility description for no wheelchair accessibility
     case "no":
-      return t("Not wheelchair accessible");
+      return t("Not at all");
     // translator: Long accessibility description for unknown wheelchair accessibility
     case "unknown":
-      return t("Unknown accessibility");
+      return t("We don't know yet!");
     default:
       return null;
   }

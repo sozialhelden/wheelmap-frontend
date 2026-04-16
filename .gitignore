@@ -40,4 +40,6 @@ env/*
 .api
 
 # Mapbox styles
+
 .mapbox
+certificates

@@ -3,7 +3,7 @@ import { useUserAgent } from "~/hooks/useUserAgent";
 import { saveState } from "./util/savedState";
 
 const alertText = t(
-  "To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.",
+  "To shouldLocateUser yourself on the map, open browser settings and allow Wheelmap.org to use location services.",
 );
 
 /**

@@ -105,6 +105,30 @@ print_step "Collecting artifacts..."
 mv playwright-report "${CI_ARTIFACTS_PATH}/playwright-report" 2>/dev/null && print_success "HTML report" || true
 [ -f "${CI_ARTIFACTS_PATH}/junit.xml" ] && print_success "JUnit XML" || true
 
+
+# Extract trace.zip files so trace contents are directly accessible via HTTP
+print_step "Extracting trace archives..."
+TRACE_TEMP=$(mktemp)
+find "${CI_ARTIFACTS_PATH}/test-results" -name "trace.zip" -type f 2>/dev/null > "$TRACE_TEMP"
+TRACE_COUNT=0
+while IFS= read -r trace_zip; do
+  [ -z "$trace_zip" ] && continue
+  trace_dir="$(dirname "$trace_zip")/trace"
+  if mkdir -p "$trace_dir" && unzip -o -q "$trace_zip" -d "$trace_dir" 2>/dev/null; then
+    TRACE_COUNT=$((TRACE_COUNT + 1))
+  else
+    print_error "Failed to extract $(basename "$(dirname "$trace_zip")"))/trace.zip"
+  fi
+done < "$TRACE_TEMP"
+rm -f "$TRACE_TEMP"
+if [ "$TRACE_COUNT" -gt 0 ]; then
+  print_success "Extracted $TRACE_COUNT trace archive(s)"
+else
+  print_info "No trace archives found"
+fi
+echo ""
+
+
 # Detect flaky tests (tests that required retries)
 FLAKY_TESTS=""
 if [ -d "${CI_ARTIFACTS_PATH}/test-results" ]; then
