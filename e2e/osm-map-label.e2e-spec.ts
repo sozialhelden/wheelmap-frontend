@@ -3,6 +3,10 @@ import { skipOnboarding } from "./utils/control-onboarding";
 import { setView, waitForMapReady, waitForSourceLoaded } from "./utils/wait";
 
 /**
+ * Todo: beforeEach von edit-toilet-accessibility.e2e-spec.ts hierhin verschieben, damit die Map-Tests schneller werden (kein mehrfaches Laden der Seite nötig).
+ */
+
+/**
  * Functions to develop:
  *  - is country visible on the map?
  *  - screenshot of map
