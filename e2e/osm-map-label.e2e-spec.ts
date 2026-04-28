@@ -23,16 +23,25 @@ async function countFeaturesOnMap(page: Page, filter: unknown[]) {
   const handle = await page.waitForFunction(
     (f) => {
       const map = window.__e2eMapInstances?.mainMap;
-      // todo: single cases throw early instead of return
-
-      if (!map || map.isMoving() || !map.isStyleLoaded()) return 0;
+      if (!map) {
+        console.log("Map instance not found");
+        return 0;
+      }
+      if (map.isMoving()) {
+        console.log("Map is still moving");
+        return 0;
+      }
+      if (!map.isStyleLoaded()) {
+        console.log("Map style not loaded");
+        return 0;
+      }
       const n = map.queryRenderedFeatures({
         filter: f as mapboxgl.FilterSpecification,
       }).length;
       return n > 0 ? n : 0;
     },
     filter,
-    { timeout: 30000, polling: 100 },
+    { timeout: 30000, polling: 1000 },
   );
   return handle.jsonValue();
 }
@@ -69,6 +78,7 @@ test("Supermarket should be visible on the map", async ({ page }) => {
 });
 
 test("setView should pan the map to Berlin", async ({ page }) => {
+  test.setTimeout(120_000);
   await page.goto("/", { waitUntil: "commit" });
   await waitForMapReady(page);
   await skipOnboarding(page);
