@@ -13,12 +13,6 @@ import { setView, waitForMapReady, waitForSourceLoaded } from "./utils/wait";
 // --- Helper functions ---
 
 /** Shorthand for setView that reads well in tests. */
-async function letSetView(
-  page: Page,
-  options: { zoom?: number; center?: [number, number] },
-) {
-  await setView(page, options);
-}
 
 /**
  * Counts rendered features matching a Mapbox filter expression.
@@ -29,6 +23,8 @@ async function countFeaturesOnMap(page: Page, filter: unknown[]) {
   const handle = await page.waitForFunction(
     (f) => {
       const map = window.__e2eMapInstances?.mainMap;
+      // todo: single cases throw early instead of return
+
       if (!map || map.isMoving() || !map.isStyleLoaded()) return 0;
       const n = map.queryRenderedFeatures({
         filter: f as mapboxgl.FilterSpecification,
@@ -36,7 +32,7 @@ async function countFeaturesOnMap(page: Page, filter: unknown[]) {
       return n > 0 ? n : 0;
     },
     filter,
-    { timeout: 30000, polling: 1000 },
+    { timeout: 30000, polling: 100 },
   );
   return handle.jsonValue();
 }
@@ -59,7 +55,7 @@ test("Supermarket should be visible on the map", async ({ page }) => {
   await page.goto("/", { waitUntil: "commit" });
   await waitForMapReady(page);
   await skipOnboarding(page);
-  await letSetView(page, { zoom: 15, center: [13.39, 52.525] });
+  await setView(page, { zoom: 15, center: [13.39, 52.525] });
   await waitForSourceLoaded(page, "amenities");
 
   const count = await countFeaturesOnMap(page, [
@@ -77,7 +73,7 @@ test("setView should pan the map to Berlin", async ({ page }) => {
   await waitForMapReady(page);
   await skipOnboarding(page);
 
-  await letSetView(page, { zoom: 15, center: [13.389, 52.517] });
+  await setView(page, { zoom: 15, center: [13.389, 52.517] });
 
   const center = await page.evaluate(() => {
     const map = window.__e2eMapInstances?.mainMap;
