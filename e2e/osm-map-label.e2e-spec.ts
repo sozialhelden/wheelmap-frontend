@@ -117,18 +117,12 @@ test("Supermarket should be visible on the map", async ({ page }) => {
 
   const count = await countFeaturesOnMap(page, ["==", ["get", "name"], "REWE"]);
 
-  const count2 = await countFeaturesOnMap(page, [
-    "==",
-    ["get", "shop"],
-    "supermarket",
-  ]);
-
   console.log(`Found ${count} supermarket features on the map.`);
   expect(count).toBeGreaterThan(0);
 });
 
 test("setView should pan the map to Berlin", async ({ page }) => {
-  test.setTimeout(120_000);
+  // test.setTimeout(120_000);
   await page.goto("/", { waitUntil: "commit" });
   await waitForMapReady(page);
   await skipOnboarding(page);
