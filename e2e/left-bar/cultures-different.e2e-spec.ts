@@ -85,7 +85,7 @@ test.describe("Culture is Artwork", () => {
 
     await expect(page.getByText("Open", { exact: true })).toBeVisible();
     await expect(page.getByText("Tuesday-Friday 09:00-18:00")).toBeVisible();
-    await expect(page.getByText("Saturday-Sunday 11:00-18:00")).toBeVisible();
+    await expect(page.getByText("Saturday-Sunday 10:00-18:00")).toBeVisible();
     await expect(page.getByText("Payment")).toBeVisible();
     await expect(page.getByText("No fees")).toBeVisible();
     await expect(page.getByText("Operator")).toBeVisible();
@@ -94,5 +94,36 @@ test.describe("Culture is Artwork", () => {
     await expect(
       page.getByRole("link", { name: "Knaackstraße 97, Berlin (" }),
     ).toBeVisible();
+  });
+
+  test("Cologne Cathedral", async ({ page }) => {
+    await page.goto(
+      "/?position%5Blatitude%5D=50.94130700&position%5Blongitude%5D=6.95811120&position%5Bzoom%5D=18.11593532&search=K%C3%B6lner+Dom",
+    );
+    await expect(
+      page.getByRole("searchbox", { name: "Search for place or address" }),
+    ).toBeVisible();
+    await page.goto("/?search=Kölner Dom");
+
+    await expect(
+      page.getByRole("heading", { name: "Cologne Cathedral" }),
+    ).toBeVisible();
+
+    await expect(
+      page.getByRole("heading", { name: "Cologne Cathedral" }),
+    ).toBeVisible();
+    await expect(page.getByText("Place Of Worship")).toBeVisible();
+    await page.goto(
+      "/amenities/way:4532022?position%5Blatitude%5D=50.94130700&position%5Blongitude%5D=6.95811120&position%5Bzoom%5D=18.11593532&search=",
+    );
+    await expect(page.getByText("Access", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("Fully wheelchair accessible 👍"),
+    ).toBeVisible();
+
+    await expect(page.getByText("Behindertentoilette auf der S")).toBeVisible();
+
+    await expect(page.getByText("WC", { exact: true })).toBeVisible();
+    await expect(page.getByText("Wheelchair accessible WC")).toBeVisible();
   });
 });
