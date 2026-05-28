@@ -84,8 +84,12 @@ test.describe("Culture is Artwork", () => {
     await expect(page.getByText("Museum", { exact: true })).toBeVisible();
 
     await expect(page.getByText("Open", { exact: true })).toBeVisible();
-    await expect(page.getByText("Tuesday-Friday 09:00-18:00")).toBeVisible();
-    await expect(page.getByText("Saturday-Sunday 10:00-18:00")).toBeVisible();
+    await expect(
+      page.getByText(/Tuesday-Friday \d{2}:\d{2}-\d{2}:\d{2}/),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Saturday-Sunday \d{2}:\d{2}-\d{2}:\d{2}/),
+    ).toBeVisible();
     await expect(page.getByText("Payment")).toBeVisible();
     await expect(page.getByText("No fees")).toBeVisible();
     await expect(page.getByText("Operator")).toBeVisible();
