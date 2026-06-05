@@ -6,16 +6,17 @@ async function dismissOnboarding(page: Page) {
 }
 
 test.describe("articles-to-be-consumed", () => {
-  test.beforeEach(async ({ page: Page }) => {
-    await Page.goto("/");
-    await dismissOnboarding(Page);
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await dismissOnboarding(page);
   });
 
   test("should show food that can carried away", async ({ page }) => {
     //McDonald restaurants have tags like:
     // "amenity": "fast_food"
+
     await page.goto(
-      "http://localhost:3000/amenities/node:318149465?position%5Blatitude%5D=52.5218894&position%5Blongitude%5D=13.4115481&position%5Bzoom%5D=15.0000000&search=",
+      "http://localhost:3000/composite/amenities:way:406983404?position%5Blatitude%5D=52.5218894&position%5Blongitude%5D=13.4115481&position%5Bzoom%5D=15.0000000",
     );
     await page.waitForLoadState("networkidle");
 
@@ -36,8 +37,6 @@ test.describe("articles-to-be-consumed", () => {
       page.getByRole("heading", { name: /McDonald'?s/i }),
     ).toBeVisible();
 
-    await expect(page.getByText("LocationGround floor")).toBeVisible();
-
     await expect(
       page.locator("div").filter({ hasText: /^Stay$/ }),
     ).toBeVisible();
@@ -45,6 +44,7 @@ test.describe("articles-to-be-consumed", () => {
 
     await expect(page.getByText("Indoor seating available.")).toBeVisible();
     await expect(page.getByText("No outdoor seating.")).toBeVisible();
+    await expect(page.getByText("Air conditioned.")).toBeVisible();
     await expect(page.getByText("Smoking prohibited 🚭")).toBeVisible();
   });
 

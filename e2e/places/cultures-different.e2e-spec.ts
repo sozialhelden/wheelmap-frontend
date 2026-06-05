@@ -46,7 +46,7 @@ test.describe("Culture is Artwork", () => {
     ).toBeVisible();
   });
 
-  test("Zukuntshaus Wedding", async ({ page }) => {
+  test("Zukunftshaus Wedding", async ({ page }) => {
     await page.goto(
       "/amenities/node:6010004388?position%5Blatitude%5D=52.55403053&position%5Blongitude%5D=13.34607153&position%5Bzoom%5D=18.00000000",
     );
