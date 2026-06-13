@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Buyer Relevant Places", () => {
-  test("should show Dussmann the Culture Department Store", async ({
+  test("should show Dussmann the Culture Department Store at Friedrichstraße 90", async ({
     page,
   }) => {
     await page.goto(
@@ -47,7 +47,7 @@ test.describe("Buyer Relevant Places", () => {
     ).toBeVisible();
   });
 
-  test("should show ALDI at the Friedrichstraße", async ({ page }) => {
+  test("should show ALDI at the Friedrichstraße 149", async ({ page }) => {
     await page.goto(
       "/composite/amenities:node:9798282713?position%5Blatitude%5D=52.51837843&position%5Blongitude%5D=13.38848730&position%5Bzoom%5D=19.10369540",
     );
@@ -63,7 +63,7 @@ test.describe("Buyer Relevant Places", () => {
     await expect(page.getByText("ALDI N")).toBeVisible();
   });
 
-  test("should show a Drugstore/dm at the Friedrichstraße", async ({
+  test("should show a Drugstore/dm at the Friedrichstraße 147 ", async ({
     page,
   }) => {
     await page.goto(
@@ -96,7 +96,7 @@ test.describe("Buyer Relevant Places", () => {
     await expect(page.getByText("Credit card")).toBeVisible();
   });
 
-  test("should show a Drugstore/Rossmann at the Friedrichstraße", async ({
+  test("should show a Drugstore/Rossmann at the Friedrichstraße 90 ", async ({
     page,
   }) => {
     await page.goto(
@@ -133,7 +133,9 @@ test.describe("Buyer Relevant Places", () => {
     await expect(page.getByText("Dirk Rossmann GmbH")).toBeVisible();
   });
 
-  test("should show a pharmacy at the Friedrichstraße", async ({ page }) => {
+  test("should show a pharmacy at the Friedrichstraße 151", async ({
+    page,
+  }) => {
     await page.goto(
       "/amenities/node:380498298?position%5Blatitude%5D=52.51837843&position%5Blongitude%5D=13.38848730&position%5Bzoom%5D=19.10369540",
     );
@@ -183,7 +185,7 @@ test.describe("Buyer Relevant Places", () => {
     await expect(page.getByRole("link", { name: "Open image" })).toBeVisible();
   });
 
-  test("should show a Zara clothes store at the Friedrichstraße", async ({
+  test("should show a Zara clothes store at the Friedrichstraße 88", async ({
     page,
   }) => {
     await page.goto(
