@@ -43,7 +43,7 @@ test.describe("Elevator makes life easier", () => {
     page,
   }) => {
     await page.goto(
-      "/amenities/node:394948621?position%5Blatitude%5D=52.52166202&position%5Blongitude%5D=13.41305893&position%5Bzoom%5D=17.62411369",
+      "/amenities/node:394948622?position%5Blatitude%5D=52.52166202&position%5Blongitude%5D=13.41305893&position%5Bzoom%5D=17.62411369",
     );
     //   await expect(page.getByRole('heading', { name: 'Elevator' })).toBeVisible();
     //kein Umspringen auf grünes Fahrstuhlbild
