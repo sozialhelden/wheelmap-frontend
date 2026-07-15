@@ -1,17 +1,14 @@
 import { test } from "@playwright/test";
-import { expect } from "../setup/test-fixture";
-import { waitUntilMapIsLoaded } from "../utils/wait";
-import { skipOnboarding } from "../utils/control-onboarding";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
-  //await waitUntilMapIsLoaded(page);
-  //await skipOnboarding(page);
 });
 
+//this is a test for the search functionality of the broken lifts page. It tests if the search
+// works with full name, less than full name and more than full name of the lift.
 test.describe("Broken Lifts", async () => {
   test("full name", async ({ page }) => {
-    await page.goto("/main-brokenlifts.d.wheelmap.tech/");
+    await page.goto("https://main-brokenlifts.d.wheelmap.tech/");
 
     await page
       .getByRole("searchbox", { name: "Search the site" })
@@ -21,7 +18,7 @@ test.describe("Broken Lifts", async () => {
   });
 
   test("less than full name", async ({ page }) => {
-    await page.goto("/main-brokenlifts.d.wheelmap.tech/");
+    await page.goto("https://main-brokenlifts.d.wheelmap.tech/");
 
     await page
       .getByRole("searchbox", { name: "Search the site" })
@@ -31,7 +28,7 @@ test.describe("Broken Lifts", async () => {
   });
 
   test.skip("more than full name", async ({ page }) => {
-    await page.goto("/main-brokenlifts.d.wheelmap.tech/");
+    await page.goto("https://main-brokenlifts.d.wheelmap.tech/");
 
     await page
       .getByRole("searchbox", { name: "Search the site" })

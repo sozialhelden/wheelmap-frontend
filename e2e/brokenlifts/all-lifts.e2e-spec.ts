@@ -5,9 +5,11 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
+//this is a test for the overview page of the broken lifts. It tests if the overview page
+// is displayed correctly and if the links to the other pages are working.
 test.describe("Broken Lifts Overview", async () => {
   test("Several lifts are displayed", async ({ page }) => {
-    await page.goto("/main-brokenlifts.d.wheelmap.tech/stations");
+    await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
 
     //all lifts overview page
     await expect(
