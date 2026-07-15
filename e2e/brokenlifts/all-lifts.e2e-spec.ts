@@ -1,18 +1,13 @@
 import { test } from "@playwright/test";
 import { expect } from "../setup/test-fixture";
-import { waitUntilMapIsLoaded } from "../utils/wait";
-import { skipOnboarding } from "../utils/control-onboarding";
 
 test.beforeEach(async ({ page }) => {
-  //await mockTranslations(page);
   await page.goto("/");
-  await waitUntilMapIsLoaded(page);
-  await skipOnboarding(page);
 });
 
 test.describe("Broken Lifts Overview", async () => {
   test("Several lifts are displayed", async ({ page }) => {
-    await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
+    await page.goto("/main-brokenlifts.d.wheelmap.tech/stations");
 
     //all lifts overview page
     await expect(

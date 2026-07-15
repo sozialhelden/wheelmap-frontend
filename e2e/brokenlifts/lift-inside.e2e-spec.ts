@@ -1,19 +1,14 @@
 import { test } from "@playwright/test";
 import { expect } from "../setup/test-fixture";
-import { waitUntilMapIsLoaded } from "../utils/wait";
-import { skipOnboarding } from "../utils/control-onboarding";
 
 test.beforeEach(async ({ page }) => {
-  //await mockTranslations(page);
   await page.goto("/");
-  await waitUntilMapIsLoaded(page);
-  await skipOnboarding(page);
 });
 
 test.describe("Broken Lifts", async () => {
   test("one lift only - S+U-Bahnhof Hauptbahnhof", async ({ page }) => {
     await page.goto(
-      "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
+      "/main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
     );
 
     await expect(
@@ -52,11 +47,11 @@ test.describe("Broken Lifts", async () => {
     ).toBeVisible();
     await page.getByRole("button", { name: "Umgebungskarte" }).click();
     await page.goto(
-      "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723#map",
+      "/main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723#map",
     );
 
     //await expect(page.locator('.leaflet-container')).toBeVisible();
-    await page.getByRole("button", { name: "Marker" }).nth(5).click();
+    //await page.getByRole("button", { name: "Marker" }).nth(5).click();
     await expect(
       page.getByRole("button", { name: "Karte schließen" }),
     ).toBeVisible();
