@@ -19,8 +19,11 @@ test.describe("Broken Lifts", async () => {
     await expect(page.getByText("DB InfraGO").first()).toBeVisible();
     await expect(page.getByText("Daten bereitgestellt von:")).toBeVisible();
     await expect(page.getByText("DB InfraGO").nth(1)).toBeVisible();
-    await expect(page.getByText("operatorInfo.label.contact")).toBeVisible();
-    await expect(page.getByText("DB InfraGO").nth(2)).toBeVisible();
+    await expect(page.getByText("Service-Kontakt:")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "feedback@bahnhof.de" }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "030" })).toBeVisible();
 
     //await expect(page.getByText('Der Aufzug ist außer Betrieb.')).toBeVisible();
     await expect(
@@ -44,22 +47,24 @@ test.describe("Broken Lifts", async () => {
     await expect(page.getByText("Außer Betrieb").nth(2)).toBeVisible();
 
     await expect(
-      page.getByRole("button", { name: "Umgebungskarte" }),
+      page.getByRole("button", { name: "Lage auf der Umgebungskarte" }),
     ).toBeVisible();
-    await page.getByRole("button", { name: "Umgebungskarte" }).click();
+    await page
+      .getByRole("button", { name: "Lage auf der Umgebungskarte" })
+      .click();
     await page.goto(
       "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723#map",
     );
 
-    //await expect(page.locator('.leaflet-container')).toBeVisible();
-    //await page.getByRole("button", { name: "Marker" }).nth(5).click();
+    await expect(page.locator(".leaflet-container")).toBeVisible();
+    await page.getByRole("button", { name: "Marker" }).nth(5).click();
     await expect(
       page.getByRole("button", { name: "Karte schließen" }),
     ).toBeVisible();
     await page.getByRole("button", { name: "Karte schließen" }).click();
 
     await expect(
-      page.getByRole("button", { name: "Umgebungskarte" }),
+      page.getByRole("button", { name: "Lage auf der Umgebungskarte" }),
     ).toBeVisible();
   });
 });
