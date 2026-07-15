@@ -5,10 +5,11 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
+//This test goes inside a lift page and checks if the information about the lift is displayed correctly. It also checks if the map is displayed correctly and if the map can be closed and opened again.
 test.describe("Broken Lifts", async () => {
   test("one lift only - S+U-Bahnhof Hauptbahnhof", async ({ page }) => {
     await page.goto(
-      "/main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
+      "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
     );
 
     await expect(
@@ -47,7 +48,7 @@ test.describe("Broken Lifts", async () => {
     ).toBeVisible();
     await page.getByRole("button", { name: "Umgebungskarte" }).click();
     await page.goto(
-      "/main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723#map",
+      "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723#map",
     );
 
     //await expect(page.locator('.leaflet-container')).toBeVisible();
