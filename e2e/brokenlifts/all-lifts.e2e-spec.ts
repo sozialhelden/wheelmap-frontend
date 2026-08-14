@@ -3,14 +3,13 @@ import { expect } from "../setup/test-fixture";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
+  await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
 });
 
 //this is a test for the overview page of the broken lifts. It tests if the overview page
 // is displayed correctly and if the links to the other pages are working.
 test.describe("Broken Lifts Overview", async () => {
   test("Several lifts are displayed", async ({ page }) => {
-    await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
-
     //all lifts overview page
     await expect(
       page.getByRole("heading", { name: "Alle Aufzüge" }),

@@ -2,15 +2,13 @@ import { test } from "@playwright/test";
 import { expect } from "../setup/test-fixture";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
 });
 
-//this is test for all lifts inside.
-test.describe("All Lifts Inside", async () => {
+//this is test for all broken lifts inside.
+test.describe("All Broken Lifts Inside", async () => {
   test("One after another lift", async ({ page }) => {
-    await page.goto("https://main-brokenlifts.d.wheelmap.tech/stations");
-
-    for (let i = 1; i < 8; i++) {
+    for (let i = 1; i < 20; i++) {
       await expect(
         page.getByRole("link", { name: i.toString() }).first(),
       ).toBeVisible();
@@ -38,7 +36,7 @@ test.describe("All Lifts Inside", async () => {
     // 45 is therefore a rough guess for number of several stations
 
     for (let iii = 1; iii < 45; iii++) {
-      for (let ii = 1; ii < 17; ii++) {
+      for (let ii = 1; ii < 20; ii++) {
         const liftLink = page
           .getByRole("link", { name: ii.toString() })
           .nth(iii);

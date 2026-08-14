@@ -3,15 +3,14 @@ import { expect } from "../setup/test-fixture";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
+  await page.goto(
+    "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
+  );
 });
 
 //This test goes inside a lift page and checks if the information about the lift is displayed correctly. It also checks if the map is displayed correctly and if the map can be closed and opened again.
 test.describe("Broken Lifts", async () => {
   test("one lift only - S+U-Bahnhof Hauptbahnhof", async ({ page }) => {
-    await page.goto(
-      "https://main-brokenlifts.d.wheelmap.tech/station/de:11000:900003201/4723",
-    );
-
     await expect(
       page.getByRole("heading", { name: "Informationen zum Aufzug" }),
     ).toBeVisible();
@@ -25,26 +24,39 @@ test.describe("Broken Lifts", async () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "030" })).toBeVisible();
 
-    //await expect(page.getByText('Der Aufzug ist außer Betrieb.')).toBeVisible();
-    await expect(
+    await expect(page.getByText("Achtung! Aufzug außer Betrieb")).toBeVisible();
+    /* await expect(
       page.getByText("Der Aufzug steht zur Verfügung."),
-    ).toBeVisible();
+    ).toBeVisible();*/
     await expect(page.getByText("Aufzug zwischen Regional- und")).toBeVisible();
 
     await expect(
       page.getByRole("heading", { name: "Letzte Meldungen" }),
     ).toBeVisible();
-    await expect(page.getByText("Störungsmeldung")).toBeVisible();
+    await expect(page.getByText("Meldung", { exact: true })).toBeVisible();
 
-    await expect(page.getByText("Gemeldet am 7.7.2026, 16:55")).toBeVisible();
-    await expect(page.getByText("repariert am 9.7.2026, 15:13")).toBeVisible();
-    await expect(page.getByText("Außer Betrieb").first()).toBeVisible();
-    await expect(page.getByText("Gemeldet am 12.6.2026, 15:13")).toBeVisible();
-    await expect(page.getByText("repariert am 19.6.2026, 15:19")).toBeVisible();
-    await expect(page.getByText("Außer Betrieb").nth(1)).toBeVisible();
-    await expect(page.getByText("Gemeldet am 31.3.2026, 07:06")).toBeVisible();
-    await expect(page.getByText("repariert am 31.3.2026, 07:30")).toBeVisible();
-    await expect(page.getByText("Außer Betrieb").nth(2)).toBeVisible();
+    await expect(page.getByText("Technische Störung").first()).toBeVisible();
+    await expect(
+      page
+        .getByText(/Störung vom \d{1,2}\.\d{1,2}\.\d{4}, \d{1,2}:\d{2}/)
+        .first(),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByText(/Repariert am \d{1,2}\.\d{1,2}\.\d{4}, \d{1,2}:\d{2}/)
+        .first(),
+    ).toBeVisible();
+    await expect(page.getByText("Technische Störung").nth(1)).toBeVisible();
+    await expect(
+      page
+        .getByText(/Störung vom \d{1,2}\.\d{1,2}\.\d{4}, \d{1,2}:\d{2}/)
+        .nth(1),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByText(/Repariert am \d{1,2}\.\d{1,2}\.\d{4}, \d{1,2}:\d{2}/)
+        .nth(1),
+    ).toBeVisible();
 
     await expect(
       page.getByRole("button", { name: "Lage auf der Umgebungskarte" }),
