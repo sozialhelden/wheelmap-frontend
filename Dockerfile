@@ -6,7 +6,10 @@ WORKDIR /usr/app
 
 ENV HUSKY=0
 
-# Pin pnpm version for reproducible builds
+# Pin pnpm version for reproducible builds.
+# The version here must stay in sync with "packageManager" in package.json,
+# otherwise corepack resolves pnpm over the network instead of using this cache.
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN apk add --no-cache ca-certificates \
     && corepack enable && corepack prepare pnpm@10.32.1 --activate
 
@@ -54,11 +57,20 @@ COPY --from=build /usr/app/vitest.config.ts /usr/tests/
 COPY --from=build /usr/app/package.json /usr/tests/
 COPY --from=build /usr/app/src /usr/tests/src
 
+# WORKDIR created /usr/app as root and only its *contents* were chown'd above,
+# so the app user could not create files in it (e.g. temp files at startup).
+RUN chown nextjs:nodejs /usr/app
+
 # Switch to non-root user
 USER nextjs
+
+ENV NODE_ENV=production
 
 # Runs "/usr/bin/dumb-init -- /my/script --with --args"
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 EXPOSE 3000
-CMD ["pnpm", "run", "start"]
+
+# Start next directly instead of via "pnpm run start": invoking pnpm here makes
+# corepack resolve a package manager over the network on every container start.
+CMD ["/usr/app/node_modules/.bin/next", "start"]
