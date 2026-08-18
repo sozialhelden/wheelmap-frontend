@@ -65,9 +65,11 @@ function EquipmentAccessibility(props: Props) {
           )}
         </header>
       ) : null}
-      <footer>
-        {lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}
-      </footer>
+      {typeof isWorking !== "undefined" ? (
+        <footer>
+          {lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}
+        </footer>
+      ) : null}
       {accessibility ? (
         <AccessibilityDetailsTree
           details={accessibility}
