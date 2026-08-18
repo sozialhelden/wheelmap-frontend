@@ -1,18 +1,18 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
-import colors from '../../../lib/colors';
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import colors from "../../../lib/colors";
+import type { EquipmentInfo } from "../../../lib/EquipmentInfo";
 import {
-  isExistingInformationOutdated,
-  equipmentStatusTitle,
-  isEquipmentAccessible,
-  lastUpdateString,
-} from '../../../lib/EquipmentInfo';
+    equipmentStatusTitle,
+    isEquipmentAccessible,
+    isExistingInformationOutdated,
+    lastUpdateString,
+} from "../../../lib/EquipmentInfo";
 
-import AccessibilityDetailsTree from './AccessibilityDetailsTree';
-import AppContext from '../../../AppContext';
-import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
+import AppContext from "../../../AppContext";
+import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";
+import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
@@ -33,13 +33,17 @@ function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo.properties) return null;
 
   const properties = props.equipmentInfo.properties;
-  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
-  const lastUpdate = lastUpdateDateString ? new Date(lastUpdateDateString) : null;
+  const lastUpdateDateString =
+    properties.stateLastUpdate ||
+    properties.lastUpdate ||
+    properties.lastDisruptionProperties?.lastUpdate;
+  const lastUpdate = lastUpdateDateString
+    ? new Date(lastUpdateDateString)
+    : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
   const isWorking = properties.isWorking;
   const accessibility = properties.accessibility;
-
 
   if (error) {
     throw error;
@@ -48,14 +52,22 @@ function EquipmentAccessibility(props: Props) {
     return null;
   }
 
+  const isStatusUnknown = isOutdated || typeof isWorking === "undefined";
+
   return (
-    <div className={`equipment-accessibility ${props.className || ''}`}>
-      <header
-        className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
-      >
-        {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
-      </header>
-      <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
+    <div className={`equipment-accessibility ${props.className || ""}`}>
+      {!isStatusUnknown ? (
+        <header
+          className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
+        >
+          {capitalizeFirstLetter(
+            equipmentStatusTitle(properties.isWorking, isOutdated),
+          )}
+        </header>
+      ) : null}
+      <footer>
+        {lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}
+      </footer>
       {accessibility ? (
         <AccessibilityDetailsTree
           details={accessibility}
