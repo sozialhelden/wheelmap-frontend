@@ -58,7 +58,7 @@ function EquipmentAccessibility(props: Props) {
           {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
         </header>
       ) : null}
-      {typeof isWorking !== 'undefined' ? (
+      {!isStatusUnknown ? (
         <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
       ) : null}
       {accessibility ? (
