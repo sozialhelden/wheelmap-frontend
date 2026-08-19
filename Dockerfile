@@ -47,16 +47,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-# copy production node_modules to /usr/app
+# The node images ship an unprivileged "node" user (uid/gid 1000). WORKDIR created
+# /usr/app as root, so hand the directory itself over as well — otherwise the app
+# user cannot create files in its own working directory.
+RUN chown node:node /usr/app
 
-COPY --from=buildenv /usr/app/package.json .
-COPY --from=buildenv /usr/app/.env .
-COPY --from=buildenv /usr/app/.env.example .
-COPY --from=buildenv /usr/app/dist ./dist
-COPY --from=buildenv /usr/app/public ./public
-COPY --from=buildenv /usr/app/node_modules ./node_modules
-COPY --from=buildenv /usr/app/tests ./tests
-COPY --from=buildenv /usr/app/run_tests.sh ./run_tests.sh
+# copy production node_modules to /usr/app
+# Ownership is set during COPY rather than via a later "chown -R", which would
+# duplicate every copied file (notably node_modules) into an extra image layer.
+
+COPY --from=buildenv --chown=node:node /usr/app/package.json .
+COPY --from=buildenv --chown=node:node /usr/app/.env .
+COPY --from=buildenv --chown=node:node /usr/app/dist ./dist
+COPY --from=buildenv --chown=node:node /usr/app/public ./public
+COPY --from=buildenv --chown=node:node /usr/app/node_modules ./node_modules
+COPY --from=buildenv --chown=node:node /usr/app/tests ./tests
+COPY --from=buildenv --chown=node:node /usr/app/run_tests.sh ./run_tests.sh
+
+# Drop root: everything above needs write access only under /usr/app.
+USER node
 
 EXPOSE 3000
 
