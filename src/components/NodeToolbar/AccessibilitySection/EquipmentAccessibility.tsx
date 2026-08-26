@@ -8,6 +8,7 @@ import {
   equipmentStatusTitle,
   isEquipmentAccessible,
   lastUpdateString,
+  filterEquipmentAccessibilityProperties,
 } from '../../../lib/EquipmentInfo';
 
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
@@ -38,7 +39,8 @@ function EquipmentAccessibility(props: Props) {
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
   const isWorking = properties.isWorking;
-  const accessibility = properties.accessibility;
+  const accessibility =
+    properties.accessibility || filterEquipmentAccessibilityProperties(properties);
   const isStatusUnknown = isOutdated || typeof isWorking === 'undefined';
 
 

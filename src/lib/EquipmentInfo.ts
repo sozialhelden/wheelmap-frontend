@@ -1,5 +1,7 @@
 import { t } from 'ttag';
 import { Point } from 'geojson';
+import omitBy from 'lodash/omitBy';
+import pick from 'lodash/pick';
 
 import { FeatureCollection, YesNoLimitedUnknown } from './Feature';
 import { currentLocales } from './i18n';
@@ -63,26 +65,75 @@ export type EquipmentInfoProperties = {
   description?: string;
   shortDescription?: string;
   longDescription?: string;
-  accessibility: {
-    hasRaisedText?: boolean;
-    isBraille?: boolean;
-    hasSpeech?: boolean;
-    isHighContrast?: boolean;
-    hasLargePrint?: boolean;
-    isVoiceActivated?: boolean;
-    hasHeadPhoneJack?: boolean;
-    isEasyToUnderstand?: boolean;
-    hasDoorsInBothDirections?: boolean;
-    heightOfControls?: number;
-    doorWidth?: number;
-    cabinWidth?: number;
-    cabinLength?: number;
+  accessibility?: {
+    [key: string]: unknown;
   };
   isWorking?: boolean;
   stateLastUpdate?: string;
   lastUpdate?: string;
   lastDisruptionProperties?: DisruptionProperties;
 };
+
+/**
+ * A11yJSON equipment attributes that are relevant to show in the equipment accessibility details
+ * tree. Source/internal fields, descriptions, and status fields are rendered elsewhere.
+ */
+export const accessibilityRelevantEquipmentProperties = [
+  'accessMode',
+  'accessModeSufficient',
+  'accessibilityControl',
+  'accessibilityFeature',
+  'accessibilityHazard',
+  'alternativeRouteInstructions',
+  'cabinLength',
+  'cabinWidth',
+  'door',
+  'emergencyIntercom',
+  'hasBrailleText',
+  'hasDoorsAtRightAngles',
+  'hasDoorsInBothDirections',
+  'hasExternalFloorSelection',
+  'hasHapticInput',
+  'hasHeadPhoneJack',
+  'hasLandings',
+  'hasLargePrint',
+  'hasMirror',
+  'hasQRCode',
+  'hasRaisedText',
+  'hasSpeech',
+  'hasTouchScreenInput',
+  'hasVisualEmergencyAlarm',
+  'heightOfControls',
+  'isAccessibleWithWheelchair',
+  'isEasyToUnderstand',
+  'isHighContrast',
+  'isIndoors',
+  'isSuitableForBicycles',
+  'isVoiceActivated',
+  'languages',
+  'needsHeadPhone',
+  'needsHapticInput',
+  'needsQRCodeScan',
+  'needsTouchScreenInput',
+  'needsVisualRecognition',
+  'outOfOrderReason',
+] as const;
+
+/**
+ * Builds a details tree from an EquipmentInfo's root properties: the accessibility.cloud v2 API
+ * returns surveyed equipment attributes flat on `properties` (per A11yJSON's EquipmentProperties),
+ * not nested inside an `accessibility` object like PlaceInfos do.
+ */
+export function filterEquipmentAccessibilityProperties(
+  properties: EquipmentInfoProperties
+): Partial<EquipmentInfoProperties> | null {
+  const picked = pick(properties, accessibilityRelevantEquipmentProperties);
+  const cleaned = omitBy(
+    picked,
+    value => value === null || value === undefined || (Array.isArray(value) && value.length === 0)
+  );
+  return Object.keys(cleaned).length > 0 ? cleaned : null;
+}
 
 export type EquipmentInfo = {
   type: 'Feature';
