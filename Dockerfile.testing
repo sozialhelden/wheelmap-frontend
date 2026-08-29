@@ -6,11 +6,13 @@
 #
 # Important:
 #
-# - This image has no dependencies on the app's source code. Please don't copy the app's source
-#   code into this image. Instead, the tests should be run against a deployed instance of the
-#   app (e.g., running locally or in a staging environment). Write E2E tests from the perspective of
-#   and end user interacting with the app, not from the perspective of the app's internal code
-#   structure.
+# - This image copies a minimal subset of the app's source files that are directly imported by
+#   the e2e tests (e.g. pure data/logic modules such as category lists and needs settings).
+#   Keep these dependencies as small as possible. Do not copy React components, pages, or any
+#   modules that require the full Next.js build pipeline.
+# - The tests should still be run against a deployed instance of the app (e.g., running locally
+#   or in a staging environment). Write E2E tests from the perspective of an end user interacting
+#   with the app, not from the perspective of the app's internal code structure.
 # - This image is not intended to run unit or integration tests that require access to the app's
 #   source code or internal modules. See package.json for separate scripts and configurations for
 #   unit and integration tests.
@@ -59,13 +61,21 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 # Install only test dependencies (matching the pre-installed browser version)
-RUN pnpm init && pnpm add @playwright/test@1.50.1 @axe-core/playwright@4.10.1 dotenv
+RUN pnpm init && pnpm add @playwright/test@1.50.1 @axe-core/playwright@4.10.1 dotenv \
+    @transifex/native@7.1.4 @sozialhelden/core@2.2.1 react@18.3.1
 
 # Copy test files and configuration
 COPY tsconfig.json ./
 COPY run_tests.sh ./
 COPY playwright.config.ts ./
 COPY e2e/ ./e2e/
+
+# Copy the minimal src modules directly imported by the e2e tests
+COPY src/modules/onboarding/onboarding-copy.ts ./src/modules/onboarding/
+COPY src/modules/categories/utils/display.ts ./src/modules/categories/utils/
+COPY src/modules/needs/needs.ts ./src/modules/needs/
+COPY src/components/icons/mobility/ ./src/components/icons/mobility/
+COPY src/components/icons/toilets/ ./src/components/icons/toilets/
 
 # Set ownership of app directory to pwuser (pre-created in playwright image)
 RUN chown -R pwuser:pwuser /app

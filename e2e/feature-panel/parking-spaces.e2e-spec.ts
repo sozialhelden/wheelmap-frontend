@@ -26,7 +26,7 @@ test.describe("Parking spaces accessibility", () => {
     await skipOnboarding(page);
   });
 
-  test.skip('accessible parking space should not show "Unnamed place"', async ({
+  test('accessible parking space should not show "Unnamed place"', async ({
     page,
   }) => {
     await page.goto(ACCESSIBLE_PARKING_SPACE_URL);
@@ -45,7 +45,7 @@ test.describe("Parking spaces accessibility", () => {
     expect(headerText?.toLowerCase()).not.toContain("unnamed");
   });
 
-  test.skip("accessible parking space should show accessibility status", async ({
+  test("accessible parking space should show accessibility status", async ({
     page,
   }) => {
     await page.goto(ACCESSIBLE_PARKING_SPACE_URL);
@@ -73,7 +73,7 @@ test.describe("Parking spaces accessibility", () => {
     expect(hasAccessibilityInfo).toBe(true);
   });
 
-  test.skip("accessible parking space should have correct ARIA structure", async ({
+  test("accessible parking space should have correct ARIA structure", async ({
     page,
   }) => {
     await page.goto(ACCESSIBLE_PARKING_SPACE_URL);
@@ -100,7 +100,7 @@ test.describe("Parking spaces accessibility", () => {
     expect(hasAccessibilityContent).toBeTruthy();
   });
 
-  test.skip("parking space page should pass axe accessibility scan", async ({
+  test("parking space page should pass axe accessibility scan", async ({
     page,
   }) => {
     // Import axe dynamically for this test
@@ -122,9 +122,7 @@ test.describe("Parking accessibility with capacity:disabled tag", () => {
   // This test checks if capacity:disabled is correctly interpreted
   // This logic should already work in the new code
 
-  test.skip("parking with capacity:disabled should show as accessible", async ({
-    page,
-  }) => {
+  test("parking with capacity:disabled should show as accessible", async () => {
     // We would need to find a test location with capacity:disabled
     // For now, we skip this test until we have a suitable test location
   });

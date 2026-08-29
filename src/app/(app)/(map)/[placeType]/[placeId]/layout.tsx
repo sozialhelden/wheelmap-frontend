@@ -12,17 +12,9 @@ export default function PlaceLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(true);
 
-  // Listen for custom event when the same place is clicked while sidebar is closed
   useEffect(() => {
-    const handlePlaceClicked = () => {
-      setIsExpanded(true);
-    };
-
-    window.addEventListener("place-clicked", handlePlaceClicked);
-    return () => {
-      window.removeEventListener("place-clicked", handlePlaceClicked);
-    };
-  }, []);
+    setIsExpanded(true);
+  }, [pathname]);
 
   return (
     <SidebarLayout
