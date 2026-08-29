@@ -128,6 +128,7 @@ else
 fi
 echo ""
 
+
 # Detect flaky tests (tests that required retries)
 FLAKY_TESTS=""
 if [ -d "${CI_ARTIFACTS_PATH}/test-results" ]; then
@@ -153,7 +154,7 @@ if [ $TEST_EXIT_CODE -eq 0 ]; then
       RETRY_COUNT=$(find "${CI_ARTIFACTS_PATH}/test-results" -type d -name "${test}-retry*" 2>/dev/null | wc -l | tr -d ' ')
       TOTAL_ATTEMPTS=$((RETRY_COUNT + 1))
       echo "    ${YELLOW}${DOT}${NC} ${test} ${DIM}(${TOTAL_ATTEMPTS} attempts)${NC}"
-    done
+    done <<< "$FLAKY_TESTS"
     echo ""
     echo "${GREEN}${CHECK} All tests eventually passed${NC}"
   else
