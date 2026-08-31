@@ -85,6 +85,7 @@ type Props = {
   isSearchButtonVisible: boolean;
   isNodeToolbarDisplayed: boolean;
   shouldLocateOnStart: boolean;
+  showParentLink: boolean;
   searchResults: SearchResultCollection | Promise<SearchResultCollection> | null;
 
   onSearchResultClick: (
@@ -273,6 +274,7 @@ class MainView extends React.Component<Props, State> {
           cluster={this.props.activeCluster}
           childPlaceInfos={this.props.childPlaceInfos}
           modalNodeState={this.props.modalNodeState}
+          showParentLink={this.props.showParentLink}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           lightweightFeature={this.props.lightweightFeature}

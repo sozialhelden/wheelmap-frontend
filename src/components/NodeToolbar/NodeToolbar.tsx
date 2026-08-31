@@ -63,6 +63,7 @@ type Props = {
   parentCategory: Category | null;
   hidden: boolean;
   modalNodeState: ModalNodeState;
+  showParentLink: boolean;
   userAgent: UAResult;
   minimalTopPosition: number;
   joinedMappingEvent?: MappingEvent;
@@ -146,7 +147,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     const hasIcon = !this.props.modalNodeState || isModalStateWithPlaceIcon;
 
     return (
-      <NodeHeader feature={feature} categories={categories} equipmentInfo={equipmentInfo} equipmentInfoId={equipmentInfoId} cluster={cluster} category={category} parentCategory={parentCategory} onClickCurrentCluster={onClickCurrentCluster} onClickCurrentMarkerIcon={onClickCurrentMarkerIcon} hasIcon={hasIcon}>
+      <NodeHeader feature={feature} categories={categories} equipmentInfo={equipmentInfo} equipmentInfoId={equipmentInfoId} cluster={cluster} category={category} parentCategory={parentCategory} onClickCurrentCluster={onClickCurrentCluster} onClickCurrentMarkerIcon={onClickCurrentMarkerIcon} hasIcon={hasIcon} showParentLink={this.props.showParentLink}>
         {this.renderCloseLink()}
       </NodeHeader>
     );
