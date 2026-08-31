@@ -17,6 +17,7 @@ type Props = {
   cluster: null | Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
+  showParentLink: boolean,
   inEmbedMode: boolean,
   onClose: () => void,
   onOpenReportMode: () => void | null,

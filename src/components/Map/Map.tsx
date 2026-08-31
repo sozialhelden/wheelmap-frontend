@@ -23,9 +23,9 @@ import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/C
 import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import {
-  accessibilityCloudFeatureCollectionFromResponse, Feature, getFeatureId,
-  hasAccessibleToilet,
-  isWheelchairAccessible, NodeProperties, wheelmapFeatureCollectionFromResponse, YesNoLimitedUnknown, YesNoUnknown
+    accessibilityCloudFeatureCollectionFromResponse, accessibilityCloudFeatureFrom, Feature, getFeatureId,
+    hasAccessibleToilet,
+    isWheelchairAccessible, NodeProperties, wheelmapFeatureCollectionFromResponse, YesNoLimitedUnknown, YesNoUnknown
 } from '../../lib/Feature';
 import { globalFetchManager } from '../../lib/FetchManager';
 import goToLocationSettings from '../../lib/goToLocationSettings';
@@ -930,9 +930,14 @@ export default class Map extends React.Component<Props, State> {
   };
 
   isFeatureVisible(feature: Feature) {
-    const { accessibilityFilter, toiletFilter } = this.props;
+    const { accessibilityFilter, toiletFilter, featureId } = this.props;
     if (!feature) return false;
     if (!feature.properties) return false;
+
+    const acFeature = accessibilityCloudFeatureFrom(feature);
+    const isSelectedFeature = featureId != null && String(getFeatureId(feature)) === String(featureId);
+    if (acFeature?.properties.parentPlaceInfoId && !isSelectedFeature) return false;
+
     const properties = feature.properties;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
     const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));

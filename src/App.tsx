@@ -117,6 +117,7 @@ interface State {
   photoMarkedForReport: PhotoModel | null;
 
   activeCluster?: Cluster | null;
+  selectedFromSearch: boolean;
 
   // map controls
   lat?: number | null;
@@ -462,6 +463,7 @@ class App extends React.Component<Props, State> {
     photosMarkedForUpload: null,
     photoMarkedForReport: null,
     photoFlowErrorMessage: null,
+    selectedFromSearch: false,
   };
 
   map: any;
@@ -769,7 +771,7 @@ class App extends React.Component<Props, State> {
       activeCluster = index !== -1 ? this.state.activeCluster : null;
     }
 
-    this.setState({ activeCluster }, () => {
+    this.setState({ activeCluster, selectedFromSearch: false }, () => {
       routerHistory.push(routeName, params);
     });
   };
@@ -849,10 +851,10 @@ class App extends React.Component<Props, State> {
 
     if (feature.properties.extent) {
       const extent = feature.properties.extent;
-      this.setState({ lat: null, lon: null, extent });
+      this.setState({ lat: null, lon: null, extent, selectedFromSearch: true });
     } else {
       const [lon, lat] = feature.geometry.coordinates;
-      this.setState({ lat, lon, extent: null });
+      this.setState({ lat, lon, extent: null, selectedFromSearch: true });
     }
 
     this.props.routerHistory.push(routeName, params);
@@ -1237,6 +1239,8 @@ class App extends React.Component<Props, State> {
 
       // feature list (e.g. cluster panel)
       activeCluster: this.state.activeCluster,
+
+      showParentLink: !this.state.selectedFromSearch,
 
       app: this.props.app,
     } as any;
