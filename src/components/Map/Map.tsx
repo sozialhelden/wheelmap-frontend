@@ -426,8 +426,11 @@ export default class Map extends React.Component<Props, State> {
 
     const categoryChanged = this.props.categoryId !== prevProps.categoryId;
 
+    const featureIdChanged = this.props.featureId !== prevProps.featureId;
+
     const filterNeedsRefreshing =
-      accessibilityFilterChanged || toiletFilterChanged || customFilterChanged || categoryChanged;
+      accessibilityFilterChanged || toiletFilterChanged || customFilterChanged || categoryChanged
+      || featureIdChanged;
     if (filterNeedsRefreshing) {
       setTimeout(() => {
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
