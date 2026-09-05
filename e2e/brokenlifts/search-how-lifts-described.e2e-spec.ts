@@ -7,6 +7,8 @@ test.beforeEach(async ({ page }) => {
 
 //this is a test for the search functionality of the broken lifts page. It tests if the search
 // works with full name, less than full name and more than full name of the lift.
+
+//test works in German, not in English
 test.describe("Broken Lifts", async () => {
   test("full name", async ({ page }) => {
     await page
