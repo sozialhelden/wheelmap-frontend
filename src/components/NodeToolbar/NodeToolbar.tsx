@@ -60,6 +60,7 @@ const StyledLevelGroup = styled.section`
   h3 {
     font-size: 1rem;
     font-weight: bold;
+    color: #444;
     margin: 0 0 0.25rem 0;
   }
 
