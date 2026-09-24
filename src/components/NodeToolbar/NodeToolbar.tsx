@@ -49,11 +49,18 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
+const StyledLevelGroups = styled.div`
+  > * + * {
+    margin-top: 0.75rem !important;
+  }
+`;
+StyledLevelGroups.displayName = "StyledLevelGroups";
+
 const StyledLevelGroup = styled.section`
   h3 {
     font-size: 1rem;
     font-weight: bold;
-    margin: 0.75rem 0 0.25rem 0;
+    margin: 0 0 0.25rem 0;
   }
 
   > ul {
@@ -317,7 +324,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     );
 
     return (
-      <>
+      <StyledLevelGroups>
         {levelGroups.map(({ levelName, features }) => (
           <StyledLevelGroup key={levelName}>
             <h3>{levelName}</h3>
@@ -325,7 +332,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
           </StyledLevelGroup>
         ))}
         {featuresWithoutLevel.length > 0 && renderList(featuresWithoutLevel)}
-      </>
+      </StyledLevelGroups>
     );
   }
 
