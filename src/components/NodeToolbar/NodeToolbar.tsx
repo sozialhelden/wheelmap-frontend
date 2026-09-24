@@ -393,7 +393,6 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
       <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props}>
-        {this.props.childPlaceInfos?.length > 0 && <h2 style={{ fontSize: "1rem", margin: "0 0 0.25rem 0" }}>{t`Places`}</h2>}
         {childPlaceInfos}
       </PlaceAccessibilitySection>
     );
