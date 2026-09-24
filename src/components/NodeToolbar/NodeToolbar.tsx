@@ -324,12 +324,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
             {renderList(features)}
           </StyledLevelGroup>
         ))}
-        {featuresWithoutLevel.length > 0 && (
-          <StyledLevelGroup>
-            <h3>{t`Other places`}</h3>
-            {renderList(featuresWithoutLevel)}
-          </StyledLevelGroup>
-        )}
+        {featuresWithoutLevel.length > 0 && renderList(featuresWithoutLevel)}
       </>
     );
   }
