@@ -21,7 +21,7 @@ import StyledToolbar from "./StyledToolbar";
 import { Feature, WheelmapFeature, YesNoLimitedUnknown, accessibilityCloudFeatureFrom, getFeatureId, isWheelchairAccessible, isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from "../../lib/Feature";
 import { PhotoModel } from "../../lib/PhotoModel";
 
-import { Dictionary, sortBy } from "lodash";
+import { Dictionary, groupBy, sortBy } from "lodash";
 import { AppContextConsumer } from "../../AppContext";
 import { SourceWithLicense } from "../../app/PlaceDetailsProps";
 import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
@@ -31,6 +31,7 @@ import { ModalNodeState } from "../../lib/ModalNodeState";
 import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
 import { translatedStringFromObject } from "../../lib/i18n";
 import isA11yEditable from "../../lib/model/isA11yEditable";
+import { getLevelName, getLevelSortKey } from "../../lib/model/levelOfFeature";
 import { UAResult } from "../../lib/userAgent";
 import CategoryIcon from "../Icon";
 import Link, { RouteConsumer } from "../Link/Link";
@@ -47,6 +48,21 @@ const PositionedCloseLink = styled(CloseLink)`
   margin-right: 1px;
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
+
+const StyledLevelGroup = styled.section`
+  h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0.75rem 0 0.25rem 0;
+  }
+
+  > ul {
+    border-left: 3px solid #ddd;
+    margin-left: 0.5rem !important;
+    padding-left: 0.5rem !important;
+  }
+`;
+StyledLevelGroup.displayName = "StyledLevelGroup";
 
 type Props = {
   equipmentInfoId: string | null;
@@ -274,12 +290,47 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       return placeInfoName;
     });
 
-    return (
+    const renderList = (features: Feature[]) => (
       <StyledIconButtonList style={{ listStyleType: "none", margin: 0, padding: 0 }}>
-        {sortedFeatures.map((feature) => (
+        {features.map((feature) => (
           <li key={getFeatureId(feature)}>{this.renderChildPlace(feature)}</li>
         ))}
       </StyledIconButtonList>
+    );
+
+    const featuresWithoutLevel = sortedFeatures.filter((feature) => !getLevelName(feature));
+    if (featuresWithoutLevel.length === sortedFeatures.length) {
+      return renderList(sortedFeatures);
+    }
+
+    const featuresByLevelName = groupBy(
+      sortedFeatures.filter((feature) => getLevelName(feature)),
+      getLevelName
+    );
+    const levelGroups = sortBy(
+      Object.keys(featuresByLevelName).map((levelName) => ({
+        levelName,
+        sortKey: Math.min(...featuresByLevelName[levelName].map((feature) => getLevelSortKey(feature, levelName))),
+        features: featuresByLevelName[levelName],
+      })),
+      ["sortKey", "levelName"]
+    );
+
+    return (
+      <>
+        {levelGroups.map(({ levelName, features }) => (
+          <StyledLevelGroup key={levelName}>
+            <h3>{levelName}</h3>
+            {renderList(features)}
+          </StyledLevelGroup>
+        ))}
+        {featuresWithoutLevel.length > 0 && (
+          <StyledLevelGroup>
+            <h3>{t`Other places`}</h3>
+            {renderList(featuresWithoutLevel)}
+          </StyledLevelGroup>
+        )}
+      </>
     );
   }
 
