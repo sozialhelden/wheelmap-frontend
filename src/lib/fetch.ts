@@ -6,11 +6,7 @@ import env from './env';
 // with `UND_ERR_HEADERS_OVERFLOW`, so we ask the backend to omit them.
 export function withoutSurrogateKeys(url: string): string {
   const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
-  if (
-    !uncachedBaseUrl ||
-    uncachedBaseUrl === env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||
-    !url.startsWith(uncachedBaseUrl)
-  ) {
+  if (!uncachedBaseUrl || !url.startsWith(uncachedBaseUrl)) {
     return url;
   }
   return `${url}${url.includes('?') ? '&' : '?'}surrogateKeys=false`;
