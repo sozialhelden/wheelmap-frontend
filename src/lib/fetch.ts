@@ -1,6 +1,23 @@
 import unfetch from 'isomorphic-unfetch';
+import env from './env';
+
+// Requests to the uncached accessibility.cloud backend don't pass the CDN, so they don't need
+// `Surrogate-Key` headers. These can grow beyond Node's 16 KB header limit and make `fetch` fail
+// with `UND_ERR_HEADERS_OVERFLOW`, so we ask the backend to omit them.
+export function withoutSurrogateKeys(url: string): string {
+  const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
+  if (
+    !uncachedBaseUrl ||
+    uncachedBaseUrl === env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||
+    !url.startsWith(uncachedBaseUrl)
+  ) {
+    return url;
+  }
+  return `${url}${url.includes('?') ? '&' : '?'}surrogateKeys=false`;
+}
 
 export default function customFetch(url: string, options: any) {
+  url = withoutSurrogateKeys(url);
   options = options || {};
   options.headers = { Accept: 'application/json', ...options.headers };
 
