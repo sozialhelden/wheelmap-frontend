@@ -1194,6 +1194,7 @@ class App extends React.Component<Props, State> {
       featureId: this.props.featureId,
       feature: this.props.feature,
       childPlaceInfos: this.props.childPlaceInfos,
+      equipmentInfos: this.props.equipmentInfos,
       lightweightFeature: this.props.lightweightFeature,
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,

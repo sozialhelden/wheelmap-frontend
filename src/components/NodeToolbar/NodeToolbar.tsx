@@ -28,7 +28,6 @@ import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../
 import { EquipmentInfo } from "../../lib/EquipmentInfo";
 import { MappingEvent } from "../../lib/MappingEvent";
 import { ModalNodeState } from "../../lib/ModalNodeState";
-import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
 import { translatedStringFromObject } from "../../lib/i18n";
 import isA11yEditable from "../../lib/model/isA11yEditable";
 import { getLevelName, getLevelSortKey } from "../../lib/model/levelOfFeature";
@@ -80,6 +79,7 @@ type Props = {
   cluster: Cluster | null;
   sources: SourceWithLicense[];
   childPlaceInfos: Feature[] | null;
+  equipmentInfos: EquipmentInfo[] | null;
   photos: PhotoModel[];
   toiletsNearby: Feature[] | null;
   categories: CategoryLookupTables;
@@ -338,8 +338,8 @@ class NodeToolbar extends React.PureComponent<Props, State> {
   }
 
   renderEquipmentInfos() {
-    const { featureId, equipmentInfoId, onEquipmentSelected } = this.props;
-    if (!featureId) {
+    const { featureId, equipmentInfoId, equipmentInfos, onEquipmentSelected } = this.props;
+    if (!featureId || !equipmentInfos || equipmentInfos.length === 0) {
       return;
     }
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
@@ -347,18 +347,14 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       return;
     }
 
-    const equipmentInfoSet = equipmentInfoCache.getIndexedFeatures("properties.placeInfoId", featureId);
-    if (!equipmentInfoSet) {
-      return;
-    }
+    const getEquipmentInfoId = (equipmentInfo: EquipmentInfo) => get(equipmentInfo, "properties._id") || get(equipmentInfo, "_id");
 
-    const equipmentInfos = Array.from(equipmentInfoSet);
-
-    if (equipmentInfos.length === 1) {
+    // Don't link an equipment to itself if it's the only one at this place
+    if (equipmentInfos.length === 1 && getEquipmentInfoId(equipmentInfos[0]) === equipmentInfoId) {
       return null;
     }
 
-    const equipmentInfosById = fromPairs(equipmentInfos.map((equipmentInfo) => [get(equipmentInfo, "properties._id") || get(equipmentInfo, "_id"), equipmentInfo])) as Dictionary<EquipmentInfo>;
+    const equipmentInfosById = fromPairs(equipmentInfos.map((equipmentInfo) => [getEquipmentInfoId(equipmentInfo), equipmentInfo])) as Dictionary<EquipmentInfo>;
 
     return <EquipmentOverview placeInfoId={String(featureId)} equipmentInfosById={equipmentInfosById} equipmentInfoId={equipmentInfoId} onEquipmentSelected={onEquipmentSelected} />;
   }
