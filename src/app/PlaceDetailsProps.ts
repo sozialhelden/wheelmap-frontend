@@ -48,6 +48,8 @@ export type PlaceDetailsProps = {
   toiletsNearby: PotentialPromise<Feature[]> | undefined,
   // Places that are inside the currently shown place
   childPlaceInfos: PotentialPromise<Feature[]> | undefined,
+  // Equipment (elevators, escalators…) belonging to the currently shown place
+  equipmentInfos: PotentialPromise<EquipmentInfo[]> | undefined,
   renderContext: RenderContext,
 };
 
@@ -70,6 +72,8 @@ export type ResolvedPlaceDetailsProps = {
   toiletsNearby: Feature[] | undefined,
   // Places that are inside the currently shown place
   childPlaceInfos: Feature[] | undefined,
+  // Equipment (elevators, escalators…) belonging to the currently shown place
+  equipmentInfos: EquipmentInfo[] | undefined,
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
@@ -85,6 +89,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     ? getDataIfAlreadyResolved(props.toiletsNearby)
     : null;
   const resolvedChildPlaceInfos = getDataIfAlreadyResolved(props.childPlaceInfos);
+  const resolvedEquipmentInfos = getDataIfAlreadyResolved(props.equipmentInfos);
 
   if (!resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
     return null;
@@ -100,6 +105,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     equipmentInfo: resolvedEquimentInfo,
     toiletsNearby: resolvedToiletsNearby || [],
     childPlaceInfos: resolvedChildPlaceInfos || [],
+    equipmentInfos: resolvedEquipmentInfos || [],
   };
 }
 
@@ -116,6 +122,7 @@ export async function awaitPlaceDetails(
     ? await getDataPromise(props.toiletsNearby)
     : null;
   const resolvedChildPlaceInfos = await getDataPromise(props.childPlaceInfos);
+  const resolvedEquipmentInfos = await getDataPromise(props.equipmentInfos);
 
   return {
     lightweightFeature: props.lightweightFeature,
@@ -127,5 +134,6 @@ export async function awaitPlaceDetails(
     equipmentInfo: resolvedEquipmentInfo,
     toiletsNearby: resolvedToiletsNearby,
     childPlaceInfos: resolvedChildPlaceInfos,
+    equipmentInfos: resolvedEquipmentInfos,
   };
 }
