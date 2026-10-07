@@ -30,6 +30,7 @@ import { MappingEvent } from "../../lib/MappingEvent";
 import { ModalNodeState } from "../../lib/ModalNodeState";
 import { translatedStringFromObject } from "../../lib/i18n";
 import isA11yEditable from "../../lib/model/isA11yEditable";
+import { getEquipmentInfoId, shouldListEquipmentInfos } from "../../lib/model/equipmentInfosFromPlaceResponse";
 import { getLevelName, getLevelSortKey } from "../../lib/model/levelOfFeature";
 import { UAResult } from "../../lib/userAgent";
 import CategoryIcon from "../Icon";
@@ -339,19 +340,12 @@ class NodeToolbar extends React.PureComponent<Props, State> {
 
   renderEquipmentInfos() {
     const { featureId, equipmentInfoId, equipmentInfos, onEquipmentSelected } = this.props;
-    if (!featureId || !equipmentInfos || equipmentInfos.length === 0) {
+    if (!featureId || !equipmentInfos || !shouldListEquipmentInfos(equipmentInfos, equipmentInfoId)) {
       return;
     }
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
     if (isWheelmapFeature) {
       return;
-    }
-
-    const getEquipmentInfoId = (equipmentInfo: EquipmentInfo) => get(equipmentInfo, "properties._id") || get(equipmentInfo, "_id");
-
-    // Don't link an equipment to itself if it's the only one at this place
-    if (equipmentInfos.length === 1 && getEquipmentInfoId(equipmentInfos[0]) === equipmentInfoId) {
-      return null;
     }
 
     const equipmentInfosById = fromPairs(equipmentInfos.map((equipmentInfo) => [getEquipmentInfoId(equipmentInfo), equipmentInfo])) as Dictionary<EquipmentInfo>;
@@ -388,10 +382,13 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     };
 
     const childPlaceInfos = this.renderChildPlaces();
+    const equipmentOverview = this.renderEquipmentInfos();
+    // On a place's page, list its equipment above the places inside it (e.g. grouped by level)
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
       <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props}>
+        {equipmentOverview}
         {childPlaceInfos}
       </PlaceAccessibilitySection>
     );
@@ -399,7 +396,6 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     const wheelmapFeature = wheelmapFeatureFrom(feature);
     const inlineWheelchairAccessibilityEditor = wheelmapFeature ? this.renderInlineWheelchairAccessibilityEditor(wheelmapFeature, category, sources) : null;
     const photoSection = this.renderPhotoSection();
-    const equipmentOverview = this.renderEquipmentInfos();
 
     return (
       <div>
@@ -408,7 +404,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
         {accessibilitySection}
         <ConfigurableExternalLinks feature={this.props.feature} joinedMappingEvent={this.props.joinedMappingEvent} />
         {photoSection}
-        {equipmentOverview}
+        {isEquipment && equipmentOverview}
         {this.renderIconButtonList()}
         <SourceList {...sourceLinkProps} />
       </div>

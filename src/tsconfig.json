@@ -22,7 +22,8 @@
   "exclude": [
     "node_modules",
     "src/lib/apm",
-    "src/server"
+    "src/server",
+    "**/*.test.ts"
   ],
   "include": [
     "next-env.d.ts",
