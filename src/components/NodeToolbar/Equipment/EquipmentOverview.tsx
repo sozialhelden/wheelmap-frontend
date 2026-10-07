@@ -91,6 +91,18 @@ class EquipmentOverview extends React.Component<Props, State> {
   }
 }
 
-const StyledEquipmentOverview = styled(EquipmentOverview)``;
+const StyledEquipmentOverview = styled(EquipmentOverview)`
+  .styled-frame > & {
+    margin-top: 0;
+  }
+
+  .expand-button {
+    /* Align the label with the equipment icons above, which use the same negative margin */
+    margin: 0 -1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    text-align: left;
+  }
+`;
 
 export default StyledEquipmentOverview;
