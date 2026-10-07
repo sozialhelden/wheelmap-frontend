@@ -5,4 +5,12 @@ export default class ResponseError extends Error {
     super(message);
     this.response = response;
   }
+
+  get status(): number {
+    return this.response.status;
+  }
+
+  get statusCode(): number {
+    return this.response.status;
+  }
 }

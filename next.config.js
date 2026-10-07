@@ -1,26 +1,23 @@
-const withTranspileModules = require('next-transpile-modules');
+// Updated to next-transpile-modules v9.x API for webpack 5 support
+const withTM = require('next-transpile-modules')([
+  '@sozialhelden/twelve-factor-dotenv',
+  'dotenv',
+]);
 //const webpack = require('webpack');
 const { loadGlobalEnvironment } = require('@sozialhelden/twelve-factor-dotenv');
 const env = loadGlobalEnvironment();
 
-let configuration = withTranspileModules({
-  // Next.js doesn't transpile node_modules content by default.
-  // We have to do this manually to make IE 11 users happy.
-  transpileModules: [
-    '@sozialhelden/twelve-factor-dotenv',
-    '@elastic/apm-rum-core',
-    '@elastic/apm-rum',
-    'dotenv',
-  ],
+let configuration = withTM({
   webpack: config => {
-    // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: 'empty',
-      dgram: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
-      async_hooks: 'mock',
+    // Fixes npm packages that depend on Node.js built-in modules (webpack 5 syntax)
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      dgram: false,
+      net: false,
+      tls: false,
+      child_process: false,
+      async_hooks: false,
     };
 
     return config;
