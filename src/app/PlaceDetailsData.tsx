@@ -26,6 +26,7 @@ import Categories from '../lib/Categories';
 
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
+import { equipmentInfosFromPlaceResponse } from '../lib/model/equipmentInfosFromPlaceResponse';
 import {
   PlaceDetailsProps,
   SourceWithLicense,
@@ -176,7 +177,7 @@ function fetchAcEquipmentInfos(
   return globalFetchManager
     .fetch(url)
     .then(response => (response.status === 200 ? response.json() : null))
-    .then(responseJson => Object.values(responseJson?.related?.equipmentInfos || {}) as EquipmentInfo[])
+    .then(equipmentInfosFromPlaceResponse)
     .catch(error => {
       console.error(error);
       return [];
