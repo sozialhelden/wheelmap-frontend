@@ -1145,10 +1145,11 @@ class App extends React.Component<Props, State> {
   };
 
   onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
-    this.props.routerHistory.replace('equipment', {
-      id: placeInfoId,
-      eid: get(equipmentInfo, 'properties._id'),
-    });
+    // keep app/widget parameters (e.g. `appId`, filters, embed mode) like other navigation does
+    const params = this.getCurrentParams() as any;
+    params.id = placeInfoId;
+    params.eid = get(equipmentInfo, 'properties._id');
+    this.props.routerHistory.replace('equipment', params);
   };
 
   isNodeToolbarDisplayed(props: Props = this.props, state: State = this.state) {
