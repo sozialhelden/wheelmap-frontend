@@ -11,9 +11,12 @@ export async function fetchAccessibilityCloudPlacesBySameURI(
     return {};
   }
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  const url = `${baseUrl}/place-infos.json?appToken=${appToken}&includePlacesWithoutAccessibility=1&sameAs=${sameAsURIs.join(',')}`;
-  console.log(url);
+  const sameAsParam = sameAsURIs.map(encodeURIComponent).join(',');
+  const url = `${baseUrl}/place-infos.json?appToken=${appToken}&includePlacesWithoutAccessibility=1&sameAs=${sameAsParam}`;
   const response = await customFetch(url, {});
-  const features = (await response.json()).features;
+  if (!response.ok) {
+    throw new Error(`Could not load place infos by sameAs URI (status ${response.status}).`);
+  }
+  const features = (await response.json()).features || [];
   return groupBy(features as AccessibilityCloudFeature[], 'properties.sameAs.0');
 }

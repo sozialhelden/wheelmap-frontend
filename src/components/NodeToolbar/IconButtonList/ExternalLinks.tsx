@@ -1,8 +1,7 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import SourceLink, { PropertyName } from '../SourceLink';
-import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
-import { Feature } from '../../../lib/Feature';
+import { AccessibilityCloudProperties, Feature } from '../../../lib/Feature';
 import { AppContextConsumer } from '../../../AppContext';
 
 type Props = {
@@ -19,10 +18,10 @@ const captions = {
 };
 
 export default function ExternalInfoAndEditPageLinks(props: Props): JSX.Element {
-  const acFeature = accessibilityCloudFeatureFrom(props.feature);
-  if (!acFeature) return null;
-  const properties = acFeature.properties;
-  if (!properties) return null;
+  // OSM features can have accessibility.cloud place info properties merged into them, so this
+  // checks for a source instead of the feature type.
+  const properties = props.feature?.properties as AccessibilityCloudProperties | undefined;
+  if (!properties || typeof properties.sourceId !== 'string') return null;
   const links = ['infoPageUrl', 'editPageUrl'].map((propertyName: PropertyName) => {
     return (
       <AppContextConsumer key={propertyName}>

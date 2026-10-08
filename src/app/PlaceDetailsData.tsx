@@ -1,15 +1,15 @@
-import { compact, get } from 'lodash';
+import { compact, flatten, get } from 'lodash';
 import React from 'react';
 import { t } from 'ttag';
 
 import {
   Feature,
+  WheelmapFeature,
   accessibilityCloudFeatureCollectionFromResponse,
   accessibilityName,
   getFeatureId,
   isWheelchairAccessible,
   isWheelmapFeature,
-  isWheelmapFeatureId,
   normalizedCoordinatesForFeature,
   placeNameFor,
   sourceIdsForFeature,
@@ -31,6 +31,7 @@ import {
   SourceWithLicense,
   getDataIfAlreadyResolved,
 } from './PlaceDetailsProps';
+import { fetchAccessibilityCloudPlacesBySameURI } from './fetchAccessibilityCloudPlacesBySameURI';
 import { DataTableEntry, RenderContext } from './getInitialProps';
 import router from './router';
 
@@ -40,6 +41,10 @@ import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLight
 import env from '../lib/env';
 import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
 import { translatedStringFromObject } from '../lib/i18n';
+import {
+  mergeOsmFeatureWithPlaceInfos,
+  osmSameAsURIForFeature,
+} from '../lib/model/mergeOsmFeatureWithPlaceInfos';
 
 function fetchFeature(
   osmType: string,
@@ -53,10 +58,31 @@ function fetchFeature(
     if (disableWheelmapSource) {
       return null;
     }
-    return wheelmapFeatureCache.fetchFeature(osmType + '/' + featureId, appToken, useCache);
+    return wheelmapFeatureCache
+      .fetchFeature(osmType + '/' + featureId, appToken, useCache)
+      .then(feature => mergePlaceInfosIntoOsmFeature(feature, osmType, featureId, appToken));
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache);
+}
+
+// accessibility.cloud place infos can reference an OSM feature with a `sameAs` URI. Their data
+// is shown merged into the OSM feature, place info values taking precedence.
+async function mergePlaceInfosIntoOsmFeature(
+  feature: WheelmapFeature,
+  osmType: string,
+  featureId: string,
+  appToken: string
+): Promise<WheelmapFeature> {
+  const sameAsURI = osmSameAsURIForFeature(osmType, featureId);
+  try {
+    const placeInfosBySameAsURI = await fetchAccessibilityCloudPlacesBySameURI(appToken, [sameAsURI]);
+    const placeInfos = flatten(Object.values(placeInfosBySameAsURI));
+    return mergeOsmFeatureWithPlaceInfos(feature, placeInfos);
+  } catch (error) {
+    console.error(error);
+    return feature;
+  }
 }
 
 function fetchEquipment(
@@ -73,28 +99,25 @@ async function fetchSourceWithLicense(
   appToken: string,
   useCache: boolean
 ): Promise<SourceWithLicense[]> {
-  if (!isWheelmapFeatureId(featureId)) {
-    const feature = await featurePromise;
-    const sourceIds = sourceIdsForFeature(feature);
+  // OSM features only have sources if accessibility.cloud place infos were merged into them.
+  const feature = await featurePromise;
+  const sourceIds = sourceIdsForFeature(feature);
 
-    // console.log("loading", { sources });
-    const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache
-        .getDataSourceWithId(sourceId, appToken)
-        .then(async (source): Promise<SourceWithLicense> => {
-          if (typeof source.licenseId === 'string') {
-            return licenseCache.getLicenseWithId(source.licenseId, appToken).then(license => {
-              return { source, license };
-            });
-          }
-          return { source, license: null };
-        })
-    );
+  // console.log("loading", { sources });
+  const sourcesWithLicense = sourceIds.map(sourceId =>
+    dataSourceCache
+      .getDataSourceWithId(sourceId, appToken)
+      .then(async (source): Promise<SourceWithLicense> => {
+        if (typeof source.licenseId === 'string') {
+          return licenseCache.getLicenseWithId(source.licenseId, appToken).then(license => {
+            return { source, license };
+          });
+        }
+        return { source, license: null };
+      })
+  );
 
-    return Promise.all(sourcesWithLicense);
-  }
-
-  return Promise.resolve([]);
+  return Promise.all(sourcesWithLicense);
 }
 
 function fetchPhotos(
