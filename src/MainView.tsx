@@ -273,6 +273,7 @@ class MainView extends React.Component<Props, State> {
           equipmentInfoId={this.props.equipmentInfoId}
           cluster={this.props.activeCluster}
           childPlaceInfos={this.props.childPlaceInfos}
+          equipmentInfos={this.props.equipmentInfos}
           modalNodeState={this.props.modalNodeState}
           showParentLink={this.props.showParentLink}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}

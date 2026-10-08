@@ -26,6 +26,7 @@ import Categories from '../lib/Categories';
 
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
+import { equipmentInfosFromPlaceResponse } from '../lib/model/equipmentInfosFromPlaceResponse';
 import {
   PlaceDetailsProps,
   SourceWithLicense,
@@ -188,6 +189,24 @@ function fetchAcChildPlaces(
     });
 }
 
+// Equipment (elevators, escalators…) linked to a place via `placeInfoId`. The API only returns
+// these as `related` documents of the place when explicitly requested.
+function fetchAcEquipmentInfos(
+  placeInfoId: string,
+  appToken?: string
+): Promise<EquipmentInfo[]> {
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
+  const url = `${baseUrl}/place-infos/${placeInfoId}.json?includeRelated=equipmentInfos&includePlacesWithoutAccessibility=1&appToken=${appToken}`;
+  return globalFetchManager
+    .fetch(url)
+    .then(response => (response.status === 200 ? response.json() : null))
+    .then(equipmentInfosFromPlaceResponse)
+    .catch(error => {
+      console.error(error);
+      return [];
+    });
+}
+
 
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialRouteProps(query, renderContextPromise, isServer): Promise<PlaceDetailsProps> {
@@ -227,16 +246,18 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       ? undefined
       : fetchToiletsNearby(renderContext, featurePromise);
     const childPlaceInfosPromise = fetchAcChildPlaces(featureId, appToken);
+    const equipmentInfosPromise = osmType ? [] : fetchAcEquipmentInfos(featureId, appToken);
 
     const photosPromise = featurePromise.then(feature =>
       fetchPhotos(feature, appToken, useCache));
 
-    const [feature, equipmentInfo, sources, photos, childPlaceInfos] = await Promise.all([
+    const [feature, equipmentInfo, sources, photos, childPlaceInfos, equipmentInfos] = await Promise.all([
       featurePromise,
       equipmentPromise,
       sourcesPromise,
       photosPromise,
       childPlaceInfosPromise,
+      equipmentInfosPromise,
     ]);
 
     return {
@@ -249,6 +270,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       equipmentInfo,
       toiletsNearby,
       childPlaceInfos,
+      equipmentInfos,
       renderContext,
     };
   },

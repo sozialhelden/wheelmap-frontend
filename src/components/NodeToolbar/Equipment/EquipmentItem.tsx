@@ -70,18 +70,22 @@ function EquipmentIconWrapper({
   };
   const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null;
 
-  const workingStringPart = {
-    true: 'Working',
-    false: 'Broken',
-    undefined: 'Unknown',
-  }[String(isWorking)];
+  // The operational status of equipment isn't shown anymore when it's unknown, so use the
+  // neutral icon instead of the question mark icon.
+  const workingStringPart = isWorking === false ? 'Broken' : 'Working';
 
   const iconName = `${category || 'elevator'}${workingStringPart}Big`;
   const EquipmentIcon = equipmentIcons[iconName] || (() => null);
 
+  const statusClassName = {
+    true: 'is-working',
+    false: 'is-broken',
+    undefined: 'is-unknown',
+  }[String(isWorking)];
+
   return (
     <figure
-      className={isWorking ? 'is-working' : 'is-broken'}
+      className={statusClassName}
       title={ariaLabel}
       aria-label={ariaLabel}
     >

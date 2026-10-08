@@ -30,6 +30,7 @@ import {
 import { globalFetchManager } from '../../lib/FetchManager';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import { MappingEvent, MappingEvents } from '../../lib/MappingEvent';
+import { isHiddenChildFeature } from '../../lib/model/isHiddenChildFeature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
@@ -938,8 +939,7 @@ export default class Map extends React.Component<Props, State> {
     if (!feature.properties) return false;
 
     const acFeature = accessibilityCloudFeatureFrom(feature);
-    const isSelectedFeature = featureId != null && String(getFeatureId(feature)) === String(featureId);
-    if (acFeature?.properties.parentPlaceInfoId && !isSelectedFeature) return false;
+    if (isHiddenChildFeature(acFeature?.properties, getFeatureId(feature), featureId)) return false;
 
     const properties = feature.properties;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
