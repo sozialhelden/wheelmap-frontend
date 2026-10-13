@@ -44,6 +44,7 @@ import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 import env from '../lib/env';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
+import { getCanonicalOsmPlacePath } from '../lib/model/getCanonicalOsmPlacePath';
 import allTranslations from '../lib/translations.json';
 
 let isServer = false;
@@ -97,6 +98,26 @@ export default class App extends BaseApp<any> {
         localeStrings,
         ...ctx.query,
       });
+
+      // accessibility.cloud place infos that reference an OSM place are shown merged into the OSM
+      // place, so its URL is the canonical URL of the place info, too.
+      if (isServer && ctx.query.routeName === 'placeDetail') {
+        const { app, disableWheelmapSource } = await renderContextPromise;
+        const canonicalPath =
+          !disableWheelmapSource &&
+          (await getCanonicalOsmPlacePath(String(ctx.query.id), {
+            acBaseUrl: env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
+            appToken: app.tokenString,
+            wheelmapApiBaseUrl: env.REACT_APP_OSM_API_LEGACY_BASE_URL,
+            wheelmapApiKey: env.REACT_APP_WHEELMAP_API_KEY,
+          }));
+        if (canonicalPath) {
+          const queryIndex = ctx.req.url.indexOf('?');
+          const queryString = queryIndex === -1 ? '' : ctx.req.url.slice(queryIndex);
+          ctx.res.redirect(308, `${canonicalPath}${queryString}`);
+          return {};
+        }
+      }
 
       if (ctx.query.routeName) {
         // const getInitialRoutePropsSpan = apm.startSpan('Getting route props');

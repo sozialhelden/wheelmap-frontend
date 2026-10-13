@@ -587,6 +587,7 @@ export default class Map extends React.Component<Props, State> {
       this.props.excludeSourceIds,
       this.props.categoryId,
       this.props.accessibilityCloudAppToken,
+      !this.props.disableWheelmapSource,
     );
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
@@ -974,6 +975,7 @@ export default class Map extends React.Component<Props, State> {
       props.excludeSourceIds,
       props.categoryId,
       props.accessibilityCloudAppToken,
+      !props.disableWheelmapSource,
     );
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
     if (accessibilityCloudTileLayer._url !== acTileUrl) {
