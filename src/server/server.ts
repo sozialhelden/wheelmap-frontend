@@ -9,6 +9,7 @@ import * as querystring from 'querystring';
 import env from '../lib/env';
 
 import router from '../app/router';
+import { createEventPassHandler } from './eventPass';
 import registerHealthChecks from './healthChecks';
 console.log('Node version:', process.version);
 
@@ -72,6 +73,15 @@ app.prepare().then(() => {
   );
   
   registerHealthChecks(server);
+
+  // Sets the event-pass cookie, then falls through to the normal join page render.
+  server.get(
+    '/events/:id/join',
+    createEventPassHandler({
+      signingKey: process.env.EVENT_PASS_SIGNING_KEY,
+      keyId: process.env.EVENT_PASS_KEY_ID,
+    })
+  );
 
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
