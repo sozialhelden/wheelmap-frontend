@@ -1,12 +1,11 @@
+import { findOsmElementInSameAs } from './osmUri';
+
 type SameAsFeatureProperties = {
   sameAs?: string[] | null;
 };
 
-const osmFeatureURIPattern = /^https?:\/\/(www\.)?openstreetmap\.org\/(node|way|relation)\/\d+$/;
-
 export function hasOsmSameAsURI(properties: SameAsFeatureProperties | null | undefined): boolean {
-  const sameAs = properties?.sameAs;
-  return Array.isArray(sameAs) && sameAs.some(uri => osmFeatureURIPattern.test(uri));
+  return !!findOsmElementInSameAs(properties?.sameAs);
 }
 
 // Places that reference an OSM feature (`sameAs`) are shown merged into the OSM feature's marker
