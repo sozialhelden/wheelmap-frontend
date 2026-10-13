@@ -319,6 +319,7 @@ export default class App extends BaseApp<any> {
     }
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
+    const currentPath = path || (window && window.location.pathname);
 
     const appContext: AppContextData = {
       app: this.props.app,
@@ -344,7 +345,10 @@ export default class App extends BaseApp<any> {
           />
 
           {/* Alternates */}
-          {generateLocaleLinks(path || (window && window.location.pathname), availableLocales)}
+          {generateLocaleLinks(currentPath, availableLocales)}
+
+          {/* Canonical: the URL without ?locale=, so each page is indexed once, not once per locale */}
+          {currentPath && <link rel="canonical" href={`${baseUrl}${currentPath}`} />}
 
           {/* Relations */}
           <link href={`${router.generatePath('search')}`} rel="search" title={t`Search`} />
