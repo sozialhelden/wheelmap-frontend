@@ -52,7 +52,8 @@ export default function PlaceAccessibilitySection(props: Props) {
   const primarySource = sources.length > 0 ? sources[0].source : undefined;
   const isEditingEnabled = isA11yEditable(feature, appContext.app, primarySource);
 
-  const accessibilityTree = accessibilityAttributes && properties && !isWheelmapProperties(properties) && typeof properties.accessibility === "object" ? properties.accessibility : null;
+  // OSM features can have an accessibility.cloud place info's accessibility merged into them.
+  const accessibilityTree = accessibilityAttributes && properties && "accessibility" in properties && typeof properties.accessibility === "object" ? properties.accessibility : null;
   const filteredAccessibilityTree = accessibilityTree ? filterAccessibility(accessibilityTree) : null;
   const accessibilityDetailsTree = filteredAccessibilityTree && <AccessibilityDetailsTree details={filteredAccessibilityTree} isNested={true} accessibilityAttributes={accessibilityAttributes} />;
   let description: string = null;

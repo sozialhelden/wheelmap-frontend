@@ -316,7 +316,9 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         {...remainingProps}
         category={category}
         parentCategory={parentCategory}
-        feature={lightweightFeature || resolvedFeature}
+        // The lightweight feature from the map is only a placeholder until the full feature is
+        // loaded, which can contain more data (e.g. merged accessibility.cloud place infos).
+        feature={resolvedFeature || lightweightFeature}
         equipmentInfo={resolvedEquipmentInfo}
         sources={resolvedSources || []}
         photos={resolvedPhotos || []}

@@ -32,8 +32,9 @@ function getAddressForACProperties(properties: AccessibilityCloudProperties): st
 }
 
 function getAddressForProperties(properties: NodeProperties): string | null {
-  if (!isWheelmapProperties(properties)) {
-    return getAddressForACProperties(properties);
+  // OSM features can have an accessibility.cloud place info address merged into them.
+  if (!isWheelmapProperties(properties) || "address" in properties) {
+    return getAddressForACProperties(properties as AccessibilityCloudProperties);
   }
   return getAddressString(properties);
 }

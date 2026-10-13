@@ -31,6 +31,7 @@ import { globalFetchManager } from '../../lib/FetchManager';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import { MappingEvent, MappingEvents } from '../../lib/MappingEvent';
 import { isHiddenChildFeature } from '../../lib/model/isHiddenChildFeature';
+import { isHiddenSameAsOsmFeature } from '../../lib/model/isHiddenSameAsOsmFeature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
@@ -940,6 +941,7 @@ export default class Map extends React.Component<Props, State> {
 
     const acFeature = accessibilityCloudFeatureFrom(feature);
     if (isHiddenChildFeature(acFeature?.properties, getFeatureId(feature), featureId)) return false;
+    if (isHiddenSameAsOsmFeature(acFeature?.properties, getFeatureId(feature), featureId, !this.props.disableWheelmapSource)) return false;
 
     const properties = feature.properties;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
