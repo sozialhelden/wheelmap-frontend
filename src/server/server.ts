@@ -8,7 +8,6 @@ import * as path from 'path';
 import * as querystring from 'querystring';
 import env from '../lib/env';
 
-import { resolveCanonicalOsmPathForPlaceInfoId } from '../lib/canonicalOsmUrl';
 import router from '../app/router';
 import { createEventPassHandler } from './eventPass';
 import registerHealthChecks from './healthChecks';
@@ -57,31 +56,24 @@ app.prepare().then(() => {
   // Read https://github.com/sozialhelden/twelve-factor-dotenv for more infos.
   server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
-  server.get('/nodes/:id', async (req, res, next) => {
-    const id = req.params.id;
-
-    // Numeric ids are legacy wheelmap feature ids.
-    if (id.match(/^-?\d+$/)) {
+  // Legacy wheelmap feature ids are numeric. Redirect them to the OSM-style
+  // routes. Non-numeric ids reference accessibility.cloud place infos; these are
+  // redirected to their canonical OSM URL during server rendering (see
+  // src/pages/_app.tsx), if they reference an OSM element via `sameAs`.
+  server.get(
+    '/nodes/:id',
+    (req, res, next) => {
+      const id = req.params.id;
+      if (!id.match(/^-?\d+$/)) {
+        return next();
+      }
       if (id.slice(0, 1) === '-') {
         res.redirect(`/way/${id.replace(/-/, '')}`);
-      } else {
-        res.redirect(`/node/${id}`);
+        return;
       }
-      return;
+      res.redirect(`/node/${id}`);
     }
-
-    // Non-numeric ids reference accessibility.cloud PlaceInfos. If the
-    // PlaceInfo links an OSM element via `sameAs`, the OSM URL is canonical.
-    const canonicalOsmPath = await resolveCanonicalOsmPathForPlaceInfoId(id);
-    if (canonicalOsmPath) {
-      const queryIndex = req.url.indexOf('?');
-      const search = queryIndex === -1 ? '' : req.url.slice(queryIndex);
-      res.redirect(308, `${canonicalOsmPath}${search}`);
-      return;
-    }
-
-    next();
-  });
+  );
   
   registerHealthChecks(server);
 
