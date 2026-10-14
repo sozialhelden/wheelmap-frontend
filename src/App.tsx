@@ -49,6 +49,7 @@ import { CategoryLookupTables } from './lib/Categories';
 import { ModalNodeState } from './lib/ModalNodeState';
 import { PhotoModel } from './lib/PhotoModel';
 import { LocalizedString } from './lib/i18n';
+import { findOsmElementInSameAs } from './lib/model/osmUri';
 
 import 'focus-visible';
 import { createGlobalStyle } from 'styled-components';
@@ -830,10 +831,21 @@ class App extends React.Component<Props, State> {
     let routeName = 'map';
 
     if (accessibilityCloudFeature) {
-      const id = accessibilityCloudFeature.properties._id;
-      params.id = id;
-      delete params.eid;
-      routeName = 'placeDetail';
+      // Place infos that reference an OSM place via `sameAs` are shown merged into
+      // the OSM place, so its URL is the canonical URL of the place info, too.
+      // Navigate there when Wheelmap knows the referenced element, which is the
+      // case when the search result's wheelmap feature was loaded.
+      const osmElement = findOsmElementInSameAs(accessibilityCloudFeature.properties.sameAs);
+      if (osmElement && wheelmapFeature) {
+        params.id = osmElement.id;
+        delete params.eid;
+        routeName = osmElement.element;
+      } else {
+        const id = accessibilityCloudFeature.properties._id;
+        params.id = id;
+        delete params.eid;
+        routeName = 'placeDetail';
+      }
     } else if (wheelmapFeature) {
       let id = getFeatureId(wheelmapFeature);
       if (id) {

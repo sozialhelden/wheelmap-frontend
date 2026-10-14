@@ -138,7 +138,6 @@ export type WheelmapLightweightFeature = WheelmapFeature;
 export type AccessibilityCloudProperties = {
   _id: string,
   sourceId: string,
-  sameAs?: string[],
   name?: LocalizedString | null,
   accessibility?: MinimalAccessibility,
   category?: string,
