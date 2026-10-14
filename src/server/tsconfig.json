@@ -20,7 +20,8 @@
   },
   "exclude": [
     "node_modules",
-    "src/.next"
+    "src/.next",
+    "./*.spec.ts"
   ],
   "include": [
     "./*.ts",
