@@ -53,6 +53,7 @@ export { default as clothes } from './clothes';
 export { default as coffee } from './coffee';
 export { default as college } from './college';
 export { default as communitycentre } from './communitycentre';
+export { default as youth_centre } from './communitycentre';
 export { default as company } from './company';
 export { default as computers } from './computers';
 export { default as confectionery } from './confectionery';
