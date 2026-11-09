@@ -33,6 +33,7 @@ import { MappingEvent, MappingEvents } from '../../lib/MappingEvent';
 import { isHiddenChildFeature } from '../../lib/model/isHiddenChildFeature';
 import { isHiddenSameAsOsmFeature } from '../../lib/model/isHiddenSameAsOsmFeature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
+import { onFirstUserInput } from '../../lib/onFirstUserInput';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
 import { getUserAgent } from '../../lib/userAgent';
@@ -164,6 +165,7 @@ export default class Map extends React.Component<Props, State> {
   locateControl: typeof LeafletLocateControl | null;
   mapHasBeenMoved: boolean = false;
   sizeInvalidationInterval: IntervalID | null;
+  cancelBasemapLoad: (() => void) | null = null;
 
   static getMapStateFromProps(
     map: L.Map | null,
@@ -329,12 +331,18 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer = (L as any).mapboxGL({
-      accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
-      style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
+    // Mapbox bills every Mapbox GL initialisation as a map load. Crawler fleets
+    // render pages in real browsers (2026-11: ~12k loads/day, 7× the free tier),
+    // so the basemap only starts on the first real user input.
+    this.cancelBasemapLoad = onFirstUserInput(window, () => {
+      if (this.map !== map) return;
+      map.addLayer(
+        (L as any).mapboxGL({
+          accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
+          style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
+        })
+      );
     });
-
-    map.addLayer(basemapLayer);
 
     this.highLightLayer = new L.LayerGroup();
     map.addLayer(this.highLightLayer);
@@ -466,6 +474,7 @@ export default class Map extends React.Component<Props, State> {
 
   componentWillUnmount() {
     if (this.props.forwardedRef) this.props.forwardedRef(null);
+    this.cancelBasemapLoad?.();
 
     if (!this.map) return;
     this.map.off();
