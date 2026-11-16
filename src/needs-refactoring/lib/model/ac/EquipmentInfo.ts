@@ -31,6 +31,7 @@ export function isEquipmentAccessible(
         stateLastUpdate?: Date | string;
         isWorking?: boolean;
         statusHardwareSensorId?: string;
+        statusHardwareSensorType?: string;
       }
     | undefined,
 ): YesNoLimitedUnknown | null {
