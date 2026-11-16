@@ -5,6 +5,13 @@ import pick from 'lodash/pick';
 
 import { FeatureCollection, YesNoLimitedUnknown } from './Feature';
 import { currentLocales } from './i18n';
+import { isEquipmentStatusOutdated } from './equipmentStatusFreshness';
+
+export {
+  getEquipmentStatusLastUpdate,
+  isEquipmentStatusOutdated,
+  isExistingInformationOutdated,
+} from './equipmentStatusFreshness';
 
 export type CategoryString =
   | 'elevator'
@@ -69,6 +76,8 @@ export type EquipmentInfoProperties = {
     [key: string]: unknown;
   };
   isWorking?: boolean;
+  /** Set when a hardware sensor reports this facility's operational status. */
+  statusHardwareSensorId?: string;
   stateLastUpdate?: string;
   lastUpdate?: string;
   lastDisruptionProperties?: DisruptionProperties;
@@ -154,12 +163,6 @@ export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
   }[String(isOutdated ? undefined : isWorking)];
 }
 
-export function isExistingInformationOutdated(lastUpdate: Date | undefined): boolean {
-  if (!lastUpdate) return false;
-  const twoHoursInMilliseconds = 1000 * 60 * 60 * 2;
-  return new Date().getTime() - lastUpdate.getTime() > twoHoursInMilliseconds;
-}
-
 export function isEquipmentAccessible(
   properties: EquipmentInfoProperties | undefined
 ): YesNoLimitedUnknown | null {
@@ -167,9 +170,7 @@ export function isEquipmentAccessible(
     return null;
   }
 
-  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
-  const lastUpdate = lastUpdateDateString ? new Date(lastUpdateDateString) : null;
-  const isOutdated = isExistingInformationOutdated(lastUpdate);
+  const isOutdated = isEquipmentStatusOutdated(properties);
   return {
     true: 'yes' as YesNoLimitedUnknown,
     false: 'no' as YesNoLimitedUnknown,
@@ -181,6 +182,7 @@ export function lastUpdateString({
   lastUpdate,
   isWorking,
   category,
+  isOutdated,
 }: {
   lastUpdate: Date | null;
   isWorking: boolean | undefined;
@@ -216,7 +218,7 @@ export function lastUpdateString({
     currentLocales.map(l => l.string),
     fullDateOptions
   );
-  if (isExistingInformationOutdated(lastUpdate) && typeof isWorking !== 'undefined') {
+  if (isOutdated && typeof isWorking !== 'undefined') {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
     return t`Last known operational status: ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;

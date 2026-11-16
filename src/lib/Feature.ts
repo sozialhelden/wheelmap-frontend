@@ -460,8 +460,10 @@ function hasAccessibleToiletAcFormat(
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
   if (properties.category === 'elevator' || properties.category === 'escalator') {
     const result =
-      // @ts-ignore
-      isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
+      isEquipmentAccessible(
+        // @ts-ignore
+        pick(properties, ['stateLastUpdate', 'lastUpdate', 'isWorking', 'statusHardwareSensorId'])
+      ) || 'unknown';
     return result;
   }
 
