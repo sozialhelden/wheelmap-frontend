@@ -13,6 +13,7 @@ type Props = {
   outerClassName?: string,
   isExpanded?: boolean,
   placeInfoId: string,
+  selectedEquipmentInfoId?: string | null,
   className?: string,
   children?: React.ReactNode,
 };
@@ -26,6 +27,7 @@ function EquipmentList(props: Props) {
           equipmentInfos={sortBy(equipmentInfos, 'properties.isWorking')}
           isExpanded={props.isExpanded}
           placeInfoId={props.placeInfoId}
+          selectedEquipmentInfoId={props.selectedEquipmentInfoId}
           key={equipmentInfos.map(e => get(e, 'properties._id')).join(',')}
           onSelected={props.onEquipmentSelected}
         />

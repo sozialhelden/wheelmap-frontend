@@ -7,6 +7,7 @@ import { t } from 'ttag';
 
 import EquipmentList from './EquipmentList';
 import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import { getEquipmentOverviewState } from '../../../lib/equipmentOverviewState';
 import getEquipmentInfoDescription from './getEquipmentInfoDescription';
 
 type Props = {
@@ -34,7 +35,7 @@ class EquipmentOverview extends React.Component<Props, State> {
   };
 
   render() {
-    const { equipmentInfosById, placeInfoId } = this.props;
+    const { equipmentInfosById, placeInfoId, equipmentInfoId } = this.props;
 
     const sortedEquipmentInfos = sortBy(Object.values(equipmentInfosById), [
       'properties.category',
@@ -54,8 +55,11 @@ class EquipmentOverview extends React.Component<Props, State> {
     if (sortedEquipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
-    const shouldBeExpandable = sortedEquipmentInfos.length > 1 && !this.state.expanded;
-    const isExpanded = this.state.expanded || sortedEquipmentInfos.length <= 2;
+    const { isExpanded, showsAllEquipmentButton } = getEquipmentOverviewState({
+      equipmentCount: sortedEquipmentInfos.length,
+      workingGroupCount: workingEquipmentInfoArrays.length,
+      isExpandedByUser: this.state.expanded,
+    });
 
     return (
       <div className={this.props.className}>
@@ -64,6 +68,7 @@ class EquipmentOverview extends React.Component<Props, State> {
             equipmentInfoArrays={brokenEquipmentInfoArrays}
             onEquipmentSelected={this.props.onEquipmentSelected}
             placeInfoId={placeInfoId}
+            selectedEquipmentInfoId={equipmentInfoId}
           >
             <header>{t`Disruptions at this location`}</header>
           </EquipmentList>
@@ -75,10 +80,11 @@ class EquipmentOverview extends React.Component<Props, State> {
             equipmentInfoArrays={workingEquipmentInfoArrays}
             onEquipmentSelected={this.props.onEquipmentSelected}
             placeInfoId={placeInfoId}
+            selectedEquipmentInfoId={equipmentInfoId}
           />
         ) : null}
 
-        {shouldBeExpandable ? (
+        {showsAllEquipmentButton ? (
           <button
             className="link-button expand-button full-width-button"
             onClick={() => this.setState({ expanded: true })}

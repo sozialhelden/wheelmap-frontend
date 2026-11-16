@@ -14,16 +14,20 @@ type Props = {
   onSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   isExpanded?: boolean,
+  /** The facility currently shown in the panel (from the URL), if any. */
+  selectedEquipmentInfoId?: string | null,
 };
 
 function EquipmentIconWrapper({
   equipmentInfo,
   count,
   isCountHidden,
+  isSelected,
 }: {
   equipmentInfo: EquipmentInfo,
   count: number,
   isCountHidden: boolean,
+  isSelected: boolean,
 }) {
   const properties = equipmentInfo.properties;
   if (!properties) return null;
@@ -85,7 +89,7 @@ function EquipmentIconWrapper({
 
   return (
     <figure
-      className={statusClassName}
+      className={`${statusClassName}${isSelected ? ' is-selected' : ''}`}
       title={ariaLabel}
       aria-label={ariaLabel}
     >
@@ -110,6 +114,9 @@ function EquipmentItem(props: Props) {
     e => typeof get(e, ['properties', 'isWorking']) === 'undefined'
   );
   const hasBrokenEquipment = broken.length > 0;
+  const isSelected = (infos: EquipmentInfo[]) =>
+    !!props.selectedEquipmentInfoId &&
+    infos.some(e => get(e, ['properties', '_id']) === props.selectedEquipmentInfoId);
 
   const itemSelectedHandler = (
     event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>
@@ -132,6 +139,7 @@ function EquipmentItem(props: Props) {
         }
       }}
       onClick={itemSelectedHandler}
+      aria-current={isSelected(equipmentInfos) ? 'true' : undefined}
     >
       {getHumanEnumeration(
         [working, broken, unknown]
@@ -142,7 +150,12 @@ function EquipmentItem(props: Props) {
               return (
                 <EquipmentIconWrapper
                   key={index}
-                  {...{ count, isCountHidden: equipmentInfos.length === 1, equipmentInfo }}
+                  {...{
+                    count,
+                    isCountHidden: equipmentInfos.length === 1,
+                    equipmentInfo,
+                    isSelected: isSelected(infos),
+                  }}
                 />
               );
             }
@@ -209,6 +222,10 @@ const StyledEquipmentItem = styled(EquipmentItem)`
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.2rem;
     padding: 0.25rem;
+    &.is-selected {
+      border-color: ${colors.linkColor};
+      box-shadow: 0 0 0 1px ${colors.linkColor};
+    }
     .badge {
       display: inline-block;
       font-size: 1rem;
