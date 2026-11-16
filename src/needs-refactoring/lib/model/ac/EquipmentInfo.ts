@@ -2,6 +2,12 @@ import type { EquipmentProperties } from "@sozialhelden/a11yjson";
 import { t } from "@transifex/native";
 import type { FeatureCollection, Point } from "geojson";
 import type { YesNoLimitedUnknown, YesNoUnknown } from "./Feature";
+import { isEquipmentStatusOutdated } from "./equipmentStatusFreshness";
+
+export {
+  isEquipmentStatusOutdated,
+  isExistingInformationOutdated,
+} from "./equipmentStatusFreshness";
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<
   Point,
@@ -19,25 +25,20 @@ export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
   }[String(isOutdated ? undefined : isWorking)];
 }
 
-export function isExistingInformationOutdated(
-  lastUpdate: Date | undefined,
-): boolean {
-  if (!lastUpdate) return false;
-  const twoHoursInMilliseconds = 1000 * 60 * 60 * 2;
-  return new Date().getTime() - lastUpdate.getTime() > twoHoursInMilliseconds;
-}
-
 export function isEquipmentAccessible(
-  properties: { stateLastUpdate?: Date; isWorking?: boolean } | undefined,
+  properties:
+    | {
+        stateLastUpdate?: Date | string;
+        isWorking?: boolean;
+        statusHardwareSensorId?: string;
+      }
+    | undefined,
 ): YesNoLimitedUnknown | null {
   if (!properties) {
     return null;
   }
 
-  const lastUpdate = properties.stateLastUpdate
-    ? new Date(properties.stateLastUpdate)
-    : null;
-  const isOutdated = isExistingInformationOutdated(lastUpdate);
+  const isOutdated = isEquipmentStatusOutdated(properties);
   const resultMap: Record<string, YesNoUnknown> = {
     true: "yes",
     false: "no",
@@ -87,10 +88,7 @@ export function lastUpdateString({
       minute: "2-digit",
     },
   );
-  if (
-    isExistingInformationOutdated(lastUpdate) &&
-    typeof isWorking !== "undefined"
-  ) {
+  if (isOutdated && typeof isWorking !== "undefined") {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
     return t(
