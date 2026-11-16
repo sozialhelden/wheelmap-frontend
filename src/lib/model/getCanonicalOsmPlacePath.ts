@@ -1,4 +1,4 @@
-import { findOsmElementInSameAs } from './osmUri';
+import { OsmElementRef, findOsmElementInSameAs } from './osmUri';
 
 type Options = {
   acBaseUrl: string;
@@ -27,8 +27,17 @@ async function fetchJson(url: string): Promise<any> {
  */
 export async function getCanonicalOsmPlacePath(
   placeInfoId: string,
-  { acBaseUrl, appToken, wheelmapApiBaseUrl, wheelmapApiKey }: Options
+  options: Options
 ): Promise<string | undefined> {
+  const osmElement = await getCanonicalOsmElement(placeInfoId, options);
+  return osmElement ? `/${osmElement.element}/${osmElement.id}` : undefined;
+}
+
+/** Like {@link getCanonicalOsmPlacePath}, but returns the element for router navigation. */
+export async function getCanonicalOsmElement(
+  placeInfoId: string,
+  { acBaseUrl, appToken, wheelmapApiBaseUrl, wheelmapApiKey }: Options
+): Promise<OsmElementRef | undefined> {
   const placeInfo = await fetchJson(
     `${acBaseUrl}/place-infos/${encodeURIComponent(placeInfoId)}.json?appToken=${appToken}`
   );
@@ -39,5 +48,5 @@ export async function getCanonicalOsmPlacePath(
 
   const { element, id } = osmElement;
   const osmFeature = await fetchJson(`${wheelmapApiBaseUrl}/api/${element}/${id}?api_key=${wheelmapApiKey}`);
-  return osmFeature ? `/${element}/${id}` : undefined;
+  return osmFeature ? osmElement : undefined;
 }
