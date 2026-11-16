@@ -50,6 +50,8 @@ import { ModalNodeState } from './lib/ModalNodeState';
 import { PhotoModel } from './lib/PhotoModel';
 import { LocalizedString } from './lib/i18n';
 import { findOsmElementInSameAs } from './lib/model/osmUri';
+import { getCanonicalOsmElement } from './lib/model/getCanonicalOsmPlacePath';
+import env from './lib/env';
 
 import 'focus-visible';
 import { createGlobalStyle } from 'styled-components';
@@ -566,6 +568,37 @@ class App extends React.Component<Props, State> {
     if (prevProps.mappingEvent !== this.props.mappingEvent) {
       this.setupMappingEvents();
     }
+
+    // The server redirects /nodes/:id to the canonical OSM URL on page load (see _app.tsx). Client-side
+    // navigation (links, back button) skips that, so do the same check here.
+    const isPlaceDetail = this.props.routeName === 'placeDetail';
+    const wasSamePlaceDetail =
+      prevProps.routeName === 'placeDetail' && prevProps.featureId === this.props.featureId;
+    if (isPlaceDetail && !wasSamePlaceDetail && this.props.featureId) {
+      this.redirectToCanonicalOsmPlace(String(this.props.featureId));
+    }
+  }
+
+  async redirectToCanonicalOsmPlace(placeInfoId: string) {
+    if (this.props.disableWheelmapSource) {
+      return;
+    }
+    const osmElement = await getCanonicalOsmElement(placeInfoId, {
+      acBaseUrl: env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
+      appToken: this.props.app.tokenString,
+      wheelmapApiBaseUrl: env.REACT_APP_OSM_API_LEGACY_BASE_URL,
+      wheelmapApiKey: env.REACT_APP_WHEELMAP_API_KEY,
+    });
+    // Don't redirect if the user navigated elsewhere in the meantime.
+    const isStillShown =
+      this.props.routeName === 'placeDetail' && String(this.props.featureId) === placeInfoId;
+    if (!osmElement || !isStillShown) {
+      return;
+    }
+    const params = this.getCurrentParams() as any;
+    params.id = osmElement.id;
+    delete params.eid;
+    this.props.routerHistory.replace(osmElement.element, params);
   }
 
   setupMappingEvents() {

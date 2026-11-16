@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 
-import { getCanonicalOsmPlacePath } from './getCanonicalOsmPlacePath';
+import { getCanonicalOsmElement, getCanonicalOsmPlacePath } from './getCanonicalOsmPlacePath';
 
 const options = {
   acBaseUrl: 'https://ac.test',
@@ -58,5 +58,24 @@ describe('getCanonicalOsmPlacePath', () => {
   it('does not redirect if the place info cannot be loaded', async () => {
     mockFetch({});
     assert.equal(await getCanonicalOsmPlacePath('abc', options), undefined);
+  });
+});
+
+describe('getCanonicalOsmElement', () => {
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+  });
+
+  it('returns the OSM element for client-side navigation', async () => {
+    mockFetch({
+      'https://ac.test/place-infos/abc.json': {
+        properties: { sameAs: ['https://openstreetmap.org/node/10766658408'] },
+      },
+      'https://wheelmap.test/api/node/10766658408': { node: {} },
+    });
+    assert.deepEqual(await getCanonicalOsmElement('abc', options), {
+      element: 'node',
+      id: '10766658408',
+    });
   });
 });
