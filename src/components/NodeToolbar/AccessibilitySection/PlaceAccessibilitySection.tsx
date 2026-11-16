@@ -31,6 +31,8 @@ type Props = {
   presetStatus: YesNoLimitedUnknown | null;
   feature: Feature | null;
   toiletsNearby: Feature[] | null;
+  /** Known operational status of a place that is an elevator/escalator. */
+  operationalStatus?: boolean;
   children?: React.ReactNode;
 };
 
@@ -62,7 +64,9 @@ export default function PlaceAccessibilitySection(props: Props) {
   }
   const descriptionElement = description ? <Description>{description}</Description> : null;
 
-  if (isWheelmapFeature(feature) && !description && isWheelchairAccessible(properties) === "unknown") {
+  const hasOperationalStatus = typeof props.operationalStatus === "boolean";
+  const hasChildren = React.Children.toArray(children).length > 0;
+  if (isWheelmapFeature(feature) && !description && isWheelchairAccessible(properties) === "unknown" && !hasOperationalStatus && !hasChildren) {
     return null;
   }
 
@@ -70,7 +74,7 @@ export default function PlaceAccessibilitySection(props: Props) {
 
   return (
     <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
-      <WheelchairAndToiletAccessibility isEditingEnabled={isEditingEnabled} feature={feature} toiletsNearby={toiletsNearby} onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={props.onOpenToiletAccessibility} onOpenToiletNearby={props.onOpenToiletNearby} showDescription={showDefaultDescription} />
+      <WheelchairAndToiletAccessibility isEditingEnabled={isEditingEnabled} feature={feature} toiletsNearby={toiletsNearby} onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={props.onOpenToiletAccessibility} onOpenToiletNearby={props.onOpenToiletNearby} showDescription={showDefaultDescription} operationalStatus={props.operationalStatus} />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />
       <EditFormSubmissionButton featureId={featureId} feature={feature} sources={sources} />

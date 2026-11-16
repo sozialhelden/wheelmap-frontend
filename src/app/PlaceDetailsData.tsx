@@ -1,10 +1,10 @@
-import { compact, flatten, get } from 'lodash';
+import { compact, flatten, get, uniqBy } from 'lodash';
 import React from 'react';
 import { t } from 'ttag';
 
 import {
+  AccessibilityCloudFeature,
   Feature,
-  WheelmapFeature,
   accessibilityCloudFeatureCollectionFromResponse,
   accessibilityName,
   getFeatureId,
@@ -26,7 +26,10 @@ import Categories from '../lib/Categories';
 
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
-import { equipmentInfosFromPlaceResponse } from '../lib/model/equipmentInfosFromPlaceResponse';
+import {
+  equipmentInfosFromPlaceResponse,
+  getEquipmentInfoId,
+} from '../lib/model/equipmentInfosFromPlaceResponse';
 import {
   PlaceDetailsProps,
   SourceWithLicense,
@@ -52,16 +55,18 @@ function fetchFeature(
   featureId: string,
   appToken: string,
   useCache: boolean,
-  disableWheelmapSource?: boolean
+  disableWheelmapSource: boolean,
+  sameAsPlaceInfosPromise: Promise<AccessibilityCloudFeature[]> | null
 ): Promise<Feature> | null {
   const isWheelmap = !!osmType;
   if (isWheelmap) {
     if (disableWheelmapSource) {
       return null;
     }
-    return wheelmapFeatureCache
-      .fetchFeature(osmType + '/' + featureId, appToken, useCache)
-      .then(feature => mergePlaceInfosIntoOsmFeature(feature, osmType, featureId, appToken));
+    return Promise.all([
+      wheelmapFeatureCache.fetchFeature(osmType + '/' + featureId, appToken, useCache),
+      sameAsPlaceInfosPromise,
+    ]).then(([feature, placeInfos]) => mergeOsmFeatureWithPlaceInfos(feature, placeInfos || []));
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache);
@@ -69,21 +74,31 @@ function fetchFeature(
 
 // accessibility.cloud place infos can reference an OSM feature with a `sameAs` URI. Their data
 // is shown merged into the OSM feature, place info values taking precedence.
-async function mergePlaceInfosIntoOsmFeature(
-  feature: WheelmapFeature,
+async function fetchSameAsPlaceInfos(
   osmType: string,
   featureId: string,
   appToken: string
-): Promise<WheelmapFeature> {
+): Promise<AccessibilityCloudFeature[]> {
   const sameAsURI = osmSameAsURIForFeature(osmType, featureId);
   try {
     const placeInfosBySameAsURI = await fetchAccessibilityCloudPlacesBySameURI(appToken, [sameAsURI]);
-    const placeInfos = flatten(Object.values(placeInfosBySameAsURI));
-    return mergeOsmFeatureWithPlaceInfos(feature, placeInfos);
+    return flatten(Object.values(placeInfosBySameAsURI));
   } catch (error) {
     console.error(error);
-    return feature;
+    return [];
   }
+}
+
+// An OSM place shows the equipment of all place infos merged into it.
+async function fetchEquipmentInfosOfPlaceInfos(
+  placeInfosPromise: Promise<AccessibilityCloudFeature[]>,
+  appToken: string
+): Promise<EquipmentInfo[]> {
+  const placeInfoIds = compact((await placeInfosPromise).map(getFeatureId));
+  const equipmentInfoArrays = await Promise.all(
+    placeInfoIds.map(placeInfoId => fetchAcEquipmentInfos(String(placeInfoId), appToken))
+  );
+  return uniqBy(flatten(equipmentInfoArrays), getEquipmentInfoId);
 }
 
 function fetchEquipment(
@@ -234,7 +249,17 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const renderContext = await renderContextPromise;
     const appToken = renderContext.app.tokenString;
     const osmType = ['way', 'node', 'relation'].includes(query.routeName) ? query.routeName : null;
-    const featurePromise = fetchFeature(osmType, featureId, appToken, useCache, disableWheelmapSource);
+    const sameAsPlaceInfosPromise = osmType
+      ? fetchSameAsPlaceInfos(osmType, featureId, appToken)
+      : null;
+    const featurePromise = fetchFeature(
+      osmType,
+      featureId,
+      appToken,
+      useCache,
+      disableWheelmapSource,
+      sameAsPlaceInfosPromise
+    );
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
       : null;
@@ -246,7 +271,9 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       ? undefined
       : fetchToiletsNearby(renderContext, featurePromise);
     const childPlaceInfosPromise = fetchAcChildPlaces(featureId, appToken);
-    const equipmentInfosPromise = osmType ? [] : fetchAcEquipmentInfos(featureId, appToken);
+    const equipmentInfosPromise = sameAsPlaceInfosPromise
+      ? fetchEquipmentInfosOfPlaceInfos(sameAsPlaceInfosPromise, appToken)
+      : fetchAcEquipmentInfos(featureId, appToken);
 
     const photosPromise = featurePromise.then(feature =>
       fetchPhotos(feature, appToken, useCache));

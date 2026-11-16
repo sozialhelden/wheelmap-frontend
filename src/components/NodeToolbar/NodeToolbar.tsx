@@ -24,8 +24,9 @@ import { PhotoModel } from "../../lib/PhotoModel";
 import { Dictionary, groupBy, sortBy } from "lodash";
 import { AppContextConsumer } from "../../AppContext";
 import { SourceWithLicense } from "../../app/PlaceDetailsProps";
-import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
+import Categories, { Category, CategoryLookupTables, categoryNameFor, getCategoryId } from "../../lib/Categories";
 import { EquipmentInfo } from "../../lib/EquipmentInfo";
+import { getKnownOperationalStatus } from "../../lib/getKnownOperationalStatus";
 import { MappingEvent } from "../../lib/MappingEvent";
 import { ModalNodeState } from "../../lib/ModalNodeState";
 import { translatedStringFromObject } from "../../lib/i18n";
@@ -340,17 +341,24 @@ class NodeToolbar extends React.PureComponent<Props, State> {
 
   renderEquipmentInfos() {
     const { featureId, equipmentInfoId, equipmentInfos, onEquipmentSelected } = this.props;
+    // OSM places list the equipment of accessibility.cloud place infos merged into them.
     if (!featureId || !equipmentInfos || !shouldListEquipmentInfos(equipmentInfos, equipmentInfoId)) {
-      return;
-    }
-    const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    if (isWheelmapFeature) {
       return;
     }
 
     const equipmentInfosById = fromPairs(equipmentInfos.map((equipmentInfo) => [getEquipmentInfoId(equipmentInfo), equipmentInfo])) as Dictionary<EquipmentInfo>;
 
     return <EquipmentOverview placeInfoId={String(featureId)} equipmentInfosById={equipmentInfosById} equipmentInfoId={equipmentInfoId} onEquipmentSelected={onEquipmentSelected} />;
+  }
+
+  // A place that *is* an elevator or escalator shows whether its facilities work, not a rating.
+  getPlaceOperationalStatus(): boolean | undefined {
+    const { category, equipmentInfos } = this.props;
+    const categoryId = category && getCategoryId(category);
+    if (!categoryId || !["elevator", "escalator"].includes(categoryId) || !equipmentInfos?.length) {
+      return undefined;
+    }
+    return getKnownOperationalStatus(equipmentInfos.map((equipmentInfo) => equipmentInfo.properties));
   }
 
   renderContentBelowHeader() {
@@ -387,7 +395,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
-      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props}>
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} operationalStatus={this.getPlaceOperationalStatus()} {...this.props}>
         {equipmentOverview}
         {childPlaceInfos}
       </PlaceAccessibilitySection>

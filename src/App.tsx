@@ -1159,7 +1159,9 @@ class App extends React.Component<Props, State> {
   onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
     // keep app/widget parameters (e.g. `appId`, filters, embed mode) like other navigation does
     const params = this.getCurrentParams() as any;
-    params.id = placeInfoId;
+    // An OSM place lists equipment of the place infos merged into it, so prefer the equipment's own
+    // place info over the currently shown place.
+    params.id = get(equipmentInfo, 'properties.placeInfoId') || placeInfoId;
     params.eid = get(equipmentInfo, 'properties._id');
     this.props.routerHistory.replace('equipment', params);
   };
