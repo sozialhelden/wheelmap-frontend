@@ -78,6 +78,8 @@ export type EquipmentInfoProperties = {
   isWorking?: boolean;
   /** Set when a hardware sensor reports this facility's operational status. */
   statusHardwareSensorId?: string;
+  /** How that sensor determines the status. A relay's last reported state stays valid. */
+  statusHardwareSensorType?: 'relay' | 'accelerometer';
   stateLastUpdate?: string;
   lastUpdate?: string;
   lastDisruptionProperties?: DisruptionProperties;
