@@ -16,6 +16,7 @@ import {
   YesNoLimitedUnknown, YesNoUnknown,
 } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
+import { equipmentStatusTitle } from '../../../lib/EquipmentInfo';
 import { formatDistance } from '../../../lib/formatDistance';
 import { geoDistance } from '../../../lib/geoDistance';
 import { isParkingFacility } from "../../../lib/model/isParkingFacility";
@@ -88,6 +89,8 @@ type Props = {
   className?: string;
   isEditingEnabled: boolean;
   showDescription: boolean;
+  /** Known operational status of a place that is an elevator/escalator. Replaces the rating. */
+  operationalStatus?: boolean;
 };
 
 const ParkingAccessibilityList = styled.ul`
@@ -276,8 +279,10 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 
     const findToiletsNearby =
       toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+    const { operationalStatus } = this.props;
+    const hasOperationalStatus = typeof operationalStatus === 'boolean';
     const hasContent =
-      isKnownWheelchairAccessibility || hasAccessibilityDetails || isToiletButtonShown; /*|| findToiletsNearby*/
+      hasOperationalStatus || isKnownWheelchairAccessibility || hasAccessibilityDetails || isToiletButtonShown; /*|| findToiletsNearby*/
     if (!hasContent) {
       return null;
     }
@@ -286,7 +291,12 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 
     return (
       <div className={this.props.className}>
-        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility, !wheelmapFeature || !isParking)}
+        {hasOperationalStatus && (
+          <div className={`accessibility-wheelchair accessibility-${operationalStatus ? 'yes' : 'no'}`}>
+            <header>{equipmentStatusTitle(operationalStatus, false)}</header>
+          </div>
+        )}
+        {!hasOperationalStatus && isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility, !wheelmapFeature || !isParking)}
         {isParking && this.renderParkingAccessibility()}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
