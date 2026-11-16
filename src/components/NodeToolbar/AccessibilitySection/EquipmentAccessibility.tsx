@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import colors from '../../../lib/colors';
 import { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import {
-  isExistingInformationOutdated,
+  getEquipmentStatusLastUpdate,
+  isEquipmentStatusOutdated,
   equipmentStatusTitle,
   isEquipmentAccessible,
   lastUpdateString,
@@ -34,9 +35,8 @@ function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo.properties) return null;
 
   const properties = props.equipmentInfo.properties;
-  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
-  const lastUpdate = lastUpdateDateString ? new Date(lastUpdateDateString) : null;
-  const isOutdated = isExistingInformationOutdated(lastUpdate);
+  const lastUpdate = getEquipmentStatusLastUpdate(properties);
+  const isOutdated = isEquipmentStatusOutdated(properties);
   const category = properties.category;
   const isWorking = properties.isWorking;
   const accessibility =
