@@ -462,7 +462,13 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     const result =
       isEquipmentAccessible(
         // @ts-ignore
-        pick(properties, ['stateLastUpdate', 'lastUpdate', 'isWorking', 'statusHardwareSensorId'])
+        pick(properties, [
+          'stateLastUpdate',
+          'lastUpdate',
+          'isWorking',
+          'statusHardwareSensorId',
+          'statusHardwareSensorType',
+        ])
       ) || 'unknown';
     return result;
   }

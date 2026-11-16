@@ -31,6 +31,28 @@ describe('isEquipmentStatusOutdated', () => {
     assert.equal(isEquipmentStatusOutdated({ ...properties, stateLastUpdate: hoursAgo(5) }, now), false);
     assert.equal(isEquipmentStatusOutdated({ ...properties, stateLastUpdate: hoursAgo(7) }, now), true);
   });
+
+  it('never outdates the known state of a relay-controlled facility', () => {
+    const properties = { statusHardwareSensorId: 'sensor-id', statusHardwareSensorType: 'relay' };
+    assert.equal(
+      isEquipmentStatusOutdated({ ...properties, isWorking: true, stateLastUpdate: hoursAgo(24 * 30) }, now),
+      false
+    );
+    assert.equal(
+      isEquipmentStatusOutdated({ ...properties, isWorking: false, stateLastUpdate: hoursAgo(24 * 30) }, now),
+      false
+    );
+  });
+
+  it('keeps the window for relay-controlled facilities without a known state', () => {
+    assert.equal(
+      isEquipmentStatusOutdated(
+        { statusHardwareSensorId: 'sensor-id', statusHardwareSensorType: 'relay', stateLastUpdate: hoursAgo(7) },
+        now
+      ),
+      true
+    );
+  });
 });
 
 describe('getEquipmentStatusLastUpdate', () => {
