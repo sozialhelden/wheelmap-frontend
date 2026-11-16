@@ -46,6 +46,33 @@ describe("isEquipmentStatusOutdated", () => {
     ).toBe(true);
   });
 
+  it("never outdates the known state of a relay-controlled facility", () => {
+    const properties = {
+      statusHardwareSensorId: "sensor-id",
+      statusHardwareSensorType: "relay",
+      stateLastUpdate: hoursAgo(24 * 30),
+    };
+    expect(
+      isEquipmentStatusOutdated({ ...properties, isWorking: true }, now),
+    ).toBe(false);
+    expect(
+      isEquipmentStatusOutdated({ ...properties, isWorking: false }, now),
+    ).toBe(false);
+  });
+
+  it("keeps the window for relay-controlled facilities without a known state", () => {
+    expect(
+      isEquipmentStatusOutdated(
+        {
+          statusHardwareSensorId: "sensor-id",
+          statusHardwareSensorType: "relay",
+          stateLastUpdate: hoursAgo(7),
+        },
+        now,
+      ),
+    ).toBe(true);
+  });
+
   it("accepts timestamps as strings, as delivered by the API", () => {
     expect(
       isEquipmentStatusOutdated(
