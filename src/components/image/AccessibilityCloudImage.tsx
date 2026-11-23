@@ -1,54 +1,25 @@
 "use client";
 
 import NextImage, { type ImageProps } from "next/image";
-import { useCallback, useMemo } from "react";
+import {
+  type SyntheticEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import useAccessibilityCloudApi from "~/hooks/useAccessibilityCloudApi";
 import type { AccessibilityCloudImage as AccessibilityCloudImageType } from "~/needs-refactoring/lib/model/ac/Feature";
+import {
+  buildScaledImageUrl,
+  getDimensions,
+  getImageLoadRetryDelay,
+  maxImageLoadRetries,
+} from "./accessibilityCloudImageUrl";
 
-const maxImageSize = 1920;
 const defaultPlaceholder =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAALdQTFRFSUdXRENRQD5MOzpGNzZCNDI+MTA6Li03Tk1eSkhYRURTQT9NPDtINTM/Ly44VFJkT01fS0lZPTtJODdDMjE7WldrVVNlUE5gTEpaRkRUQkBOOThENjRAX11xWlhsVlRmUU9hR0VVQkFPPjxKY2B2W1ltV1VnTUtbSEZWPz1LOjlFZmR6ZGF3YF5yUlBiTkxcQ0JQamh/Z2V7XFpuWFZpU1Fja2iAZWJ4YV90XVtvWVZqaGZ8Yl91mUdXUwAAAFRJREFUeJwlizEOgDAMA3NDaWBhYmRjY2Lh/39A/UvTgkSiWpF8cmyEIRE0vM6mxgpGpuXGxoip7AOcOEz9G8cZgRKzi8YEjxfuTvJ6MUfpy5s+Cj/HsBrE/+Bj1QAAAABJRU5ErkJggg==";
-
-// Make sure the given width and height never exceed the actual size of the
-// image as well as the maximum size the image server allows. Also when
-// either width or height is provided and not both, set the other property
-// based on the image dimensions. Both, width and height, are needed by the
-// Next.js Image component in order for the placeholder to have the correct
-// size.
-function getDimensions({
-  image,
-  requestedWidth,
-  requestedHeight,
-  fill,
-}: {
-  image: AccessibilityCloudImageType;
-  requestedWidth?: number;
-  requestedHeight?: number;
-  fill?: boolean;
-}): { width?: number; height?: number } {
-  const aspectRatio = image.dimensions.height / image.dimensions.width;
-  const maxHeight = Math.min(image.dimensions.height, maxImageSize);
-  const maxWidth = Math.min(image.dimensions.width, maxImageSize);
-  let width = requestedWidth;
-  let height = requestedHeight;
-  if (requestedWidth && !requestedHeight && !fill) {
-    width = Math.min(requestedWidth, image.dimensions.width, maxImageSize);
-    height = Math.round(width * aspectRatio);
-    if (height > maxHeight) {
-      height = maxHeight;
-      width = Math.round(maxHeight / aspectRatio);
-    }
-  }
-  if (requestedHeight && !requestedWidth && !fill) {
-    height = Math.min(requestedHeight, image.dimensions.height, maxImageSize);
-    width = Math.round(height / aspectRatio);
-    if (width > maxWidth) {
-      width = maxWidth;
-      height = Math.round(maxWidth * aspectRatio);
-    }
-  }
-  return { width, height };
-}
 
 export default function AccessibilityCloudImage({
   image,
@@ -56,6 +27,7 @@ export default function AccessibilityCloudImage({
   height: requestedHeight,
   fill,
   forceReload,
+  onError,
   ...props
 }: Omit<ImageProps, "src" | "width" | "height"> & {
   width?: number;
@@ -65,9 +37,34 @@ export default function AccessibilityCloudImage({
 }) {
   const { baseUrl } = useAccessibilityCloudApi({ cached: true });
 
-  const additionalQueryParameter = forceReload
-    ? `version=${Math.random().toString().slice(2)}`
-    : "";
+  const version = forceReload ? Math.random().toString().slice(2) : undefined;
+
+  // The image scaling service sometimes fails (e.g. with 503 errors when
+  // scaling a large original takes too long). Retry loading the image a few
+  // times with an exponential backoff before giving up.
+  const [retry, setRetry] = useState(0);
+  const retryTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  // Reset retries when the image changes.
+  useEffect(() => {
+    setRetry(0);
+    return () => clearTimeout(retryTimeout.current);
+  }, [image.imagePath]);
+
+  const handleError = useCallback(
+    (event: SyntheticEvent<HTMLImageElement, Event>) => {
+      if (retry < maxImageLoadRetries) {
+        clearTimeout(retryTimeout.current);
+        retryTimeout.current = setTimeout(
+          () => setRetry((current) => current + 1),
+          getImageLoadRetryDelay(retry),
+        );
+        return;
+      }
+      onError?.(event);
+    },
+    [retry, onError],
+  );
 
   const { width, height } = useMemo(
     () => getDimensions({ requestedWidth, requestedHeight, image, fill }),
@@ -75,22 +72,26 @@ export default function AccessibilityCloudImage({
   );
 
   const acImageLoader = useCallback(
-    ({ src, width: requestedWidth }: { src: string; width: number }) => {
-      const angle = image.angle
-        ? `&angle=${((image.angle % 360) + 360) % 360}`
-        : "";
-      const { width, height } = getDimensions({ requestedWidth, image });
-      return `${baseUrl}/images/scale/${src.replace("?", "")}?fit=inside&fitw=${width}&fith=${height}${angle}&${additionalQueryParameter}`;
-    },
-    [baseUrl, image, additionalQueryParameter],
+    ({ width: requestedWidth }: { src: string; width: number }) =>
+      buildScaledImageUrl({
+        baseUrl,
+        image,
+        requestedWidth,
+        retry,
+        version,
+      }),
+    [baseUrl, image, retry, version],
   );
 
   return (
     <NextImage
       {...{ ...props, width, height, fill }}
-      src={`${image.imagePath}?${additionalQueryParameter}`}
+      // `src` has to change on every retry, otherwise Next.js does not
+      // re-render the `<img>` element with the new URLs from the loader.
+      src={`${image.imagePath}?retry=${retry}`}
       placeholder={"blur"}
       loader={acImageLoader}
+      onError={handleError}
       blurDataURL={image.placeholder ?? defaultPlaceholder}
     />
   );
